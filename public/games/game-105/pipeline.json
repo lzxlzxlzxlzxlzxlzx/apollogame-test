@@ -1,0 +1,1183 @@
+{
+  "version": 1,
+  "slug": "game-105",
+  "concept": {
+    "name": "心跳叠叠乐",
+    "pitch": "玩家与本地 AI 轮流从真物理54块积木塔抽块，按颜色结算本局心动互动；塔塌在当前执手方手里即结束。"
+  },
+  "signoffs": {
+    "S1": {
+      "by": "owner",
+      "note": "重构S1，添加AI部分说明",
+      "at": "2026-08-27T02:51:50.140Z"
+    },
+    "S2": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-08-27T06:35:07.671Z"
+    },
+    "S3": {
+      "by": "owner",
+      "note": "S3 机器门已重新运行并通过。",
+      "at": "2026-08-26T01:31:16.303Z"
+    },
+    "S4": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-08-29T08:28:26.870Z"
+    },
+    "S5": {
+      "by": "owner",
+      "note": "同意 S5 纯视觉换皮成果：保持 S4 结构、玩法和交互不变，卡牌可读性与夜间约会氛围达到当前里程碑要求。",
+      "at": "2026-08-29T10:37:29.614Z"
+    }
+  },
+  "evidence": {
+    "S2": {
+      "exit": 0,
+      "summary": "capability-plan.md 在档 · ✓ 缺口 3 条全已裁决 · 全部了结",
+      "at": "2026-08-27T06:30:15.397Z",
+      "gameHash": "c2c285a2e38f0b45"
+    },
+    "S3": {
+      "exit": 0,
+      "summary": "编译期游戏免 manifest 校验 · ✓ 渲染探针过（截图 public/games/<slug>/probe/S3-render.png） · ✓ 点击打穿（1 个控件 · 1 个点后 DOM 真的变了 · 零控制台 error）",
+      "at": "2026-08-29T09:40:58.084Z",
+      "gameHash": "b67de206381a60c4"
+    },
+    "S4": {
+      "exit": 0,
+      "summary": "walkthrough 绿（ Test Files  7 passed (7) ·       Tests  35 passed (35)）· 验收剧本 8 场景绿 · ✓ UI 走查过（可驱动率见 public/games/<slug>/probe/S4-uiwalk.json）",
+      "at": "2026-08-29T09:42:10.326Z",
+      "gameHash": "b67de206381a60c4"
+    },
+    "S5": {
+      "exit": 0,
+      "summary": "AUDIT: WARNINGS · RATCHET: PASS · ⚠ 无标准照基准·未比对（golden-shot bless 建基准）",
+      "at": "2026-08-29T07:01:27.554Z",
+      "gameHash": "b67de206381a60c4"
+    }
+  },
+  "history": [
+    {
+      "action": "concept",
+      "at": "2026-08-25T07:01:25.840Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T07:01:26.003Z"
+    },
+    {
+      "action": "concept",
+      "at": "2026-08-25T07:51:39.702Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T07:51:49.091Z"
+    },
+    {
+      "action": "concept",
+      "at": "2026-08-25T07:53:41.783Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S1",
+      "at": "2026-08-25T07:54:27.149Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T07:55:15.842Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:00:57.052Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:07:42.996Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:07:53.283Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-08-25T08:10:11.704Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:11:26.705Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S2",
+      "at": "2026-08-25T08:12:19.041Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-25T08:13:53.358Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S2",
+      "at": "2026-08-25T08:36:22.971Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:36:26.693Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:36:33.479Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:36:49.187Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:36:50.999Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S2",
+      "at": "2026-08-25T08:36:57.894Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:39:08.055Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:39:09.442Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:39:10.449Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:39:11.125Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:39:12.162Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:39:15.613Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T08:43:50.720Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:31:51.997Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:31:57.975Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:31:59.113Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:31:59.811Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S2",
+      "at": "2026-08-25T09:32:07.761Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:32:10.653Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:32:11.375Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:32:12.183Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:32:12.886Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:32:13.547Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:32:14.104Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:32:16.375Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:32:30.668Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:32:31.510Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:32:32.212Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:33:04.698Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:33:06.102Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T09:36:17.833Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-25T10:02:23.185Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-08-25T10:05:45.507Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-26T00:45:05.048Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-26T00:51:53.994Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-26T00:51:57.875Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-26T00:51:59.254Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-26T00:52:00.129Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-26T00:52:00.897Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-26T00:52:01.801Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-26T00:52:02.295Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-26T00:52:02.951Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-26T00:52:03.686Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-26T01:05:51.961Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-08-26T01:24:18.156Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-26T01:27:14.231Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S3",
+      "at": "2026-08-26T01:31:16.303Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-26T01:31:40.006Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-26T01:33:36.292Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-26T01:37:14.640Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-26T01:38:11.496Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-26T01:40:10.074Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-08-26T01:40:30.090Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 1,
+      "at": "2026-08-26T01:45:36.117Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 1,
+      "at": "2026-08-26T02:38:39.537Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 1,
+      "at": "2026-08-26T03:12:04.935Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-26T03:12:28.825Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-26T05:46:18.757Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-08-26T05:47:15.349Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-26T05:56:17.183Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-26T06:00:02.901Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "CONCERNS",
+      "at": "2026-08-26T06:00:15.991Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-26T06:07:08.968Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-08-26T06:07:28.628Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 1,
+      "at": "2026-08-26T06:18:39.308Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 1,
+      "at": "2026-08-26T06:19:20.243Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-26T06:20:38.326Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-26T06:29:23.011Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "FAIL",
+      "at": "2026-08-26T06:29:41.715Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-26T08:16:08.053Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-26T08:20:47.469Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-26T08:25:09.827Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-26T08:25:44.207Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-26T08:26:36.998Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "FAIL",
+      "at": "2026-08-26T08:27:02.224Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-26T08:30:52.685Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-26T09:06:06.852Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-26T09:08:15.619Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-08-26T09:08:51.252Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S4",
+      "at": "2026-08-26T09:16:35.421Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-26T09:18:12.279Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-08-26T09:18:23.312Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S1",
+      "at": "2026-08-27T02:51:50.140Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 1,
+      "at": "2026-08-27T03:35:01.915Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 1,
+      "at": "2026-08-27T03:35:30.814Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 1,
+      "at": "2026-08-27T06:14:37.113Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-27T06:15:17.126Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-27T06:18:34.278Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-27T06:25:37.094Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "CONCERNS",
+      "at": "2026-08-27T06:26:24.939Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-27T06:27:50.731Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-08-27T06:30:15.397Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-08-27T06:30:33.770Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S2",
+      "at": "2026-08-27T06:35:07.671Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-27T06:45:10.383Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-27T06:46:23.445Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-27T06:47:29.102Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-27T06:57:12.114Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-27T06:57:50.636Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-08-27T06:58:07.354Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-27T08:14:37.756Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-27T08:15:11.893Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-27T08:16:25.541Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-27T08:18:28.814Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-27T08:21:44.114Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "FAIL",
+      "at": "2026-08-27T08:22:34.163Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-27T08:37:54.562Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-28T01:50:41.576Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-08-28T01:50:58.201Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-28T01:51:49.939Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "CONCERNS",
+      "at": "2026-08-28T01:52:34.451Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-28T03:02:55.294Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-08-28T03:03:45.876Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-28T03:04:36.389Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "FAIL",
+      "at": "2026-08-28T03:05:17.069Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-28T03:16:07.328Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-28T03:17:33.051Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-28T03:21:45.512Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "CONCERNS",
+      "at": "2026-08-28T03:22:33.857Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "FAIL",
+      "at": "2026-08-28T03:22:34.049Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-28T03:25:02.802Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-08-28T03:29:28.490Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-08-28T03:29:28.755Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-08-28T06:46:22.744Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-08-28T07:15:57.986Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "FAIL",
+      "at": "2026-08-28T07:16:21.918Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-28T07:36:14.851Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-28T07:36:47.765Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-28T07:59:57.844Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-28T08:00:37.385Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "CONCERNS",
+      "at": "2026-08-28T08:00:57.383Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-28T08:14:32.732Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-28T08:16:20.186Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-28T08:22:57.384Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "CONCERNS",
+      "at": "2026-08-28T08:23:10.791Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-28T08:32:39.164Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-28T08:35:24.281Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-08-28T08:35:56.121Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-28T08:54:00.674Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-08-28T08:54:55.881Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-08-29T01:57:15.983Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-08-29T02:03:06.739Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-08-29T02:27:18.156Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "FAIL",
+      "at": "2026-08-29T02:30:41.860Z"
+    },
+    {
+      "action": "reopen",
+      "stage": "S4",
+      "cleared": [
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S8"
+      ],
+      "by": "owner",
+      "note": "Owner 在 2026-08-29 授权重开 S4：原签核结构基准丢失，必须以新不可覆盖基准重新走三门。",
+      "at": "2026-08-29T03:44:35.154Z"
+    },
+    {
+      "action": "reopen",
+      "stage": "S4",
+      "cleared": [
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S8"
+      ],
+      "by": "owner",
+      "note": "Owner 在 2026-08-29 确认以 S4 为重开焦点：S3 仅因后续实现变更而过期，不阻断新的 S4 三门。",
+      "at": "2026-08-29T03:45:13.643Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-29T03:46:58.648Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-29T04:21:43.536Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-08-29T04:22:40.874Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S4",
+      "at": "2026-08-29T05:09:00.465Z"
+    },
+    {
+      "action": "reopen",
+      "stage": "S5",
+      "cleared": [
+        "S5",
+        "S6",
+        "S7",
+        "S8"
+      ],
+      "by": "owner",
+      "note": "Owner 在 2026-08-29 授权开始 S5 纯视觉换皮；S4 结构基准保持已签核，仅以结构守卫对照。",
+      "at": "2026-08-29T06:05:57.560Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 1,
+      "at": "2026-08-29T06:22:01.943Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-08-29T06:25:50.821Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-08-29T06:34:33.431Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-08-29T06:54:41.023Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-08-29T07:01:27.554Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "PASS",
+      "at": "2026-08-29T07:03:43.221Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S4",
+      "at": "2026-08-29T08:28:26.870Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-08-29T09:40:58.084Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-08-29T09:42:10.326Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-08-29T09:48:38.340Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-08-29T09:48:38.358Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S5",
+      "at": "2026-08-29T10:36:00.918Z"
+    },
+    {
+      "action": "concept",
+      "at": "2026-08-29T10:37:29.281Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S5",
+      "at": "2026-08-29T10:37:29.614Z"
+    }
+  ],
+  "reviews": {
+    "S2": {
+      "verdict": "PASS",
+      "note": "复核通过：能力计划§4.5已列积木/桌面、背景光照、AI悬停、任务卡/头像的可替换槽与降级，程序化例外限M1且S6前建账；程序证据:51-61已将open阻塞结论标为历史并与当前3条wontfix/L1-L3/新门证闭合。实名能力已核，相关回归60/60、tsc通过；S2 gate当前通过。",
+      "by": "Codex-S2-reviewer",
+      "at": "2026-08-27T06:30:33.770Z",
+      "gameHash": "c2c285a2e38f0b45",
+      "reviewHash": "61c31171f99465ea",
+      "gapsHash": "83d06f2d61414f60"
+    },
+    "S3": {
+      "verdict": "PASS",
+      "note": "PASS: rechecked after signed S5 on b67de206381a60c4. S3 gate exit=0 with fresh render/click probes (1 control, DOM changed, 0 console errors). Focused LocalAIObservation/AITurnDirector/lifecycle tests 9/9 PASS. S5 local skin does not widen AI observation, alter shared action execution, or cancel player-owned joints.",
+      "by": "Codex-S3-independent-reviewer",
+      "at": "2026-08-29T09:48:38.358Z",
+      "gameHash": "b67de206381a60c4"
+    },
+    "S4": {
+      "verdict": "PASS",
+      "note": "PASS: rechecked after signed S5 on b67de206381a60c4. S4 gate exit=0 (35/35 game tests, 8/8 GD acceptance scenarios, UI walkthrough); direct acceptance 8/8 PASS; focused session/determinism/S4 structure contract 20/20 PASS; isolated recursive mutations 16/16 PASS. S5 change remains local visual skin and preserves S4 anchors, order, actions, physics and gameplay.",
+      "by": "Codex-S4-independent-reviewer",
+      "at": "2026-08-29T09:48:38.340Z",
+      "gameHash": "b67de206381a60c4"
+    },
+    "S5": {
+      "verdict": "PASS",
+      "note": "PASS: independent review on b67de206381a60c4. S5 gate exit=0 (audit warnings only, ratchet PASS); tsc green; game-105 35/35 incl. 4/4 S4-structure contract. Owner-blessed immutable s4-structure-f35a3de036d6326e remains intact; S5 candidate s5-skin-candidate-b67de206381a60c4 SHA-256 6a97c6c46f365c8d02127d5728928860ae7a0c3672e0e4fd5ba6e92cc3e799ca remains unblessed. Structure test locks IDs/order/anchors/actions across opening, player card, aftershock, and wrap. Chromium desktop+narrow evidence ha",
+      "by": "Codex-S5-independent-reviewer",
+      "at": "2026-08-29T07:03:43.221Z",
+      "gameHash": "b67de206381a60c4"
+    }
+  },
+  "selfCheck": {
+    "S4": {
+      "at": "2026-08-29T09:42:10.326Z",
+      "shots": 52,
+      "gameHash": "b67de206381a60c4"
+    },
+    "S5": {
+      "at": "2026-08-29T07:01:27.554Z",
+      "shots": 52,
+      "gameHash": "b67de206381a60c4"
+    }
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "baseline": true,
+  "ok": true,
+  "cases": [
+    {
+      "clause": "92% 抽离线",
+      "judge": "acceptance",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "玩家完成互动按颜色计心动值",
+      "judge": "session",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "完整抽离进入互动队列",
+      "judge": "session",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "玩家互动后交给 AI",
+      "judge": "acceptance",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "AI 模板回应",
+      "judge": "acceptance",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "残留失稳至少三块才即时判负",
+      "judge": "session",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "同一失稳块去重",
+      "judge": "session",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "抓取期间回拉重新计入塔体",
+      "judge": "session",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "连续 30 帧稳定窗口",
+      "judge": "session",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "900 帧未稳定终局兜底",
+      "judge": "session",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "睡眠前不得显示战利品",
+      "judge": "session",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "本局回应最多 140 字",
+      "judge": "acceptance",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "每局只有一次同频道换卡",
+      "judge": "acceptance",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "非直接抓取的真实落块必须退役",
+      "judge": "session",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "余波最多两张独立卡并将其余合并",
+      "judge": "acceptance",
+      "guarded": true,
+      "exit": 1
+    },
+    {
+      "clause": "AI 收尾只生成一次",
+      "judge": "acceptance",
+      "guarded": true,
+      "exit": 1
+    }
+  ],
+  "at": "2026-08-29T09:42:42.624Z"
+}
