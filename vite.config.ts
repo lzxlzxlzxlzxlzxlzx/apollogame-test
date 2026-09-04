@@ -68,8 +68,23 @@ function serveLiveGameAssets() {
 // 不能让 Vite 内建的"整个 public/ 原样搬进 dist/"把被过滤掉的游戏素材（game-f/d/a 等）也塞进去。
 const PLATFORM_BUILD = process.env.VITE_PLATFORM_BUILD === '1';
 
+/**
+ * Vitest's SSR transform injects imports before source text. A Node CLI shebang then stops
+ * being the first bytes and becomes invalid JavaScript while a test imports that script.
+ */
+function stripNodeShebangForVitest() {
+  return {
+    name: 'strip-node-shebang-for-vitest',
+    enforce: 'pre' as const,
+    transform(code: string, id: string) {
+      if (!id.endsWith('.mjs') || !code.startsWith('#!')) return null;
+      return { code: code.replace(/^#![^\r\n]*(?:\r?\n)?/, ''), map: null };
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [react(), serveLiveGameAssets(), copyUsedAssets(__dirname, 'dist')],
+  plugins: [stripNodeShebangForVitest(), react(), serveLiveGameAssets(), copyUsedAssets(__dirname, 'dist')],
   build: {
     assetsDir: PLATFORM_BUILD ? 'app' : 'assets',
     copyPublicDir: !PLATFORM_BUILD,
@@ -81,6 +96,12 @@ export default defineConfig({
   // 代价（接受）：手改 public/games 下 JSON 不再自动整页刷新（工坊走 API 写、运行器 no-cache fetch，无感）；
   // library/<slug>/logic.ts 装载带 ?v= 版本参——PUT 后新 URL 重新 transform，不靠 watch。
   server: {
+    // 开发时也保持页面与 API 同源：LAN 客户端只需访问 Vite 的一个端口，
+    // API 仍只绑定在本机 4000 端口，不对局域网直接开放。
+    proxy: {
+      '/api': 'http://127.0.0.1:4000',
+      '/workshop': 'http://127.0.0.1:4000',
+    },
     watch: {
       ignored: [
         resolve(__dirname, 'assets') + '/**',

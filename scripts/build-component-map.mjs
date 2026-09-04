@@ -123,4 +123,4 @@ function main(argv) {
   process.stdout.write(`[component-universe] 已生成 ${OUT_FILE}（${names.length} 个组件）\n`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main(process.argv.slice(2));
+if (process.argv[1] && resolve(fileURLToPath(import.meta.url)) === resolve(process.argv[1])) main(process.argv.slice(2));

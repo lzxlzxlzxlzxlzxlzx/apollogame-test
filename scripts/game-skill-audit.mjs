@@ -63,11 +63,12 @@ function audit(game) {
   for (const f of src) {
     const text = readFileSync(f, 'utf8');
     const lines = text.split('\n');
+    const displayFile = f.replace(/\\/g, '/');
     loc += lines.length;
 
     // 🔴 React 屏逃逸①：.tsx 文件本身即违规（按文件计一次·文件内 react import 不再重复计）。
     const isTsx = /\.tsx$/.test(f);
-    if (isTsx) flags.reactScreen.push(`${f} (.tsx)`);
+    if (isTsx) flags.reactScreen.push(`${displayFile} (.tsx)`);
 
     for (let i = 0; i < lines.length; i++) {
       const ln = lines[i];
@@ -77,17 +78,17 @@ function audit(game) {
       if (im) capImports.add(im[1].replace(/^.*\/skills\//, 'skills/'));
       if (/\b(parseManifest|WorldBlueprint|createWorld|new World\b|mountManifestGame)/.test(ln)) usesWorldOrManifest++;
       // 红旗（游戏层禁区）
-      if (/\bMath\.random\s*\(/.test(ln)) flags.mathRandom.push(`${f}:${i + 1}`);
-      if (/\binnerHTML\b/.test(ln)) flags.innerHTML.push(`${f}:${i + 1}`);
-      if (/document\.createElement/.test(ln)) flags.createElement.push(`${f}:${i + 1}`);
+      if (/\bMath\.random\s*\(/.test(ln)) flags.mathRandom.push(`${displayFile}:${i + 1}`);
+      if (/\binnerHTML\b/.test(ln)) flags.innerHTML.push(`${displayFile}:${i + 1}`);
+      if (/document\.createElement/.test(ln)) flags.createElement.push(`${displayFile}:${i + 1}`);
       // 🔴 React 屏逃逸②：.ts 文件里 import react（.tsx 已按文件计过，不重复）
-      if (!isTsx && /\bfrom\s+['"]react[^'"]*['"]/.test(ln)) flags.reactScreen.push(`${f}:${i + 1}`);
+      if (!isTsx && /\bfrom\s+['"]react[^'"]*['"]/.test(ln)) flags.reactScreen.push(`${displayFile}:${i + 1}`);
       // 🔴 DOM 逃生：innerHTML 同级的手写 DOM 旁路
-      if (/\binsertAdjacentHTML\b|\bdocument\.write/.test(ln)) flags.domEscape.push(`${f}:${i + 1}`);
+      if (/\binsertAdjacentHTML\b|\bdocument\.write/.test(ln)) flags.domEscape.push(`${displayFile}:${i + 1}`);
       // ⚠ 墙钟（非确定性·先建议档不阻断·评审 E3）
-      if (/\bDate\.now\b|\bperformance\.now\b/.test(ln)) flags.wallClock.push(`${f}:${i + 1}`);
+      if (/\bDate\.now\b|\bperformance\.now\b/.test(ln)) flags.wallClock.push(`${displayFile}:${i + 1}`);
       // ⚠ 色库化建议（非红线·phase-1）：bg 裸 hex/gradient/url 串 → 应迁 SurfaceToken/FillPreset/{custom}（owner 2026-07-04）
-      if (/\bbg:\s*['"](#[0-9a-fA-F]|linear-gradient|radial-gradient|url\()/.test(ln)) flags.nakedFill.push(`${f}:${i + 1}`);
+      if (/\bbg:\s*['"](#[0-9a-fA-F]|linear-gradient|radial-gradient|url\()/.test(ln)) flags.nakedFill.push(`${displayFile}:${i + 1}`);
     }
   }
   // 纯数据游戏（parseManifest/World 接入=经 manifest 消费能力体系·数据宪法正道）不算零接入。

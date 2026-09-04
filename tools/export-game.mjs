@@ -371,7 +371,9 @@ async function main() {
     // 2) anchored injections into the exported game core (must match exactly once each)
     for (const edit of plugin.patchGame?.(ctx) ?? []) {
       const abs = path.join(OUT, edit.file);
-      const src = await fs.readFile(abs, 'utf8');
+      // Patches are authored with LF. Normalize copied Windows source before matching
+      // so the same anchor has identical semantics on every host.
+      const src = (await fs.readFile(abs, 'utf8')).replace(/\r\n/g, '\n');
       const occurrences = src.split(edit.find).length - 1;
       if (occurrences !== 1) {
         console.error(`✗ target '${TARGET}' patch anchor matched ${occurrences}× (need 1) in ${edit.file}:\n    ${edit.find.slice(0, 80)}…`);

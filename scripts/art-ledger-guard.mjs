@@ -317,4 +317,4 @@ function run(argv) {
   process.exit(exitCode);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) run(process.argv.slice(2));
+if (process.argv[1] && resolve(fileURLToPath(import.meta.url)) === resolve(process.argv[1])) run(process.argv.slice(2));

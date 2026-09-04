@@ -128,4 +128,4 @@ function main() {
   console.log('✓ decouple-check：引擎/内容边界零违规');
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (process.argv[1] && resolve(fileURLToPath(import.meta.url)) === resolve(process.argv[1])) main();

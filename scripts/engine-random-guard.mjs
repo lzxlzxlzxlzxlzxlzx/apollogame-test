@@ -21,7 +21,8 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { readdirSync, readFileSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 // ── 扫描面（引擎面五目录·与 REQ-GUARDGATE spec 一字不差）────────────
 export const SCAN_ROOTS = ['src/engine', 'src/skills', 'src/assembly', 'src/net', 'src/services'];
@@ -129,4 +130,4 @@ function main() {
   process.exit(hard.length ? 1 : 0);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (process.argv[1] && resolve(fileURLToPath(import.meta.url)) === resolve(process.argv[1])) main();

@@ -39,7 +39,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { readFileSync, writeFileSync, existsSync, mkdirSync, rmSync, openSync, writeSync, closeSync, appendFileSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, isAbsolute, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn, spawnSync } from 'node:child_process';
 import { STAGES, GATE_STAGES, REVIEW_STAGES, detectForm, gameHash, pipelineFile } from './game-pipeline.mjs';
@@ -61,6 +61,8 @@ export const IDLE_TIMEOUT_MS = 600_000;
 export const MAX_ATTEMPTS = 2;
 /** SIGTERM 后给的收尸宽限，到点 SIGKILL。 */
 export const KILL_GRACE_MS = 2_000;
+/** Windows child Node processes can wait for a busy worker slot before first output. */
+export const WINDOWS_NODE_BOOT_GRACE_MS = 8_000;
 
 // ── 阶段档位与预算（图纸 §会话契约 3·CLAUDE.md effort 阶梯）───────────────
 //  S1/S8=low · S2/S3=medium · S4/S5=high。maxTurns=该阶段活儿的轮次封顶（预算硬顶，防跑飞烧 token）。
@@ -118,6 +120,7 @@ export const NO_RUNTIME_MSG = (bin) =>
 
 /** which 探测（绝对路径亦可探）。返回 {ok,bin,path} 或 {ok:false,code:'NO_RUNTIME',reason}。 */
 export function detectRuntime({ bin = process.env.ZEROCRAFT_ORCH_CLAUDE || 'claude' } = {}) {
+  if (isAbsolute(bin) && existsSync(bin)) return { ok: true, bin, path: bin };
   const probe = spawnSync(process.platform === 'win32' ? 'where' : 'which', [bin], { encoding: 'utf8' });
   const path = (probe.stdout || '').trim().split('\n')[0] || '';
   if (probe.status === 0 && path) return { ok: true, bin, path };
@@ -363,24 +366,31 @@ export function decideStatus(verify) {
  * 起一个会话进程，600s（可注入）无任何输出即 stalled → SIGTERM → 宽限后 SIGKILL。
  * 心跳=输出（非闹钟）：只要还在吐流就不杀。resolve 永不 reject（起不来也落结构化结果）。
  */
-export function runSession({ bin, args, prompt, cwd, idleTimeoutMs, killGraceMs = KILL_GRACE_MS, logFile, onOutput }) {
+export function runSession({ bin, args, prompt, cwd, idleTimeoutMs, killGraceMs = KILL_GRACE_MS, nodeBootGraceMs, logFile, onOutput }) {
   return new Promise((resolve) => {
     let child;
+    let nodeScript = false;
     try {
-      child = spawn(bin, args, { cwd, stdio: ['pipe', 'pipe', 'pipe'] });
+      // Windows cannot directly spawn a shebang-only test/runtime script without a
+      // command extension. Route that precise form through Node; real .exe/.cmd CLIs
+      // keep their native launch path.
+      nodeScript = process.platform === 'win32' && isAbsolute(bin) && existsSync(bin)
+        && !/\.(?:exe|cmd|bat|com)$/i.test(bin);
+      child = spawn(nodeScript ? process.execPath : bin, nodeScript ? [bin, ...args] : args,
+        { cwd, stdio: ['pipe', 'pipe', 'pipe'] });
     } catch (e) {
       resolve({ outcome: 'spawn-error', code: null, signal: null, bytes: 0, error: String(e && e.message || e) });
       return;
     }
     let bytes = 0, settled = false, idleTimer = null, killTimer = null, outcome = 'exited', error = null;
     const done = (res) => { if (settled) return; settled = true; clearTimeout(idleTimer); clearTimeout(killTimer); resolve(res); };
-    const armIdle = () => {
+    const armIdle = (delayMs = idleTimeoutMs) => {
       clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
         outcome = 'stalled';
         try { child.kill('SIGTERM'); } catch { /* 已死 */ }
         killTimer = setTimeout(() => { try { child.kill('SIGKILL'); } catch { /* 已死 */ } }, killGraceMs);
-      }, idleTimeoutMs);
+      }, delayMs);
     };
     const feed = (buf) => {
       bytes += buf.length;
@@ -394,7 +404,9 @@ export function runSession({ bin, args, prompt, cwd, idleTimeoutMs, killGraceMs 
     child.on('close', (code, signal) => done({ outcome, code, signal, bytes, error, pid: child.pid }));
     child.stdin.on('error', () => { /* 会话不读 stdin（EPIPE）不是错 */ });
     try { child.stdin.end(prompt ?? ''); } catch { /* 同上 */ }
-    armIdle();
+    // A direct Node script on Windows has measurable cold-start time before it can
+    // produce its first heartbeat. Do not classify that boot time as a silent session.
+    armIdle(idleTimeoutMs + (nodeScript ? (nodeBootGraceMs ?? WINDOWS_NODE_BOOT_GRACE_MS) : 0));
   });
 }
 
@@ -418,6 +430,7 @@ export async function dispatch(opts = {}) {
     idleTimeoutMs = Number(process.env.ZEROCRAFT_ORCH_IDLE_MS) || IDLE_TIMEOUT_MS,
     maxAttempts = MAX_ATTEMPTS,
     killGraceMs = KILL_GRACE_MS,
+    nodeBootGraceMs = undefined, // 测试可注入：满载时替身 Node 的首次调度宽限
     claudeBin = process.env.ZEROCRAFT_ORCH_CLAUDE || 'claude',
     extraFlags = (process.env.ZEROCRAFT_ORCH_FLAGS || '').split(/\s+/).filter(Boolean),
     verifyCmd = null,   // 测试注入替身门（仅施工模式）；生产恒 null → 走 verifyStage 真门。
@@ -462,7 +475,7 @@ export async function dispatch(opts = {}) {
       attempts = attempt;
       touchLock(root, { attempt, lastOutputAt: new Date().toISOString() }, { pid, throttleMs: 0 });
       session = await runSession({
-        bin: rt.bin, args, prompt, cwd: root, idleTimeoutMs: idleMs, killGraceMs, logFile,
+        bin: rt.bin, args, prompt, cwd: root, idleTimeoutMs: idleMs, killGraceMs, nodeBootGraceMs, logFile,
         // 心跳落锁（P1b 横幅/status 读它判 running vs stalled）。内存节流：1s 一次，流式输出不刷爆 fs。
         onOutput: () => {
           const t = Date.now();
@@ -624,4 +637,4 @@ async function main() {
   process.exit(EXIT.USAGE);
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) main();
+if (process.argv[1] && resolve(fileURLToPath(import.meta.url)) === resolve(process.argv[1])) main();

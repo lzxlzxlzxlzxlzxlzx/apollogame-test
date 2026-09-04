@@ -28,16 +28,15 @@
 //  CHANNEL_TOLERANCE/DIFF_RATIO_THRESHOLD 这两个全局阈值**（那是在所有游戏头上撒谎）。
 //
 //  产物（public/games/<slug>/golden/，一游戏一份）：
-//    <state>.png             该 state 当前照片（candidate 或 blessed 共用同一份文件——见下）
+//    <state>.png             该 state 当前候选或已签核照片；已签核 state 不可再次 capture。
 //    <state>-diff.png        仅 compare 判红时生成的可视化 diff（差异像素纯红高亮·其余原图调暗）
 //    golden-ledger.json      台账：{version, slug, states:{<state>:{status,sha256,capturedAt,
 //                             blessedAt,blessedBy,note,viewport,flaky,gameHash}}, history:[...]}
 //
 //  单文件双重身份设计（读代码前须知，否则容易看错语义）：
-//    `golden/<state>.png` 既是"当前候选照"也是"（一旦 bless 过）当前基准照"——capture 每次都
-//    覆写它并把 ledger 状态打回 candidate；compare 只读它（从不写它——不会把比对时新拍的画面
-//    悄悄替换掉基准）；bless 只是把 ledger 状态从 candidate 翻成 blessed（不重新拍照，认的是
-//    "此刻磁盘上这张 png"）。人裁流程＝ compare 判红 → 人看 diff 图确认这是有意变更 →
+//    `golden/<state>.png` 在 candidate 阶段可重拍；一旦 bless 即成为不可覆盖的基准照。后续
+//    有意变更必须使用新的 state 名创建候选，不能拿 capture 覆写旧基准。compare 只读基准
+//    （从不写它）；bless 只是把候选照转为基准。人裁流程＝ compare 判红 → 人看 diff 图确认这是有意变更 →
 //    重新 capture（写入新照片+转回 candidate）→ bless（转正）。
 //
 //  退出码：
@@ -55,7 +54,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
-import { join, dirname, relative } from 'node:path';
+import { join, dirname, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import zlib from 'node:zlib';
@@ -273,11 +272,17 @@ function upsertCaptureRow(root, slug, state, { sha256, stable, attempts }) {
 }
 
 // ── compare ────────────────────────────────────────────────────────────────
-async function runCompare(slug, { root = ROOT } = {}) {
+async function runCompare(slug, { root = ROOT, states: requestedStates } = {}) {
   const form = detectForm(root, slug);
   if (!form) return { usageError: `未知游戏: ${slug}（library/public/games/games 三处均无）` };
   const ledger = readLedger(root, slug);
-  const states = Object.keys(ledger.states).filter((s) => ledger.states[s].status === 'blessed');
+  const states = requestedStates?.length
+    ? requestedStates
+    : blessedStates(root, slug);
+  const unblessed = states.filter((s) => ledger.states[s]?.status !== 'blessed');
+  if (unblessed.length) {
+    return { ok: false, code: 'UNBLESSED_STATE', reason: `指定标准照未签核：${unblessed.join(', ')}`, states: [] };
+  }
   if (!states.length) return { ok: true, noBaseline: true, slug, states: [] };
 
   const rt = detectBrowserRuntime();
@@ -369,7 +374,7 @@ function runBless(slug, state, note, by, { root = ROOT } = {}) {
 }
 
 // ── CLI ─────────────────────────────────────────────────────────────────
-const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+const isMain = process.argv[1] && resolve(fileURLToPath(import.meta.url)) === resolve(process.argv[1]);
 if (isMain) {
   const argv = process.argv.slice(2);
   const cmd = argv[0];
@@ -384,6 +389,11 @@ if (isMain) {
   if (cmd === 'capture') {
     const state = opt('--state') || DEFAULT_STATE;
     if (!STATE_NAME_RE.test(state)) { console.error(`非法 --state：${state}（只认字母/数字/下划线/连字符）`); process.exit(2); }
+    const ledger = readLedger(ROOT, slug);
+    if (ledger.states[state]?.status === 'blessed') {
+      console.error(`拒绝覆盖已签核基准 '${state}'；请使用新的 --state 名创建 candidate。`);
+      process.exit(1);
+    }
     const rtPre = detectBrowserRuntime();
     if (!rtPre.ok) { console.log(JSON.stringify({ ok: false, code: 'NO_BROWSER', slug, reason: rtPre.reason })); process.exit(3); }
 
@@ -397,13 +407,18 @@ if (isMain) {
     const sha256 = sha256Hex(result.screenshot);
     const { row, wasBlessed } = upsertCaptureRow(ROOT, slug, state, { sha256, stable: result.stable, attempts: result.attempts });
     if (!result.stable) console.error(`⚠ flaky：state '${state}' 在 ${result.attempts} 次尝试内未稳定——已如实记 ledger，不代表判定失败`);
-    if (wasBlessed) console.error(`⚠ state '${state}' 曾是 blessed 基准，本次 capture 已覆盖为新 candidate（需重新 bless 才转正为新基准）`);
     console.log(JSON.stringify({ ok: true, slug, state, sha256, stable: result.stable, attempts: result.attempts, flaky: row.flaky, wasBlessed, png: relative(ROOT, shotPath(ROOT, slug, state)) }));
     process.exit(0);
   }
 
   if (cmd === 'compare') {
-    const blessed = blessedStates(ROOT, slug);
+    const state = opt('--state');
+    if (state && !STATE_NAME_RE.test(state)) { console.error(`非法 --state：${state}（只认字母/数字/下划线/连字符）`); process.exit(2); }
+    const blessed = state ? [state] : blessedStates(ROOT, slug);
+    if (state && !blessedStates(ROOT, slug).includes(state)) {
+      console.log(JSON.stringify({ ok: false, code: 'UNBLESSED_STATE', slug, reason: `指定标准照未签核：${state}`, states: [] }));
+      process.exit(1);
+    }
     if (!blessed.length) {
       console.log(JSON.stringify({ ok: true, slug, code: 'NO_BASELINE', reason: '无 blessed 标准照可比（golden-shot bless 先建基准）', states: [] }));
       process.exit(0);
@@ -411,7 +426,7 @@ if (isMain) {
     const rtPre = detectBrowserRuntime();
     if (!rtPre.ok) { console.log(JSON.stringify({ ok: false, code: 'NO_BROWSER', slug, reason: rtPre.reason })); process.exit(3); }
 
-    const result = await runCompare(slug, { root: ROOT });
+    const result = await runCompare(slug, { root: ROOT, states: blessed });
     if (result.usageError) { console.error(result.usageError); process.exit(2); }
     if (result.noBrowser) { console.log(JSON.stringify({ ok: false, code: 'NO_BROWSER', slug, reason: result.reason })); process.exit(3); }
     if (result.ok === false && !result.states) { console.error(`✗ compare 失败 · ${result.reason}`); process.exit(1); }

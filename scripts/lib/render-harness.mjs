@@ -19,8 +19,24 @@ export const DEFAULT_CHROMIUM = '/opt/pw-browsers/chromium-1194/chrome-linux/chr
 const FALLBACK_BIN_NAMES = ['chromium', 'chromium-browser', 'google-chrome', 'google-chrome-stable'];
 
 export function detectBrowserRuntime(env = process.env) {
-  const explicit = env.RENDER_PROBE_CHROMIUM || DEFAULT_CHROMIUM;
-  if (existsSync(explicit)) return { ok: true, execPath: explicit, via: 'explicit' };
+  const explicit = env.RENDER_PROBE_CHROMIUM;
+  // An explicit override is authoritative so CI can exercise the NO_BROWSER path.
+  if (explicit) {
+    if (existsSync(explicit)) return { ok: true, execPath: explicit, via: 'explicit' };
+  } else if (existsSync(DEFAULT_CHROMIUM)) {
+    return { ok: true, execPath: DEFAULT_CHROMIUM, via: 'explicit' };
+  }
+  const requested = explicit || DEFAULT_CHROMIUM;
+  if (process.platform === 'win32' && !explicit) {
+    const programFiles = env.PROGRAMFILES || 'C:\\Program Files';
+    const localAppData = env.LOCALAPPDATA || '';
+    const windowsCandidates = [
+      join(programFiles, 'Google', 'Chrome', 'Application', 'chrome.exe'),
+      ...(localAppData ? [join(localAppData, 'Google', 'Chrome', 'Application', 'chrome.exe')] : []),
+    ];
+    const chrome = windowsCandidates.find((candidate) => existsSync(candidate));
+    if (chrome) return { ok: true, execPath: chrome, via: 'Windows Chrome' };
+  }
   for (const bin of FALLBACK_BIN_NAMES) {
     const r = spawnSync(process.platform === 'win32' ? 'where' : 'which', [bin], { encoding: 'utf8', env });
     const p = (r.stdout || '').trim().split('\n')[0];
@@ -28,7 +44,7 @@ export function detectBrowserRuntime(env = process.env) {
   }
   return {
     ok: false, code: 'NO_BROWSER',
-    reason: `环境无浏览器·探针跳过（未找到 ${explicit}，PATH 上也没有 ${FALLBACK_BIN_NAMES.join('/')}）`,
+    reason: `环境无浏览器·探针跳过（未找到 ${requested}，PATH 上也没有 ${FALLBACK_BIN_NAMES.join('/')}）`,
   };
 }
 
@@ -108,8 +124,9 @@ const VITE_BASE_PORT = 5700;
 
 export function startDevServer(root, { port = VITE_BASE_PORT } = {}) {
   return new Promise((resolve, reject) => {
-    const bin = join(root, 'node_modules', '.bin', 'vite');
-    const proc = spawn(bin, ['--port', String(port)], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'], detached: true });
+    // Run Vite through Node instead of its shell shim so the probe works on Windows too.
+    const viteCli = join(root, 'node_modules', 'vite', 'bin', 'vite.js');
+    const proc = spawn(process.execPath, [viteCli, '--port', String(port)], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'], detached: true });
     let buf = '';
     let settled = false;
     const to = setTimeout(() => {
@@ -144,6 +161,10 @@ export function startDevServer(root, { port = VITE_BASE_PORT } = {}) {
 
 export function stopDevServer(proc) {
   if (!proc) return;
+  if (process.platform === 'win32') {
+    try { spawnSync('taskkill', ['/pid', String(proc.pid), '/T', '/F']); } catch { /* 已死或不归我们管 */ }
+    return;
+  }
   try { process.kill(-proc.pid, 'SIGTERM'); } catch { /* 已死或不归我们管 */ }
   setTimeout(() => { try { process.kill(-proc.pid, 'SIGKILL'); } catch { /* 收尸 */ } }, 1500);
 }

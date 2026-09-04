@@ -21,7 +21,7 @@ describe('game-c · DokiWorld 卡带导出锚点守卫（防源漂移·owner 202
       // patch.file 是**导出后**路径（src/games/…·export-game.mjs 把 games/<g>/** 拷进 <out>/src/games/<g>/**·
       //   REQ-SPLIT-引擎内容分离迁出后 src/ 与 games/ 为顶层兄弟）；仓库源去掉 `src/` 段即得真实仓库路径。
       const repoFile = p.file.replace(/^src\//, '');
-      const src = readFileSync(repoFile, 'utf8');
+      const src = readFileSync(repoFile, 'utf8').replace(/\r\n/g, '\n');
       const hits = src.split(p.find).length - 1;
       expect(hits, `锚点应命中 1 次（实 ${hits}）· ${repoFile} · find 头: ${p.find.slice(0, 60)}`).toBe(1);
       // replace 必须真改动（否则 patch 空转）——且 replace 不得等于 find（防复制粘贴漏改）。

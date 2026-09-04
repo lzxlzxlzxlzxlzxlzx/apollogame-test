@@ -43,7 +43,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   detectBrowserRuntime, deepLinkQuery, startDevServer, stopDevServer,
@@ -338,7 +338,7 @@ function writeArtifacts(root, slug, result) {
 }
 
 // ── CLI ─────────────────────────────────────────────────────────────────
-const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+const isMain = process.argv[1] && resolve(fileURLToPath(import.meta.url)) === resolve(process.argv[1]);
 if (isMain) {
   const argv = process.argv.slice(2);
   const gi = argv.indexOf('--game');

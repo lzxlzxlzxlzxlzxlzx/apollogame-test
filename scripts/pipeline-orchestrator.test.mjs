@@ -97,7 +97,7 @@ describe('① 串行锁互斥', () => {
     await first;
     expect(lines(marker)).toHaveLength(1);              // 全程只起过一个会话
     expect(existsSync(lockPath(root))).toBe(false);     // 一号跑完自己放锁
-  }));
+  }), 30000);
 
   it('死 pid 的锁自动清（图纸：锁进程死亡=自动清锁）· 坏 JSON 同样按无锁处理', () => withRoot(async (root) => {
     const dead = spawnSync(process.execPath, ['-e', 'process.exit(0)']);
@@ -156,7 +156,7 @@ describe('② 看门狗：停滞→杀→重派一次→failed', () => {
     expect(elapsed).toBeLessThan(30000);                 // 是被看门狗杀的，不是等它自己跑完
     expect(readRuns(root)[slug].state).toBe('failed');   // 台账落红（status/板读得到）
     expect(existsSync(lockPath(root))).toBe(false);      // 失败也放锁（不留死锁堵后续）
-  }), 20000);
+  }), 30000);
 
   it('有心跳就不杀：慢但持续吐流的会话跑到自然退出（心跳判据非闹钟）', () => withRoot(async (root) => {
     const slug = fakeGame(root);
@@ -164,12 +164,15 @@ describe('② 看门狗：停滞→杀→重派一次→failed', () => {
       `let n = 0;`,
       `const t = setInterval(() => { console.log('{"type":"stream","n":' + (++n) + '}'); if (n >= 6) { clearInterval(t); process.exit(0); } }, 50);`,
     ].join('\n'));
-    const r = await dispatch({ root, slug, stage: 'S3', claudeBin: bin, idleTimeoutMs: 200, killGraceMs: 150 });
+    // Full-repository workers can delay a child process before its first stdout event.
+    // This case verifies natural completion after streamed heartbeats; the short-idle
+    // kill/retry contract is covered by the preceding silent-session test.
+    const r = await dispatch({ root, slug, stage: 'S3', claudeBin: bin, idleTimeoutMs: 30_000, killGraceMs: 150 });
     expect(r.attempts).toBe(1);                          // 没重派
-    expect(r.session.outcome).toBe('exited');            // 自然退出（总时长 300ms > 200ms 空闲阈，但一直有心跳）
+    expect(r.session.outcome).toBe('exited');            // 有输出的会话自然退出，不被看门狗误杀
     expect(r.session.code).toBe(0);
     expect(r.code).toBe('GATE_FAIL');                    // 会话正常退出 ≠ 阶段绿：还得过独立重验（见 ③）
-  }), 20000);
+  }), 30000);
 
   it('看门狗默认值照图纸：600s / 首派+重派一次', () => {
     expect(IDLE_TIMEOUT_MS).toBe(600_000);

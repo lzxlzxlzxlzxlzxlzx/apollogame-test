@@ -10,7 +10,16 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SCRIPT = join(ROOT, 'scripts', 'design-ingest-zip-check.py');
 
 function runCase(name) {
-  const r = spawnSync('python3', [SCRIPT, name], { cwd: ROOT, encoding: 'utf8', timeout: 30000 });
+  const command = process.env.PYTHON ?? (process.platform === 'win32' ? 'py' : 'python3');
+  const args = process.env.PYTHON || process.platform !== 'win32'
+    ? [SCRIPT, name]
+    : ['-3', SCRIPT, name];
+  const r = spawnSync(command, args, {
+    cwd: ROOT,
+    encoding: 'utf8',
+    timeout: 30000,
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+  });
   return { code: r.status, out: `${r.stdout || ''}${r.stderr || ''}` };
 }
 
