@@ -1,0 +1,15 @@
+{
+  "name": "dokiworld-game105-heart-tower",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DokiWorld Game App packaging for ZeroCraft game-105 (Heart Tower / 心动叠叠塔)",
+  "scripts": {
+    "generate:manifest": "node scripts/generate-manifest.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "build": "node scripts/build.mjs"
+  },
+  "dependencies": {
+    "@dokiworld/app-sdk": "^3.0.0"
+  }
+}

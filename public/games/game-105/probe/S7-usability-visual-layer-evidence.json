@@ -1,0 +1,107 @@
+{
+  "nodes": {
+    "g105-companion-card": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "backgroundImage": "none",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": "16px",
+      "opacity": "1",
+      "rect": {
+        "bottom": 208,
+        "height": 172,
+        "left": 40,
+        "right": 340,
+        "top": 36,
+        "width": 300
+      },
+      "text": "今晚的陪玩心动叠叠塔绮光 · 本地陪伴模式轮到你抽取一根积木。"
+    },
+    "g105-companion-name": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "backgroundImage": "none",
+      "color": "rgb(247, 233, 229)",
+      "fontSize": "11px",
+      "opacity": "1",
+      "rect": {
+        "bottom": 145,
+        "height": 16,
+        "left": 82,
+        "right": 298,
+        "top": 129,
+        "width": 216
+      },
+      "text": "绮光 · 本地陪伴模式"
+    },
+    "g105-heart": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "backgroundImage": "none",
+      "color": "rgb(135, 81, 24)",
+      "fontSize": "22px",
+      "opacity": "1",
+      "rect": {
+        "bottom": 122.296875,
+        "height": 22.296875,
+        "left": 1018,
+        "right": 1238,
+        "top": 100,
+        "width": 220
+      },
+      "text": "心动值  0"
+    },
+    "g105-ledger": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "backgroundImage": "none",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": "16px",
+      "opacity": "1",
+      "rect": {
+        "bottom": 219.296875,
+        "height": 183.296875,
+        "left": 976,
+        "right": 1280,
+        "top": 36,
+        "width": 304
+      },
+      "text": "本局心动账心动值  0今晚的心动刻度完成互动 0 · 战利品 0"
+    },
+    "g105-status": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "backgroundImage": "none",
+      "color": "rgb(243, 187, 200)",
+      "fontSize": "11px",
+      "opacity": "1",
+      "rect": {
+        "bottom": 166,
+        "height": 16,
+        "left": 82,
+        "right": 298,
+        "top": 150,
+        "width": 216
+      },
+      "text": "轮到你抽取一根积木。"
+    },
+    "g105-title": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "backgroundImage": "none",
+      "color": "rgb(231, 191, 112)",
+      "fontSize": "22px",
+      "opacity": "1",
+      "rect": {
+        "bottom": 124,
+        "height": 22,
+        "left": 82,
+        "right": 298,
+        "top": 102,
+        "width": 216
+      },
+      "text": "心动叠叠塔"
+    }
+  },
+  "order": {
+    "canvasOpacity": "0.9",
+    "canvasZ": "auto",
+    "overlayZ": "20",
+    "sceneBackground": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")",
+    "sceneZ": "auto"
+  }
+}

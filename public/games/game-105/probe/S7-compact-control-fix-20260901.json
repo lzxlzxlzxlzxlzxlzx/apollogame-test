@@ -1,0 +1,38 @@
+{
+  "viewport": {
+    "width": 800,
+    "height": 450
+  },
+  "method": "Open the real game at 1280x800, complete the calibrated physical pull, then resize the same live session to 800x450 before measuring and clicking the visible interaction controls.",
+  "measured": {
+    "responseInput": {
+      "heightPx": 27.6,
+      "fontSizeCssPx": 28,
+      "bottomPx": 270.644,
+      "hitAction": "tower.response.draft"
+    },
+    "submit": {
+      "heightPx": 35.187,
+      "fontSizeCssPx": 28,
+      "bottomPx": 342.056
+    },
+    "quickReply": {
+      "heightPx": 27.6,
+      "fontSizeCssPx": 28,
+      "bottomPx": 302.556,
+      "hitAction": "tower.response.quick"
+    },
+    "bottomHint": {
+      "heightPx": 15.625,
+      "fontSizeCssPx": 20,
+      "bottomPx": 429.375
+    }
+  },
+  "interaction": {
+    "typedResponse": true,
+    "submitClicked": true,
+    "ledgerAfterSubmit": "完成互动 1 · 战利品 0",
+    "consoleErrors": []
+  },
+  "result": "pass"
+}

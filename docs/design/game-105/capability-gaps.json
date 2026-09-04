@@ -1,0 +1,52 @@
+[
+  {
+    "id": "G105-E4-AI-OBSERVATION",
+    "title": "AI 可公平消费的 3D 场景观察快照",
+    "priority": "P1",
+    "route": "engine",
+    "state": "wontfix",
+    "ticket": "docs/design/game-105/capability-plan.md#l1游戏内公平观察替代e4",
+    "verification": "game-105 以受限 LocalAIObservation 替代平台通用能力；禁止 Transform3D、Cannon、速度、接触面和风险评分。",
+    "blocks": []
+  },
+  {
+    "id": "G105-E5-AI-PULL-CONTROL",
+    "title": "AI 与玩家共用的可取消 3D 抽拉动作队列",
+    "priority": "P1",
+    "route": "requests-3d",
+    "state": "wontfix",
+    "ticket": "docs/design/game-105/capability-plan.md#l2游戏内共享动作执行器替代e5",
+    "verification": "game-105 的唯一共享动作执行器驱动 Camera3D、hover、Joint3D 和 release；禁止 AI 刚体直写或瞬移。",
+    "blocks": []
+  },
+  {
+    "id": "G105-E6-HOST-SESSION-ADAPTER",
+    "title": "宿主角色、对话与结果适配器",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-105/s3-host-integration.md",
+    "verification": "2026-09-01 确定性 SDK Host witness 已验证游戏初始化上下文、dialogue 接缝、doki.game.result/1 和模板降级路径。此条只代表协议适配骨架，不代表真实模型可用。",
+    "blocks": []
+  },
+  {
+    "id": "G105-E6-STORYTELLER-HOST-WITNESS",
+    "title": "Storyteller 拉起 game-105 与结果回传的真实 SDK Host 联调",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-105/storyteller-return-integration.md#91-本地真协议-witness先做",
+    "verification": "2026-09-01 真 SDK Host witness 已闭环：Host -> Storyteller -> apps.launch -> game-105-heart-tower -> doki.game.result -> episode.gameCompleted -> episode.gameResolved -> Storyteller 续聊。重复完成 rawCompleteCount=2 时 acceptedCount=1。该 witness 使用确定性 dialogue，不代表真实模型成功。",
+    "blocks": []
+  },
+  {
+    "id": "G105-E6-REAL-DIALOGUE-HOST-WITNESS",
+    "title": "真实模型 Host 的 AI 卡牌回复与降级联调",
+    "priority": "P1",
+    "route": "pui",
+    "state": "wontfix",
+    "ticket": "docs/design/game-105/capability-plan.md#e6-b真实模型-host-witnessp1开放",
+    "verification": "2026-09-02 owner 决定先完成独立可玩版，真实模型 Host witness 延后至 Host Integration M2。当前版本只验本地模板 AI；确定性 Host 文本不代表真实模型成功。M2 恢复时需验证主卡/惩罚卡成功、超时、拒绝/未授权、空文本、晚到回调和结果去重。",
+    "blocks": []
+  }
+]

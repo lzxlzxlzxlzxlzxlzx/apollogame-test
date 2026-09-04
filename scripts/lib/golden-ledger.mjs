@@ -27,9 +27,15 @@ export function writeLedger(root, slug, ledger) {
   writeFileSync(ledgerPath(root, slug), JSON.stringify(ledger, null, 2) + '\n');
 }
 
-/** 该游戏当前所有 status=blessed 的 state 名（S5/S8 门用这个决定要不要起浏览器跑 compare——
- *  这一步纯 fs、比「先起服再问」便宜得多，绝大多数游戏此刻都会在这一步就问完）。 */
-export function blessedStates(root, slug) {
+/**
+ * 当前可参与像素比对的 blessed state。`s4-structure-*` 是不可变的结构合同，
+ * 不能作为 S5 视觉换皮的像素基准，否则合法的颜色、字体和纹样变更也会被误报。
+ */
+export function blessedStates(root, slug, { prefix } = {}) {
   const ledger = readLedger(root, slug);
-  return Object.keys(ledger.states || {}).filter((s) => ledger.states[s]?.status === 'blessed');
+  return Object.keys(ledger.states || {}).filter(
+    (s) => ledger.states[s]?.status === 'blessed'
+      && !s.startsWith('s4-structure-')
+      && (!prefix || s.startsWith(prefix)),
+  );
 }

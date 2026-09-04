@@ -21,6 +21,7 @@
 //    node scripts/game-pipeline.mjs review <slug> <S2|S3|S4|S5|S8> --verdict PASS|CONCERNS|FAIL --note "…" --by 复查人   复查门落账（REQ-QC-三门）
 //    node scripts/game-pipeline.mjs scorecard <slug> --scores "艺术方向:2,…八维" --by 复查人 --note 证据   S7 评分卡落账（全维≥2=premium·任一 0 分=红）
 //    node scripts/game-pipeline.mjs signoff <slug> <SN> --note "…" [--by 名]   人门落账
+//    node scripts/game-pipeline.mjs reopen <slug> <SN> --note "…" --by 名      作废该关及后续旧结论，重新走三门
 //    node scripts/game-pipeline.mjs concept <slug> --name "…" --pitch "…" [--refs …] [--style …] [--plan-waiver 理由]
 //  线手册：docs/playbooks/game-production.md + docs/playbooks/review-gates.md（三门制·复查清单）。
 // ═══════════════════════════════════════════════════════════════
@@ -33,7 +34,7 @@ import { spawnSync } from 'node:child_process';
 // R3（REQ-RENDERCHECK·标准照比对）门读码只要「有没有 blessed 基准」这一个纯 fs 判断——从
 // scripts/lib/golden-ledger.mjs（而非 golden-shot.mjs 本体）import，避免跟 golden-shot.mjs
 // （它反过来要 import 本文件的 detectForm/gameHash）互相 import 成环。
-import { blessedStates } from './lib/golden-ledger.mjs';
+import { blessedStates, readLedger } from './lib/golden-ledger.mjs';
 
 // ROOT=仓库根（默认）。ZEROCRAFT_PIPELINE_ROOT（旧名 APOLLO_PIPELINE_ROOT 过渡期仍读）仅供测试
 // 注入临时根（跑 CLI 端到端·不碰真仓库）——生产不设此环境变量，行为逐字节同旧版。
@@ -74,6 +75,9 @@ const manifestPath = (root, slug, form) =>
  *  **跑 S3 把 S4/S5 的证据判过期、跑 S4 又把 S3 的判过期，两者永远不可能同时绿**，
  *  流程板上是一串永远追不上的 ⚠。这跟当年 pipeline.json 自我过期是同一个形状，只是漏了这个孪生目录。 */
 const EVIDENCE_DIRS = new Set(['mock', 'probe', 'golden', 'self-check', 'review']);
+// 阶段程序回报也是门自产物：写入本轮命令结果不能反过来让同一轮证据过期。
+// S2 仍通过 stageReviewHash 单独读取 s1-s2-program-evidence.md，故排出完整 gameHash 不会放松 S2 裁决。
+const EVIDENCE_FILES = new Set(['s1-s2-program-evidence.md', 's3-program-evidence.md', 's4-program-evidence.md']);
 
 export function gameHash(root, slug) {
   const roots = [
@@ -95,6 +99,7 @@ export function gameHash(root, slug) {
       if (st.isDirectory()) { if (!EVIDENCE_DIRS.has(name)) walk(p); continue; }
       if (name === 'pipeline.json') continue;
       if (name === 'requests.md') continue; // 工单池台账不入指纹（高频回执≠内容变更）
+      if (EVIDENCE_FILES.has(name)) continue;
       // 缺口台账同理（REQ-S18PANEL②·同「工单池台账」判据）：capability-gaps.json 记的是
       // **缺口被裁到哪一步了**（open→accepted→delivered），不是游戏内容——把某条缺口标
       // delivered 不该让 S3/S4/S5 的证据全体过期。缺口真被消费时游戏文件会动，指纹那时才该变。
@@ -106,6 +111,31 @@ export function gameHash(root, slug) {
   for (const r of roots) walk(r);
   const h = createHash('sha256');
   for (const f of files) { h.update(relative(root, f)); h.update('\0'); h.update(readFileSync(f)); h.update('\0'); }
+  return h.digest('hex').slice(0, 16);
+}
+
+// S2 复查只裁决立项/能力输入；游戏实现与 S3 证据属于后续阶段，不得反复作废这份裁决。
+const S2_REVIEW_INPUTS = [
+  'brief.md',
+  'gdd.md',
+  'capability-plan.md',
+  'capability-gaps.json',
+  's1-s2-program-handoff.md',
+  's1-s2-program-evidence.md',
+];
+
+/** 阶段复查指纹：S2 只读其裁决输入；其他阶段保持完整游戏指纹。 */
+export function stageReviewHash(root, slug, stage) {
+  if (stage !== 'S2') return gameHash(root, slug);
+  const base = join(root, 'docs', 'design', slug);
+  const h = createHash('sha256');
+  for (const name of S2_REVIEW_INPUTS) {
+    const file = join(base, name);
+    h.update(name); h.update('\0');
+    if (existsSync(file)) h.update(readFileSync(file));
+    else h.update('<missing>');
+    h.update('\0');
+  }
   return h.digest('hex').slice(0, 16);
 }
 
@@ -331,10 +361,15 @@ export const REVIEW_CHECKLISTS = {
 export const SCORECARD_DIMS = ['艺术方向', '主角面', '世界密度', '材质', '渲染管线', 'VFX', 'UI美术', '性能证据'];
 
 /** 复查记录评估：无=dim；FAIL=fail；指纹过期=stale；CONCERNS=有条件过（ok·⚠标注）；PASS=ok。导出供单测。 */
-export function evalReview(rv, freshHash, freshGapsHash) {
+export function evalReview(rv, freshHash, freshGapsHash, stage) {
   if (!rv) return { state: 'dim', detail: '未复查（checklist 打单 → 另开 session 复核 → review 落账）' };
   const when = (rv.at || '').slice(0, 16).replace('T', ' ');
-  if (rv.gameHash && rv.gameHash !== freshHash) return { state: 'stale', detail: `⚠ 复查过期（游戏文件已变动·须重查）· 上次 ${rv.verdict} @ ${when}` };
+  if (stage === 'S2') {
+    if (!rv.reviewHash) return { state: 'stale', detail: `⚠ 复查记录缺少 S2 reviewHash（旧记录需重新复查一次）· 上次 ${rv.verdict} @ ${when}` };
+    if (rv.reviewHash !== freshHash) return { state: 'stale', detail: `⚠ 复查过期（S2 策划/能力输入已变动·须重查）· 上次 ${rv.verdict} @ ${when}` };
+  } else if (rv.gameHash && rv.gameHash !== freshHash) {
+    return { state: 'stale', detail: `⚠ 复查过期（游戏文件已变动·须重查）· 上次 ${rv.verdict} @ ${when}` };
+  }
   // 缺口台账变动 → S2 复查过期（台账不入 gameHash·见 gapsHash 注释）。旧复查记录无该字段=不判过期（零回归）。
   if (freshGapsHash !== undefined && rv.gapsHash !== undefined && rv.gapsHash !== freshGapsHash) {
     return { state: 'stale', detail: `⚠ 复查过期（**缺口台账已变动**·须重查——改一条 state 就能解开缺口锁，故复查必须重来）· 上次 ${rv.verdict} @ ${when}` };
@@ -445,7 +480,7 @@ export function boardFor(root, slug) {
     const review = st.id === 'S1' ? { state: 'ok', detail: '免（立项=owner 亲提·无需复查）' }
       : st.id === 'S6' ? { state: 'ok', detail: '免（复核已内嵌美术平台逐行 ☑）' }
         : st.id === 'S7' ? { state: machine.state === 'ok' || machine.state === 'warn' ? 'ok' : 'dim', detail: '复查形态=评分卡本身（复查人打分·机器门即其判词）' }
-          : evalReview(pf.reviews?.[st.id], hashNow, st.id === 'S2' ? gapsNow : undefined);
+          : evalReview(pf.reviews?.[st.id], stageReviewHash(root, slug, st.id), st.id === 'S2' ? gapsNow : undefined, st.id);
     const so = pf.signoffs?.[st.id];
     // S6 人门已内嵌美术平台逐行 approve（不设重复签核）；其余阶段一律要 signoff。
     const human = st.id === 'S6'
@@ -465,7 +500,16 @@ export function boardFor(root, slug) {
     const blockedBy = blockingGaps({ gaps: gapsRes.gaps }, st.id);
     return { id: st.id, title: st.title, handbook: st.handbook, gate: st.gate, machine, review, human, status, outOfOrder, blockedBy };
   });
-  const next = stages.find((s) => s.status !== 'ok');
+  // A later implementation stage naturally changes the shared game tree. When an earlier stage
+  // was already three-gate-approved, show the latest active stage instead of sending the board
+  // backwards to re-do a superseded review snapshot.
+  const latestActiveStage = [...stages].reverse().find((s) => s.machine.state !== 'dim')?.id;
+  const reopened = pf.reopen?.stage ? stages.find((s) => s.id === pf.reopen.stage) : null;
+  // A deliberate reopen is an owner decision to re-verify this stage. Its predecessor may be
+  // stale only because that later implementation changed the shared tree, so keep the board on
+  // the reopened stage until it receives a fresh signoff.
+  const next = reopened && reopened.status !== 'ok' ? reopened : stages.find((s) => s.status !== 'ok'
+    && !(latestActiveStage && canAdvancePastApprovedStaleReview(s, latestActiveStage)));
   // gaps/gapErrors 上板供面板直接渲染（「展示 + 跳转到工单」——面板不做缺口的编辑/裁决 UI，
   // 裁决仍走既有协议）。旧游戏无台账 → gaps=[]·gapErrors=[]（零回归）。
   return { ok: true, slug, form, gameHash: hashNow, concept: c, stages, gaps: gapsRes.gaps, gapErrors: gapsRes.errors, next: next ? next.id : null };
@@ -479,6 +523,7 @@ export function priorGaps(board, stage) {
   if (idx <= 0) return []; // S1 或未知阶段：无前置
   const gaps = [];
   for (const st of (board?.stages || []).slice(0, idx)) {
+    if (canAdvancePastApprovedStaleReview(st, stage)) continue;
     if (st.status === 'ok') continue;
     const owes = [];
     if (st.machine?.state !== 'ok') owes.push(`机器门(${st.machine?.state ?? '?'})`);
@@ -489,8 +534,21 @@ export function priorGaps(board, stage) {
   return gaps;
 }
 
+/** Later implementation stages share the same game tree. An earlier three-gate-approved handoff
+ * remains a valid predecessor when later-stage work naturally stales its source snapshot. Missing,
+ * failed or unsigned reviews are never waived. */
+function canAdvancePastApprovedStaleReview(stageState, targetStage) {
+  const from = STAGES.findIndex((stage) => stage.id === stageState?.id);
+  const to = STAGES.findIndex((stage) => stage.id === targetStage);
+  return from >= 0
+    && to > from
+    && stageState.machine?.state === 'stale'
+    && stageState.review?.state === 'stale'
+    && stageState.human?.state === 'ok';
+}
+
 // ── 复查前置硬闸（owner 2026-08-10 令「每步开工前，上一步必须已被不同 agent 真复查」）──
-/** 已施工未复查清单：目标阶段之前，凡机器门已过（ok/warn=建过）而复查门未过的关（dim=没查·
+/** 已施工未复查清单：目标阶段之前，凡机器门已过（ok/warn/stale=建过）而复查门未过的关（dim=没查·
  *  stale=游戏变了没重查·fail=查了红着）。这类欠账**不可被 --out-of-order 自赦**——复查门是唯一
  *  不能由施工方自己豁免的门（game108 曾 S2-S5 复查全空跑到 S7 的通道就是自助跳关）。
  *  未施工的前置（machine dim/fail）仍走老规矩：跳关可以但记账（「从悄悄跳变记录在案」不动）。导出供单测。 */
@@ -499,7 +557,8 @@ export function reviewPrereqGaps(board, stage) {
   if (idx <= 0) return [];
   const gaps = [];
   for (const st of (board?.stages || []).slice(0, idx)) {
-    const built = st.machine?.state === 'ok' || st.machine?.state === 'warn';
+    if (canAdvancePastApprovedStaleReview(st, stage)) continue;
+    const built = ['ok', 'warn', 'stale'].includes(st.machine?.state);
     if (built && st.review?.state !== 'ok') gaps.push({ id: st.id, title: st.title, state: st.review?.state ?? '?', detail: st.review?.detail ?? '' });
   }
   return gaps;
@@ -525,7 +584,20 @@ export function orderGate(board, stage, reason) {
 }
 
 // ── 机器门执行（gate 子命令·真跑·记证据）──────────────────────────────
-const run = (cmd, args, opts = {}) => spawnSync(cmd, args, { cwd: ROOT, encoding: 'utf8', timeout: 900_000, ...opts });
+// Windows exposes npm executables as .cmd shims, which spawnSync cannot execute directly.
+// Invoke the installed ESM CLIs through Node instead of relying on a shell to resolve npx.
+const run = (cmd, args, opts = {}) => {
+  if (cmd === 'npx' && args[0] === 'vite-node') {
+    return spawnSync(process.execPath, [join(ROOT, 'node_modules', 'vite-node', 'vite-node.mjs'), ...args.slice(1)], { cwd: ROOT, encoding: 'utf8', timeout: 900_000, ...opts });
+  }
+  if (cmd === 'npx' && args[0] === 'vitest') {
+    return spawnSync(process.execPath, [join(ROOT, 'node_modules', 'vitest', 'vitest.mjs'), ...args.slice(1)], { cwd: ROOT, encoding: 'utf8', timeout: 900_000, ...opts });
+  }
+  if (cmd === 'npx' && args[0] === 'tsc') {
+    return spawnSync(process.execPath, [join(ROOT, 'node_modules', 'typescript', 'bin', 'tsc'), ...args.slice(1)], { cwd: ROOT, encoding: 'utf8', timeout: 900_000, ...opts });
+  }
+  return spawnSync(cmd, args, { cwd: ROOT, encoding: 'utf8', timeout: 900_000, ...opts });
+};
 
 /** R1 探针门读码（REQ-RENDERCHECK）：探针 exit 0=过·3=环境无浏览器（不算红·权威判定以有浏览器
  *  环境为准）·其余（1/2/…）=红。纯函数（不碰盘/不 spawn）——导出供单测直接灌各退出码，
@@ -581,15 +653,25 @@ function withUiWalkthroughGate(slug, base) {
  *  不必再跑（省时间·结论不变）。无 blessed 基准＝⚠ 提示不拦（golden-shot bless 建基准前，标准照
  *  比对对该游戏是可选项非硬门）；有基准则真起服跑 compare 子进程按 interpretGoldenCompare 读码。
  *  SANDBOXED 根跳过（同 R1 SANDBOXED 语义——沙盒测试根无真 app 可连）。 */
-function withGoldenGate(slug, base) {
+function withGoldenGate(slug, base, stage) {
   if (base.exit !== 0 || SANDBOXED) return base;
-  if (!blessedStates(ROOT, slug).length) {
-    return { exit: 0, summary: `${base.summary} · ⚠ 无标准照基准·未比对（golden-shot bless 建基准）` };
+  const prefix = stage === 'S5' ? 's5-' : undefined;
+  const ledger = readLedger(ROOT, slug);
+  const currentHash = gameHash(ROOT, slug);
+  const states = blessedStates(ROOT, slug, { prefix }).filter(
+    (state) => ledger.states[state]?.gameHash === currentHash,
+  );
+  if (!states.length) {
+    return { exit: 0, summary: `${base.summary} · ⚠ 无当前版本标准照基准·未比对（golden-shot capture+bless 建基准）` };
   }
   const script = join(dirname(fileURLToPath(import.meta.url)), 'golden-shot.mjs');
-  const cmp = run('node', [script, 'compare', '--game', slug]);
-  const tail = (cmp.stdout || cmp.stderr || '').trim().split('\n').slice(-2).join(' / ').slice(0, 200);
-  return interpretGoldenCompare(base.summary, cmp.status ?? 1, tail);
+  for (const state of states) {
+    const cmp = run('node', [script, 'compare', '--game', slug, '--state', state]);
+    const tail = (cmp.stdout || cmp.stderr || '').trim().split('\n').slice(-2).join(' / ').slice(0, 200);
+    const judged = interpretGoldenCompare(base.summary, cmp.status ?? 1, tail);
+    if (judged.exit !== 0) return judged;
+  }
+  return { exit: 0, summary: `${base.summary} · ✓ 当前版本标准照比对过（${states.join(', ')}）` };
 }
 
 function gateRun(slug, stage, form) {
@@ -668,14 +750,14 @@ function gateRun(slug, stage, form) {
   if (stage === 'S5') {
     // R3（REQ-RENDERCHECK）：S5 收尾一律经 withGoldenGate——它自己在 base.exit≠0 时原样透传，
     // 故这里两条路径（cart 免审计的即时过 / 非 cart 的 audit 结果）都直接包一层，不必分叉判断。
-    if (form === 'cart') return withGoldenGate(slug, { exit: 0, summary: '纯数据卡带免审计' });
+    if (form === 'cart') return withGoldenGate(slug, { exit: 0, summary: '纯数据卡带免审计' }, 'S5');
     // REQ-SELFCHECK·图纸①（UI 关同款前置·spawn audit 前的纯 fs 检查）：
     // UI 好不好看/交互顺不顺，audit 判不了——自证对齐单 + 真渲染截图序列在档才许跑。
     const scBlock5 = selfCheckBlock(selfCheckArtifacts(ROOT, slug, 'S5'), 'S5');
     if (scBlock5) return { exit: 1, summary: scBlock5 };
     const r = run('node', ['scripts/game-skill-audit.mjs', slug]);
     const verdict = (r.stdout || '').split('\n').filter((l) => /^(AUDIT|RATCHET):/.test(l)).join(' · ');
-    return withGoldenGate(slug, { exit: r.status ?? 1, summary: verdict || (r.stderr || '').slice(0, 200) });
+    return withGoldenGate(slug, { exit: r.status ?? 1, summary: verdict || (r.stderr || '').slice(0, 200) }, 'S5');
   }
   if (stage === 'S8') {
     if (form === 'cart') {
@@ -703,7 +785,10 @@ function gateRun(slug, stage, form) {
     for (const [cmd, args] of steps) {
       const r = run(cmd, args);
       parts.push(`${args[0]}=${r.status ?? 1}`);
-      if ((r.status ?? 1) !== 0) return { exit: r.status ?? 1, summary: `✗ ${parts.join(' ')} · ${(r.stderr || r.stdout || '').trim().slice(0, 200)}` };
+      if ((r.status ?? 1) !== 0) {
+        const diagnostics = (r.stderr || r.stdout || r.error?.message || '').trim().slice(0, 200);
+        return { exit: r.status ?? 1, summary: `✗ ${parts.join(' ')} · ${diagnostics}` };
+      }
     }
     // R3（REQ-RENDERCHECK）收尾：tsc+vitest+build 三绿才追加标准照比对。
     return withGoldenGate(slug, { exit: 0, summary: `tsc+vitest+build 三绿（${parts.join(' ')}）` });
@@ -717,7 +802,7 @@ if (isMain) {
   const [cmd, slug, a3] = process.argv.slice(2);
   const argv = process.argv.slice(2);
   const opt = (name) => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 1] : undefined; };
-  if (!cmd || !slug) { console.error('用法: game-pipeline.mjs <board|gate|checklist|review|scorecard|signoff|concept> <slug> …（头注有全表）'); process.exit(1); }
+  if (!cmd || !slug) { console.error('用法: game-pipeline.mjs <board|gate|checklist|review|scorecard|signoff|reopen|concept> <slug> …（头注有全表）'); process.exit(1); }
   const form = detectForm(ROOT, slug);
   if (!form) { console.error(`未知游戏: ${slug}`); process.exit(1); }
 
@@ -775,7 +860,7 @@ if (isMain) {
     const pf = readJson(pipelineFile(ROOT, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
     const rv = { verdict, note: note.trim().slice(0, 500), by: by.trim(), at: new Date().toISOString(), gameHash: gameHash(ROOT, slug),
       // S2 的复查对象里有缺口台账（不入 gameHash）——单独记一枚，台账一动这条复查即过期。
-      ...(stage === 'S2' ? { gapsHash: gapsHash(ROOT, slug) } : {}) };
+      ...(stage === 'S2' ? { reviewHash: stageReviewHash(ROOT, slug, stage), gapsHash: gapsHash(ROOT, slug) } : {}) };
     pf.reviews = { ...(pf.reviews || {}), [stage]: rv };
     (pf.history ||= []).push({ action: 'review', stage, verdict, at: rv.at });
     writeJson(pipelineFile(ROOT, slug), pf);
@@ -872,9 +957,32 @@ if (isMain) {
     const pf = readJson(pipelineFile(ROOT, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
     const so = { by: opt('--by') || 'owner', note: note.trim().slice(0, 500), at: new Date().toISOString() };
     pf.signoffs = { ...(pf.signoffs || {}), [stage]: so };
+    if (pf.reopen?.stage === stage) delete pf.reopen;
     (pf.history ||= []).push({ action: 'signoff', stage, at: so.at });
     writeJson(pipelineFile(ROOT, slug), pf);
     console.log(JSON.stringify({ ok: true, slug, stage, ...so }));
+    process.exit(0);
+  }
+  if (cmd === 'reopen') {
+    const stage = a3;
+    const note = opt('--note');
+    const by = opt('--by');
+    const start = STAGES.findIndex((s) => s.id === stage);
+    if (start < 0 || stage === 'S1' || stage === 'S6') { console.error('reopen 阶段非法（只认 S2/S3/S4/S5/S7/S8）'); process.exit(1); }
+    if (!note || !note.trim() || !by || !by.trim()) { console.error('reopen 必须带 --by 与 --note（作废原因和裁决人须留痕）'); process.exit(1); }
+    const pf = readJson(pipelineFile(ROOT, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
+    const cleared = STAGES.slice(start).map((s) => s.id);
+    for (const id of cleared) {
+      delete pf.evidence?.[id];
+      delete pf.reviews?.[id];
+      delete pf.signoffs?.[id];
+      delete pf.selfCheck?.[id];
+    }
+    const entry = { action: 'reopen', stage, cleared, by: by.trim(), note: note.trim().slice(0, 500), at: new Date().toISOString() };
+    pf.reopen = { stage, at: entry.at, by: entry.by, note: entry.note };
+    (pf.history ||= []).push(entry);
+    writeJson(pipelineFile(ROOT, slug), pf);
+    console.log(JSON.stringify({ ok: true, slug, ...entry }));
     process.exit(0);
   }
   if (cmd === 'concept') {

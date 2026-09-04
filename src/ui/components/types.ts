@@ -383,9 +383,12 @@ export interface TabsProps { tabs: { id: string; label: string; anchor?: string;
 //   波动/气泡/晃动全由渲染器承担（双错频椭圆脊 + 整杯 slosh + 上窜气泡·CSS keyframes·server.ts 注入），
 //   不许游戏层每帧烤水面进贴图（owner 判词·见 Particles 头注同案）。render-only·不进 sim/hash。
 export interface ProgressBarProps {
-  value: number; max?: number;
-  tone?: 'accent' | 'gold' | 'ok' | 'warn' | 'danger';
-  label?: string; showValue?: boolean;
+    value: number; max?: number;
+    tone?: 'accent' | 'gold' | 'ok' | 'warn' | 'danger';
+    label?: string; showValue?: boolean;
+    /** Render-only track/fill art; unavailable assets keep the theme-color fallback. */
+    trackSkin?: string;
+    fillSkin?: string;
   /** 形态(缺省 bar=线性条·向后兼容)：ring=环形/径向进度(conic 弧·体力/耐力/每日目标/冷却环)；
    *  liquid=**液面杯**(REQ-UIFX·value=水位·会晃的水面+气泡·杯体=本节点盒 layout.width/height)。中心显 value/label。 */
   shape?: 'bar' | 'ring' | 'liquid';

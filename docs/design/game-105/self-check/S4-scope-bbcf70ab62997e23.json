@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "stage": "S4",
+  "slug": "game-105",
+  "gameHash": "bbcf70ab62997e23",
+  "scopeHash": "04471332dcb80c44",
+  "comparison": {
+    "method": "sha256-per-file",
+    "command": "node scripts/game-105-s4-scope-manifest.mjs --check",
+    "indexPolicy": "Does not read or mutate the normal Git index; S3 retains its separate staged baseline."
+  },
+  "files": [
+    {
+      "path": "docs/design/game-105/standalone-release-freeze.md",
+      "sha256": "b5fed507f669f2f8b33bbf5fe63811a609cccd0f930a3d3f7e3aac18a20d821b",
+      "bytes": 1712
+    },
+    {
+      "path": "docs/design/game-105/s3-standalone-release.md",
+      "sha256": "fb9a1da36e7d7bead153791f82e7765a0e47ca26202010c19170335891ca4be5",
+      "bytes": 1313
+    },
+    {
+      "path": "docs/design/game-105/s4-local-ai-m1.md",
+      "sha256": "ed1ab8e4b430f3f772a15d37e17bce2a633c01c176565e61a55b3c83fbaad68b",
+      "bytes": 2743
+    },
+    {
+      "path": "docs/design/game-105/s4-experience-extension.md",
+      "sha256": "46843b0483572cea65bd179937be56873e61536da87ac4cfde0fab72c036eb59",
+      "bytes": 1630
+    },
+    {
+      "path": "docs/design/game-105/s4-program-evidence.md",
+      "sha256": "df126f5fd264c5cef7f8211fe5e7f1eb909ad56d7dc1cc4aa66cd0617db8f2c0",
+      "bytes": 2374
+    },
+    {
+      "path": "docs/design/game-105/self-check/S4-alignment.md",
+      "sha256": "234faa18e2e80c0bfa0a443ce207ab29a69c63c963eea23783c13fa344b25289",
+      "bytes": 6059
+    },
+    {
+      "path": "docs/design/game-105/acceptance/01-local-ai-opening.scenario.jsonc",
+      "sha256": "828c27fa9fcc239b137898f57ef79279faaebc3f150175ca20dcd3c937a04c9c",
+      "bytes": 960
+    },
+    {
+      "path": "docs/design/game-105/acceptance/02-player-ai-roundtrip.scenario.jsonc",
+      "sha256": "9dc480717bebab176569a46b3bf13d574f443c60b6bc05dc1c79e93f4a71acd3",
+      "bytes": 1554
+    },
+    {
+      "path": "docs/design/game-105/acceptance/03-partial-pull-keeps-turn.scenario.jsonc",
+      "sha256": "6b8563532134df07c11621cd9303cfd410096291c46f8829f4035fa9db4ab056",
+      "bytes": 930
+    },
+    {
+      "path": "docs/design/game-105/acceptance/04-realtime-collapse-and-loot.scenario.jsonc",
+      "sha256": "e421402a05e28211b1f84b8277c54202399f01d33d3cc56999191f3afd6bbbc2",
+      "bytes": 1399
+    },
+    {
+      "path": "docs/design/game-105/acceptance/05-player-response-and-swap.scenario.jsonc",
+      "sha256": "3c0fb0da773486698b32fab9daa68437871bf1fc3a3042cb12eecba3506e67a5",
+      "bytes": 1649
+    },
+    {
+      "path": "docs/design/game-105/acceptance/06-retired-blocks.scenario.jsonc",
+      "sha256": "add80b0b5152b83e9641244125809322d1bbb4f68200a21a766ec826d5f6a9e9",
+      "bytes": 1389
+    },
+    {
+      "path": "docs/design/game-105/acceptance/07-aftershock-order-and-cap.scenario.jsonc",
+      "sha256": "62cdf0b0b5d3beaf7e3b4e721950141c07bf14ce2c4bf8c5dbfa59dc3260edc9",
+      "bytes": 1380
+    },
+    {
+      "path": "docs/design/game-105/acceptance/08-ai-wrap-once.scenario.jsonc",
+      "sha256": "7c416e26876bdf87c105c96db9396b3fc59cc7a0aeeccb4b6ae3e5c15b316891",
+      "bytes": 1483
+    },
+    {
+      "path": "games/game-105/acceptance-adapter.ts",
+      "sha256": "ab9472b9c160bafb3153e8655b32f34f9cb821b3426cc4a58c4446aae07ae1ef",
+      "bytes": 10777
+    },
+    {
+      "path": "games/game-105/ai-turn-director.ts",
+      "sha256": "55bbc4a503d31decac6cbed9a3fdada64a5496f711f08bb2440dd7184074c5d1",
+      "bytes": 3839
+    },
+    {
+      "path": "games/game-105/game-105.ts",
+      "sha256": "feb78ca609f1ccffb821fd22001903a51d0236859acf1233724ce2ac6b37f4ea",
+      "bytes": 28881
+    },
+    {
+      "path": "games/game-105/local-ai-observation.ts",
+      "sha256": "26d08ccee2a503e1100bc86f4abe4dc586243f3249ed89f17c0f3d09780a2ed6",
+      "bytes": 3246
+    },
+    {
+      "path": "games/game-105/tower-action-executor.ts",
+      "sha256": "edc13fb49d9c5ca7882d57c787ad582b3033640284350111fb3c03932295cffb",
+      "bytes": 9687
+    },
+    {
+      "path": "games/game-105/tower-blueprint.ts",
+      "sha256": "c401da6be1ac9b10d069d4e558e1d2a87030068efcf9e6e9c5c5c26f541a63b8",
+      "bytes": 6833
+    },
+    {
+      "path": "games/game-105/tower-lifecycle.ts",
+      "sha256": "5588dfa244c87c641fac1c4ed6c948993581e86505a7c9bad18f602e0c51aff2",
+      "bytes": 2148
+    },
+    {
+      "path": "games/game-105/tower-session.ts",
+      "sha256": "bd66e04d4a094e99223507e1d56cd65ead357157f44337acef22b33e3d25fdb8",
+      "bytes": 18871
+    },
+    {
+      "path": "scripts/acceptance-run.mjs",
+      "sha256": "fa68ec1485023b27585782eb5aef0515180f2972c3489df5957efa14a507d189",
+      "bytes": 14843
+    },
+    {
+      "path": "scripts/game-105-spec-recursion.mjs",
+      "sha256": "995353c19523b8bb38fdca23485a5c4bea7f71021a7ceea8315aad5a47304947",
+      "bytes": 5823
+    },
+    {
+      "path": "scripts/game-105-s4-structure-snapshot.ts",
+      "sha256": "43fd2a23a50403346375abfb29777b51b1dbb752126752df4cf6c2315dc0ac7a",
+      "bytes": 4121
+    },
+    {
+      "path": "scripts/ui-walkthrough-probe.mjs",
+      "sha256": "45050fd628bb706cfbc506d4f99dec2e885ad0ff13ab0d5b97929145714e21e1",
+      "bytes": 22787
+    },
+    {
+      "path": "public/games/game-105/probe/S4-recursion.json",
+      "sha256": "265f0a8dccb6cdf056a99da80af0ebc522c907d36da91474d35ce62dd17d5c0b",
+      "bytes": 2164
+    },
+    {
+      "path": "public/games/game-105/probe/S4-uiwalk.json",
+      "sha256": "ce9cca05ce671621996025dfb4a99f3075882ecc4d74e45bc14dbf05d9778a3a",
+      "bytes": 16477
+    },
+    {
+      "path": "public/games/game-105/probe/S4-local-ai-playthrough.json",
+      "sha256": "8a398079c08b4dc4d69dca01a8b504628875fe4adafc3241666b6baae97cf81b",
+      "bytes": 888
+    },
+    {
+      "path": "docs/design/game-105/self-check/S4-structure-bbcf70ab62997e23.json",
+      "sha256": "ff154f5a6ac416f44b6e7351b03c7b6b2306c1107ad13395d5044a5cee6ec0bf",
+      "bytes": 14953
+    }
+  ]
+}

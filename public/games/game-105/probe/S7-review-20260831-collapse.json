@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "success": {
+    "sx": 560,
+    "sy": 320,
+    "ex": 1120,
+    "ey": 320,
+    "hold": 9000
+  },
+  "screenshots": [
+    "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-review-20260831-05-collapse-current.png",
+    "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-review-20260831-06-restart-current.png"
+  ],
+  "consoleErrors": [],
+  "at": "2026-08-30T20:32:29.619Z"
+}

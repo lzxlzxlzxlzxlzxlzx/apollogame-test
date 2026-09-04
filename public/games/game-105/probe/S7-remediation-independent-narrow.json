@@ -1,0 +1,19 @@
+{
+  "data": {
+    "controls": {
+      "top": 388.75,
+      "bottom": 448.125,
+      "left": 235,
+      "right": 590,
+      "width": 355,
+      "height": 59.375
+    },
+    "viewport": {
+      "width": 800,
+      "height": 450
+    },
+    "computedTransform": "matrix(1, 0, 0, 1, 0, -28)",
+    "within": true
+  },
+  "errors": []
+}

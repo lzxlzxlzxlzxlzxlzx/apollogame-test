@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 2,
+  "version": "0.1.0",
+  "id": "game-105-heart-tower",
+  "kind": "game",
+  "status": "active",
+  "entry": "index.html",
+  "launchRequirements": {
+    "minPlayers": 2
+  },
+  "context": {
+    "requiredScopes": [],
+    "optionalScopes": [
+      "character.identity",
+      "character.avatar",
+      "player_persona"
+    ]
+  },
+  "locales": {
+    "en": {
+      "name": "Heart Tower",
+      "description": "A romantic real-physics tower game with in-host dialogue continuation.",
+      "aliases": [
+        "Heart Tower",
+        "Heart Stack",
+        "Heart Tower v0.1.0"
+      ]
+    },
+    "zh-cn": {
+      "name": "心动叠叠塔",
+      "description": "真实物理叠叠塔小游戏，支持宿主续聊与结果回传。",
+      "aliases": [
+        "心动叠叠塔",
+        "心动塔",
+        "心动叠叠塔v0.1.0"
+      ]
+    }
+  },
+  "selection": {
+    "activationPolicy": "explicit-or-contextual",
+    "promptHint": {
+      "en": "Use when the current character invites the player to a short tower game.",
+      "zh-cn": "当前角色明确提出一起玩一局心动叠叠塔时使用。"
+    },
+    "avoidHint": {
+      "en": "Do not launch for ordinary mentions of stacking or towers in casual dialogue.",
+      "zh-cn": "普通对话里只是提到塔、积木或叠叠乐时不要拉起。"
+    }
+  },
+  "runtime": {
+    "protocol": "dokiworld.app",
+    "protocolVersion": 2,
+    "input": {
+      "contract": "doki.game.heart-tower-input",
+      "version": 1
+    },
+    "outputs": [
+      {
+        "contract": "doki.game.result",
+        "version": 1
+      }
+    ],
+    "extensions": [
+      "character",
+      "dialogue",
+      "persona",
+      "progress",
+      "resize",
+      "resume"
+    ]
+  },
+  "result": {
+    "metrics": [
+      "winner",
+      "rounds",
+      "playerDraws",
+      "aiDraws",
+      "completedInteractions",
+      "linkedExtractions",
+      "heartDelta",
+      "relationshipSignal",
+      "memoryCandidate",
+      "memorySummary",
+      "replyMode",
+      "aiPenaltyCompleted"
+    ]
+  }
+}

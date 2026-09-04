@@ -225,6 +225,16 @@ describe('CLI 用法校验（退出码 2·不碰浏览器）', () => {
     const r = runCli(root, ['capture', '--game', 'g', '--state', '../evil']);
     expect(r.status).toBe(2);
   }));
+  it('capture 已签核 state → 1，且不允许用新照片覆盖基准', () => withRoot((root) => {
+    putGame(root, 'g');
+    putBlessedLedger(root, 'g', 's4-structure');
+    const r = runCli(root, ['capture', '--game', 'g', '--state', 's4-structure'], {
+      PATH: '/nonexistent-bin-dir-for-path-shadow-test',
+      RENDER_PROBE_CHROMIUM: '/nonexistent/chrome-does-not-exist',
+    });
+    expect(r.status).toBe(1);
+    expect(r.stderr).toContain('拒绝覆盖已签核基准');
+  }));
 });
 
 describe('bless CLI（人门语义：--note 必填·不许空签）', () => {

@@ -1,0 +1,39 @@
+{
+  "ok": false,
+  "viewport": {
+    "width": 800,
+    "height": 450
+  },
+  "within": false,
+  "bounds": [
+    {
+      "id": "g105-companion-card",
+      "x": 25,
+      "y": 22.5,
+      "right": 212.5,
+      "bottom": 130
+    },
+    {
+      "id": "g105-ledger",
+      "x": 610,
+      "y": 22.5,
+      "right": 800,
+      "bottom": 137.060546875
+    },
+    {
+      "id": "g105-controls",
+      "x": 235,
+      "y": 406.25,
+      "right": 590,
+      "bottom": 465.625
+    },
+    {
+      "id": "g105-restart-slot",
+      "x": 25,
+      "y": 145.625,
+      "right": 127.5,
+      "bottom": 167.373046875
+    }
+  ],
+  "consoleErrors": []
+}

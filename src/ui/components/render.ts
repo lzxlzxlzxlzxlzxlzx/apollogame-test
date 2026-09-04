@@ -622,6 +622,8 @@ function renderProgressBar(id: string, p: ProgressBarProps, ls: string, t: UIThe
   const fillColor: Record<string, string> = { accent: t.jade, gold: t.gold, ok: t.ok, warn: t.warn, danger: t.danger };
   const fill = fillColor[p.tone ?? 'accent'] ?? t.jade;
   const valTxt = max === 1 ? `${Math.round(pct)}%` : `${p.value}/${max}`;
+  const trackSkin = p.trackSkin ? `background:url('${safeUrl(p.trackSkin)}') center/100% 100% no-repeat,${t.bg3};` : `background:${t.bg3};`;
+  const fillSkin = p.fillSkin ? `background:url('${safeUrl(p.fillSkin)}') center/100% 100% no-repeat,${fill};` : `background:${fill};`;
   // 环形/径向进度（shape:'ring'·体力/耐力/每日目标/冷却环）：conic 弧 + 中心镂空显 value/label。
   if (p.shape === 'ring') {
     const d = num(p.size, 64);
@@ -669,7 +671,7 @@ function renderProgressBar(id: string, p: ProgressBarProps, ls: string, t: UIThe
   const header = (p.label || p.showValue)
     ? `<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">${p.label ? `<span style="font-size:11px;color:${t.sub};font-family:${t.fontUi}">${esc(p.label)}</span>` : '<span></span>'}${p.showValue ? `<span style="font-size:11px;color:${t.dim};font-family:${t.fontMono}">${esc(valTxt)}</span>` : ''}</div>`
     : '';
-  return `<div id="${esc(id)}" style="display:flex;flex-direction:column;${ls}">${header}<div style="height:8px;border-radius:5px;background:${t.bg3};overflow:hidden"><div style="width:${pct}%;height:100%;background:${fill};border-radius:5px;transition:width .2s"></div></div></div>`;
+  return `<div id="${esc(id)}" style="display:flex;flex-direction:column;${ls}">${header}<div style="height:8px;border-radius:5px;${trackSkin}overflow:hidden"><div style="width:${pct}%;height:100%;${fillSkin}border-radius:5px;transition:width .2s"></div></div></div>`;
 }
 
 // 可点标签：active 或 tone 决定底/字/线色；有 action 则整体可点(arg=actionArg)；removable 加 ×。

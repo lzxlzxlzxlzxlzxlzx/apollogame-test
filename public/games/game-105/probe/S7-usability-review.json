@@ -1,0 +1,1961 @@
+{
+  "review": "S7 visual usability independent review",
+  "at": "2026-08-31T11:28:17.525Z",
+  "productSupport": {
+    "desktop": "declared",
+    "narrow800x450": "declared",
+    "mobile390x844": "not declared in game-105 planning; actual letterboxed 16:9 scale"
+  },
+  "coverage": {
+    "opening": [
+      {
+        "label": "1280x720",
+        "width": 1280,
+        "height": 720,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-opening-1280x720.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 208,
+                "height": 172,
+                "left": 40,
+                "right": 340,
+                "top": 36,
+                "width": 300
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 717,
+                "height": 95,
+                "left": 376,
+                "right": 944,
+                "top": 622,
+                "width": 568
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 122.296875,
+                "height": 22.296875,
+                "left": 1018,
+                "right": 1238,
+                "top": 100,
+                "width": 220
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 219.296875,
+                "height": 183.296875,
+                "left": 976,
+                "right": 1280,
+                "top": 36,
+                "width": 304
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "g105-restart",
+              "rect": {
+                "bottom": 267.796875,
+                "height": 34.796875,
+                "left": 40,
+                "right": 204,
+                "top": 233,
+                "width": 164
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        }
+      },
+      {
+        "label": "800x450",
+        "width": 800,
+        "height": 450,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-opening-800x450.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 130,
+                "height": 107.5,
+                "left": 25,
+                "right": 212.5,
+                "top": 22.5,
+                "width": 187.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 448.125,
+                "height": 59.375,
+                "left": 235,
+                "right": 590,
+                "top": 388.75,
+                "width": 355
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 76.435546875,
+                "height": 13.935546875,
+                "left": 636.25,
+                "right": 773.75,
+                "top": 62.5,
+                "width": 137.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 137.060546875,
+                "height": 114.560546875,
+                "left": 610,
+                "right": 800,
+                "top": 22.5,
+                "width": 190
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "g105-restart",
+              "rect": {
+                "bottom": 167.373046875,
+                "height": 21.748046875,
+                "left": 25,
+                "right": 127.5,
+                "top": 145.625,
+                "width": 102.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 450,
+            "width": 800
+          }
+        }
+      },
+      {
+        "label": "390x844",
+        "width": 390,
+        "height": 844,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-opening-390x844.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 375.6875,
+                "height": 52.40625,
+                "left": 12.1875,
+                "right": 103.59375,
+                "top": 323.28125,
+                "width": 91.40625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 530.7734375,
+                "height": 28.9453125,
+                "left": 114.5625,
+                "right": 287.625,
+                "top": 501.828125,
+                "width": 173.0625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 349.5748291015625,
+                "height": 6.7935791015625,
+                "left": 310.171875,
+                "right": 377.203125,
+                "top": 342.78125,
+                "width": 67.03125
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 379.1295166015625,
+                "height": 55.8482666015625,
+                "left": 297.375,
+                "right": 390,
+                "top": 323.28125,
+                "width": 92.625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "g105-restart",
+              "rect": {
+                "bottom": 393.9068603515625,
+                "height": 10.6021728515625,
+                "left": 12.1875,
+                "right": 62.15625,
+                "top": 383.3046875,
+                "width": 49.96875
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 844,
+            "width": 390
+          }
+        }
+      }
+    ],
+    "restart": [
+      {
+        "label": "1280x720",
+        "width": 1280,
+        "height": 720,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-restart-1280x720.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 208,
+                "height": 172,
+                "left": 40,
+                "right": 340,
+                "top": 36,
+                "width": 300
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 717,
+                "height": 95,
+                "left": 376,
+                "right": 944,
+                "top": 622,
+                "width": 568
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 122.296875,
+                "height": 22.296875,
+                "left": 1018,
+                "right": 1238,
+                "top": 100,
+                "width": 220
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 219.296875,
+                "height": 183.296875,
+                "left": 976,
+                "right": 1280,
+                "top": 36,
+                "width": 304
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "g105-restart",
+              "rect": {
+                "bottom": 267.796875,
+                "height": 34.796875,
+                "left": 40,
+                "right": 204,
+                "top": 233,
+                "width": 164
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        }
+      },
+      {
+        "label": "800x450",
+        "width": 800,
+        "height": 450,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-restart-800x450.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 130,
+                "height": 107.5,
+                "left": 25,
+                "right": 212.5,
+                "top": 22.5,
+                "width": 187.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 448.125,
+                "height": 59.375,
+                "left": 235,
+                "right": 590,
+                "top": 388.75,
+                "width": 355
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 76.435546875,
+                "height": 13.935546875,
+                "left": 636.25,
+                "right": 773.75,
+                "top": 62.5,
+                "width": 137.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 137.060546875,
+                "height": 114.560546875,
+                "left": 610,
+                "right": 800,
+                "top": 22.5,
+                "width": 190
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "g105-restart",
+              "rect": {
+                "bottom": 167.373046875,
+                "height": 21.748046875,
+                "left": 25,
+                "right": 127.5,
+                "top": 145.625,
+                "width": 102.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 450,
+            "width": 800
+          }
+        }
+      },
+      {
+        "label": "390x844",
+        "width": 390,
+        "height": 844,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-restart-390x844.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 375.6875,
+                "height": 52.40625,
+                "left": 12.1875,
+                "right": 103.59375,
+                "top": 323.28125,
+                "width": 91.40625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 530.7734375,
+                "height": 28.9453125,
+                "left": 114.5625,
+                "right": 287.625,
+                "top": 501.828125,
+                "width": 173.0625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 349.5748291015625,
+                "height": 6.7935791015625,
+                "left": 310.171875,
+                "right": 377.203125,
+                "top": 342.78125,
+                "width": 67.03125
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 379.1295166015625,
+                "height": 55.8482666015625,
+                "left": 297.375,
+                "right": 390,
+                "top": 323.28125,
+                "width": 92.625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "g105-restart",
+              "rect": {
+                "bottom": 393.9068603515625,
+                "height": 10.6021728515625,
+                "left": 12.1875,
+                "right": 62.15625,
+                "top": 383.3046875,
+                "width": 49.96875
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 844,
+            "width": 390
+          }
+        }
+      }
+    ],
+    "playerInteraction": [
+      {
+        "label": "1280x720",
+        "width": 1280,
+        "height": 720,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-player-card-1280x720.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 208,
+                "height": 172,
+                "left": 40,
+                "right": 340,
+                "top": 36,
+                "width": 300
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 713,
+                "height": 91,
+                "left": 376,
+                "right": 944,
+                "top": 622,
+                "width": 568
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 122.296875,
+                "height": 22.296875,
+                "left": 1018,
+                "right": 1238,
+                "top": 100,
+                "width": 220
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-interaction-card": {
+              "hit": "g105-quick-two",
+              "rect": {
+                "bottom": 838.890625,
+                "height": 390.890625,
+                "left": 40,
+                "right": 524,
+                "top": 448,
+                "width": 484
+              },
+              "visible": true,
+              "within": false,
+              "z": "auto"
+            },
+            "g105-interaction-complete": {
+              "hit": "SPAN",
+              "rect": {
+                "bottom": 771.890625,
+                "height": 115.09375,
+                "left": 82,
+                "right": 256.90625,
+                "top": 656.796875,
+                "width": 174.90625
+              },
+              "visible": true,
+              "within": false,
+              "z": "auto"
+            },
+            "g105-interaction-skip": {
+              "hit": "g105-interaction-skip",
+              "rect": {
+                "bottom": 771.890625,
+                "height": 115.09375,
+                "left": 389.03125,
+                "right": 482,
+                "top": 656.796875,
+                "width": 92.96875
+              },
+              "visible": true,
+              "within": false,
+              "z": "auto"
+            },
+            "g105-interaction-swap": {
+              "hit": "g105-interaction-swap",
+              "rect": {
+                "bottom": 771.890625,
+                "height": 115.09375,
+                "left": 264.90625,
+                "right": 381.03125,
+                "top": 656.796875,
+                "width": 116.125
+              },
+              "visible": true,
+              "within": false,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 219.296875,
+                "height": 183.296875,
+                "left": 976,
+                "right": 1280,
+                "top": 36,
+                "width": 304
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-quick-one": {
+              "hit": "g105-quick-one",
+              "rect": {
+                "bottom": 646.796875,
+                "height": 34.796875,
+                "left": 151,
+                "right": 245,
+                "top": 612,
+                "width": 94
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-quick-three": {
+              "hit": "g105-quick-three",
+              "rect": {
+                "bottom": 646.796875,
+                "height": 34.796875,
+                "left": 335,
+                "right": 413,
+                "top": 612,
+                "width": 78
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-quick-two": {
+              "hit": "g105-quick-two",
+              "rect": {
+                "bottom": 646.796875,
+                "height": 34.796875,
+                "left": 251,
+                "right": 329,
+                "top": 612,
+                "width": 78
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-response-input": {
+              "hit": "g105-response-input",
+              "rect": {
+                "bottom": 602,
+                "height": 31,
+                "left": 82,
+                "right": 482,
+                "top": 571,
+                "width": 400
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "g105-restart",
+              "rect": {
+                "bottom": 267.796875,
+                "height": 34.796875,
+                "left": 40,
+                "right": 204,
+                "top": 233,
+                "width": 164
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        }
+      },
+      {
+        "label": "800x450",
+        "width": 800,
+        "height": 450,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-player-card-800x450.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 130,
+                "height": 107.5,
+                "left": 25,
+                "right": 212.5,
+                "top": 22.5,
+                "width": 187.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 445.625,
+                "height": 56.875,
+                "left": 235,
+                "right": 590,
+                "top": 388.75,
+                "width": 355
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 76.435546875,
+                "height": 13.935546875,
+                "left": 636.25,
+                "right": 773.75,
+                "top": 62.5,
+                "width": 137.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-interaction-card": {
+              "hit": "g105-quick-two",
+              "rect": {
+                "bottom": 524.306640625,
+                "height": 244.306640625,
+                "left": 25,
+                "right": 327.5,
+                "top": 280,
+                "width": 302.5
+              },
+              "visible": true,
+              "within": false,
+              "z": "auto"
+            },
+            "g105-interaction-complete": {
+              "hit": "SPAN",
+              "rect": {
+                "bottom": 482.431640625,
+                "height": 71.93359375,
+                "left": 51.25,
+                "right": 160.56640625,
+                "top": 410.498046875,
+                "width": 109.31640625
+              },
+              "visible": true,
+              "within": false,
+              "z": "auto"
+            },
+            "g105-interaction-skip": {
+              "hit": "g105-interaction-skip",
+              "rect": {
+                "bottom": 482.431640625,
+                "height": 71.93359375,
+                "left": 243.14453125,
+                "right": 301.25,
+                "top": 410.498046875,
+                "width": 58.10546875
+              },
+              "visible": true,
+              "within": false,
+              "z": "auto"
+            },
+            "g105-interaction-swap": {
+              "hit": "g105-interaction-swap",
+              "rect": {
+                "bottom": 482.431640625,
+                "height": 71.93359375,
+                "left": 165.56640625,
+                "right": 238.14453125,
+                "top": 410.498046875,
+                "width": 72.578125
+              },
+              "visible": true,
+              "within": false,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 137.060546875,
+                "height": 114.560546875,
+                "left": 610,
+                "right": 800,
+                "top": 22.5,
+                "width": 190
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-quick-one": {
+              "hit": "g105-quick-one",
+              "rect": {
+                "bottom": 404.248046875,
+                "height": 21.748046875,
+                "left": 94.375,
+                "right": 153.125,
+                "top": 382.5,
+                "width": 58.75
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-quick-three": {
+              "hit": "g105-quick-three",
+              "rect": {
+                "bottom": 404.248046875,
+                "height": 21.748046875,
+                "left": 209.375,
+                "right": 258.125,
+                "top": 382.5,
+                "width": 48.75
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-quick-two": {
+              "hit": "g105-quick-two",
+              "rect": {
+                "bottom": 404.248046875,
+                "height": 21.748046875,
+                "left": 156.875,
+                "right": 205.625,
+                "top": 382.5,
+                "width": 48.75
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-response-input": {
+              "hit": "g105-response-input",
+              "rect": {
+                "bottom": 376.25,
+                "height": 19.375,
+                "left": 51.25,
+                "right": 301.25,
+                "top": 356.875,
+                "width": 250
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "g105-restart",
+              "rect": {
+                "bottom": 167.373046875,
+                "height": 21.748046875,
+                "left": 25,
+                "right": 127.5,
+                "top": 145.625,
+                "width": 102.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 450,
+            "width": 800
+          }
+        }
+      },
+      {
+        "label": "390x844",
+        "width": 390,
+        "height": 844,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-player-card-390x844.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 375.6875,
+                "height": 52.40625,
+                "left": 12.1875,
+                "right": 103.59375,
+                "top": 323.28125,
+                "width": 91.40625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 529.5546875,
+                "height": 27.7265625,
+                "left": 114.5625,
+                "right": 287.625,
+                "top": 501.828125,
+                "width": 173.0625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 349.5748291015625,
+                "height": 6.7935791015625,
+                "left": 310.171875,
+                "right": 377.203125,
+                "top": 342.78125,
+                "width": 67.03125
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-interaction-card": {
+              "hit": "g105-quick-two",
+              "rect": {
+                "bottom": 567.9119873046875,
+                "height": 119.0994873046875,
+                "left": 12.1875,
+                "right": 159.65625,
+                "top": 448.8125,
+                "width": 147.46875
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-interaction-complete": {
+              "hit": "SPAN",
+              "rect": {
+                "bottom": 547.4979248046875,
+                "height": 35.067626953125,
+                "left": 24.984375,
+                "right": 78.276123046875,
+                "top": 512.4302978515625,
+                "width": 53.291748046875
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-interaction-skip": {
+              "hit": "g105-interaction-skip",
+              "rect": {
+                "bottom": 547.4979248046875,
+                "height": 35.067626953125,
+                "left": 118.532958984375,
+                "right": 146.859375,
+                "top": 512.4302978515625,
+                "width": 28.326416015625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-interaction-swap": {
+              "hit": "g105-interaction-swap",
+              "rect": {
+                "bottom": 547.4979248046875,
+                "height": 35.067626953125,
+                "left": 80.713623046875,
+                "right": 116.095458984375,
+                "top": 512.4302978515625,
+                "width": 35.3818359375
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 379.1295166015625,
+                "height": 55.8482666015625,
+                "left": 297.375,
+                "right": 390,
+                "top": 323.28125,
+                "width": 92.625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-quick-one": {
+              "hit": "g105-quick-one",
+              "rect": {
+                "bottom": 509.3834228515625,
+                "height": 10.6021728515625,
+                "left": 46.0078125,
+                "right": 74.6484375,
+                "top": 498.78125,
+                "width": 28.640625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-quick-three": {
+              "hit": "g105-quick-three",
+              "rect": {
+                "bottom": 509.3834228515625,
+                "height": 10.6021728515625,
+                "left": 102.0703125,
+                "right": 125.8359375,
+                "top": 498.78125,
+                "width": 23.765625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-quick-two": {
+              "hit": "g105-quick-two",
+              "rect": {
+                "bottom": 509.3834228515625,
+                "height": 10.6021728515625,
+                "left": 76.4765625,
+                "right": 100.2421875,
+                "top": 498.78125,
+                "width": 23.765625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-response-input": {
+              "hit": "g105-response-input",
+              "rect": {
+                "bottom": 495.734375,
+                "height": 9.4453125,
+                "left": 24.984375,
+                "right": 146.859375,
+                "top": 486.2890625,
+                "width": 121.875
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "g105-restart",
+              "rect": {
+                "bottom": 393.9068603515625,
+                "height": 10.6021728515625,
+                "left": 12.1875,
+                "right": 62.15625,
+                "top": 383.3046875,
+                "width": 49.96875
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 844,
+            "width": 390
+          }
+        }
+      }
+    ],
+    "aiTurn": [
+      {
+        "label": "1280x720",
+        "width": 1280,
+        "height": 720,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-ai-turn-1280x720.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 208,
+                "height": 172,
+                "left": 40,
+                "right": 340,
+                "top": 36,
+                "width": 300
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 717,
+                "height": 95,
+                "left": 376,
+                "right": 944,
+                "top": 622,
+                "width": 568
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 122.296875,
+                "height": 22.296875,
+                "left": 1018,
+                "right": 1238,
+                "top": 100,
+                "width": 220
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 219.296875,
+                "height": 183.296875,
+                "left": 976,
+                "right": 1280,
+                "top": 36,
+                "width": 304
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "g105-restart",
+              "rect": {
+                "bottom": 267.796875,
+                "height": 34.796875,
+                "left": 40,
+                "right": 204,
+                "top": 233,
+                "width": 164
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        }
+      },
+      {
+        "label": "800x450",
+        "width": 800,
+        "height": 450,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-ai-turn-800x450.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 130,
+                "height": 107.5,
+                "left": 25,
+                "right": 212.5,
+                "top": 22.5,
+                "width": 187.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 448.125,
+                "height": 59.375,
+                "left": 235,
+                "right": 590,
+                "top": 388.75,
+                "width": 355
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 76.435546875,
+                "height": 13.935546875,
+                "left": 636.25,
+                "right": 773.75,
+                "top": 62.5,
+                "width": 137.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 137.060546875,
+                "height": 114.560546875,
+                "left": 610,
+                "right": 800,
+                "top": 22.5,
+                "width": 190
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "g105-restart",
+              "rect": {
+                "bottom": 167.373046875,
+                "height": 21.748046875,
+                "left": 25,
+                "right": 127.5,
+                "top": 145.625,
+                "width": 102.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 450,
+            "width": 800
+          }
+        }
+      },
+      {
+        "label": "390x844",
+        "width": 390,
+        "height": 844,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-ai-turn-390x844.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 375.6875,
+                "height": 52.40625,
+                "left": 12.1875,
+                "right": 103.59375,
+                "top": 323.28125,
+                "width": 91.40625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 530.7734375,
+                "height": 28.9453125,
+                "left": 114.5625,
+                "right": 287.625,
+                "top": 501.828125,
+                "width": 173.0625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 349.5748291015625,
+                "height": 6.7935791015625,
+                "left": 310.171875,
+                "right": 377.203125,
+                "top": 342.78125,
+                "width": 67.03125
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 379.1295166015625,
+                "height": 55.8482666015625,
+                "left": 297.375,
+                "right": 390,
+                "top": 323.28125,
+                "width": 92.625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "g105-restart",
+              "rect": {
+                "bottom": 393.9068603515625,
+                "height": 10.6021728515625,
+                "left": 12.1875,
+                "right": 62.15625,
+                "top": 383.3046875,
+                "width": 49.96875
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 844,
+            "width": 390
+          }
+        }
+      }
+    ],
+    "playerCollapse": [
+      {
+        "label": "1280x720",
+        "width": 1280,
+        "height": 720,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-player-collapse-1280x720.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 208,
+                "height": 172,
+                "left": 40,
+                "right": 340,
+                "top": 36,
+                "width": 300
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 713,
+                "height": 91,
+                "left": 376,
+                "right": 944,
+                "top": 622,
+                "width": 568
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 122.296875,
+                "height": 22.296875,
+                "left": 1018,
+                "right": 1238,
+                "top": 100,
+                "width": 220
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 219.296875,
+                "height": 183.296875,
+                "left": 976,
+                "right": 1280,
+                "top": 36,
+                "width": 304
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "SPAN",
+              "rect": {
+                "bottom": 604.34375,
+                "height": 49.546875,
+                "left": 451,
+                "right": 869,
+                "top": 554.796875,
+                "width": 418
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-wrap-card": {
+              "hit": "g105-wrap-input",
+              "rect": {
+                "bottom": 625.34375,
+                "height": 277.34375,
+                "left": 430,
+                "right": 890,
+                "top": 348,
+                "width": 460
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-wrap-input": {
+              "hit": "g105-wrap-input",
+              "rect": {
+                "bottom": 500,
+                "height": 31,
+                "left": 451,
+                "right": 869,
+                "top": 469,
+                "width": 418
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-wrap-skip": {
+              "hit": "g105-wrap-skip",
+              "rect": {
+                "bottom": 544.796875,
+                "height": 34.796875,
+                "left": 731,
+                "right": 825,
+                "top": 510,
+                "width": 94
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-wrap-submit": {
+              "hit": "g105-wrap-submit",
+              "rect": {
+                "bottom": 544.796875,
+                "height": 34.796875,
+                "left": 495,
+                "right": 589,
+                "top": 510,
+                "width": 94
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        }
+      },
+      {
+        "label": "800x450",
+        "width": 800,
+        "height": 450,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-player-collapse-800x450.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 130,
+                "height": 107.5,
+                "left": 25,
+                "right": 212.5,
+                "top": 22.5,
+                "width": 187.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 445.625,
+                "height": 56.875,
+                "left": 235,
+                "right": 590,
+                "top": 388.75,
+                "width": 355
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 76.435546875,
+                "height": 13.935546875,
+                "left": 636.25,
+                "right": 773.75,
+                "top": 62.5,
+                "width": 137.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 137.060546875,
+                "height": 114.560546875,
+                "left": 610,
+                "right": 800,
+                "top": 22.5,
+                "width": 190
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "SPAN",
+              "rect": {
+                "bottom": 377.71484375,
+                "height": 30.966796875,
+                "left": 281.875,
+                "right": 543.125,
+                "top": 346.748046875,
+                "width": 261.25
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-wrap-card": {
+              "hit": "g105-wrap-input",
+              "rect": {
+                "bottom": 390.83984375,
+                "height": 173.33984375,
+                "left": 268.75,
+                "right": 556.25,
+                "top": 217.5,
+                "width": 287.5
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-wrap-input": {
+              "hit": "g105-wrap-input",
+              "rect": {
+                "bottom": 312.5,
+                "height": 19.375,
+                "left": 281.875,
+                "right": 543.125,
+                "top": 293.125,
+                "width": 261.25
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-wrap-skip": {
+              "hit": "g105-wrap-skip",
+              "rect": {
+                "bottom": 340.498046875,
+                "height": 21.748046875,
+                "left": 456.875,
+                "right": 515.625,
+                "top": 318.75,
+                "width": 58.75
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-wrap-submit": {
+              "hit": "g105-wrap-submit",
+              "rect": {
+                "bottom": 340.498046875,
+                "height": 21.748046875,
+                "left": 309.375,
+                "right": 368.125,
+                "top": 318.75,
+                "width": 58.75
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 450,
+            "width": 800
+          }
+        }
+      },
+      {
+        "label": "390x844",
+        "width": 390,
+        "height": 844,
+        "file": "D:\\Users\\1010709\\Desktop\\projects\\ApolloGame-workspace\\public\\games\\game-105\\probe\\S7-usability-player-collapse-390x844.png",
+        "audit": {
+          "consoleLayer": {
+            "canvasOpacity": "0.9",
+            "canvasZ": "auto",
+            "sceneBg": "url(\"http://127.0.0.1:5173/games/game-105/art/scene/night-room.jpeg\")"
+          },
+          "elements": {
+            "g105-companion-card": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 375.6875,
+                "height": 52.40625,
+                "left": 12.1875,
+                "right": 103.59375,
+                "top": 323.28125,
+                "width": 91.40625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-controls": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 529.5546875,
+                "height": 27.7265625,
+                "left": 114.5625,
+                "right": 287.625,
+                "top": 501.828125,
+                "width": 173.0625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-heart": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 349.5748291015625,
+                "height": 6.7935791015625,
+                "left": 310.171875,
+                "right": 377.203125,
+                "top": 342.78125,
+                "width": 67.03125
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-ledger": {
+              "hit": "CANVAS",
+              "rect": {
+                "bottom": 379.1295166015625,
+                "height": 55.8482666015625,
+                "left": 297.375,
+                "right": 390,
+                "top": 323.28125,
+                "width": 92.625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-restart": {
+              "hit": "SPAN",
+              "rect": {
+                "bottom": 496.448486328125,
+                "height": 15.0963134765625,
+                "left": 137.4140625,
+                "right": 264.7734375,
+                "top": 481.3521728515625,
+                "width": 127.359375
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-wrap-card": {
+              "hit": "g105-wrap-input",
+              "rect": {
+                "bottom": 502.846923828125,
+                "height": 84.503173828125,
+                "left": 131.015625,
+                "right": 271.171875,
+                "top": 418.34375,
+                "width": 140.15625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-wrap-input": {
+              "hit": "g105-wrap-input",
+              "rect": {
+                "bottom": 464.65625,
+                "height": 9.4453125,
+                "left": 137.4140625,
+                "right": 264.7734375,
+                "top": 455.2109375,
+                "width": 127.359375
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-wrap-skip": {
+              "hit": "g105-wrap-skip",
+              "rect": {
+                "bottom": 478.3052978515625,
+                "height": 10.6021728515625,
+                "left": 222.7265625,
+                "right": 251.3671875,
+                "top": 467.703125,
+                "width": 28.640625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            },
+            "g105-wrap-submit": {
+              "hit": "g105-wrap-submit",
+              "rect": {
+                "bottom": 478.3052978515625,
+                "height": 10.6021728515625,
+                "left": 150.8203125,
+                "right": 179.4609375,
+                "top": 467.703125,
+                "width": 28.640625
+              },
+              "visible": true,
+              "within": true,
+              "z": "auto"
+            }
+          },
+          "viewport": {
+            "height": 844,
+            "width": 390
+          }
+        }
+      }
+    ],
+    "aftershock": {
+      "status": "not reproduced through real UI path after calibrated attempts; no injected state used"
+    },
+    "aiCollapse": {
+      "status": "not reproduced through real Local AI path; acceptance scenario verifies model path but no UI screenshot was fabricated"
+    }
+  },
+  "inputProbe": {
+    "initial": "value empty with placeholder (normal)",
+    "typed": "真实输入 visible after actual click",
+    "quickReply": "我记住了。 visible after actual click",
+    "submitAt1280x720": "actual visible-pixel click did not update session; control is clipped below viewport"
+  },
+  "defects": [
+    {
+      "id": "VU-01",
+      "severity": "P1",
+      "viewport": [
+        "1280x720",
+        "800x450"
+      ],
+      "state": "player-interaction",
+      "expected": "interaction card submit/swap/skip stay fully visible and usable",
+      "actual": "card bottom 838.89>720 and 524.31>450; action buttons bottom 771.89>720 and 482.43>450; actual visible-pixel submit click left completedInteractions at 0"
+    },
+    {
+      "id": "VU-02",
+      "severity": "P2",
+      "viewport": [
+        "1280x720",
+        "800x450",
+        "390x844"
+      ],
+      "state": "player-interaction / all HUD",
+      "expected": "text and controls readable at supported viewports",
+      "actual": "fixed 1280x720 composition is downscaled; at 800x450 input height 19.38 and quick buttons 21.75px; at 390x844 input 9.45 and buttons 10.60px; player card screenshot visibly clips at supported 800x450"
+    },
+    {
+      "id": "VU-03",
+      "severity": "P2",
+      "viewport": [
+        "1280x720"
+      ],
+      "state": "opening / ai-turn / restart",
+      "expected": "bottom operation instructions entirely visible",
+      "actual": "g105-controls bottom=717>720 in opening/AI/restart states"
+    }
+  ],
+  "consoleLogs": [
+    {
+      "level": "warn",
+      "message": "THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision\n(209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision\n(210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision\n(209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision\n(210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision\n\n\n\u0000",
+      "timestamp": "2026-08-31T10:22:42.720Z",
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/chunk-O7JCLK2M.js?v=77ec185d"
+    }
+  ],
+  "followUp": {
+    "at": "2026-08-31T12:21:13.554Z",
+    "focus": "human-reported bottom text, companion readability, and room-background compositing",
+    "evidence": [
+      "S7-usability-bottom-note-1280x720.png",
+      "S7-usability-visual-layer-evidence.json"
+    ],
+    "findings": [
+      {
+        "id": "VU-04",
+        "severity": "P2",
+        "viewport": [
+          "1280x720",
+          "800x450",
+          "390x844"
+        ],
+        "state": "opening / player-ready / AI / restart",
+        "expected": "bottom operation hint is visually legible",
+        "actual": "DOM text exists but is visually swallowed: 11px rgb(255,240,232), no text shadow, rendered on a cream skin. Screenshot shows an apparently empty bottom panel."
+      },
+      {
+        "id": "VU-05",
+        "severity": "P2",
+        "viewport": [
+          "1280x720",
+          "800x450",
+          "390x844"
+        ],
+        "state": "all 3D play states",
+        "expected": "room background stays visually behind the 3D tower and table",
+        "actual": "DOM z-order is scene background < canvas < overlay, but canvas opacity=0.9 lets night-room show through the physical tower/table. Effective composite visibly washes over the playfield and reads as a foreground veil."
+      },
+      {
+        "id": "VU-06",
+        "severity": "P2",
+        "viewport": [
+          "1280x720",
+          "800x450",
+          "390x844"
+        ],
+        "state": "opening / player-ready / AI / restart",
+        "expected": "companion card title, name and status retain readable contrast",
+        "actual": "title rgb(231,191,112), name rgb(247,233,229), status rgb(243,187,200), all 11/22px with no text shadow; actual screenshot shows the copy blending into the cream panel."
+      }
+    ]
+  }
+}

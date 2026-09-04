@@ -98,6 +98,17 @@ export class PhysicsSystem {
     return out;
   }
 
+  /** True only after every requested body exists and has entered Cannon's sleep state. */
+  areBodiesSleeping(ids: Iterable<string>): boolean {
+    if (!C || !this.world) return false;
+    const SLEEPING = C.Body.SLEEPING;
+    for (const id of ids) {
+      const body = this.bodies.get(id);
+      if (!body || body.sleepState !== SLEEPING) return false;
+    }
+    return true;
+  }
+
   // 重掷（掷骰子按钮）：所有刚体抬回各自起点上方 + 随机翻滚（render-only·随机自由）。bodies 为空（未步进过）则 no-op。
   roll(world: IWorld): void {
     for (const [id, b] of this.bodies) {

@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "slug": "sample-platformer",
+  "concept": {
+    "name": "Simple Platformer",
+    "pitch": "Gravity + platforms"
+  },
+  "signoffs": {},
+  "evidence": {},
+  "history": [
+    {
+      "action": "concept",
+      "at": "2026-08-26T03:11:51.008Z"
+    }
+  ]
+}

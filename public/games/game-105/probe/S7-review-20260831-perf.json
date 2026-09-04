@@ -1,0 +1,11 @@
+{
+  "frames": 240,
+  "median_ms": 16.69999999999891,
+  "p95_ms": 16.80000000000109,
+  "p99_ms": 16.900000000001455,
+  "max_ms": 17.199999999999818,
+  "domNodes": 55,
+  "sampledDuringPhase": "轮到你抽取一根积木。",
+  "by": "Codex S7 independent reviewer",
+  "at": "2026-08-30T20:25:52.352Z"
+}

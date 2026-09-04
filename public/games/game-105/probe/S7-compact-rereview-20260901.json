@@ -1,0 +1,164 @@
+{
+  "at": "2026-09-01T03:42:32.539Z",
+  "verdict": "CONCERNS",
+  "viewport": "800x450",
+  "pass": [
+    {
+      "check": "all interaction card controls within viewport",
+      "evidence": {
+        "g105-interaction-card": {
+          "fontSize": "16px",
+          "hit": null,
+          "lineHeight": "normal",
+          "rect": {
+            "bottom": 362.4874877929687,
+            "height": 147.48748779296875,
+            "left": 25,
+            "right": 233.72499084472656,
+            "top": 215,
+            "width": 208.72499084472656
+          },
+          "within": true
+        },
+        "g105-interaction-complete": {
+          "fontSize": "20px",
+          "hit": "tower.interaction.submit",
+          "lineHeight": "24px",
+          "rect": {
+            "bottom": 333.59375,
+            "height": 18.9749755859375,
+            "left": 54.015037536621094,
+            "right": 93.69003295898438,
+            "top": 314.6187744140625,
+            "width": 39.67499542236328
+          },
+          "within": true
+        },
+        "g105-interaction-skip": {
+          "fontSize": "20px",
+          "hit": "tower.interaction.skip",
+          "lineHeight": "24px",
+          "rect": {
+            "bottom": 333.59375,
+            "height": 18.9749755859375,
+            "left": 158.99072265625,
+            "right": 204.7032165527344,
+            "top": 314.6187744140625,
+            "width": 45.712493896484375
+          },
+          "within": true
+        },
+        "g105-interaction-swap": {
+          "fontSize": "20px",
+          "hit": "tower.interaction.swap",
+          "lineHeight": "24px",
+          "rect": {
+            "bottom": 333.59375,
+            "height": 18.9749755859375,
+            "left": 97.14004516601562,
+            "right": 155.5407257080078,
+            "top": 314.6187744140625,
+            "width": 58.40068054199219
+          },
+          "within": true
+        },
+        "g105-note": {
+          "fontSize": "20px",
+          "hit": null,
+          "lineHeight": "25px",
+          "rect": {
+            "bottom": 429.375,
+            "height": 15.625,
+            "left": 354.892578125,
+            "right": 470.09765625,
+            "top": 413.75,
+            "width": 115.205078125
+          },
+          "within": true
+        },
+        "g105-quick-one": {
+          "fontSize": "20px",
+          "hit": "tower.response.quick",
+          "lineHeight": "24px",
+          "rect": {
+            "bottom": 310.3062438964844,
+            "height": 18.975006103515625,
+            "left": 66.83125305175781,
+            "right": 112.5437469482422,
+            "top": 291.33123779296875,
+            "width": 45.712493896484375
+          },
+          "within": true
+        },
+        "g105-quick-three": {
+          "fontSize": "20px",
+          "hit": "tower.response.quick",
+          "lineHeight": "24px",
+          "rect": {
+            "bottom": 310.3062438964844,
+            "height": 18.975006103515625,
+            "left": 154.80624389648438,
+            "right": 191.8937530517578,
+            "top": 291.33123779296875,
+            "width": 37.08750915527344
+          },
+          "within": true
+        },
+        "g105-quick-two": {
+          "fontSize": "20px",
+          "hit": "tower.response.quick",
+          "lineHeight": "24px",
+          "rect": {
+            "bottom": 310.3062438964844,
+            "height": 18.975006103515625,
+            "left": 115.13125610351562,
+            "right": 152.21875,
+            "top": 291.33123779296875,
+            "width": 37.087493896484375
+          },
+          "within": true
+        },
+        "g105-response-input": {
+          "fontSize": "20px",
+          "hit": "tower.response.draft",
+          "lineHeight": "24px",
+          "rect": {
+            "bottom": 287.0187683105469,
+            "height": 18.975006103515625,
+            "left": 43.11249542236328,
+            "right": 215.61249542236328,
+            "top": 268.04376220703125,
+            "width": 172.5
+          },
+          "within": true
+        }
+      }
+    },
+    {
+      "check": "elementFromPoint action hit",
+      "evidence": "input/quick/submit/swap/skip all match their data-action"
+    },
+    {
+      "check": "real input, quick reply, submit",
+      "result": {
+        "typed4": "紧凑断点复测",
+        "quick4": "我记住了。",
+        "submit4": {
+          "detail": "完成互动 1 · 战利品 1",
+          "heart": "心动值  1",
+          "inputPresent": false,
+          "status": "TA 正在抽取。"
+        }
+      }
+    }
+  ],
+  "concerns": [
+    {
+      "id": "VU-08",
+      "severity": "P2",
+      "expected": "20px logical type with 44px logical targets should produce approx 12.5px type and 27.5px targets after outer .625 scene scale",
+      "actual": "the card additionally scales .69, so input and all action buttons measure 18.975px high; their 20px logical type is visually about 8.6px. Bottom note outside the card measures 15.625px high and is improved."
+    }
+  ],
+  "screenshot": "S7-rereview-20260901-compact-800x450.png"
+}

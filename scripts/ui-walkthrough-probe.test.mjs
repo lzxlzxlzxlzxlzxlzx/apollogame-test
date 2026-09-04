@@ -15,7 +15,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import {
-  classifyStep, signalArgForClick, findMatchingAction, summarizeWalk, aggregateSummaries,
+  classifyStep, signalArgForClick, findMatchingAction, resolveUiBinding, summarizeWalk, aggregateSummaries,
 } from './ui-walkthrough-probe.mjs';
 import { interpretUiWalkthrough } from './game-pipeline.mjs';
 
@@ -96,6 +96,21 @@ describe('findMatchingAction（__zcProbe.actions() 快照 → 匹配 signal(+arg
   it('空/缺失活体清单 → 空数组（不抛错）', () => {
     expect(findMatchingAction([], 'menu.start', undefined)).toEqual([]);
     expect(findMatchingAction(undefined, 'menu.start', undefined)).toEqual([]);
+  });
+});
+
+describe('game-105 验收信号 → 真页面控件绑定', () => {
+  it('逐项声明卡牌、输入与收尾的玩家可见路径', () => {
+    expect(resolveUiBinding('game-105', 'tower.interaction.complete')).toEqual({ action: 'tower.interaction.complete', kind: 'click' });
+    expect(resolveUiBinding('game-105', 'tower.response.draft')).toEqual({ action: 'tower.response.draft', kind: 'input', valueKey: 'value' });
+    expect(resolveUiBinding('game-105', 'tower.interaction.swap')).toEqual({ action: 'tower.interaction.swap', kind: 'click' });
+    expect(resolveUiBinding('game-105', 'tower.interaction.skip')).toEqual({ action: 'tower.interaction.skip', kind: 'click' });
+    expect(resolveUiBinding('game-105', 'tower.wrap.continue')).toEqual({ action: 'tower.wrap.continue', kind: 'click' });
+  });
+
+  it('其他游戏与未登记信号保持原样，不伪造映射', () => {
+    expect(resolveUiBinding('game-a', 'play-round')).toEqual({ action: 'play-round', kind: 'click' });
+    expect(resolveUiBinding('game-105', 'tower.unknown')).toEqual({ action: 'tower.unknown', kind: 'click' });
   });
 });
 

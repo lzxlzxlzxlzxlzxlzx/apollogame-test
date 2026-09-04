@@ -1,0 +1,8 @@
+{
+  "hover": "url(\"http://localhost:5700/games/game-105/art/fx/hover-ring.svg\") 48 48, pointer",
+  "heart": {
+    "html": "<span id=\"g105-heart\" style=\"font-size:22px;color:#875118;font-family:'ZCOOL KuaiLe', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;text-shadow:0 0 8px #875118,0 0 2px #875118;animation:apollo-pop 360ms ease-in-out both\"><span style=\"color:#442a31\"><img src=\"/games/game-105/art/fx/heart-spark.svg\" alt=\"\" style=\"height:1em;width:1em;object-fit:contain;vertical-align:-0.15em;margin-right:4px\">心动值  1</span></span>",
+    "animation": "apollo-pop"
+  },
+  "errors": []
+}

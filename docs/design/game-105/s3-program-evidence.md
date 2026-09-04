@@ -38,3 +38,10 @@ node scripts/game-pipeline.mjs gate game-105 S3
 
 - S3 机器验证已由程序完成；独立复查和 owner 签核必须由非施工者按当前指纹重新执行。
 - M2 的真实模型、Storyteller、Host 协议和外部结果回传保留为历史/未来设计，不是本独立发行版 S3 的验收依据。
+
+## 2026-09-03 Current-Hash Rerun
+
+- 当前内容指纹：`38db589c1137893a`。
+- `node scripts/game-pipeline.mjs gate game-105 S3` 于 `2026-09-03T07:30:18.246Z` 通过。
+- 输出：编译期装载、Chrome 渲染探针和真实点击探针均通过，点击后 DOM 变化且零 console error。
+- 本轮改动是游戏本地窄屏可读性与可见反馈皮肤；未启用 Host、网络或模型路径。此机器门不替代当前指纹下的独立 S3 复查。

@@ -45,6 +45,8 @@ from .ts_carts import handle_library_doctor, library_put_logic, library_set_flag
 from .workshop_state import handle_agent_chats_get, handle_agent_chats_put, handle_agent_session_reset, handle_ws_draft_get, handle_ws_draft_put
 
 API_PORT = int(env('ZEROCRAFT_API_PORT', default='4000') or '4000')  # 平台打包：electron 挑空闲端口后经此 env 传入
+# 默认只绑定本机；需要局域网直连 API 时由启动环境显式设为 0.0.0.0。
+API_HOST = env('ZEROCRAFT_API_HOST', default='127.0.0.1') or '127.0.0.1'
 
 # 已构建的前端产物目录（平台打包：`vite build` 产出的 studio launcher 静态站）。缺省 ROOT/dist；
 # 电子壳/CI 可用 ZEROCRAFT_STATIC_DIR 另指（旧名 APOLLO_STATIC_DIR 过渡期仍读，如 platform-dist/dist）——
@@ -886,11 +888,11 @@ def start_api_server():
     # ThreadingHTTPServer（07-11 破案）：对话是分钟级长请求，单线程服务器会让 /api/llm-live 轮询
     # 全部排队——对话期间实况/trace 永远出不来（生成走后台任务所以没事）。共享态已有锁
     # （_LLM_LIVE/_GEN_JOBS）；单人本机工作台，其余文件写入无并发压力。
-    server = ThreadingHTTPServer(('127.0.0.1', API_PORT), APIHandler)
+    server = ThreadingHTTPServer((API_HOST, API_PORT), APIHandler)
     server.daemon_threads = True
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
-    print(c("  [API]", 'g'), f"Dev tools API on http://localhost:{API_PORT}")
+    print(c("  [API]", 'g'), f"Dev tools API on http://{API_HOST}:{API_PORT}")
     # 预热能力目录（07-15 启动提速·诊断根因#2）：/api/catalog 首调冷起 vite-node（本机 3s·owner 机 10-20s），
     # 串在工坊开屏路径上——启动即后台预热，开屏拿热缓存。失败无害（handle_catalog 失败不落缓存·下次调用重试）。
     def _prewarm_catalog():

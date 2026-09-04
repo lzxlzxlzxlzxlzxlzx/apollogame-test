@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-01T02:02:07.392Z",
+  "verdict": "CONCERNS",
+  "fixed": [
+    {
+      "id": "VU-04",
+      "evidence": "opening screenshot; dark 11px note with shadow is visually readable at 1280x720"
+    },
+    {
+      "id": "VU-05",
+      "evidence": "canvas opacity=1; room background no longer blends through tower/table"
+    },
+    {
+      "id": "VU-06",
+      "evidence": "companion labels now dark with white highlight and are readable at 1280x720"
+    },
+    {
+      "id": "VU-01",
+      "evidence": "1280x720 interaction: input, quick reply and submit updated completedInteractions from 0 to 1"
+    }
+  ],
+  "remaining": [
+    {
+      "severity": "P2",
+      "id": "VU-07",
+      "viewport": "1280x720",
+      "detail": "interaction card panel rect bottom=771.34 > viewport 720; all actionable controls are visible but lower frame/safety copy are clipped and collide visually with controls."
+    },
+    {
+      "severity": "P2",
+      "id": "VU-08",
+      "viewport": "800x450",
+      "detail": "bottom note remains only 6.875px high after fixed-scene scale, not readable."
+    }
+  ],
+  "evidence": {
+    "opening": "S7-rereview-20260901-opening-1280x720.png",
+    "playerCard": "S7-rereview-20260901-player-card-1280x720.png",
+    "narrow": "S7-rereview-20260901-ai-turn-800x450.png"
+  },
+  "console": []
+}

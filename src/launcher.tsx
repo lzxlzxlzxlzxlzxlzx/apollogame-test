@@ -45,6 +45,16 @@ const GAMES_ALLOWLIST: Set<string> | null = (() => {
 // GAMES 不拆走：main_entry/games_list.py 以正则从 src/launcher.tsx 解析本表（内置卡片元信息单一真相·只读）。
 export const GAMES: GameEntry[] = [
   {
+    id: 'game-105',
+    title: 'Game 105: 心动叠叠塔',
+    subtitle: '真物理叠叠塔 · 双人轮流抽块',
+    description: '从 18 层、54 块交叉积木塔中抽取木条。碰撞、抽离与倒塌均由真实物理决定；不提供安全度、成功率或风险预测。',
+    color: '#f3e7ef',
+    accentColor: '#d85582',
+    icon: '💗',
+    status: 'playable',
+  },
+  {
     id: 'game108',
     title: 'Game 108: 拳律 Rule of Three',
     subtitle: '公开蓄力槽 · 猜拳心理战',

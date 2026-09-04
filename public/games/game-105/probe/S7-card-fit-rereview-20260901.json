@@ -1,0 +1,272 @@
+{
+  "at": "2026-09-01T03:18:34.425Z",
+  "verdict": "CONCERNS",
+  "fixed": [
+    {
+      "id": "VU-01",
+      "detail": "desktop and 800x450 card, input and all buttons are within viewport; actual input, quick reply and submit update completed interactions to 1."
+    },
+    {
+      "id": "VU-07",
+      "detail": "1280x720 card rect bottom=602.51 and all controls bottom<=552.26; no clipping or collision with controls."
+    }
+  ],
+  "remaining": [
+    {
+      "severity": "P2",
+      "id": "VU-08",
+      "viewport": "800x450",
+      "detail": "fixed 16:9 scale leaves bottom note height 6.875px, input 14.53px and action buttons 22.29px; geometry passes but readability and target size do not."
+    }
+  ],
+  "evidence": {
+    "desktop": "S7-rereview-20260901-card-fit-1280x720.png",
+    "narrow": "S7-rereview-20260901-card-fit-800x450.png"
+  },
+  "desktop": {
+    "out": {
+      "g105-card-safety": {
+        "bottom": 571.0078125,
+        "height": 11.25,
+        "hit": null,
+        "left": 71.5,
+        "right": 371.5,
+        "top": 559.7578125,
+        "width": 300,
+        "within": true
+      },
+      "g105-controls": {
+        "bottom": 713,
+        "height": 91,
+        "hit": null,
+        "left": 376,
+        "right": 944,
+        "top": 622,
+        "width": 568,
+        "within": true
+      },
+      "g105-interaction-card": {
+        "bottom": 602.5078125,
+        "height": 242.5078125,
+        "hit": null,
+        "left": 40,
+        "right": 403,
+        "top": 360,
+        "width": 363,
+        "within": true
+      },
+      "g105-interaction-complete": {
+        "bottom": 552.2578125,
+        "height": 35.66015625,
+        "hit": "tower.interaction.submit",
+        "left": 88.1640625,
+        "right": 184.1640625,
+        "top": 516.59765625,
+        "width": 96,
+        "within": true
+      },
+      "g105-interaction-skip": {
+        "bottom": 552.2578125,
+        "height": 35.66015625,
+        "hit": "tower.interaction.skip",
+        "left": 284.32421875,
+        "right": 354.82421875,
+        "top": 516.59765625,
+        "width": 70.5,
+        "within": true
+      },
+      "g105-interaction-swap": {
+        "bottom": 552.2578125,
+        "height": 35.66015625,
+        "hit": "tower.interaction.swap",
+        "left": 190.1640625,
+        "right": 278.32421875,
+        "top": 516.59765625,
+        "width": 88.16015625,
+        "within": true
+      },
+      "g105-note": {
+        "bottom": 673,
+        "height": 11,
+        "hit": null,
+        "left": 609.296875,
+        "right": 710.6875,
+        "top": 662,
+        "width": 101.390625,
+        "within": true
+      },
+      "g105-quick-one": {
+        "bottom": 509.09765625,
+        "height": 26.09765625,
+        "hit": "tower.response.quick",
+        "left": 123.25,
+        "right": 193.75,
+        "top": 483,
+        "width": 70.5,
+        "within": true
+      },
+      "g105-quick-three": {
+        "bottom": 509.09765625,
+        "height": 26.09765625,
+        "hit": "tower.response.quick",
+        "left": 261.25,
+        "right": 319.75,
+        "top": 483,
+        "width": 58.5,
+        "within": true
+      },
+      "g105-quick-two": {
+        "bottom": 509.09765625,
+        "height": 26.09765625,
+        "hit": "tower.response.quick",
+        "left": 198.25,
+        "right": 256.75,
+        "top": 483,
+        "width": 58.5,
+        "within": true
+      },
+      "g105-response-input": {
+        "bottom": 475.5,
+        "height": 23.25,
+        "hit": "tower.response.draft",
+        "left": 71.5,
+        "right": 371.5,
+        "top": 452.25,
+        "width": 300,
+        "within": true
+      }
+    },
+    "viewport": {
+      "height": 720,
+      "width": 1280
+    }
+  },
+  "narrow": {
+    "out": {
+      "g105-card-safety": {
+        "bottom": 356.8798828125,
+        "height": 7.03125,
+        "hit": null,
+        "left": 44.6875,
+        "right": 232.1875,
+        "top": 349.8486328125,
+        "width": 187.5,
+        "within": true
+      },
+      "g105-controls": {
+        "bottom": 445.625,
+        "height": 56.875,
+        "hit": null,
+        "left": 235,
+        "right": 590,
+        "top": 388.75,
+        "width": 355,
+        "within": true
+      },
+      "g105-interaction-card": {
+        "bottom": 376.5673828125,
+        "height": 151.5673828125,
+        "hit": null,
+        "left": 25,
+        "right": 251.875,
+        "top": 225,
+        "width": 226.875,
+        "within": true
+      },
+      "g105-interaction-complete": {
+        "bottom": 345.1611328125,
+        "height": 22.28759765625,
+        "hit": "tower.interaction.submit",
+        "left": 55.1025390625,
+        "right": 115.1025390625,
+        "top": 322.87353515625,
+        "width": 60,
+        "within": true
+      },
+      "g105-interaction-skip": {
+        "bottom": 345.1611328125,
+        "height": 22.28759765625,
+        "hit": "tower.interaction.skip",
+        "left": 177.70263671875,
+        "right": 221.76513671875,
+        "top": 322.87353515625,
+        "width": 44.0625,
+        "within": true
+      },
+      "g105-interaction-swap": {
+        "bottom": 345.1611328125,
+        "height": 22.28759765625,
+        "hit": "tower.interaction.swap",
+        "left": 118.8525390625,
+        "right": 173.95263671875,
+        "top": 322.87353515625,
+        "width": 55.10009765625,
+        "within": true
+      },
+      "g105-note": {
+        "bottom": 420.625,
+        "height": 6.875,
+        "hit": null,
+        "left": 380.810546875,
+        "right": 444.1796875,
+        "top": 413.75,
+        "width": 63.369140625,
+        "within": true
+      },
+      "g105-quick-one": {
+        "bottom": 318.18603515625,
+        "height": 16.31103515625,
+        "hit": "tower.response.quick",
+        "left": 77.03125,
+        "right": 121.09375,
+        "top": 301.875,
+        "width": 44.0625,
+        "within": true
+      },
+      "g105-quick-three": {
+        "bottom": 318.18603515625,
+        "height": 16.31103515625,
+        "hit": "tower.response.quick",
+        "left": 163.28125,
+        "right": 199.84375,
+        "top": 301.875,
+        "width": 36.5625,
+        "within": true
+      },
+      "g105-quick-two": {
+        "bottom": 318.18603515625,
+        "height": 16.31103515625,
+        "hit": "tower.response.quick",
+        "left": 123.90625,
+        "right": 160.46875,
+        "top": 301.875,
+        "width": 36.5625,
+        "within": true
+      },
+      "g105-response-input": {
+        "bottom": 297.1875,
+        "height": 14.53125,
+        "hit": "tower.response.draft",
+        "left": 44.6875,
+        "right": 232.1875,
+        "top": 282.65625,
+        "width": 187.5,
+        "within": true
+      }
+    },
+    "viewport": {
+      "height": 450,
+      "width": 800
+    }
+  },
+  "submission": {
+    "typed": "卡片修复复测",
+    "quick": "我记住了。",
+    "submitted": {
+      "detail": "完成互动 1 · 战利品 1",
+      "heart": "心动值  1",
+      "inputPresent": false,
+      "status": "TA 正在抽取。"
+    }
+  }
+}

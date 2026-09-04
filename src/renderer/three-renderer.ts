@@ -59,6 +59,8 @@ export interface ThreeRendererOptions {
   width?: number;
   height?: number;
   background?: number; // 0xRRGGBB
+  /** Preserve the host's CSS scene background behind rendered meshes (default false). */
+  transparent?: boolean;
   fov?: number;
   zStep?: number; // zOrder → z 深度步长
   assets?: AssetManager; // 提供则 sprite 画真实贴图，否则占位
@@ -131,6 +133,7 @@ export class ThreeRenderer implements RendererBackend {
   private height: number;
   private resizeObserver?: ResizeObserver; // 容器尺寸观察者（init 挂·destroy 断）
   private background: number;
+  private readonly transparent: boolean;
   private antialias = true; // 基础 MSAA（用 SMAA 时置 false 省缓冲）
   private dprCap = 2; // devicePixelRatio 上限（运行时可改·提帧最大单点）
   private shadowMapSize = 2048; // 主阴影贴图边长（运行时可改）
@@ -143,6 +146,7 @@ export class ThreeRenderer implements RendererBackend {
     this.width = opts.width ?? 640;
     this.height = opts.height ?? 400;
     this.background = opts.background ?? 0x0a0a14;
+    this.transparent = opts.transparent ?? false;
     this.fov = opts.fov ?? 50;
     this.zStep = opts.zStep ?? 0.01;
     this.assets = opts.assets;
@@ -154,10 +158,11 @@ export class ThreeRenderer implements RendererBackend {
 
   init(container: HTMLElement): void {
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(this.background);
+    this.scene.background = this.transparent ? null : new THREE.Color(this.background);
     this.cameras = new CameraRig(this.fov, this.width / this.height); // 透视 + 正交两台·按 Camera3D 选
     this.lights = new LightRig(this.scene, this.shadowMapSize); // 暖白主光（投软影）+ 冷蓝补光（Light3D 在场则数据驱动）
-    this.gl = new THREE.WebGLRenderer({ antialias: this.antialias });
+    this.gl = new THREE.WebGLRenderer({ antialias: this.antialias, alpha: this.transparent });
+    if (this.transparent) this.gl.setClearColor(0x000000, 0);
     this.gl.setSize(this.width, this.height);
     this.gl.setPixelRatio(Math.min(globalThis.devicePixelRatio ?? 1, this.dprCap)); // W1-D：retina 不糊·上限 dprCap 防超采样（运行时可降提帧）
     this.gl.toneMapping = THREE.ACESFilmicToneMapping; // W1-D：PBR 通透不削顶（天空盒材质 toneMapped:false 保色）
@@ -507,6 +512,9 @@ export class ThreeRenderer implements RendererBackend {
   /** 取走本帧物理事件信号（RigidBody3D settleSignal/toppleSignal·REQ-3D-SETTLE-SIGNAL）。游戏输入胶水每帧调 →
    *  `enqueueAction(signal,{arg:entityId})` → Signal → sim。与 pick() 同 pull 通路（本地外源输入·不进 hash·不碰确定性）。 */
   drainPhysicsSignals(): { signal: string; arg: string }[] { return this.physics?.drainSignals() ?? []; }
+
+  /** Read-only sleep query for games that need a full-body stability window. */
+  arePhysicsBodiesSleeping(ids: Iterable<string>): boolean { return this.physics?.areBodiesSleeping(ids) ?? false; }
 
   // 运行时对某刚体施力（render-only·输入胶水用）：拖拽甩球/点击弹射等**输入时算出方向**的冲量走这条命令式接口
   //   （同 pick/rollDice 先例）；纯数据的定向施力用 `Impulse3D` 组件（bump trigger）。物理未就绪则 no-op。

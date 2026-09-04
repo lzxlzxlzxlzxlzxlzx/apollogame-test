@@ -53,6 +53,9 @@ describe('游戏内容指纹（证据过期的机器判据）', () => {
     put(root, 'docs/design/g/self-check/shots/r1/a.png', 'shot');
     put(root, 'docs/design/g/review/REVIEW-S2-S5.md', '导航单');
     expect(gameHash(root, 'g')).toBe(h0); // 自证单/复查单=门证产物不入指纹（REQ-PIPEHASH-03·第三次同形）
+    put(root, 'docs/design/g/s3-program-evidence.md', 'S3 本轮门证');
+    put(root, 'docs/design/g/s4-program-evidence.md', 'S4 本轮递归门证');
+    expect(gameHash(root, 'g')).toBe(h0); // 程序回报同为门自产证据，写回不应自我过期
     put(root, 'public/games/g/art/gen/art-01.png', 'real');
     const h1 = gameHash(root, 'g');
     expect(h1).not.toBe(h0); // 真图入指纹
@@ -221,6 +224,14 @@ describe('priorGaps / orderGate（顺序闸判定·纯函数）', () => {
     const staleBoard = { stages: [{ id: 'S2', title: 'x', status: 'warn', machine: { state: 'ok' }, review: { state: 'stale' }, human: { state: 'ok' } }] };
     expect(reviewPrereqGaps(staleBoard, 'S3').map((g) => g.id)).toEqual(['S2']);
     expect(orderGate(staleBoard, 'S3', '理由').allowed).toBe(false);
+  });
+  it('后续相邻阶段施工仅使已签核前关 stale 时不死锁', () => {
+    const approvedStale = (id) => ({ id, title: id, status: 'warn', machine: { state: 'stale' }, review: { state: 'stale' }, human: { state: 'ok' } });
+    const s4Board = { stages: [approvedStale('S3')] };
+    const s5Board = { stages: [approvedStale('S3'), approvedStale('S4')] };
+    expect(reviewPrereqGaps(s4Board, 'S4')).toEqual([]);
+    expect(reviewPrereqGaps(s5Board, 'S5')).toEqual([]);
+    expect(orderGate(s5Board, 'S5', 'S5 UI 施工').allowed).toBe(true);
   });
   it('未施工的前置（machine dim）仍走老规矩：无理由拒跑·带理由放行且落痕（跳关记账语义不变）', () => {
     const unbuilt = { stages: [{ id: 'S2', title: 'x', status: 'dim', machine: { state: 'dim' }, review: { state: 'dim' }, human: { state: 'dim' } }] };
@@ -755,7 +766,7 @@ describe('S2 门与顺序闸/复查新鲜度（复查 FAIL 打回后的修复锚
     } finally { rmSync(root, { recursive: true, force: true }); }
   });
 
-  it('旧复查记录（无 gapsHash 字段）不被判过期（零回归）', () => withRoot(async (root) => {
+  it('旧 S2 复查记录（无 reviewHash）明确要求重新复查一次', () => withRoot(async (root) => {
     put(root, 'public/games/g/manifest.json', MANIFEST);
     put(root, 'docs/design/g/capability-plan.md', '# 计划');
     put(root, 'docs/design/g/capability-gaps.json', [{ id: 'A', title: 't', priority: 'P2', route: 'engine', state: 'wontfix', ticket: 'k', blocks: [] }]);
@@ -764,6 +775,8 @@ describe('S2 门与顺序闸/复查新鲜度（复查 FAIL 打回后的修复锚
       version: 1, slug: 'g', concept: {}, signoffs: {},
       reviews: { S2: { verdict: 'PASS', note: '旧记录', by: 'r', at: '2026-08-01T00:00:00Z', gameHash: h } },
     });
-    expect(boardFor(root, 'g').stages.find((s) => s.id === 'S2').review.state).toBe('ok');
+    const review = boardFor(root, 'g').stages.find((s) => s.id === 'S2').review;
+    expect(review.state).toBe('stale');
+    expect(review.detail).toContain('reviewHash');
   }));
 });
