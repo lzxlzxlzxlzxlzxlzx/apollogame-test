@@ -1,0 +1,20 @@
+// author: GD-105
+// S4 增量场景 07：固定种子下该中层抽取必须由真实物理带出多块，按主卡、两张余波和溢出事实结算。
+// 对抗目标：以脚本位移伪造连带、余波乱序、超过三张仍堆叠完整问答、溢出块被悄悄丢弃。
+{
+  "name": "真实连带抽取按主卡余波和溢出事实结算",
+  "game": "game-105",
+  "seed": 105031,
+  "steps": [
+    { "waitUntil": [ { "sv": "phase", "eq": "player-ready" } ], "cap": 600 },
+    { "signal": "tower.drag", "args": { "blockId": "g105-block-05-00", "distanceRatio": 0.93 }, "by": "player" },
+    { "waitUntil": [ { "sv": "phase", "eq": "player-interaction" }, { "res": "linked-extractions", "gte": 1 } ], "cap": 900 },
+    { "expect": [ { "sv": "current-card-kind", "eq": "main" }, { "res": "current-card-sequence", "eq": 1 } ] },
+    { "signal": "tower.interaction.skip", "by": "player" },
+    { "expect": [ { "sv": "current-card-kind", "eq": "aftershock" }, { "res": "current-card-sequence", "eq": 2 } ] },
+    { "signal": "tower.interaction.skip", "by": "player" },
+    { "expect": [ { "sv": "current-card-kind", "eq": "aftershock" }, { "res": "current-card-sequence", "eq": 3 } ] },
+    { "signal": "tower.interaction.skip", "by": "player" },
+    { "expect": [ { "flag": "aftershock-summary-open", "eq": true }, { "sv": "current-card-kind", "eq": "summary" } ] }
+  ]
+}

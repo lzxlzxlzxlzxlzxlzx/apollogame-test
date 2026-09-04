@@ -1,0 +1,22 @@
+// author: GD-105
+// S4 增量场景 05：玩家必须以本局回应提交卡牌；回应限 140 字，且每局只有一次同频道未见换卡。
+// 对抗目标：空回应得分、超长文本未截断、第二次换卡成功、回应进入长期数据或未能推进 AI 回合。
+{
+  "name": "玩家本局回应与一次换卡权",
+  "game": "game-105",
+  "seed": 105031,
+  "steps": [
+    { "waitUntil": [ { "sv": "phase", "eq": "player-ready" } ], "cap": 600 },
+    { "signal": "tower.drag", "args": { "blockId": "g105-block-00-00", "distanceRatio": 0.93 }, "by": "player" },
+    { "waitUntil": [ { "sv": "phase", "eq": "player-interaction" } ], "cap": 600 },
+    { "signal": "tower.response.draft", "args": { "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" }, "by": "player" },
+    { "expect": [ { "res": "draft-response-length", "eq": 140 }, { "res": "swaps-remaining", "eq": 1 } ] },
+    { "signal": "tower.interaction.swap", "by": "player" },
+    { "expect": [ { "res": "swaps-remaining", "eq": 0 }, { "flag": "current-card-is-unseen-same-channel", "eq": true } ] },
+    { "signal": "tower.interaction.swap", "by": "player" },
+    { "expect": [ { "res": "swaps-remaining", "eq": 0 } ] },
+    { "signal": "tower.interaction.submit", "by": "player" },
+    { "waitUntil": [ { "sv": "phase", "eq": "ai-observe" } ], "cap": 120 },
+    { "expect": [ { "res": "heart-delta", "eq": 1 }, { "res": "completed-interactions", "eq": 1 }, { "res": "round-response-count", "eq": 1 }, { "flag": "responses-are-session-only", "eq": true } ] }
+  ]
+}

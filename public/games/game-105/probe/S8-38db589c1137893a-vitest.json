@@ -1,0 +1,10 @@
+{
+  "ok": false,
+  "command": "npx vitest run --silent",
+  "exit": 1,
+  "stdout": "S8-38db589c1137893a-vitest.stdout.log",
+  "stderr": "S8-38db589c1137893a-vitest.stderr.log",
+  "stdoutBytes": 41824,
+  "stderrBytes": 28783,
+  "at": "2026-09-04T03:06:50.4778963Z"
+}

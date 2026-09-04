@@ -1,0 +1,33 @@
+// author: GD-105
+// S4 Standalone Release M1 场景 02：玩家成功抽取并确认安全互动卡后，AI 必须可见地完成同一物理路径的一回合，以本地模板回应后回到玩家。
+// 对抗目标：确认前抢换回合、AI 瞬移/直写刚体、无 Host 时卡死、AI 回合不返回玩家。
+{
+  "name": "玩家互动后 AI 可见抽塔并回到玩家",
+  "game": "game-105",
+  "seed": 105031,
+  "steps": [
+    { "waitUntil": [ { "sv": "phase", "eq": "player-ready" } ], "cap": 600 },
+    { "signal": "tower.drag", "args": { "blockId": "g105-block-00-00", "distanceRatio": 0.93 }, "by": "player" },
+    { "waitUntil": [ { "sv": "phase", "eq": "player-interaction" } ], "cap": 600 },
+    { "expect": [
+      { "sv": "turn", "eq": "player" },
+      { "flag": "interaction-open", "eq": true },
+      { "res": "heart-delta", "eq": 0 }
+    ] },
+    { "signal": "tower.interaction.complete", "by": "player" },
+    { "waitUntil": [ { "sv": "phase", "eq": "ai-observe" } ], "cap": 120 },
+    { "waitUntil": [ { "sv": "phase", "eq": "ai-pulling" } ], "cap": 240 },
+    { "expect": [
+      { "sv": "turn", "eq": "ai" },
+      { "flag": "ai-visible-hover", "eq": true },
+      { "flag": "ai-uses-shared-action-executor", "eq": true },
+      { "flag": "joint-active", "eq": true }
+    ] },
+    { "waitUntil": [ { "sv": "phase", "eq": "player-ready" } ], "cap": 900 },
+    { "expect": [
+      { "sv": "turn", "eq": "player" },
+      { "flag": "template-reply-present", "eq": true },
+      { "flag": "game-over", "eq": false }
+    ] }
+  ]
+}

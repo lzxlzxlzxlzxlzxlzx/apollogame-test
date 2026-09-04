@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // ═══════════════════════════════════════════════════════════════
 //  scripts/acceptance-run.mjs —— 验收剧本通用 runner（REQ-ACCEPT·图纸②）
 //

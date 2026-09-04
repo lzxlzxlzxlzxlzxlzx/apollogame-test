@@ -73,6 +73,62 @@
       "capturedAt": "2026-08-29T06:26:07.738Z",
       "gameHash": "b67de206381a60c4",
       "flaky": false
+    },
+    "s4-structure-bbcf70ab62997e23": {
+      "status": "blessed",
+      "sha256": "7b30a7249a59698f7b91e8d0ee2803792b050fe9dc9469ac35931fac73daa6e4",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capturedAt": "2026-09-03T05:59:46.977Z",
+      "gameHash": "bbcf70ab62997e23",
+      "flaky": false,
+      "blessedAt": "2026-09-03T06:32:58.790Z",
+      "blessedBy": "owner",
+      "note": "Owner approved the bbcf70ab62997e23 S4 four-state structural contract after independent rebaseline review; structural reference only, excluded from S5 pixel comparison."
+    },
+    "s5-skin-candidate-bbcf70ab62997e23": {
+      "status": "blessed",
+      "sha256": "2dfe1f8c940433d346df48b3783d6cd79be03b28310c08e64703be50a944faff",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capturedAt": "2026-09-03T06:15:53.438Z",
+      "gameHash": "bbcf70ab62997e23",
+      "flaky": false,
+      "blessedAt": "2026-09-03T06:16:02.902Z",
+      "blessedBy": "owner",
+      "note": "Owner approved the current bbcf70ab62997e23 S5 visual pixel baseline after S4 rebaseline; this baseline covers S5 skin only."
+    },
+    "s5-skin-candidate-a3ebb84a2b0c2fb2": {
+      "status": "blessed",
+      "sha256": "d4acce14bfee3e506d95c7cf5d333fa297edbbb368ac52b9dd0890613382545f",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capturedAt": "2026-09-03T06:48:55.508Z",
+      "gameHash": "a3ebb84a2b0c2fb2",
+      "flaky": false,
+      "blessedAt": "2026-09-03T07:04:25.907Z",
+      "blessedBy": "owner",
+      "note": "Owner approved the current a3ebb84a2b0c2fb2 S5 visual baseline after S7 narrow-screen usability, VFX, and performance remediation."
+    },
+    "s5-skin-candidate-38db589c1137893a": {
+      "status": "blessed",
+      "sha256": "3a09a3cce76c0c211219aec2436779e92435595a38bf2e4a7066a0126c4cef9b",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capturedAt": "2026-09-03T08:04:03.558Z",
+      "gameHash": "38db589c1137893a",
+      "flaky": false,
+      "blessedAt": "2026-09-03T08:12:01.684Z",
+      "blessedBy": "operator",
+      "note": "Owner approved current 38db589c1137893a S5 baseline; two Chromium captures were stable."
     }
   },
   "history": [
@@ -267,6 +323,194 @@
       "at": "2026-08-29T06:27:00.000Z",
       "by": "Codex-program",
       "note": "Superseded after eliminating game-layer DOM style injection."
+    },
+    {
+      "action": "capture",
+      "state": "s4-structure-bbcf70ab62997e23",
+      "at": "2026-09-03T05:59:46.977Z",
+      "sha256": "7b30a7249a59698f7b91e8d0ee2803792b050fe9dc9469ac35931fac73daa6e4",
+      "stable": true,
+      "attempts": 2,
+      "wasBlessed": false
+    },
+    {
+      "action": "capture",
+      "state": "s5-skin-candidate-bbcf70ab62997e23",
+      "at": "2026-09-03T06:15:53.438Z",
+      "sha256": "2dfe1f8c940433d346df48b3783d6cd79be03b28310c08e64703be50a944faff",
+      "stable": true,
+      "attempts": 2,
+      "wasBlessed": false
+    },
+    {
+      "action": "bless",
+      "state": "s5-skin-candidate-bbcf70ab62997e23",
+      "at": "2026-09-03T06:16:02.902Z",
+      "by": "owner",
+      "note": "Owner approved the current bbcf70ab62997e23 S5 visual pixel baseline after S4 rebaseline; this baseline covers S5 skin only.",
+      "sha256": "2dfe1f8c940433d346df48b3783d6cd79be03b28310c08e64703be50a944faff"
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-03T06:16:10.681Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-skin-candidate-bbcf70ab62997e23",
+          "ok": true,
+          "ratio": 0.00006
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-03T06:17:25.650Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-skin-candidate-bbcf70ab62997e23",
+          "ok": true,
+          "ratio": 0.00008
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-03T06:21:30.894Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-skin-candidate-bbcf70ab62997e23",
+          "ok": true,
+          "ratio": 0.00006
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-03T06:32:22.613Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-skin-candidate-bbcf70ab62997e23",
+          "ok": true,
+          "ratio": 0.00009
+        }
+      ]
+    },
+    {
+      "action": "bless",
+      "state": "s4-structure-bbcf70ab62997e23",
+      "at": "2026-09-03T06:32:58.790Z",
+      "by": "owner",
+      "note": "Owner approved the bbcf70ab62997e23 S4 four-state structural contract after independent rebaseline review; structural reference only, excluded from S5 pixel comparison.",
+      "sha256": "7b30a7249a59698f7b91e8d0ee2803792b050fe9dc9469ac35931fac73daa6e4"
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-03T06:33:07.481Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-skin-candidate-bbcf70ab62997e23",
+          "ok": true,
+          "ratio": 0.00009
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-03T06:34:00.225Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-skin-candidate-bbcf70ab62997e23",
+          "ok": true,
+          "ratio": 0.00008
+        }
+      ]
+    },
+    {
+      "action": "capture",
+      "state": "s5-skin-candidate-a3ebb84a2b0c2fb2",
+      "at": "2026-09-03T06:48:55.508Z",
+      "sha256": "d4acce14bfee3e506d95c7cf5d333fa297edbbb368ac52b9dd0890613382545f",
+      "stable": true,
+      "attempts": 2,
+      "wasBlessed": false
+    },
+    {
+      "action": "bless",
+      "state": "s5-skin-candidate-a3ebb84a2b0c2fb2",
+      "at": "2026-09-03T07:04:25.907Z",
+      "by": "owner",
+      "note": "Owner approved the current a3ebb84a2b0c2fb2 S5 visual baseline after S7 narrow-screen usability, VFX, and performance remediation.",
+      "sha256": "d4acce14bfee3e506d95c7cf5d333fa297edbbb368ac52b9dd0890613382545f"
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-03T07:04:34.364Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-skin-candidate-a3ebb84a2b0c2fb2",
+          "ok": true,
+          "ratio": 0.00034
+        }
+      ]
+    },
+    {
+      "action": "capture",
+      "state": "s5-skin-candidate-38db589c1137893a",
+      "at": "2026-09-03T08:04:03.558Z",
+      "sha256": "3a09a3cce76c0c211219aec2436779e92435595a38bf2e4a7066a0126c4cef9b",
+      "stable": true,
+      "attempts": 2,
+      "wasBlessed": false
+    },
+    {
+      "action": "bless",
+      "state": "s5-skin-candidate-38db589c1137893a",
+      "at": "2026-09-03T08:12:01.684Z",
+      "by": "operator",
+      "note": "Owner approved current 38db589c1137893a S5 baseline; two Chromium captures were stable.",
+      "sha256": "3a09a3cce76c0c211219aec2436779e92435595a38bf2e4a7066a0126c4cef9b"
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-03T08:12:10.546Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-skin-candidate-38db589c1137893a",
+          "ok": true,
+          "ratio": 0.00031
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-03T08:12:19.962Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-skin-candidate-38db589c1137893a",
+          "ok": true,
+          "ratio": 0.00007
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-03T08:58:12.321Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-skin-candidate-38db589c1137893a",
+          "ok": true,
+          "ratio": 0.00006
+        }
+      ]
     }
   ]
 }

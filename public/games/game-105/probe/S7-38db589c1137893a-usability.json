@@ -1,0 +1,105 @@
+{
+  "ok": true,
+  "slug": "game-105",
+  "gameHash": "38db589c1137893a",
+  "narrow": {
+    "viewport": {
+      "width": 800,
+      "height": 450
+    },
+    "measures": [
+      {
+        "id": "g105-response-input",
+        "rect": {
+          "left": 51.25,
+          "top": 266.875,
+          "right": 301.25,
+          "bottom": 306.875,
+          "width": 250,
+          "height": 40
+        },
+        "fontSize": "28px",
+        "visible": true
+      },
+      {
+        "id": "g105-quick-one",
+        "rect": {
+          "left": 56.875,
+          "top": 313.125,
+          "right": 145.625,
+          "bottom": 353.125,
+          "width": 88.75,
+          "height": 40
+        },
+        "fontSize": "28px",
+        "visible": true
+      },
+      {
+        "id": "g105-quick-two",
+        "rect": {
+          "left": 149.375,
+          "top": 313.125,
+          "right": 220.625,
+          "bottom": 353.125,
+          "width": 71.25,
+          "height": 40
+        },
+        "fontSize": "28px",
+        "visible": true
+      },
+      {
+        "id": "g105-quick-three",
+        "rect": {
+          "left": 224.375,
+          "top": 313.125,
+          "right": 295.625,
+          "bottom": 353.125,
+          "width": 71.25,
+          "height": 40
+        },
+        "fontSize": "28px",
+        "visible": true
+      },
+      {
+        "id": "g105-interaction-complete",
+        "rect": {
+          "left": 51.25,
+          "top": 359.375,
+          "right": 106.50390625,
+          "bottom": 410.37109375,
+          "width": 55.25390625,
+          "height": 50.99609375
+        },
+        "fontSize": "28px",
+        "visible": true
+      },
+      {
+        "id": "g105-interaction-swap",
+        "rect": {
+          "left": 111.50390625,
+          "top": 359.375,
+          "right": 215.3125,
+          "bottom": 410.37109375,
+          "width": 103.80859375,
+          "height": 50.99609375
+        },
+        "fontSize": "28px",
+        "visible": true
+      },
+      {
+        "id": "g105-interaction-skip",
+        "rect": {
+          "left": 220.3125,
+          "top": 359.375,
+          "right": 301.25,
+          "bottom": 410.37109375,
+          "width": 80.9375,
+          "height": 50.99609375
+        },
+        "fontSize": "28px",
+        "visible": true
+      }
+    ]
+  },
+  "errors": []
+}

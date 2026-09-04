@@ -28,34 +28,51 @@
     },
     "S5": {
       "by": "owner",
-      "note": "同意 S5 纯视觉换皮成果：保持 S4 结构、玩法和交互不变，卡牌可读性与夜间约会氛围达到当前里程碑要求。",
-      "at": "2026-08-29T10:37:29.614Z"
+      "note": "ok",
+      "at": "2026-09-03T07:03:04.498Z"
+    },
+    "S7": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-08-30T19:52:26.294Z"
+    },
+    "S8": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-09-03T07:05:31.501Z"
     }
   },
   "evidence": {
     "S2": {
       "exit": 0,
-      "summary": "capability-plan.md 在档 · ✓ 缺口 3 条全已裁决 · 全部了结",
-      "at": "2026-08-27T06:30:15.397Z",
-      "gameHash": "c2c285a2e38f0b45"
+      "summary": "capability-plan.md 在档 · ✓ 缺口 5 条全已裁决 · 全部了结",
+      "at": "2026-09-02T07:44:26.369Z",
+      "gameHash": "bf41c7c97568452c"
     },
     "S3": {
       "exit": 0,
       "summary": "编译期游戏免 manifest 校验 · ✓ 渲染探针过（截图 public/games/<slug>/probe/S3-render.png） · ✓ 点击打穿（1 个控件 · 1 个点后 DOM 真的变了 · 零控制台 error）",
-      "at": "2026-08-29T09:40:58.084Z",
-      "gameHash": "b67de206381a60c4"
+      "at": "2026-09-03T07:51:45.455Z",
+      "gameHash": "38db589c1137893a"
     },
     "S4": {
       "exit": 0,
-      "summary": "walkthrough 绿（ Test Files  7 passed (7) ·       Tests  35 passed (35)）· 验收剧本 8 场景绿 · ✓ UI 走查过（可驱动率见 public/games/<slug>/probe/S4-uiwalk.json）",
-      "at": "2026-08-29T09:42:10.326Z",
-      "gameHash": "b67de206381a60c4"
+      "summary": "walkthrough 绿（ Test Files  9 passed (9) ·       Tests  42 passed (42)）· 验收剧本 8 场景绿 · ✓ UI 走查过（可驱动率见 public/games/<slug>/probe/S4-uiwalk.json）",
+      "at": "2026-09-03T07:53:29.586Z",
+      "gameHash": "38db589c1137893a"
     },
     "S5": {
       "exit": 0,
-      "summary": "AUDIT: WARNINGS · RATCHET: PASS · ⚠ 无标准照基准·未比对（golden-shot bless 建基准）",
-      "at": "2026-08-29T07:01:27.554Z",
-      "gameHash": "b67de206381a60c4"
+      "summary": "AUDIT: PASS · RATCHET: PASS · ✓ 当前版本标准照比对过（s5-skin-candidate-38db589c1137893a）",
+      "at": "2026-09-04T03:02:49.191Z",
+      "gameHash": "38db589c1137893a"
+    },
+    "S8": {
+      "exit": 1,
+      "summary": "✗ tsc=0 vitest=1 · ⎯⎯⎯⎯⎯⎯ Failed Suites 21 ⎯⎯⎯⎯⎯⎯\n\n FAIL  scripts/art-ledger-guard.test.mjs [ scripts/art-ledger-guard.test.mjs ]\nSyntaxError: Invalid or unexpected token\n ❯ scripts/art-ledger-guard.test.mjs:7:31\n      ",
+      "at": "2026-09-03T08:52:08.617Z",
+      "head": "148e70d97b404fbd7d46bf76bd95c39e6f103b26",
+      "dirty": true
     }
   },
   "history": [
@@ -1134,50 +1151,570 @@
       "action": "signoff",
       "stage": "S5",
       "at": "2026-08-29T10:37:29.614Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S7",
+      "at": "2026-08-30T19:52:26.294Z"
+    },
+    {
+      "action": "scorecard",
+      "total": 13,
+      "premium": false,
+      "at": "2026-08-30T20:35:55.062Z"
+    },
+    {
+      "action": "scorecard",
+      "total": 14,
+      "premium": false,
+      "at": "2026-08-31T08:27:42.902Z"
+    },
+    {
+      "action": "scorecard",
+      "total": 13,
+      "premium": false,
+      "at": "2026-08-31T11:33:34.067Z"
+    },
+    {
+      "action": "scorecard",
+      "total": 12,
+      "premium": false,
+      "at": "2026-08-31T12:25:31.180Z"
+    },
+    {
+      "action": "scorecard",
+      "total": 14,
+      "premium": false,
+      "at": "2026-09-01T02:07:50.162Z"
+    },
+    {
+      "action": "scorecard",
+      "total": 14,
+      "premium": false,
+      "at": "2026-09-01T03:19:37.916Z"
+    },
+    {
+      "action": "scorecard",
+      "total": 14,
+      "premium": false,
+      "at": "2026-09-01T03:20:37.647Z"
+    },
+    {
+      "action": "scorecard",
+      "total": 14,
+      "premium": false,
+      "at": "2026-09-01T03:42:52.780Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 1,
+      "at": "2026-09-01T06:04:23.854Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-09-01T13:19:31.469Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "FAIL",
+      "at": "2026-09-01T17:33:04.786Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "FAIL",
+      "at": "2026-09-01T17:33:20.242Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 1,
+      "at": "2026-09-02T04:49:03.799Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "CONCERNS",
+      "at": "2026-09-02T04:50:15.363Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "CONCERNS",
+      "at": "2026-09-02T04:50:32.796Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-09-02T07:44:26.369Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "CONCERNS",
+      "at": "2026-09-02T07:45:23.490Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-02T07:51:19.853Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-02T07:51:49.017Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-02T07:52:21.024Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-02T07:52:58.790Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "FAIL",
+      "at": "2026-09-02T07:54:16.912Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "FAIL",
+      "at": "2026-09-02T07:54:17.429Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "CONCERNS",
+      "at": "2026-09-02T07:54:17.995Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-02T08:02:47.894Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-02T08:03:12.409Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-02T08:16:53.750Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-02T08:17:08.656Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-02T08:23:43.959Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-02T08:30:49.507Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "CONCERNS",
+      "at": "2026-09-02T08:31:17.902Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-09-02T09:45:13.582Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "FAIL",
+      "at": "2026-09-02T09:45:26.959Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-09-02T09:50:27.704Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-02T09:51:18.624Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-09-02T09:51:30.240Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-02T09:54:56.993Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "FAIL",
+      "at": "2026-09-02T09:57:59.277Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-02T09:58:03.990Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-02T09:58:40.601Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-02T10:14:39.025Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-03T05:44:35.330Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-09-03T05:44:44.260Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-03T05:46:05.279Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-09-03T05:46:22.835Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-03T05:46:23.627Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "CONCERNS",
+      "at": "2026-09-03T05:46:34.615Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-09-03T06:06:57.790Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-03T06:17:26.413Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-03T06:21:31.459Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "CONCERNS",
+      "at": "2026-09-03T06:22:09.175Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-03T06:32:23.169Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-03T06:33:08.262Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-03T06:34:00.822Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "PASS",
+      "at": "2026-09-03T06:34:11.579Z"
+    },
+    {
+      "action": "scorecard",
+      "total": 11,
+      "premium": false,
+      "at": "2026-09-03T06:36:14.874Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-03T06:48:56.766Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S5",
+      "at": "2026-09-03T07:03:04.498Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-03T07:03:26.691Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "CONCERNS",
+      "at": "2026-09-03T07:03:41.131Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-03T07:04:35.005Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "PASS",
+      "at": "2026-09-03T07:05:06.802Z"
+    },
+    {
+      "action": "scorecard",
+      "total": 16,
+      "premium": true,
+      "at": "2026-09-03T07:05:07.075Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S8",
+      "exit": 1,
+      "at": "2026-09-03T07:05:29.682Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S8",
+      "at": "2026-09-03T07:05:31.501Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-03T07:19:29.103Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-03T07:30:18.246Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-03T07:51:45.455Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-09-03T07:51:55.571Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-03T07:53:29.586Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "CONCERNS",
+      "at": "2026-09-03T07:54:23.909Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-03T07:58:27.739Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "CONCERNS",
+      "at": "2026-09-03T07:58:41.313Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-03T08:04:16.292Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-03T08:11:52.389Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-03T08:12:20.560Z"
+    },
+    {
+      "action": "scorecard",
+      "total": 16,
+      "premium": true,
+      "at": "2026-09-03T08:15:41.614Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S8",
+      "exit": 1,
+      "at": "2026-09-03T08:26:57.395Z"
+    },
+    {
+      "action": "review",
+      "stage": "S8",
+      "verdict": "FAIL",
+      "at": "2026-09-03T08:27:46.539Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S8",
+      "exit": 1,
+      "at": "2026-09-03T08:48:17.531Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S8",
+      "exit": 1,
+      "at": "2026-09-03T08:52:08.617Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-04T03:02:49.191Z"
     }
   ],
   "reviews": {
     "S2": {
-      "verdict": "PASS",
-      "note": "复核通过：能力计划§4.5已列积木/桌面、背景光照、AI悬停、任务卡/头像的可替换槽与降级，程序化例外限M1且S6前建账；程序证据:51-61已将open阻塞结论标为历史并与当前3条wontfix/L1-L3/新门证闭合。实名能力已核，相关回归60/60、tsc通过；S2 gate当前通过。",
-      "by": "Codex-S2-reviewer",
-      "at": "2026-08-27T06:30:33.770Z",
-      "gameHash": "c2c285a2e38f0b45",
-      "reviewHash": "61c31171f99465ea",
-      "gapsHash": "83d06f2d61414f60"
+      "verdict": "CONCERNS",
+      "note": "S2 gate PASS（5/5裁决）；冻结/计划/台账一致：真实模型与Storyteller回传延后M2，非已交付。默认游戏mount无需Host，公平AI回归27/27和tsc PASS。不能PASS：git status因损坏worktree元数据失败，无法完成S2必需的git diff范围审计；修复仓库后需补审，再由owner签核。",
+      "by": "codex-independent-reviewer",
+      "at": "2026-09-02T07:45:23.490Z",
+      "gameHash": "bf41c7c97568452c",
+      "reviewHash": "f113fc4f81327720",
+      "gapsHash": "ef62580c80b2f177"
     },
     "S3": {
       "verdict": "PASS",
-      "note": "PASS: rechecked after signed S5 on b67de206381a60c4. S3 gate exit=0 with fresh render/click probes (1 control, DOM changed, 0 console errors). Focused LocalAIObservation/AITurnDirector/lifecycle tests 9/9 PASS. S5 local skin does not widen AI observation, alter shared action execution, or cancel player-owned joints.",
-      "by": "Codex-S3-independent-reviewer",
-      "at": "2026-08-29T09:48:38.358Z",
-      "gameHash": "b67de206381a60c4"
+      "note": "当前工作树独立复查：S3暂存基线仍严格19文件，cached diff check通过；独立发行版Host默认禁用、本地模板路径的设计与测试证据一致。最新S3 gate@38db589c1137893a通过，Chrome渲染和点击探针均零console error。",
+      "by": "codex-independent-reviewer",
+      "at": "2026-09-03T07:51:55.571Z",
+      "gameHash": "38db589c1137893a"
     },
     "S4": {
-      "verdict": "PASS",
-      "note": "PASS: rechecked after signed S5 on b67de206381a60c4. S4 gate exit=0 (35/35 game tests, 8/8 GD acceptance scenarios, UI walkthrough); direct acceptance 8/8 PASS; focused session/determinism/S4 structure contract 20/20 PASS; isolated recursive mutations 16/16 PASS. S5 change remains local visual skin and preserves S4 anchors, order, actions, physics and gameplay.",
-      "by": "Codex-S4-independent-reviewer",
-      "at": "2026-08-29T09:48:38.340Z",
-      "gameHash": "b67de206381a60c4"
+      "verdict": "CONCERNS",
+      "note": "当前S4 gate@38db589c1137893a通过（42/42、GD 8/8、UI走查绿），但范围复算失败：game-105-s4-scope-manifest.mjs要求docs/design/game-105/self-check/S4-structure-38db589c1137893a.json，而该文件缺失。当前指纹的结构范围/四态快照不可追溯，故不能PASS；补齐快照与scope manifest并复算后重审。",
+      "by": "codex-independent-reviewer",
+      "at": "2026-09-03T07:54:23.909Z",
+      "gameHash": "38db589c1137893a"
     },
     "S5": {
-      "verdict": "PASS",
-      "note": "PASS: independent review on b67de206381a60c4. S5 gate exit=0 (audit warnings only, ratchet PASS); tsc green; game-105 35/35 incl. 4/4 S4-structure contract. Owner-blessed immutable s4-structure-f35a3de036d6326e remains intact; S5 candidate s5-skin-candidate-b67de206381a60c4 SHA-256 6a97c6c46f365c8d02127d5728928860ae7a0c3672e0e4fd5ba6e92cc3e799ca remains unblessed. Structure test locks IDs/order/anchors/actions across opening, player card, aftershock, and wrap. Chromium desktop+narrow evidence ha",
-      "by": "Codex-S5-independent-reviewer",
-      "at": "2026-08-29T07:03:43.221Z",
-      "gameHash": "b67de206381a60c4"
+      "verdict": "CONCERNS",
+      "note": "当前38db589c1137893a无法复审PASS：S5 gate的AUDIT/RATCHET通过，但报告无当前版本标准照、未像素比对；并且当前S4复查为CONCERNS（缺同指纹四态结构快照）。旧a3ebb标准照与PASS不适用于当前指纹。补齐当前S4结构基准及S5 capture+owner bless后复审。",
+      "by": "codex-independent-reviewer",
+      "at": "2026-09-03T07:58:41.313Z",
+      "gameHash": "38db589c1137893a"
+    },
+    "S8": {
+      "verdict": "FAIL",
+      "note": "终检FAIL：S8 gate@HEAD 148e70d97b404fbd7d46bf76bd95c39e6f103b26首步报告tsc=1后停止（交互式npx tsc可过，需稳定复现/修正终检环境）；工作树dirty，至少41个未暂存及19个暂存变更，且大量未跟踪工件。三绿与净树不成立：S2、S4、S5当前复查均非PASS。不得签S8。",
+      "by": "codex-independent-reviewer",
+      "at": "2026-09-03T08:27:46.539Z",
+      "gameHash": "38db589c1137893a"
     }
   },
   "selfCheck": {
     "S4": {
-      "at": "2026-08-29T09:42:10.326Z",
-      "shots": 52,
-      "gameHash": "b67de206381a60c4"
+      "at": "2026-09-03T07:53:29.586Z",
+      "shots": 96,
+      "gameHash": "38db589c1137893a"
     },
     "S5": {
-      "at": "2026-08-29T07:01:27.554Z",
-      "shots": 52,
-      "gameHash": "b67de206381a60c4"
+      "at": "2026-09-04T03:02:49.191Z",
+      "shots": 100,
+      "gameHash": "38db589c1137893a"
     }
+  },
+  "scorecard": {
+    "scores": {
+      "艺术方向": 2,
+      "主角面": 2,
+      "世界密度": 2,
+      "材质": 2,
+      "渲染管线": 2,
+      "VFX": 2,
+      "UI美术": 2,
+      "性能证据": 2
+    },
+    "total": 16,
+    "premium": true,
+    "by": "codex-independent-reviewer",
+    "note": "当前38db589c1137893a复评：真实窄屏截图显示月灯奶油夜、54块塔与纸卡UI统一，输入/快捷/操作区均在800x450内（28px字、40/40/约51px高）。VFX探针覆盖悬停环、心动火花、物理坍塌余晖且零错误；性能240帧median16.7ms、p95 16.8ms、max17ms、DOM64、零错误。",
+    "at": "2026-09-03T08:15:41.614Z",
+    "gameHash": "38db589c1137893a"
   }
 }

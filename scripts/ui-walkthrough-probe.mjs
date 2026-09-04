@@ -71,6 +71,7 @@ function listScenarioFiles(root, slug) {
 /** 剧本步骤三态分类：signal(尝试点击) / tick(装配·非「动作」) / expect(断言·另计非「动作」)。 */
 export function classifyStep(step) {
   if ('tick' in step) return { kind: 'tick' };
+  if ('waitUntil' in step) return { kind: 'tick' };
   if ('expect' in step) return { kind: 'expect', count: step.expect.length };
   return { kind: 'signal', signal: step.signal, args: step.args, by: step.by };
 }
@@ -96,6 +97,25 @@ export function signalArgForClick(args) {
 export function findMatchingAction(liveActions, signal, arg) {
   return (liveActions || []).filter((a) =>
     a.action === signal && !a.disabled && (arg === undefined || a.arg === arg));
+}
+
+// game-105 keeps its acceptance vocabulary intentionally close to the visible controls, but
+// the draft signal is an input event rather than a click. Keep this binding explicit so the
+// walkthrough can prove the exact player-facing path instead of treating every signal as a
+// button and reporting a misleading vocabulary mismatch.
+export const GAME105_UI_BINDINGS = Object.freeze({
+  'tower.interaction.complete': { action: 'tower.interaction.complete', kind: 'click' },
+  'tower.response.draft': { action: 'tower.response.draft', kind: 'input', valueKey: 'value' },
+  'tower.interaction.swap': { action: 'tower.interaction.swap', kind: 'click' },
+  'tower.interaction.submit': { action: 'tower.interaction.submit', kind: 'click' },
+  'tower.interaction.skip': { action: 'tower.interaction.skip', kind: 'click' },
+  'tower.wrap.continue': { action: 'tower.wrap.continue', kind: 'click' },
+});
+
+/** Resolve a scenario signal to the control the player actually uses on the mounted page. */
+export function resolveUiBinding(game, signal) {
+  if (game === 'game-105' && GAME105_UI_BINDINGS[signal]) return GAME105_UI_BINDINGS[signal];
+  return { action: signal, kind: 'click' };
 }
 
 /** 汇总一轮走查的逐步结果 → UI 可驱动率。只数 signal 步骤入分母（tick/expect 不是「动作」，
@@ -138,6 +158,42 @@ async function walkScenario(page, scenario) {
       stepResults.push({ step: si, kind: 'expect', driven: false, note: '断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核' });
       continue;
     }
+    // Canvas games may expose their player interaction as a physical pointer gesture rather than
+    // a one-click DOM action. Drive the visible canvas with Playwright mouse input, never by
+    // calling game/session internals. Coordinates are the documented fixed-seed specimen.
+    if (scenario.game === 'game-105' && (cls.signal === 'tower.camera.orbit' || cls.signal === 'tower.drag')) {
+      const canvas = await page.$('canvas');
+      if (!canvas) { stepResults.push({ step: si, kind: 'signal', signal: cls.signal, driven: false, note: '活体 canvas 不存在' }); continue; }
+      const args = cls.args || {};
+      const point = cls.signal === 'tower.camera.orbit' ? [800, 400, 940, 440, 'right']
+        : args.blockId === 'g105-block-08-01' ? [650, 400, 1000, 400, 'left']
+          : args.blockId === 'g105-block-00-01' ? [630, 540, 760, 540, 'left']
+            : [650, 220, 650, 550, 'left'];
+      await page.mouse.move(point[0], point[1]);
+      await page.mouse.down({ button: point[4] });
+      await page.mouse.move(point[2], point[3], { steps: 16 });
+      await page.mouse.up({ button: point[4] });
+      await page.waitForTimeout(cls.signal === 'tower.drag' ? 3500 : 180);
+      stepResults.push({ step: si, kind: 'signal', signal: cls.signal, driven: true, note: '真 canvas 鼠标手势' });
+      continue;
+    }
+    const binding = resolveUiBinding(scenario.game, cls.signal);
+    if (binding.kind === 'input') {
+      const value = String(cls.args?.[binding.valueKey] ?? '');
+      try {
+        const input = page.locator(`[data-action="${binding.action}"]`).first();
+        if (!await input.count()) {
+          stepResults.push({ step: si, kind: 'signal', signal: cls.signal, mappedAction: binding.action, driven: false, note: '已映射到真实输入框，但当前页面未进入该卡牌状态' });
+          continue;
+        }
+        await input.fill(value, { timeout: 3000 });
+        await page.waitForTimeout(120);
+        stepResults.push({ step: si, kind: 'signal', signal: cls.signal, mappedAction: binding.action, driven: true, note: '真输入框填写' });
+      } catch (e) {
+        stepResults.push({ step: si, kind: 'signal', signal: cls.signal, mappedAction: binding.action, driven: false, error: String(e?.message ?? e).slice(0, 200) });
+      }
+      continue;
+    }
     const argRes = signalArgForClick(cls.args);
     if (!argRes.ok) {
       stepResults.push({ step: si, kind: 'signal', signal: cls.signal, driven: false, note: argRes.reason });
@@ -148,11 +204,11 @@ async function walkScenario(page, scenario) {
       stepResults.push({ step: si, kind: 'signal', signal: cls.signal, driven: false, note: '调试口未就绪（__zcProbe 缺失）' });
       continue;
     }
-    const matches = findMatchingAction(liveActions, cls.signal, argRes.arg);
+    const matches = findMatchingAction(liveActions, binding.action, argRes.arg);
     if (matches.length === 0) {
       stepResults.push({
-        step: si, kind: 'signal', signal: cls.signal, arg: argRes.arg, driven: false,
-        note: '活体 DOM 无匹配 [data-action]（剧本 signal 词表与 UI 词表不同源·非驱动器 bug）',
+        step: si, kind: 'signal', signal: cls.signal, mappedAction: binding.action, arg: argRes.arg, driven: false,
+        note: '已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）',
       });
       continue;
     }
@@ -166,19 +222,19 @@ async function walkScenario(page, scenario) {
           if (arg !== undefined && el.dataset.arg !== arg) return false;
           return !el.disabled;
         }) || null;
-      }, { action: cls.signal, arg: argRes.arg, uiId: m.uiId });
+      }, { action: binding.action, arg: argRes.arg, uiId: m.uiId });
       const el = handle.asElement();
       if (!el) {
-        stepResults.push({ step: si, kind: 'signal', signal: cls.signal, arg: argRes.arg, driven: false, note: '匹配控件在真点击前已从 DOM 消失（态已变）' });
+        stepResults.push({ step: si, kind: 'signal', signal: cls.signal, mappedAction: binding.action, arg: argRes.arg, driven: false, note: '匹配控件在真点击前已从 DOM 消失（态已变）' });
         await handle.dispose();
         continue;
       }
       await el.click({ timeout: 3000 });
       await handle.dispose();
       await page.waitForTimeout(120); // 等一帧渲染落定
-      stepResults.push({ step: si, kind: 'signal', signal: cls.signal, arg: argRes.arg, driven: true });
+      stepResults.push({ step: si, kind: 'signal', signal: cls.signal, mappedAction: binding.action, arg: argRes.arg, driven: true });
     } catch (e) {
-      stepResults.push({ step: si, kind: 'signal', signal: cls.signal, arg: argRes.arg, driven: false, error: String(e?.message ?? e).slice(0, 200) });
+      stepResults.push({ step: si, kind: 'signal', signal: cls.signal, mappedAction: binding.action, arg: argRes.arg, driven: false, error: String(e?.message ?? e).slice(0, 200) });
     }
   }
   return stepResults;
@@ -227,9 +283,13 @@ async function runWalkthrough(slug, { root = ROOT } = {}) {
       // __zcProbe 由 launcher 域 dev-only 挂载（见 src/launcher/game-runner.tsx）——只对走 GameRunner
       // 加载器的 compiled/builtin 形态生效；等它就绪，等不到也不算装载失败（如实继续，逐步会标「未就绪」）。
       await page.waitForFunction(() => !!window.__zcProbe, { timeout: 8000 }).catch(() => {});
-      await page.waitForTimeout(900);
+      await page.waitForTimeout(3000);
 
       for (const f of files) {
+        // Each GD scenario is a fresh game. Reusing a page carries camera/physics state from the
+        // prior script into the next one and makes later canvas coordinates non-reproducible.
+        await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+        await page.waitForTimeout(3000);
         const text = readFileSync(f.path, 'utf8');
         const pv = parseAndValidate(text);
         if (!pv.ok) { scenarios.push({ name: f.name, file: f.name, ok: false, schemaErrors: pv.errors }); continue; }

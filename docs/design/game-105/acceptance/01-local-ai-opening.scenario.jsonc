@@ -1,0 +1,24 @@
+// author: GD-105
+// S4 Local AI M1 场景 01：开局是玩家与默认本地 AI，不再存在 player-a/player-b 热座交手。
+// 对抗目标：初始未稳定即可操作、AI 角色缺失导致阻塞、右键绕塔建立关节或改写回合。
+{
+  "name": "本地 AI 开局稳定后开放玩家回合",
+  "game": "game-105",
+  "seed": 105031,
+  "steps": [
+    { "expect": [
+      { "sv": "phase", "eq": "boot" },
+      { "sv": "turn", "eq": "player" },
+      { "flag": "local-ai-ready", "eq": true },
+      { "res": "heart-delta", "eq": 0 }
+    ] },
+    { "waitUntil": [ { "sv": "phase", "eq": "player-ready" } ], "cap": 600 },
+    { "signal": "tower.camera.orbit", "args": { "deltaYaw": 0.5, "deltaPitch": 0 }, "by": "player" },
+    { "expect": [
+      { "sv": "turn", "eq": "player" },
+      { "flag": "tower-stable", "eq": true },
+      { "flag": "game-over", "eq": false },
+      { "flag": "shared-action-executor-idle", "eq": true }
+    ] }
+  ]
+}

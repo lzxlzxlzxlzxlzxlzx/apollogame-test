@@ -1,0 +1,21 @@
+// author: GD-105
+// S4 增量场景 06：完整松手后的积木必须从玩家与 AI 的共同可选集合永久移除，直到重开。
+// 对抗目标：AI/玩家再次选中落块、仅 AI 单侧过滤、重开后残留 retired 状态。
+{
+  "name": "退役积木不可再选且重开清理",
+  "game": "game-105",
+  "seed": 105031,
+  "steps": [
+    { "waitUntil": [ { "sv": "phase", "eq": "player-ready" } ], "cap": 600 },
+    { "signal": "tower.drag", "args": { "blockId": "g105-block-00-00", "distanceRatio": 0.93 }, "by": "player" },
+    { "waitUntil": [ { "sv": "phase", "eq": "player-interaction" } ], "cap": 600 },
+    { "expect": [ { "res": "retired-block-count", "eq": 1 }, { "flag": "local-ai-observation-has-no-physics-pose", "eq": true } ] },
+    { "signal": "tower.interaction.skip", "by": "player" },
+    { "waitUntil": [ { "sv": "phase", "eq": "player-ready" } ], "cap": 900 },
+    { "signal": "tower.drag", "args": { "blockId": "g105-block-00-00", "distanceRatio": 0.93 }, "by": "player" },
+    { "expect": [ { "flag": "last-retired-selection-rejected", "eq": true }, { "sv": "phase", "eq": "player-ready" } ] },
+    { "signal": "tower.restart", "by": "player" },
+    { "waitUntil": [ { "sv": "phase", "eq": "player-ready" } ], "cap": 600 },
+    { "expect": [ { "res": "retired-block-count", "eq": 0 }, { "flag": "shared-action-executor-idle", "eq": true } ] }
+  ]
+}

@@ -1,16 +1,16 @@
 {
   "slug": "game-105",
-  "at": "2026-08-29T09:42:09.097Z",
-  "gameHash": "b67de206381a60c4",
+  "at": "2026-09-03T07:53:29.023Z",
+  "gameHash": "38db589c1137893a",
   "ok": true,
   "form": "compiled",
-  "uiDrivableRate": 0.7083333333333334,
+  "uiDrivableRate": 0.75,
   "totalSummary": {
     "signalSteps": 24,
-    "drivenSteps": 17,
+    "drivenSteps": 18,
     "tickSteps": 24,
     "expectSteps": 21,
-    "uiDrivableRate": 0.7083333333333334
+    "uiDrivableRate": 0.75
   },
   "scenarios": [
     {
@@ -85,8 +85,9 @@
           "step": 4,
           "kind": "signal",
           "signal": "tower.interaction.complete",
+          "mappedAction": "tower.interaction.complete",
           "driven": false,
-          "note": "活体 DOM 无匹配 [data-action]（剧本 signal 词表与 UI 词表不同源·非驱动器 bug）"
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
         },
         {
           "step": 5,
@@ -200,6 +201,7 @@
           "step": 4,
           "kind": "signal",
           "signal": "tower.restart",
+          "mappedAction": "tower.restart",
           "driven": true
         },
         {
@@ -251,9 +253,9 @@
           "step": 3,
           "kind": "signal",
           "signal": "tower.response.draft",
-          "arg": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-          "driven": false,
-          "note": "活体 DOM 无匹配 [data-action]（剧本 signal 词表与 UI 词表不同源·非驱动器 bug）"
+          "mappedAction": "tower.response.draft",
+          "driven": true,
+          "note": "真输入框填写"
         },
         {
           "step": 4,
@@ -265,6 +267,7 @@
           "step": 5,
           "kind": "signal",
           "signal": "tower.interaction.swap",
+          "mappedAction": "tower.interaction.swap",
           "driven": true
         },
         {
@@ -277,8 +280,9 @@
           "step": 7,
           "kind": "signal",
           "signal": "tower.interaction.swap",
+          "mappedAction": "tower.interaction.swap",
           "driven": false,
-          "note": "活体 DOM 无匹配 [data-action]（剧本 signal 词表与 UI 词表不同源·非驱动器 bug）"
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
         },
         {
           "step": 8,
@@ -290,6 +294,7 @@
           "step": 9,
           "kind": "signal",
           "signal": "tower.interaction.submit",
+          "mappedAction": "tower.interaction.submit",
           "driven": true
         },
         {
@@ -308,10 +313,10 @@
       "summary": {
         "totalSteps": 12,
         "signalSteps": 5,
-        "drivenSteps": 3,
+        "drivenSteps": 4,
         "tickSteps": 3,
         "expectSteps": 4,
-        "uiDrivableRate": 0.6
+        "uiDrivableRate": 0.8
       }
     },
     {
@@ -347,6 +352,7 @@
           "step": 4,
           "kind": "signal",
           "signal": "tower.interaction.skip",
+          "mappedAction": "tower.interaction.skip",
           "driven": true
         },
         {
@@ -372,6 +378,7 @@
           "step": 8,
           "kind": "signal",
           "signal": "tower.restart",
+          "mappedAction": "tower.restart",
           "driven": true
         },
         {
@@ -429,6 +436,7 @@
           "step": 4,
           "kind": "signal",
           "signal": "tower.interaction.skip",
+          "mappedAction": "tower.interaction.skip",
           "driven": true
         },
         {
@@ -441,8 +449,9 @@
           "step": 6,
           "kind": "signal",
           "signal": "tower.interaction.skip",
+          "mappedAction": "tower.interaction.skip",
           "driven": false,
-          "note": "活体 DOM 无匹配 [data-action]（剧本 signal 词表与 UI 词表不同源·非驱动器 bug）"
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
         },
         {
           "step": 7,
@@ -454,8 +463,9 @@
           "step": 8,
           "kind": "signal",
           "signal": "tower.interaction.skip",
+          "mappedAction": "tower.interaction.skip",
           "driven": false,
-          "note": "活体 DOM 无匹配 [data-action]（剧本 signal 词表与 UI 词表不同源·非驱动器 bug）"
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
         },
         {
           "step": 9,
@@ -500,6 +510,7 @@
           "step": 3,
           "kind": "signal",
           "signal": "tower.interaction.skip",
+          "mappedAction": "tower.interaction.skip",
           "driven": true
         },
         {
@@ -531,15 +542,17 @@
           "step": 8,
           "kind": "signal",
           "signal": "tower.wrap.continue",
+          "mappedAction": "tower.wrap.continue",
           "driven": false,
-          "note": "活体 DOM 无匹配 [data-action]（剧本 signal 词表与 UI 词表不同源·非驱动器 bug）"
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
         },
         {
           "step": 9,
           "kind": "signal",
           "signal": "tower.wrap.continue",
+          "mappedAction": "tower.wrap.continue",
           "driven": false,
-          "note": "活体 DOM 无匹配 [data-action]（剧本 signal 词表与 UI 词表不同源·非驱动器 bug）"
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
         },
         {
           "step": 10,

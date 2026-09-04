@@ -1,0 +1,29 @@
+// author: GD-105
+// S4 Local AI M1 场景 04：实时第三块残留失稳立即锁定当前执手方失败；锁定后物理继续运行，离塔块不可再选且不无限产出互动。
+// 对抗目标：等全塔睡眠才判负、抽离块/倒塌碎块重复触发效果、锁定后还能拖拽、终局冻结物理。
+{
+  "name": "实时倒塌锁定并保留自然物理与战利品边界",
+  "game": "game-105",
+  "seed": 105031,
+  "steps": [
+    { "waitUntil": [ { "sv": "phase", "eq": "player-ready" } ], "cap": 600 },
+    { "signal": "tower.drag", "args": { "blockId": "g105-block-08-01", "distanceRatio": 0.93 }, "by": "player" },
+    { "waitUntil": [ { "sv": "phase", "eq": "collapse-locked" } ], "cap": 900 },
+    { "expect": [
+      { "sv": "loser", "eq": "player" },
+      { "flag": "game-over", "eq": true },
+      { "flag": "physics-stepping-after-lock", "eq": true },
+      { "flag": "new-pulls-disabled", "eq": true },
+      { "flag": "collapse-debris-produces-effects", "eq": false }
+    ] },
+    { "signal": "tower.restart", "by": "player" },
+    { "waitUntil": [ { "sv": "phase", "eq": "player-ready" } ], "cap": 600 },
+    { "expect": [
+      { "sv": "turn", "eq": "player" },
+      { "res": "heart-delta", "eq": 0 },
+      { "res": "loot-count", "eq": 0 },
+      { "flag": "game-over", "eq": false },
+      { "flag": "shared-action-executor-idle", "eq": true }
+    ] }
+  ]
+}

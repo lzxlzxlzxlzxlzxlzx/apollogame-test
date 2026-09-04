@@ -1,0 +1,21 @@
+// author: GD-105
+// S4 Local AI M1 场景 03：玩家半抽后松手合法，未达到 92% 离塔线时不能触发互动、心动值或 AI 回合。
+// 对抗目标：半抽计入战利品/心动值、错误切到 AI、旧 player-b 状态残留。
+{
+  "name": "玩家半抽收手不结算也不换给 AI",
+  "game": "game-105",
+  "seed": 105031,
+  "steps": [
+    { "waitUntil": [ { "sv": "phase", "eq": "player-ready" } ], "cap": 600 },
+    { "signal": "tower.drag", "args": { "blockId": "g105-block-00-01", "distanceRatio": 0.50 }, "by": "player" },
+    { "waitUntil": [ { "sv": "phase", "eq": "player-ready" } ], "cap": 600 },
+    { "expect": [
+      { "sv": "turn", "eq": "player" },
+      { "res": "heart-delta", "eq": 0 },
+      { "res": "loot-count", "eq": 0 },
+      { "flag": "interaction-open", "eq": false },
+      { "flag": "ai-action-pending", "eq": false },
+      { "flag": "game-over", "eq": false }
+    ] }
+  ]
+}

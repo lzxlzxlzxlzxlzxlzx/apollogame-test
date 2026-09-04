@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "slug": "game-105",
+  "gameHash": "38db589c1137893a",
+  "perf": {
+    "frames": 240,
+    "median_ms": 16.69999999999891,
+    "p95_ms": 16.80000000000109,
+    "max_ms": 17,
+    "domNodes": 64
+  },
+  "errors": []
+}

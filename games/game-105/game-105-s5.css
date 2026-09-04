@@ -1,0 +1,114 @@
+/* S5 game-local paint. Interactive descendants opt in without claiming canvas blank space. */
+#g105-probe-hud [data-action],
+#g105-probe-hud input { pointer-events: auto; }
+
+#g105-probe-hud button[data-action] { font-size: 16px !important; line-height: 1.3; }
+
+#g105-probe-hud button[data-action="tower.response.quick"],
+#g105-probe-hud button[data-action="tower.interaction.swap"],
+#g105-probe-hud button[data-action="tower.interaction.skip"],
+#g105-probe-hud button[data-action="tower.wrap.skip"],
+#g105-probe-hud button[data-action="tower.restart"] {
+  color: #2d1d24 !important;
+  background: linear-gradient(160deg, #fffdf7, #f4e3c8) !important;
+  border: 1px solid #b87924 !important;
+  box-shadow: 0 2px 8px rgba(73, 34, 43, 0.16);
+}
+
+#g105-probe-hud button[data-action="tower.wrap.submit"],
+#g105-probe-hud button[data-action="tower.wrap.continue"] {
+  color: #fffaf2 !important;
+  background: linear-gradient(160deg, #8c354c, #65253a) !important;
+  border: 1px solid #d8ac63 !important;
+  box-shadow: 0 3px 10px rgba(73, 34, 43, 0.24);
+}
+
+#g105-companion-card > div:first-child { color: #5a2837 !important; text-shadow: 0 1px 0 rgba(255,255,255,.82); }
+#g105-title { color: #6a263d !important; text-shadow: 0 1px 0 rgba(255,255,255,.9), 0 2px 5px rgba(114,82,109,.22); }
+#g105-companion-name, #g105-status { color: #512b38 !important; text-shadow: 0 1px 0 rgba(255,255,255,.88); }
+#g105-ledger #g105-heart { color: #875118 !important; }
+#g105-note { color: #442a31 !important; text-shadow: 0 1px 0 rgba(255,255,255,.92); font-weight: 700; }
+
+/* S7 responsive correction: keep the frozen 1280x720 anchor, but lift only its paint box into view. */
+#g105-controls { transform: translateY(-28px); }
+
+/* The S4 interaction anchor remains unchanged; this is a paint-only fit for the supplied tall card frame. */
+#g105-interaction-card {
+  animation: none !important;
+  transform: translateY(-88px) scale(.75) !important;
+  transform-origin: left top;
+}
+
+/* The AI card uses the dark art frame: override inherited ink tokens for readable copy. */
+#g105-ai-interaction-card #g105-ai-card-heading,
+#g105-ai-interaction-card #g105-ai-card-kicker,
+#g105-ai-interaction-card #g105-ai-card-reply {
+  color: #f1cf8d !important;
+  text-shadow: 0 1px 2px rgba(24, 12, 20, .88);
+}
+
+#g105-ai-interaction-card #g105-ai-card-title,
+#g105-ai-interaction-card #g105-ai-card-text {
+  color: #fff8e9 !important;
+  text-shadow: 0 1px 2px rgba(24, 12, 20, .92);
+}
+
+/* The player card shares the same dark art frame, so its copy needs the same contrast treatment. */
+#g105-interaction-card #g105-card-kicker,
+#g105-interaction-card #g105-card-safety,
+#g105-interaction-card #g105-aftershock-summary {
+  color: #f1cf8d !important;
+  text-shadow: 0 1px 2px rgba(24, 12, 20, .88);
+}
+
+#g105-interaction-card #g105-card-title,
+#g105-interaction-card #g105-card-text {
+  color: #fff8e9 !important;
+  text-shadow: 0 1px 2px rgba(24, 12, 20, .92);
+}
+
+/* The room art stays behind the 3D layer; a small canvas transparency keeps the tower/table dominant. */
+#g105-probe-hud [data-heart-spark] { animation: g105-heart-spark 720ms ease-out both; }
+@keyframes g105-heart-spark { 0% { transform: scale(.72); filter: brightness(1.35); } 65% { transform: scale(1.16); } 100% { transform: scale(1); } }
+
+/* A brief settle halo marks the real collapse verdict without freezing its still-running physics. */
+#g105-wrap-card {
+  isolation: isolate;
+  animation: g105-collapse-settle 900ms ease-out both !important;
+  box-shadow: 0 0 0 1px rgba(255, 224, 148, .8), 0 0 24px rgba(227, 169, 84, .5);
+}
+#g105-wrap-card::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -26px;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(ellipse at center, rgba(255, 220, 139, .48), transparent 68%);
+  animation: g105-collapse-aura 900ms ease-out both;
+}
+@keyframes g105-collapse-settle { from { transform: scale(.94); filter: brightness(1.16); } to { transform: scale(1); filter: brightness(1); } }
+@keyframes g105-collapse-aura { from { opacity: .9; transform: scale(.82); } to { opacity: 0; transform: scale(1.18); } }
+
+/* The declared 800x450 landscape target scales the 1280 scene to .625. Do not add a second
+   card scale here: it turned an otherwise usable 27.5px control into an 18.975px target. */
+@media (max-height: 500px) and (min-width: 600px) {
+  #g105-note { font-size: 20px !important; line-height: 1.25 !important; }
+  #g105-interaction-card input,
+  #g105-wrap-card input {
+    font-size: 28px !important;
+    line-height: 1.15 !important;
+    min-height: 64px;
+    box-sizing: border-box;
+    padding: 10px 14px !important;
+  }
+  #g105-interaction-card button[data-action],
+  #g105-wrap-card button[data-action] {
+    font-size: 28px !important;
+    line-height: 1.1 !important;
+    min-height: 64px;
+    box-sizing: border-box;
+    padding: 9px 14px !important;
+  }
+  #g105-interaction-card { transform: translateY(-144px) !important; }
+}

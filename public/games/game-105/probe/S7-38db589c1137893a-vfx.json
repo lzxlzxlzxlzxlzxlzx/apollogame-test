@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "slug": "game-105",
+  "gameHash": "38db589c1137893a",
+  "vfx": {
+    "hover": "url(\"http://localhost:5700/games/game-105/art/fx/hover-ring.svg\") 48 48, pointer",
+    "heart": {
+      "html": "<span style=\"color:#442a31\"><img src=\"/games/game-105/art/fx/heart-spark.svg\" alt=\"\" style=\"height:1em;width:1em;object-fit:contain;vertical-align:-0.15em;margin-right:4px\">心动值  1</span>",
+      "animation": "apollo-pop",
+      "spark": true
+    },
+    "collapse": {
+      "animation": "g105-collapse-settle",
+      "boxShadow": "rgba(255, 224, 148, 0.8) 0px 0px 0px 1px, rgba(227, 169, 84, 0.5) 0px 0px 24px 0px"
+    }
+  },
+  "errors": []
+}

@@ -9,6 +9,8 @@
       "id": "g105-restart",
       "changed": true,
       "changedIds": [
+        "g105-status",
+        "g105-note",
         "g105-restart"
       ]
     }

@@ -1,0 +1,21 @@
+// author: GD-105
+// S4 Standalone Release M1 场景 08：AI 成为当前执手并倒塔后，只能出现一次本地收尾回应；确认不应重抽或改变物理终局。
+// 对抗目标：AI 收尾缺失、重复信号重复生成回应、要求玩家替 AI 输入、确认后恢复抓取。
+{
+  "name": "AI 倒塔只生成一次可确认的本地收尾",
+  "game": "game-105",
+  "seed": 105031,
+  "steps": [
+    { "waitUntil": [ { "sv": "phase", "eq": "player-ready" } ], "cap": 600 },
+    { "signal": "tower.drag", "args": { "blockId": "g105-block-00-00", "distanceRatio": 0.93 }, "by": "player" },
+    { "waitUntil": [ { "sv": "phase", "eq": "player-interaction" } ], "cap": 600 },
+    { "signal": "tower.interaction.skip", "by": "player" },
+    { "waitUntil": [ { "sv": "phase", "eq": "ai-observe" } ], "cap": 120 },
+    { "signal": "tower.drag", "args": { "blockId": "g105-block-08-01", "distanceRatio": 0.93 }, "by": "ai" },
+    { "waitUntil": [ { "sv": "phase", "eq": "collapse-locked" } ], "cap": 900 },
+    { "expect": [ { "sv": "loser", "eq": "ai" }, { "flag": "ai-wrap-card-visible", "eq": true }, { "res": "ai-wrap-count", "eq": 1 }, { "flag": "physics-stepping-after-lock", "eq": true } ] },
+    { "signal": "tower.wrap.continue", "by": "player" },
+    { "signal": "tower.wrap.continue", "by": "player" },
+    { "expect": [ { "flag": "ai-wrap-acknowledged", "eq": true }, { "res": "ai-wrap-count", "eq": 1 }, { "flag": "new-pulls-disabled", "eq": true } ] }
+  ]
+}
