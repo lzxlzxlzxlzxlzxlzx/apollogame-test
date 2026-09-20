@@ -45,6 +45,16 @@ const GAMES_ALLOWLIST: Set<string> | null = (() => {
 // GAMES 不拆走：main_entry/games_list.py 以正则从 src/launcher.tsx 解析本表（内置卡片元信息单一真相·只读）。
 export const GAMES: GameEntry[] = [
   {
+    id: 'game-mcfight',
+    title: 'MC Fight',
+    subtitle: '怪物军团 · 布阵自动对战',
+    description: '购买怪物组建军团，拖拽布阵，与 AI 军团自动交战；从结算回到商店调整阵容。开发中。',
+    color: '#17251f',
+    accentColor: '#7bd88f',
+    icon: '⚔️',
+    status: 'playable',
+  },
+  {
     id: 'game-105',
     title: 'Game 105: 心动叠叠塔',
     subtitle: '真物理叠叠塔 · 双人轮流抽块',
@@ -200,6 +210,17 @@ export const GAMES: GameEntry[] = [
     color: '#101c2a',
     accentColor: '#7c9cff',
     icon: '⚔️',
+    status: 'playable',
+  },
+  {
+    id: 'game109',
+    title: 'Game 109: 种田（暂名）',
+    subtitle: '回合制日 · 6×6 农场经营',
+    description:
+      '回合制日的农场经营：每天有固定体力，点地块干农活——翻土→播种→浇水→收获，四个动作各扣 1 体力；睡觉推进一天、作物按天生长一阶、体力回满、日期+1；收获进背包、卖货换金币，攒够目标金币即通关结算。6×6=36 格 · 3 种作物 · 零随机（RandomSeed 确定性）。当前=S3 骨架关：蓝图与动作链在真引擎里跑得动、回合制日与三拍结算已就位，屏上是灰盒地块（无美术文件）；动作条 HUD（选工具/睡觉/卖货）与美术换皮待 S4/S6。',
+    color: '#1e2a18',
+    accentColor: '#c8a24a',
+    icon: '🌾',
     status: 'playable',
   },
 ];
@@ -430,7 +451,7 @@ export function Launcher() {
   }
 
   if (pipePicker) {
-    return <ArtGamePicker onBack={() => setPipePicker(false)} onPick={(g) => { setPipePicker(false); setPipeGame(g); }} />;
+    return <ArtGamePicker purpose="pipeline" onBack={() => setPipePicker(false)} onPick={(g) => { setPipePicker(false); setPipeGame(g); }} />;
   }
 
   if (launched) {

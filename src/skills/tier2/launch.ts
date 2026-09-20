@@ -1,6 +1,6 @@
 import { defineCapability } from '@engine/core/define-capability.js';
 import type { IWorld } from '@engine/core/types.js';
-import type { Bounce, Launch, Transform, Velocity } from '@engine/protocol/components.js';
+import type { Bounce, Launch, Transform, Velocity, ProjectileFlight, DestroyRequest } from '@engine/protocol/components.js';
 import { nearestByTag } from '@skills/atoms/spatial-query/index.js';
 
 // ═══════════════════════════════════════════════════════════════
@@ -57,9 +57,9 @@ export const launchCapability = defineCapability({
         },
       },
     },
-    reads: ['Launch', 'Transform', 'Tag'],
+    reads: ['Launch', 'Transform', 'Tag', 'ProjectileFlight'],
     // Bounce：写不读——launch 只在发射瞬间一次性落地初始状态（见④），之后的读改写全在 bounce-relay。
-    writes: ['Velocity', 'Launch', 'Bounce'],
+    writes: ['Velocity', 'Launch', 'Bounce', 'ProjectileFlight', 'DestroyRequest'],
     consumes: [],
   },
 
@@ -121,6 +121,25 @@ export const launchCapability = defineCapability({
             } as Bounce);
           }
           world.removeComponent(id, 'Launch'); // 一次性：之后 motion-apply 直飞
+        }
+      },
+    },
+    {
+      id: 'projectile-flight', phase: 1, runsAfter: ['motion-apply'], runsBefore: ['overlap-detect', 'trigger-zone', 'hitbox'],
+      reads: ['ProjectileFlight', 'Transform'], writes: ['ProjectileFlight', 'DestroyRequest'], consumes: [],
+      execute(world: IWorld) {
+        for (const [id] of world.query('ProjectileFlight', 'Transform')) {
+          const flight = world.getComponent<ProjectileFlight>(id, 'ProjectileFlight')!;
+          const t = world.getComponent<Transform>(id, 'Transform')!;
+          const px = flight.lastX ?? t.x, py = flight.lastY ?? t.y;
+          const dx = t.x - px, dy = t.y - py;
+          flight.traveled = (flight.traveled ?? 0) + Math.sqrt(dx * dx + dy * dy);
+          flight.lastX = t.x; flight.lastY = t.y;
+          const out = t.x < flight.bounds.minX || t.x > flight.bounds.maxX || t.y < flight.bounds.minY || t.y > flight.bounds.maxY;
+          if (out || (flight.shot && flight.traveled >= flight.shot.maxDistance)) {
+            flight.exhausted = true;
+            if (!world.hasComponent(id, 'DestroyRequest')) world.addComponent(id, { type: 'DestroyRequest', entityId: id } as DestroyRequest);
+          }
         }
       },
     },

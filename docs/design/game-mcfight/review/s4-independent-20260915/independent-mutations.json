@@ -1,0 +1,50 @@
+[
+  {
+    "id": "neighborhood",
+    "file": "src/skills/tier2/entity-check.ts",
+    "hits": 1,
+    "exit": 1,
+    "before": "6a6d7ac9d4baae714de9d8ef7d1647b743ad2d1ac51059b2d87f6bd8127d3dca",
+    "after": "6a6d7ac9d4baae714de9d8ef7d1647b743ad2d1ac51059b2d87f6bd8127d3dca"
+  },
+  {
+    "id": "range-min",
+    "file": "src/skills/tier2/entity-check.ts",
+    "hits": 1,
+    "exit": 1,
+    "before": "6a6d7ac9d4baae714de9d8ef7d1647b743ad2d1ac51059b2d87f6bd8127d3dca",
+    "after": "6a6d7ac9d4baae714de9d8ef7d1647b743ad2d1ac51059b2d87f6bd8127d3dca"
+  },
+  {
+    "id": "source-guard",
+    "file": "src/skills/tier3/caster.ts",
+    "hits": 1,
+    "exit": 1,
+    "before": "68d6901a1514315eb8b5076bc4effd23fcce6fb385bb60588aaf9643de3cf475",
+    "after": "68d6901a1514315eb8b5076bc4effd23fcce6fb385bb60588aaf9643de3cf475"
+  },
+  {
+    "id": "only-target",
+    "file": "src/skills/tier2/hitbox.ts",
+    "hits": 1,
+    "exit": 1,
+    "before": "74a628f2d22f080f692515c4bb9a794d134bc5db77e39ffd8a6bf93d64486d26",
+    "after": "74a628f2d22f080f692515c4bb9a794d134bc5db77e39ffd8a6bf93d64486d26"
+  },
+  {
+    "id": "captured-aim",
+    "file": "src/skills/tier3/prefab.ts",
+    "hits": 1,
+    "exit": 1,
+    "before": "cceb2ae63d59102a4911757c7b44cca26852c592da364b441c4cde3e07c1355d",
+    "after": "cceb2ae63d59102a4911757c7b44cca26852c592da364b441c4cde3e07c1355d"
+  },
+  {
+    "id": "materialize-phase",
+    "file": "src/skills/tier3/prefab.ts",
+    "hits": 1,
+    "exit": 1,
+    "before": "cceb2ae63d59102a4911757c7b44cca26852c592da364b441c4cde3e07c1355d",
+    "after": "cceb2ae63d59102a4911757c7b44cca26852c592da364b441c4cde3e07c1355d"
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "slug": "game-mcfight",
+  "at": "2026-09-16T05:51:10.087Z",
+  "gameHash": "3079655e84b05fda",
+  "ok": true,
+  "form": "compiled",
+  "assertions": {
+    "nonBlank": {
+      "pass": true,
+      "variance": 2105.25,
+      "mean": 41.74,
+      "threshold": 15
+    },
+    "consoleErrors": {
+      "pass": true,
+      "count": 0,
+      "messages": []
+    },
+    "noUncaught": {
+      "pass": true,
+      "pageErrors": 0,
+      "overlay": false,
+      "messages": []
+    }
+  },
+  "screenshot": "public/games/game-mcfight/probe/S3-render.png",
+  "browser": {
+    "execPath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "via": "Windows Chrome"
+  }
+}

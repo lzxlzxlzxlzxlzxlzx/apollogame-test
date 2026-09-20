@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Resource, ResourceModify, PrefabOrigin } from '@engine/protocol/components.js';
 import { findSourceResource } from '@engine/core/query.js';
@@ -129,6 +130,8 @@ export const resourceCapability = defineCapability({
   systems: [
     {
       id: 'resource-apply',
+      phase: SystemPhase.Resolve,
+      runsAfter: ['hitbox'],
       reads: ['Resource', 'PrefabOrigin'], // PrefabOrigin=scope:'source' 寻发起者（申报对账·根因①）
       writes: ['Resource'],
       consumes: ['ResourceModify'],

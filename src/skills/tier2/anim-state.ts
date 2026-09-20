@@ -1,7 +1,7 @@
 import { defineCapability } from '@engine/core/define-capability.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
-import type { AnimState, AnimClip, Frame, Velocity, State, Sprite, Relation } from '@engine/protocol/components.js';
+import type { AnimState, AnimClip, Frame, Velocity, State, Sprite, Relation, Status } from '@engine/protocol/components.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  anim-state —— 动作动画状态机（周期表 anim-state-machine = state + transition-rules + animation）。
@@ -48,12 +48,14 @@ export const animStateCapability = defineCapability({
           moveClip: { type: 'string', describe: '自动模式：移动时的 clip 名' },
           idleClip: { type: 'string', describe: '自动模式：静止时的 clip 名' },
           attackClip: { type: 'string', describe: '自动模式：站定且有 Relation(target) 时的 clip 名（攻击）；缺省站立' },
+          interruptStatusMask: { type: 'number', describe: 'Commit读取结算后Status，命中掩码时覆盖表现clip' },
+          interruptClip: { type: 'string', describe: '中断表现clip名；必须在clips中配置，不改变State或CD' },
           current: { type: 'string', describe: '内部：当前 clip 名' },
           elapsed: { type: 'number', describe: '内部：当前帧已播 tick' },
         },
       },
     },
-    reads: ['AnimState', 'Frame', 'Velocity', 'State', 'Sprite', 'Relation'],
+    reads: ['AnimState', 'Frame', 'Velocity', 'State', 'Sprite', 'Relation', 'Status'],
     writes: ['AnimState', 'Frame', 'Sprite'],
     consumes: [],
   },
@@ -64,7 +66,7 @@ export const animStateCapability = defineCapability({
     {
       id: 'anim-state',
       phase: SystemPhase.Commit, // 读已结算的最终 Velocity 决定 move/idle
-      reads: ['AnimState', 'Frame', 'Velocity', 'State', 'Sprite', 'Relation'], // Relation=宿主链上溯（申报对账·根因①·系统级此前漏）
+      reads: ['AnimState', 'Frame', 'Velocity', 'State', 'Sprite', 'Relation', 'Status'], // Relation=宿主链上溯（申报对账·根因①·系统级此前漏）
       writes: ['AnimState', 'Frame', 'Sprite'],
       consumes: [],
       execute(world: IWorld) {
@@ -91,6 +93,12 @@ export const animStateCapability = defineCapability({
             } else {
               want = as.idleClip;
             }
+          }
+          // Resolve has already settled hard control. Override only presentation;
+          // never move Flow or refund cooldown, and never wait for next Update.
+          if (as.interruptStatusMask && as.interruptClip && as.clips[as.interruptClip]) {
+            const status = world.getComponent<Status>(id, 'Status');
+            if (status && (status.flags & as.interruptStatusMask) !== 0) want = as.interruptClip;
           }
           let clip: AnimClip | undefined = as.clips[want];
           if (clip === undefined) {
@@ -126,3 +134,4 @@ export const animStateCapability = defineCapability({
     },
   ],
 });
+

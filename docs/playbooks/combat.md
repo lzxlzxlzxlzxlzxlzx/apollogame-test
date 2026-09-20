@@ -9,6 +9,7 @@
 |---|---|---|
 | 伤害结算（命中扣血） | `t2-hitbox` | 伤害区挂 `Hitbox`+`Shape`+`Sensor`+`Tag(ZONE_FLAG)`；目标挂 `Tag(阵营)`+`Resource(hp)` |
 | 命中特效（击中火花/受击特效，穿透每命中一喷） | `t2-hitbox`（`onHit`） | `Hitbox` 加 `onHit:{spawnTemplate}`：命中即在目标位置发 `SpawnRequest`（配 `t3-prefab` 展开），与伤害同拍、AOE/穿透天然 fan-out |
+| 有效伤害/治疗统计 | `t2-damage-routing` | observer在damage-route前持有请求引用，结束后读`appliedAmount`结算回执：正为实际扣除、负为实际恢复；请求当拍消费，不累加原始伤害或拍末净差 |
 | 死亡移除 | `t2-mortal` | 挂 `Mortal{resource:"hp",atOrBelow:0}` + destroy 原子执行移除 |
 | 装备/buff 改攻防速（实体属性） | `t2-stats` | 挂 `Stats{base,mods,effective}`；装备往 mods push，卸下按 source 滤（只做 (base+Σadd)×Πmul） |
 | 修正总表（字段表+混合策略+门控） | `t2-modifier-stack` | 挂多条 `ModifierSource{target,op,value/valueFrom,gate}`（op=add/mul/max/min/or/floor）+ 一个 `ModifierTotals` 单例；消费方读 `totals`。计分修正/逐字段 sum·max·or/buff 汇总 |
@@ -23,6 +24,8 @@
 | per-shot 扣发射源资源（弹药经济） | `f1-resource`（`ResourceModify.scope:'source'`） | 子弹带 `PrefabOrigin.source`=炮台实体 + `ResourceModify{resourceId:'ammo',amount:-1,scope:'source'}`：只扣该炮台自己的 ammo（N 炮各自计数，不像 `global` 扣到第一个同名资源）；源缺失/无该资源→静默跳过（REQ-SPENDONFIRE） |
 
 ## ② 样例指针
+
+- 可选护甲/韧性：`DamageReceiver{armor,toughness}` → `t2-damage-routing`，先部位倍率，再 Minecraft 护甲公式；`Hitbox.damageType:'true'` 跳过护甲、`armorPiercing:true` 将护甲/韧性按0。负数治疗不受护甲影响。`DamageRequest` 保留原始量、`afterArmorAmount` 和实际有符号 `appliedAmount`，统计不得累加原始伤害。R3新增字段尚待独立复查，见 MC Fight `REQ-MCFIGHT-007`。
 
 - registry：`t2-hitbox`/`t2-over-time`/`t3-caster`/`t2-dice-roll` 的 `describe.examples`。
 - 真实用法：`games/game-g/clash-resolve.ts`（三路对掷战斗核）、`games/game-g/combat-types.ts`。

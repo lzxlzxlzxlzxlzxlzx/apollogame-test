@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "slug": "game109",
+  "concept": {
+    "name": "暂名",
+    "pitch": "每天有一定的体力，点地块干农活；干完睡觉，作物长一天；卖货攒够目标金币就算通关。",
+    "refs": "星露谷物语",
+    "style": "俯视 2D 像素/卡通、温暖色调（回合制日·非实时）"
+  },
+  "signoffs": {
+    "S1": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-09-17T16:50:08.839Z"
+    },
+    "S2": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-09-17T16:50:16.492Z"
+    },
+    "S3": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-09-17T21:15:13.134Z"
+    },
+    "S4": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-09-18T12:31:00.842Z"
+    },
+    "S5": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-09-18T17:24:46.158Z"
+    }
+  },
+  "evidence": {
+    "S3": {
+      "exit": 0,
+      "summary": "编译期游戏免 manifest 校验 · ✓ 渲染探针过（截图 public/games/<slug>/probe/S3-render.png） · ✓ 点击打穿（6 个控件 · 4 个点后 DOM 真的变了 · 零控制台 error）",
+      "at": "2026-09-20T07:51:26.342Z",
+      "gameHash": "592645fda91ea522"
+    },
+    "S4": {
+      "exit": 0,
+      "summary": "walkthrough 绿（\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m2 passed\u001b[39m\u001b[22m\u001b[90m (2)\u001b[39m · \u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m49 passed\u001b[39m\u001b[22m\u001b[90）· 验收剧本 8 场景绿 · ✓ UI 走查过（可驱动率见 public/games/<slug>/probe/S4-uiwalk.json）",
+      "at": "2026-09-18T10:52:45.925Z",
+      "gameHash": "e73a9e932ed1de01"
+    },
+    "S5": {
+      "exit": 0,
+      "summary": "AUDIT: WARNINGS · RATCHET: PASS · ✓ 当前版本标准照比对过（s5-boot）",
+      "at": "2026-09-18T16:57:49.202Z",
+      "gameHash": "044205f5ad0e21d5"
+    }
+  },
+  "history": [
+    {
+      "action": "concept",
+      "at": "2026-09-17T11:10:43.549Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "CONCERNS",
+      "at": "2026-09-17T15:15:08.932Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S1",
+      "at": "2026-09-17T16:50:08.839Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S2",
+      "at": "2026-09-17T16:50:16.492Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-09-17T17:21:31.872Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-09-17T17:22:43.805Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-09-17T20:22:53.827Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-17T20:33:49.390Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-17T20:46:54.064Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-17T21:04:36.925Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "CONCERNS",
+      "at": "2026-09-17T21:08:58.577Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S3",
+      "at": "2026-09-17T21:15:13.134Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 1,
+      "at": "2026-09-17T22:06:39.278Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-18T01:46:09.066Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-18T01:49:59.994Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-18T06:43:37.500Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 1,
+      "at": "2026-09-18T06:48:10.637Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-18T06:52:01.403Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-18T10:52:45.925Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "CONCERNS",
+      "at": "2026-09-18T11:42:45.853Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S4",
+      "at": "2026-09-18T12:31:00.842Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 1,
+      "at": "2026-09-18T14:08:20.765Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 1,
+      "at": "2026-09-18T14:42:13.917Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-18T14:47:56.626Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S5",
+      "at": "2026-09-18T15:14:49.667Z"
+    },
+    {
+      "action": "reopen",
+      "stage": "S5",
+      "cleared": [
+        "S5",
+        "S6",
+        "S7",
+        "S8"
+      ],
+      "by": "owner（授权代跑·2026-09-19）",
+      "note": "签核（2026-09-18T15:14:49Z）早于 S5 复查落账·按手册自查纠正：作废该关旧结论、重走三门；owner 2026-09-19 对话裁决 A 并授权 Lead 代跑",
+      "at": "2026-09-18T16:10:34.667Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 1,
+      "at": "2026-09-18T16:31:39.422Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 1,
+      "at": "2026-09-18T16:37:03.756Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-18T16:46:11.035Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "CONCERNS",
+      "at": "2026-09-18T16:55:08.385Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-09-18T16:57:49.202Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S5",
+      "at": "2026-09-18T17:24:46.158Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-20T07:51:26.342Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "CONCERNS",
+      "at": "2026-09-20T08:10:56.319Z"
+    }
+  ],
+  "reviews": {
+    "S2": {
+      "verdict": "PASS",
+      "note": "再复查·独立(非施工人)。-001 按 owner 09-18 判词(REQ-G109-001.md:69)结转 PASS；-003 首审 PASS。范围合规。复跑 66/19 绿·tsc 0 新增；全库 28 红活树零条属本工。撤修验红(副本)：BASE 66 绿·删全局门 3 红·gatePass 恒真 6 红·两门同失效 9 红/57 绿(同施工方)·另加作用域错位 2 红；sha256 c233525a…/9b4a508e… 前后一致(全哈希见档)。13 反例全过(AND 两向·全局≠源·抛错 when 证短路·lookup 活引用=S3 三拍握手)。告警：manifest FAIL exit=1(mcfight 件)·docs-ref OOM 134(既存)。对不上：①「20 个冻包v2」实为 17②docs-ref 机制描述不精确③仓根遗留 .vitest-req3.json(陈旧)。minor：reads 缺 StringVar·冻包逃 exclude·order 即语义(S3 照三拍握手)·临时产物。全文 review/S2-rereview-20260918.md",
+      "by": "独立复查 agent（S2 二轮·fresh context·非施工人）",
+      "at": "2026-09-17T17:22:43.805Z",
+      "gameHash": "3a83646fbcc2b92c",
+      "reviewHash": "1aa02c0219e57d0b",
+      "gapsHash": "30d1542ab7ea5415"
+    },
+    "S3": {
+      "verdict": "CONCERNS",
+      "note": "范围：9 文件 sha256 与 S7 领工声明基线逐字一致，本回合零改动（非 git·哈希对照 requests.md:1884）。免 manifest 依据：game-pipeline.mjs:54-58/62-64/691-698 + testing.md:19。复跑 vitest 49 测绿；PNG 自解码 variance 3355.87>15；浏览器复点 6 控件 4 变，changedIds 与证据逐字一致，sleep 后日期 1→2 证世界驱动。撤修验红：A 走私函数→49 绿未红=守卫盲区；B 压平三拍→7 红；C 删 Clickable→8 红（锚点「tile-r0c0 缺 Clickable」命中）；D 坏 GameFlow→5 红；E 假能力→19 红。告警：拓扑环为引擎既有；jsdom 3000 ECONNREFUSED=美术 fetch 优雅回退（game109.ts:102）；5173 现态 4×500 /api/generate/providers ⇒ 现重跑门会假红。全文见 review/S3-rereview-20260920.md",
+      "by": "独立复查 agent（S3 复查·fresh context·非施工人）",
+      "at": "2026-09-20T08:10:56.319Z",
+      "gameHash": "592645fda91ea522"
+    },
+    "S4": {
+      "verdict": "CONCERNS",
+      "note": "独立复查·S4。十二条：①范围无越界（尽在 games/game109+docs·sha256 核）②S1-S4 破坏全红锚中（tints 坏→「行5不比行4暗」764<251）③E2E 重跑 174/174·0 consoleErr·与原件逐条零 diff ④失败路径 04-rejected 在 ⑤同 seed 双跑字节一致 ⑥8 剧本 author:GD 齐 ⑦8 截图目击 ⑧抽样重走 3 条 ⑨八问齐（§2/3 轮1口径）⑩递归 27/25/0/2 ⑪见条件② ⑫AI N/A §4.65。告警仅既有 [state-sync,flow] 环。条件①tints 接线仓内无证人：换错值 49 测试仍绿，仅 S4-pixels 探针兜→skeleton.test.ts:190 补 toEqual(LIFE_TINTS)；②现挂缺省 SHELL（game109.ts:110）+自建 HUD，plan §4.6 STARTER_THEME/@ui/starters 选型未落地→S5 首项或记债。R-19 重复浇水·§0.10 双构造照邀点名→S5 收。",
+      "by": "orch-review (S4 fresh-context independent reviewer, non-constructor)",
+      "at": "2026-09-18T11:42:45.853Z",
+      "gameHash": "e73a9e932ed1de01"
+    },
+    "S5": {
+      "verdict": "CONCERNS",
+      "note": "CONCERNS·gameHash 044205f5ad0e21d5 全程恒定·gate 独立复跑 exit 0(16:46Z·AUDIT WARN·RATCHET PASS·golden s5-boot 比对过)·audit 三臂 0 硬红(华丽度12/6/1)·验收9/9(357点)·递归27/26/0/1·走查174/174 consoleErrors 0·golden compare×4 ratio 0·撤修验红3锚点全中(隔离副本:tints证人skeleton.test.ts:202:28·hud bare 4硬红1.45/2.65/2.77/2.77·R-19第16条✓)·缺陷2:①D-13债表缺行(requests.md:1010-1030无D-13行,§0.20已回填不成立)②golden-shot.mjs:205 30s goto零余量负载下门假红(实测12.4s空闲vs30s争用)·均非游戏字节缺陷",
+      "by": "独立复查 agent（S5·fresh context·非施工人）",
+      "at": "2026-09-18T16:55:08.385Z",
+      "gameHash": "044205f5ad0e21d5"
+    }
+  },
+  "selfCheck": {
+    "S4": {
+      "at": "2026-09-18T10:52:45.925Z",
+      "shots": 8,
+      "gameHash": "e73a9e932ed1de01"
+    },
+    "S5": {
+      "at": "2026-09-18T16:57:49.202Z",
+      "shots": 24,
+      "gameHash": "044205f5ad0e21d5"
+    }
+  }
+}

@@ -1,0 +1,2627 @@
+[
+  {
+    "id": "decision:alexscaves_atlatitan",
+    "unitId": "alexscaves_atlatitan",
+    "candidates": [
+      "alexscaves_atlatitan/skill-1"
+    ],
+    "policyText": "接近后践踏",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/0/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexscaves_atlatitan/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexscaves_brainiac",
+    "unitId": "alexscaves_brainiac",
+    "candidates": [
+      "alexscaves_brainiac/skill-1",
+      "alexscaves_brainiac/skill-2",
+      "alexscaves_brainiac/skill-3"
+    ],
+    "policyText": "危机时优先一次废料桶；否则按空地和距离选近战/毒弹",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/1/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "危机时优先一次废料桶；否则按空地和距离选近战/毒弹"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexscaves_deep_one",
+    "unitId": "alexscaves_deep_one",
+    "candidates": [
+      "alexscaves_deep_one/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/2/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexscaves_deep_one/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexscaves_deep_one_knight",
+    "unitId": "alexscaves_deep_one_knight",
+    "candidates": [
+      "alexscaves_deep_one_knight/skill-1",
+      "alexscaves_deep_one_knight/skill-2"
+    ],
+    "policyText": "距离切换",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/3/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "距离切换"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexscaves_deep_one_mage",
+    "unitId": "alexscaves_deep_one_mage",
+    "candidates": [
+      "alexscaves_deep_one_mage/skill-1",
+      "alexscaves_deep_one_mage/skill-2",
+      "alexscaves_deep_one_mage/skill-3"
+    ],
+    "policyText": "贴身优先甩动；否则从合法水弹/水波选择",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/4/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "贴身优先甩动；否则从合法水弹/水波选择"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexscaves_forsaken",
+    "unitId": "alexscaves_forsaken",
+    "candidates": [
+      "alexscaves_forsaken/skill-1",
+      "alexscaves_forsaken/skill-2",
+      "alexscaves_forsaken/skill-3",
+      "alexscaves_forsaken/skill-4",
+      "alexscaves_forsaken/skill-5"
+    ],
+    "policyText": "远距优先接近；其余按距离选择可用攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/5/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "远距优先接近；其余按距离选择可用攻击"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexscaves_luxtructosaurus",
+    "unitId": "alexscaves_luxtructosaurus",
+    "candidates": [
+      "alexscaves_luxtructosaurus/skill-1",
+      "alexscaves_luxtructosaurus/skill-2",
+      "alexscaves_luxtructosaurus/skill-3",
+      "alexscaves_luxtructosaurus/skill-4"
+    ],
+    "policyText": "远处跃击，近处轮换甩尾/践踏；独立周期陨石",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/6/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "远处跃击，近处轮换甩尾/践踏；独立周期陨石"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexscaves_magnetron",
+    "unitId": "alexscaves_magnetron",
+    "candidates": [
+      "alexscaves_magnetron/skill-1"
+    ],
+    "policyText": "近战",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/7/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexscaves_magnetron/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexscaves_nucleeper",
+    "unitId": "alexscaves_nucleeper",
+    "candidates": [
+      "alexscaves_nucleeper/skill-1"
+    ],
+    "policyText": "敌人进入范围触发一次",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/8/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexscaves_nucleeper/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexscaves_relicheirus",
+    "unitId": "alexscaves_relicheirus",
+    "candidates": [
+      "alexscaves_relicheirus/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/9/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexscaves_relicheirus/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexscaves_teleto",
+    "unitId": "alexscaves_teleto",
+    "candidates": [
+      "alexscaves_teleto/skill-1"
+    ],
+    "policyText": "进入射程后射击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/10/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexscaves_teleto/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexscaves_tremorsaurus",
+    "unitId": "alexscaves_tremorsaurus",
+    "candidates": [
+      "alexscaves_tremorsaurus/skill-1",
+      "alexscaves_tremorsaurus/skill-2"
+    ],
+    "policyText": "怒吼合法且就绪优先",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/11/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "怒吼合法且就绪优先"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:earthshaker",
+    "unitId": "earthshaker",
+    "candidates": [
+      "earthshaker/skill-1",
+      "earthshaker/skill-2"
+    ],
+    "policyText": "合法激光优先，否则践踏或接近",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/12/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "合法激光优先，否则践踏或接近"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": [
+      "earthshaker/s4-beam",
+      "earthshaker/s4-quake"
+    ]
+  },
+  {
+    "id": "decision:alexscaves_vallumraptor",
+    "unitId": "alexscaves_vallumraptor",
+    "candidates": [
+      "alexscaves_vallumraptor/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/13/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexscaves_vallumraptor/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexsmobs_bison",
+    "unitId": "alexsmobs_bison",
+    "candidates": [
+      "alexsmobs_bison/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/14/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexsmobs_bison/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexsmobs_centipede_head",
+    "unitId": "alexsmobs_centipede_head",
+    "candidates": [
+      "alexsmobs_centipede_head/skill-1"
+    ],
+    "policyText": "近战",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/15/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexsmobs_centipede_head/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:elephant",
+    "unitId": "elephant",
+    "candidates": [
+      "elephant/skill-1",
+      "elephant/skill-2"
+    ],
+    "policyText": "地面目标距离大于阈值且冲锋CD就绪则冲锋，否则普通攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/16/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "地面目标距离大于阈值且冲锋CD就绪则冲锋，否则普通攻击"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": [
+      "elephant/s4-charge",
+      "elephant/s4-strike"
+    ]
+  },
+  {
+    "id": "decision:alexsmobs_farseer",
+    "unitId": "alexsmobs_farseer",
+    "candidates": [
+      "alexsmobs_farseer/skill-1",
+      "alexsmobs_farseer/skill-2"
+    ],
+    "policyText": "三次射线后五次近身攻击，再循环",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/17/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "三次射线后五次近身攻击，再循环"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexsmobs_grizzly_bear",
+    "unitId": "alexsmobs_grizzly_bear",
+    "candidates": [
+      "alexsmobs_grizzly_bear/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/18/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexsmobs_grizzly_bear/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexsmobs_murmur",
+    "unitId": "alexsmobs_murmur",
+    "candidates": [
+      "alexsmobs_murmur/skill-1"
+    ],
+    "policyText": "头部接近并攻击，主体保持允许距离",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/19/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexsmobs_murmur/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexsmobs_rhinoceros",
+    "unitId": "alexsmobs_rhinoceros",
+    "candidates": [
+      "alexsmobs_rhinoceros/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/20/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexsmobs_rhinoceros/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexsmobs_straddler",
+    "unitId": "alexsmobs_straddler",
+    "candidates": [
+      "alexsmobs_straddler/skill-1"
+    ],
+    "policyText": "持续远程攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/21/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexsmobs_straddler/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexsmobs_tarantula_hawk",
+    "unitId": "alexsmobs_tarantula_hawk",
+    "candidates": [
+      "alexsmobs_tarantula_hawk/skill-1"
+    ],
+    "policyText": "飞行接近后蛰击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/22/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexsmobs_tarantula_hawk/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexsmobs_tiger",
+    "unitId": "alexsmobs_tiger",
+    "candidates": [
+      "alexsmobs_tiger/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/23/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexsmobs_tiger/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexsmobs_tusklin",
+    "unitId": "alexsmobs_tusklin",
+    "candidates": [
+      "alexsmobs_tusklin/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/24/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "alexsmobs_tusklin/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:alexsmobs_warped_mosco",
+    "unitId": "alexsmobs_warped_mosco",
+    "candidates": [
+      "alexsmobs_warped_mosco/skill-1",
+      "alexsmobs_warped_mosco/skill-2",
+      "alexsmobs_warped_mosco/skill-4",
+      "alexsmobs_warped_mosco/skill-5",
+      "alexsmobs_warped_mosco/skill-6"
+    ],
+    "policyText": "低血转换形态；地面选近战招式，飞行用远程",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/25/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "低血转换形态；地面选近战招式，飞行用远程"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:blaze",
+    "unitId": "blaze",
+    "candidates": [
+      "blaze/skill-1"
+    ],
+    "policyText": "轮间冷却后齐射",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/26/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "blaze/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_amethyst_crab",
+    "unitId": "cataclysm_amethyst_crab",
+    "candidates": [
+      "cataclysm_amethyst_crab/skill-1"
+    ],
+    "policyText": "缩地→破土→横扫；无邻近敌人则退出",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/27/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "cataclysm_amethyst_crab/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_ancient_remnant",
+    "unitId": "cataclysm_ancient_remnant",
+    "candidates": [
+      "cataclysm_ancient_remnant/skill-1",
+      "cataclysm_ancient_remnant/skill-2",
+      "cataclysm_ancient_remnant/skill-3",
+      "cataclysm_ancient_remnant/skill-4",
+      "cataclysm_ancient_remnant/skill-5"
+    ],
+    "policyText": "按空地、距离、CD和已有沙暴筛选后选择",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/28/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "按空地、距离、CD和已有沙暴筛选后选择"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_coral_golem",
+    "unitId": "cataclysm_coral_golem",
+    "candidates": [
+      "cataclysm_coral_golem/skill-1"
+    ],
+    "policyText": "进入跳跃范围后使用",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/29/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "cataclysm_coral_golem/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_coralssus",
+    "unitId": "cataclysm_coralssus",
+    "candidates": [
+      "cataclysm_coralssus/skill-1"
+    ],
+    "policyText": "进入跳跃范围后使用",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/30/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "cataclysm_coralssus/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_deepling",
+    "unitId": "cataclysm_deepling",
+    "candidates": [
+      "cataclysm_deepling/skill-1",
+      "cataclysm_deepling/skill-2"
+    ],
+    "policyText": "按距离切换",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/31/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "按距离切换"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_deepling_brute",
+    "unitId": "cataclysm_deepling_brute",
+    "candidates": [
+      "cataclysm_deepling_brute/skill-1",
+      "cataclysm_deepling_brute/skill-2"
+    ],
+    "policyText": "按距离切换",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/32/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "按距离切换"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_deepling_priest",
+    "unitId": "cataclysm_deepling_priest",
+    "candidates": [
+      "cataclysm_deepling_priest/skill-1"
+    ],
+    "policyText": "敌人进入范围后停下施法；恢复期移动",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/33/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "cataclysm_deepling_priest/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_deepling_warlock",
+    "unitId": "cataclysm_deepling_warlock",
+    "candidates": [
+      "cataclysm_deepling_warlock/skill-1"
+    ],
+    "policyText": "合法目标进入范围后标记轰击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/34/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "cataclysm_deepling_warlock/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_ender_golem",
+    "unitId": "cataclysm_ender_golem",
+    "candidates": [
+      "cataclysm_ender_golem/skill-1",
+      "cataclysm_ender_golem/skill-2",
+      "cataclysm_ender_golem/skill-3"
+    ],
+    "policyText": "按距离选择，常态对空优先符文",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/35/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "按距离选择，常态对空优先符文"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_ignited_berserker",
+    "unitId": "cataclysm_ignited_berserker",
+    "candidates": [
+      "cataclysm_ignited_berserker/skill-1",
+      "cataclysm_ignited_berserker/skill-2"
+    ],
+    "policyText": "完成后交替",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/36/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "完成后交替"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_ignited_revenant",
+    "unitId": "cataclysm_ignited_revenant",
+    "candidates": [
+      "cataclysm_ignited_revenant/skill-1",
+      "cataclysm_ignited_revenant/skill-2",
+      "cataclysm_ignited_revenant/skill-3"
+    ],
+    "policyText": "从距离/空地合法技能中选择；骨弹阶段撤防",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/37/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "从距离/空地合法技能中选择；骨弹阶段撤防"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_kobolediator",
+    "unitId": "cataclysm_kobolediator",
+    "candidates": [
+      "cataclysm_kobolediator/skill-1",
+      "cataclysm_kobolediator/skill-2",
+      "cataclysm_kobolediator/skill-3"
+    ],
+    "policyText": "远距冲锋；近距交替三连击/践踏",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/38/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "远距冲锋；近距交替三连击/践踏"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_koboleton",
+    "unitId": "cataclysm_koboleton",
+    "candidates": [
+      "cataclysm_koboleton/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/39/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "cataclysm_koboleton/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_modern_remnant",
+    "unitId": "cataclysm_modern_remnant",
+    "candidates": [
+      "cataclysm_modern_remnant/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/40/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "cataclysm_modern_remnant/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_the_harbinger",
+    "unitId": "cataclysm_the_harbinger",
+    "candidates": [
+      "cataclysm_the_harbinger/skill-1",
+      "cataclysm_the_harbinger/skill-2",
+      "cataclysm_the_harbinger/skill-3",
+      "cataclysm_the_harbinger/skill-4",
+      "cataclysm_the_harbinger/skill-5",
+      "cataclysm_the_harbinger/skill-6"
+    ],
+    "policyText": "定时切换日常武器；特殊技能按四步循环优先",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/41/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "定时切换日常武器；特殊技能按四步循环优先"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_the_prowler",
+    "unitId": "cataclysm_the_prowler",
+    "candidates": [
+      "cataclysm_the_prowler/skill-1",
+      "cataclysm_the_prowler/skill-2",
+      "cataclysm_the_prowler/skill-3",
+      "cataclysm_the_prowler/skill-4"
+    ],
+    "policyText": "每第四次技能为光束；其余按空地和距离选择",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/42/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "每第四次技能为光束；其余按空地和距离选择"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_the_watcher",
+    "unitId": "cataclysm_the_watcher",
+    "candidates": [
+      "cataclysm_the_watcher/skill-1"
+    ],
+    "policyText": "远程射击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/43/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "cataclysm_the_watcher/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:cataclysm_wadjet",
+    "unitId": "cataclysm_wadjet",
+    "candidates": [
+      "cataclysm_wadjet/skill-1",
+      "cataclysm_wadjet/skill-2",
+      "cataclysm_wadjet/skill-3"
+    ],
+    "policyText": "石碑就绪优先；其余按目标类型轮换",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/44/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "石碑就绪优先；其余按目标类型轮换"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:creeper",
+    "unitId": "creeper",
+    "candidates": [
+      "creeper/skill-1"
+    ],
+    "policyText": "接近后启动引信",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/45/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "creeper/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:dread_beast",
+    "unitId": "dread_beast",
+    "candidates": [
+      "dread_beast/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/46/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "dread_beast/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:dread_ghoul",
+    "unitId": "dread_ghoul",
+    "candidates": [
+      "dread_ghoul/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/47/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "dread_ghoul/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:dread_spider",
+    "unitId": "dread_spider",
+    "candidates": [
+      "dread_spider/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/48/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "dread_spider/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:dread_thrall",
+    "unitId": "dread_thrall",
+    "candidates": [
+      "dread_thrall/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/49/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "dread_thrall/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:evoker",
+    "unitId": "evoker",
+    "candidates": [
+      "evoker/skill-1",
+      "evoker/skill-2",
+      "evoker/skill-3"
+    ],
+    "policyText": "召唤就绪优先，否则合法地面尖牙",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/50/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "召唤就绪优先，否则合法地面尖牙"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:iceandfire_cyclops",
+    "unitId": "iceandfire_cyclops",
+    "candidates": [
+      "iceandfire_cyclops/skill-1",
+      "iceandfire_cyclops/skill-2"
+    ],
+    "policyText": "满足吞噬条件则吞噬，否则合法重击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/51/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "iceandfire_cyclops/skill-1",
+      "iceandfire_cyclops/skill-2"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "configured",
+        "strategy": "priority",
+        "sourceRef": "docs/design/game-mcfight/r3-planner-resolution-batch-1.md"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:iceandfire_dread_lich",
+    "unitId": "iceandfire_dread_lich",
+    "candidates": [
+      "iceandfire_dread_lich/skill-1",
+      "iceandfire_dread_lich/skill-2"
+    ],
+    "policyText": "周期召唤优先，其余远程攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/52/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "周期召唤优先，其余远程攻击"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:iceandfire_if_cockatrice",
+    "unitId": "iceandfire_if_cockatrice",
+    "candidates": [
+      "iceandfire_if_cockatrice/skill-1"
+    ],
+    "policyText": "远程射击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/53/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "iceandfire_if_cockatrice/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:iceandfire_if_troll",
+    "unitId": "iceandfire_if_troll",
+    "candidates": [
+      "iceandfire_if_troll/skill-1",
+      "iceandfire_if_troll/skill-2"
+    ],
+    "policyText": "重击合法且就绪优先",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/54/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "重击合法且就绪优先"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:iceandfire_stymphalianbird",
+    "unitId": "iceandfire_stymphalianbird",
+    "candidates": [
+      "iceandfire_stymphalianbird/skill-1"
+    ],
+    "policyText": "飞行远程齐射",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/55/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "iceandfire_stymphalianbird/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:iron_golem",
+    "unitId": "iron_golem",
+    "candidates": [
+      "iron_golem/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/56/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "iron_golem/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:mowziesmobs_frostmaw",
+    "unitId": "mowziesmobs_frostmaw",
+    "candidates": [
+      "mowziesmobs_frostmaw/skill-1",
+      "mowziesmobs_frostmaw/skill-2",
+      "mowziesmobs_frostmaw/skill-3",
+      "mowziesmobs_frostmaw/skill-4"
+    ],
+    "policyText": "地面猛砸就绪优先，其余合法技能中选择",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/57/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "地面猛砸就绪优先，其余合法技能中选择"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:mowziesmobs_naga",
+    "unitId": "mowziesmobs_naga",
+    "candidates": [
+      "mowziesmobs_naga/skill-1",
+      "mowziesmobs_naga/skill-2"
+    ],
+    "policyText": "射击/俯冲交替，间歇盘旋",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/58/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "射击/俯冲交替，间歇盘旋"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:pillager",
+    "unitId": "pillager",
+    "candidates": [
+      "pillager/skill-1"
+    ],
+    "policyText": "远程射击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/59/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "pillager/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:ravager",
+    "unitId": "ravager",
+    "candidates": [
+      "ravager/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/60/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "ravager/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:skeleton",
+    "unitId": "skeleton",
+    "candidates": [
+      "skeleton/skill-1"
+    ],
+    "policyText": "远程射击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/61/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "skeleton/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": [
+      "skeleton/s4-arrow"
+    ]
+  },
+  {
+    "id": "decision:stradpole",
+    "unitId": "stradpole",
+    "candidates": [],
+    "policyText": "出生点附近游走，不主动索敌",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/62/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "wander-near-spawn",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:stray",
+    "unitId": "stray",
+    "candidates": [
+      "stray/skill-1"
+    ],
+    "policyText": "远程射击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/63/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "stray/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_alpha_yeti",
+    "unitId": "twilightforest_alpha_yeti",
+    "candidates": [
+      "twilightforest_alpha_yeti/skill-1",
+      "twilightforest_alpha_yeti/skill-3"
+    ],
+    "policyText": "近身地面且狂暴就绪优先，否则投弹",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/64/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "近身地面且狂暴就绪优先，否则投弹"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_armored_giant",
+    "unitId": "twilightforest_armored_giant",
+    "candidates": [
+      "twilightforest_armored_giant/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/65/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "twilightforest_armored_giant/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_blockchain_goblin",
+    "unitId": "twilightforest_blockchain_goblin",
+    "candidates": [
+      "twilightforest_blockchain_goblin/skill-1"
+    ],
+    "policyText": "近身横扫",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/66/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "twilightforest_blockchain_goblin/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_death_tome",
+    "unitId": "twilightforest_death_tome",
+    "candidates": [
+      "twilightforest_death_tome/skill-1"
+    ],
+    "policyText": "远程射击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/67/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "twilightforest_death_tome/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_fire_beetle",
+    "unitId": "twilightforest_fire_beetle",
+    "candidates": [
+      "twilightforest_fire_beetle/skill-1"
+    ],
+    "policyText": "接近后引导喷火",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/68/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "twilightforest_fire_beetle/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_giant_miner",
+    "unitId": "twilightforest_giant_miner",
+    "candidates": [
+      "twilightforest_giant_miner/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/69/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "twilightforest_giant_miner/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_king_spider",
+    "unitId": "twilightforest_king_spider",
+    "candidates": [
+      "twilightforest_king_spider/skill-1",
+      "twilightforest_king_spider/skill-2"
+    ],
+    "policyText": "坐骑近战，骑手独立远程",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/70/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "坐骑近战，骑手独立远程"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_minoshroom",
+    "unitId": "twilightforest_minoshroom",
+    "candidates": [
+      "twilightforest_minoshroom/skill-1",
+      "twilightforest_minoshroom/skill-2"
+    ],
+    "policyText": "地面目标距离大于阈值且冲锋CD就绪则冲锋",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/71/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "地面目标距离大于阈值且冲锋CD就绪则冲锋"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_minotaur",
+    "unitId": "twilightforest_minotaur",
+    "candidates": [
+      "twilightforest_minotaur/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/72/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "twilightforest_minotaur/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_mist_wolf",
+    "unitId": "twilightforest_mist_wolf",
+    "candidates": [
+      "twilightforest_mist_wolf/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/73/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "twilightforest_mist_wolf/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_naga",
+    "unitId": "twilightforest_naga",
+    "candidates": [
+      "twilightforest_naga/skill-1"
+    ],
+    "policyText": "蛇形穿梭，低血缩短体节并加速",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/74/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "twilightforest_naga/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_skeleton_druid",
+    "unitId": "twilightforest_skeleton_druid",
+    "candidates": [
+      "twilightforest_skeleton_druid/skill-1"
+    ],
+    "policyText": "独立远程决策，骑乘时不自行移动",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/75/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "twilightforest_skeleton_druid/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_slime_beetle",
+    "unitId": "twilightforest_slime_beetle",
+    "candidates": [
+      "twilightforest_slime_beetle/skill-1"
+    ],
+    "policyText": "远程射击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/76/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "twilightforest_slime_beetle/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_tower_golem",
+    "unitId": "twilightforest_tower_golem",
+    "candidates": [
+      "twilightforest_tower_golem/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/77/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "twilightforest_tower_golem/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:twilightforest_winter_wolf",
+    "unitId": "twilightforest_winter_wolf",
+    "candidates": [
+      "twilightforest_winter_wolf/skill-1"
+    ],
+    "policyText": "接近后引导冰雾",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/78/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "twilightforest_winter_wolf/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:vex",
+    "unitId": "vex",
+    "candidates": [
+      "vex/skill-1"
+    ],
+    "policyText": "攻击就绪则接近，冷却时飞行游走",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/79/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "vex/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": [
+      "vex/s4-dive"
+    ]
+  },
+  {
+    "id": "decision:vindicator",
+    "unitId": "vindicator",
+    "candidates": [
+      "vindicator/skill-1"
+    ],
+    "policyText": "接近合法目标后攻击",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/80/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "vindicator/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": [
+      "vindicator/s4-slash"
+    ]
+  },
+  {
+    "id": "decision:warden",
+    "unitId": "warden",
+    "candidates": [
+      "warden/skill-1",
+      "warden/skill-2"
+    ],
+    "policyText": "声波合法且就绪优先，否则接近近战",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/81/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "声波合法且就绪优先，否则接近近战"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  },
+  {
+    "id": "decision:witch",
+    "unitId": "witch",
+    "candidates": [
+      "witch/skill-1",
+      "witch/skill-2",
+      "witch/skill-3",
+      "witch/skill-4"
+    ],
+    "policyText": "无邻近敌人且受伤优先治疗；否则选攻击药水",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/82/proposed/decision",
+    "status": "pending-design",
+    "selection": "pending-design",
+    "orderedCandidates": [],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": {
+        "status": "pending-design",
+        "reason": "无邻近敌人且受伤优先治疗；否则选攻击药水"
+      }
+    },
+    "fallback": "idle",
+    "runtimeCandidates": [
+      "witch/s4-heal",
+      "witch/s4-potion"
+    ]
+  },
+  {
+    "id": "decision:wither_skeleton",
+    "unitId": "wither_skeleton",
+    "candidates": [
+      "wither_skeleton/skill-1"
+    ],
+    "policyText": "近战",
+    "sourceRef": "docs/design/game-mcfight/r1-unit-cards-v1.json#/cards/83/proposed/decision",
+    "status": "configured",
+    "selection": "priority",
+    "orderedCandidates": [
+      "wither_skeleton/skill-1"
+    ],
+    "gates": [
+      "alive",
+      "legal-target",
+      "cast-distance",
+      "independent-cd-ready",
+      "exclusive-action-free"
+    ],
+    "constraints": {
+      "retarget": "before-start-only",
+      "busy": "finish-or-cancel-no-restart",
+      "cooldowns": "entity-instance/loadout-id",
+      "passiveScheduling": "independent-of-active-lock",
+      "complexSelection": null
+    },
+    "fallback": "idle",
+    "runtimeCandidates": []
+  }
+]

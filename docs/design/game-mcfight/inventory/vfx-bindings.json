@@ -1,0 +1,169 @@
+[
+  {
+    "name": "bigexplosion",
+    "expectedResource": "VFX/bigexplosion_spritesheet",
+    "matchingFiles": [
+      "Assets/Resources/VFX/bigexplosion_spritesheet.png"
+    ],
+    "abilityUsers": [
+      "NucleeperAbility",
+      "ExplosiveAbility"
+    ],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  },
+  {
+    "name": "closeaoe",
+    "expectedResource": "VFX/closeaoe_spritesheet",
+    "matchingFiles": [
+      "Assets/Resources/VFX/closeaoe_spritesheet.png"
+    ],
+    "abilityUsers": [
+      "CoralLeapAbility",
+      "DeepOneMageAbility",
+      "FrostmawAbility",
+      "ForsakenAbility"
+    ],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  },
+  {
+    "name": "crosshair",
+    "expectedResource": "VFX/crosshair_spritesheet",
+    "matchingFiles": [
+      "Assets/Resources/VFX/crosshair_spritesheet.png"
+    ],
+    "abilityUsers": [
+      "WarlockAbility"
+    ],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  },
+  {
+    "name": "fireball",
+    "expectedResource": "VFX/fireball_spritesheet",
+    "matchingFiles": [
+      "Assets/Resources/VFX/fireball_spritesheet.png"
+    ],
+    "abilityUsers": [
+      "BlazeAbility"
+    ],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  },
+  {
+    "name": "firebreath",
+    "expectedResource": "VFX/firebreath_spritesheet",
+    "matchingFiles": [
+      "Assets/Resources/VFX/firebreath_spritesheet.png"
+    ],
+    "abilityUsers": [
+      "ConeBreathAbility"
+    ],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  },
+  {
+    "name": "firerain",
+    "expectedResource": "VFX/firerain_spritesheet",
+    "matchingFiles": [
+      "Assets/Resources/VFX/firerain_spritesheet.png"
+    ],
+    "abilityUsers": [
+      "WarlockAbility"
+    ],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  },
+  {
+    "name": "hitmark",
+    "expectedResource": "VFX/hitmark_spritesheet",
+    "matchingFiles": [
+      "Assets/Resources/VFX/hitmark_spritesheet.png"
+    ],
+    "abilityUsers": [],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  },
+  {
+    "name": "holyaoe",
+    "expectedResource": "VFX/holyaoe_spritesheet",
+    "matchingFiles": [
+      "Assets/Resources/VFX/holyaoe_spritesheet.png"
+    ],
+    "abilityUsers": [
+      "PriestAbility"
+    ],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  },
+  {
+    "name": "icemist",
+    "expectedResource": "VFX/icemist_spritesheet",
+    "matchingFiles": [
+      "Assets/Resources/VFX/icemist_spritesheet.png"
+    ],
+    "abilityUsers": [
+      "ConeBreathAbility",
+      "FrostmawAbility"
+    ],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  },
+  {
+    "name": "lava_circle",
+    "expectedResource": "VFX/lava_circle_spritesheet",
+    "matchingFiles": [],
+    "abilityUsers": [
+      "LuxtructosaurusAbility"
+    ],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  },
+  {
+    "name": "meteor",
+    "expectedResource": "VFX/meteor_spritesheet",
+    "matchingFiles": [
+      "Assets/Resources/VFX/meteor_spritesheet.png"
+    ],
+    "abilityUsers": [
+      "LuxtructosaurusAbility"
+    ],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  },
+  {
+    "name": "obelisk",
+    "expectedResource": "VFX/obelisk_spritesheet",
+    "matchingFiles": [
+      "Assets/Resources/VFX/obelisk_spritesheet.png"
+    ],
+    "abilityUsers": [
+      "WadjetAbility",
+      "RemnantAbility"
+    ],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  },
+  {
+    "name": "shockwave",
+    "expectedResource": "VFX/shockwave_spritesheet",
+    "matchingFiles": [
+      "Assets/Resources/VFX/shockwave_spritesheet.png"
+    ],
+    "abilityUsers": [
+      "KobolediatorAbility",
+      "RemnantAbility"
+    ],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  },
+  {
+    "name": "smallexplosion",
+    "expectedResource": "VFX/smallexplosion_spritesheet",
+    "matchingFiles": [
+      "Assets/Resources/VFX/smallexplosion_spritesheet.png"
+    ],
+    "abilityUsers": [],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  },
+  {
+    "name": "soundwave",
+    "expectedResource": "VFX/soundwave_spritesheet",
+    "matchingFiles": [
+      "Assets/Resources/VFX/soundwave_spritesheet.png"
+    ],
+    "abilityUsers": [
+      "RevenantAbility",
+      "ForsakenAbility"
+    ],
+    "verification": "文件匹配，不代表Unity切片加载或视觉对齐通过"
+  }
+]

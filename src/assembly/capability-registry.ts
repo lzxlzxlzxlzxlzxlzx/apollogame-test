@@ -1,3 +1,4 @@
+import {damageRoutingCapability} from '@skills/tier2/damage-routing.js';
 import type { CapabilityDefinition } from '@engine/core/define-capability.js';
 import { allAtomCapabilities, extensionAtomCapabilities } from '@atom-skills/index.js';
 import {
@@ -46,6 +47,7 @@ import {
   pathfindCapability,
   gaugeCapability,
   textBindingCapability,
+  spriteBindingCapability,
   dragPlaceCapability,
   trayCapability,
   queueSlotsCapability,
@@ -74,6 +76,7 @@ import { dialogueCapability, match3BoardCapability, prefabCapability, casterCapa
 // ═══════════════════════════════════════════════════════════════
 
 export const ALL_CAPABILITIES: readonly CapabilityDefinition[] = [
+  damageRoutingCapability,
   ...allAtomCapabilities,
   ...extensionAtomCapabilities,
   // tier1
@@ -123,6 +126,7 @@ export const ALL_CAPABILITIES: readonly CapabilityDefinition[] = [
   pathfindCapability,
   gaugeCapability,
   textBindingCapability,
+  spriteBindingCapability,
   dragPlaceCapability,
   trayCapability,
   // t2-queue-slots（REQ-POOL-ADVANCE 缺口）：压实队列——消费队首/中间任一成员，存活成员整体前移

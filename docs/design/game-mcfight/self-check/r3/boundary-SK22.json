@@ -1,0 +1,1111 @@
+{
+  "kind": "SK22",
+  "scope": "capability boundary only; NOT an identity PASS",
+  "trace": [
+    {
+      "tick": 1,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": [
+        "a-head",
+        "a-head",
+        "b-head",
+        "b-head"
+      ]
+    },
+    {
+      "tick": 2,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 3,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 4,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 5,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 6,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 7,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 8,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 9,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 10,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 11,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 12,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 13,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 14,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 15,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 16,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 17,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 18,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 19,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 20,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 21,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 22,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 23,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 24,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    },
+    {
+      "tick": 25,
+      "positions": {
+        "a-head": [
+          0,
+          0
+        ],
+        "a-one": [
+          -0.2,
+          0
+        ],
+        "a-two": [
+          0.2,
+          0
+        ],
+        "a-target": [
+          0,
+          0
+        ],
+        "b-head": [
+          20,
+          0
+        ],
+        "b-one": [
+          19.8,
+          0
+        ],
+        "b-two": [
+          20.2,
+          0
+        ],
+        "b-target": [
+          20,
+          0
+        ]
+      },
+      "hp": {
+        "a-head": 50,
+        "a-target": 40,
+        "b-head": 50,
+        "b-target": 40
+      },
+      "sources": []
+    }
+  ]
+}

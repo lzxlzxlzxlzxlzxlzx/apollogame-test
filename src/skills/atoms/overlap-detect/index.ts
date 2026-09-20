@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { SystemPhase } from '@engine/core/types.js';
 import type { Transform, Shape, Overlap } from '@engine/protocol/components.js';
 import { contactBetween, aabbOf } from '@engine/spatial/contact.js';
 import { DynamicAabbTree } from '@engine/spatial/aabb-tree.js';
@@ -42,6 +43,7 @@ export const overlapDetectCapability = defineCapability({
   systems: [
     {
       id: 'overlap-detect',
+      phase: SystemPhase.Resolve,
       reads: ['Transform', 'Shape'],
       writes: ['Overlap'],
       consumes: [],

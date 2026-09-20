@@ -4,6 +4,7 @@ import type { IWorld } from '@engine/core/types.js';
 import type { Draggable, InputQueue, Transform, Shape, HexBoard, HexPos, Tag, Flag, Resource, Tween, Clickable, DropZone, Signal } from '@engine/protocol/components.js';
 import { hexCellToPoint, hexPointToCell } from './grid-move.js';
 import { findByComponentId } from '@engine/core/query.js';
+import { findDebugTrace, appendTrace } from '../debug-trace.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  drag-place —— 拖拽摆放（REQ-F-045；备战上场/调位/回席的输入桥，战棋/卡牌摆子通用）。
@@ -31,6 +32,52 @@ function replayTween(world: IWorld, eid: string): void {
   if (tw) { tw.elapsed = 0; tw.done = false; }
 }
 
+function phaseAllows(world: IWorld, d: Draggable): boolean {
+  if (!d.onlyFlag) return true;
+  const id = findByComponentId(world, 'Flag', 'id', d.onlyFlag);
+  return !!id && !!world.getComponent<Flag>(id, 'Flag')?.active;
+}
+
+/** Full circle geometry, one transaction. Rejection never changes either unit. */
+function placeFree(world: IWorld, eid: string, d: Draggable, x: number, y: number): void {
+  const trace = findDebugTrace(world);
+  const reject = (reason: string) => appendTrace(trace, trace?.tick ?? 0, 'drag-place', 'reject', eid, reason);
+  const rule = d.freePlacement!;
+  const t = world.getComponent<Transform>(eid, 'Transform');
+  const shape = world.getComponent<Shape>(eid, 'Shape');
+  const tag = world.getComponent<Tag>(eid, 'Tag');
+  const inside = (b: typeof rule.bounds, radius = 0) =>
+    x - radius >= b.minX && x + radius <= b.maxX && y - radius >= b.minY && y + radius <= b.maxY;
+  if (!t || !tag || shape?.kind !== 'circle' || d.snap ||
+      ![x, y, t.scaleX, t.scaleY, shape.radius, ...Object.values(rule.bounds), ...Object.values(rule.bench)].every(Number.isFinite) ||
+      !rule.teamMask || !rule.deployedMask || (rule.teamMask & rule.deployedMask) !== 0 ||
+      (tag.flags & rule.teamMask) === 0 || Math.abs(t.scaleX) !== Math.abs(t.scaleY) || !t.scaleX || (shape.radius ?? 0) <= 0) { reject('invalid-free-placement-config'); return; }
+  if (inside(rule.bench)) {
+    t.x = rule.bench.x; t.y = rule.bench.y;
+    tag.flags &= ~rule.deployedMask;
+    replayTween(world, eid);
+    appendTrace(trace, trace?.tick ?? 0, 'drag-place', 'commit', eid, 'withdraw-to-bench');
+    return;
+  }
+  const radius = shape.radius! * Math.abs(t.scaleX);
+  if (!inside(rule.bounds, radius)) { reject('circle-outside-deployment-bounds'); return; }
+  for (const [other] of world.query('Tag', 'Transform', 'Shape')) {
+    if (other === eid) continue;
+    const ot = world.getComponent<Tag>(other, 'Tag')!;
+    if (!(ot.flags & rule.teamMask) || !(ot.flags & rule.deployedMask)) continue;
+    const p = world.getComponent<Transform>(other, 'Transform')!;
+    const s = world.getComponent<Shape>(other, 'Shape')!;
+    if (s.kind !== 'circle' || ![s.radius, p.x, p.y, p.scaleX, p.scaleY].every(Number.isFinite) ||
+        (s.radius ?? 0) <= 0 || !p.scaleX || Math.abs(p.scaleX) !== Math.abs(p.scaleY)) { reject('invalid-occupied-circle'); return; }
+    const r = radius + s.radius! * Math.abs(p.scaleX);
+    if ((x - p.x) ** 2 + (y - p.y) ** 2 < r * r) { reject('overlap-deployed-ally'); return; }
+  }
+  t.x = x; t.y = y;
+  tag.flags |= rule.deployedMask;
+  replayTween(world, eid);
+  appendTrace(trace, trace?.tick ?? 0, 'drag-place', 'commit', eid, 'deploy-position-and-tag');
+}
+
 // 投放区命中（多区按 id 升序首中，确定）。
 function hitDropZone(world: IWorld, x: number, y: number): string | null {
   const zones: string[] = [];
@@ -55,7 +102,8 @@ function hitDraggable(world: IWorld, x: number, y: number): string | null {
     const sh = world.getComponent<Shape>(eid, 'Shape');
     if (!t || !sh) continue;
     if (sh.kind === 'circle') {
-      const rr = sh.radius ?? 8;
+      const d = world.getComponent<Draggable>(eid, 'Draggable')!;
+      const rr = (sh.radius ?? 8) * (d.freePlacement ? Math.abs(t.scaleX) : 1);
       const dx = x - t.x, dy = y - t.y;
       if (dx * dx + dy * dy <= rr * rr) return eid;
     } else {
@@ -68,7 +116,7 @@ function hitDraggable(world: IWorld, x: number, y: number): string | null {
 
 export const dragPlaceCapability = defineCapability({
   id: 't2-drag-place',
-  version: '1.0.0',
+  version: '1.1.0',
 
   describe: {
     name: 'drag-place',
@@ -91,6 +139,7 @@ export const dragPlaceCapability = defineCapability({
           onlyFlag: { type: 'string', describe: '全局 Flag id：为真才可拖（如 in_prep 备战门）' },
           capTagMask: { type: 'number', describe: '上板限额计数掩码（数 Tag&mask 且带 HexPos 的在板单位）' },
           capResource: { type: 'string', describe: '上板限额资源 id（如 level）；从板外进板且已满 → 整次拒绝' },
+          freePlacement: { type: 'string', describe: '结构化自由部署配置（见Draggable协议）：bounds完整圆边界、teamMask同队占位拒绝、deployedMask部署位、bench矩形及回席锚点；不兼容snap，拒绝零写入，投放区同样遵守onlyFlag。' },
         },
       },
       DropZone: {
@@ -100,7 +149,7 @@ export const dragPlaceCapability = defineCapability({
       },
     },
     reads: ['Draggable', 'InputQueue', 'Transform', 'Shape', 'HexBoard', 'HexPos', 'Tag', 'Flag', 'Resource'],
-    writes: ['Transform', 'HexPos'],
+    writes: ['Transform', 'HexPos', 'Tag'],
     consumes: [],
   },
 
@@ -120,7 +169,7 @@ export const dragPlaceCapability = defineCapability({
       // 会陷入「既要早于结算链、又要晚于 event-when」的死结，实测三角环）。
       runsBefore: ['grid-move', 'motion-apply', 'tween', 'flow', 'zone-occupancy', 'group-count', 'self-rule', 'resource-apply'],
       reads: ['Draggable', 'InputQueue', 'Transform', 'Shape', 'HexBoard', 'HexPos', 'Tag', 'Flag', 'Resource', 'Tween', 'Clickable', 'DropZone'],
-      writes: ['Transform', 'HexPos', 'Tween'],
+      writes: ['Transform', 'HexPos', 'Tween', 'Tag'],
       consumes: [],
       execute(world: IWorld) {
         // 取本拍首条 drag（每拍至多一条，确定）。
@@ -142,6 +191,12 @@ export const dragPlaceCapability = defineCapability({
         if (!eid) return;
         const d = world.getComponent<Draggable>(eid, 'Draggable')!;
 
+        if (d.freePlacement && !phaseAllows(world, d)) {
+          const trace = findDebugTrace(world);
+          appendTrace(trace, trace?.tick ?? 0, 'drag-place', 'reject', eid, 'phase-closed');
+          return;
+        }
+
         // 投放区命中（REQ-F-058，**先于相位门**——拖进垃圾桶任何相位可投）：本系统只负责「被拖者原地
         // 不动」，代点信号由独立 drop-zone 系统种（见下方第二系统）。
         if (hitDropZone(world, drag.tx, drag.ty)) return;
@@ -152,6 +207,8 @@ export const dragPlaceCapability = defineCapability({
           const f = fe ? world.getComponent<Flag>(fe, 'Flag') : undefined;
           if (!f?.active) return;
         }
+
+        if (d.freePlacement) { placeFree(world, eid, d, drag.tx, drag.ty); return; }
 
         // 棋盘单例（snap 用；无板=自由落点）。
         let board: HexBoard | undefined;
@@ -227,7 +284,7 @@ export const dragPlaceCapability = defineCapability({
       id: 'drop-zone',
       phase: SystemPhase.Update,
       runsAfter: ['event-when', 'card-pile'],
-      reads: ['InputQueue', 'DropZone', 'Draggable', 'Clickable', 'Transform', 'Shape'],
+      reads: ['InputQueue', 'DropZone', 'Draggable', 'Clickable', 'Transform', 'Shape', 'Flag'],
       writes: ['Signal'],
       consumes: [],
       execute(world: IWorld) {
@@ -248,6 +305,8 @@ export const dragPlaceCapability = defineCapability({
         if (!zid) return;
         const eid = hitDraggable(world, drag.fx, drag.fy);
         if (!eid) return;
+        const d = world.getComponent<Draggable>(eid, 'Draggable')!;
+        if (d.freePlacement && !phaseAllows(world, d)) return;
         const click = world.getComponent<Clickable>(eid, 'Clickable');
         if (click && !world.hasComponent(zid, 'Signal')) {
           world.addComponent(zid, { type: 'Signal', name: click.action, source: eid } as Signal);

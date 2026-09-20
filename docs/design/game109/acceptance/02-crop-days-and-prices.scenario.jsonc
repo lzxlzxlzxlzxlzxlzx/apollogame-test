@@ -1,0 +1,259 @@
+// GD-109 验收剧本 02 · 三种作物的**天数**与**卖价**（brief.md:26 + §裁决行 A）。
+// author: GD
+//
+// 条款出处：brief.md:26「三种作物：胡萝卜（快·便宜）/ 小麦（中）/ 南瓜（慢·贵）」
+//          · brief.md:44「睡觉 → 浇过水的作物按各自天数生长」
+//          · brief.md:43「收获：成熟 → 产物进背包、地块回「已翻土」」
+//          · brief.md:45「卖货：背包里的作物换成金币」
+//          数值取 requests.md §裁决行 A（owner 2026-09-18 亲裁）：
+//            胡萝卜 **1 天 12 金** · 小麦 **2 天 30 金** · 南瓜 **3 天 75 金**。
+//
+// 三格代表（作物由**列号**定死·装配期事实，不是玩家选择）：
+//     tile-r0c0 = 胡萝卜（1 天）· tile-r0c2 = 小麦（2 天）· tile-r0c4 = 南瓜（3 天）。
+//
+// 对抗目标（把实现改坏成什么样，这条会变红）：
+//   · **天数写错**（三种作物共用一条成熟线 / 胡萝卜不是 1 天 / 南瓜不是 3 天）→
+//     每天睡觉那步的 `stage eq N` 或「未熟不可收」那一步红（`eq` 不是 `gte`，多长一阶也红）。
+//   · **卖价写错**（12→其它 / 30→其它 / 75→其它）→ 12 / 42 / 117 三级金币阶梯红。
+//   · **卖货不清背包**（结账那一拍缺失）→ 第二次 `sell` 会把同一批货再卖一遍 → 金币跳到 24 而不是停在 12 → 红。
+//   · **未熟也能收**（成熟门缺失）→ 第 2 天「收南瓜」的观察窗里 `state eq sown` / `stage eq 1` 红。
+//   · **收完不还田**（收获的落定拍缺失）→ 收完那步 `state eq tilled` 等不到 → 红。
+//     ⚠ 收获侧**不判**生长阶：brief.md:43 只写「地块回**已翻土**」，没说阶的数——归零点在**播种**侧
+//       （brief.md:41「已播种（**第 0 阶**）」）。本文件在第 1 天「播完三格」那步判 `stage eq 0`；
+//       在收获侧钉 `stage eq 0` 是比条款多要求一条，会对合规实现假红。
+//   · **收完还能再收**（防重复收获缺失）→ 末段「对已翻土的格子再收一次」白送一个南瓜 → `inv-pumpkin eq 0` 红。
+//   · **成熟后还继续长**（成熟线没有上界）→ 第 5 天早上南瓜会变 4 阶 → `stage eq 3` 红。
+//
+// 时序纪律：拒绝路径（「什么都没发生」）用固定观察窗 `{ "tick": 3 }`——waitUntil 表达不了「不变」。
+//   逐格断言一律 `comp` + 显式实体 id（36 格同名 `stage`/`watered`）。
+{
+  "name": "三种作物的天数与卖价·12/30/75",
+  "game": "game109",
+  "seed": 109,
+  "steps": [
+    // ── 开局：三格作物各异，全为荒地 ────────────────────────────────
+    { "expect": [
+      { "res": "day", "eq": 1 },
+      { "res": "energy", "eq": 20 },
+      { "res": "gold", "eq": 0 },
+      { "comp": { "entity": "tile-r0c0", "component": "StringVar", "field": "value" }, "eq": "carrot" },
+      { "comp": { "entity": "tile-r0c2", "component": "StringVar", "field": "value" }, "eq": "wheat" },
+      { "comp": { "entity": "tile-r0c4", "component": "StringVar", "field": "value" }, "eq": "pumpkin" },
+      { "comp": { "entity": "tile-r0c0", "component": "State", "field": "current" }, "eq": "wild" },
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "wild" },
+      { "comp": { "entity": "tile-r0c4", "component": "State", "field": "current" }, "eq": "wild" },
+    ] },
+
+    // ── 第 1 天：三格一起 翻土→播种→浇水（各 3 个动作 = 9），体力 20→11 ──
+    { "signal": "work", "args": { "tile": "tile-r0c0" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r0c0", "component": "State", "field": "current" }, "eq": "tilled" }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "tilled" }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c4" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r0c4", "component": "State", "field": "current" }, "eq": "tilled" }], "cap": 30 },
+
+    { "signal": "pick-sow" },
+    { "waitUntil": [{ "res": "tool", "eq": 1 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c0" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r0c0", "component": "State", "field": "current" }, "eq": "sown" }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "sown" }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c4" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r0c4", "component": "State", "field": "current" }, "eq": "sown" }], "cap": 30 },
+
+    { "signal": "pick-water" },
+    { "waitUntil": [{ "res": "tool", "eq": 2 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c0" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r0c0", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c4" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r0c4", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 11 },
+      { "res": "day", "eq": 1 },
+      { "comp": { "entity": "tile-r0c0", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "comp": { "entity": "tile-r0c4", "component": "Resource", "field": "current" }, "eq": 0 },
+    ] },
+
+    // ── 第 1 夜：三格各长**恰一阶**（胡萝卜已熟·小麦与南瓜未熟）──
+    { "signal": "sleep" },
+    { "waitUntil": [
+      { "res": "day", "eq": 2 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r0c0", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "comp": { "entity": "tile-r0c4", "component": "Resource", "field": "current" }, "eq": 1 },
+    ], "cap": 60 },
+    // 观察窗（3 拍）：睡觉的生长**下一拍**才施放。不摆窗，「本夜不长」的断言会在生长前被判过（假绿）。
+    { "tick": 3 },
+    { "expect": [
+      { "res": "day", "eq": 2 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r0c0", "component": "Flag", "field": "active" }, "eq": false },
+      { "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": false },
+      { "comp": { "entity": "tile-r0c4", "component": "Flag", "field": "active" }, "eq": false },
+      { "flag": "grow-phase", "eq": false },
+    ] },
+
+    // ── 第 2 天：先试收**未熟**的南瓜（1 阶 < 3 天）——必须什么都不发生 ──
+    { "signal": "pick-reap" },
+    { "waitUntil": [{ "res": "tool", "eq": 3 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c4" } },
+    { "tick": 3 },
+    { "expect": [
+      { "comp": { "entity": "tile-r0c4", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r0c4", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "res": "inv-pumpkin", "eq": 0 },
+      { "res": "energy", "eq": 20 },          // 被拒的动作**不白扣**体力
+    ] },
+
+    // 收成熟的胡萝卜（1 天 → 第 2 天早上即熟）
+    { "signal": "work", "args": { "tile": "tile-r0c0" } },
+    // 收获的落定：还田 + 入包（**不判生长阶**——brief.md:43 只说回「已翻土」，没说阶的数）。
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c0", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "res": "inv-carrot", "eq": 1 },
+    ], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 19 },
+      { "res": "inv-carrot", "eq": 1 },
+      { "res": "inv-wheat", "eq": 0 },
+      { "res": "inv-pumpkin", "eq": 0 },
+    ] },
+
+    // 卖 1 个胡萝卜：金币 **12**（§裁决行 A）
+    { "signal": "sell" },
+    { "waitUntil": [{ "res": "gold", "eq": 12 }], "cap": 60 },
+    { "expect": [{ "res": "gold", "eq": 12 }, { "res": "inv-carrot", "eq": 0 }] },
+
+    // 背包已空再卖一次：金币必须**停在 12**（不白送钱）
+    { "signal": "sell" },
+    { "tick": 3 },
+    { "expect": [{ "res": "gold", "eq": 12 }, { "res": "inv-carrot", "eq": 0 }] },
+
+    // 给小麦与南瓜浇第 2 次水（体力 19-2 = 17）
+    { "signal": "pick-water" },
+    { "waitUntil": [{ "res": "tool", "eq": 2 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c4" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r0c4", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "expect": [{ "res": "energy", "eq": 17 }] },
+
+    // ── 第 2 夜：小麦 →2 阶（成熟线）· 南瓜 →2 阶（未熟）· 胡萝卜格（已翻土、无作物）不长 ──
+    //   ⚠ 「不长」只由 `State eq tilled`（没有作物可长）表达，**不**钉它的阶数：
+    //     该格刚被收过（brief.md:43 没说收获后阶该是几），钉 `Resource eq 0` 就是对合规实现多要求一条。
+    //     「已翻土 ⇒ 不长」这条否定断言由 04 用**从没种过的**格子钉（那里 0 阶是初值，条款包得住）。
+    { "signal": "sleep" },
+    { "waitUntil": [
+      { "res": "day", "eq": 3 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 2 },
+      { "comp": { "entity": "tile-r0c4", "component": "Resource", "field": "current" }, "eq": 2 },
+      { "comp": { "entity": "tile-r0c0", "component": "State", "field": "current" }, "eq": "tilled" },
+    ], "cap": 60 },
+    // 观察窗（3 拍）：让本夜的生长真的落定 —— 「小麦到 2 阶 / 南瓜只到 2 阶 / 收完的格子仍是已翻土」同拍验。
+    { "tick": 3 },
+    { "expect": [
+      { "res": "day", "eq": 3 },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 2 },   // 小麦 2 天 = 成熟
+      { "comp": { "entity": "tile-r0c4", "component": "Resource", "field": "current" }, "eq": 2 },   // 南瓜差一阶（3 天）
+      { "comp": { "entity": "tile-r0c0", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "flag": "grow-phase", "eq": false },
+    ] },
+
+    // ── 第 3 天：收小麦 → 卖 **42**（12 + 30）────────────────────────
+    { "signal": "pick-reap" },
+    { "waitUntil": [{ "res": "tool", "eq": 3 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    // 收获的落定：还田 + 入包（**不判生长阶**——同上）。
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "res": "inv-wheat", "eq": 1 },
+    ], "cap": 30 },
+    { "expect": [{ "res": "energy", "eq": 19 }, { "res": "inv-wheat", "eq": 1 }] },
+    { "signal": "sell" },
+    { "waitUntil": [{ "res": "gold", "eq": 42 }], "cap": 60 },
+    { "expect": [{ "res": "gold", "eq": 42 }, { "res": "inv-wheat", "eq": 0 }] },
+
+    // 浇南瓜第 3 次水
+    { "signal": "pick-water" },
+    { "waitUntil": [{ "res": "tool", "eq": 2 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c4" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r0c4", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "expect": [{ "res": "energy", "eq": 18 }] },
+
+    // ── 第 3 夜：南瓜 →3 阶（成熟线）──
+    { "signal": "sleep" },
+    { "waitUntil": [
+      { "res": "day", "eq": 4 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r0c4", "component": "Resource", "field": "current" }, "eq": 3 },
+    ], "cap": 60 },
+    // 观察窗（3 拍）：等本夜生长落定，再判南瓜到的是**恰 3 阶**（成熟线）。
+    { "tick": 3 },
+    { "expect": [
+      { "comp": { "entity": "tile-r0c4", "component": "Resource", "field": "current" }, "eq": 3 },
+      { "flag": "grow-phase", "eq": false },
+    ] },
+
+    // ── 第 4 天：成熟的南瓜再浇一次水 —— 成熟即停，**不许越过 3 阶** ──
+    { "signal": "pick-water" },
+    { "waitUntil": [{ "res": "tool", "eq": 2 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c4" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r0c4", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "expect": [{ "res": "energy", "eq": 19 }] },
+    { "signal": "sleep" },
+    { "waitUntil": [
+      { "res": "day", "eq": 5 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r0c4", "component": "Resource", "field": "current" }, "eq": 3 },   // `eq 3`：4 阶也红
+      { "comp": { "entity": "tile-r0c4", "component": "State", "field": "current" }, "eq": "sown" },
+    ], "cap": 60 },
+    // 观察窗（3 拍）+ 成熟上界：这一夜**不该再长**（已到成熟线），浇了水也不行。
+    //   契约表写明生长阶范围是 `0..crop.days`；若实现让成熟的作物继续长，这里会看到 4 阶 → 红。
+    { "tick": 3 },
+    { "expect": [
+      { "res": "day", "eq": 5 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r0c4", "component": "Resource", "field": "current" }, "eq": 3 },   // `eq 3`：4 阶也红
+      { "comp": { "entity": "tile-r0c4", "component": "Flag", "field": "active" }, "eq": false },
+      { "flag": "grow-phase", "eq": false },
+    ] },
+
+    // ── 第 5 天：收南瓜 → 卖 **117**（42 + 75）─────────────────────────
+    { "signal": "pick-reap" },
+    { "waitUntil": [{ "res": "tool", "eq": 3 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c4" } },
+    // 收获的落定：还田（`tilled`）+ 入包。**不判生长阶**——brief.md:43 只说地块回「已翻土」，
+    //   一个字没提阶的数；「第 0 阶」是**播种**侧的条款（brief.md:41），本文件在第 1 天播种后判它。
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c4", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "res": "inv-pumpkin", "eq": 1 },
+    ], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 19 },
+      { "res": "inv-pumpkin", "eq": 1 },
+      { "res": "gold", "eq": 42 },            // 还没卖
+    ] },
+    { "signal": "sell" },
+    { "waitUntil": [{ "res": "gold", "eq": 117 }], "cap": 60 },
+    { "expect": [
+      { "res": "gold", "eq": 117 },           // 12 + 30 + 75 = 117（三个卖价一次钉死）
+      { "res": "inv-pumpkin", "eq": 0 },
+      { "sv": "flow", "eq": "playing" },      // 117 远不到 1000
+    ] },
+
+    // ── 对已翻土的格子再收一次：收获后已还田，无物可收 ──────────────
+    { "signal": "work", "args": { "tile": "tile-r0c4" } },
+    { "tick": 3 },
+    { "expect": [
+      { "comp": { "entity": "tile-r0c4", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "res": "inv-pumpkin", "eq": 0 },      // 白送第二个南瓜 → 红
+      { "res": "energy", "eq": 19 },          // 被拒的动作不扣体力
+      { "res": "gold", "eq": 117 },
+    ] },
+  ],
+}

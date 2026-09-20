@@ -50,6 +50,9 @@ export const collisionResolveCapability = defineCapability({
   systems: [
     {
       id: 'collision-resolve',
+      // Detection reads post-motion positions; correction is visible to the next detection pass.
+      // Overlap is the current candidate set. Keep both actual read/write declarations.
+      runsAfter: ['committed-contact-position', 'overlap-detect'],
       phase: SystemPhase.Resolve,
       reads: ['Overlap', 'Transform', 'Shape', 'Velocity', 'Mass', 'Sensor'], // Sensor=感知体跳过判定（申报对账·根因①·系统级此前漏）
       writes: ['Transform', 'Velocity'],
@@ -126,3 +129,9 @@ export const collisionResolveCapability = defineCapability({
     },
   ],
 });
+
+
+
+
+
+

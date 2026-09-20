@@ -1,0 +1,18 @@
+[
+  {
+    "Path": "C:\\Users\\24652\\Desktop\\projects\\apollpgame\\mcfight-s4-independent-20260915\\docs\\design\\game-mcfight\\acceptance\\01-shop-deploy-start.scenario.jsonc",
+    "Hash": "E76EF5B96185933CC642F653A3E67D011FCA723DFD95893B9196DD8928CB2DF7"
+  },
+  {
+    "Path": "C:\\Users\\24652\\Desktop\\projects\\apollpgame\\mcfight-s4-independent-20260915\\docs\\design\\game-mcfight\\acceptance\\02-victory-return-shop.scenario.jsonc",
+    "Hash": "3972BE6BE8768E13095C48FB0C4DC4E0474990E551818F983EE360A035B4E641"
+  },
+  {
+    "Path": "C:\\Users\\24652\\Desktop\\projects\\apollpgame\\mcfight-s4-independent-20260915\\docs\\design\\game-mcfight\\acceptance\\03-invalid-deployment.scenario.jsonc",
+    "Hash": "388D0E2C265FFAE127258421E44E3975879B836C25980EEA4C76A04DDFECF7B4"
+  },
+  {
+    "Path": "C:\\Users\\24652\\Desktop\\projects\\apollpgame\\mcfight-s4-independent-20260915\\docs\\design\\game-mcfight\\acceptance\\04-defeat-reward.scenario.jsonc",
+    "Hash": "6F44AC49F44BE0616FBFF61F60C2597E0D1E7C830513CF3C5AF7D503A629FFE8"
+  }
+]

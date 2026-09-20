@@ -1,0 +1,341 @@
+{
+  "slug": "game-mcfight",
+  "at": "2026-09-15T12:02:10.594Z",
+  "gameHash": "fa44cf15c26e5769",
+  "ok": true,
+  "form": "compiled",
+  "uiDrivableRate": 0,
+  "totalSummary": {
+    "signalSteps": 21,
+    "drivenSteps": 0,
+    "tickSteps": 2,
+    "expectSteps": 12,
+    "uiDrivableRate": 0
+  },
+  "scenarios": [
+    {
+      "name": "商店购买、部署并开始战斗",
+      "file": "01-shop-deploy-start.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "shop.unit.select",
+          "mappedAction": "shop.unit.select",
+          "arg": "vindicator",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 2,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 3,
+          "kind": "signal",
+          "signal": "shop.unit.buy",
+          "mappedAction": "shop.unit.buy",
+          "arg": "vindicator",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 4,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 5,
+          "kind": "signal",
+          "signal": "shop.continue",
+          "mappedAction": "shop.continue",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 6,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 7,
+          "kind": "signal",
+          "signal": "deployment.unit.place",
+          "driven": false,
+          "note": "args 非单值可表达（{\"instanceId\":\"player-vindicator-1\",\"x\":-12,\"y\":0}）·非原子点击可发出"
+        },
+        {
+          "step": 8,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 9,
+          "kind": "signal",
+          "signal": "deployment.start",
+          "mappedAction": "deployment.start",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 10,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 11,
+        "signalSteps": 5,
+        "drivenSteps": 0,
+        "tickSteps": 0,
+        "expectSteps": 6,
+        "uiDrivableRate": 0
+      }
+    },
+    {
+      "name": "胜利结算后清场并返回商店",
+      "file": "02-victory-return-shop.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "signal",
+          "signal": "shop.unit.buy",
+          "mappedAction": "shop.unit.buy",
+          "arg": "earthshaker",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "shop.continue",
+          "mappedAction": "shop.continue",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 2,
+          "kind": "signal",
+          "signal": "deployment.unit.place",
+          "driven": false,
+          "note": "args 非单值可表达（{\"instanceId\":\"player-earthshaker-1\",\"x\":-8,\"y\":0}）·非原子点击可发出"
+        },
+        {
+          "step": 3,
+          "kind": "signal",
+          "signal": "deployment.start",
+          "mappedAction": "deployment.start",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 4,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 5,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 6,
+          "kind": "signal",
+          "signal": "result.continue",
+          "mappedAction": "result.continue",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 7,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 8,
+        "signalSteps": 5,
+        "drivenSteps": 0,
+        "tickSteps": 1,
+        "expectSteps": 2,
+        "uiDrivableRate": 0
+      }
+    },
+    {
+      "name": "非法部署回退且不污染计数",
+      "file": "03-invalid-deployment.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "signal",
+          "signal": "shop.unit.buy",
+          "mappedAction": "shop.unit.buy",
+          "arg": "vindicator",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "shop.unit.buy",
+          "mappedAction": "shop.unit.buy",
+          "arg": "skeleton",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 2,
+          "kind": "signal",
+          "signal": "shop.continue",
+          "mappedAction": "shop.continue",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 3,
+          "kind": "signal",
+          "signal": "deployment.unit.place",
+          "driven": false,
+          "note": "args 非单值可表达（{\"instanceId\":\"player-vindicator-1\",\"x\":8,\"y\":0}）·非原子点击可发出"
+        },
+        {
+          "step": 4,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 5,
+          "kind": "signal",
+          "signal": "deployment.unit.place",
+          "driven": false,
+          "note": "args 非单值可表达（{\"instanceId\":\"player-vindicator-1\",\"x\":-10,\"y\":0}）·非原子点击可发出"
+        },
+        {
+          "step": 6,
+          "kind": "signal",
+          "signal": "deployment.unit.place",
+          "driven": false,
+          "note": "args 非单值可表达（{\"instanceId\":\"player-skeleton-1\",\"x\":-10,\"y\":0}）·非原子点击可发出"
+        },
+        {
+          "step": 7,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 8,
+        "signalSteps": 6,
+        "drivenSteps": 0,
+        "tickSteps": 0,
+        "expectSteps": 2,
+        "uiDrivableRate": 0
+      }
+    },
+    {
+      "name": "失败结算发放奖励并可继续",
+      "file": "04-defeat-reward.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "signal",
+          "signal": "shop.unit.buy",
+          "mappedAction": "shop.unit.buy",
+          "arg": "vindicator",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "shop.continue",
+          "mappedAction": "shop.continue",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 2,
+          "kind": "signal",
+          "signal": "deployment.unit.place",
+          "driven": false,
+          "note": "args 非单值可表达（{\"instanceId\":\"player-vindicator-1\",\"x\":-8,\"y\":0}）·非原子点击可发出"
+        },
+        {
+          "step": 3,
+          "kind": "signal",
+          "signal": "deployment.start",
+          "mappedAction": "deployment.start",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 4,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 5,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 6,
+          "kind": "signal",
+          "signal": "result.continue",
+          "mappedAction": "result.continue",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 7,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 8,
+        "signalSteps": 5,
+        "drivenSteps": 0,
+        "tickSteps": 1,
+        "expectSteps": 2,
+        "uiDrivableRate": 0
+      }
+    }
+  ],
+  "assertions": {
+    "consoleErrors": {
+      "pass": true,
+      "count": 0,
+      "messages": []
+    },
+    "noUncaught": {
+      "pass": true,
+      "count": 0,
+      "messages": []
+    }
+  },
+  "browser": {
+    "execPath": "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
+    "via": "explicit"
+  }
+}

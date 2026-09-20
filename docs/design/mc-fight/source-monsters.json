@@ -1,0 +1,3300 @@
+[
+  {
+    "monsterId": "alexscaves_atlatitan",
+    "displayName": "擎天龙",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "atlatitan_unit",
+      "aoe_melee"
+    ],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "alexscaves_atlatitan",
+      "_comment": "擎天龙",
+      "_ability_comment": "",
+      "hp": 400,
+      "attack": 8,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 30,
+      "attackRange": 48,
+      "attackInterval": 2.0,
+      "radius": 24,
+      "price": 200,
+      "abilityParams": [
+        {
+          "key": "aoeRadius",
+          "value": 92.0,
+          "_comment": "巨人AOE范围"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 8.0,
+          "_comment": "近战伤害"
+        },
+        {
+          "key": "meleeCooldown",
+          "value": 2.0,
+          "_comment": "近战冷却"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexscaves_atlatitan.asset"
+  },
+  {
+    "monsterId": "alexscaves_brainiac",
+    "displayName": "舐脑魔",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "BrainiacAbility",
+    "effectiveConfig": {
+      "monsterId": "alexscaves_brainiac",
+      "_comment": "舐脑魔",
+      "_ability_comment": "",
+      "hp": 40,
+      "attack": 5,
+      "armor": 8,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 160,
+      "attackInterval": 1.1,
+      "radius": 18,
+      "price": 40,
+      "abilityParams": [
+        {
+          "key": "bucketThreshold",
+          "value": 30.0,
+          "_comment": "血量阈值"
+        },
+        {
+          "key": "bucketDamage",
+          "value": 10.0,
+          "_comment": "废料桶伤害"
+        },
+        {
+          "key": "bucketRadius",
+          "value": 48.0,
+          "_comment": "废料桶范围"
+        },
+        {
+          "key": "pollutionDuration",
+          "value": 30.0,
+          "_comment": "污染持续时间"
+        },
+        {
+          "key": "pollutionDPS",
+          "value": 5.0,
+          "_comment": "污染DPS"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexscaves_brainiac.asset"
+  },
+  {
+    "monsterId": "alexscaves_deep_one_knight",
+    "displayName": "深潜者骑士",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [],
+    "abilityComponentType": "DualModeAbility",
+    "effectiveConfig": {
+      "monsterId": "alexscaves_deep_one_knight",
+      "_comment": "深潜者骑士",
+      "_ability_comment": "",
+      "hp": 60,
+      "attack": 10,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 160,
+      "attackInterval": 1.1,
+      "radius": 18,
+      "price": 35,
+      "abilityParams": [
+        {
+          "key": "switchRange",
+          "value": 100.0,
+          "_comment": "远近切换距离"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 10.0,
+          "_comment": "近战伤害(1.4x攻击)"
+        },
+        {
+          "key": "rangedDamage",
+          "value": 10.0,
+          "_comment": "远程伤害"
+        },
+        {
+          "key": "rangedRange",
+          "value": 160.0,
+          "_comment": "远程射程"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexscaves_deep_one_knight.asset"
+  },
+  {
+    "monsterId": "alexscaves_deep_one_mage",
+    "displayName": "深潜者法师",
+    "moveType": 1,
+    "attackType": 1,
+    "tags": [
+      "deep_one_mage_special",
+      "fly"
+    ],
+    "abilityComponentType": "DeepOneMageAbility",
+    "effectiveConfig": {
+      "monsterId": "alexscaves_deep_one_mage",
+      "_comment": "深潜者法师",
+      "_ability_comment": "",
+      "hp": 80,
+      "attack": 4,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 60,
+      "attackRange": 220,
+      "attackInterval": 1.2,
+      "radius": 16,
+      "price": 100,
+      "abilityParams": [
+        {
+          "key": "closeAoeDamage",
+          "value": 2.0,
+          "_comment": "近距离AOE伤害"
+        },
+        {
+          "key": "closeAoeRadius",
+          "value": 60.0,
+          "_comment": "近距离AOE范围"
+        },
+        {
+          "key": "waterDamage",
+          "value": 10.0,
+          "_comment": "水弹伤害"
+        },
+        {
+          "key": "waveDamage",
+          "value": 4.0,
+          "_comment": "水波伤害"
+        },
+        {
+          "key": "waveRange",
+          "value": 160.0,
+          "_comment": "水波射程"
+        },
+        {
+          "key": "waveCount",
+          "value": 3.0,
+          "_comment": "水波数量"
+        },
+        {
+          "key": "waveAngle",
+          "value": 0.35,
+          "_comment": "水波角度"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexscaves_deep_one_mage.asset"
+  },
+  {
+    "monsterId": "alexscaves_deep_one",
+    "displayName": "深潜者",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "alexscaves_deep_one",
+      "_comment": "深潜者",
+      "_ability_comment": "",
+      "hp": 30,
+      "attack": 3,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 10
+    },
+    "sourceAsset": "Monster_alexscaves_deep_one.asset"
+  },
+  {
+    "monsterId": "alexscaves_forsaken",
+    "displayName": "遗弃者",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "forsaken_special"
+    ],
+    "abilityComponentType": "ForsakenAbility",
+    "effectiveConfig": {
+      "monsterId": "alexscaves_forsaken",
+      "_comment": "遗弃者",
+      "_ability_comment": "",
+      "hp": 250,
+      "attack": 12,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 62,
+      "attackRange": 1280,
+      "attackInterval": 2.0,
+      "radius": 20,
+      "price": 150,
+      "abilityParams": [
+        {
+          "key": "leapCooldown",
+          "value": 10.0,
+          "_comment": "跃击冷却"
+        },
+        {
+          "key": "regenPerSec",
+          "value": 1.0,
+          "_comment": "每秒回血"
+        },
+        {
+          "key": "biteDamage",
+          "value": 12.0,
+          "_comment": "咬伤害"
+        },
+        {
+          "key": "hammerDamage",
+          "value": 8.0,
+          "_comment": "锤伤害"
+        },
+        {
+          "key": "sonicDamage",
+          "value": 3.0,
+          "_comment": "声波伤害"
+        },
+        {
+          "key": "sonicRadius",
+          "value": 64.0,
+          "_comment": "声波范围"
+        },
+        {
+          "key": "sonicTicks",
+          "value": 4.0,
+          "_comment": "声波次数"
+        },
+        {
+          "key": "arcDamage",
+          "value": 12.0,
+          "_comment": "弧形声波伤害"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexscaves_forsaken.asset"
+  },
+  {
+    "monsterId": "alexscaves_luxtructosaurus",
+    "displayName": "暝煌龙",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "boss",
+      "lux_boss",
+      "giant",
+      "fire_immune",
+      "meteor_passive"
+    ],
+    "abilityComponentType": "LuxtructosaurusAbility",
+    "effectiveConfig": {
+      "monsterId": "alexscaves_luxtructosaurus",
+      "_comment": "暝煌龙",
+      "_ability_comment": "",
+      "hp": 600,
+      "attack": 12,
+      "armor": 20,
+      "armorToughness": 0,
+      "moveSpeed": 24,
+      "attackRange": 55,
+      "attackInterval": 2.2,
+      "radius": 56,
+      "price": 800,
+      "abilityParams": [
+        {
+          "key": "leapCooldown",
+          "value": 10.0,
+          "_comment": "跃击冷却"
+        },
+        {
+          "key": "leapDamage",
+          "value": 12.0,
+          "_comment": "跃击伤害"
+        },
+        {
+          "key": "leapRadius",
+          "value": 48.0,
+          "_comment": "跃击范围"
+        },
+        {
+          "key": "stompDamage",
+          "value": 12.0,
+          "_comment": "践踏伤害"
+        },
+        {
+          "key": "stompRadius",
+          "value": 112.0,
+          "_comment": "践踏范围"
+        },
+        {
+          "key": "meteorInterval",
+          "value": 3.0,
+          "_comment": "陨石间隔"
+        },
+        {
+          "key": "meteorDamage",
+          "value": 20.0,
+          "_comment": "陨石伤害"
+        },
+        {
+          "key": "meteorRadius",
+          "value": 53.0,
+          "_comment": "陨石范围"
+        },
+        {
+          "key": "lavaDuration",
+          "value": 30.0,
+          "_comment": "熔岩持续"
+        },
+        {
+          "key": "lavaDPS",
+          "value": 5.0,
+          "_comment": "熔岩DPS"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexscaves_luxtructosaurus.asset"
+  },
+  {
+    "monsterId": "alexscaves_magnetron",
+    "displayName": "磁控机兵",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "MagnetronAbility",
+    "effectiveConfig": {
+      "monsterId": "alexscaves_magnetron",
+      "_comment": "磁控机兵",
+      "_ability_comment": "",
+      "hp": 80,
+      "attack": 2,
+      "armor": 6,
+      "armorToughness": 0,
+      "moveSpeed": 50,
+      "attackRange": 42,
+      "attackInterval": 1.5,
+      "radius": 18,
+      "price": 40,
+      "abilityParams": [
+        {
+          "key": "detectRadius",
+          "value": 100.0,
+          "_comment": "探测范围"
+        },
+        {
+          "key": "baseDamage",
+          "value": 2.0,
+          "_comment": "基础伤害"
+        },
+        {
+          "key": "knockbackForce",
+          "value": 20.0,
+          "_comment": "击退力度"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexscaves_magnetron.asset"
+  },
+  {
+    "monsterId": "alexscaves_nucleeper",
+    "displayName": "核能苦力怕",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "nucleeper_special"
+    ],
+    "abilityComponentType": "NucleeperAbility",
+    "effectiveConfig": {
+      "monsterId": "alexscaves_nucleeper",
+      "_comment": "核能苦力怕",
+      "_ability_comment": "",
+      "hp": 30,
+      "attack": 500,
+      "armor": 4,
+      "armorToughness": 0,
+      "moveSpeed": 42,
+      "attackRange": 200,
+      "attackInterval": 99.0,
+      "radius": 14,
+      "price": 100,
+      "abilityParams": [
+        {
+          "key": "explodeRadius",
+          "value": 200.0,
+          "_comment": "爆炸范围"
+        },
+        {
+          "key": "fuseDuration",
+          "value": 10.0,
+          "_comment": "引信时间"
+        },
+        {
+          "key": "centerDamage",
+          "value": 500.0,
+          "_comment": "中心伤害"
+        },
+        {
+          "key": "edgeDamage",
+          "value": 100.0,
+          "_comment": "边缘伤害"
+        },
+        {
+          "key": "explodeRadius",
+          "value": 200.0,
+          "_comment": "爆炸范围"
+        },
+        {
+          "key": "fuseDuration",
+          "value": 10.0,
+          "_comment": "引信时间"
+        },
+        {
+          "key": "centerDamage",
+          "value": 500.0,
+          "_comment": "中心伤害"
+        },
+        {
+          "key": "edgeDamage",
+          "value": 100.0,
+          "_comment": "边缘伤害"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexscaves_nucleeper.asset"
+  },
+  {
+    "monsterId": "alexscaves_relicheirus",
+    "displayName": "遗迹恐手龙",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "alexscaves_relicheirus",
+      "_comment": "遗迹恐手龙",
+      "_ability_comment": "",
+      "hp": 120,
+      "attack": 12,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 60,
+      "abilityParams": [
+        {
+          "key": "aoeRadius",
+          "value": 48.0,
+          "_comment": "AOE范围"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 8.0,
+          "_comment": "近战伤害"
+        },
+        {
+          "key": "meleeCooldown",
+          "value": 2.0,
+          "_comment": "近战冷却"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexscaves_relicheirus.asset"
+  },
+  {
+    "monsterId": "alexscaves_teleto",
+    "displayName": "磁流灵",
+    "moveType": 1,
+    "attackType": 1,
+    "tags": [
+      "fly"
+    ],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "alexscaves_teleto",
+      "_comment": "磁流灵",
+      "_ability_comment": "",
+      "hp": 18,
+      "attack": 6,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 160,
+      "attackInterval": 1.1,
+      "radius": 16,
+      "price": 25,
+      "abilityParams": [
+        {
+          "key": "aoeRadius",
+          "value": 48.0,
+          "_comment": "AOE范围"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 8.0,
+          "_comment": "近战伤害"
+        },
+        {
+          "key": "meleeCooldown",
+          "value": 2.0,
+          "_comment": "近战冷却"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexscaves_teleto.asset"
+  },
+  {
+    "monsterId": "alexscaves_tremorsaurus",
+    "displayName": "撼地龙",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "tremorsaurus_special"
+    ],
+    "abilityComponentType": "TremorsaurusAbility",
+    "effectiveConfig": {
+      "monsterId": "alexscaves_tremorsaurus",
+      "_comment": "撼地龙",
+      "_ability_comment": "",
+      "hp": 150,
+      "attack": 14,
+      "armor": 8,
+      "armorToughness": 0,
+      "moveSpeed": 50,
+      "attackRange": 42,
+      "attackInterval": 0.7,
+      "radius": 18,
+      "price": 200,
+      "abilityParams": [
+        {
+          "key": "roarCooldown",
+          "value": 10.0,
+          "_comment": "怒吼冷却"
+        },
+        {
+          "key": "roarRadius",
+          "value": 140.0,
+          "_comment": "怒吼范围"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 14.0,
+          "_comment": "近战伤害"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexscaves_tremorsaurus.asset"
+  },
+  {
+    "monsterId": "alexscaves_tremorzilla",
+    "displayName": "撼地斯拉",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "boss",
+      "aoe_melee",
+      "giant",
+      "beam_skill"
+    ],
+    "abilityComponentType": "TremorzillaAbility",
+    "effectiveConfig": {
+      "monsterId": "alexscaves_tremorzilla",
+      "_comment": "撼地斯拉",
+      "_ability_comment": "",
+      "hp": 500,
+      "attack": 30,
+      "armor": 10,
+      "armorToughness": 0,
+      "moveSpeed": 48,
+      "attackRange": 58,
+      "attackInterval": 1.0,
+      "radius": 56,
+      "price": 1000,
+      "abilityParams": [
+        {
+          "key": "beamCooldown",
+          "value": 20.0,
+          "_comment": "激光冷却"
+        },
+        {
+          "key": "beamDuration",
+          "value": 5.0,
+          "_comment": "激光持续"
+        },
+        {
+          "key": "beamDamage",
+          "value": 20.0,
+          "_comment": "激光每tick伤害"
+        },
+        {
+          "key": "beamTicks",
+          "value": 15.0,
+          "_comment": "激光tick数"
+        },
+        {
+          "key": "beamHalfWidth",
+          "value": 24.0,
+          "_comment": "激光半宽"
+        },
+        {
+          "key": "beamLength",
+          "value": 500.0,
+          "_comment": "激光长度"
+        },
+        {
+          "key": "stompDamage",
+          "value": 30.0,
+          "_comment": "践踏伤害"
+        },
+        {
+          "key": "stompRadius",
+          "value": 92.0,
+          "_comment": "践踏范围"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexscaves_tremorzilla.asset"
+  },
+  {
+    "monsterId": "alexscaves_vallumraptor",
+    "displayName": "阔鼻迅猛龙",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "alexscaves_vallumraptor",
+      "_comment": "阔鼻迅猛龙",
+      "_ability_comment": "",
+      "hp": 30,
+      "attack": 3,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 70,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 8
+    },
+    "sourceAsset": "Monster_alexscaves_vallumraptor.asset"
+  },
+  {
+    "monsterId": "alexsmobs_bison",
+    "displayName": "野牛",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "alexsmobs_bison",
+      "_comment": "野牛",
+      "_ability_comment": "",
+      "hp": 40,
+      "attack": 8,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 30
+    },
+    "sourceAsset": "Monster_alexsmobs_bison.asset"
+  },
+  {
+    "monsterId": "alexsmobs_centipede_head",
+    "displayName": "洞穴蜈蚣",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "arthropod"
+    ],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "alexsmobs_centipede_head",
+      "_comment": "洞穴蜈蚣",
+      "_ability_comment": "",
+      "hp": 35,
+      "attack": 8,
+      "armor": 6,
+      "armorToughness": 0,
+      "moveSpeed": 50,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 30
+    },
+    "sourceAsset": "Monster_alexsmobs_centipede_head.asset"
+  },
+  {
+    "monsterId": "alexsmobs_elephant",
+    "displayName": "大象",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "ElephantAbility",
+    "effectiveConfig": {
+      "monsterId": "alexsmobs_elephant",
+      "_comment": "大象",
+      "_ability_comment": "",
+      "hp": 110,
+      "attack": 15,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 80,
+      "abilityParams": [
+        {
+          "key": "normalDamage",
+          "value": 15.0,
+          "_comment": "普攻伤害"
+        },
+        {
+          "key": "chargeDamage",
+          "value": 25.0,
+          "_comment": "冲锋伤害"
+        },
+        {
+          "key": "chargeThreshold",
+          "value": 3.0,
+          "_comment": "冲锋触发时间"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexsmobs_elephant.asset"
+  },
+  {
+    "monsterId": "alexsmobs_farseer",
+    "displayName": "瞻远者",
+    "moveType": 1,
+    "attackType": 1,
+    "tags": [
+      "farseer_special",
+      "fly"
+    ],
+    "abilityComponentType": "FarseerAbility",
+    "effectiveConfig": {
+      "monsterId": "alexsmobs_farseer",
+      "_comment": "瞻远者",
+      "_ability_comment": "",
+      "hp": 70,
+      "attack": 6,
+      "armor": 6,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 200,
+      "attackInterval": 1.5,
+      "radius": 16,
+      "price": 120,
+      "abilityParams": [
+        {
+          "key": "rayDamagePct",
+          "value": 0.1,
+          "_comment": "射线伤害比例"
+        },
+        {
+          "key": "rayRange",
+          "value": 200.0,
+          "_comment": "射线射程"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 6.0,
+          "_comment": "近战伤害"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexsmobs_farseer.asset"
+  },
+  {
+    "monsterId": "alexsmobs_grizzly_bear",
+    "displayName": "灰熊",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "alexsmobs_grizzly_bear",
+      "_comment": "灰熊",
+      "_ability_comment": "",
+      "hp": 55,
+      "attack": 8,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 40
+    },
+    "sourceAsset": "Monster_alexsmobs_grizzly_bear.asset"
+  },
+  {
+    "monsterId": "alexsmobs_murmur",
+    "displayName": "轻语灵",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [],
+    "abilityComponentType": "MurmurAbility",
+    "effectiveConfig": {
+      "monsterId": "alexsmobs_murmur",
+      "_comment": "轻语灵",
+      "_ability_comment": "",
+      "hp": 15,
+      "attack": 5,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 30,
+      "attackRange": 200,
+      "attackInterval": 1.1,
+      "radius": 16,
+      "price": 25
+    },
+    "sourceAsset": "Monster_alexsmobs_murmur.asset"
+  },
+  {
+    "monsterId": "alexsmobs_rhinoceros",
+    "displayName": "犀牛",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "alexsmobs_rhinoceros",
+      "_comment": "犀牛",
+      "_ability_comment": "",
+      "hp": 60,
+      "attack": 8,
+      "armor": 12,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 50
+    },
+    "sourceAsset": "Monster_alexsmobs_rhinoceros.asset"
+  },
+  {
+    "monsterId": "alexsmobs_straddler",
+    "displayName": "跨座兽",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [],
+    "abilityComponentType": "StraddlerAbility",
+    "effectiveConfig": {
+      "monsterId": "alexsmobs_straddler",
+      "_comment": "跨座兽",
+      "_ability_comment": "",
+      "hp": 28,
+      "attack": 3,
+      "armor": 5,
+      "armorToughness": 0,
+      "moveSpeed": 30,
+      "attackRange": 160,
+      "attackInterval": 1.1,
+      "radius": 18,
+      "price": 20,
+      "abilityParams": [
+        {
+          "key": "projectileDamage",
+          "value": 3.0,
+          "_comment": "投射物伤害"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexsmobs_straddler.asset"
+  },
+  {
+    "monsterId": "alexsmobs_tarantula_hawk",
+    "displayName": "沙漠蛛蜂",
+    "moveType": 1,
+    "attackType": 0,
+    "tags": [
+      "fly",
+      "arthropod"
+    ],
+    "abilityComponentType": "TarantulaHawkAbility",
+    "effectiveConfig": {
+      "monsterId": "alexsmobs_tarantula_hawk",
+      "_comment": "沙漠蛛蜂",
+      "_ability_comment": "",
+      "hp": 18,
+      "attack": 5,
+      "armor": 4,
+      "armorToughness": 0,
+      "moveSpeed": 72,
+      "attackRange": 42,
+      "attackInterval": 2.0,
+      "radius": 16,
+      "price": 15,
+      "abilityParams": [
+        {
+          "key": "meleeDamage",
+          "value": 5.0,
+          "_comment": "近战伤害"
+        },
+        {
+          "key": "meleeCooldown",
+          "value": 2.0,
+          "_comment": "近战冷却"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexsmobs_tarantula_hawk.asset"
+  },
+  {
+    "monsterId": "alexsmobs_tiger",
+    "displayName": "老虎",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "alexsmobs_tiger",
+      "_comment": "老虎",
+      "_ability_comment": "",
+      "hp": 50,
+      "attack": 6,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 40
+    },
+    "sourceAsset": "Monster_alexsmobs_tiger.asset"
+  },
+  {
+    "monsterId": "alexsmobs_tusklin",
+    "displayName": "獠牙兽",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "alexsmobs_tusklin",
+      "_comment": "獠牙兽",
+      "_ability_comment": "",
+      "hp": 40,
+      "attack": 9,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 30
+    },
+    "sourceAsset": "Monster_alexsmobs_tusklin.asset"
+  },
+  {
+    "monsterId": "alexsmobs_warped_mosco",
+    "displayName": "诡异蚊鬼",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "mosco_special",
+      "arthropod"
+    ],
+    "abilityComponentType": "WarpedMoscoAbility",
+    "effectiveConfig": {
+      "monsterId": "alexsmobs_warped_mosco",
+      "_comment": "诡异蚊鬼",
+      "_ability_comment": "",
+      "hp": 100,
+      "attack": 15,
+      "armor": 10,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 3.0,
+      "radius": 18,
+      "price": 180,
+      "abilityParams": [
+        {
+          "key": "transformThreshold",
+          "value": 0.25,
+          "_comment": "变身血量比例"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 15.0,
+          "_comment": "近战伤害"
+        },
+        {
+          "key": "healAmount",
+          "value": 10.0,
+          "_comment": "吸血量"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_alexsmobs_warped_mosco.asset"
+  },
+  {
+    "monsterId": "blaze",
+    "displayName": "烈焰人",
+    "moveType": 1,
+    "attackType": 1,
+    "tags": [
+      "fly"
+    ],
+    "abilityComponentType": "BlazeAbility",
+    "effectiveConfig": {
+      "monsterId": "blaze",
+      "_comment": "烈焰人",
+      "_ability_comment": "",
+      "hp": 20,
+      "attack": 5,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 20,
+      "attackRange": 160,
+      "attackInterval": 6.0,
+      "radius": 16,
+      "price": 10,
+      "abilityParams": [
+        {
+          "key": "shotCount",
+          "value": 3.0,
+          "_comment": "连发数量"
+        },
+        {
+          "key": "shotInterval",
+          "value": 0.1,
+          "_comment": "连发间隔"
+        },
+        {
+          "key": "volleyInterval",
+          "value": 5.0,
+          "_comment": "齐射间隔"
+        },
+        {
+          "key": "shotDamage",
+          "value": 3.0,
+          "_comment": "单发伤害"
+        },
+        {
+          "key": "engageRange",
+          "value": 200.0,
+          "_comment": "交战范围"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_blaze.asset"
+  },
+  {
+    "monsterId": "cataclysm_amethyst_crab",
+    "displayName": "紫水晶巨蟹",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "amethyst_crab_special"
+    ],
+    "abilityComponentType": "AmethystCrabAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_amethyst_crab",
+      "_comment": "紫水晶巨蟹",
+      "_ability_comment": "",
+      "hp": 200,
+      "attack": 16,
+      "armor": 10,
+      "armorToughness": 0,
+      "moveSpeed": 30,
+      "attackRange": 48,
+      "attackInterval": 1.0,
+      "radius": 22,
+      "price": 180,
+      "abilityParams": [
+        {
+          "key": "burrowDuration",
+          "value": 5.0,
+          "_comment": "埋地时间"
+        },
+        {
+          "key": "emergeDamage",
+          "value": 16.0,
+          "_comment": "破土伤害"
+        },
+        {
+          "key": "sweepDamage",
+          "value": 16.0,
+          "_comment": "横扫伤害"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_cataclysm_amethyst_crab.asset"
+  },
+  {
+    "monsterId": "cataclysm_ancient_remnant",
+    "displayName": "远古遗魂",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "boss",
+      "remnant_boss",
+      "giant"
+    ],
+    "abilityComponentType": "RemnantAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_ancient_remnant",
+      "_comment": "远古遗魂",
+      "_ability_comment": "",
+      "hp": 420,
+      "attack": 22,
+      "armor": 12,
+      "armorToughness": 0,
+      "moveSpeed": 36,
+      "attackRange": 55,
+      "attackInterval": 3.0,
+      "radius": 56,
+      "price": 700,
+      "abilityParams": [
+        {
+          "key": "biteDamage",
+          "value": 34.0,
+          "_comment": "咬伤害"
+        },
+        {
+          "key": "biteDamagePct",
+          "value": 0.05,
+          "_comment": "咬百分比伤害"
+        },
+        {
+          "key": "stompDamage",
+          "value": 26.0,
+          "_comment": "践踏伤害"
+        },
+        {
+          "key": "stompRadius",
+          "value": 80.0,
+          "_comment": "践踏范围"
+        },
+        {
+          "key": "tornadoCount",
+          "value": 3.0,
+          "_comment": "龙卷数量"
+        },
+        {
+          "key": "tornadoDamage",
+          "value": 5.0,
+          "_comment": "龙卷伤害"
+        },
+        {
+          "key": "tornadoRadius",
+          "value": 28.0,
+          "_comment": "龙卷范围"
+        },
+        {
+          "key": "obeliskDamage",
+          "value": 18.0,
+          "_comment": "石碑伤害"
+        },
+        {
+          "key": "obeliskDamagePct",
+          "value": 0.05,
+          "_comment": "石碑百分比伤害"
+        },
+        {
+          "key": "obeliskRings",
+          "value": 7.0,
+          "_comment": "石碑环数"
+        },
+        {
+          "key": "obeliskCooldown",
+          "value": 20.0,
+          "_comment": "石碑冷却"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_cataclysm_ancient_remnant.asset"
+  },
+  {
+    "monsterId": "cataclysm_coral_golem",
+    "displayName": "珊瑚傀儡",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "coral_leap_special"
+    ],
+    "abilityComponentType": "CoralLeapAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_coral_golem",
+      "_comment": "珊瑚傀儡",
+      "_ability_comment": "",
+      "hp": 110,
+      "attack": 13,
+      "armor": 5,
+      "armorToughness": 0,
+      "moveSpeed": 30,
+      "attackRange": 200,
+      "attackInterval": 3.0,
+      "radius": 18,
+      "price": 80
+    },
+    "sourceAsset": "Monster_cataclysm_coral_golem.asset"
+  },
+  {
+    "monsterId": "cataclysm_coralssus",
+    "displayName": "珊瑚巨兽",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "coral_leap_special"
+    ],
+    "abilityComponentType": "CoralLeapAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_coralssus",
+      "_comment": "珊瑚巨兽",
+      "_ability_comment": "",
+      "hp": 150,
+      "attack": 12,
+      "armor": 5,
+      "armorToughness": 0,
+      "moveSpeed": 30,
+      "attackRange": 200,
+      "attackInterval": 3.0,
+      "radius": 22,
+      "price": 150
+    },
+    "sourceAsset": "Monster_cataclysm_coralssus.asset"
+  },
+  {
+    "monsterId": "cataclysm_deepling_brute",
+    "displayName": "渊灵蛮兵",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [],
+    "abilityComponentType": "DualModeAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_deepling_brute",
+      "_comment": "渊灵蛮兵",
+      "_ability_comment": "",
+      "hp": 60,
+      "attack": 14,
+      "armor": 8,
+      "armorToughness": 0,
+      "moveSpeed": 50,
+      "attackRange": 160,
+      "attackInterval": 1.1,
+      "radius": 18,
+      "price": 60,
+      "abilityParams": [
+        {
+          "key": "switchRange",
+          "value": 100.0,
+          "_comment": "远近切换距离"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 8.0,
+          "_comment": "近战伤害(1.4x攻击)"
+        },
+        {
+          "key": "rangedDamage",
+          "value": 8.0,
+          "_comment": "远程伤害"
+        },
+        {
+          "key": "rangedRange",
+          "value": 160.0,
+          "_comment": "远程射程"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_cataclysm_deepling_brute.asset"
+  },
+  {
+    "monsterId": "cataclysm_deepling_priest",
+    "displayName": "渊灵祭司",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [],
+    "abilityComponentType": "PriestAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_deepling_priest",
+      "_comment": "渊灵祭司",
+      "_ability_comment": "",
+      "hp": 45,
+      "attack": 8,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 96,
+      "attackInterval": 6.0,
+      "radius": 18,
+      "price": 35,
+      "abilityParams": [
+        {
+          "key": "castDuration",
+          "value": 3.0,
+          "_comment": "施法时间"
+        },
+        {
+          "key": "aoeRadius",
+          "value": 96.0,
+          "_comment": "AOE范围"
+        },
+        {
+          "key": "aoeDamage",
+          "value": 8.0,
+          "_comment": "AOE伤害"
+        },
+        {
+          "key": "cooldownDuration",
+          "value": 3.0,
+          "_comment": "冷却时间"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_cataclysm_deepling_priest.asset"
+  },
+  {
+    "monsterId": "cataclysm_deepling_warlock",
+    "displayName": "渊灵术士",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [
+      "warlock_special"
+    ],
+    "abilityComponentType": "WarlockAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_deepling_warlock",
+      "_comment": "渊灵术士",
+      "_ability_comment": "mark→delay→laser rain",
+      "hp": 45,
+      "attack": 14,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 30,
+      "attackRange": 260,
+      "attackInterval": 10.0,
+      "radius": 14,
+      "price": 50,
+      "markRange": 260,
+      "markDelay": 2.0,
+      "laserTickDamage": 14,
+      "laserTicks": 7,
+      "laserTickInterval": 0.3,
+      "laserRadius": 40,
+      "abilityCooldown": 10.0
+    },
+    "sourceAsset": "Monster_cataclysm_deepling_warlock.asset"
+  },
+  {
+    "monsterId": "cataclysm_deepling",
+    "displayName": "渊灵",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [],
+    "abilityComponentType": "DualModeAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_deepling",
+      "_comment": "渊灵",
+      "_ability_comment": "",
+      "hp": 26,
+      "attack": 10,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 160,
+      "attackInterval": 1.1,
+      "radius": 18,
+      "price": 25,
+      "abilityParams": [
+        {
+          "key": "switchRange",
+          "value": 100.0,
+          "_comment": "远近切换距离"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 3.0,
+          "_comment": "近战伤害(1.4x攻击)"
+        },
+        {
+          "key": "rangedDamage",
+          "value": 3.0,
+          "_comment": "远程伤害"
+        },
+        {
+          "key": "rangedRange",
+          "value": 160.0,
+          "_comment": "远程射程"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_cataclysm_deepling.asset"
+  },
+  {
+    "monsterId": "cataclysm_ender_golem",
+    "displayName": "末影傀儡",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "ender_golem_boss"
+    ],
+    "abilityComponentType": "EnderGolemAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_ender_golem",
+      "_comment": "末影傀儡",
+      "_ability_comment": "",
+      "hp": 120,
+      "attack": 13,
+      "armor": 12,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 42,
+      "attackInterval": 2.0,
+      "radius": 20,
+      "price": 200,
+      "abilityParams": [
+        {
+          "key": "baseDamage",
+          "value": 10.0,
+          "_comment": "基础伤害"
+        },
+        {
+          "key": "aoeRadius",
+          "value": 72.0,
+          "_comment": "AOE范围"
+        },
+        {
+          "key": "rangedRadius",
+          "value": 48.0,
+          "_comment": "远程AOE范围"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_cataclysm_ender_golem.asset"
+  },
+  {
+    "monsterId": "cataclysm_ignited_berserker",
+    "displayName": "炽燃狂魂",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "aoe_melee"
+    ],
+    "abilityComponentType": "BerserkerAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_ignited_berserker",
+      "_comment": "炽燃狂魂",
+      "_ability_comment": "",
+      "hp": 65,
+      "attack": 14,
+      "armor": 8,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 42,
+      "attackInterval": 3.0,
+      "radius": 18,
+      "price": 60,
+      "abilityParams": [
+        {
+          "key": "aoeRadius",
+          "value": 48.0,
+          "_comment": "AOE范围"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 8.0,
+          "_comment": "近战伤害"
+        },
+        {
+          "key": "meleeCooldown",
+          "value": 2.0,
+          "_comment": "近战冷却"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_cataclysm_ignited_berserker.asset"
+  },
+  {
+    "monsterId": "cataclysm_ignited_revenant",
+    "displayName": "炽燃遗魂",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "fire_immune",
+      "revenant_special"
+    ],
+    "abilityComponentType": "RevenantAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_ignited_revenant",
+      "_comment": "炽燃遗魂",
+      "_ability_comment": "",
+      "hp": 80,
+      "attack": 6,
+      "armor": 12,
+      "armorToughness": 0,
+      "moveSpeed": 42,
+      "attackRange": 160,
+      "attackInterval": 1.0,
+      "radius": 18,
+      "price": 180,
+      "abilityParams": [
+        {
+          "key": "spinTicks",
+          "value": 2.0,
+          "_comment": "旋转最大次数"
+        },
+        {
+          "key": "spinDamage",
+          "value": 11.0,
+          "_comment": "旋转AOE伤害"
+        },
+        {
+          "key": "spinRadius",
+          "value": 64.0,
+          "_comment": "旋转AOE范围"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 14.0,
+          "_comment": "近战伤害"
+        },
+        {
+          "key": "spinInterval",
+          "value": 1.5,
+          "_comment": "旋转间隔"
+        },
+        {
+          "key": "spinTicks",
+          "value": 2.0,
+          "_comment": "旋转最大次数"
+        },
+        {
+          "key": "spinDamage",
+          "value": 11.0,
+          "_comment": "旋转AOE伤害"
+        },
+        {
+          "key": "spinRadius",
+          "value": 64.0,
+          "_comment": "旋转AOE范围"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_cataclysm_ignited_revenant.asset"
+  },
+  {
+    "monsterId": "cataclysm_kobolediator",
+    "displayName": "骸骨斩首者",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "boss",
+      "kobo_boss",
+      "kobo_block_ranged"
+    ],
+    "abilityComponentType": "KobolediatorAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_kobolediator",
+      "_comment": "骸骨斩首者",
+      "_ability_comment": "",
+      "hp": 180,
+      "attack": 14,
+      "armor": 10,
+      "armorToughness": 0,
+      "moveSpeed": 56,
+      "attackRange": 260,
+      "attackInterval": 3.0,
+      "radius": 20,
+      "price": 250,
+      "abilityParams": [
+        {
+          "key": "chargeDamage",
+          "value": 18.0,
+          "_comment": "冲锋伤害"
+        },
+        {
+          "key": "chargeRadius",
+          "value": 72.0,
+          "_comment": "冲锋范围"
+        },
+        {
+          "key": "slashDamage",
+          "value": 14.0,
+          "_comment": "斩击伤害"
+        },
+        {
+          "key": "slashRadius",
+          "value": 100.0,
+          "_comment": "斩击范围"
+        },
+        {
+          "key": "finishDamage",
+          "value": 18.0,
+          "_comment": "终结伤害"
+        },
+        {
+          "key": "bigSlashDamage",
+          "value": 14.0,
+          "_comment": "大斩伤害"
+        },
+        {
+          "key": "bigSlashRadius",
+          "value": 300.0,
+          "_comment": "大斩范围"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_cataclysm_kobolediator.asset"
+  },
+  {
+    "monsterId": "cataclysm_koboleton",
+    "displayName": "骷髅狗头人",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_koboleton",
+      "_comment": "骷髅狗头人",
+      "_ability_comment": "",
+      "hp": 25,
+      "attack": 7,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 78,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 15
+    },
+    "sourceAsset": "Monster_cataclysm_koboleton.asset"
+  },
+  {
+    "monsterId": "cataclysm_modern_remnant",
+    "displayName": "现世遗魂",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_modern_remnant",
+      "_comment": "现世遗魂",
+      "_ability_comment": "",
+      "hp": 120,
+      "attack": 6,
+      "armor": 5,
+      "armorToughness": 0,
+      "moveSpeed": 68,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 80,
+      "abilityParams": [
+        {
+          "key": "aoeRadius",
+          "value": 48.0,
+          "_comment": "AOE范围"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 8.0,
+          "_comment": "近战伤害"
+        },
+        {
+          "key": "meleeCooldown",
+          "value": 2.0,
+          "_comment": "近战冷却"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_cataclysm_modern_remnant.asset"
+  },
+  {
+    "monsterId": "cataclysm_the_harbinger",
+    "displayName": "先驱者",
+    "moveType": 1,
+    "attackType": 1,
+    "tags": [
+      "boss",
+      "harbinger_boss",
+      "fly"
+    ],
+    "abilityComponentType": "HarbingerAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_the_harbinger",
+      "_comment": "先驱者",
+      "_ability_comment": "",
+      "hp": 390,
+      "attack": 16,
+      "armor": 12,
+      "armorToughness": 0,
+      "moveSpeed": 64,
+      "attackRange": 240,
+      "attackInterval": 2.0,
+      "radius": 28,
+      "price": 600,
+      "abilityParams": [
+        {
+          "key": "modeTimer",
+          "value": 15.0,
+          "_comment": "模式切换时间"
+        },
+        {
+          "key": "skillTimer",
+          "value": 5.0,
+          "_comment": "技能冷却"
+        },
+        {
+          "key": "regenPerSec",
+          "value": 2.0,
+          "_comment": "每秒回血"
+        },
+        {
+          "key": "homingCount",
+          "value": 6.0,
+          "_comment": "追踪弹数量"
+        },
+        {
+          "key": "homingDamage",
+          "value": 3.0,
+          "_comment": "追踪弹伤害"
+        },
+        {
+          "key": "rainCount",
+          "value": 8.0,
+          "_comment": "弹幕雨数量"
+        },
+        {
+          "key": "rainRadius",
+          "value": 58.0,
+          "_comment": "弹幕雨范围"
+        },
+        {
+          "key": "rainDamage",
+          "value": 20.0,
+          "_comment": "弹幕雨伤害"
+        },
+        {
+          "key": "beamDuration",
+          "value": 5.0,
+          "_comment": "死亡射线持续"
+        },
+        {
+          "key": "beamDamage",
+          "value": 10.0,
+          "_comment": "死亡射线基础伤害"
+        },
+        {
+          "key": "beamDamagePct",
+          "value": 0.05,
+          "_comment": "死亡射线百分比"
+        },
+        {
+          "key": "beamHalfWidth",
+          "value": 16.0,
+          "_comment": "死亡射线半宽"
+        },
+        {
+          "key": "beamLength",
+          "value": 300.0,
+          "_comment": "死亡射线长度"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_cataclysm_the_harbinger.asset"
+  },
+  {
+    "monsterId": "cataclysm_the_prowler",
+    "displayName": "徘徊者",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "prowler_special"
+    ],
+    "abilityComponentType": "ProwlerAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_the_prowler",
+      "_comment": "徘徊者",
+      "_ability_comment": "",
+      "hp": 160,
+      "attack": 7,
+      "armor": 10,
+      "armorToughness": 0,
+      "moveSpeed": 42,
+      "attackRange": 240,
+      "attackInterval": 3.0,
+      "radius": 18,
+      "price": 140,
+      "abilityParams": [
+        {
+          "key": "sweepDamage",
+          "value": 11.0,
+          "_comment": "横扫伤害"
+        },
+        {
+          "key": "sweepRadius",
+          "value": 72.0,
+          "_comment": "横扫范围"
+        },
+        {
+          "key": "spinDamage",
+          "value": 7.0,
+          "_comment": "旋转伤害"
+        },
+        {
+          "key": "spinRadius",
+          "value": 80.0,
+          "_comment": "旋转范围"
+        },
+        {
+          "key": "missileDamage",
+          "value": 3.0,
+          "_comment": "导弹伤害"
+        },
+        {
+          "key": "beamDamage",
+          "value": 5.0,
+          "_comment": "激光基础伤害"
+        },
+        {
+          "key": "beamDamagePct",
+          "value": 0.05,
+          "_comment": "激光百分比伤害"
+        },
+        {
+          "key": "beamLength",
+          "value": 400.0,
+          "_comment": "激光长度"
+        },
+        {
+          "key": "beamHalfWidth",
+          "value": 12.0,
+          "_comment": "激光半宽"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_cataclysm_the_prowler.asset"
+  },
+  {
+    "monsterId": "cataclysm_the_watcher",
+    "displayName": "观测者",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_the_watcher",
+      "_comment": "观测者",
+      "_ability_comment": "",
+      "hp": 25,
+      "attack": 4,
+      "armor": 5,
+      "armorToughness": 0,
+      "moveSpeed": 20,
+      "attackRange": 160,
+      "attackInterval": 1.1,
+      "radius": 18,
+      "price": 25
+    },
+    "sourceAsset": "Monster_cataclysm_the_watcher.asset"
+  },
+  {
+    "monsterId": "cataclysm_wadjet",
+    "displayName": "瓦吉特",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "wadjet_boss",
+      "aoe_melee"
+    ],
+    "abilityComponentType": "WadjetAbility",
+    "effectiveConfig": {
+      "monsterId": "cataclysm_wadjet",
+      "_comment": "瓦吉特",
+      "_ability_comment": "",
+      "hp": 150,
+      "attack": 11,
+      "armor": 5,
+      "armorToughness": 0,
+      "moveSpeed": 52,
+      "attackRange": 240,
+      "attackInterval": 2.0,
+      "radius": 20,
+      "price": 150,
+      "abilityParams": [
+        {
+          "key": "sweepDamage",
+          "value": 11.0,
+          "_comment": "扇形伤害"
+        },
+        {
+          "key": "sweepRadius",
+          "value": 120.0,
+          "_comment": "扇形范围"
+        },
+        {
+          "key": "tornadoDamage",
+          "value": 15.0,
+          "_comment": "龙卷伤害"
+        },
+        {
+          "key": "obeliskDamage",
+          "value": 18.0,
+          "_comment": "石碑伤害"
+        },
+        {
+          "key": "obeliskCooldown",
+          "value": 15.0,
+          "_comment": "石碑冷却"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_cataclysm_wadjet.asset"
+  },
+  {
+    "monsterId": "creeper",
+    "displayName": "苦力怕",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "explosive"
+    ],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "creeper",
+      "_comment": "苦力怕",
+      "_ability_comment": "",
+      "hp": 20,
+      "attack": 49,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 38,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 20,
+      "abilityParams": [
+        {
+          "key": "explodeRadius",
+          "value": 60.0,
+          "_comment": "爆炸范围"
+        },
+        {
+          "key": "fuseDuration",
+          "value": 1.5,
+          "_comment": "引信时间"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_creeper.asset"
+  },
+  {
+    "monsterId": "dread_beast",
+    "displayName": "悚怖尸兽",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "dread_beast",
+      "_comment": "悚怖尸兽",
+      "_ability_comment": "",
+      "hp": 30,
+      "attack": 4,
+      "armor": 1,
+      "armorToughness": 0,
+      "moveSpeed": 72,
+      "attackRange": 42,
+      "attackInterval": 1.0,
+      "radius": 14,
+      "price": 0,
+      "abilityParams": [
+        {
+          "key": "rangedDamage",
+          "value": 6.0,
+          "_comment": "远程伤害"
+        },
+        {
+          "key": "rangedRange",
+          "value": 160.0,
+          "_comment": "远程射程"
+        },
+        {
+          "key": "rangedCooldown",
+          "value": 1.1,
+          "_comment": "远程冷却"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_dread_beast.asset"
+  },
+  {
+    "monsterId": "dread_ghoul",
+    "displayName": "悚怖食尸鬼",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "dread_ghoul",
+      "_comment": "悚怖食尸鬼",
+      "_ability_comment": "",
+      "hp": 30,
+      "attack": 5,
+      "armor": 4,
+      "armorToughness": 0,
+      "moveSpeed": 68,
+      "attackRange": 42,
+      "attackInterval": 1.0,
+      "radius": 14,
+      "price": 0,
+      "abilityParams": [
+        {
+          "key": "rangedDamage",
+          "value": 6.0,
+          "_comment": "远程伤害"
+        },
+        {
+          "key": "rangedRange",
+          "value": 160.0,
+          "_comment": "远程射程"
+        },
+        {
+          "key": "rangedCooldown",
+          "value": 1.1,
+          "_comment": "远程冷却"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_dread_ghoul.asset"
+  },
+  {
+    "monsterId": "dread_spider",
+    "displayName": "悚怖劫蛛",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "arthropod"
+    ],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "dread_spider",
+      "_comment": "悚怖劫蛛",
+      "_ability_comment": "",
+      "hp": 40,
+      "attack": 7,
+      "armor": 10,
+      "armorToughness": 0,
+      "moveSpeed": 64,
+      "attackRange": 42,
+      "attackInterval": 1.0,
+      "radius": 16,
+      "price": 0
+    },
+    "sourceAsset": "Monster_dread_spider.asset"
+  },
+  {
+    "monsterId": "dread_thrall",
+    "displayName": "悚怖尸奴",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "dread_thrall",
+      "_comment": "悚怖尸奴",
+      "_ability_comment": "",
+      "hp": 20,
+      "attack": 6,
+      "armor": 2,
+      "armorToughness": 0,
+      "moveSpeed": 52,
+      "attackRange": 42,
+      "attackInterval": 1.0,
+      "radius": 12,
+      "price": 0,
+      "abilityParams": [
+        {
+          "key": "rangedDamage",
+          "value": 6.0,
+          "_comment": "远程伤害"
+        },
+        {
+          "key": "rangedRange",
+          "value": 160.0,
+          "_comment": "远程射程"
+        },
+        {
+          "key": "rangedCooldown",
+          "value": 1.1,
+          "_comment": "远程冷却"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_dread_thrall.asset"
+  },
+  {
+    "monsterId": "evoker",
+    "displayName": "唤魔者",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [
+      "summoner"
+    ],
+    "abilityComponentType": "EvokerAbility",
+    "effectiveConfig": {
+      "monsterId": "evoker",
+      "_comment": "唤魔者",
+      "_ability_comment": "",
+      "hp": 24,
+      "attack": 6,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 160,
+      "attackInterval": 1.1,
+      "radius": 16,
+      "price": 50,
+      "abilityParams": [
+        {
+          "key": "summonCooldown",
+          "value": 15.0,
+          "_comment": "召唤冷却"
+        },
+        {
+          "key": "fangDamage",
+          "value": 6.0,
+          "_comment": "尖牙伤害"
+        },
+        {
+          "key": "fangRange",
+          "value": 64.0,
+          "_comment": "尖牙近距范围"
+        },
+        {
+          "key": "fangRangedRadius",
+          "value": 24.0,
+          "_comment": "尖牙远程AOE"
+        },
+        {
+          "key": "vexCount",
+          "value": 2.0,
+          "_comment": "召唤恼鬼数量"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_evoker.asset"
+  },
+  {
+    "monsterId": "iceandfire_cyclops",
+    "displayName": "独眼巨人",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "cyclops_special"
+    ],
+    "abilityComponentType": "CyclopsAbility",
+    "effectiveConfig": {
+      "monsterId": "iceandfire_cyclops",
+      "_comment": "独眼巨人",
+      "_ability_comment": "",
+      "hp": 150,
+      "attack": 17,
+      "armor": 20,
+      "armorToughness": 0,
+      "moveSpeed": 48,
+      "attackRange": 42,
+      "attackInterval": 2.0,
+      "radius": 22,
+      "price": 150,
+      "abilityParams": [
+        {
+          "key": "devourThreshold",
+          "value": 50.0,
+          "_comment": "吞噬血量阈值"
+        },
+        {
+          "key": "aoeDamage",
+          "value": 17.0,
+          "_comment": "AOE伤害"
+        },
+        {
+          "key": "aoeRadius",
+          "value": 48.0,
+          "_comment": "AOE范围"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_iceandfire_cyclops.asset"
+  },
+  {
+    "monsterId": "iceandfire_dread_lich",
+    "displayName": "悚怖尸巫",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [
+      "dread_lich_special"
+    ],
+    "abilityComponentType": "DreadLichAbility",
+    "effectiveConfig": {
+      "monsterId": "iceandfire_dread_lich",
+      "_comment": "悚怖尸巫",
+      "_ability_comment": "",
+      "hp": 50,
+      "attack": 6,
+      "armor": 2,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 200,
+      "attackInterval": 1.0,
+      "radius": 16,
+      "price": 100,
+      "abilityParams": [
+        {
+          "key": "summonCooldown",
+          "value": 10.0,
+          "_comment": "召唤冷却"
+        },
+        {
+          "key": "rangedDamage",
+          "value": 12.0,
+          "_comment": "远程伤害"
+        },
+        {
+          "key": "mmDamage",
+          "value": 6.0,
+          "_comment": "地面投射伤害"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_iceandfire_dread_lich.asset"
+  },
+  {
+    "monsterId": "iceandfire_if_cockatrice",
+    "displayName": "鸡蛇",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "iceandfire_if_cockatrice",
+      "_comment": "鸡蛇",
+      "_ability_comment": "",
+      "hp": 40,
+      "attack": 2,
+      "armor": 2,
+      "armorToughness": 0,
+      "moveSpeed": 30,
+      "attackRange": 360,
+      "attackInterval": 0.4,
+      "radius": 18,
+      "price": 20
+    },
+    "sourceAsset": "Monster_iceandfire_if_cockatrice.asset"
+  },
+  {
+    "monsterId": "iceandfire_if_troll",
+    "displayName": "食人妖",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "knockback_immune",
+      "troll_immune_ranged"
+    ],
+    "abilityComponentType": "TrollAbility",
+    "effectiveConfig": {
+      "monsterId": "iceandfire_if_troll",
+      "_comment": "食人妖",
+      "_ability_comment": "",
+      "hp": 50,
+      "attack": 10,
+      "armor": 9,
+      "armorToughness": 0,
+      "moveSpeed": 50,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 60,
+      "abilityParams": [
+        {
+          "key": "heavyDamage",
+          "value": 27.0,
+          "_comment": "重击伤害"
+        },
+        {
+          "key": "normalDamage",
+          "value": 10.0,
+          "_comment": "普攻伤害"
+        },
+        {
+          "key": "heavyCooldown",
+          "value": 15.0,
+          "_comment": "重击冷却"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_iceandfire_if_troll.asset"
+  },
+  {
+    "monsterId": "iceandfire_stymphalianbird",
+    "displayName": "铜羽泽鹗",
+    "moveType": 1,
+    "attackType": 1,
+    "tags": [
+      "fly",
+      "armor_piercing"
+    ],
+    "abilityComponentType": "StymphalianAbility",
+    "effectiveConfig": {
+      "monsterId": "iceandfire_stymphalianbird",
+      "_comment": "铜羽泽鹗",
+      "_ability_comment": "",
+      "hp": 24,
+      "attack": 1,
+      "armor": 4,
+      "armorToughness": 0,
+      "moveSpeed": 90,
+      "attackRange": 100,
+      "attackInterval": 1.0,
+      "radius": 16,
+      "price": 15
+    },
+    "sourceAsset": "Monster_iceandfire_stymphalianbird.asset"
+  },
+  {
+    "monsterId": "iron_golem",
+    "displayName": "铁傀儡",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "iron_golem",
+      "_comment": "铁傀儡",
+      "_ability_comment": "",
+      "hp": 100,
+      "attack": 14,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 100
+    },
+    "sourceAsset": "Monster_iron_golem.asset"
+  },
+  {
+    "monsterId": "mowziesmobs_frostmaw",
+    "displayName": "霜冻巨兽",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "boss",
+      "frostmaw_special"
+    ],
+    "abilityComponentType": "FrostmawAbility",
+    "effectiveConfig": {
+      "monsterId": "mowziesmobs_frostmaw",
+      "_comment": "霜冻巨兽",
+      "_ability_comment": "",
+      "hp": 250,
+      "attack": 8,
+      "armor": 6,
+      "armorToughness": 0,
+      "moveSpeed": 44,
+      "attackRange": 220,
+      "attackInterval": 3.0,
+      "radius": 28,
+      "price": 150,
+      "abilityParams": [
+        {
+          "key": "slamDamage",
+          "value": 40.0,
+          "_comment": "重击伤害"
+        },
+        {
+          "key": "slamRadius",
+          "value": 90.0,
+          "_comment": "重击范围"
+        },
+        {
+          "key": "slamCooldown",
+          "value": 20.0,
+          "_comment": "重击冷却"
+        },
+        {
+          "key": "frostDamage",
+          "value": 1.0,
+          "_comment": "冰雾伤害"
+        },
+        {
+          "key": "frostRadius",
+          "value": 140.0,
+          "_comment": "冰雾范围"
+        },
+        {
+          "key": "projectileDamage",
+          "value": 12.0,
+          "_comment": "冰球伤害"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_mowziesmobs_frostmaw.asset"
+  },
+  {
+    "monsterId": "mowziesmobs_naga",
+    "displayName": "娜迦(飞行)",
+    "moveType": 1,
+    "attackType": 1,
+    "tags": [
+      "fly"
+    ],
+    "abilityComponentType": "FlyNagaAbility",
+    "effectiveConfig": {
+      "monsterId": "mowziesmobs_naga",
+      "_comment": "娜迦(飞行)",
+      "_ability_comment": "",
+      "hp": 30,
+      "attack": 4,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 72,
+      "attackRange": 160,
+      "attackInterval": 3.0,
+      "radius": 16,
+      "price": 10,
+      "abilityParams": [
+        {
+          "key": "contactDamage",
+          "value": 6.0,
+          "_comment": "接触伤害"
+        },
+        {
+          "key": "contactCooldown",
+          "value": 0.5,
+          "_comment": "接触冷却"
+        },
+        {
+          "key": "maxSegments",
+          "value": 8.0,
+          "_comment": "最大体节数"
+        },
+        {
+          "key": "minSegments",
+          "value": 3.0,
+          "_comment": "最小体节数"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_mowziesmobs_naga.asset"
+  },
+  {
+    "monsterId": "pillager",
+    "displayName": "掠夺者",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "pillager",
+      "_comment": "掠夺者",
+      "_ability_comment": "",
+      "hp": 24,
+      "attack": 4,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 200,
+      "attackInterval": 2.0,
+      "radius": 18,
+      "price": 6
+    },
+    "sourceAsset": "Monster_pillager.asset"
+  },
+  {
+    "monsterId": "ravager",
+    "displayName": "劫掠兽",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "ravager",
+      "_comment": "劫掠兽",
+      "_ability_comment": "",
+      "hp": 100,
+      "attack": 12,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 70
+    },
+    "sourceAsset": "Monster_ravager.asset"
+  },
+  {
+    "monsterId": "skeleton",
+    "displayName": "骷髅",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "skeleton",
+      "_comment": "骷髅",
+      "_ability_comment": "",
+      "hp": 20,
+      "attack": 3,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 160,
+      "attackInterval": 1.1,
+      "radius": 18,
+      "price": 8
+    },
+    "sourceAsset": "Monster_skeleton.asset"
+  },
+  {
+    "monsterId": "stradpole",
+    "displayName": "跨座蝌蚪",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "stradpole",
+      "_comment": "跨座蝌蚪",
+      "_ability_comment": "",
+      "hp": 4,
+      "attack": 0,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 0,
+      "attackInterval": 99.0,
+      "radius": 8,
+      "price": 0
+    },
+    "sourceAsset": "Monster_stradpole.asset"
+  },
+  {
+    "monsterId": "stray",
+    "displayName": "流浪者",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "stray",
+      "_comment": "流浪者",
+      "_ability_comment": "",
+      "hp": 20,
+      "attack": 3,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 160,
+      "attackInterval": 1.1,
+      "radius": 18,
+      "price": 9
+    },
+    "sourceAsset": "Monster_stray.asset"
+  },
+  {
+    "monsterId": "twilightforest_alpha_yeti",
+    "displayName": "雪怪首领",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [
+      "alpha_yeti_special"
+    ],
+    "abilityComponentType": "AlphaYetiAbility",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_alpha_yeti",
+      "_comment": "雪怪首领",
+      "_ability_comment": "",
+      "hp": 200,
+      "attack": 7,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 220,
+      "attackInterval": 1.5,
+      "radius": 24,
+      "price": 150,
+      "abilityParams": [
+        {
+          "key": "frenzyDamage",
+          "value": 5.0,
+          "_comment": "狂暴伤害"
+        },
+        {
+          "key": "frenzyRadius",
+          "value": 80.0,
+          "_comment": "狂暴范围"
+        },
+        {
+          "key": "frenzyTicks",
+          "value": 3.0,
+          "_comment": "狂暴次数"
+        },
+        {
+          "key": "frostZoneRadius",
+          "value": 50.0,
+          "_comment": "冰霜区域半径"
+        },
+        {
+          "key": "frostZoneDuration",
+          "value": 5.0,
+          "_comment": "冰霜区域持续"
+        },
+        {
+          "key": "iceBombDamage",
+          "value": 8.0,
+          "_comment": "冰炸弹伤害"
+        },
+        {
+          "key": "iceBombRadius",
+          "value": 60.0,
+          "_comment": "冰炸弹范围"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_twilightforest_alpha_yeti.asset"
+  },
+  {
+    "monsterId": "twilightforest_armored_giant",
+    "displayName": "武装巨人",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_armored_giant",
+      "_comment": "武装巨人",
+      "_ability_comment": "",
+      "hp": 80,
+      "attack": 6,
+      "armor": 15,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 120
+    },
+    "sourceAsset": "Monster_twilightforest_armored_giant.asset"
+  },
+  {
+    "monsterId": "twilightforest_blockchain_goblin",
+    "displayName": "链锤哥布林",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "aoe_melee"
+    ],
+    "abilityComponentType": "GoblinAbility",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_blockchain_goblin",
+      "_comment": "链锤哥布林",
+      "_ability_comment": "",
+      "hp": 20,
+      "attack": 8,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 80,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 20,
+      "abilityParams": [
+        {
+          "key": "aoeRadius",
+          "value": 80.0,
+          "_comment": "AOE范围"
+        },
+        {
+          "key": "aoeDamage",
+          "value": 8.0,
+          "_comment": "AOE伤害"
+        },
+        {
+          "key": "knockbackForce",
+          "value": 10.0,
+          "_comment": "击退力度"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_twilightforest_blockchain_goblin.asset"
+  },
+  {
+    "monsterId": "twilightforest_death_tome",
+    "displayName": "死灵书",
+    "moveType": 1,
+    "attackType": 1,
+    "tags": [
+      "fly"
+    ],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_death_tome",
+      "_comment": "死灵书",
+      "_ability_comment": "",
+      "hp": 30,
+      "attack": 6,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 30,
+      "attackRange": 160,
+      "attackInterval": 2.0,
+      "radius": 16,
+      "price": 5
+    },
+    "sourceAsset": "Monster_twilightforest_death_tome.asset"
+  },
+  {
+    "monsterId": "twilightforest_fire_beetle",
+    "displayName": "喷火甲虫",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [
+      "arthropod"
+    ],
+    "abilityComponentType": "ConeBreathAbility",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_fire_beetle",
+      "_comment": "喷火甲虫",
+      "_ability_comment": "",
+      "hp": 25,
+      "attack": 4,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 50,
+      "attackRange": 64,
+      "attackInterval": 2.0,
+      "radius": 18,
+      "price": 6,
+      "abilityParams": [
+        {
+          "key": "breathRange",
+          "value": 64.0,
+          "_comment": "喷射范围"
+        },
+        {
+          "key": "breathDamage",
+          "value": 4.0,
+          "_comment": "每tick伤害"
+        },
+        {
+          "key": "breathTicks",
+          "value": 4.0,
+          "_comment": "tick次数"
+        },
+        {
+          "key": "breathAngle",
+          "value": 60.0,
+          "_comment": "锥形角度"
+        },
+        {
+          "key": "breathInterval",
+          "value": 0.5,
+          "_comment": "喷射间隔"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_twilightforest_fire_beetle.asset"
+  },
+  {
+    "monsterId": "twilightforest_giant_miner",
+    "displayName": "矿工巨人",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_giant_miner",
+      "_comment": "矿工巨人",
+      "_ability_comment": "",
+      "hp": 80,
+      "attack": 4,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 100
+    },
+    "sourceAsset": "Monster_twilightforest_giant_miner.asset"
+  },
+  {
+    "monsterId": "twilightforest_king_spider",
+    "displayName": "国王蜘蛛",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "arthropod"
+    ],
+    "abilityComponentType": "SpiderRiderAbility",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_king_spider",
+      "_comment": "国王蜘蛛",
+      "_ability_comment": "",
+      "hp": 30,
+      "attack": 6,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 12,
+      "abilityParams": [
+        {
+          "key": "riderDamage",
+          "value": 2.0,
+          "_comment": "骑手远程伤害"
+        },
+        {
+          "key": "mountDamage",
+          "value": 6.0,
+          "_comment": "坐骑近战伤害"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_twilightforest_king_spider.asset"
+  },
+  {
+    "monsterId": "twilightforest_minoshroom",
+    "displayName": "米诺菇",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "MinoshroomAbility",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_minoshroom",
+      "_comment": "米诺菇",
+      "_ability_comment": "",
+      "hp": 160,
+      "attack": 13,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 50
+    },
+    "sourceAsset": "Monster_twilightforest_minoshroom.asset"
+  },
+  {
+    "monsterId": "twilightforest_minotaur",
+    "displayName": "牛头人",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_minotaur",
+      "_comment": "牛头人",
+      "_ability_comment": "",
+      "hp": 30,
+      "attack": 8,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 16
+    },
+    "sourceAsset": "Monster_twilightforest_minotaur.asset"
+  },
+  {
+    "monsterId": "twilightforest_mist_wolf",
+    "displayName": "迷雾狼",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_mist_wolf",
+      "_comment": "迷雾狼",
+      "_ability_comment": "",
+      "hp": 30,
+      "attack": 4,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 13
+    },
+    "sourceAsset": "Monster_twilightforest_mist_wolf.asset"
+  },
+  {
+    "monsterId": "twilightforest_naga",
+    "displayName": "娜迦",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "naga_special"
+    ],
+    "abilityComponentType": "NagaAbility",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_naga",
+      "_comment": "娜迦",
+      "_ability_comment": "",
+      "hp": 200,
+      "attack": 6,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 80,
+      "attackRange": 42,
+      "attackInterval": 0.1,
+      "radius": 12,
+      "price": 120,
+      "abilityParams": [
+        {
+          "key": "contactDamage",
+          "value": 6.0,
+          "_comment": "接触伤害"
+        },
+        {
+          "key": "contactCooldown",
+          "value": 0.5,
+          "_comment": "接触冷却"
+        },
+        {
+          "key": "maxSegments",
+          "value": 8.0,
+          "_comment": "最大体节数"
+        },
+        {
+          "key": "minSegments",
+          "value": 3.0,
+          "_comment": "最小体节数"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_twilightforest_naga.asset"
+  },
+  {
+    "monsterId": "twilightforest_skeleton_druid",
+    "displayName": "骷髅德鲁伊",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_skeleton_druid",
+      "_comment": "骷髅德鲁伊",
+      "_ability_comment": "",
+      "hp": 20,
+      "attack": 2,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 30,
+      "attackRange": 160,
+      "attackInterval": 1.1,
+      "radius": 14,
+      "price": 5,
+      "abilityParams": [
+        {
+          "key": "rangedDamage",
+          "value": 2.0,
+          "_comment": "远程伤害"
+        },
+        {
+          "key": "rangedRange",
+          "value": 160.0,
+          "_comment": "远程射程"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_twilightforest_skeleton_druid.asset"
+  },
+  {
+    "monsterId": "twilightforest_slime_beetle",
+    "displayName": "粘液甲虫",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [
+      "arthropod"
+    ],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_slime_beetle",
+      "_comment": "粘液甲虫",
+      "_ability_comment": "",
+      "hp": 25,
+      "attack": 8,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 160,
+      "attackInterval": 1.1,
+      "radius": 18,
+      "price": 12
+    },
+    "sourceAsset": "Monster_twilightforest_slime_beetle.asset"
+  },
+  {
+    "monsterId": "twilightforest_tower_golem",
+    "displayName": "砷铅铁傀儡",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_tower_golem",
+      "_comment": "砷铅铁傀儡",
+      "_ability_comment": "",
+      "hp": 40,
+      "attack": 9,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 30
+    },
+    "sourceAsset": "Monster_twilightforest_tower_golem.asset"
+  },
+  {
+    "monsterId": "twilightforest_winter_wolf",
+    "displayName": "寒冬狼",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [],
+    "abilityComponentType": "ConeBreathAbility",
+    "effectiveConfig": {
+      "monsterId": "twilightforest_winter_wolf",
+      "_comment": "寒冬狼",
+      "_ability_comment": "",
+      "hp": 30,
+      "attack": 4,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 64,
+      "attackInterval": 2.0,
+      "radius": 18,
+      "price": 16,
+      "abilityParams": [
+        {
+          "key": "breathRange",
+          "value": 64.0,
+          "_comment": "喷射范围"
+        },
+        {
+          "key": "breathDamage",
+          "value": 4.0,
+          "_comment": "每tick伤害"
+        },
+        {
+          "key": "breathTicks",
+          "value": 4.0,
+          "_comment": "tick次数"
+        },
+        {
+          "key": "breathAngle",
+          "value": 60.0,
+          "_comment": "锥形角度"
+        },
+        {
+          "key": "breathInterval",
+          "value": 0.5,
+          "_comment": "喷射间隔"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_twilightforest_winter_wolf.asset"
+  },
+  {
+    "monsterId": "vex",
+    "displayName": "恼鬼",
+    "moveType": 1,
+    "attackType": 0,
+    "tags": [
+      "fly"
+    ],
+    "abilityComponentType": "VexAbility",
+    "effectiveConfig": {
+      "monsterId": "vex",
+      "_comment": "恼鬼",
+      "_ability_comment": "",
+      "hp": 14,
+      "attack": 13,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 100,
+      "attackRange": 42,
+      "attackInterval": 5.0,
+      "radius": 12,
+      "price": 0
+    },
+    "sourceAsset": "Monster_vex.asset"
+  },
+  {
+    "monsterId": "vindicator",
+    "displayName": "卫道士",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "vindicator",
+      "_comment": "卫道士",
+      "_ability_comment": "",
+      "hp": 24,
+      "attack": 13,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 20
+    },
+    "sourceAsset": "Monster_vindicator.asset"
+  },
+  {
+    "monsterId": "warden",
+    "displayName": "监守者",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [
+      "warden_special"
+    ],
+    "abilityComponentType": "WardenAbility",
+    "effectiveConfig": {
+      "monsterId": "warden",
+      "_comment": "监守者",
+      "_ability_comment": "",
+      "hp": 500,
+      "attack": 30,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 58,
+      "attackRange": 48,
+      "attackInterval": 1.5,
+      "radius": 22,
+      "price": 400,
+      "abilityParams": [
+        {
+          "key": "sonicDamage",
+          "value": 10.0,
+          "_comment": "声波伤害"
+        },
+        {
+          "key": "sonicRange",
+          "value": 220.0,
+          "_comment": "声波射程"
+        },
+        {
+          "key": "sonicCooldown",
+          "value": 10.0,
+          "_comment": "声波冷却"
+        },
+        {
+          "key": "sonicSpeed",
+          "value": 300.0,
+          "_comment": "声波速度"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 30.0,
+          "_comment": "近战伤害"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_warden.asset"
+  },
+  {
+    "monsterId": "witch",
+    "displayName": "女巫",
+    "moveType": 0,
+    "attackType": 1,
+    "tags": [],
+    "abilityComponentType": "WitchAbility",
+    "effectiveConfig": {
+      "monsterId": "witch",
+      "_comment": "女巫",
+      "_ability_comment": "",
+      "hp": 26,
+      "attack": 6,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 30,
+      "attackRange": 160,
+      "attackInterval": 2.0,
+      "radius": 18,
+      "price": 20,
+      "abilityParams": [
+        {
+          "key": "healAmount",
+          "value": 10.0,
+          "_comment": "治疗量"
+        },
+        {
+          "key": "aoeDamage",
+          "value": 6.0,
+          "_comment": "AOE伤害"
+        },
+        {
+          "key": "aoeRadius",
+          "value": 48.0,
+          "_comment": "AOE范围"
+        }
+      ]
+    },
+    "sourceAsset": "Monster_witch.asset"
+  },
+  {
+    "monsterId": "wither_skeleton",
+    "displayName": "凋零骷髅",
+    "moveType": 0,
+    "attackType": 0,
+    "tags": [],
+    "abilityComponentType": "",
+    "effectiveConfig": {
+      "monsterId": "wither_skeleton",
+      "_comment": "凋零骷髅",
+      "_ability_comment": "",
+      "hp": 20,
+      "attack": 8,
+      "armor": 0,
+      "armorToughness": 0,
+      "moveSpeed": 40,
+      "attackRange": 42,
+      "attackInterval": 0.9,
+      "radius": 18,
+      "price": 8
+    },
+    "sourceAsset": "Monster_wither_skeleton.asset"
+  }
+]

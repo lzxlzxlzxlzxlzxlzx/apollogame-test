@@ -33,8 +33,8 @@ describe('shape atom', () => {
     expect(got.radius).toBe(4);
   });
 
-  it('config kind defaults to box with box/circle options', () => {
+  it('config preserves box default and exposes all supported collision shapes', () => {
     expect(shapeCapability.config.kind.default).toBe('box');
-    expect(shapeCapability.config.kind.ui.options).toEqual(['box', 'circle']);
+    expect(shapeCapability.config.kind.ui.options).toEqual(['box', 'circle', 'polygon', 'capsule']);
   });
 });

@@ -1,0 +1,94 @@
+{
+  "units": 84,
+  "shopUnits": 78,
+  "hiddenUnits": 6,
+  "flyUnits": 10,
+  "rangedAttributeUnits": 28,
+  "customBoundUnits": 48,
+  "abilityClasses": 48,
+  "usedAbilityClasses": 47,
+  "assetFiles": 2142,
+  "assetExtensions": {
+    ".ogg": 12,
+    ".prefab": 697,
+    ".mat": 138,
+    ".png": 1242,
+    ".unity": 4,
+    ".fbx": 15,
+    ".shader": 22,
+    ".tga": 2,
+    ".jpg": 4,
+    ".ttf": 6
+  },
+  "unitsWithMissingParams": {
+    "cataclysm_coral_golem": [
+      "leapDamage",
+      "leapDuration",
+      "leapMaxRange",
+      "leapRadius"
+    ],
+    "cataclysm_coralssus": [
+      "leapDamage",
+      "leapDuration",
+      "leapMaxRange",
+      "leapRadius"
+    ],
+    "cataclysm_deepling_warlock": [
+      "abilityCooldown",
+      "laserRadius",
+      "laserTickDamage",
+      "laserTickInterval",
+      "laserTicks",
+      "markDelay",
+      "markRange"
+    ],
+    "cataclysm_ignited_berserker": [
+      "spinDamage",
+      "spinInterval",
+      "spinRadius",
+      "spinTicks"
+    ],
+    "cataclysm_ignited_revenant": [
+      "projDamage",
+      "projRange",
+      "sonicDamage",
+      "sonicRadius",
+      "sonicTickInterval",
+      "sonicTicks",
+      "spinTickInterval"
+    ],
+    "creeper": [
+      "centerDamage"
+    ],
+    "twilightforest_minoshroom": [
+      "chargeDamage",
+      "chargeThreshold",
+      "normalDamage"
+    ]
+  },
+  "unitsWithDuplicateParams": {
+    "alexscaves_nucleeper": [
+      "explodeRadius",
+      "fuseDuration",
+      "centerDamage",
+      "edgeDamage"
+    ],
+    "cataclysm_ignited_revenant": [
+      "spinTicks",
+      "spinDamage",
+      "spinRadius"
+    ]
+  },
+  "unitsWithUnconsumedParamCandidates": 20,
+  "unconsumedParamCandidateCount": 56,
+  "unresolvedNonemptySprites": [],
+  "emptySpriteSlots": {
+    "deadSprite": 84,
+    "attackSprite": 6
+  },
+  "missingVfxFiles": [
+    "lava_circle"
+  ],
+  "unitsWithDetailedOldDesign": 58,
+  "unitsWithoutOldDesignMention": []
+}

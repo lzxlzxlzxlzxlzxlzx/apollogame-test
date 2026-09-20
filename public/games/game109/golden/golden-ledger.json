@@ -1,0 +1,223 @@
+{
+  "version": 1,
+  "slug": "game109",
+  "states": {
+    "s5-boot": {
+      "status": "retired",
+      "sha256": "71d1ad71158271d4e207018030dc34efac0aa062d3c2b15f8b1a493e54993622",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capturedAt": "2026-09-18T14:41:48.096Z",
+      "gameHash": "044205f5ad0e21d5",
+      "flaky": false,
+      "blessedAt": "2026-09-18T15:27:18.315Z",
+      "blessedBy": "owner（授权代跑·2026-09-18）",
+      "note": "owner 2026-09-18 授权 Lead 代跑（owner 在 5173 人门 UI 找不到本动作入口——bless 未接入 UI）。基准照＝S5 换皮后真渲染：stable:true/flaky:false/attempts:2 · sha256 71d1ad711582… · gameHash 044205f5ad0e21d5。owner 未逐像素目击此张；若后判观感不符目标态，走 capture→bless 重转正（candidate 可重拍）。",
+      "retiredAt": "2026-09-18T20:21:24.631Z",
+      "retiredBy": "owner（授权代跑·2026-09-19）",
+      "supersededBy": "s6-boot",
+      "retireNote": "owner 2026-09-19 裁 A「转正换代」：S6 有意变更（换装 + 条错位修复）后本基准退出像素比对；图 golden/s5-boot.png 原样留档、sha256 与 bless 登记一致，不再当门。"
+    },
+    "s6-boot": {
+      "status": "blessed",
+      "sha256": "dc170d7718ee27b7691963d546cbbdb83763f3ed2b755937943aec69c74cf0a9",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capturedAt": "2026-09-18T20:02:31.605Z",
+      "gameHash": "592645fda91ea522",
+      "flaky": false,
+      "blessedAt": "2026-09-18T20:21:16.360Z",
+      "blessedBy": "owner（授权代跑·2026-09-19）",
+      "note": "owner 2026-09-19 裁决 A「转正换代」：S6 美术换装 + 生长条错位修复（撤 Gauge·条走纯帧）均属有意变更，故以修后画面为新基准。实测依据：compare 对旧基准 s5-boot 判红 ratio 0.23805（243759/1024000 像素·stable:true），diff 图 golden/s5-boot-diff.png；候选 s6-boot.png 与 bless 同字节。owner 在 5173 人门 UI 找不到本动作入口，授权 Lead 代跑（沿用 2026-09-18 同款格式）。旧基准 s5-boot 转 retired 留档（图不删）。"
+    }
+  },
+  "history": [
+    {
+      "action": "capture",
+      "state": "s5-boot",
+      "at": "2026-09-18T14:41:48.096Z",
+      "sha256": "71d1ad71158271d4e207018030dc34efac0aa062d3c2b15f8b1a493e54993622",
+      "stable": true,
+      "attempts": 2,
+      "wasBlessed": false
+    },
+    {
+      "action": "bless",
+      "state": "s5-boot",
+      "at": "2026-09-18T15:27:18.315Z",
+      "by": "owner（授权代跑·2026-09-18）",
+      "note": "owner 2026-09-18 授权 Lead 代跑（owner 在 5173 人门 UI 找不到本动作入口——bless 未接入 UI）。基准照＝S5 换皮后真渲染：stable:true/flaky:false/attempts:2 · sha256 71d1ad711582… · gameHash 044205f5ad0e21d5。owner 未逐像素目击此张；若后判观感不符目标态，走 capture→bless 重转正（candidate 可重拍）。",
+      "sha256": "71d1ad71158271d4e207018030dc34efac0aa062d3c2b15f8b1a493e54993622"
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-18T15:28:01.997Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-boot",
+          "ok": true,
+          "ratio": 0
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-18T16:31:39.379Z",
+      "ok": false,
+      "results": [
+        {
+          "state": "s5-boot",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-18T16:32:57.203Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-boot",
+          "ok": true,
+          "ratio": 0
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-18T16:37:03.700Z",
+      "ok": false,
+      "results": [
+        {
+          "state": "s5-boot",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-18T16:44:59.198Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-boot",
+          "ok": true,
+          "ratio": 0
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-18T16:45:18.001Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-boot",
+          "ok": true,
+          "ratio": 0
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-18T16:45:36.610Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-boot",
+          "ok": true,
+          "ratio": 0
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-18T16:46:10.995Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-boot",
+          "ok": true,
+          "ratio": 0
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-18T16:57:49.125Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s5-boot",
+          "ok": true,
+          "ratio": 0
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-18T20:01:19.219Z",
+      "ok": false,
+      "results": [
+        {
+          "state": "s5-boot",
+          "ok": false,
+          "ratio": 0.23805
+        }
+      ]
+    },
+    {
+      "action": "capture",
+      "state": "s6-boot",
+      "at": "2026-09-18T20:02:31.605Z",
+      "sha256": "dc170d7718ee27b7691963d546cbbdb83763f3ed2b755937943aec69c74cf0a9",
+      "stable": true,
+      "attempts": 2,
+      "wasBlessed": false
+    },
+    {
+      "action": "bless",
+      "state": "s6-boot",
+      "at": "2026-09-18T20:21:16.360Z",
+      "by": "owner（授权代跑·2026-09-19）",
+      "note": "owner 2026-09-19 裁决 A「转正换代」：S6 美术换装 + 生长条错位修复（撤 Gauge·条走纯帧）均属有意变更，故以修后画面为新基准。实测依据：compare 对旧基准 s5-boot 判红 ratio 0.23805（243759/1024000 像素·stable:true），diff 图 golden/s5-boot-diff.png；候选 s6-boot.png 与 bless 同字节。owner 在 5173 人门 UI 找不到本动作入口，授权 Lead 代跑（沿用 2026-09-18 同款格式）。旧基准 s5-boot 转 retired 留档（图不删）。",
+      "sha256": "dc170d7718ee27b7691963d546cbbdb83763f3ed2b755937943aec69c74cf0a9"
+    },
+    {
+      "action": "retire",
+      "state": "s5-boot",
+      "at": "2026-09-18T20:21:24.631Z",
+      "by": "owner（授权代跑·2026-09-19）",
+      "supersededBy": "s6-boot",
+      "note": "owner 2026-09-19 裁 A「转正换代」：S6 有意变更（换装 + 条错位修复）后本基准退出像素比对；图 golden/s5-boot.png 原样留档、sha256 与 bless 登记一致，不再当门。"
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-18T20:22:03.326Z",
+      "ok": false,
+      "results": [
+        {
+          "state": "s6-boot",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "action": "compare",
+      "at": "2026-09-18T20:22:48.783Z",
+      "ok": true,
+      "results": [
+        {
+          "state": "s6-boot",
+          "ok": true,
+          "ratio": 0
+        }
+      ]
+    }
+  ]
+}

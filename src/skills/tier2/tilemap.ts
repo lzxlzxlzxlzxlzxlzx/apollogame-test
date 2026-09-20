@@ -76,7 +76,9 @@ export const tilemapCapability = defineCapability({
     {
       id: 'tile-collision',
       phase: SystemPhase.Resolve,
-      runsAfter: ['collision-resolve'],
+      // Tile correction follows this tick's candidate detection/contact sensing
+      // and body resolution. Corrected positions feed the next detection pass.
+      runsAfter: ['committed-contact-position', 'overlap-detect', 'ground-sense', 'collision-resolve'],
       reads: ['Tilemap', 'Transform', 'Shape', 'Velocity'],
       writes: ['Transform', 'Velocity'],
       consumes: [],

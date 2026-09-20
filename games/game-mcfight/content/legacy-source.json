@@ -1,0 +1,3454 @@
+[
+  {
+    "id": "source:alexscaves_atlatitan",
+    "unitId": "alexscaves_atlatitan",
+    "legacyId": "alexscaves_atlatitan",
+    "legacyUnitIndex": 0,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/0",
+    "factsHash": "8a3bfc16ff21213a2778feab843776a6174fa3daaeb2745532a416fe38e4cee1",
+    "cardHash": "60c82127c0af0bd10d3a5822451bb01cbed21bad108fcb1ef884f34aa24459a3",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "f7b525dbb167a82439ac100d270186b7",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_atlatitan/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "c5c2c138a001be44093f2e4b7a4a130e",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_atlatitan/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "AoeMeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [
+      "aoeRadius",
+      "meleeCooldown",
+      "meleeDamage"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexscaves_brainiac",
+    "unitId": "alexscaves_brainiac",
+    "legacyId": "alexscaves_brainiac",
+    "legacyUnitIndex": 1,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/1",
+    "factsHash": "cb298eb4337bfc1181fdf6ed8e5ea1fe1069fd33ff8050087db9b895367d5e34",
+    "cardHash": "a0e83b33784b0f5fd74ddfd8ac2dafa4ee0b8a806b3ae125ebef17fc3ab40811",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "a5cee6e5390ef7c4e85a0564c7deaf16",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_brainiac/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "8cb4453c505a8914c9d1dd60ac4b4034",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_brainiac/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "BrainiacAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [
+      "bucketDamage",
+      "bucketRadius",
+      "bucketThreshold",
+      "pollutionDPS",
+      "pollutionDuration"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexscaves_deep_one",
+    "unitId": "alexscaves_deep_one",
+    "legacyId": "alexscaves_deep_one",
+    "legacyUnitIndex": 2,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/2",
+    "factsHash": "2c5d0ae07caf967e63a7c88999f0b12b8f8eddf5674d119c2cda5dd4b7b517cc",
+    "cardHash": "7f74184853b9dd1d2889c535e0dde9ed7d0f559d241191e4d05aaefb912c0866",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "ee17cf56941a1f741ac52693e2745c1e",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_deep_one/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "b7462dd7f9fcea74888aa606c5c36771",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_deep_one/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexscaves_deep_one_knight",
+    "unitId": "alexscaves_deep_one_knight",
+    "legacyId": "alexscaves_deep_one_knight",
+    "legacyUnitIndex": 3,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/3",
+    "factsHash": "bd1f99d1f622e4dbd718d5736ff63a7f8cdc6fccadf7b5406ff0bc83f70b7a74",
+    "cardHash": "2fc887935f46e6748587219a3bcfd3fddf9398dab1879020d09a8dd2ef1e0cbd",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "c1e6f30fc64b5914c84cb26fe0c0c0a6",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_deep_one_knight/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "4a93296379ea53f459e7cc53a8dfc54e",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_deep_one_knight/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "DualModeAbility",
+      "route": "factory"
+    },
+    "conflicts": {
+      "moveSpeed": {
+        "SO": 50,
+        "JSON": 58
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [
+      "meleeDamage",
+      "rangedDamage",
+      "rangedRange"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexscaves_deep_one_mage",
+    "unitId": "alexscaves_deep_one_mage",
+    "legacyId": "alexscaves_deep_one_mage",
+    "legacyUnitIndex": 4,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/4",
+    "factsHash": "28c3f31a8e781c2109b1fca948960793287b42cb04e54d3b1da7a6a7e788c9fa",
+    "cardHash": "244b2e75b87362c9bc82d502cf38af07f91fd761c532294e33ddf1cee4fe82dc",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "a4677ea0bd8813342b26cb587176b941",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_deep_one_mage/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "075f185d5c8449c4cb71fdfe95dcae74",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_deep_one_mage/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "DeepOneMageAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [
+      "waveCount"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexscaves_forsaken",
+    "unitId": "alexscaves_forsaken",
+    "legacyId": "alexscaves_forsaken",
+    "legacyUnitIndex": 5,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/5",
+    "factsHash": "77f88138c2797ba7a0b45dd8a61afbeab9ad14bf8d34a2d33d8e5ea08ae936a3",
+    "cardHash": "f0456ab1ed6a7d0f660539cf2a893a8314e36542065a6270f4c3c152e5d76602",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "34d024501d4ed5f43b5bb4ed673e8f86",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_forsaken/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "c2d03a7ee19141643935c4c20f260cc6",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_forsaken/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "ForsakenAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexscaves_luxtructosaurus",
+    "unitId": "alexscaves_luxtructosaurus",
+    "legacyId": "alexscaves_luxtructosaurus",
+    "legacyUnitIndex": 6,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/6",
+    "factsHash": "f1a8752bae4c0f07eebb3c65ae00f7cb72585c9d6eeaeb669767be3bb06edb8b",
+    "cardHash": "14a6eb1d007513b0bffee9b14a8fc75527a1438efeb310e8e17139dddb8da37d",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "f9a989537a0173f4b8bfbb705ae55e6e",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_luxtructosaurus/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "4298f8a67311606498793208d2d3ac23",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_luxtructosaurus/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "LuxtructosaurusAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexscaves_magnetron",
+    "unitId": "alexscaves_magnetron",
+    "legacyId": "alexscaves_magnetron",
+    "legacyUnitIndex": 7,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/7",
+    "factsHash": "9df265e3720738f38134d1f8c8d3c657d357ea1d80b4fe9e60340bcbd5db02b0",
+    "cardHash": "1b0939d8d41ead2ad6b239f11d1d891f349fe168628bd1f9b1d162e5ea809b6d",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "d2bddb37a61baa84293944cdf5a040fa",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_magnetron/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "f22485a5f03d86247b07ac95ba896e86",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_magnetron/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MagnetronAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexscaves_nucleeper",
+    "unitId": "alexscaves_nucleeper",
+    "legacyId": "alexscaves_nucleeper",
+    "legacyUnitIndex": 8,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/8",
+    "factsHash": "4f143d90af8b947ba47a8cc739e7fa8b1fa8e55122da0afd10753be4558baf7b",
+    "cardHash": "5725e49960685f36a31ebb2d1432a943e55639688e706da76620933d55436e1d",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "fc5d3bf0800cdeb40bc5406cfd711878",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_nucleeper/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "c2243408cedd91241a7ad53e5699d5a0",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_nucleeper/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "NucleeperAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": [
+      "explodeRadius",
+      "fuseDuration",
+      "centerDamage",
+      "edgeDamage"
+    ]
+  },
+  {
+    "id": "source:alexscaves_relicheirus",
+    "unitId": "alexscaves_relicheirus",
+    "legacyId": "alexscaves_relicheirus",
+    "legacyUnitIndex": 9,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/9",
+    "factsHash": "8be78df9055f77e80e79d70763bc60abd05a8fd10ab9424750f656814820bd7d",
+    "cardHash": "23a746accb5cb1a65cacd38397206b50d14a967d78137005fea83f931ac6d433",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "719648c5215788e4ca99fb89393ba5e7",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_relicheirus/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "fad773e6d607ca24fa6d6e3b3e78728d",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_relicheirus/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "moveSpeed": {
+        "SO": 58,
+        "JSON": 40
+      },
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [
+      "aoeRadius",
+      "meleeCooldown",
+      "meleeDamage"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexscaves_teleto",
+    "unitId": "alexscaves_teleto",
+    "legacyId": "alexscaves_teleto",
+    "legacyUnitIndex": 10,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/10",
+    "factsHash": "e9497844f9020583cca7363e33e55cddb0b8b990b0eec67c7782ae2cc071e0c9",
+    "cardHash": "59e83af848e61cfdd81d26856d077e76f65266612a6bd124c0f90fe55afe5188",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "5d8bf16d11ba60444854bc43952b1751",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_teleto/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "64c35a6f0d9b301468f3ac02175c2c60",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_teleto/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "RangedAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "moveSpeed": {
+        "SO": 72,
+        "JSON": 40
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [
+      "aoeRadius",
+      "meleeCooldown",
+      "meleeDamage"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexscaves_tremorsaurus",
+    "unitId": "alexscaves_tremorsaurus",
+    "legacyId": "alexscaves_tremorsaurus",
+    "legacyUnitIndex": 11,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/11",
+    "factsHash": "40b374b8f33c8582a6cb0a51b501a6ca75b412c9bcd22aab037d3c979c263db1",
+    "cardHash": "c9107854016e07a9c52722ca75cc35b6d2ddf42db31c4ef41656259cce9eb7d0",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "025b852e520aa0b4d84d0785b7803fa5",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_tremorsaurus/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "2ceb00d55291ad04d8bafbf936f1af96",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_tremorsaurus/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "TremorsaurusAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:earthshaker",
+    "unitId": "earthshaker",
+    "legacyId": "alexscaves_tremorzilla",
+    "legacyUnitIndex": 12,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/12",
+    "factsHash": "246f24f8fad2e05b86335255ba397f31bfbe7e4b58acbba032a00dfbc01bdd77",
+    "cardHash": "b4fa8937a9336cfedc42d4544899f03659c4c5296d80853b2b57ef175e4b2fad",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "e9bce32d5aba58f47b7f7b82b1eb4233",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_tremorzilla/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "6949b350fcd8c3a43a7f13e579838f73",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_tremorzilla/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "TremorzillaAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexscaves_vallumraptor",
+    "unitId": "alexscaves_vallumraptor",
+    "legacyId": "alexscaves_vallumraptor",
+    "legacyUnitIndex": 13,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/13",
+    "factsHash": "5d2ee1bca28d10c31cb41b0fda2caa2c2d59e286ce18a1130fe07d738623bbca",
+    "cardHash": "86d4ea5aba5150179515ca2eb43d641dfed5eb31fbdac4c2c957b841c8f4a8c7",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "f9e3bd9ac817fd84ba98ca46563c0e80",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_vallumraptor/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "ac87d21bc3b16334f9a41c58d81e6449",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexscaves_vallumraptor/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "moveSpeed": {
+        "SO": 58,
+        "JSON": 70
+      },
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexsmobs_bison",
+    "unitId": "alexsmobs_bison",
+    "legacyId": "alexsmobs_bison",
+    "legacyUnitIndex": 14,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/14",
+    "factsHash": "43f95f80fc2fef3cece11aca4497872d791517159ecbda20622fc14f62b30a6c",
+    "cardHash": "3e12bb15e68eec2e8ba963cfd6aaa4f4be347de5aa9ebb93855af9ddea048668",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "6ee3ea7691349d344a07973b12cfb33c",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_bison/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "964004b48dfe44b44bba153b5b269288",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_bison/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexsmobs_centipede_head",
+    "unitId": "alexsmobs_centipede_head",
+    "legacyId": "alexsmobs_centipede_head",
+    "legacyUnitIndex": 15,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/15",
+    "factsHash": "d01a3e18f866eed93793673bfbfce2566f94c0b8f7c225884761e5a0e4e7f1d4",
+    "cardHash": "830d16e20802ab18601c17fd81a2f8da5269686d9e9d20fdb4c48ceecdeb920d",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "0593c75aed0dc1743b2b0824f141cff9",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_centipede_head/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "120c3ee1060727249bb6431a454215a9",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_centipede_head/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "moveSpeed": {
+        "SO": 58,
+        "JSON": 50
+      },
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:elephant",
+    "unitId": "elephant",
+    "legacyId": "alexsmobs_elephant",
+    "legacyUnitIndex": 16,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/16",
+    "factsHash": "bcb30c3e317a19b3c3b4c38aa58e318e1115947aed50d2bd2aaddbd1b620732e",
+    "cardHash": "b4a743bd99c651cb45500dafb3e53e56fbaca0dff32052b3464f81d3d66eeff2",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "6b1fc2a1faa45234cad8e8a0a20d7e50",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_elephant/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "6cf68deb0e6ce6045ae406cdc4e75078",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_elephant/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "ChargeMeleeAbility",
+      "route": "factory"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexsmobs_farseer",
+    "unitId": "alexsmobs_farseer",
+    "legacyId": "alexsmobs_farseer",
+    "legacyUnitIndex": 17,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/17",
+    "factsHash": "322ebb376c3ce24e30e1ab23b7d6953c86df23d4892ca5830d77de5b138ceaa6",
+    "cardHash": "7f669fdc1f576632899fec41b812bac4d5cff3190f2ea8606049b202e27fab2b",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "fcd3ea80775689e49bcc69eaa3c0a962",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_farseer/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "eb6825e776f78c240b53cdc42bdf90b4",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_farseer/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "FarseerAbility",
+      "route": "factory"
+    },
+    "conflicts": {
+      "moveSpeed": {
+        "SO": 50,
+        "JSON": 40
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexsmobs_grizzly_bear",
+    "unitId": "alexsmobs_grizzly_bear",
+    "legacyId": "alexsmobs_grizzly_bear",
+    "legacyUnitIndex": 18,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/18",
+    "factsHash": "38225c0df678b725a95a77b2b44c29b32895bd12d300082a12024add2231935e",
+    "cardHash": "8e00a92fc58ab8f43393c6cda8b3344b3b9f79518e0704f749be8395f5afc9da",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "c5719430c5859af468f9010cb01c4eb2",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_grizzly_bear/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "8a288fadf92242b4cb219aec2817867c",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_grizzly_bear/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexsmobs_murmur",
+    "unitId": "alexsmobs_murmur",
+    "legacyId": "alexsmobs_murmur",
+    "legacyUnitIndex": 19,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/19",
+    "factsHash": "99435d854f0626cafdbcb22d97ec89fac576af233d2003360fe75bb5fa74a70f",
+    "cardHash": "8411b6c86b6f5ae907af19c36c3d6ff47a677ff99c4918e9bb1d1d96161eae4d",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "c44ddefb77eeb104fb34720d65fbb426",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_murmur/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "3e85870b7847af747bba629e346e4515",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_murmur/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MurmurAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexsmobs_rhinoceros",
+    "unitId": "alexsmobs_rhinoceros",
+    "legacyId": "alexsmobs_rhinoceros",
+    "legacyUnitIndex": 20,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/20",
+    "factsHash": "ec9ce79c8c8da745ab8e4f2a15a31588ca9d678459af107ea7153081819119c4",
+    "cardHash": "c59b12c719540aad164de2e7ac0213292463e512bd2430c8a1e582458f1027cc",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "f90146cfdf528c14eb08c30a3c191c2a",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_rhinoceros/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "efc831d3b7ecf2d46a6cc412e1beced6",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_rhinoceros/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexsmobs_straddler",
+    "unitId": "alexsmobs_straddler",
+    "legacyId": "alexsmobs_straddler",
+    "legacyUnitIndex": 21,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/21",
+    "factsHash": "e2416cd7e95d6e5e2f6d0a1c51f00f7f756b0254a3720d1e5218d589e463f2a4",
+    "cardHash": "bb8db42d04a67b18e2d457f487632aa90141e70c44da3292ca2e700c22679808",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "5ea33dae10708d74884d5fe914492bec",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_straddler/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "bcdaed1a82566b0468d8eb996f4f0bd1",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_straddler/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "StraddlerAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [
+      "projectileDamage"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexsmobs_tarantula_hawk",
+    "unitId": "alexsmobs_tarantula_hawk",
+    "legacyId": "alexsmobs_tarantula_hawk",
+    "legacyUnitIndex": 22,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/22",
+    "factsHash": "0a712a75553a2307b9bae99a8a06c16e93e2932a7eece6b7af657bf9a2692c2e",
+    "cardHash": "518ec23bc5aed81df349f1318d6b5cd4f567fbd64b31c12b9826c3775bdf517d",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "148369c75bf6ea74989767fb00ae1135",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_tarantula_hawk/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "554eaef8e755f0d43a27632574c988cd",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_tarantula_hawk/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "TarantulaHawkAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [
+      "meleeCooldown",
+      "meleeDamage"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexsmobs_tiger",
+    "unitId": "alexsmobs_tiger",
+    "legacyId": "alexsmobs_tiger",
+    "legacyUnitIndex": 23,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/23",
+    "factsHash": "921b7a85c471b4aa1a2ca6788b9a8bd04ceca70ae2637895b14eb6ce049fa97d",
+    "cardHash": "6afb558a9fe903b8fc491c10f6e8dfd8cfb1bafee8ed16f352c9cb8ba13efb8e",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "3123e9ddb173418448449279c748fc78",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_tiger/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "94b72061d85e3ce46bfb86c91f8ff25c",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_tiger/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexsmobs_tusklin",
+    "unitId": "alexsmobs_tusklin",
+    "legacyId": "alexsmobs_tusklin",
+    "legacyUnitIndex": 24,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/24",
+    "factsHash": "fd2abda600627e5d11dcf36208fb8678f7c2d71e31cace9f2049f12aa2e8fef7",
+    "cardHash": "8dd21fb0411b0d86e4553a8b1fee33176522064fafd3ec56350cd3aa8b0e4b21",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "2230d25bc96788d49866dd47680f7455",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_tusklin/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "9d099684cb96864469580db8344171a5",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_tusklin/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:alexsmobs_warped_mosco",
+    "unitId": "alexsmobs_warped_mosco",
+    "legacyId": "alexsmobs_warped_mosco",
+    "legacyUnitIndex": 25,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/25",
+    "factsHash": "b1bdd64ac5f50d871c22692a0505d03851fae688954cb61936318c49a7bc0a53",
+    "cardHash": "4f52e34c7e3ae7df6ee17ed2d47002b6da57d2effb02d36335aba5ea9b7cd773",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "4ef892bab34cac14ca4e491ee1fb2480",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_warped_mosco/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "20a2cdcb33291bc4b95cf2148a523490",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/alexsmobs_warped_mosco/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "WarpedMoscoAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:blaze",
+    "unitId": "blaze",
+    "legacyId": "blaze",
+    "legacyUnitIndex": 26,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/26",
+    "factsHash": "d9184f269d48eae6f7b3a475784670721d34506411f6af421afb28ecdd3a93b2",
+    "cardHash": "3703f0e3720822fe21e791ba339151faa2308fce0e0f47e26d039e0743be02b8",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "f75f2a7c0219ab844b54fdbba66cb5e6",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/blaze/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "b328cc53e0486744894f52184c37f4fe",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/blaze/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "BlazeAbility",
+      "route": "factory"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 5,
+        "JSON": 6
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_amethyst_crab",
+    "unitId": "cataclysm_amethyst_crab",
+    "legacyId": "cataclysm_amethyst_crab",
+    "legacyUnitIndex": 27,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/27",
+    "factsHash": "c71bb5be29603c33ff0312b83d88a97f11e7de6c546dc32d6dbe2c925806c0bd",
+    "cardHash": "bdc16e7dc09fba953e0b14d6751fddce0ededaeba438f21d39480d2517cd20ee",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "ee45292d22a32874fadf40f68ded94e2",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_amethyst_crab/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "885189b47ceaa0043878048c8ab75762",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_amethyst_crab/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "AmethystCrabAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_ancient_remnant",
+    "unitId": "cataclysm_ancient_remnant",
+    "legacyId": "cataclysm_ancient_remnant",
+    "legacyUnitIndex": 28,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/28",
+    "factsHash": "06de4f55fe08f0bb17a438c1122393245f6f7bd30e54650b5742be85584a3c80",
+    "cardHash": "a478d4c05acbf9d0d9147e986fbc1c4a86d02a95046ede69090bfbc1de3aabe6",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "4958c609dbc7d6e43884e6f4a642acde",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_ancient_remnant/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "7f28424836eb2d84c8051602e5503241",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_ancient_remnant/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "RemnantAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_coral_golem",
+    "unitId": "cataclysm_coral_golem",
+    "legacyId": "cataclysm_coral_golem",
+    "legacyUnitIndex": 29,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/29",
+    "factsHash": "bd73faa293fa05fb835059f7f179ac411ec2da40c6fde4e7ee67408dfee7d41d",
+    "cardHash": "d7e7bbc85afed318352c69fb314f7673ba39058fdd70cef91aca097294c7ca13",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "dd587049ec2546e46a42c3e0e000f453",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_coral_golem/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "ce5dae8ccf8e59e4d9c478cba86b0674",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_coral_golem/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "CoralLeapAbility",
+      "route": "factory"
+    },
+    "conflicts": {
+      "attack": {
+        "SO": 12.5,
+        "JSON": 13
+      }
+    },
+    "missingParams": [
+      "leapDamage",
+      "leapDuration",
+      "leapMaxRange",
+      "leapRadius"
+    ],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_coralssus",
+    "unitId": "cataclysm_coralssus",
+    "legacyId": "cataclysm_coralssus",
+    "legacyUnitIndex": 30,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/30",
+    "factsHash": "252f586d7c61f32161dc6bfccb759965ca044bcab08de17e769290c1298ee705",
+    "cardHash": "17d10360b4f9710aaf4c40e4f524e82e190cc8517d1129afcad51610383e1400",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "b442c7f23add66948bc9c171a427629d",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_coralssus/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "0e69d4a0449f50e41b56a9f1df159138",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_coralssus/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "CoralLeapAbility",
+      "route": "factory"
+    },
+    "conflicts": {
+      "attack": {
+        "SO": 11.5,
+        "JSON": 12
+      }
+    },
+    "missingParams": [
+      "leapDamage",
+      "leapDuration",
+      "leapMaxRange",
+      "leapRadius"
+    ],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_deepling",
+    "unitId": "cataclysm_deepling",
+    "legacyId": "cataclysm_deepling",
+    "legacyUnitIndex": 31,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/31",
+    "factsHash": "9811c8307f2dd86a154e271bdd9fe0191c20d10f4b36233bb1549c2b17130287",
+    "cardHash": "dd11245e49cdb33bea4eedb4d0f0a478028c7cef0ef065bcf8eb1d81560a2e4d",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "0d099bab7825e5544a1d9d6f6d2248d4",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_deepling/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "cdcd8b8501083ba41a43257f77849359",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_deepling/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "DualModeAbility",
+      "route": "factory"
+    },
+    "conflicts": {
+      "attack": {
+        "SO": 9.5,
+        "JSON": 10
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [
+      "meleeDamage",
+      "rangedDamage",
+      "rangedRange"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_deepling_brute",
+    "unitId": "cataclysm_deepling_brute",
+    "legacyId": "cataclysm_deepling_brute",
+    "legacyUnitIndex": 32,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/32",
+    "factsHash": "6352ad268d5bdbe224e31ebfd671bcaf5f2308335c42b19d056ee4443f8a76bc",
+    "cardHash": "9b88429d2836e44073e2997d8e2fb5159b7e655e28599f1c603ad20ccd1b2dae",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "bf455c1d8e7e5664baa92ca1c2be41f0",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_deepling_brute/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "0866ff397cc31d940b66adf6a318ed58",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_deepling_brute/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "DualModeAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [
+      "meleeDamage",
+      "rangedDamage",
+      "rangedRange"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_deepling_priest",
+    "unitId": "cataclysm_deepling_priest",
+    "legacyId": "cataclysm_deepling_priest",
+    "legacyUnitIndex": 33,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/33",
+    "factsHash": "302e13be65b1f6caee8b49b1bf6d80479e2478885e877c999bc4f17277fcc98d",
+    "cardHash": "078892b72492541073fc8de2feacba9466c0bda8af889cb5030aed5d1d5ca6db",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "005e754dd1957f24aa33b4c0494ab593",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_deepling_priest/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "956813bee498c404db391d92776d9be5",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_deepling_priest/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "PriestAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_deepling_warlock",
+    "unitId": "cataclysm_deepling_warlock",
+    "legacyId": "cataclysm_deepling_warlock",
+    "legacyUnitIndex": 34,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/34",
+    "factsHash": "70878f6a6b9424cb67d0406007c9190ee9c55b56922171d8c7f46c6ae9b7b59b",
+    "cardHash": "d258166dc39156f45593e405b1da13209eabf16e26d5a74b30830c0f6f683ff2",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "fd1dc85cd24bd4d42b8bb39676dad47b",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_deepling_warlock/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "0cba47e32623b184f88bff70912294f7",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_deepling_warlock/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "WarlockAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [
+      "abilityCooldown",
+      "laserRadius",
+      "laserTickDamage",
+      "laserTickInterval",
+      "laserTicks",
+      "markDelay",
+      "markRange"
+    ],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_ender_golem",
+    "unitId": "cataclysm_ender_golem",
+    "legacyId": "cataclysm_ender_golem",
+    "legacyUnitIndex": 35,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/35",
+    "factsHash": "b4e2d246b1ed2a5e10736ac44b92efc43258ad768153f77a2ba83149c12fba39",
+    "cardHash": "86243379c9fd70f9afe563a8a2f1f82c40d392bd892da923127ab62a770eafbb",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "a84106fb7a80d1b4597c6839f6414ab4",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_ender_golem/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "9e3e33874789ded4cbf4fef87b620848",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_ender_golem/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "EnderGolemAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_ignited_berserker",
+    "unitId": "cataclysm_ignited_berserker",
+    "legacyId": "cataclysm_ignited_berserker",
+    "legacyUnitIndex": 36,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/36",
+    "factsHash": "bf9679cccba84273bd103c5f97deb843edfb6c40a636e0bda1afeb355fbacc83",
+    "cardHash": "b9eb746361b5966971febf5e756caf7ea742f35fe142baf558d04b24fbd7f1d8",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "aaaff27f90a93114e9995b7c0a0dba2d",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_ignited_berserker/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "3ed4c79ee0cc49541b537a9cb23ab48a",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_ignited_berserker/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "BerserkerAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [
+      "spinDamage",
+      "spinInterval",
+      "spinRadius",
+      "spinTicks"
+    ],
+    "unconsumedParams": [
+      "aoeRadius",
+      "meleeCooldown"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_ignited_revenant",
+    "unitId": "cataclysm_ignited_revenant",
+    "legacyId": "cataclysm_ignited_revenant",
+    "legacyUnitIndex": 37,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/37",
+    "factsHash": "2c1edba4befe7fd83e7dd004b31caa222355875bfc63c1d2e2b0fa96ec214415",
+    "cardHash": "7dfdcf63f3e7762d28e807d63884c7d5a8fec2091424011a6f0df7c9172d8f43",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "ea8684a966577c943862730892f79cd5",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_ignited_revenant/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "077feedee59897547bb9c22ec7e5dc45",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_ignited_revenant/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "RevenantAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [
+      "projDamage",
+      "projRange",
+      "sonicDamage",
+      "sonicRadius",
+      "sonicTickInterval",
+      "sonicTicks",
+      "spinTickInterval"
+    ],
+    "unconsumedParams": [
+      "meleeDamage",
+      "spinInterval"
+    ],
+    "duplicateParams": [
+      "spinTicks",
+      "spinDamage",
+      "spinRadius"
+    ]
+  },
+  {
+    "id": "source:cataclysm_kobolediator",
+    "unitId": "cataclysm_kobolediator",
+    "legacyId": "cataclysm_kobolediator",
+    "legacyUnitIndex": 38,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/38",
+    "factsHash": "1135fe2a4eca884440776e08008f4223cc32714aa7b22ca4b1d34b53e5c5b939",
+    "cardHash": "846afe478ec41cf5851ef04c71f75268cbd5d4a12b176ea3cd2a4f9ff5ab0ad1",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "7ca7e2d6fbaa0454abfea9234a0cd18f",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_kobolediator/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "312de445cb6f51d4cb382ab7f2a1da1f",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_kobolediator/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "KobolediatorAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_koboleton",
+    "unitId": "cataclysm_koboleton",
+    "legacyId": "cataclysm_koboleton",
+    "legacyUnitIndex": 39,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/39",
+    "factsHash": "0bbe1a480236664ebd33e8103f852fcb8bbf74493556cb28ce3e57be17e1820a",
+    "cardHash": "f5d6bfde5f261613b547186c6df6ebeea7131fe391263ca583fd30d18a9e3556",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "66bb542882268b44485c6c2cfc13b5e3",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_koboleton/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "0cf0a38b01916a54396380bce8b79442",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_koboleton/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "moveSpeed": {
+        "SO": 58,
+        "JSON": 78
+      },
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_modern_remnant",
+    "unitId": "cataclysm_modern_remnant",
+    "legacyId": "cataclysm_modern_remnant",
+    "legacyUnitIndex": 40,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/40",
+    "factsHash": "d7a025a31e36ea87b8b589d14376f00bef6e5b2158385ac7f34cb293f76909b9",
+    "cardHash": "ebe4cb5d08f1ec95299998aa54f3ad67b3567de7b52dfd3b1843cdb6298ba804",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "8e605362df9a86544a2db41aa1a6e0a9",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_modern_remnant/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "dd6a541f519100f4894cb8315c42f95a",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_modern_remnant/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "moveSpeed": {
+        "SO": 58,
+        "JSON": 68
+      },
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [
+      "aoeRadius",
+      "meleeCooldown",
+      "meleeDamage"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_the_harbinger",
+    "unitId": "cataclysm_the_harbinger",
+    "legacyId": "cataclysm_the_harbinger",
+    "legacyUnitIndex": 41,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/41",
+    "factsHash": "bb12243c3e88da8868eeac1aac72c6c68087ad91f7f7bb5ad48b791a6ed44f69",
+    "cardHash": "a2a480b245b992f972ee7194cb59027804c95f41c70ccbfed71b262cb4cfe5ef",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "778b09a1da580674bbe075d59bb8ddae",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_the_harbinger/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "50cf2eaccff901244b0b0e95cbd27bef",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_the_harbinger/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "HarbingerAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_the_prowler",
+    "unitId": "cataclysm_the_prowler",
+    "legacyId": "cataclysm_the_prowler",
+    "legacyUnitIndex": 42,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/42",
+    "factsHash": "862f1e9820f1c8d7b683c30ce7b5a9591235e80cbd73791b5c7aac0968a87ab8",
+    "cardHash": "4e04a623554e649861fd65a92ad2e38e9379b78be6f2c16239095e5f0e546271",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "d14780192871dd24289663e9a01f41ec",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_the_prowler/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "ce15057a66c102b4e8e2b80b45599be8",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_the_prowler/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "ProwlerAbility",
+      "route": "factory"
+    },
+    "conflicts": {
+      "moveSpeed": {
+        "SO": 52,
+        "JSON": 42
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_the_watcher",
+    "unitId": "cataclysm_the_watcher",
+    "legacyId": "cataclysm_the_watcher",
+    "legacyUnitIndex": 43,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/43",
+    "factsHash": "0823024a7e81b71af7dc0cdf1e63159eecfb908e389401d941990fea38ecb52b",
+    "cardHash": "4ee9979f12bd8280cea3969e4e91b0cff3bd878e4bff84df29ab1f04756e880e",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "156bcb128cfcbfd40acf9fca1de28c3a",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_the_watcher/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "496a6d88035ea63468d48c8863461ca9",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_the_watcher/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "RangedAbility",
+      "route": "fallback"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:cataclysm_wadjet",
+    "unitId": "cataclysm_wadjet",
+    "legacyId": "cataclysm_wadjet",
+    "legacyUnitIndex": 44,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/44",
+    "factsHash": "3289397b2950783a2b436110bc68ef334f1dc1d7d375e3e944701700917041ee",
+    "cardHash": "af3d3af53346eb462ec0de897c1bb4158415b4119ff396ca419015c15087ba89",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "52def24108c2c334596d66f75f57f04c",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_wadjet/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "a1c318921e6fe8b44a9e3585ba3c300d",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/cataclysm_wadjet/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "WadjetAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:creeper",
+    "unitId": "creeper",
+    "legacyId": "creeper",
+    "legacyUnitIndex": 45,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/45",
+    "factsHash": "205394dd0231a1e17942aa8001a863b4cfe276eafe74d45ff05a3277ed444e39",
+    "cardHash": "badf65405a65a2ed5428635e60350b9273e8f93bde7d6c7263a297b98836caf2",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "9f5dc51adc3f65d418e4a33125e279d2",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/creeper/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "2635d1ba89c7ab64684245571081c5ee",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/creeper/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "ExplosiveAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "moveSpeed": {
+        "SO": 58,
+        "JSON": 38
+      },
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [
+      "centerDamage"
+    ],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:dread_beast",
+    "unitId": "dread_beast",
+    "legacyId": "dread_beast",
+    "legacyUnitIndex": 46,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/46",
+    "factsHash": "71d8682fa6a803c791e8ca61254c2684aaf1503af18a19c94ad392ecc21b2674",
+    "cardHash": "fc03f3bba623d6399df58532bb7854cff333b16be62ed20796d272d22cf0d51e",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "9e1ae8029cf87a442913e6faff1ab248",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/dread_beast/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [
+      "rangedCooldown",
+      "rangedDamage",
+      "rangedRange"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:dread_ghoul",
+    "unitId": "dread_ghoul",
+    "legacyId": "dread_ghoul",
+    "legacyUnitIndex": 47,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/47",
+    "factsHash": "e2d8badbca5cfb435b22dabec432462dd42d80c2b5b41b760a94fa100ee716b0",
+    "cardHash": "ae1440768d8a0d25220a3d876063284c04c3ef87cc209abe45c9e038936b401f",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "fe2c8c145bf98de4c8da130e1a0957fc",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/dread_ghoul/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [
+      "rangedCooldown",
+      "rangedDamage",
+      "rangedRange"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:dread_spider",
+    "unitId": "dread_spider",
+    "legacyId": "dread_spider",
+    "legacyUnitIndex": 48,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/48",
+    "factsHash": "924a5a38147cab8cfba7edf764a87ce1db55166527f874a8583dde211dec4a1d",
+    "cardHash": "2402046887d86978a7427029fd1086ef8ec791b302513a5b8cc605294aa8c946",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "13bcb627588cc8f4da58da39fc9e9a4d",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/dread_spider/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:dread_thrall",
+    "unitId": "dread_thrall",
+    "legacyId": "dread_thrall",
+    "legacyUnitIndex": 49,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/49",
+    "factsHash": "0a0cdc69a4aeb3003b24279f490d16e12082572d78db3ec1a0cc309c1edf94e3",
+    "cardHash": "e80f5d5269cfdd00004596680b44b206bf847172c97e884efe3bc2265e071aaa",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "3907d92a9ec13954ba88745354a02380",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/dread_thrall/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [
+      "rangedCooldown",
+      "rangedDamage",
+      "rangedRange"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:evoker",
+    "unitId": "evoker",
+    "legacyId": "evoker",
+    "legacyUnitIndex": 50,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/50",
+    "factsHash": "8a6530ea4f3e1e6f026c87f26339e748b8610faf38efc2143ca0fd028de99c17",
+    "cardHash": "d13da79938bcb79fb6b97ee3d7262d3bd14b3aa2371cc9d6f36ea73d42dc4139",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "ca63e5d70bc83c548aa226566604ad21",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/evoker/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "39455c9bfe17b404382fd6ae3b46a7c1",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/evoker/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "EvokerAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [
+      "fangDamage",
+      "fangRange",
+      "fangRangedRadius",
+      "summonCooldown",
+      "vexCount"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:iceandfire_cyclops",
+    "unitId": "iceandfire_cyclops",
+    "legacyId": "iceandfire_cyclops",
+    "legacyUnitIndex": 51,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/51",
+    "factsHash": "c9dc948a76cfb48da92bbde4dcbe50d1423c96504fbc33005e2273d9a403292a",
+    "cardHash": "776bbbbaab1936a14f720ae615e39d5217ee79991edff5de1a21c18aed40d249",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "a12ae47f870026c46b676e585601f9d7",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/iceandfire_cyclops/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "96eb2935857a15e4da54651b6dfb215b",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/iceandfire_cyclops/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "CyclopsAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:iceandfire_dread_lich",
+    "unitId": "iceandfire_dread_lich",
+    "legacyId": "iceandfire_dread_lich",
+    "legacyUnitIndex": 52,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/52",
+    "factsHash": "6f9536a3aa21cf5aab0931b42159b5d7c29c3f0da483e738f45195a12b3afbf8",
+    "cardHash": "640c3834fc66aba799cb2b970247547ca695fb8e3569a7584250707c4aae2b5c",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "97653760d28ba6444b666970c22beaa5",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/iceandfire_dread_lich/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "8d5f01f0c6a178f48923dcde3ef4e042",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/iceandfire_dread_lich/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "DreadLichAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:iceandfire_if_cockatrice",
+    "unitId": "iceandfire_if_cockatrice",
+    "legacyId": "iceandfire_if_cockatrice",
+    "legacyUnitIndex": 53,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/53",
+    "factsHash": "27421639475a47d137589c49bea5c4364f85d72923ff82f8fe724f49a8c477b4",
+    "cardHash": "4f86c7d6aa7826ec0b69581a016ea171c03be025280ca13599de4b37879e5114",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "506e27e4b178fb84da223712c373ef52",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/iceandfire_if_cockatrice/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "02f7986817bcfcd4c8bc7b24d852af18",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/iceandfire_if_cockatrice/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "RangedAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "moveSpeed": {
+        "SO": 40,
+        "JSON": 30
+      },
+      "attackRange": {
+        "SO": 160,
+        "JSON": 360
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:iceandfire_if_troll",
+    "unitId": "iceandfire_if_troll",
+    "legacyId": "iceandfire_if_troll",
+    "legacyUnitIndex": 54,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/54",
+    "factsHash": "3ce054466eb6895583f5a6e37128072e24909fbf71241063cab5b3340e2ad231",
+    "cardHash": "599c29706b35c7d07e2b0c539a6c4353e68d259cb240ac60eec3466464a40a65",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "2faed37c091502245a2c0662d4fea1d5",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/iceandfire_if_troll/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "9cd17c4a99c88844fb2ea114a58d5cc9",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/iceandfire_if_troll/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "TrollAbility",
+      "route": "factory"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:iceandfire_stymphalianbird",
+    "unitId": "iceandfire_stymphalianbird",
+    "legacyId": "iceandfire_stymphalianbird",
+    "legacyUnitIndex": 55,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/55",
+    "factsHash": "f227c08debd406df02caca8893109f3eeb10cc897beb0e5d794fcfaec677e77a",
+    "cardHash": "023d52de6b8ce0545232fbc2efe9fc0658b378fd4390f02a089a9cda40f8a1db",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "7ae4399442530784880c90074fcb5ae3",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/iceandfire_stymphalianbird/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "3fe0229729d8b4047aa3c669bdaf2eb9",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/iceandfire_stymphalianbird/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "StymphalianAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:iron_golem",
+    "unitId": "iron_golem",
+    "legacyId": "iron_golem",
+    "legacyUnitIndex": 56,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/56",
+    "factsHash": "a9a9ba9c6e61da94a42649ef2f4e74344e4e2bd2dc469a938351a918f32a052e",
+    "cardHash": "aff8754dbecdb1f16939fb12303545d78aa052c0d51c5bfd7d3e76e8982d2aeb",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "1b736c69898e79842a87c2f58fb3078f",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/iron_golem/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "5c7165036dd92654091cb4c1bfe90658",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/iron_golem/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:mowziesmobs_frostmaw",
+    "unitId": "mowziesmobs_frostmaw",
+    "legacyId": "mowziesmobs_frostmaw",
+    "legacyUnitIndex": 57,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/57",
+    "factsHash": "4ccd3205f57a96ca6b99c9a800df7eabcd2bdd22e4c7b7d560d0e09783f6d98a",
+    "cardHash": "2bdb8269e79dd1a29102e6834c512e1d8cd696b7ed0318ae67f1b217470c4d4e",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "799d5811ba335a14eb1a0cdb5f720356",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/mowziesmobs_frostmaw/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "0b8ae4e741e3e6a4f92204e9ec835355",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/mowziesmobs_frostmaw/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "FrostmawAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:mowziesmobs_naga",
+    "unitId": "mowziesmobs_naga",
+    "legacyId": "mowziesmobs_naga",
+    "legacyUnitIndex": 58,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/58",
+    "factsHash": "d21e469002c2f1982ae74bdb71ec4647bfc85230d1019c7fa4cbae8593ee157f",
+    "cardHash": "fae208c57f450a1b5899b0a6beea85ca447e49da9e1639c4967ea875d8290798",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "a7716d7f9c66b2a41963b47725a4de28",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/mowziesmobs_naga/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "1a97e43cce3fd8f459c3a8ab9ef7487e",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/mowziesmobs_naga/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "FlyNagaAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [
+      "contactCooldown",
+      "contactDamage",
+      "maxSegments",
+      "minSegments"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:pillager",
+    "unitId": "pillager",
+    "legacyId": "pillager",
+    "legacyUnitIndex": 59,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/59",
+    "factsHash": "4b60cc24ec37d0dc9f607bc4bbf04162b321640722a1cc29a4f6842b481aaeb5",
+    "cardHash": "a8f473743ee5ba608629084f671c56ff809c35f780832903edbc36790973ee83",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "c6fb612b3b6fc18429239f4cb4ea36ee",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/pillager/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "5642415625aaf57489b7f23b2b41cea0",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/pillager/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "RangedAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackRange": {
+        "SO": 160,
+        "JSON": 200
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:ravager",
+    "unitId": "ravager",
+    "legacyId": "ravager",
+    "legacyUnitIndex": 60,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/60",
+    "factsHash": "cc12b6979bb4e6b4dd5de948b50b735faabf95345489e0b2a545f31adf6b707c",
+    "cardHash": "a57374f9c51c6f5f08c7d9bafdbf3d8cecf5c2706a70dc44befd7db6a5273b5a",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "64e30b00153ca93449740519e9b8c1b1",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/ravager/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "3c02e51589279804184da6a1f2790738",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/ravager/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:skeleton",
+    "unitId": "skeleton",
+    "legacyId": "skeleton",
+    "legacyUnitIndex": 61,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/61",
+    "factsHash": "8741b9baf65bfdb6ae7d6d480c224bfa6dbf1948321f11b8d7ef3ed25aedc4bb",
+    "cardHash": "cc5fe9bdc2785bd8c23258d096a2babef49f765939cb1eb84cf48d31c3937ccb",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "4f4607e102a58b348a4498ed827b88fc",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/skeleton/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "4420bc0f714eb7c43acbb3a490f1015c",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/skeleton/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "RangedAbility",
+      "route": "fallback"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:stradpole",
+    "unitId": "stradpole",
+    "legacyId": "stradpole",
+    "legacyUnitIndex": 62,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/62",
+    "factsHash": "68db80446b386d5ee7d95def9ad7bbcd65d9fc7003d1b1376eb8342b956f350b",
+    "cardHash": "516cbbfdab1943a911c020cfd75501f049aae87665f78a59c36d0f41aa25099b",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "7b44f56d3c9792241a5956020c16c95e",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/stradpole/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:stray",
+    "unitId": "stray",
+    "legacyId": "stray",
+    "legacyUnitIndex": 63,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/63",
+    "factsHash": "b835245cbe62ac0e0b74318e3ef4ace71dd664be51894bad67a815566c7714c1",
+    "cardHash": "bfdd3f5ec5799240f1c8ca8a40a59f51632ea044b2051a7130b980de6ead351a",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "911c4b5e9f9b58f468154b02fe497480",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/stray/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "a4aec1fe010cfc34e926052f749d5323",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/stray/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "RangedAbility",
+      "route": "fallback"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_alpha_yeti",
+    "unitId": "twilightforest_alpha_yeti",
+    "legacyId": "twilightforest_alpha_yeti",
+    "legacyUnitIndex": 64,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/64",
+    "factsHash": "1662a107774ec5da81a0f0d5b4617b4e85f60f354ed065b8361a820bab6bf09f",
+    "cardHash": "39e878326dcbaeab0a1a09fd422db180b42c840f17012ca2e1ddfa3bf44c2f53",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "a51f3186aab6deb43bd5ccb85fa4b0f3",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_alpha_yeti/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "071aa133174e49445943a540ab96ee2d",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_alpha_yeti/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "AlphaYetiAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_armored_giant",
+    "unitId": "twilightforest_armored_giant",
+    "legacyId": "twilightforest_armored_giant",
+    "legacyUnitIndex": 65,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/65",
+    "factsHash": "a7acc076ba5bf4f846bac6393f181f938c8f2b3eb39563f3e1e28c7061caba29",
+    "cardHash": "2f6f9b6ccee0a4fc49ce41207e921c6437ae156e635944f912a1d4aba57759d0",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "4ea3b411155643c4babb4d497675c16d",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_armored_giant/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "5f2fb3be6e8464546af78bfa076f8f75",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_armored_giant/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_blockchain_goblin",
+    "unitId": "twilightforest_blockchain_goblin",
+    "legacyId": "twilightforest_blockchain_goblin",
+    "legacyUnitIndex": 66,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/66",
+    "factsHash": "3f8395fe761e71322ad9fe21be35c0edd729b170cbb29b6986adffce8fe81192",
+    "cardHash": "eaba91d0b4bd985df086c1966a4f62d6da3c213d3c2a0f3decf54ab7a3df7d23",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "f94b0d28f1c71b642bea9f24145d6a73",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_blockchain_goblin/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "f7a9b862caaee5c4387f9616fa2ff92e",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_blockchain_goblin/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "GoblinAbility",
+      "route": "factory"
+    },
+    "conflicts": {
+      "attackRange": {
+        "SO": 42,
+        "JSON": 80
+      },
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_death_tome",
+    "unitId": "twilightforest_death_tome",
+    "legacyId": "twilightforest_death_tome",
+    "legacyUnitIndex": 67,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/67",
+    "factsHash": "97f911c1c16194af8f917af6d44852cfdaea094517c01e4cf2b281fb199302cf",
+    "cardHash": "30cb1c5cbf1926aad82b82840f1e5711a8ddcd65c715fd891b3ce34b3fa40735",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "a3a0c8d04f0274d45b330cf88237ee71",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_death_tome/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "b2685a84f8a5a844099d7bd8bade8014",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_death_tome/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "RangedAbility",
+      "route": "fallback"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_fire_beetle",
+    "unitId": "twilightforest_fire_beetle",
+    "legacyId": "twilightforest_fire_beetle",
+    "legacyUnitIndex": 68,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/68",
+    "factsHash": "fd7a83fc33b208ed3efad79e3a94a657fb1bc079e0e818b3e232b1ff2e63fe3b",
+    "cardHash": "d3be159c8a49384b4a9ac008c1818102e760d502bca48f3d698b82c9cd97482d",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "5295248c9feb7ea4681ebfc256b60b0d",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_fire_beetle/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "7a0b5f45850a857468dd798c625bd60e",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_fire_beetle/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "ConeBreathAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_giant_miner",
+    "unitId": "twilightforest_giant_miner",
+    "legacyId": "twilightforest_giant_miner",
+    "legacyUnitIndex": 69,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/69",
+    "factsHash": "a45b9bcecb3ad1ccd302d324f94103c6656c975c45076a04aaf5a147e65b7ce5",
+    "cardHash": "96cb00520ca67836b107c4f061b2c6672def550ff367751da0d20ad36ac4c7d6",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "8e2dcb64f5bd6a64a8efc4cb6c2b79e2",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_giant_miner/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "79f59306476aa9b48856f4c598060a3b",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_giant_miner/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_king_spider",
+    "unitId": "twilightforest_king_spider",
+    "legacyId": "twilightforest_king_spider",
+    "legacyUnitIndex": 70,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/70",
+    "factsHash": "b361d9cd9803bc436b27e90eea30e600f87afc8c7b252720026643a2f13ff165",
+    "cardHash": "95c3e9a797c4d3dc7793ba2a08dd9ea3cc0cb8fa41d0f8dbe5853155207d9228",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "202614c55bb930d41aa78ce45e329036",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_king_spider/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "0eea03a49165e4b47993844308ca0f2d",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_king_spider/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "SpiderRiderAbility",
+      "route": "factory"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [
+      "mountDamage",
+      "riderDamage"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_minoshroom",
+    "unitId": "twilightforest_minoshroom",
+    "legacyId": "twilightforest_minoshroom",
+    "legacyUnitIndex": 71,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/71",
+    "factsHash": "e702d5f0b1569ac088aa4d775307a5708c40e6714e16bce9d1f3eee31040e069",
+    "cardHash": "6346d2caae0235c39012ab04eb1a192053033a243a91ae09b55eafd2e820210f",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "17e0bccda0cb4234c9ff98a589287522",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_minoshroom/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "1a1b8f99a97181346a8bf3961b934c1e",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_minoshroom/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "ChargeMeleeAbility",
+      "route": "factory"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [
+      "chargeDamage",
+      "chargeThreshold",
+      "normalDamage"
+    ],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_minotaur",
+    "unitId": "twilightforest_minotaur",
+    "legacyId": "twilightforest_minotaur",
+    "legacyUnitIndex": 72,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/72",
+    "factsHash": "df9d9d7a1192e56b963d4e1573356a12f42e884aab03c10f841d419ef31c4db0",
+    "cardHash": "54909ebf20a9df556dc3ff66ab6a0c28167952191117e124a759cec77609d9ea",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "1e6b5cbc9b9de784297208866335212a",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_minotaur/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "27239e4333ff9244ea1d4337baaef907",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_minotaur/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_mist_wolf",
+    "unitId": "twilightforest_mist_wolf",
+    "legacyId": "twilightforest_mist_wolf",
+    "legacyUnitIndex": 73,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/73",
+    "factsHash": "d1946838152b5ac008408f4aba7eea99244efed6821ad481687f5df417d697cd",
+    "cardHash": "c5f62cb36663de38db5b3de0289dc4ab6ada0d2578ec2ffbb6fa9c7646b68adf",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "8fdf52e15a25fc244997cb8f39f783a6",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_mist_wolf/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "930a8dfa6b49c5e469273968d86456c1",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_mist_wolf/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_naga",
+    "unitId": "twilightforest_naga",
+    "legacyId": "twilightforest_naga",
+    "legacyUnitIndex": 74,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/74",
+    "factsHash": "1e72c8cdd7f752a9580275ea0e142c8683d2634f63623f3c2ec444d9a5a2aa44",
+    "cardHash": "f9e32c248fc2ee4cfdb42f90333592aee38c2731c8e4baa104e42f9d9e852c5c",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "fe59e06264c92db4088d8da2531bebec",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_naga/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "2cc440b3a9db7e4488d7d80a07345a50",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_naga/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "NagaAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_skeleton_druid",
+    "unitId": "twilightforest_skeleton_druid",
+    "legacyId": "twilightforest_skeleton_druid",
+    "legacyUnitIndex": 75,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/75",
+    "factsHash": "e3deb3e74dad4c9eef144c7654e82d397e5c131b5ab0908e72cad1d08eab38e4",
+    "cardHash": "4abe9d474c51d968a95d6a9c36699692efd8d589f9ab02c8b7d1d0efc2d05f7e",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "56062853e59517048a250ce04fe56b9e",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_skeleton_druid/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "4a6a291749b734845a1c77fd756171d5",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_skeleton_druid/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "RangedAbility",
+      "route": "fallback"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [
+      "rangedDamage",
+      "rangedRange"
+    ],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_slime_beetle",
+    "unitId": "twilightforest_slime_beetle",
+    "legacyId": "twilightforest_slime_beetle",
+    "legacyUnitIndex": 76,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/76",
+    "factsHash": "eda0f2667fb2cec8694cbd81ca36acc1614d73ae436d5b7a60c3ec14e6c5dffb",
+    "cardHash": "53a221adc15df33c29515aa8520ba4e9c5b2996f5a7563bcf6066315977d36ef",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "7502beea76b52ac42ab9769ebbc0aac5",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_slime_beetle/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "1464cbbb0b694694e86173e1a2b15e6a",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_slime_beetle/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "RangedAbility",
+      "route": "fallback"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_tower_golem",
+    "unitId": "twilightforest_tower_golem",
+    "legacyId": "twilightforest_tower_golem",
+    "legacyUnitIndex": 77,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/77",
+    "factsHash": "9005e03652e138ee1e7acaf96e76d94f2c8a416246564f5b94c6f01ff270b737",
+    "cardHash": "c6f7a03c8e837fe067a11b5c8d7158545f643f6216b2ea47c8b371df3647298d",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "81bb198d0e5b3ae4e82bdde46adcc461",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_tower_golem/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "ed18e7b683005cb4aaf75dacae23f2e0",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_tower_golem/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:twilightforest_winter_wolf",
+    "unitId": "twilightforest_winter_wolf",
+    "legacyId": "twilightforest_winter_wolf",
+    "legacyUnitIndex": 78,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/78",
+    "factsHash": "7065ebb11ab74476998e04b8a41f063c063732de709c3217ebad291dfa4dd372",
+    "cardHash": "ed1cee4288f70d3a92cd56c93640044c53741f7624afe4e43dd111a21d21d2a6",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "1b5e42477a3ab3c43a663d6d50ebbb61",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_winter_wolf/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "4c7818f63afde8c4b8475cbf2652dab0",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/twilightforest_winter_wolf/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "ConeBreathAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:vex",
+    "unitId": "vex",
+    "legacyId": "vex",
+    "legacyUnitIndex": 79,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/79",
+    "factsHash": "5f779c2f1e84548715a0afe1443ac005f776c11bd2cb8770144e0e588b9361a1",
+    "cardHash": "a5391faf191292e8cc20a25762e208bb5cfc91e7a82326045a15726199bc3751",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "a94d45979bf508149b71cbff6f0a893a",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/vex/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "VexAbility",
+      "route": "factory"
+    },
+    "conflicts": {},
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:vindicator",
+    "unitId": "vindicator",
+    "legacyId": "vindicator",
+    "legacyUnitIndex": 80,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/80",
+    "factsHash": "7414bf7e24a1db4284b76a1252e7b6cd1f076efc38cbd34e3b34adbdf6508118",
+    "cardHash": "529ca777657835818ed21a77bf33e663c3ca97de716d6e045fefc311a0c67be5",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "c87e5e3111a83b54dbc8c18ef9e12bd5",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/vindicator/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "a800bda8853d115478346dfc868e9dd9",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/vindicator/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:warden",
+    "unitId": "warden",
+    "legacyId": "warden",
+    "legacyUnitIndex": 81,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/81",
+    "factsHash": "5c337fe17f18577120768bbba6384d8987d4a6b43af1154e733d8e0ce9bc87f1",
+    "cardHash": "aea4bfd1ceb3c1723a09ed4b2633f469ea006147c3c7df000b74c3ebfb0cddfe",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "b60ae1c05d420074480d38c4870d3bb9",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/warden/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "59f7041250ea0b642ad66019535fe850",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/warden/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "WardenAbility",
+      "route": "factory"
+    },
+    "conflicts": {
+      "moveSpeed": {
+        "SO": 78,
+        "JSON": 58
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:witch",
+    "unitId": "witch",
+    "legacyId": "witch",
+    "legacyUnitIndex": 82,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/82",
+    "factsHash": "48ca16421b2e76cf89b66e6ad3416e18619d74fdd89c0dc0499b93146f284b7a",
+    "cardHash": "5008f02acc5c8cdb346496aeda6b65f4cb85ee7b46e4808a6ff4fe6e4d57e534",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "c3d8d90035ea0174e9105dd4a6d67e5e",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/witch/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "01b4c3d509956964b870cad6be317aaf",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/witch/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "WitchAbility",
+      "route": "factory"
+    },
+    "conflicts": {
+      "moveSpeed": {
+        "SO": 40,
+        "JSON": 30
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  },
+  {
+    "id": "source:wither_skeleton",
+    "unitId": "wither_skeleton",
+    "legacyId": "wither_skeleton",
+    "legacyUnitIndex": 83,
+    "factsRef": "docs/design/game-mcfight/inventory/units.json#/83",
+    "factsHash": "38879bcb73f8dff359ef1884ef15c37e10e4c23df43ac44d8d4a5ae13bbf9ce9",
+    "cardHash": "c0c0a3fcbd8354a1e614aa863f637cb6b84d75474288aee181d65a6f3ca7c662",
+    "assetRefs": {
+      "idleSprite": {
+        "guid": "6579cd31bd9285e429fd13da674730ea",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/wither_skeleton/idle.png",
+        "exists": true
+      },
+      "attackSprite": {
+        "guid": "43e7c50396990484781724c38bebc766",
+        "fileID": 21300000,
+        "path": "Assets/Sprites/Monsters/wither_skeleton/attack.png",
+        "exists": true
+      },
+      "deadSprite": {
+        "guid": null,
+        "fileID": 0,
+        "path": null,
+        "exists": false
+      }
+    },
+    "legacyAbility": {
+      "class": "MeleeAbility",
+      "route": "fallback"
+    },
+    "conflicts": {
+      "attackInterval": {
+        "SO": 0.85,
+        "JSON": 0.9
+      }
+    },
+    "missingParams": [],
+    "unconsumedParams": [],
+    "duplicateParams": []
+  }
+]

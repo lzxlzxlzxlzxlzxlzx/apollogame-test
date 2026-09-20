@@ -76,7 +76,7 @@ describe('self-rule · spawn 动作（self 轴的 caster 对偶，REQ-021 扩展
   const xf = (x: number, y: number) => ({ type: 'Transform', x, y, rotation: 0, scaleX: 1, scaleY: 1 });
   const target = (id: string) => ({ type: 'Relation', kind: 'target', targetId: id });
   const spawnReq = (w: World, e: string) =>
-    w.getComponent(e, 'SpawnRequest') as unknown as { templateId: string; x: number; y: number } | undefined;
+    w.getComponent(`self-spawn:${e}`, 'SpawnRequest') as unknown as { templateId: string; x: number; y: number } | undefined;
 
   it('at:self → 在自身位置发 SpawnRequest', () => {
     const w = mk();

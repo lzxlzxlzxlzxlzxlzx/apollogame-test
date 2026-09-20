@@ -119,6 +119,22 @@ export function deepLinkQuery(form, slug) {
   return form === 'cart' ? `game=lib:${slug}` : `game=${slug}`;
 }
 
+// ── vite 就绪行解析（纯函数·导出供单测·不 spawn 也能验）─────────────────────
+/** 从 vite stdout 缓冲里挖出 dev server 端口；没就绪返回 null。 */
+const ANSI_SGR = /\x1b\[[0-9;]*m/g;
+
+/** **必须先剥 ANSI 再匹配**（2026-09-18 实测缺陷）：vite 5 在 Windows 上经 picocolors 输出
+ *  ——picocolors 的 `isColorSupported` 含 `process.platform === 'win32'` 一条，**无视 TTY**，
+ *  于是子进程即使 stdio 是 pipe 也照样上色。实测赢：
+ *    `^[[1mLocal^[[22m:   ^[[36mhttp://localhost:^[[1m5199^[[22m/^[[39m`
+ *  端口被 `\x1b[1m` 夹住、`Local` 与 `:` 之间也夹着 `\x1b[22m`——原正则 `Local:\s+…:(\d+)/`
+ *  **两处都匹配不上**，于是 20s 超时→探针 exit 1，**Windows 上所有编译期游戏的 S3/S4/S5 渲染门
+ *  全部假红**。剥掉 SGR 序列即回可匹配形态；Linux 上本无 ANSI，行为逐字不变。 */
+export function parseDevServerPort(buf) {
+  const m = String(buf).replace(ANSI_SGR, '').match(/Local:\s+https?:\/\/[^:]+:(\d+)\//);
+  return m ? Number(m[1]) : null;
+}
+
 // ── vite dev 起服（非 build+preview——冷启动快、天然读当前源码）─────────────
 const VITE_BASE_PORT = 5700;
 
@@ -138,11 +154,11 @@ export function startDevServer(root, { port = VITE_BASE_PORT } = {}) {
     const cleanup = () => clearTimeout(to);
     proc.stdout.on('data', (d) => {
       buf += d.toString();
-      const m = buf.match(/Local:\s+https?:\/\/[^:]+:(\d+)\//);
-      if (m && !settled) {
+      const port = parseDevServerPort(buf);
+      if (port !== null && !settled) {
         settled = true;
         cleanup();
-        resolve({ proc, port: Number(m[1]) });
+        resolve({ proc, port });
       }
     });
     proc.stderr.on('data', (d) => { buf += d.toString(); });

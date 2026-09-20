@@ -1,0 +1,35 @@
+// author: GD-MCFIGHT
+// S4 场景02：强力单体对弱敌，真实战斗判胜、奖励、清场并返回下一轮商店。
+// 对抗目标：伪造胜利、奖励错误、继续按钮死路、跨轮残留单位或部署。
+{
+  "name": "胜利结算后清场并返回商店",
+  "game": "game-mcfight",
+  "seed": 4102,
+  "config": { "enemyPreset": "single-vindicator" },
+  "steps": [
+    { "signal": "shop.unit.buy", "args": { "unitId": "earthshaker" }, "by": "player" },
+    { "signal": "shop.continue", "by": "player" },
+    { "signal": "deployment.unit.place", "args": { "instanceId": "player-earthshaker-1", "x": -8, "y": 0 }, "by": "player" },
+    { "signal": "deployment.start", "by": "player" },
+    { "waitUntil": [
+      { "sv": "phase", "eq": "result" },
+      { "flag": "battle-settled", "eq": true }
+    ], "cap": 12000 },
+    { "expect": [
+      { "sv": "outcome", "eq": "victory" },
+      { "res": "gold", "eq": 28 },
+      { "res": "enemy-alive", "eq": 0 }
+    ] },
+    { "signal": "result.continue", "by": "player" },
+    { "expect": [
+      { "sv": "phase", "eq": "shop" },
+      { "sv": "outcome", "eq": "none" },
+      { "res": "round", "eq": 2 },
+      { "res": "gold", "eq": 28 },
+      { "res": "owned-count", "eq": 0 },
+      { "res": "deployed-count", "eq": 0 },
+      { "res": "player-alive", "eq": 0 },
+      { "res": "enemy-alive", "eq": 0 }
+    ] }
+  ]
+}

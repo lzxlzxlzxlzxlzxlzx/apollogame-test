@@ -1,0 +1,619 @@
+[
+  {
+    "id": "SK01",
+    "name": "单体近战",
+    "capabilities": [
+      "t3-flow",
+      "t3-caster",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "damage",
+      "cooldown",
+      "castRange",
+      "windup",
+      "recovery",
+      "hitReach"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK02",
+    "name": "单次范围",
+    "capabilities": [
+      "t3-flow",
+      "t3-caster",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "damage",
+      "cooldown",
+      "castRange",
+      "windup",
+      "recovery",
+      "shape",
+      "radius",
+      "angle",
+      "length"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK03",
+    "name": "分段连击",
+    "capabilities": [
+      "t3-flow",
+      "t3-caster",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "damage",
+      "cooldown",
+      "castRange",
+      "windup",
+      "recovery",
+      "segments",
+      "followBetweenHits"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK04",
+    "name": "持续跟随区域",
+    "capabilities": [
+      "t3-flow",
+      "t3-caster",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "damage",
+      "cooldown",
+      "castRange",
+      "windup",
+      "recovery",
+      "shape",
+      "tickCount",
+      "tickInterval",
+      "firstTickDelay"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK05",
+    "name": "投射攻击",
+    "capabilities": [
+      "t3-flow",
+      "t3-caster",
+      "t2-launch",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "damage",
+      "cooldown",
+      "castRange",
+      "windup",
+      "recovery",
+      "projectileSpeed",
+      "maxTravel",
+      "projectileRadius",
+      "flightMode",
+      "pierceCount"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK06",
+    "name": "弹丸齐射",
+    "capabilities": [
+      "t3-flow",
+      "t3-caster",
+      "t2-launch",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "damage",
+      "cooldown",
+      "castRange",
+      "windup",
+      "recovery",
+      "shotCount",
+      "shotInterval",
+      "spreadAngle",
+      "projectileSpeed"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK07",
+    "name": "持续光束",
+    "capabilities": [
+      "t3-flow",
+      "t3-caster",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "damage",
+      "cooldown",
+      "castRange",
+      "windup",
+      "recovery",
+      "width",
+      "tickCount",
+      "tickInterval",
+      "turnRate"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK08",
+    "name": "固定落点轰击",
+    "capabilities": [
+      "t3-flow",
+      "t3-caster",
+      "t3-prefab",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "damage",
+      "cooldown",
+      "castRange",
+      "windup",
+      "recovery",
+      "markDuration",
+      "warningDuration",
+      "tickCount",
+      "tickInterval",
+      "radius"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK09",
+    "name": "真实冲锋",
+    "capabilities": [
+      "t3-flow",
+      "t2-steering",
+      "t1-motion-apply",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "damage",
+      "cooldown",
+      "castRange",
+      "windup",
+      "recovery",
+      "minCastRange",
+      "chargeSpeed",
+      "hitPolicy"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK10",
+    "name": "跃击",
+    "capabilities": [
+      "t3-flow",
+      "t1-motion-apply",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "damage",
+      "cooldown",
+      "castRange",
+      "windup",
+      "recovery",
+      "travelDuration",
+      "landingRadius",
+      "height"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": [
+      "family:SK10"
+    ]
+  },
+  {
+    "id": "SK11",
+    "name": "俯冲窗口",
+    "capabilities": [
+      "t3-flow",
+      "t1-motion-apply",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "damage",
+      "cooldown",
+      "castRange",
+      "descendDuration",
+      "contactDuration",
+      "riseDuration",
+      "speed"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK12",
+    "name": "蓄爆自毁",
+    "capabilities": [
+      "t3-flow",
+      "t2-hitbox",
+      "t2-mortal"
+    ],
+    "parameters": [
+      "damage",
+      "cooldown",
+      "castRange",
+      "fuse",
+      "radius",
+      "falloff",
+      "selfDestruction"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK13",
+    "name": "恐惧怒吼",
+    "capabilities": [
+      "t3-flow",
+      "t3-caster",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "cooldown",
+      "castRange",
+      "windup",
+      "recovery",
+      "duration",
+      "bossFilter"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK14",
+    "name": "治疗",
+    "capabilities": [
+      "t3-flow",
+      "t3-caster",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "healing",
+      "cooldown",
+      "castRange",
+      "windup",
+      "recovery",
+      "hpThreshold",
+      "safeRadius"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK15",
+    "name": "召唤",
+    "capabilities": [
+      "t3-flow",
+      "t3-prefab"
+    ],
+    "parameters": [
+      "cooldown",
+      "windup",
+      "recovery",
+      "count",
+      "limit",
+      "spawnRadius",
+      "lifetime"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK16",
+    "name": "持续地面区域",
+    "capabilities": [
+      "t3-flow",
+      "t3-prefab",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "damage",
+      "radius",
+      "tickCount",
+      "tickInterval",
+      "lifetime"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK17",
+    "name": "环绕接触区域",
+    "capabilities": [
+      "t3-flow",
+      "t2-orbit-motion",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "damage",
+      "cooldown",
+      "orbitRadius",
+      "orbitSpeed",
+      "lifetime",
+      "contactInterval"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK18",
+    "name": "分布式轰击",
+    "capabilities": [
+      "t3-flow",
+      "t3-prefab",
+      "t2-hitbox"
+    ],
+    "parameters": [
+      "damage",
+      "cooldown",
+      "castRange",
+      "warningDuration",
+      "ringCount",
+      "ringInterval",
+      "radius"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK19",
+    "name": "防御姿态循环",
+    "capabilities": [
+      "t3-flow",
+      "t2-damage-routing"
+    ],
+    "parameters": [
+      "cooldown",
+      "burrowDuration",
+      "emergeDuration",
+      "exitRadius",
+      "damageMultiplier"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK20",
+    "name": "条件处决",
+    "capabilities": [
+      "t3-flow",
+      "t2-hitbox",
+      "t2-mortal"
+    ],
+    "parameters": [
+      "cooldown",
+      "castRange",
+      "windup",
+      "recovery",
+      "maxTargetHp",
+      "healing"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": [
+      "family:SK20"
+    ]
+  },
+  {
+    "id": "SK21",
+    "name": "形态切换",
+    "capabilities": [
+      "t3-flow",
+      "t2-stat-bind"
+    ],
+    "parameters": [
+      "hpThreshold",
+      "duration",
+      "statOverrides"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK22",
+    "name": "身体接触",
+    "capabilities": [
+      "t2-hitbox",
+      "t2-damage-routing",
+      "t1-motion-apply"
+    ],
+    "parameters": [
+      "damage",
+      "contactInterval",
+      "segmentCount",
+      "speedCurve"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": [
+      "family:SK22"
+    ]
+  },
+  {
+    "id": "SK23",
+    "name": "分离部位共享生命",
+    "capabilities": [
+      "t2-damage-routing",
+      "t3-aggro",
+      "t2-steering"
+    ],
+    "parameters": [
+      "headMultiplier",
+      "maxSeparation",
+      "returnSpeed"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "SK24",
+    "name": "骑乘组合",
+    "capabilities": [
+      "t3-prefab",
+      "t3-flow"
+    ],
+    "parameters": [
+      "mountOffset",
+      "dismountOffset",
+      "riderLifetime"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": [
+      "family:SK24"
+    ]
+  },
+  {
+    "id": "M01",
+    "name": "状态刷新",
+    "capabilities": [
+      "t2-hitbox",
+      "t2-over-time"
+    ],
+    "parameters": [
+      "statusKind",
+      "duration",
+      "strength",
+      "sourcePolicy"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "M02",
+    "name": "特征效果",
+    "capabilities": [
+      "t2-hitbox",
+      "t3-flow"
+    ],
+    "parameters": [
+      "traitMask",
+      "duration",
+      "effect"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "M03",
+    "name": "邻敌增伤",
+    "capabilities": [
+      "t2-group-count",
+      "t2-modifier-stack",
+      "t2-stat-bind"
+    ],
+    "parameters": [
+      "radius",
+      "perEnemy",
+      "cap"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "M05",
+    "name": "独立恢复",
+    "capabilities": [
+      "t2-over-time"
+    ],
+    "parameters": [
+      "healing",
+      "interval"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "M06",
+    "name": "死亡归属效果",
+    "capabilities": [
+      "t2-damage-routing",
+      "t3-prefab"
+    ],
+    "parameters": [
+      "sourceScope",
+      "effect",
+      "countLimit"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": [
+      "family:M06"
+    ]
+  },
+  {
+    "id": "M07",
+    "name": "低血一次触发",
+    "capabilities": [
+      "t3-flow"
+    ],
+    "parameters": [
+      "hpThreshold",
+      "countLimit"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "M08",
+    "name": "防御免疫",
+    "capabilities": [
+      "t2-damage-routing",
+      "t2-modifier-stack"
+    ],
+    "parameters": [
+      "damageMask",
+      "multiplier",
+      "statusImmunity"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  },
+  {
+    "id": "M09",
+    "name": "穿甲",
+    "capabilities": [
+      "t2-modifier-stack",
+      "t2-stat-bind"
+    ],
+    "parameters": [
+      "mode",
+      "ratio"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": [
+      "family:M09"
+    ]
+  },
+  {
+    "id": "M10",
+    "name": "独立周期触发",
+    "capabilities": [
+      "t3-flow",
+      "t3-prefab"
+    ],
+    "parameters": [
+      "interval",
+      "initialDelay",
+      "limit"
+    ],
+    "coverage": "composition-candidate",
+    "gapIds": []
+  }
+]

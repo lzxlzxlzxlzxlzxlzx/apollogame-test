@@ -1,0 +1,13 @@
+# R3-B2 r5 冻结包（待独立复查）
+
+此目录取代 r4 作为下一次 B2 独立复查候选；r4 退回记录保留且不可覆盖。
+
+复查者必须在 `frozen-source` 内完成，不得改共享施工目录。
+
+1. 核对 `freeze-manifest.json` 和 `integrity.sha256`。
+2. 执行清单中的 B1+B2 七文件定向复跑、`npx tsc --noEmit` 与 R3 审计。
+3. 运行 `games/game-mcfight/r3-b2-production.test.ts`，核对新增真实横移锁向及来源真实死亡取消场景。
+4. 在冻结副本中执行独立复查清单规定的六组撤修；特别记录：删除 `useCapturedAim:true` 必须使横移锁向场景验红，删除 emitter 的 `!sourceAlive` 必须使来源死亡场景验红。
+5. 全量回归的 B3/S4 既有红项必须单独列报，不能当作 B2 已通过或自动忽略。
+
+B2 仍为 **36/84 程序自证**。只有独立复查者完成上述工作后才能裁定其是否签核。

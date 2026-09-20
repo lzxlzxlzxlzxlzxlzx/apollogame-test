@@ -1,0 +1,38 @@
+[
+  {
+    "id": "REQ-G109-001",
+    "title": "指针寻址未覆盖逻辑类 Effect：点击某格无法改写该格自身的 Flag/State（@signal-source 只对物理 kind 生效）",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game109/requests.md",
+    "blocks": [
+      "S2",
+      "S3",
+      "S4"
+    ]
+  },
+  {
+    "id": "REQ-G109-002",
+    "title": "Effect 无法按信号源实体求值条件：工具前置门/成熟判定/按作物路由收获均表达不了（@signal-source 只解决「写谁」，没解决「要不要写」）",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game109/requests.md",
+    "blocks": [
+      "S4"
+    ]
+  },
+  {
+    "id": "REQ-G109-003",
+    "title": "Effect.when 只有 self 作用域：「点某格 ∧ 全局体力够」这个合取表达不了（SelfRule.whenGlobal 的读侧对偶缺位）",
+    "priority": "P2",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game109/requests.md",
+    "blocks": [
+      "S3",
+      "S4"
+    ]
+  }
+]

@@ -1,0 +1,6397 @@
+[
+  {
+    "id": "alexscaves_atlatitan",
+    "legacyId": "alexscaves_atlatitan",
+    "name": "擎天龙",
+    "sourceId": "source:alexscaves_atlatitan",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "atlatitan_unit",
+      "aoe_melee"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_atlatitan:attributes/price",
+        "value": 200
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_atlatitan:attributes/hp",
+        "value": 400
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_atlatitan:attributes/speed",
+        "value": 1.25
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_atlatitan:attributes/radius",
+        "value": 1
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_atlatitan:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_atlatitan:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_atlatitan:attributes/attack",
+        "value": 8
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_atlatitan:attributes/attackRange",
+        "value": 2
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_atlatitan:attributes/attackInterval",
+        "value": 2
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:alexscaves_atlatitan:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "alexscaves_atlatitan/skill-1"
+    ],
+    "decisionId": "decision:alexscaves_atlatitan",
+    "presentationId": "presentation:alexscaves_atlatitan",
+    "collisionSlot": "presentation:alexscaves_atlatitan/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexscaves_brainiac",
+    "legacyId": "alexscaves_brainiac",
+    "name": "舐脑魔",
+    "sourceId": "source:alexscaves_brainiac",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_brainiac:attributes/price",
+        "value": 40
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_brainiac:attributes/hp",
+        "value": 40
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_brainiac:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_brainiac:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_brainiac:attributes/armor",
+        "value": 8
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_brainiac:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_brainiac:attributes/attack",
+        "value": 5
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_brainiac:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_brainiac:attributes/attackInterval",
+        "value": 1.1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexscaves_brainiac:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexscaves_brainiac/skill-1",
+      "alexscaves_brainiac/skill-2",
+      "alexscaves_brainiac/skill-3",
+      "alexscaves_brainiac/skill-4",
+      "alexscaves_brainiac/skill-5"
+    ],
+    "decisionId": "decision:alexscaves_brainiac",
+    "presentationId": "presentation:alexscaves_brainiac",
+    "collisionSlot": "presentation:alexscaves_brainiac/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexscaves_deep_one",
+    "legacyId": "alexscaves_deep_one",
+    "name": "深潜者",
+    "sourceId": "source:alexscaves_deep_one",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one:attributes/price",
+        "value": 10
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one:attributes/hp",
+        "value": 30
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_deep_one:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_deep_one:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one:attributes/attack",
+        "value": 3
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_deep_one:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:alexscaves_deep_one:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "alexscaves_deep_one/skill-1"
+    ],
+    "decisionId": "decision:alexscaves_deep_one",
+    "presentationId": "presentation:alexscaves_deep_one",
+    "collisionSlot": "presentation:alexscaves_deep_one/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexscaves_deep_one_knight",
+    "legacyId": "alexscaves_deep_one_knight",
+    "name": "深潜者骑士",
+    "sourceId": "source:alexscaves_deep_one_knight",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one_knight:attributes/price",
+        "value": 35
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one_knight:attributes/hp",
+        "value": 60
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_deep_one_knight:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_deep_one_knight:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one_knight:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one_knight:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one_knight:attributes/attack",
+        "value": 10
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_deep_one_knight:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one_knight:attributes/attackInterval",
+        "value": 1.1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexscaves_deep_one_knight:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexscaves_deep_one_knight/skill-1",
+      "alexscaves_deep_one_knight/skill-2"
+    ],
+    "decisionId": "decision:alexscaves_deep_one_knight",
+    "presentationId": "presentation:alexscaves_deep_one_knight",
+    "collisionSlot": "presentation:alexscaves_deep_one_knight/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexscaves_deep_one_mage",
+    "legacyId": "alexscaves_deep_one_mage",
+    "name": "深潜者法师",
+    "sourceId": "source:alexscaves_deep_one_mage",
+    "shopVisibility": "visible",
+    "movement": "flying",
+    "tags": [
+      "flying",
+      "deep_one_mage_special",
+      "fly"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one_mage:attributes/price",
+        "value": 100
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one_mage:attributes/hp",
+        "value": 80
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_deep_one_mage:attributes/speed",
+        "value": 2.5
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_deep_one_mage:attributes/radius",
+        "value": 0.6666666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one_mage:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one_mage:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one_mage:attributes/attack",
+        "value": 4
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_deep_one_mage:attributes/attackRange",
+        "value": 9.166666666666666
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_deep_one_mage:attributes/attackInterval",
+        "value": 1.2
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexscaves_deep_one_mage:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexscaves_deep_one_mage/skill-1",
+      "alexscaves_deep_one_mage/skill-2",
+      "alexscaves_deep_one_mage/skill-3"
+    ],
+    "decisionId": "decision:alexscaves_deep_one_mage",
+    "presentationId": "presentation:alexscaves_deep_one_mage",
+    "collisionSlot": "presentation:alexscaves_deep_one_mage/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexscaves_forsaken",
+    "legacyId": "alexscaves_forsaken",
+    "name": "遗弃者",
+    "sourceId": "source:alexscaves_forsaken",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "forsaken_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_forsaken:attributes/price",
+        "value": 150
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_forsaken:attributes/hp",
+        "value": 250
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_forsaken:attributes/speed",
+        "value": 2.5833333333333335
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_forsaken:attributes/radius",
+        "value": 0.8333333333333334
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_forsaken:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_forsaken:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_forsaken:attributes/attack",
+        "value": 12
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_forsaken:attributes/attackRange",
+        "value": 53.333333333333336
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_forsaken:attributes/attackInterval",
+        "value": 2
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexscaves_forsaken:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexscaves_forsaken/skill-1",
+      "alexscaves_forsaken/skill-2",
+      "alexscaves_forsaken/skill-3",
+      "alexscaves_forsaken/skill-4",
+      "alexscaves_forsaken/skill-5",
+      "alexscaves_forsaken/skill-6"
+    ],
+    "decisionId": "decision:alexscaves_forsaken",
+    "presentationId": "presentation:alexscaves_forsaken",
+    "collisionSlot": "presentation:alexscaves_forsaken/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexscaves_luxtructosaurus",
+    "legacyId": "alexscaves_luxtructosaurus",
+    "name": "暝煌龙",
+    "sourceId": "source:alexscaves_luxtructosaurus",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "boss",
+      "lux_boss",
+      "giant",
+      "fire_immune",
+      "meteor_passive"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_luxtructosaurus:attributes/price",
+        "value": 800
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_luxtructosaurus:attributes/hp",
+        "value": 600
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_luxtructosaurus:attributes/speed",
+        "value": 1
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_luxtructosaurus:attributes/radius",
+        "value": 2.3333333333333335
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_luxtructosaurus:attributes/armor",
+        "value": 20
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_luxtructosaurus:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_luxtructosaurus:attributes/attack",
+        "value": 12
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_luxtructosaurus:attributes/attackRange",
+        "value": 2.2916666666666665
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_luxtructosaurus:attributes/attackInterval",
+        "value": 2.2
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexscaves_luxtructosaurus:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexscaves_luxtructosaurus/skill-1",
+      "alexscaves_luxtructosaurus/skill-2",
+      "alexscaves_luxtructosaurus/skill-3",
+      "alexscaves_luxtructosaurus/skill-4",
+      "alexscaves_luxtructosaurus/skill-5",
+      "alexscaves_luxtructosaurus/skill-6",
+      "alexscaves_luxtructosaurus/skill-7"
+    ],
+    "decisionId": "decision:alexscaves_luxtructosaurus",
+    "presentationId": "presentation:alexscaves_luxtructosaurus",
+    "collisionSlot": "presentation:alexscaves_luxtructosaurus/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexscaves_magnetron",
+    "legacyId": "alexscaves_magnetron",
+    "name": "磁控机兵",
+    "sourceId": "source:alexscaves_magnetron",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_magnetron:attributes/price",
+        "value": 40
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_magnetron:attributes/hp",
+        "value": 80
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_magnetron:attributes/speed",
+        "value": 2.0833333333333335
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_magnetron:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_magnetron:attributes/armor",
+        "value": 6
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_magnetron:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_magnetron:attributes/attack",
+        "value": 2
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_magnetron:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_magnetron:attributes/attackInterval",
+        "value": 1.5
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexscaves_magnetron:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexscaves_magnetron/skill-1",
+      "alexscaves_magnetron/skill-2"
+    ],
+    "decisionId": "decision:alexscaves_magnetron",
+    "presentationId": "presentation:alexscaves_magnetron",
+    "collisionSlot": "presentation:alexscaves_magnetron/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexscaves_nucleeper",
+    "legacyId": "alexscaves_nucleeper",
+    "name": "核能苦力怕",
+    "sourceId": "source:alexscaves_nucleeper",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "nucleeper_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_nucleeper:attributes/price",
+        "value": 100
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_nucleeper:attributes/hp",
+        "value": 30
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_nucleeper:attributes/speed",
+        "value": 1.75
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_nucleeper:attributes/radius",
+        "value": 0.5833333333333334
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_nucleeper:attributes/armor",
+        "value": 4
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_nucleeper:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_nucleeper:attributes/attack",
+        "value": 500
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_nucleeper:attributes/attackRange",
+        "value": 8.333333333333334
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_nucleeper:attributes/attackInterval",
+        "value": 99
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexscaves_nucleeper:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexscaves_nucleeper/skill-1",
+      "alexscaves_nucleeper/skill-2"
+    ],
+    "decisionId": "decision:alexscaves_nucleeper",
+    "presentationId": "presentation:alexscaves_nucleeper",
+    "collisionSlot": "presentation:alexscaves_nucleeper/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexscaves_relicheirus",
+    "legacyId": "alexscaves_relicheirus",
+    "name": "遗迹恐手龙",
+    "sourceId": "source:alexscaves_relicheirus",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_relicheirus:attributes/price",
+        "value": 60
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_relicheirus:attributes/hp",
+        "value": 120
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_relicheirus:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_relicheirus:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_relicheirus:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_relicheirus:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_relicheirus:attributes/attack",
+        "value": 12
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_relicheirus:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_relicheirus:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:alexscaves_relicheirus:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "alexscaves_relicheirus/skill-1"
+    ],
+    "decisionId": "decision:alexscaves_relicheirus",
+    "presentationId": "presentation:alexscaves_relicheirus",
+    "collisionSlot": "presentation:alexscaves_relicheirus/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexscaves_teleto",
+    "legacyId": "alexscaves_teleto",
+    "name": "磁流灵",
+    "sourceId": "source:alexscaves_teleto",
+    "shopVisibility": "visible",
+    "movement": "flying",
+    "tags": [
+      "flying",
+      "fly"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_teleto:attributes/price",
+        "value": 25
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_teleto:attributes/hp",
+        "value": 18
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_teleto:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_teleto:attributes/radius",
+        "value": 0.6666666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_teleto:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_teleto:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_teleto:attributes/attack",
+        "value": 6
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_teleto:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_teleto:attributes/attackInterval",
+        "value": 1.1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexscaves_teleto:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexscaves_teleto/skill-1"
+    ],
+    "decisionId": "decision:alexscaves_teleto",
+    "presentationId": "presentation:alexscaves_teleto",
+    "collisionSlot": "presentation:alexscaves_teleto/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexscaves_tremorsaurus",
+    "legacyId": "alexscaves_tremorsaurus",
+    "name": "撼地龙",
+    "sourceId": "source:alexscaves_tremorsaurus",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "tremorsaurus_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_tremorsaurus:attributes/price",
+        "value": 200
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_tremorsaurus:attributes/hp",
+        "value": 150
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_tremorsaurus:attributes/speed",
+        "value": 2.0833333333333335
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_tremorsaurus:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_tremorsaurus:attributes/armor",
+        "value": 8
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_tremorsaurus:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_tremorsaurus:attributes/attack",
+        "value": 14
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_tremorsaurus:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_tremorsaurus:attributes/attackInterval",
+        "value": 0.7
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexscaves_tremorsaurus:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexscaves_tremorsaurus/skill-1",
+      "alexscaves_tremorsaurus/skill-2"
+    ],
+    "decisionId": "decision:alexscaves_tremorsaurus",
+    "presentationId": "presentation:alexscaves_tremorsaurus",
+    "collisionSlot": "presentation:alexscaves_tremorsaurus/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "earthshaker",
+    "legacyId": "alexscaves_tremorzilla",
+    "name": "撼地斯拉",
+    "sourceId": "source:earthshaker",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "boss",
+      "aoe_melee",
+      "giant",
+      "beam_skill"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:earthshaker:attributes/price",
+        "value": 1000
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:earthshaker:attributes/hp",
+        "value": 500
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:earthshaker:attributes/speed",
+        "value": 2
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:earthshaker:attributes/radius",
+        "value": 2.3333333333333335
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:earthshaker:attributes/armor",
+        "value": 10
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:earthshaker:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:earthshaker:attributes/attack",
+        "value": 30
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:earthshaker:attributes/attackRange",
+        "value": 2.4166666666666665
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:earthshaker:attributes/attackInterval",
+        "value": 1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:earthshaker:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "earthshaker/skill-1",
+      "earthshaker/skill-2",
+      "earthshaker/s4-beam",
+      "earthshaker/s4-quake"
+    ],
+    "decisionId": "decision:earthshaker",
+    "presentationId": "presentation:earthshaker",
+    "collisionSlot": "presentation:earthshaker/collision",
+    "noActiveAttack": false,
+    "runtimeAlias": "earthshaker",
+    "role": "双技能重装",
+    "runtimeSelectionOrder": {
+      "status": "rebuilt",
+      "adoptionId": "adopt:earthshaker:runtimeSelectionOrder",
+      "value": 4
+    },
+    "s4Attributes": {
+      "price": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:earthshaker:s4/attributes/price",
+        "value": 12
+      },
+      "hp": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:earthshaker:s4/attributes/hp",
+        "value": 140
+      },
+      "speed": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:earthshaker:s4/attributes/speed",
+        "value": 1.8
+      },
+      "radius": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:earthshaker:s4/attributes/radius",
+        "value": 1.2
+      },
+      "armor": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:earthshaker:s4/attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "pending-design",
+        "adoptionId": "adopt:earthshaker:s4/attributes/toughness"
+      },
+      "attack": {
+        "status": "pending-design",
+        "adoptionId": "adopt:earthshaker:s4/attributes/attack"
+      },
+      "attackRange": {
+        "status": "pending-design",
+        "adoptionId": "adopt:earthshaker:s4/attributes/attackRange"
+      },
+      "attackInterval": {
+        "status": "pending-design",
+        "adoptionId": "adopt:earthshaker:s4/attributes/attackInterval"
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:earthshaker:s4/attributes/targetEligibility"
+      }
+    },
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexscaves_vallumraptor",
+    "legacyId": "alexscaves_vallumraptor",
+    "name": "阔鼻迅猛龙",
+    "sourceId": "source:alexscaves_vallumraptor",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_vallumraptor:attributes/price",
+        "value": 8
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_vallumraptor:attributes/hp",
+        "value": 30
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_vallumraptor:attributes/speed",
+        "value": 2.9166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_vallumraptor:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_vallumraptor:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_vallumraptor:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_vallumraptor:attributes/attack",
+        "value": 3
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexscaves_vallumraptor:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexscaves_vallumraptor:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:alexscaves_vallumraptor:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "alexscaves_vallumraptor/skill-1"
+    ],
+    "decisionId": "decision:alexscaves_vallumraptor",
+    "presentationId": "presentation:alexscaves_vallumraptor",
+    "collisionSlot": "presentation:alexscaves_vallumraptor/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexsmobs_bison",
+    "legacyId": "alexsmobs_bison",
+    "name": "野牛",
+    "sourceId": "source:alexsmobs_bison",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_bison:attributes/price",
+        "value": 30
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_bison:attributes/hp",
+        "value": 40
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_bison:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_bison:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_bison:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_bison:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_bison:attributes/attack",
+        "value": 8
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_bison:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_bison:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:alexsmobs_bison:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "alexsmobs_bison/skill-1"
+    ],
+    "decisionId": "decision:alexsmobs_bison",
+    "presentationId": "presentation:alexsmobs_bison",
+    "collisionSlot": "presentation:alexsmobs_bison/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexsmobs_centipede_head",
+    "legacyId": "alexsmobs_centipede_head",
+    "name": "洞穴蜈蚣",
+    "sourceId": "source:alexsmobs_centipede_head",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "arthropod"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_centipede_head:attributes/price",
+        "value": 30
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_centipede_head:attributes/hp",
+        "value": 35
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_centipede_head:attributes/speed",
+        "value": 2.0833333333333335
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_centipede_head:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_centipede_head:attributes/armor",
+        "value": 6
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_centipede_head:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_centipede_head:attributes/attack",
+        "value": 8
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_centipede_head:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_centipede_head:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexsmobs_centipede_head:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexsmobs_centipede_head/skill-1",
+      "alexsmobs_centipede_head/skill-2"
+    ],
+    "decisionId": "decision:alexsmobs_centipede_head",
+    "presentationId": "presentation:alexsmobs_centipede_head",
+    "collisionSlot": "presentation:alexsmobs_centipede_head/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "elephant",
+    "legacyId": "alexsmobs_elephant",
+    "name": "大象",
+    "sourceId": "source:elephant",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:elephant:attributes/price",
+        "value": 80
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:elephant:attributes/hp",
+        "value": 110
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:elephant:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:elephant:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:elephant:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:elephant:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:elephant:attributes/attack",
+        "value": 15
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:elephant:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:elephant:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:elephant:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "elephant/skill-1",
+      "elephant/skill-2",
+      "elephant/s4-charge",
+      "elephant/s4-strike"
+    ],
+    "decisionId": "decision:elephant",
+    "presentationId": "presentation:elephant",
+    "collisionSlot": "presentation:elephant/collision",
+    "noActiveAttack": false,
+    "runtimeAlias": "elephant",
+    "role": "冲锋前排",
+    "runtimeSelectionOrder": {
+      "status": "rebuilt",
+      "adoptionId": "adopt:elephant:runtimeSelectionOrder",
+      "value": 3
+    },
+    "s4Attributes": {
+      "price": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:elephant:s4/attributes/price",
+        "value": 10
+      },
+      "hp": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:elephant:s4/attributes/hp",
+        "value": 110
+      },
+      "speed": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:elephant:s4/attributes/speed",
+        "value": 2.2
+      },
+      "radius": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:elephant:s4/attributes/radius",
+        "value": 1
+      },
+      "armor": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:elephant:s4/attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "pending-design",
+        "adoptionId": "adopt:elephant:s4/attributes/toughness"
+      },
+      "attack": {
+        "status": "pending-design",
+        "adoptionId": "adopt:elephant:s4/attributes/attack"
+      },
+      "attackRange": {
+        "status": "pending-design",
+        "adoptionId": "adopt:elephant:s4/attributes/attackRange"
+      },
+      "attackInterval": {
+        "status": "pending-design",
+        "adoptionId": "adopt:elephant:s4/attributes/attackInterval"
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:elephant:s4/attributes/targetEligibility"
+      }
+    },
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexsmobs_farseer",
+    "legacyId": "alexsmobs_farseer",
+    "name": "瞻远者",
+    "sourceId": "source:alexsmobs_farseer",
+    "shopVisibility": "visible",
+    "movement": "flying",
+    "tags": [
+      "flying",
+      "farseer_special",
+      "fly"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_farseer:attributes/price",
+        "value": 120
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_farseer:attributes/hp",
+        "value": 70
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_farseer:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_farseer:attributes/radius",
+        "value": 0.6666666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_farseer:attributes/armor",
+        "value": 6
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_farseer:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_farseer:attributes/attack",
+        "value": 6
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_farseer:attributes/attackRange",
+        "value": 8.333333333333334
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_farseer:attributes/attackInterval",
+        "value": 1.5
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexsmobs_farseer:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexsmobs_farseer/skill-1",
+      "alexsmobs_farseer/skill-2",
+      "alexsmobs_farseer/skill-3"
+    ],
+    "decisionId": "decision:alexsmobs_farseer",
+    "presentationId": "presentation:alexsmobs_farseer",
+    "collisionSlot": "presentation:alexsmobs_farseer/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexsmobs_grizzly_bear",
+    "legacyId": "alexsmobs_grizzly_bear",
+    "name": "灰熊",
+    "sourceId": "source:alexsmobs_grizzly_bear",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_grizzly_bear:attributes/price",
+        "value": 40
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_grizzly_bear:attributes/hp",
+        "value": 55
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_grizzly_bear:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_grizzly_bear:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_grizzly_bear:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_grizzly_bear:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_grizzly_bear:attributes/attack",
+        "value": 8
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_grizzly_bear:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_grizzly_bear:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:alexsmobs_grizzly_bear:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "alexsmobs_grizzly_bear/skill-1"
+    ],
+    "decisionId": "decision:alexsmobs_grizzly_bear",
+    "presentationId": "presentation:alexsmobs_grizzly_bear",
+    "collisionSlot": "presentation:alexsmobs_grizzly_bear/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexsmobs_murmur",
+    "legacyId": "alexsmobs_murmur",
+    "name": "轻语灵",
+    "sourceId": "source:alexsmobs_murmur",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_murmur:attributes/price",
+        "value": 25
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_murmur:attributes/hp",
+        "value": 15
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_murmur:attributes/speed",
+        "value": 1.25
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_murmur:attributes/radius",
+        "value": 0.6666666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_murmur:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_murmur:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_murmur:attributes/attack",
+        "value": 5
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_murmur:attributes/attackRange",
+        "value": 8.333333333333334
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_murmur:attributes/attackInterval",
+        "value": 1.1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexsmobs_murmur:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexsmobs_murmur/skill-1",
+      "alexsmobs_murmur/skill-2"
+    ],
+    "decisionId": "decision:alexsmobs_murmur",
+    "presentationId": "presentation:alexsmobs_murmur",
+    "collisionSlot": "presentation:alexsmobs_murmur/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexsmobs_rhinoceros",
+    "legacyId": "alexsmobs_rhinoceros",
+    "name": "犀牛",
+    "sourceId": "source:alexsmobs_rhinoceros",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_rhinoceros:attributes/price",
+        "value": 50
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_rhinoceros:attributes/hp",
+        "value": 60
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_rhinoceros:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_rhinoceros:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_rhinoceros:attributes/armor",
+        "value": 12
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_rhinoceros:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_rhinoceros:attributes/attack",
+        "value": 8
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_rhinoceros:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_rhinoceros:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:alexsmobs_rhinoceros:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "alexsmobs_rhinoceros/skill-1"
+    ],
+    "decisionId": "decision:alexsmobs_rhinoceros",
+    "presentationId": "presentation:alexsmobs_rhinoceros",
+    "collisionSlot": "presentation:alexsmobs_rhinoceros/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexsmobs_straddler",
+    "legacyId": "alexsmobs_straddler",
+    "name": "跨座兽",
+    "sourceId": "source:alexsmobs_straddler",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_straddler:attributes/price",
+        "value": 20
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_straddler:attributes/hp",
+        "value": 28
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_straddler:attributes/speed",
+        "value": 1.25
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_straddler:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_straddler:attributes/armor",
+        "value": 5
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_straddler:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_straddler:attributes/attack",
+        "value": 3
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_straddler:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_straddler:attributes/attackInterval",
+        "value": 1.1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexsmobs_straddler:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexsmobs_straddler/skill-1",
+      "alexsmobs_straddler/skill-2"
+    ],
+    "decisionId": "decision:alexsmobs_straddler",
+    "presentationId": "presentation:alexsmobs_straddler",
+    "collisionSlot": "presentation:alexsmobs_straddler/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexsmobs_tarantula_hawk",
+    "legacyId": "alexsmobs_tarantula_hawk",
+    "name": "沙漠蛛蜂",
+    "sourceId": "source:alexsmobs_tarantula_hawk",
+    "shopVisibility": "visible",
+    "movement": "flying",
+    "tags": [
+      "flying",
+      "fly",
+      "arthropod"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tarantula_hawk:attributes/price",
+        "value": 15
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tarantula_hawk:attributes/hp",
+        "value": 18
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_tarantula_hawk:attributes/speed",
+        "value": 3
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_tarantula_hawk:attributes/radius",
+        "value": 0.6666666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tarantula_hawk:attributes/armor",
+        "value": 4
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tarantula_hawk:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tarantula_hawk:attributes/attack",
+        "value": 5
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_tarantula_hawk:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tarantula_hawk:attributes/attackInterval",
+        "value": 2
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexsmobs_tarantula_hawk:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexsmobs_tarantula_hawk/skill-1",
+      "alexsmobs_tarantula_hawk/skill-2"
+    ],
+    "decisionId": "decision:alexsmobs_tarantula_hawk",
+    "presentationId": "presentation:alexsmobs_tarantula_hawk",
+    "collisionSlot": "presentation:alexsmobs_tarantula_hawk/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexsmobs_tiger",
+    "legacyId": "alexsmobs_tiger",
+    "name": "老虎",
+    "sourceId": "source:alexsmobs_tiger",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tiger:attributes/price",
+        "value": 40
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tiger:attributes/hp",
+        "value": 50
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_tiger:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_tiger:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tiger:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tiger:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tiger:attributes/attack",
+        "value": 6
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_tiger:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tiger:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:alexsmobs_tiger:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "alexsmobs_tiger/skill-1"
+    ],
+    "decisionId": "decision:alexsmobs_tiger",
+    "presentationId": "presentation:alexsmobs_tiger",
+    "collisionSlot": "presentation:alexsmobs_tiger/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexsmobs_tusklin",
+    "legacyId": "alexsmobs_tusklin",
+    "name": "獠牙兽",
+    "sourceId": "source:alexsmobs_tusklin",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tusklin:attributes/price",
+        "value": 30
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tusklin:attributes/hp",
+        "value": 40
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_tusklin:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_tusklin:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tusklin:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tusklin:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tusklin:attributes/attack",
+        "value": 9
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_tusklin:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_tusklin:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:alexsmobs_tusklin:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "alexsmobs_tusklin/skill-1"
+    ],
+    "decisionId": "decision:alexsmobs_tusklin",
+    "presentationId": "presentation:alexsmobs_tusklin",
+    "collisionSlot": "presentation:alexsmobs_tusklin/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "alexsmobs_warped_mosco",
+    "legacyId": "alexsmobs_warped_mosco",
+    "name": "诡异蚊鬼",
+    "sourceId": "source:alexsmobs_warped_mosco",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "mosco_special",
+      "arthropod"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_warped_mosco:attributes/price",
+        "value": 180
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_warped_mosco:attributes/hp",
+        "value": 100
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_warped_mosco:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_warped_mosco:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_warped_mosco:attributes/armor",
+        "value": 10
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_warped_mosco:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_warped_mosco:attributes/attack",
+        "value": 15
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:alexsmobs_warped_mosco:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:alexsmobs_warped_mosco:attributes/attackInterval",
+        "value": 3
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:alexsmobs_warped_mosco:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "alexsmobs_warped_mosco/skill-1",
+      "alexsmobs_warped_mosco/skill-2",
+      "alexsmobs_warped_mosco/skill-3",
+      "alexsmobs_warped_mosco/skill-4",
+      "alexsmobs_warped_mosco/skill-5",
+      "alexsmobs_warped_mosco/skill-6"
+    ],
+    "decisionId": "decision:alexsmobs_warped_mosco",
+    "presentationId": "presentation:alexsmobs_warped_mosco",
+    "collisionSlot": "presentation:alexsmobs_warped_mosco/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "blaze",
+    "legacyId": "blaze",
+    "name": "烈焰人",
+    "sourceId": "source:blaze",
+    "shopVisibility": "visible",
+    "movement": "flying",
+    "tags": [
+      "flying",
+      "fly"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:blaze:attributes/price",
+        "value": 10
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:blaze:attributes/hp",
+        "value": 20
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:blaze:attributes/speed",
+        "value": 0.8333333333333334
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:blaze:attributes/radius",
+        "value": 0.6666666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:blaze:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:blaze:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:blaze:attributes/attack",
+        "value": 5
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:blaze:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:blaze:attributes/attackInterval",
+        "value": 6
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:blaze:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "blaze/skill-1",
+      "blaze/skill-2"
+    ],
+    "decisionId": "decision:blaze",
+    "presentationId": "presentation:blaze",
+    "collisionSlot": "presentation:blaze/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_amethyst_crab",
+    "legacyId": "cataclysm_amethyst_crab",
+    "name": "紫水晶巨蟹",
+    "sourceId": "source:cataclysm_amethyst_crab",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "amethyst_crab_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_amethyst_crab:attributes/price",
+        "value": 180
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_amethyst_crab:attributes/hp",
+        "value": 200
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_amethyst_crab:attributes/speed",
+        "value": 1.25
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_amethyst_crab:attributes/radius",
+        "value": 0.9166666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_amethyst_crab:attributes/armor",
+        "value": 10
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_amethyst_crab:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_amethyst_crab:attributes/attack",
+        "value": 16
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_amethyst_crab:attributes/attackRange",
+        "value": 2
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_amethyst_crab:attributes/attackInterval",
+        "value": 1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_amethyst_crab:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_amethyst_crab/skill-1",
+      "cataclysm_amethyst_crab/skill-2",
+      "cataclysm_amethyst_crab/skill-3"
+    ],
+    "decisionId": "decision:cataclysm_amethyst_crab",
+    "presentationId": "presentation:cataclysm_amethyst_crab",
+    "collisionSlot": "presentation:cataclysm_amethyst_crab/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_ancient_remnant",
+    "legacyId": "cataclysm_ancient_remnant",
+    "name": "远古遗魂",
+    "sourceId": "source:cataclysm_ancient_remnant",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "boss",
+      "remnant_boss",
+      "giant"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ancient_remnant:attributes/price",
+        "value": 700
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ancient_remnant:attributes/hp",
+        "value": 420
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_ancient_remnant:attributes/speed",
+        "value": 1.5
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_ancient_remnant:attributes/radius",
+        "value": 2.3333333333333335
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ancient_remnant:attributes/armor",
+        "value": 12
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ancient_remnant:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ancient_remnant:attributes/attack",
+        "value": 22
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_ancient_remnant:attributes/attackRange",
+        "value": 2.2916666666666665
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ancient_remnant:attributes/attackInterval",
+        "value": 3
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_ancient_remnant:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_ancient_remnant/skill-1",
+      "cataclysm_ancient_remnant/skill-2",
+      "cataclysm_ancient_remnant/skill-3",
+      "cataclysm_ancient_remnant/skill-4",
+      "cataclysm_ancient_remnant/skill-5"
+    ],
+    "decisionId": "decision:cataclysm_ancient_remnant",
+    "presentationId": "presentation:cataclysm_ancient_remnant",
+    "collisionSlot": "presentation:cataclysm_ancient_remnant/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_coral_golem",
+    "legacyId": "cataclysm_coral_golem",
+    "name": "珊瑚傀儡",
+    "sourceId": "source:cataclysm_coral_golem",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "coral_leap_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_coral_golem:attributes/price",
+        "value": 80
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_coral_golem:attributes/hp",
+        "value": 110
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_coral_golem:attributes/speed",
+        "value": 1.25
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_coral_golem:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_coral_golem:attributes/armor",
+        "value": 5
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_coral_golem:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_coral_golem:attributes/attack",
+        "value": 13
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_coral_golem:attributes/attackRange",
+        "value": 8.333333333333334
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_coral_golem:attributes/attackInterval",
+        "value": 3
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_coral_golem:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_coral_golem/skill-1"
+    ],
+    "decisionId": "decision:cataclysm_coral_golem",
+    "presentationId": "presentation:cataclysm_coral_golem",
+    "collisionSlot": "presentation:cataclysm_coral_golem/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_coralssus",
+    "legacyId": "cataclysm_coralssus",
+    "name": "珊瑚巨兽",
+    "sourceId": "source:cataclysm_coralssus",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "coral_leap_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_coralssus:attributes/price",
+        "value": 150
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_coralssus:attributes/hp",
+        "value": 150
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_coralssus:attributes/speed",
+        "value": 1.25
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_coralssus:attributes/radius",
+        "value": 0.9166666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_coralssus:attributes/armor",
+        "value": 5
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_coralssus:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_coralssus:attributes/attack",
+        "value": 12
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_coralssus:attributes/attackRange",
+        "value": 8.333333333333334
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_coralssus:attributes/attackInterval",
+        "value": 3
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_coralssus:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_coralssus/skill-1"
+    ],
+    "decisionId": "decision:cataclysm_coralssus",
+    "presentationId": "presentation:cataclysm_coralssus",
+    "collisionSlot": "presentation:cataclysm_coralssus/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_deepling",
+    "legacyId": "cataclysm_deepling",
+    "name": "渊灵",
+    "sourceId": "source:cataclysm_deepling",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling:attributes/price",
+        "value": 25
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling:attributes/hp",
+        "value": 26
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_deepling:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_deepling:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling:attributes/attack",
+        "value": 10
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_deepling:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling:attributes/attackInterval",
+        "value": 1.1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_deepling:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_deepling/skill-1",
+      "cataclysm_deepling/skill-2"
+    ],
+    "decisionId": "decision:cataclysm_deepling",
+    "presentationId": "presentation:cataclysm_deepling",
+    "collisionSlot": "presentation:cataclysm_deepling/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_deepling_brute",
+    "legacyId": "cataclysm_deepling_brute",
+    "name": "渊灵蛮兵",
+    "sourceId": "source:cataclysm_deepling_brute",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_brute:attributes/price",
+        "value": 60
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_brute:attributes/hp",
+        "value": 60
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_deepling_brute:attributes/speed",
+        "value": 2.0833333333333335
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_deepling_brute:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_brute:attributes/armor",
+        "value": 8
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_brute:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_brute:attributes/attack",
+        "value": 14
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_deepling_brute:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_brute:attributes/attackInterval",
+        "value": 1.1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_deepling_brute:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_deepling_brute/skill-1",
+      "cataclysm_deepling_brute/skill-2"
+    ],
+    "decisionId": "decision:cataclysm_deepling_brute",
+    "presentationId": "presentation:cataclysm_deepling_brute",
+    "collisionSlot": "presentation:cataclysm_deepling_brute/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_deepling_priest",
+    "legacyId": "cataclysm_deepling_priest",
+    "name": "渊灵祭司",
+    "sourceId": "source:cataclysm_deepling_priest",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_priest:attributes/price",
+        "value": 35
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_priest:attributes/hp",
+        "value": 45
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_deepling_priest:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_deepling_priest:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_priest:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_priest:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_priest:attributes/attack",
+        "value": 8
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_deepling_priest:attributes/attackRange",
+        "value": 4
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_priest:attributes/attackInterval",
+        "value": 6
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_deepling_priest:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_deepling_priest/skill-1"
+    ],
+    "decisionId": "decision:cataclysm_deepling_priest",
+    "presentationId": "presentation:cataclysm_deepling_priest",
+    "collisionSlot": "presentation:cataclysm_deepling_priest/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_deepling_warlock",
+    "legacyId": "cataclysm_deepling_warlock",
+    "name": "渊灵术士",
+    "sourceId": "source:cataclysm_deepling_warlock",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "warlock_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_warlock:attributes/price",
+        "value": 50
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_warlock:attributes/hp",
+        "value": 45
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_deepling_warlock:attributes/speed",
+        "value": 1.25
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_deepling_warlock:attributes/radius",
+        "value": 0.5833333333333334
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_warlock:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_warlock:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_warlock:attributes/attack",
+        "value": 14
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_deepling_warlock:attributes/attackRange",
+        "value": 10.833333333333334
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_deepling_warlock:attributes/attackInterval",
+        "value": 10
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_deepling_warlock:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_deepling_warlock/skill-1"
+    ],
+    "decisionId": "decision:cataclysm_deepling_warlock",
+    "presentationId": "presentation:cataclysm_deepling_warlock",
+    "collisionSlot": "presentation:cataclysm_deepling_warlock/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_ender_golem",
+    "legacyId": "cataclysm_ender_golem",
+    "name": "末影傀儡",
+    "sourceId": "source:cataclysm_ender_golem",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "ender_golem_boss"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ender_golem:attributes/price",
+        "value": 200
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ender_golem:attributes/hp",
+        "value": 120
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_ender_golem:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_ender_golem:attributes/radius",
+        "value": 0.8333333333333334
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ender_golem:attributes/armor",
+        "value": 12
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ender_golem:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ender_golem:attributes/attack",
+        "value": 13
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_ender_golem:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ender_golem:attributes/attackInterval",
+        "value": 2
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_ender_golem:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_ender_golem/skill-1",
+      "cataclysm_ender_golem/skill-2",
+      "cataclysm_ender_golem/skill-3"
+    ],
+    "decisionId": "decision:cataclysm_ender_golem",
+    "presentationId": "presentation:cataclysm_ender_golem",
+    "collisionSlot": "presentation:cataclysm_ender_golem/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_ignited_berserker",
+    "legacyId": "cataclysm_ignited_berserker",
+    "name": "炽燃狂魂",
+    "sourceId": "source:cataclysm_ignited_berserker",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "aoe_melee"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ignited_berserker:attributes/price",
+        "value": 60
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ignited_berserker:attributes/hp",
+        "value": 65
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_ignited_berserker:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_ignited_berserker:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ignited_berserker:attributes/armor",
+        "value": 8
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ignited_berserker:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ignited_berserker:attributes/attack",
+        "value": 14
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_ignited_berserker:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ignited_berserker:attributes/attackInterval",
+        "value": 3
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_ignited_berserker:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_ignited_berserker/skill-1",
+      "cataclysm_ignited_berserker/skill-2"
+    ],
+    "decisionId": "decision:cataclysm_ignited_berserker",
+    "presentationId": "presentation:cataclysm_ignited_berserker",
+    "collisionSlot": "presentation:cataclysm_ignited_berserker/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_ignited_revenant",
+    "legacyId": "cataclysm_ignited_revenant",
+    "name": "炽燃遗魂",
+    "sourceId": "source:cataclysm_ignited_revenant",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "fire_immune",
+      "revenant_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ignited_revenant:attributes/price",
+        "value": 180
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ignited_revenant:attributes/hp",
+        "value": 80
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_ignited_revenant:attributes/speed",
+        "value": 1.75
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_ignited_revenant:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ignited_revenant:attributes/armor",
+        "value": 12
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ignited_revenant:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ignited_revenant:attributes/attack",
+        "value": 6
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_ignited_revenant:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_ignited_revenant:attributes/attackInterval",
+        "value": 1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_ignited_revenant:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_ignited_revenant/skill-1",
+      "cataclysm_ignited_revenant/skill-2",
+      "cataclysm_ignited_revenant/skill-3",
+      "cataclysm_ignited_revenant/skill-4"
+    ],
+    "decisionId": "decision:cataclysm_ignited_revenant",
+    "presentationId": "presentation:cataclysm_ignited_revenant",
+    "collisionSlot": "presentation:cataclysm_ignited_revenant/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_kobolediator",
+    "legacyId": "cataclysm_kobolediator",
+    "name": "骸骨斩首者",
+    "sourceId": "source:cataclysm_kobolediator",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "boss",
+      "kobo_boss",
+      "kobo_block_ranged"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_kobolediator:attributes/price",
+        "value": 250
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_kobolediator:attributes/hp",
+        "value": 180
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_kobolediator:attributes/speed",
+        "value": 2.3333333333333335
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_kobolediator:attributes/radius",
+        "value": 0.8333333333333334
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_kobolediator:attributes/armor",
+        "value": 10
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_kobolediator:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_kobolediator:attributes/attack",
+        "value": 14
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_kobolediator:attributes/attackRange",
+        "value": 10.833333333333334
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_kobolediator:attributes/attackInterval",
+        "value": 3
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_kobolediator:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_kobolediator/skill-1",
+      "cataclysm_kobolediator/skill-2",
+      "cataclysm_kobolediator/skill-3",
+      "cataclysm_kobolediator/skill-4"
+    ],
+    "decisionId": "decision:cataclysm_kobolediator",
+    "presentationId": "presentation:cataclysm_kobolediator",
+    "collisionSlot": "presentation:cataclysm_kobolediator/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_koboleton",
+    "legacyId": "cataclysm_koboleton",
+    "name": "骷髅狗头人",
+    "sourceId": "source:cataclysm_koboleton",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_koboleton:attributes/price",
+        "value": 15
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_koboleton:attributes/hp",
+        "value": 25
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_koboleton:attributes/speed",
+        "value": 3.25
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_koboleton:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_koboleton:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_koboleton:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_koboleton:attributes/attack",
+        "value": 7
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_koboleton:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_koboleton:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:cataclysm_koboleton:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_koboleton/skill-1"
+    ],
+    "decisionId": "decision:cataclysm_koboleton",
+    "presentationId": "presentation:cataclysm_koboleton",
+    "collisionSlot": "presentation:cataclysm_koboleton/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_modern_remnant",
+    "legacyId": "cataclysm_modern_remnant",
+    "name": "现世遗魂",
+    "sourceId": "source:cataclysm_modern_remnant",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_modern_remnant:attributes/price",
+        "value": 80
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_modern_remnant:attributes/hp",
+        "value": 120
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_modern_remnant:attributes/speed",
+        "value": 2.8333333333333335
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_modern_remnant:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_modern_remnant:attributes/armor",
+        "value": 5
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_modern_remnant:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_modern_remnant:attributes/attack",
+        "value": 6
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_modern_remnant:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_modern_remnant:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:cataclysm_modern_remnant:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_modern_remnant/skill-1"
+    ],
+    "decisionId": "decision:cataclysm_modern_remnant",
+    "presentationId": "presentation:cataclysm_modern_remnant",
+    "collisionSlot": "presentation:cataclysm_modern_remnant/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_the_harbinger",
+    "legacyId": "cataclysm_the_harbinger",
+    "name": "先驱者",
+    "sourceId": "source:cataclysm_the_harbinger",
+    "shopVisibility": "visible",
+    "movement": "flying",
+    "tags": [
+      "flying",
+      "boss",
+      "harbinger_boss",
+      "fly"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_harbinger:attributes/price",
+        "value": 600
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_harbinger:attributes/hp",
+        "value": 390
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_the_harbinger:attributes/speed",
+        "value": 2.6666666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_the_harbinger:attributes/radius",
+        "value": 1.1666666666666667
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_harbinger:attributes/armor",
+        "value": 12
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_harbinger:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_harbinger:attributes/attack",
+        "value": 16
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_the_harbinger:attributes/attackRange",
+        "value": 10
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_harbinger:attributes/attackInterval",
+        "value": 2
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_the_harbinger:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_the_harbinger/skill-1",
+      "cataclysm_the_harbinger/skill-2",
+      "cataclysm_the_harbinger/skill-3",
+      "cataclysm_the_harbinger/skill-4",
+      "cataclysm_the_harbinger/skill-5",
+      "cataclysm_the_harbinger/skill-6",
+      "cataclysm_the_harbinger/skill-7",
+      "cataclysm_the_harbinger/skill-8"
+    ],
+    "decisionId": "decision:cataclysm_the_harbinger",
+    "presentationId": "presentation:cataclysm_the_harbinger",
+    "collisionSlot": "presentation:cataclysm_the_harbinger/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_the_prowler",
+    "legacyId": "cataclysm_the_prowler",
+    "name": "徘徊者",
+    "sourceId": "source:cataclysm_the_prowler",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "prowler_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_prowler:attributes/price",
+        "value": 140
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_prowler:attributes/hp",
+        "value": 160
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_the_prowler:attributes/speed",
+        "value": 1.75
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_the_prowler:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_prowler:attributes/armor",
+        "value": 10
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_prowler:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_prowler:attributes/attack",
+        "value": 7
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_the_prowler:attributes/attackRange",
+        "value": 10
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_prowler:attributes/attackInterval",
+        "value": 3
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_the_prowler:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_the_prowler/skill-1",
+      "cataclysm_the_prowler/skill-2",
+      "cataclysm_the_prowler/skill-3",
+      "cataclysm_the_prowler/skill-4"
+    ],
+    "decisionId": "decision:cataclysm_the_prowler",
+    "presentationId": "presentation:cataclysm_the_prowler",
+    "collisionSlot": "presentation:cataclysm_the_prowler/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_the_watcher",
+    "legacyId": "cataclysm_the_watcher",
+    "name": "观测者",
+    "sourceId": "source:cataclysm_the_watcher",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_watcher:attributes/price",
+        "value": 25
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_watcher:attributes/hp",
+        "value": 25
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_the_watcher:attributes/speed",
+        "value": 0.8333333333333334
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_the_watcher:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_watcher:attributes/armor",
+        "value": 5
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_watcher:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_watcher:attributes/attack",
+        "value": 4
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_the_watcher:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_the_watcher:attributes/attackInterval",
+        "value": 1.1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_the_watcher:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_the_watcher/skill-1",
+      "cataclysm_the_watcher/skill-2"
+    ],
+    "decisionId": "decision:cataclysm_the_watcher",
+    "presentationId": "presentation:cataclysm_the_watcher",
+    "collisionSlot": "presentation:cataclysm_the_watcher/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "cataclysm_wadjet",
+    "legacyId": "cataclysm_wadjet",
+    "name": "瓦吉特",
+    "sourceId": "source:cataclysm_wadjet",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "wadjet_boss",
+      "aoe_melee"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_wadjet:attributes/price",
+        "value": 150
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_wadjet:attributes/hp",
+        "value": 150
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_wadjet:attributes/speed",
+        "value": 2.1666666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_wadjet:attributes/radius",
+        "value": 0.8333333333333334
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_wadjet:attributes/armor",
+        "value": 5
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_wadjet:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_wadjet:attributes/attack",
+        "value": 11
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:cataclysm_wadjet:attributes/attackRange",
+        "value": 10
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:cataclysm_wadjet:attributes/attackInterval",
+        "value": 2
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:cataclysm_wadjet:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "cataclysm_wadjet/skill-1",
+      "cataclysm_wadjet/skill-2",
+      "cataclysm_wadjet/skill-3"
+    ],
+    "decisionId": "decision:cataclysm_wadjet",
+    "presentationId": "presentation:cataclysm_wadjet",
+    "collisionSlot": "presentation:cataclysm_wadjet/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "creeper",
+    "legacyId": "creeper",
+    "name": "苦力怕",
+    "sourceId": "source:creeper",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "explosive"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:creeper:attributes/price",
+        "value": 20
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:creeper:attributes/hp",
+        "value": 20
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:creeper:attributes/speed",
+        "value": 1.5833333333333333
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:creeper:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:creeper:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:creeper:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:creeper:attributes/attack",
+        "value": 49
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:creeper:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:creeper:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:creeper:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "creeper/skill-1"
+    ],
+    "decisionId": "decision:creeper",
+    "presentationId": "presentation:creeper",
+    "collisionSlot": "presentation:creeper/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "dread_beast",
+    "legacyId": "dread_beast",
+    "name": "悚怖尸兽",
+    "sourceId": "source:dread_beast",
+    "shopVisibility": "hidden",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_beast:attributes/price",
+        "value": 0
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_beast:attributes/hp",
+        "value": 30
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:dread_beast:attributes/speed",
+        "value": 3
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:dread_beast:attributes/radius",
+        "value": 0.5833333333333334
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_beast:attributes/armor",
+        "value": 1
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_beast:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_beast:attributes/attack",
+        "value": 4
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:dread_beast:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_beast:attributes/attackInterval",
+        "value": 1
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:dread_beast:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "dread_beast/skill-1"
+    ],
+    "decisionId": "decision:dread_beast",
+    "presentationId": "presentation:dread_beast",
+    "collisionSlot": "presentation:dread_beast/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "dread_ghoul",
+    "legacyId": "dread_ghoul",
+    "name": "悚怖食尸鬼",
+    "sourceId": "source:dread_ghoul",
+    "shopVisibility": "hidden",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_ghoul:attributes/price",
+        "value": 0
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_ghoul:attributes/hp",
+        "value": 30
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:dread_ghoul:attributes/speed",
+        "value": 2.8333333333333335
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:dread_ghoul:attributes/radius",
+        "value": 0.5833333333333334
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_ghoul:attributes/armor",
+        "value": 4
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_ghoul:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_ghoul:attributes/attack",
+        "value": 5
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:dread_ghoul:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_ghoul:attributes/attackInterval",
+        "value": 1
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:dread_ghoul:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "dread_ghoul/skill-1"
+    ],
+    "decisionId": "decision:dread_ghoul",
+    "presentationId": "presentation:dread_ghoul",
+    "collisionSlot": "presentation:dread_ghoul/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "dread_spider",
+    "legacyId": "dread_spider",
+    "name": "悚怖劫蛛",
+    "sourceId": "source:dread_spider",
+    "shopVisibility": "hidden",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "arthropod"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_spider:attributes/price",
+        "value": 0
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_spider:attributes/hp",
+        "value": 40
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:dread_spider:attributes/speed",
+        "value": 2.6666666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:dread_spider:attributes/radius",
+        "value": 0.6666666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_spider:attributes/armor",
+        "value": 10
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_spider:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_spider:attributes/attack",
+        "value": 7
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:dread_spider:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_spider:attributes/attackInterval",
+        "value": 1
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:dread_spider:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "dread_spider/skill-1"
+    ],
+    "decisionId": "decision:dread_spider",
+    "presentationId": "presentation:dread_spider",
+    "collisionSlot": "presentation:dread_spider/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "dread_thrall",
+    "legacyId": "dread_thrall",
+    "name": "悚怖尸奴",
+    "sourceId": "source:dread_thrall",
+    "shopVisibility": "hidden",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_thrall:attributes/price",
+        "value": 0
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_thrall:attributes/hp",
+        "value": 20
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:dread_thrall:attributes/speed",
+        "value": 2.1666666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:dread_thrall:attributes/radius",
+        "value": 0.5
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_thrall:attributes/armor",
+        "value": 2
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_thrall:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_thrall:attributes/attack",
+        "value": 6
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:dread_thrall:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:dread_thrall:attributes/attackInterval",
+        "value": 1
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:dread_thrall:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "dread_thrall/skill-1"
+    ],
+    "decisionId": "decision:dread_thrall",
+    "presentationId": "presentation:dread_thrall",
+    "collisionSlot": "presentation:dread_thrall/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "evoker",
+    "legacyId": "evoker",
+    "name": "唤魔者",
+    "sourceId": "source:evoker",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "summoner"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:evoker:attributes/price",
+        "value": 50
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:evoker:attributes/hp",
+        "value": 24
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:evoker:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:evoker:attributes/radius",
+        "value": 0.6666666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:evoker:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:evoker:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:evoker:attributes/attack",
+        "value": 6
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:evoker:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:evoker:attributes/attackInterval",
+        "value": 1.1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:evoker:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "evoker/skill-1",
+      "evoker/skill-2",
+      "evoker/skill-3"
+    ],
+    "decisionId": "decision:evoker",
+    "presentationId": "presentation:evoker",
+    "collisionSlot": "presentation:evoker/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "iceandfire_cyclops",
+    "legacyId": "iceandfire_cyclops",
+    "name": "独眼巨人",
+    "sourceId": "source:iceandfire_cyclops",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "cyclops_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_cyclops:attributes/price",
+        "value": 150
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_cyclops:attributes/hp",
+        "value": 150
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_cyclops:attributes/speed",
+        "value": 2
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_cyclops:attributes/radius",
+        "value": 0.9166666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_cyclops:attributes/armor",
+        "value": 20
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_cyclops:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_cyclops:attributes/attack",
+        "value": 17
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_cyclops:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_cyclops:attributes/attackInterval",
+        "value": 2
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:iceandfire_cyclops:attributes/targetEligibility",
+        "value": "ground-and-air"
+      }
+    },
+    "loadoutIds": [
+      "iceandfire_cyclops/skill-1",
+      "iceandfire_cyclops/skill-2"
+    ],
+    "decisionId": "decision:iceandfire_cyclops",
+    "presentationId": "presentation:iceandfire_cyclops",
+    "collisionSlot": "presentation:iceandfire_cyclops/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "iceandfire_dread_lich",
+    "legacyId": "iceandfire_dread_lich",
+    "name": "悚怖尸巫",
+    "sourceId": "source:iceandfire_dread_lich",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "dread_lich_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_dread_lich:attributes/price",
+        "value": 100
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_dread_lich:attributes/hp",
+        "value": 50
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_dread_lich:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_dread_lich:attributes/radius",
+        "value": 0.6666666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_dread_lich:attributes/armor",
+        "value": 2
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_dread_lich:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_dread_lich:attributes/attack",
+        "value": 6
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_dread_lich:attributes/attackRange",
+        "value": 8.333333333333334
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_dread_lich:attributes/attackInterval",
+        "value": 1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:iceandfire_dread_lich:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "iceandfire_dread_lich/skill-1",
+      "iceandfire_dread_lich/skill-2",
+      "iceandfire_dread_lich/skill-3"
+    ],
+    "decisionId": "decision:iceandfire_dread_lich",
+    "presentationId": "presentation:iceandfire_dread_lich",
+    "collisionSlot": "presentation:iceandfire_dread_lich/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "iceandfire_if_cockatrice",
+    "legacyId": "iceandfire_if_cockatrice",
+    "name": "鸡蛇",
+    "sourceId": "source:iceandfire_if_cockatrice",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_if_cockatrice:attributes/price",
+        "value": 20
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_if_cockatrice:attributes/hp",
+        "value": 40
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_if_cockatrice:attributes/speed",
+        "value": 1.25
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_if_cockatrice:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_if_cockatrice:attributes/armor",
+        "value": 2
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_if_cockatrice:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_if_cockatrice:attributes/attack",
+        "value": 2
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_if_cockatrice:attributes/attackRange",
+        "value": 15
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_if_cockatrice:attributes/attackInterval",
+        "value": 0.4
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:iceandfire_if_cockatrice:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "iceandfire_if_cockatrice/skill-1",
+      "iceandfire_if_cockatrice/skill-2"
+    ],
+    "decisionId": "decision:iceandfire_if_cockatrice",
+    "presentationId": "presentation:iceandfire_if_cockatrice",
+    "collisionSlot": "presentation:iceandfire_if_cockatrice/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "iceandfire_if_troll",
+    "legacyId": "iceandfire_if_troll",
+    "name": "食人妖",
+    "sourceId": "source:iceandfire_if_troll",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "knockback_immune",
+      "troll_immune_ranged"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_if_troll:attributes/price",
+        "value": 60
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_if_troll:attributes/hp",
+        "value": 50
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_if_troll:attributes/speed",
+        "value": 2.0833333333333335
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_if_troll:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_if_troll:attributes/armor",
+        "value": 9
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_if_troll:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_if_troll:attributes/attack",
+        "value": 10
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_if_troll:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_if_troll:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:iceandfire_if_troll:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "iceandfire_if_troll/skill-1",
+      "iceandfire_if_troll/skill-2",
+      "iceandfire_if_troll/skill-3"
+    ],
+    "decisionId": "decision:iceandfire_if_troll",
+    "presentationId": "presentation:iceandfire_if_troll",
+    "collisionSlot": "presentation:iceandfire_if_troll/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "iceandfire_stymphalianbird",
+    "legacyId": "iceandfire_stymphalianbird",
+    "name": "铜羽泽鹗",
+    "sourceId": "source:iceandfire_stymphalianbird",
+    "shopVisibility": "visible",
+    "movement": "flying",
+    "tags": [
+      "flying",
+      "fly",
+      "armor_piercing"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_stymphalianbird:attributes/price",
+        "value": 15
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_stymphalianbird:attributes/hp",
+        "value": 24
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_stymphalianbird:attributes/speed",
+        "value": 3.75
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_stymphalianbird:attributes/radius",
+        "value": 0.6666666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_stymphalianbird:attributes/armor",
+        "value": 4
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_stymphalianbird:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_stymphalianbird:attributes/attack",
+        "value": 1
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:iceandfire_stymphalianbird:attributes/attackRange",
+        "value": 4.166666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:iceandfire_stymphalianbird:attributes/attackInterval",
+        "value": 1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:iceandfire_stymphalianbird:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "iceandfire_stymphalianbird/skill-1",
+      "iceandfire_stymphalianbird/skill-2"
+    ],
+    "decisionId": "decision:iceandfire_stymphalianbird",
+    "presentationId": "presentation:iceandfire_stymphalianbird",
+    "collisionSlot": "presentation:iceandfire_stymphalianbird/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "iron_golem",
+    "legacyId": "iron_golem",
+    "name": "铁傀儡",
+    "sourceId": "source:iron_golem",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:iron_golem:attributes/price",
+        "value": 100
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:iron_golem:attributes/hp",
+        "value": 100
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:iron_golem:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:iron_golem:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:iron_golem:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:iron_golem:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:iron_golem:attributes/attack",
+        "value": 14
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:iron_golem:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:iron_golem:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:iron_golem:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "iron_golem/skill-1"
+    ],
+    "decisionId": "decision:iron_golem",
+    "presentationId": "presentation:iron_golem",
+    "collisionSlot": "presentation:iron_golem/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "mowziesmobs_frostmaw",
+    "legacyId": "mowziesmobs_frostmaw",
+    "name": "霜冻巨兽",
+    "sourceId": "source:mowziesmobs_frostmaw",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "boss",
+      "frostmaw_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:mowziesmobs_frostmaw:attributes/price",
+        "value": 150
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:mowziesmobs_frostmaw:attributes/hp",
+        "value": 250
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:mowziesmobs_frostmaw:attributes/speed",
+        "value": 1.8333333333333333
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:mowziesmobs_frostmaw:attributes/radius",
+        "value": 1.1666666666666667
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:mowziesmobs_frostmaw:attributes/armor",
+        "value": 6
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:mowziesmobs_frostmaw:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:mowziesmobs_frostmaw:attributes/attack",
+        "value": 8
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:mowziesmobs_frostmaw:attributes/attackRange",
+        "value": 9.166666666666666
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:mowziesmobs_frostmaw:attributes/attackInterval",
+        "value": 3
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:mowziesmobs_frostmaw:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "mowziesmobs_frostmaw/skill-1",
+      "mowziesmobs_frostmaw/skill-2",
+      "mowziesmobs_frostmaw/skill-3",
+      "mowziesmobs_frostmaw/skill-4"
+    ],
+    "decisionId": "decision:mowziesmobs_frostmaw",
+    "presentationId": "presentation:mowziesmobs_frostmaw",
+    "collisionSlot": "presentation:mowziesmobs_frostmaw/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "mowziesmobs_naga",
+    "legacyId": "mowziesmobs_naga",
+    "name": "娜迦(飞行)",
+    "sourceId": "source:mowziesmobs_naga",
+    "shopVisibility": "visible",
+    "movement": "flying",
+    "tags": [
+      "flying",
+      "fly"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:mowziesmobs_naga:attributes/price",
+        "value": 10
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:mowziesmobs_naga:attributes/hp",
+        "value": 30
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:mowziesmobs_naga:attributes/speed",
+        "value": 3
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:mowziesmobs_naga:attributes/radius",
+        "value": 0.6666666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:mowziesmobs_naga:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:mowziesmobs_naga:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:mowziesmobs_naga:attributes/attack",
+        "value": 4
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:mowziesmobs_naga:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:mowziesmobs_naga:attributes/attackInterval",
+        "value": 3
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:mowziesmobs_naga:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "mowziesmobs_naga/skill-1",
+      "mowziesmobs_naga/skill-2",
+      "mowziesmobs_naga/skill-3"
+    ],
+    "decisionId": "decision:mowziesmobs_naga",
+    "presentationId": "presentation:mowziesmobs_naga",
+    "collisionSlot": "presentation:mowziesmobs_naga/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "pillager",
+    "legacyId": "pillager",
+    "name": "掠夺者",
+    "sourceId": "source:pillager",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:pillager:attributes/price",
+        "value": 6
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:pillager:attributes/hp",
+        "value": 24
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:pillager:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:pillager:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:pillager:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:pillager:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:pillager:attributes/attack",
+        "value": 4
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:pillager:attributes/attackRange",
+        "value": 8.333333333333334
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:pillager:attributes/attackInterval",
+        "value": 2
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:pillager:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "pillager/skill-1"
+    ],
+    "decisionId": "decision:pillager",
+    "presentationId": "presentation:pillager",
+    "collisionSlot": "presentation:pillager/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "ravager",
+    "legacyId": "ravager",
+    "name": "劫掠兽",
+    "sourceId": "source:ravager",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:ravager:attributes/price",
+        "value": 70
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:ravager:attributes/hp",
+        "value": 100
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:ravager:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:ravager:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:ravager:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:ravager:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:ravager:attributes/attack",
+        "value": 12
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:ravager:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:ravager:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:ravager:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "ravager/skill-1"
+    ],
+    "decisionId": "decision:ravager",
+    "presentationId": "presentation:ravager",
+    "collisionSlot": "presentation:ravager/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "skeleton",
+    "legacyId": "skeleton",
+    "name": "骷髅",
+    "sourceId": "source:skeleton",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:skeleton:attributes/price",
+        "value": 8
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:skeleton:attributes/hp",
+        "value": 20
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:skeleton:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:skeleton:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:skeleton:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:skeleton:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:skeleton:attributes/attack",
+        "value": 3
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:skeleton:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:skeleton:attributes/attackInterval",
+        "value": 1.1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:skeleton:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "skeleton/skill-1",
+      "skeleton/s4-arrow"
+    ],
+    "decisionId": "decision:skeleton",
+    "presentationId": "presentation:skeleton",
+    "collisionSlot": "presentation:skeleton/collision",
+    "noActiveAttack": false,
+    "runtimeAlias": "skeleton",
+    "role": "基础远程",
+    "runtimeSelectionOrder": {
+      "status": "rebuilt",
+      "adoptionId": "adopt:skeleton:runtimeSelectionOrder",
+      "value": 1
+    },
+    "s4Attributes": {
+      "price": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:skeleton:s4/attributes/price",
+        "value": 6
+      },
+      "hp": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:skeleton:s4/attributes/hp",
+        "value": 35
+      },
+      "speed": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:skeleton:s4/attributes/speed",
+        "value": 2.6
+      },
+      "radius": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:skeleton:s4/attributes/radius",
+        "value": 0.6
+      },
+      "armor": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:skeleton:s4/attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "pending-design",
+        "adoptionId": "adopt:skeleton:s4/attributes/toughness"
+      },
+      "attack": {
+        "status": "pending-design",
+        "adoptionId": "adopt:skeleton:s4/attributes/attack"
+      },
+      "attackRange": {
+        "status": "pending-design",
+        "adoptionId": "adopt:skeleton:s4/attributes/attackRange"
+      },
+      "attackInterval": {
+        "status": "pending-design",
+        "adoptionId": "adopt:skeleton:s4/attributes/attackInterval"
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:skeleton:s4/attributes/targetEligibility"
+      }
+    },
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "stradpole",
+    "legacyId": "stradpole",
+    "name": "跨座蝌蚪",
+    "sourceId": "source:stradpole",
+    "shopVisibility": "hidden",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:stradpole:attributes/price",
+        "value": 0
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:stradpole:attributes/hp",
+        "value": 4
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:stradpole:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:stradpole:attributes/radius",
+        "value": 0.3333333333333333
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:stradpole:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:stradpole:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:stradpole:attributes/attack",
+        "value": 0
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:stradpole:attributes/attackRange",
+        "value": 0
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:stradpole:attributes/attackInterval",
+        "value": 99
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:stradpole:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [],
+    "decisionId": "decision:stradpole",
+    "presentationId": "presentation:stradpole",
+    "collisionSlot": "presentation:stradpole/collision",
+    "noActiveAttack": true,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "stray",
+    "legacyId": "stray",
+    "name": "流浪者",
+    "sourceId": "source:stray",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:stray:attributes/price",
+        "value": 9
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:stray:attributes/hp",
+        "value": 20
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:stray:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:stray:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:stray:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:stray:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:stray:attributes/attack",
+        "value": 3
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:stray:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:stray:attributes/attackInterval",
+        "value": 1.1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:stray:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "stray/skill-1",
+      "stray/skill-2"
+    ],
+    "decisionId": "decision:stray",
+    "presentationId": "presentation:stray",
+    "collisionSlot": "presentation:stray/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_alpha_yeti",
+    "legacyId": "twilightforest_alpha_yeti",
+    "name": "雪怪首领",
+    "sourceId": "source:twilightforest_alpha_yeti",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "alpha_yeti_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_alpha_yeti:attributes/price",
+        "value": 150
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_alpha_yeti:attributes/hp",
+        "value": 200
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_alpha_yeti:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_alpha_yeti:attributes/radius",
+        "value": 1
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_alpha_yeti:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_alpha_yeti:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_alpha_yeti:attributes/attack",
+        "value": 7
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_alpha_yeti:attributes/attackRange",
+        "value": 9.166666666666666
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_alpha_yeti:attributes/attackInterval",
+        "value": 1.5
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:twilightforest_alpha_yeti:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_alpha_yeti/skill-1",
+      "twilightforest_alpha_yeti/skill-2",
+      "twilightforest_alpha_yeti/skill-3"
+    ],
+    "decisionId": "decision:twilightforest_alpha_yeti",
+    "presentationId": "presentation:twilightforest_alpha_yeti",
+    "collisionSlot": "presentation:twilightforest_alpha_yeti/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_armored_giant",
+    "legacyId": "twilightforest_armored_giant",
+    "name": "武装巨人",
+    "sourceId": "source:twilightforest_armored_giant",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_armored_giant:attributes/price",
+        "value": 120
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_armored_giant:attributes/hp",
+        "value": 80
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_armored_giant:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_armored_giant:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_armored_giant:attributes/armor",
+        "value": 15
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_armored_giant:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_armored_giant:attributes/attack",
+        "value": 6
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_armored_giant:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_armored_giant:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:twilightforest_armored_giant:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_armored_giant/skill-1"
+    ],
+    "decisionId": "decision:twilightforest_armored_giant",
+    "presentationId": "presentation:twilightforest_armored_giant",
+    "collisionSlot": "presentation:twilightforest_armored_giant/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_blockchain_goblin",
+    "legacyId": "twilightforest_blockchain_goblin",
+    "name": "链锤哥布林",
+    "sourceId": "source:twilightforest_blockchain_goblin",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "aoe_melee"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_blockchain_goblin:attributes/price",
+        "value": 20
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_blockchain_goblin:attributes/hp",
+        "value": 20
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_blockchain_goblin:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_blockchain_goblin:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_blockchain_goblin:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_blockchain_goblin:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_blockchain_goblin:attributes/attack",
+        "value": 8
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_blockchain_goblin:attributes/attackRange",
+        "value": 3.3333333333333335
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_blockchain_goblin:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:twilightforest_blockchain_goblin:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_blockchain_goblin/skill-1"
+    ],
+    "decisionId": "decision:twilightforest_blockchain_goblin",
+    "presentationId": "presentation:twilightforest_blockchain_goblin",
+    "collisionSlot": "presentation:twilightforest_blockchain_goblin/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_death_tome",
+    "legacyId": "twilightforest_death_tome",
+    "name": "死灵书",
+    "sourceId": "source:twilightforest_death_tome",
+    "shopVisibility": "visible",
+    "movement": "flying",
+    "tags": [
+      "flying",
+      "fly"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_death_tome:attributes/price",
+        "value": 5
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_death_tome:attributes/hp",
+        "value": 30
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_death_tome:attributes/speed",
+        "value": 1.25
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_death_tome:attributes/radius",
+        "value": 0.6666666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_death_tome:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_death_tome:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_death_tome:attributes/attack",
+        "value": 6
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_death_tome:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_death_tome:attributes/attackInterval",
+        "value": 2
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:twilightforest_death_tome:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_death_tome/skill-1"
+    ],
+    "decisionId": "decision:twilightforest_death_tome",
+    "presentationId": "presentation:twilightforest_death_tome",
+    "collisionSlot": "presentation:twilightforest_death_tome/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_fire_beetle",
+    "legacyId": "twilightforest_fire_beetle",
+    "name": "喷火甲虫",
+    "sourceId": "source:twilightforest_fire_beetle",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "arthropod"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_fire_beetle:attributes/price",
+        "value": 6
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_fire_beetle:attributes/hp",
+        "value": 25
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_fire_beetle:attributes/speed",
+        "value": 2.0833333333333335
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_fire_beetle:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_fire_beetle:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_fire_beetle:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_fire_beetle:attributes/attack",
+        "value": 4
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_fire_beetle:attributes/attackRange",
+        "value": 2.6666666666666665
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_fire_beetle:attributes/attackInterval",
+        "value": 2
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:twilightforest_fire_beetle:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_fire_beetle/skill-1",
+      "twilightforest_fire_beetle/skill-2"
+    ],
+    "decisionId": "decision:twilightforest_fire_beetle",
+    "presentationId": "presentation:twilightforest_fire_beetle",
+    "collisionSlot": "presentation:twilightforest_fire_beetle/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_giant_miner",
+    "legacyId": "twilightforest_giant_miner",
+    "name": "矿工巨人",
+    "sourceId": "source:twilightforest_giant_miner",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_giant_miner:attributes/price",
+        "value": 100
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_giant_miner:attributes/hp",
+        "value": 80
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_giant_miner:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_giant_miner:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_giant_miner:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_giant_miner:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_giant_miner:attributes/attack",
+        "value": 4
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_giant_miner:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_giant_miner:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:twilightforest_giant_miner:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_giant_miner/skill-1"
+    ],
+    "decisionId": "decision:twilightforest_giant_miner",
+    "presentationId": "presentation:twilightforest_giant_miner",
+    "collisionSlot": "presentation:twilightforest_giant_miner/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_king_spider",
+    "legacyId": "twilightforest_king_spider",
+    "name": "国王蜘蛛",
+    "sourceId": "source:twilightforest_king_spider",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "arthropod"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_king_spider:attributes/price",
+        "value": 12
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_king_spider:attributes/hp",
+        "value": 30
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_king_spider:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_king_spider:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_king_spider:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_king_spider:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_king_spider:attributes/attack",
+        "value": 6
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_king_spider:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_king_spider:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:twilightforest_king_spider:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_king_spider/skill-1",
+      "twilightforest_king_spider/skill-2"
+    ],
+    "decisionId": "decision:twilightforest_king_spider",
+    "presentationId": "presentation:twilightforest_king_spider",
+    "collisionSlot": "presentation:twilightforest_king_spider/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_minoshroom",
+    "legacyId": "twilightforest_minoshroom",
+    "name": "米诺菇",
+    "sourceId": "source:twilightforest_minoshroom",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_minoshroom:attributes/price",
+        "value": 50
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_minoshroom:attributes/hp",
+        "value": 160
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_minoshroom:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_minoshroom:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_minoshroom:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_minoshroom:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_minoshroom:attributes/attack",
+        "value": 13
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_minoshroom:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_minoshroom:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:twilightforest_minoshroom:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_minoshroom/skill-1",
+      "twilightforest_minoshroom/skill-2"
+    ],
+    "decisionId": "decision:twilightforest_minoshroom",
+    "presentationId": "presentation:twilightforest_minoshroom",
+    "collisionSlot": "presentation:twilightforest_minoshroom/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_minotaur",
+    "legacyId": "twilightforest_minotaur",
+    "name": "牛头人",
+    "sourceId": "source:twilightforest_minotaur",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_minotaur:attributes/price",
+        "value": 16
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_minotaur:attributes/hp",
+        "value": 30
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_minotaur:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_minotaur:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_minotaur:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_minotaur:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_minotaur:attributes/attack",
+        "value": 8
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_minotaur:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_minotaur:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:twilightforest_minotaur:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_minotaur/skill-1"
+    ],
+    "decisionId": "decision:twilightforest_minotaur",
+    "presentationId": "presentation:twilightforest_minotaur",
+    "collisionSlot": "presentation:twilightforest_minotaur/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_mist_wolf",
+    "legacyId": "twilightforest_mist_wolf",
+    "name": "迷雾狼",
+    "sourceId": "source:twilightforest_mist_wolf",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_mist_wolf:attributes/price",
+        "value": 13
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_mist_wolf:attributes/hp",
+        "value": 30
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_mist_wolf:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_mist_wolf:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_mist_wolf:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_mist_wolf:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_mist_wolf:attributes/attack",
+        "value": 4
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_mist_wolf:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_mist_wolf:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:twilightforest_mist_wolf:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_mist_wolf/skill-1"
+    ],
+    "decisionId": "decision:twilightforest_mist_wolf",
+    "presentationId": "presentation:twilightforest_mist_wolf",
+    "collisionSlot": "presentation:twilightforest_mist_wolf/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_naga",
+    "legacyId": "twilightforest_naga",
+    "name": "娜迦",
+    "sourceId": "source:twilightforest_naga",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "naga_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_naga:attributes/price",
+        "value": 120
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_naga:attributes/hp",
+        "value": 200
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_naga:attributes/speed",
+        "value": 3.3333333333333335
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_naga:attributes/radius",
+        "value": 0.5
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_naga:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_naga:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_naga:attributes/attack",
+        "value": 6
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_naga:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_naga:attributes/attackInterval",
+        "value": 0.1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:twilightforest_naga:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_naga/skill-1"
+    ],
+    "decisionId": "decision:twilightforest_naga",
+    "presentationId": "presentation:twilightforest_naga",
+    "collisionSlot": "presentation:twilightforest_naga/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_skeleton_druid",
+    "legacyId": "twilightforest_skeleton_druid",
+    "name": "骷髅德鲁伊",
+    "sourceId": "source:twilightforest_skeleton_druid",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_skeleton_druid:attributes/price",
+        "value": 5
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_skeleton_druid:attributes/hp",
+        "value": 20
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_skeleton_druid:attributes/speed",
+        "value": 1.25
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_skeleton_druid:attributes/radius",
+        "value": 0.5833333333333334
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_skeleton_druid:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_skeleton_druid:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_skeleton_druid:attributes/attack",
+        "value": 2
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_skeleton_druid:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_skeleton_druid:attributes/attackInterval",
+        "value": 1.1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:twilightforest_skeleton_druid:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_skeleton_druid/skill-1",
+      "twilightforest_skeleton_druid/skill-2",
+      "twilightforest_skeleton_druid/skill-3"
+    ],
+    "decisionId": "decision:twilightforest_skeleton_druid",
+    "presentationId": "presentation:twilightforest_skeleton_druid",
+    "collisionSlot": "presentation:twilightforest_skeleton_druid/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_slime_beetle",
+    "legacyId": "twilightforest_slime_beetle",
+    "name": "粘液甲虫",
+    "sourceId": "source:twilightforest_slime_beetle",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "arthropod"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_slime_beetle:attributes/price",
+        "value": 12
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_slime_beetle:attributes/hp",
+        "value": 25
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_slime_beetle:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_slime_beetle:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_slime_beetle:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_slime_beetle:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_slime_beetle:attributes/attack",
+        "value": 8
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_slime_beetle:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_slime_beetle:attributes/attackInterval",
+        "value": 1.1
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:twilightforest_slime_beetle:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_slime_beetle/skill-1"
+    ],
+    "decisionId": "decision:twilightforest_slime_beetle",
+    "presentationId": "presentation:twilightforest_slime_beetle",
+    "collisionSlot": "presentation:twilightforest_slime_beetle/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_tower_golem",
+    "legacyId": "twilightforest_tower_golem",
+    "name": "砷铅铁傀儡",
+    "sourceId": "source:twilightforest_tower_golem",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_tower_golem:attributes/price",
+        "value": 30
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_tower_golem:attributes/hp",
+        "value": 40
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_tower_golem:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_tower_golem:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_tower_golem:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_tower_golem:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_tower_golem:attributes/attack",
+        "value": 9
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_tower_golem:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_tower_golem:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:twilightforest_tower_golem:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_tower_golem/skill-1"
+    ],
+    "decisionId": "decision:twilightforest_tower_golem",
+    "presentationId": "presentation:twilightforest_tower_golem",
+    "collisionSlot": "presentation:twilightforest_tower_golem/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "twilightforest_winter_wolf",
+    "legacyId": "twilightforest_winter_wolf",
+    "name": "寒冬狼",
+    "sourceId": "source:twilightforest_winter_wolf",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_winter_wolf:attributes/price",
+        "value": 16
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_winter_wolf:attributes/hp",
+        "value": 30
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_winter_wolf:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_winter_wolf:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_winter_wolf:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_winter_wolf:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_winter_wolf:attributes/attack",
+        "value": 4
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:twilightforest_winter_wolf:attributes/attackRange",
+        "value": 2.6666666666666665
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:twilightforest_winter_wolf:attributes/attackInterval",
+        "value": 2
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:twilightforest_winter_wolf:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "twilightforest_winter_wolf/skill-1",
+      "twilightforest_winter_wolf/skill-2"
+    ],
+    "decisionId": "decision:twilightforest_winter_wolf",
+    "presentationId": "presentation:twilightforest_winter_wolf",
+    "collisionSlot": "presentation:twilightforest_winter_wolf/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "vex",
+    "legacyId": "vex",
+    "name": "恼鬼",
+    "sourceId": "source:vex",
+    "shopVisibility": "hidden",
+    "movement": "flying",
+    "tags": [
+      "flying",
+      "fly"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:vex:attributes/price",
+        "value": 0
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:vex:attributes/hp",
+        "value": 14
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:vex:attributes/speed",
+        "value": 4.166666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:vex:attributes/radius",
+        "value": 0.5
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:vex:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:vex:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:vex:attributes/attack",
+        "value": 13
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:vex:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:vex:attributes/attackInterval",
+        "value": 5
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:vex:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "vex/skill-1",
+      "vex/s4-dive"
+    ],
+    "decisionId": "decision:vex",
+    "presentationId": "presentation:vex",
+    "collisionSlot": "presentation:vex/collision",
+    "noActiveAttack": false,
+    "runtimeAlias": "vex",
+    "role": "飞行突击",
+    "runtimeSelectionOrder": {
+      "status": "rebuilt",
+      "adoptionId": "adopt:vex:runtimeSelectionOrder",
+      "value": 2
+    },
+    "s4Attributes": {
+      "price": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:vex:s4/attributes/price",
+        "value": 8
+      },
+      "hp": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:vex:s4/attributes/hp",
+        "value": 32
+      },
+      "speed": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:vex:s4/attributes/speed",
+        "value": 4
+      },
+      "radius": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:vex:s4/attributes/radius",
+        "value": 0.55
+      },
+      "armor": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:vex:s4/attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "pending-design",
+        "adoptionId": "adopt:vex:s4/attributes/toughness"
+      },
+      "attack": {
+        "status": "pending-design",
+        "adoptionId": "adopt:vex:s4/attributes/attack"
+      },
+      "attackRange": {
+        "status": "pending-design",
+        "adoptionId": "adopt:vex:s4/attributes/attackRange"
+      },
+      "attackInterval": {
+        "status": "pending-design",
+        "adoptionId": "adopt:vex:s4/attributes/attackInterval"
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:vex:s4/attributes/targetEligibility"
+      }
+    },
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "vindicator",
+    "legacyId": "vindicator",
+    "name": "卫道士",
+    "sourceId": "source:vindicator",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:vindicator:attributes/price",
+        "value": 20
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:vindicator:attributes/hp",
+        "value": 24
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:vindicator:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:vindicator:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:vindicator:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:vindicator:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:vindicator:attributes/attack",
+        "value": 13
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:vindicator:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:vindicator:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:vindicator:attributes/targetEligibility",
+        "value": "ground-enemy"
+      }
+    },
+    "loadoutIds": [
+      "vindicator/skill-1",
+      "vindicator/s4-slash"
+    ],
+    "decisionId": "decision:vindicator",
+    "presentationId": "presentation:vindicator",
+    "collisionSlot": "presentation:vindicator/collision",
+    "noActiveAttack": false,
+    "runtimeAlias": "vindicator",
+    "role": "基础近战",
+    "runtimeSelectionOrder": {
+      "status": "rebuilt",
+      "adoptionId": "adopt:vindicator:runtimeSelectionOrder",
+      "value": 0
+    },
+    "s4Attributes": {
+      "price": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:vindicator:s4/attributes/price",
+        "value": 5
+      },
+      "hp": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:vindicator:s4/attributes/hp",
+        "value": 60
+      },
+      "speed": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:vindicator:s4/attributes/speed",
+        "value": 3
+      },
+      "radius": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:vindicator:s4/attributes/radius",
+        "value": 0.7
+      },
+      "armor": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:vindicator:s4/attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "pending-design",
+        "adoptionId": "adopt:vindicator:s4/attributes/toughness"
+      },
+      "attack": {
+        "status": "pending-design",
+        "adoptionId": "adopt:vindicator:s4/attributes/attack"
+      },
+      "attackRange": {
+        "status": "pending-design",
+        "adoptionId": "adopt:vindicator:s4/attributes/attackRange"
+      },
+      "attackInterval": {
+        "status": "pending-design",
+        "adoptionId": "adopt:vindicator:s4/attributes/attackInterval"
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:vindicator:s4/attributes/targetEligibility"
+      }
+    },
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "warden",
+    "legacyId": "warden",
+    "name": "监守者",
+    "sourceId": "source:warden",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground",
+      "warden_special"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:warden:attributes/price",
+        "value": 400
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:warden:attributes/hp",
+        "value": 500
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:warden:attributes/speed",
+        "value": 2.4166666666666665
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:warden:attributes/radius",
+        "value": 0.9166666666666666
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:warden:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:warden:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:warden:attributes/attack",
+        "value": 30
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:warden:attributes/attackRange",
+        "value": 2
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:warden:attributes/attackInterval",
+        "value": 1.5
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:warden:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "warden/skill-1",
+      "warden/skill-2"
+    ],
+    "decisionId": "decision:warden",
+    "presentationId": "presentation:warden",
+    "collisionSlot": "presentation:warden/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "witch",
+    "legacyId": "witch",
+    "name": "女巫",
+    "sourceId": "source:witch",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:witch:attributes/price",
+        "value": 20
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:witch:attributes/hp",
+        "value": 26
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:witch:attributes/speed",
+        "value": 1.25
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:witch:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:witch:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:witch:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:witch:attributes/attack",
+        "value": 6
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:witch:attributes/attackRange",
+        "value": 6.666666666666667
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:witch:attributes/attackInterval",
+        "value": 2
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:witch:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "witch/skill-1",
+      "witch/skill-2",
+      "witch/skill-3",
+      "witch/skill-4",
+      "witch/skill-5",
+      "witch/s4-heal",
+      "witch/s4-potion"
+    ],
+    "decisionId": "decision:witch",
+    "presentationId": "presentation:witch",
+    "collisionSlot": "presentation:witch/collision",
+    "noActiveAttack": false,
+    "runtimeAlias": "witch",
+    "role": "范围与续航",
+    "runtimeSelectionOrder": {
+      "status": "rebuilt",
+      "adoptionId": "adopt:witch:runtimeSelectionOrder",
+      "value": 5
+    },
+    "s4Attributes": {
+      "price": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:witch:s4/attributes/price",
+        "value": 9
+      },
+      "hp": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:witch:s4/attributes/hp",
+        "value": 55
+      },
+      "speed": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:witch:s4/attributes/speed",
+        "value": 2.4
+      },
+      "radius": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:witch:s4/attributes/radius",
+        "value": 0.65
+      },
+      "armor": {
+        "status": "rebuilt",
+        "adoptionId": "adopt:witch:s4/attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "pending-design",
+        "adoptionId": "adopt:witch:s4/attributes/toughness"
+      },
+      "attack": {
+        "status": "pending-design",
+        "adoptionId": "adopt:witch:s4/attributes/attack"
+      },
+      "attackRange": {
+        "status": "pending-design",
+        "adoptionId": "adopt:witch:s4/attributes/attackRange"
+      },
+      "attackInterval": {
+        "status": "pending-design",
+        "adoptionId": "adopt:witch:s4/attributes/attackInterval"
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:witch:s4/attributes/targetEligibility"
+      }
+    },
+    "compatibility": "r3-batch-1"
+  },
+  {
+    "id": "wither_skeleton",
+    "legacyId": "wither_skeleton",
+    "name": "凋零骷髅",
+    "sourceId": "source:wither_skeleton",
+    "shopVisibility": "visible",
+    "movement": "ground",
+    "tags": [
+      "ground"
+    ],
+    "attributes": {
+      "price": {
+        "status": "adopted",
+        "adoptionId": "adopt:wither_skeleton:attributes/price",
+        "value": 8
+      },
+      "hp": {
+        "status": "adopted",
+        "adoptionId": "adopt:wither_skeleton:attributes/hp",
+        "value": 20
+      },
+      "speed": {
+        "status": "normalized",
+        "adoptionId": "adopt:wither_skeleton:attributes/speed",
+        "value": 1.6666666666666667
+      },
+      "radius": {
+        "status": "normalized",
+        "adoptionId": "adopt:wither_skeleton:attributes/radius",
+        "value": 0.75
+      },
+      "armor": {
+        "status": "adopted",
+        "adoptionId": "adopt:wither_skeleton:attributes/armor",
+        "value": 0
+      },
+      "toughness": {
+        "status": "adopted",
+        "adoptionId": "adopt:wither_skeleton:attributes/toughness",
+        "value": 0
+      },
+      "attack": {
+        "status": "adopted",
+        "adoptionId": "adopt:wither_skeleton:attributes/attack",
+        "value": 8
+      },
+      "attackRange": {
+        "status": "normalized",
+        "adoptionId": "adopt:wither_skeleton:attributes/attackRange",
+        "value": 1.75
+      },
+      "attackInterval": {
+        "status": "adopted",
+        "adoptionId": "adopt:wither_skeleton:attributes/attackInterval",
+        "value": 0.9
+      },
+      "targetEligibility": {
+        "status": "pending-design",
+        "adoptionId": "adopt:wither_skeleton:attributes/targetEligibility"
+      }
+    },
+    "loadoutIds": [
+      "wither_skeleton/skill-1",
+      "wither_skeleton/skill-2"
+    ],
+    "decisionId": "decision:wither_skeleton",
+    "presentationId": "presentation:wither_skeleton",
+    "collisionSlot": "presentation:wither_skeleton/collision",
+    "noActiveAttack": false,
+    "compatibility": "r3-batch-1"
+  }
+]

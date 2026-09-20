@@ -125,3 +125,26 @@ describe('anim-state — 确定性', () => {
     expect(run()).toBe(run());
   });
 });
+
+describe('anim-state — settled status interruption', () => {
+  it('overrides only presentation and preserves gameplay State', () => {
+    const w = world();
+    actor(w, 'm', { fsmId: 'cast', state: 'attack', current: 'idle' });
+    const anim=w.getComponent<AnimState>('m','AnimState')!;
+    anim.clips={idle:IDLE,attack:ATTACK,recover:{from:8,count:1,fps:1,loop:false}};
+    anim.interruptStatusMask=32;anim.interruptClip='recover';
+    w.addComponent('m',{type:'Status',flags:32} as any);
+    w.tick();
+    expect(cur(w,'m')).toBe('recover');expect(fi(w,'m')).toBe(8);
+    expect(w.getComponent<State>('m','State')!.current).toBe('attack');
+  });
+  it('unrelated status does not interrupt a valid attack', () => {
+    const w = world();
+    actor(w, 'm', { fsmId:'cast',state:'attack',current:'idle' });
+    const anim=w.getComponent<AnimState>('m','AnimState')!;
+    anim.clips={idle:IDLE,attack:ATTACK,recover:IDLE};
+    anim.interruptStatusMask=32;anim.interruptClip='recover';
+    w.addComponent('m',{type:'Status',flags:16} as any);
+    w.tick();expect(cur(w,'m')).toBe('attack');expect(fi(w,'m')).toBe(4);
+  });
+});

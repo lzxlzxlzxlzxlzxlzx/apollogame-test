@@ -1,0 +1,1404 @@
+{
+  "unitId": "alexscaves_vallumraptor",
+  "scope": "three cycles and two instances",
+  "trace": [
+    {
+      "tick": 1,
+      "instance": "a",
+      "phase": "Windup",
+      "target": "a-target",
+      "cd": 0,
+      "hp": 100000,
+      "zones": 0
+    },
+    {
+      "tick": 1,
+      "instance": "b",
+      "phase": "Windup",
+      "target": "b-target",
+      "cd": 0,
+      "hp": 100000,
+      "zones": 0
+    },
+    {
+      "tick": 2,
+      "instance": "a",
+      "phase": "Active",
+      "target": "a-target",
+      "cd": 1,
+      "hp": 100000,
+      "zones": 2
+    },
+    {
+      "tick": 2,
+      "instance": "b",
+      "phase": "Active",
+      "target": "b-target",
+      "cd": 1,
+      "hp": 100000,
+      "zones": 2
+    },
+    {
+      "tick": 3,
+      "instance": "a",
+      "phase": "Active",
+      "target": "a-target",
+      "cd": 2,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 3,
+      "instance": "b",
+      "phase": "Active",
+      "target": "b-target",
+      "cd": 2,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 4,
+      "instance": "a",
+      "phase": "Recovery",
+      "target": "a-target",
+      "cd": 3,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 4,
+      "instance": "b",
+      "phase": "Recovery",
+      "target": "b-target",
+      "cd": 3,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 5,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 4,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 5,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 4,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 6,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 5,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 6,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 5,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 7,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 6,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 7,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 6,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 8,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 7,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 8,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 7,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 9,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 8,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 9,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 8,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 10,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 9,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 10,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 9,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 11,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 10,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 11,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 10,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 12,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 11,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 12,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 11,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 13,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 12,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 13,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 12,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 14,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 13,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 14,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 13,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 15,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 14,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 15,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 14,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 16,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 15,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 16,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 15,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 17,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 16,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 17,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 16,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 18,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 17,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 18,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 17,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 19,
+      "instance": "a",
+      "phase": "Windup",
+      "target": "a-target",
+      "cd": 0,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 19,
+      "instance": "b",
+      "phase": "Windup",
+      "target": "b-target",
+      "cd": 0,
+      "hp": 99997.816,
+      "zones": 0
+    },
+    {
+      "tick": 20,
+      "instance": "a",
+      "phase": "Active",
+      "target": "a-target",
+      "cd": 1,
+      "hp": 99997.816,
+      "zones": 2
+    },
+    {
+      "tick": 20,
+      "instance": "b",
+      "phase": "Active",
+      "target": "b-target",
+      "cd": 1,
+      "hp": 99997.816,
+      "zones": 2
+    },
+    {
+      "tick": 21,
+      "instance": "a",
+      "phase": "Active",
+      "target": "a-target",
+      "cd": 2,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 21,
+      "instance": "b",
+      "phase": "Active",
+      "target": "b-target",
+      "cd": 2,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 22,
+      "instance": "a",
+      "phase": "Recovery",
+      "target": "a-target",
+      "cd": 3,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 22,
+      "instance": "b",
+      "phase": "Recovery",
+      "target": "b-target",
+      "cd": 3,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 23,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 4,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 23,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 4,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 24,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 5,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 24,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 5,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 25,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 6,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 25,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 6,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 26,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 7,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 26,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 7,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 27,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 8,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 27,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 8,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 28,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 9,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 28,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 9,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 29,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 10,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 29,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 10,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 30,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 11,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 30,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 11,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 31,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 12,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 31,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 12,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 32,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 13,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 32,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 13,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 33,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 14,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 33,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 14,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 34,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 15,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 34,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 15,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 35,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 16,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 35,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 16,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 36,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 17,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 36,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 17,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 37,
+      "instance": "a",
+      "phase": "Windup",
+      "target": "a-target",
+      "cd": 0,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 37,
+      "instance": "b",
+      "phase": "Windup",
+      "target": "b-target",
+      "cd": 0,
+      "hp": 99995.63200000001,
+      "zones": 0
+    },
+    {
+      "tick": 38,
+      "instance": "a",
+      "phase": "Active",
+      "target": "a-target",
+      "cd": 1,
+      "hp": 99995.63200000001,
+      "zones": 2
+    },
+    {
+      "tick": 38,
+      "instance": "b",
+      "phase": "Active",
+      "target": "b-target",
+      "cd": 1,
+      "hp": 99995.63200000001,
+      "zones": 2
+    },
+    {
+      "tick": 39,
+      "instance": "a",
+      "phase": "Active",
+      "target": "a-target",
+      "cd": 2,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 39,
+      "instance": "b",
+      "phase": "Active",
+      "target": "b-target",
+      "cd": 2,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 40,
+      "instance": "a",
+      "phase": "Recovery",
+      "target": "a-target",
+      "cd": 3,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 40,
+      "instance": "b",
+      "phase": "Recovery",
+      "target": "b-target",
+      "cd": 3,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 41,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 4,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 41,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 4,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 42,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 5,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 42,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 5,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 43,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 6,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 43,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 6,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 44,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 7,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 44,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 7,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 45,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 8,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 45,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 8,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 46,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 9,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 46,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 9,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 47,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 10,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 47,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 10,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 48,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 11,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 48,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 11,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 49,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 12,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 49,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 12,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 50,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 13,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 50,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 13,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 51,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 14,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 51,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 14,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 52,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 15,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 52,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 15,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 53,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 16,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 53,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 16,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 54,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 17,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 54,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 17,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 55,
+      "instance": "a",
+      "phase": "Windup",
+      "target": "a-target",
+      "cd": 0,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 55,
+      "instance": "b",
+      "phase": "Windup",
+      "target": "b-target",
+      "cd": 0,
+      "hp": 99993.44800000002,
+      "zones": 0
+    },
+    {
+      "tick": 56,
+      "instance": "a",
+      "phase": "Active",
+      "target": "a-target",
+      "cd": 1,
+      "hp": 99993.44800000002,
+      "zones": 2
+    },
+    {
+      "tick": 56,
+      "instance": "b",
+      "phase": "Active",
+      "target": "b-target",
+      "cd": 1,
+      "hp": 99993.44800000002,
+      "zones": 2
+    },
+    {
+      "tick": 57,
+      "instance": "a",
+      "phase": "Active",
+      "target": "a-target",
+      "cd": 2,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 57,
+      "instance": "b",
+      "phase": "Active",
+      "target": "b-target",
+      "cd": 2,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 58,
+      "instance": "a",
+      "phase": "Recovery",
+      "target": "a-target",
+      "cd": 3,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 58,
+      "instance": "b",
+      "phase": "Recovery",
+      "target": "b-target",
+      "cd": 3,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 59,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 4,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 59,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 4,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 60,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 5,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 60,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 5,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 61,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 6,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 61,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 6,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 62,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 7,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 62,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 7,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 63,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 8,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 63,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 8,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 64,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 9,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 64,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 9,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 65,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 10,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 65,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 10,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 66,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 11,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 66,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 11,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 67,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 12,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 67,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 12,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 68,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 13,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 68,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 13,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 69,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 14,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 69,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 14,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 70,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 15,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 70,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 15,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 71,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 16,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 71,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 16,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 72,
+      "instance": "a",
+      "phase": "Ready",
+      "target": null,
+      "cd": 17,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 72,
+      "instance": "b",
+      "phase": "Ready",
+      "target": null,
+      "cd": 17,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 73,
+      "instance": "a",
+      "phase": "Windup",
+      "target": "a-target",
+      "cd": 0,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 73,
+      "instance": "b",
+      "phase": "Windup",
+      "target": "b-target",
+      "cd": 0,
+      "hp": 99991.26400000002,
+      "zones": 0
+    },
+    {
+      "tick": 74,
+      "instance": "a",
+      "phase": "Active",
+      "target": "a-target",
+      "cd": 1,
+      "hp": 99991.26400000002,
+      "zones": 2
+    },
+    {
+      "tick": 74,
+      "instance": "b",
+      "phase": "Active",
+      "target": "b-target",
+      "cd": 1,
+      "hp": 99991.26400000002,
+      "zones": 2
+    }
+  ],
+  "receipts": [
+    {
+      "tick": 3,
+      "source": "a#0:body",
+      "target": "a-target",
+      "raw": 3,
+      "afterArmor": 2.184,
+      "actual": 2.18399999999383
+    },
+    {
+      "tick": 3,
+      "source": "b#0:body",
+      "target": "b-target",
+      "raw": 3,
+      "afterArmor": 2.184,
+      "actual": 2.18399999999383
+    },
+    {
+      "tick": 21,
+      "source": "a#0:body",
+      "target": "a-target",
+      "raw": 3,
+      "afterArmor": 2.184,
+      "actual": 2.18399999999383
+    },
+    {
+      "tick": 21,
+      "source": "b#0:body",
+      "target": "b-target",
+      "raw": 3,
+      "afterArmor": 2.184,
+      "actual": 2.18399999999383
+    },
+    {
+      "tick": 39,
+      "source": "a#0:body",
+      "target": "a-target",
+      "raw": 3,
+      "afterArmor": 2.184,
+      "actual": 2.18399999999383
+    },
+    {
+      "tick": 39,
+      "source": "b#0:body",
+      "target": "b-target",
+      "raw": 3,
+      "afterArmor": 2.184,
+      "actual": 2.18399999999383
+    },
+    {
+      "tick": 57,
+      "source": "a#0:body",
+      "target": "a-target",
+      "raw": 3,
+      "afterArmor": 2.184,
+      "actual": 2.18399999999383
+    },
+    {
+      "tick": 57,
+      "source": "b#0:body",
+      "target": "b-target",
+      "raw": 3,
+      "afterArmor": 2.184,
+      "actual": 2.18399999999383
+    }
+  ]
+}

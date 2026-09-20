@@ -1,0 +1,32 @@
+// author: GD-MCFIGHT
+// S4 场景04：弱阵容对强敌应由真实战斗判负，并按失败奖励进入下一轮。
+// 对抗目标：只实现胜利、失败不给奖励、结算后仍有战斗实体。
+{
+  "name": "失败结算发放奖励并可继续",
+  "game": "game-mcfight",
+  "seed": 4104,
+  "config": { "enemyPreset": "elephant-trio" },
+  "steps": [
+    { "signal": "shop.unit.buy", "args": { "unitId": "vindicator" }, "by": "player" },
+    { "signal": "shop.continue", "by": "player" },
+    { "signal": "deployment.unit.place", "args": { "instanceId": "player-vindicator-1", "x": -8, "y": 0 }, "by": "player" },
+    { "signal": "deployment.start", "by": "player" },
+    { "waitUntil": [
+      { "sv": "phase", "eq": "result" },
+      { "flag": "battle-settled", "eq": true }
+    ], "cap": 12000 },
+    { "expect": [
+      { "sv": "outcome", "eq": "defeat" },
+      { "res": "gold", "eq": 30 },
+      { "res": "player-alive", "eq": 0 }
+    ] },
+    { "signal": "result.continue", "by": "player" },
+    { "expect": [
+      { "sv": "phase", "eq": "shop" },
+      { "res": "round", "eq": 2 },
+      { "res": "gold", "eq": 30 },
+      { "res": "owned-count", "eq": 0 },
+      { "res": "enemy-alive", "eq": 0 }
+    ] }
+  ]
+}

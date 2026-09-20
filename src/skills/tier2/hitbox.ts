@@ -1,8 +1,11 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
-import type { Trigger, Hitbox, Tag, Status, Resource, DestroyRequest, PrefabOrigin, Transform, SpawnRequest } from '@engine/protocol/components.js';
+import type { DamageReceiver, DamageRequest, DeathConversion, Trigger, Hitbox, Tag, Status, Resource, DestroyRequest, PrefabOrigin, Transform, SpawnRequest, ProjectileFlight, MobilityLock } from '@engine/protocol/components.js';
 import { findByComponentId, findSourceResource } from '@engine/core/query.js';
 import { queueResourceMod } from '@skills/atoms/resource/index.js';
+import { checkEntity } from './entity-check.js';
+import { findDebugTrace, appendTrace } from '@skills/debug-trace.js';
 import { addTimedEffect } from './over-time.js';
 
 // 全局按 id 找 Resource（REQ-F-047 系数乘区；R11 路由的只读侧）。
@@ -108,7 +111,14 @@ export const hitboxCapability = defineCapability({
         category: 'config',
         describe: '攻击判定：对进入的目标按阵营/状态过滤后施伤害（固定 amount 或 fracOfMax 计算）+ 置/清 Status。',
         fields: {
+          onlyTarget: { type: 'string', describe: '可选单一实体身份过滤，不改变碰撞形状' },
+          sourceCheck: { type: 'string', describe: '每次接触检查PrefabOrigin.source资格；失败清理区域' },
           resource: { type: 'string', describe: '目标身上要改的 Resource id（如 hp）' },
+          damageType: { type: 'string', describe: '普通/真伤类别，传递公共伤害路由' },
+          armorPiercing: { type: 'boolean', describe: '路由时护甲与韧性按0，保留非护甲倍率' },
+          damageOrigin: { type:'string',describe:'direct/indirect；未指定保留直接来源语义' },
+          routePeriodicDamage: { type:'boolean',describe:'DoT显式经过公共伤害路由，保留来源与实际扣血回执' },
+          dotEffectId: { type:'string',describe:'状态身份；不同中毒/燃烧/凋零可以独立刷新' },
           amount: { type: 'number', describe: '固定伤害（正数 = 伤害，内部按负向施加）' },
           fracOfMax: { type: 'number', describe: '计算伤害 = 目标该资源 max 的此分数（0.2 = 20%）' },
           targetMask: { type: 'number', describe: '仅作用于 Tag.flags 含此位的目标（阵营过滤；0 = 不限）' },
@@ -123,11 +133,12 @@ export const hitboxCapability = defineCapability({
           dotPeriod: { type: 'number', describe: 'DoT 结算周期 tick（缺省 1）' },
           dotDuration: { type: 'number', describe: 'DoT 总时长 tick' },
           onHit: { type: 'string', describe: '{spawnTemplate}：命中（过滤门通过后）在目标位置发 SpawnRequest；缺省不发（击中火花/受击特效/穿透弹逐命中生成）' },
+          onHitStatus: { type: 'string', describe: "命中后附加数据驱动状态[{id,duration,damagePerTick,period,multiplier}]；未命中不附加" },
         },
       },
     },
-    reads: ['Trigger', 'Hitbox', 'Tag', 'Status', 'Resource', 'PrefabOrigin', 'Transform'], // 后两项=per-caster 溯源 + 命中几何（申报对账·根因①）
-    writes: ['ResourceModify', 'Status', 'OverTime', 'DestroyRequest', 'SpawnRequest'],
+    reads: ['Trigger', 'Hitbox', 'Tag', 'Status', 'Resource', 'PrefabOrigin', 'Transform', 'FrameStartTransform', 'DamageReceiver', 'DeathConversion', 'DestroyRequest'],
+    writes: ['ResourceModify', 'Status', 'OverTime', 'DestroyRequest', 'SpawnRequest', 'DamageRequest'],
     consumes: [],
   },
 
@@ -136,24 +147,60 @@ export const hitboxCapability = defineCapability({
   systems: [
     {
       id: 'hitbox',
-      reads: ['Trigger', 'Hitbox', 'Tag', 'Status', 'Resource', 'PrefabOrigin', 'Transform'], // 后两项=per-caster 溯源 + 命中几何（申报对账·根因①）
+      phase: SystemPhase.Resolve,
+      reads: ['Trigger', 'Hitbox', 'Tag', 'Status', 'Resource', 'PrefabOrigin', 'Transform', 'FrameStartTransform', 'DamageReceiver', 'DeathConversion', 'DestroyRequest'],
       // DestroyRequest：REQ-F-044 consumeOnHit 自毁（写者→cascade/destroy-apply 单向汇入，无回边）。
       // SpawnRequest：onHit 命中特效——唯一读+consume 它的是 prefab（t3-prefab），prefab 不写
       // Trigger/Hitbox/Tag/Status/Resource，只产生本系统→prefab 单向边，不成环（见文件头/回归测试）。
-      writes: ['ResourceModify', 'Status', 'OverTime', 'DestroyRequest', 'SpawnRequest'],
+      writes: ['ResourceModify', 'Status', 'OverTime', 'DestroyRequest', 'SpawnRequest', 'DamageRequest'],
       consumes: [],
       runsAfter: ['trigger-zone'],
       // 先施加伤害/状态/挂 OverTime，再让 over-time tick 既有状态效果，最后 resource-apply 结算。
       // hitbox 与 over-time 都 read-modify-write Status → 组件拓扑互为前驱=环，显式定序打破（R10 同法）。
-      runsBefore: ['resource-apply', 'over-time'],
+      // Read deletion intents already issued before contact (e.g. Flow capture),
+      // not Mortal's later result of this contact's own damage. The explicit
+      // edge retains Hitbox -> damage -> resource -> Mortal and prevents the
+      // shared DestroyRequest declaration from inferring Mortal -> Hitbox.
+      runsBefore: ['resource-apply', 'over-time', 'mortal'],
       execute(world: IWorld) {
         // REQ-F-044：本拍真正结算过命中的 zone 实体集（consumeOnHit 结算后自毁；集合语义与遍历序无关）。
         const settled = new Set<string>();
+        const trace = findDebugTrace(world);
+        const rejected: string[] = [];
+        // Capture deletion is effective before physical destruction. Guarded
+        // effects must stop now, including regions spawned on a previous tick.
+        const doomed = new Set(world.query('DestroyRequest').map(([id]) => world.getComponent<DestroyRequest>(id, 'DestroyRequest')!.entityId));
+        for (const [zoneId] of world.query('Hitbox')) {
+          const hb = world.getComponent<Hitbox>(zoneId, 'Hitbox')!;
+          if (!hb.sourceCheck) continue;
+          const source = world.getComponent<PrefabOrigin>(zoneId, 'PrefabOrigin')?.source;
+          if (!source || doomed.has(source) || !checkEntity(world, source, hb.sourceCheck)) {
+            settled.add(zoneId);
+            if (trace) rejected.push(zoneId);
+          }
+        }
+        const invalidSources = new Set(settled);
+        if (trace && rejected.length) appendTrace(trace, world.getVersion() + 1, 'hitbox', 'reject', rejected.join(','), 'invalid source: effect cancelled');
         for (const [tid] of world.query('Trigger')) {
           const trig = world.getComponent<Trigger>(tid, 'Trigger')!;
           const hb = world.getComponent<Hitbox>(trig.zone, 'Hitbox');
-          if (!hb) continue;
+          if (!hb || invalidSources.has(trig.zone)) continue;
+          const flight = world.getComponent<ProjectileFlight>(trig.zone, 'ProjectileFlight');
+          if (flight?.exhausted) continue;
+          if (hb.sourceCheck && !flight) {
+            const source = world.getComponent<PrefabOrigin>(trig.zone, 'PrefabOrigin')?.source;
+            if (!source || doomed.has(source) || !checkEntity(world, source, hb.sourceCheck)) {
+              invalidSources.add(trig.zone); settled.add(trig.zone); continue;
+            }
+          }
           const target = trig.other;
+          if (hb.onlyTarget !== undefined && hb.onlyTarget !== target) continue;
+
+          // B4 category filters are a physical-hit eligibility gate: a rejected
+          // category is not a successful contact and must not apply statuses.
+          const category = hb.damageCategory ?? (hb.damageType === 'true' ? 'true' : 'melee');
+          const targetReceiver = world.getComponent<DamageReceiver>(target, 'DamageReceiver');
+          if (targetReceiver?.rejectDamageCategories?.includes(category)) continue;
 
           // ① 阵营过滤
           if (hb.targetMask) {
@@ -189,9 +236,15 @@ export const hitboxCapability = defineCapability({
           let dmg = base;
           if (hb.fracOfMax) dmg += Math.floor(maxOf(world, target, hb.resource) * hb.fracOfMax);
           if (dmg !== 0) {
-            queueResourceMod(world, target, hb.resource, -dmg, 'local');
+            const receiver=world.getComponent<DamageReceiver>(target,'DamageReceiver');
+            const conversion=world.getComponent<DeathConversion>(target,'DeathConversion');
+            if(receiver?.resource===hb.resource||conversion?.resource===hb.resource){
+              const id=`damage:${tid}`,source=flight?.shot?.source??world.getComponent<PrefabOrigin>(trig.zone,'PrefabOrigin')?.source??trig.zone;
+              world.createEntity(id);world.addComponent(id,{type:'DamageRequest',target,source,sourceTags:flight?.shot?.sourceTags??world.getComponent<Tag>(source,'Tag')?.flags??0,resource:hb.resource,amount:dmg,damageType:hb.damageType,damageCategory:hb.damageCategory,knockback:hb.knockback,armorPiercing:hb.armorPiercing,origin:hb.damageOrigin} as DamageRequest);
+            }else queueResourceMod(world, target, hb.resource, -dmg, 'local');
           }
           settled.add(trig.zone); // 过了阵营/状态门=真结算（含纯状态命中）
+          if (hb.singleImpact && flight) flight.exhausted = true;
           spawnOnHit(world, trig.zone, hb, target); // onHit：命中即生成（击中火花/受击特效，穿透每命中各喷一个）
           // ④ Status 置/清位
           if (hb.setMask || hb.clearMask) {
@@ -203,16 +256,50 @@ export const hitboxCapability = defineCapability({
             if (hb.setMask) st.flags |= hb.setMask;
             if (hb.clearMask) st.flags &= ~hb.clearMask;
           }
+          if (hb.onHitStatus?.length) {
+            let st = world.getComponent<Status>(target, 'Status');
+            if (!st) { world.addComponent(target, { type: 'Status', flags: 0 } as Status); st = world.getComponent<Status>(target, 'Status')!; }
+            const statusSource = flight?.shot?.source ?? world.getComponent<PrefabOrigin>(trig.zone, 'PrefabOrigin')?.source ?? trig.zone;
+            const statusTags = flight?.shot?.sourceTags ?? world.getComponent<Tag>(statusSource, 'Tag')?.flags ?? 0;
+            st.effects = st.effects ?? [];
+            for (const effect of hb.onHitStatus) {
+              const prev = st.effects.find(e => e.id === effect.id);
+              if (prev) { prev.multiplier = Math.max(prev.multiplier ?? 1, effect.multiplier ?? 1); prev.source = statusSource; prev.sourceTags = statusTags; }
+              else st.effects.push({ id: effect.id, multiplier: effect.multiplier, source: statusSource, sourceTags: statusTags });
+              if (effect.statusMask) {
+                st.flags |= effect.statusMask;
+                addTimedEffect(world, target, { id: `status:${effect.id}`, period: 1, duration: effect.duration, elapsed: 0, clearStatusOnEnd: effect.statusMask });
+              }
+              if ((effect.damagePerTick ?? 0) > 0 && effect.duration > 0) addTimedEffect(world, target, { id: effect.id, resource: hb.resource, amountPerTick: -(effect.damagePerTick ?? 0), period: Math.max(1, effect.period ?? 20), duration: effect.duration, elapsed: 0, damageRoute: { source: statusSource, sourceTags: statusTags } });
+            }
+          }
+          // A mobility lock is a separate, refreshable effect.  It deliberately
+          // does not write a hard-control Status bit, so Flow/cooldown behaviour
+          // continues while movement is vetoed by the B3 capability.
+          if (hb.onHitMobilityLock && (!hb.onHitMobilityLock.requireTagMask || (world.getComponent<Tag>(target, 'Tag')?.flags ?? 0) & hb.onHitMobilityLock.requireTagMask)) {
+            const prior = world.getComponent<MobilityLock>(target, 'MobilityLock');
+            const untilTick = world.getVersion() + hb.onHitMobilityLock.duration;
+            if (prior) {
+              prior.untilTick = Math.max(prior.untilTick, untilTick);
+              prior.groundWhileLocked = prior.groundWhileLocked || hb.onHitMobilityLock.groundWhileLocked;
+            } else {
+              const current = world.getComponent<Status>(target, 'Status')?.flags ?? 0;
+              world.addComponent(target, { type:'MobilityLock', untilTick, groundWhileLocked: hb.onHitMobilityLock.groundWhileLocked,
+                originalAir: (current & 4) !== 0, originalGround: (current & 8) !== 0 } as MobilityLock);
+            }
+          }
           // ⑤ 时间维度（D-003 + R14 真修 B）：命中时 addTimedEffect 追加到目标 OverTime 列表。
           //    DoT 与"定时状态清除"现在**可同时挂**（各一条 TimedEffect，不再二选一）；同 id 刷新防叠爆。
           if (hb.dotPerTick && hb.dotDuration) {
+            const source=world.getComponent<PrefabOrigin>(trig.zone,'PrefabOrigin')?.source??trig.zone;
             addTimedEffect(world, target, {
-              id: `dot:${hb.resource}`,
+              id: hb.dotEffectId??`dot:${hb.resource}`,
               resource: hb.resource,
               amountPerTick: -hb.dotPerTick,
               period: hb.dotPeriod ?? 1,
               duration: hb.dotDuration,
               elapsed: 0,
+              ...(hb.routePeriodicDamage?{damageRoute:{source,sourceTags:world.getComponent<Tag>(source,'Tag')?.flags??0}}:{}),
             });
           }
           if (hb.statusDuration && hb.setMask) {
@@ -229,7 +316,7 @@ export const hitboxCapability = defineCapability({
         // 次拍 destroy-apply 移除；站桩金币泵的原子解）。
         for (const zid of settled) {
           const hb = world.getComponent<Hitbox>(zid, 'Hitbox');
-          if (hb?.consumeOnHit && !world.hasComponent(zid, 'DestroyRequest')) {
+          if ((invalidSources.has(zid) || hb?.consumeOnHit) && !world.hasComponent(zid, 'DestroyRequest')) {
             world.addComponent(zid, { type: 'DestroyRequest', entityId: zid } as DestroyRequest);
           }
         }

@@ -1,0 +1,659 @@
+{
+  "kind": "SK10",
+  "scope": "capability boundary only; NOT an identity PASS",
+  "trace": [
+    {
+      "tick": 1,
+      "positions": {
+        "a": [
+          0.2,
+          0
+        ],
+        "b": [
+          0.2,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 2,
+      "positions": {
+        "a": [
+          0.4,
+          0
+        ],
+        "b": [
+          0.4,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 3,
+      "positions": {
+        "a": [
+          0.6000000000000001,
+          0
+        ],
+        "b": [
+          0.6000000000000001,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 4,
+      "positions": {
+        "a": [
+          0.8,
+          0
+        ],
+        "b": [
+          0.8,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 5,
+      "positions": {
+        "a": [
+          1,
+          0
+        ],
+        "b": [
+          1,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 6,
+      "positions": {
+        "a": [
+          1.2,
+          0
+        ],
+        "b": [
+          1.2,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 7,
+      "positions": {
+        "a": [
+          1.4,
+          0
+        ],
+        "b": [
+          1.4,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 8,
+      "positions": {
+        "a": [
+          1.5999999999999999,
+          0
+        ],
+        "b": [
+          1.5999999999999999,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 9,
+      "positions": {
+        "a": [
+          1.7999999999999998,
+          0
+        ],
+        "b": [
+          1.7999999999999998,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 10,
+      "positions": {
+        "a": [
+          1.9999999999999998,
+          0
+        ],
+        "b": [
+          1.9999999999999998,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 11,
+      "positions": {
+        "a": [
+          2.1999999999999997,
+          0
+        ],
+        "b": [
+          2.1999999999999997,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 12,
+      "positions": {
+        "a": [
+          2.4,
+          0
+        ],
+        "b": [
+          2.4,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 13,
+      "positions": {
+        "a": [
+          2.6,
+          0
+        ],
+        "b": [
+          2.6,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 14,
+      "positions": {
+        "a": [
+          2.8000000000000003,
+          0
+        ],
+        "b": [
+          2.8000000000000003,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 15,
+      "positions": {
+        "a": [
+          3.0000000000000004,
+          0
+        ],
+        "b": [
+          3.0000000000000004,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 16,
+      "positions": {
+        "a": [
+          3.2000000000000006,
+          0
+        ],
+        "b": [
+          3.2000000000000006,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 17,
+      "positions": {
+        "a": [
+          3.400000000000001,
+          0
+        ],
+        "b": [
+          3.400000000000001,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 18,
+      "positions": {
+        "a": [
+          3.600000000000001,
+          0
+        ],
+        "b": [
+          3.600000000000001,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 19,
+      "positions": {
+        "a": [
+          3.800000000000001,
+          0
+        ],
+        "b": [
+          3.800000000000001,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 20,
+      "positions": {
+        "a": [
+          4.000000000000001,
+          0
+        ],
+        "b": [
+          4.000000000000001,
+          10
+        ],
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a": 50,
+        "b": 50,
+        "a-target": 50,
+        "b-target": 50
+      },
+      "sources": []
+    },
+    {
+      "tick": 21,
+      "positions": {
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a-target": 45,
+        "b-target": 45
+      },
+      "sources": [
+        "landing#0:zone",
+        "landing#1:zone"
+      ]
+    },
+    {
+      "tick": 22,
+      "positions": {
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a-target": 45,
+        "b-target": 45
+      },
+      "sources": []
+    },
+    {
+      "tick": 23,
+      "positions": {
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a-target": 45,
+        "b-target": 45
+      },
+      "sources": []
+    },
+    {
+      "tick": 24,
+      "positions": {
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a-target": 45,
+        "b-target": 45
+      },
+      "sources": []
+    },
+    {
+      "tick": 25,
+      "positions": {
+        "a-target": [
+          4,
+          0
+        ],
+        "b-target": [
+          4,
+          10
+        ]
+      },
+      "hp": {
+        "a-target": 45,
+        "b-target": 45
+      },
+      "sources": []
+    }
+  ]
+}

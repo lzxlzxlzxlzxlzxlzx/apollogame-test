@@ -49,7 +49,7 @@ import type {
   HexBoard,
   HexPos,
   Hierarchy,
-  Hitbox,
+  Hitbox, DamageReceiver, DamageRequest, KnockbackRequest, LastDamage, DeathConversion, DeathConverted,
   Impulse3D,
   InputQueue,
   Joint3D,
@@ -109,6 +109,7 @@ import type {
   SpatialIndex,
   SpawnRequest,
   Sprite,
+  SpriteBinding,
   State,
   StateChanged,
   StatBind,
@@ -188,6 +189,12 @@ export interface ComponentDataMap {
   HexPos: Omit<HexPos, 'type'>;
   Hierarchy: Omit<Hierarchy, 'type'>;
   Hitbox: Omit<Hitbox, 'type'>;
+  DamageReceiver: Omit<DamageReceiver,'type'>;
+  DamageRequest: Omit<DamageRequest,'type'>;
+  KnockbackRequest: Omit<KnockbackRequest,'type'>;
+  LastDamage: Omit<LastDamage,'type'>;
+  DeathConversion: Omit<DeathConversion,'type'>;
+  DeathConverted: Omit<DeathConverted,'type'>;
   Impulse3D: Omit<Impulse3D, 'type'>;
   InputQueue: Omit<InputQueue, 'type'>;
   Joint3D: Omit<Joint3D, 'type'>;
@@ -247,6 +254,7 @@ export interface ComponentDataMap {
   SpatialIndex: Omit<SpatialIndex, 'type'>;
   SpawnRequest: Omit<SpawnRequest, 'type'>;
   Sprite: Omit<Sprite, 'type'>;
+  SpriteBinding: Omit<SpriteBinding, 'type'>;
   State: Omit<State, 'type'>;
   StateChanged: Omit<StateChanged, 'type'>;
   StatBind: Omit<StatBind, 'type'>;

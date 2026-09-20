@@ -1,0 +1,38 @@
+[
+  {
+    "path": "games/game-mcfight/content/catalog.ts",
+    "sha256": "DB49C188237AF2FCA039B5C82B76E17E39E51EAA996FC572D9ACC89C8FAC2A7C"
+  },
+  {
+    "path": "games/game-mcfight/world.ts",
+    "sha256": "D6DBD1272B4D3A5BBD40CD709AE8620254A0AC900EE2B426CADD5CEFA00279D8"
+  },
+  {
+    "path": "games/game-mcfight/session.ts",
+    "sha256": "BBD3CB2774334193EFA2C18F94286EA23834B1EB71F6E54F488EEEE4FF366239"
+  },
+  {
+    "path": "games/game-mcfight/render.ts",
+    "sha256": "AB3B5E57B8833B6FF45A40B29AD87A13913951B552A73BA160E5ECBD32486360"
+  },
+  {
+    "path": "games/game-mcfight/game-mcfight.ts",
+    "sha256": "797C2A4E86A01AA3276D66DFFD5A6DC5EB774D68BA810718000E1C7FFCDBA276"
+  },
+  {
+    "path": "games/game-mcfight/s3-skeleton.test.ts",
+    "sha256": "35FFEBB94D6C4DCE6FBBB62143512517D95C54D28FA893074B2D1055F4E250B1"
+  },
+  {
+    "path": "games/game-mcfight/s3-ui-audit.ts",
+    "sha256": "072E13AA7DA22E1840F1AE23116C3707E35E82CB8F552F512445B41D9A3C1330"
+  },
+  {
+    "path": "src/launcher.tsx",
+    "sha256": "6408007A8327DB42881700BC76E6C1E27222017AB1FB1771F929A985D9CD4F5B"
+  },
+  {
+    "path": "src/launcher/game-runner.tsx",
+    "sha256": "7084BCD6B41E15EE0110EECB6507ACD2CD17FC110CDFD7F50B6F396BC6254662"
+  }
+]

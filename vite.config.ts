@@ -156,6 +156,10 @@ export default defineConfig({
     // 缩范围只减「每次推」的负担、不减总覆盖——慢车道仍是完整安全网。判据见 docs/playbooks/testing.md「双车道」。
     exclude: [
       '**/node_modules/**', '**/dist/**', '**/.claude/**',
+      // Independent-review freeze copies are executable snapshots, not a
+      // second test suite in the shared checkout.  Their tests run only from
+      // the frozen root named by the review manifest.
+      'docs/design/game-mcfight/review/**/frozen-source/**',
       // DokiWorld 出包线（docs/playbooks/dokiworld-pack.md）：dokiworld/<app>/ 是自带 package.json 的
       // 独立 npm 包，tests 按对方规范走 `node --test`（node:test 风格·vitest 收进来只会报
       // 「No test suite found」假红）。各包 `npm test` 自跑；出包改动照常过本门禁的 tsc/build。

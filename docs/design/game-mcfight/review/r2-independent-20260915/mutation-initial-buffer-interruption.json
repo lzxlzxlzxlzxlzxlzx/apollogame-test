@@ -1,0 +1,24 @@
+[
+  {
+    "name": "pending-runtime",
+    "file": "games/game-mcfight/content/runtime-selection.ts",
+    "anchorHits": 1,
+    "before": "49d2a25025bf3ecfa6617fb2a6de7e125102936d1d679a28ce6100c9f87648e8",
+    "mutated": "b562752f67d9182b90e9b7ec383d5d3032bce53abc2842ddbaa64c335a508796",
+    "exitCode": 1,
+    "error": null,
+    "restored": "49d2a25025bf3ecfa6617fb2a6de7e125102936d1d679a28ce6100c9f87648e8",
+    "restoreMatched": true
+  },
+  {
+    "name": "same-template-alternatives",
+    "file": "scripts/mcfight-r2-generate.ts",
+    "anchorHits": 1,
+    "before": "c7ee24b0603cb9508fed87b1e23bd3488f40254c9cc3d45bf4a1160db0112a51",
+    "mutated": "4b52cf2514abbee1dbebfdb33c28407772002c108838f1f103fbf22ad8e7df12",
+    "exitCode": null,
+    "error": "spawnSync C:\\Program Files\\nodejs\\node.exe ENOBUFS",
+    "restored": "c7ee24b0603cb9508fed87b1e23bd3488f40254c9cc3d45bf4a1160db0112a51",
+    "restoreMatched": true
+  }
+]

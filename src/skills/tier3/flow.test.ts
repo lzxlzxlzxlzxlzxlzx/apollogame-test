@@ -86,6 +86,58 @@ describe('flow · 确定性', () => {
   });
 });
 
+describe('flow · 阶段状态窗口（REQ-MCFIGHT-002）', () => {
+  it('在阶段边沿置/清目标实体的 Status 位，且不影响其他状态位', () => {
+    const w = mk({ id: 'dive', current: 'ready', states: [
+      { id: 'ready', transitions: [{ when: { kind: 'always' }, to: 'contact' }] },
+      { id: 'contact', onEnter: [{ kind: 'set-status', targetId: '4', targetEntity: 'unit', value: true }], transitions: [{ after: 1, to: 'rise' }] },
+      { id: 'rise', onEnter: [{ kind: 'set-status', targetId: '4', targetEntity: 'unit', value: false }] },
+    ] });
+    w.createEntity('unit'); w.addComponent('unit', { type: 'Status', flags: 2 } as any);
+    w.tick(); // ready -> contact
+    w.tick(); // contact onEnter queues window intent
+    w.tick(); // next boundary commits the intent
+    expect(w.getComponent<any>('unit', 'Status')!.flags).toBe(6);
+    w.tick(); // contact -> rise
+    w.tick(); // rise onEnter queues close
+    w.tick(); // next boundary commits close
+    expect(w.getComponent<any>('unit', 'Status')!.flags).toBe(2);
+  });
+  it('opens a missing Status container only when the configured phase is entered', () => {
+    const w = mk({ id: 'dive', current: 'open', states: [
+      { id: 'open', onEnter: [{ kind: 'set-status', targetId: '8', targetEntity: 'unit', value: true }] },
+    ] });
+    w.createEntity('unit');
+    expect(w.getComponent('unit', 'Status')).toBeUndefined();
+    w.tick(); // queues intent
+    w.tick(); // commits at next boundary
+    expect(w.getComponent<any>('unit', 'Status')!.flags).toBe(8);
+  });
+});
+
+describe('flow · 共享主动动作锁（MC Fight S2）', () => {
+  it('two skills gated by one State can start only one action in the same tick', () => {
+    const w = new World();
+    for (const s of flowCapability.systems) w.addSystem(s);
+    stateC(w, 'action', 'Ready');
+    res(w, 'starts', 0);
+    for (const id of ['skill-a', 'skill-b']) {
+      w.createEntity(id);
+      w.addComponent(id, { type: 'GameFlow', id, current: 'Ready', states: [
+        { id: 'Ready', transitions: [{ when: { kind: 'state', fsmId: 'action', equals: 'Ready' }, to: 'Windup', do: [
+          { kind: 'set-state', targetId: 'action', value: 'Windup' },
+          { kind: 'modify-resource', targetId: 'starts', value: 1 },
+        ] }] },
+        { id: 'Windup' },
+      ] } as GameFlow);
+    }
+    w.tick();
+    expect(rget(w, 'starts')).toBe(1);
+    expect(w.getComponent<GameFlow>('skill-a', 'GameFlow')!.current).toBe('Windup');
+    expect(w.getComponent<GameFlow>('skill-b', 'GameFlow')!.current).toBe('Ready');
+  });
+});
+
 describe('flow · Matinee/sequence 时序门（after：等 N 拍再转，零代码时间轴）', () => {
   it('after:2 → 进入状态后第 3 拍才转移（线性时间轴；when 缺省 always）', () => {
     const w = mk({ id: 'f', current: 'wait', states: [

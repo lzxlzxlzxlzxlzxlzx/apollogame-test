@@ -44,3 +44,7 @@
 ## ⑤ 查不到怎么办
 
 需要的动效/渲染表现闭集里没有 → `docs/workflow/requests.md` 提缺口（先看能否用现有 EffectKind + tween 重组）。3D 渲染进 `requests-3d.md`（见 3d.md）。**不手写渲染逃生。**
+
+### 同拍中断表现（2026-09-15）
+
+`t2-anim-state`可选 `AnimState.interruptStatusMask` 与 `interruptClip`：Commit读取已结算Status，掩码命中时选择配置中的备用片段。只控制表现，不改变技能State/Flow或CD；未配置保持原行为。用于伤害结算后首渲染帧切出攻击。注意 `AnimClip.fps` 当前实现是每帧模拟tick数，不是每秒帧数，素材referenceFps需要绑定层换算，不能直接照填。

@@ -1,0 +1,91 @@
+[
+  {
+    "id": "family:SK10",
+    "family": "SK10",
+    "kind": "composition-unverified",
+    "status": "pending",
+    "reason": "跃击高度/落点/控制期间轨迹尚无本单位组合证明；禁止将瞬移作为跃击。",
+    "evidence": [
+      "docs/playbooks/combat.md",
+      "docs/design/game-mcfight/s2-c6-public-gaps.md"
+    ],
+    "unitIds": [
+      "alexscaves_forsaken",
+      "alexscaves_luxtructosaurus",
+      "cataclysm_coral_golem",
+      "cataclysm_coralssus"
+    ]
+  },
+  {
+    "id": "family:SK20",
+    "family": "SK20",
+    "kind": "composition-unverified",
+    "status": "pending",
+    "reason": "处决的最大生命门控、删除和恢复可用Flow组合；吞噬目标与恢复合同仍待数值，未验证完整组合。",
+    "evidence": [
+      "docs/playbooks/combat.md",
+      "docs/design/game-mcfight/s2-c6-public-gaps.md"
+    ],
+    "unitIds": [
+      "iceandfire_cyclops"
+    ]
+  },
+  {
+    "id": "family:SK22",
+    "family": "SK22",
+    "kind": "composition-unverified",
+    "status": "pending",
+    "reason": "现有接触CD按命中区域保存，整只多体节共享接触CD与动态蛇形缩节尚未证明可组合。",
+    "evidence": [
+      "docs/playbooks/combat.md",
+      "docs/design/game-mcfight/s2-c6-public-gaps.md"
+    ],
+    "unitIds": [
+      "twilightforest_naga"
+    ]
+  },
+  {
+    "id": "family:SK24",
+    "family": "SK24",
+    "kind": "composition-unverified",
+    "status": "pending",
+    "reason": "已验证层级关系清理，不等于双生命骑手独立决策和死亡下马完成。",
+    "evidence": [
+      "docs/playbooks/combat.md",
+      "docs/design/game-mcfight/s2-c6-public-gaps.md"
+    ],
+    "unitIds": [
+      "twilightforest_king_spider",
+      "twilightforest_skeleton_druid"
+    ]
+  },
+  {
+    "id": "family:M06",
+    "family": "M06",
+    "kind": "composition-unverified",
+    "status": "pending",
+    "reason": "直接Hitbox尸巫标记/一次转换已有能力；随从/间接伤害来源仍待设计，禁止自动继承。",
+    "evidence": [
+      "docs/playbooks/combat.md",
+      "docs/design/game-mcfight/s2-c6-public-gaps.md"
+    ],
+    "unitIds": [
+      "cataclysm_the_harbinger",
+      "iceandfire_dread_lich"
+    ]
+  },
+  {
+    "id": "family:M09",
+    "family": "M09",
+    "kind": "composition-unverified",
+    "status": "pending",
+    "reason": "护甲最终公式未定；已有乘性修正不等于穿甲规则已确认。",
+    "evidence": [
+      "docs/playbooks/combat.md",
+      "docs/design/game-mcfight/s2-c6-public-gaps.md"
+    ],
+    "unitIds": [
+      "iceandfire_stymphalianbird"
+    ]
+  }
+]

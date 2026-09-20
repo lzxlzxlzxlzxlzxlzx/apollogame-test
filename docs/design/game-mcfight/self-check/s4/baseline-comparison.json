@@ -1,0 +1,8 @@
+{
+  "currentSystems": 90,
+  "baselineSystems": 90,
+  "currentSccCount": 4,
+  "baselineSccCount": 4,
+  "sameSccs": false,
+  "sameFailureNames": true
+}

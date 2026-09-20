@@ -1,4 +1,5 @@
 import type { IWorld, RendererBackend } from '@engine/core/types.js';
+import { capsuleOf } from '@engine/spatial/capsule.js';
 import type { Tilemap, Sprite } from '@engine/protocol/components.js';
 import type { AssetManager } from '@assets/index.js';
 import { isImageHandle } from '@assets/index.js';
@@ -104,6 +105,11 @@ export class CanvasRenderer implements RendererBackend {
         }
       } else if (mode === 'sprite' && r.sprite) {
         this.drawSprite(ctx, r.sprite.textureKey, r.frame?.index, r.sprite); // spriteReady 已确认会成功
+      } else if (mode === 'shape' && r.shape?.kind === 'capsule') {
+        const c = capsuleOf(r, r.shape);
+        ctx.setTransform(base.s, 0, 0, base.s, base.e, base.f);
+        ctx.beginPath(); ctx.moveTo(c.a.x,c.a.y); ctx.lineTo(c.b.x,c.b.y);
+        ctx.strokeStyle=fill; ctx.lineWidth=c.radius*2; ctx.lineCap='round'; ctx.stroke();
       } else if (mode === 'shape' && r.shape?.kind === 'circle') {
         ctx.beginPath();
         ctx.arc(0, 0, r.shape.radius ?? 4, 0, Math.PI * 2);

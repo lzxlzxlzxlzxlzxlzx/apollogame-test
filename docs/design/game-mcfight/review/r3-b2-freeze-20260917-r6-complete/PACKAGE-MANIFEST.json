@@ -1,0 +1,89 @@
+{
+  "format": "mcfight-review-package/v1",
+  "batch": "R3-B2 r6",
+  "frozenSource": "frozen-source",
+  "dependencyPolicy": "node_modules is intentionally omitted; use npm ci",
+  "snapshotParity": "Selected source hashes match the staging snapshot that produced the captured logs.",
+  "selectedHashParity": [
+    {
+      "path": "index.html",
+      "source": "ecbcf6fef079e7ff6e1772f0a702937ac8892513dbe21254d6f54274461d554b",
+      "frozen": "ecbcf6fef079e7ff6e1772f0a702937ac8892513dbe21254d6f54274461d554b",
+      "matches": true
+    },
+    {
+      "path": "package.json",
+      "source": "380667b7adee5e393efb6f3c87c52a6e8e43a66fb65fc23b7fdf3282e0830d9d",
+      "frozen": "380667b7adee5e393efb6f3c87c52a6e8e43a66fb65fc23b7fdf3282e0830d9d",
+      "matches": true
+    },
+    {
+      "path": "package-lock.json",
+      "source": "d296b4084cd62570dd159f3af2e95b041f030b2c6ed1510dadcea8e5daeaecb7",
+      "frozen": "d296b4084cd62570dd159f3af2e95b041f030b2c6ed1510dadcea8e5daeaecb7",
+      "matches": true
+    },
+    {
+      "path": "tsconfig.json",
+      "source": "7711ce7799a2e56a9374cf98010d8215065343a1463438f0717fb8b8a1e85862",
+      "frozen": "7711ce7799a2e56a9374cf98010d8215065343a1463438f0717fb8b8a1e85862",
+      "matches": true
+    },
+    {
+      "path": "vite.config.ts",
+      "source": "88dfcd7930635dc9111d0ca9d231527793f1568adaf7597c29fc7819d20b7810",
+      "frozen": "88dfcd7930635dc9111d0ca9d231527793f1568adaf7597c29fc7819d20b7810",
+      "matches": true
+    },
+    {
+      "path": "games/game-mcfight/r3-b2-production.test.ts",
+      "source": "dc0fa97e9d3a141956e350eba256ba7691a406832e690f8e86f684fc24bf2cfc",
+      "frozen": "dc0fa97e9d3a141956e350eba256ba7691a406832e690f8e86f684fc24bf2cfc",
+      "matches": true
+    },
+    {
+      "path": "games/game-mcfight/r3-b3-production.test.ts",
+      "source": "78ab041e5bf262910168605a42e8a54f48f148d1862d3dff96b3debf336c6096",
+      "frozen": "78ab041e5bf262910168605a42e8a54f48f148d1862d3dff96b3debf336c6096",
+      "matches": true
+    },
+    {
+      "path": "games/game-mcfight/s2-visual.fixture.test.ts",
+      "source": "2304b066ce8da685e8fa6a2c6de20e1524ee757b0b7295770f9691c3ed78d9c6",
+      "frozen": "2304b066ce8da685e8fa6a2c6de20e1524ee757b0b7295770f9691c3ed78d9c6",
+      "matches": true
+    },
+    {
+      "path": "docs/design/game-mcfight/self-check/r2/s4-before.json",
+      "source": "f0042683672ba9ee376d222ed25c98805a3c86a042a6d1d2c2144886df5270f0",
+      "frozen": "f0042683672ba9ee376d222ed25c98805a3c86a042a6d1d2c2144886df5270f0",
+      "matches": true
+    },
+    {
+      "path": "docs/design/game-mcfight/self-check/r3/b3-visual/01-charge.png",
+      "source": "b0f350ffa8d3a1323c0f5dbbb8a26d1cf2095ce374310d4b1766c2d5de70bea1",
+      "frozen": "b0f350ffa8d3a1323c0f5dbbb8a26d1cf2095ce374310d4b1766c2d5de70bea1",
+      "matches": true
+    },
+    {
+      "path": "docs/design/game-mcfight/self-check/r3/b3-visual/02-dive-window.png",
+      "source": "3d7612326a303aa30f033680d8cdd4104e8e5c3fff0227e6cb6dc9fe35abfb31",
+      "frozen": "3d7612326a303aa30f033680d8cdd4104e8e5c3fff0227e6cb6dc9fe35abfb31",
+      "matches": true
+    },
+    {
+      "path": "docs/design/game-mcfight/self-check/r3/b3-visual/03-transform.png",
+      "source": "8ef69ecb9a70f91a06c714ba81bb1a2b39bbf4bfa56a2a39c2be1d87bd2fb133",
+      "frozen": "8ef69ecb9a70f91a06c714ba81bb1a2b39bbf4bfa56a2a39c2be1d87bd2fb133",
+      "matches": true
+    }
+  ],
+  "finalLogs": [
+    "frozen-source/freeze-check/results.json",
+    "frozen-source/freeze-check/targeted.log",
+    "frozen-source/freeze-check/full.log",
+    "frozen-source/freeze-check/typecheck.log",
+    "frozen-source/freeze-check/build.log",
+    "frozen-source/freeze-check/audit.log"
+  ]
+}

@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { World } from '@engine/core/world.js';
-import type { Perception, Relation, Transform, Tag } from '@engine/protocol/components.js';
+import type { Perception, Relation, Transform, Tag, Status, Resource } from '@engine/protocol/components.js';
 import { aggroCapability } from './aggro.js';
+import { motionApplyCapability } from '../tier1/motion-apply.js';
 
 const PLAYER = 1 << 1;
 const xf = (x: number, y: number): Transform => ({ type: 'Transform', x, y, rotation: 0, scaleX: 1, scaleY: 1 });
@@ -9,6 +10,7 @@ const rel = (w: World, e: string): Relation | undefined => w.getComponent<Relati
 
 function world(): World {
   const w = new World();
+  for (const s of motionApplyCapability.systems) w.addSystem(s);
   for (const s of aggroCapability.systems) w.addSystem(s);
   return w;
 }
@@ -132,5 +134,26 @@ describe('aggro — 等距 tie-break（2026-08-22 测试大扫除补钉·确定�
     target(w2, 'alpha', 10, 0, PLAYER);
     w2.tick();
     expect(rel(w2, 'm')).toMatchObject({ targetId: 'alpha' });
+  });
+});
+
+describe('aggro — targetCheck（REQ-MCFIGHT-003）', () => {
+  const GROUND_WINDOW = 1 << 5;
+  it('only selects candidates whose dynamic status satisfies the configured check', () => {
+    const w = world();
+    perceiver(w, 'ground-melee', 0, 0, { targetTag: PLAYER, sightRadius: 100, targetCheck: { tagMask: GROUND_WINDOW } });
+    target(w, 'airborne-near', 5, 0, PLAYER);
+    target(w, 'diving-far', 20, 0, PLAYER | GROUND_WINDOW);
+    w.tick();
+    expect(rel(w, 'ground-melee')).toMatchObject({ targetId: 'diving-far' });
+  });
+  it('reselects a legal target as a prior target loses its status window', () => {
+    const w = world();
+    perceiver(w, 'ground-melee', 0, 0, { targetTag: PLAYER, sightRadius: 100, targetCheck: { rejectStatusMask: 8 } });
+    target(w, 'first', 5, 0, PLAYER); w.addComponent('first', { type: 'Status', flags: 0 } as Status);
+    target(w, 'second', 20, 0, PLAYER); w.addComponent('second', { type: 'Status', flags: 0 } as Status);
+    w.tick(); expect(rel(w, 'ground-melee')).toMatchObject({ targetId: 'first' });
+    w.getComponent<Status>('first', 'Status')!.flags = 8;
+    w.tick(); expect(rel(w, 'ground-melee')).toMatchObject({ targetId: 'second' });
   });
 });

@@ -27,9 +27,9 @@ function signalName(w: World, eid: string): string | undefined {
 }
 
 describe('T2 event-when — metadata', () => {
-  it('id / 读 EventWhen+Resource+Flag+State / 写 Signal', () => {
+  it('id / 读 EventWhen+Resource+Flag+State+Timer+StringVar / 写 Signal', () => {
     expect(eventWhenCapability.id).toBe('t2-event-when');
-    expect(eventWhenCapability.components.reads).toEqual(['EventWhen', 'Resource', 'Flag', 'State']);
+    expect(eventWhenCapability.components.reads).toEqual(['EventWhen', 'Resource', 'Flag', 'State', 'Timer', 'StringVar']);
     expect(eventWhenCapability.components.writes).toEqual(['Signal']);
     expect(eventWhenCapability.components.provides.Signal.category).toBe('event');
   });

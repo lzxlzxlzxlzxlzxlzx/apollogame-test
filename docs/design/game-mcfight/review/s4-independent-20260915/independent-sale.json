@@ -1,0 +1,58 @@
+{
+  "errors": [],
+  "trace": [
+    {
+      "rectangles": [
+        {
+          "id": "deploy-sell-player-vindicator-1",
+          "x": 13.333333969116211,
+          "y": 161.33334350585938,
+          "w": 202.20834350585938,
+          "h": 48,
+          "contained": true
+        },
+        {
+          "id": "deploy-sell-player-vindicator-2",
+          "x": 223.5416717529297,
+          "y": 161.33334350585938,
+          "w": 202.2291717529297,
+          "h": 48,
+          "contained": true
+        },
+        {
+          "id": "deploy-sell-player-vindicator-3",
+          "x": 433.7708435058594,
+          "y": 161.33334350585938,
+          "w": 202.20834350585938,
+          "h": 48,
+          "contained": true
+        },
+        {
+          "id": "deploy-sell-player-vindicator-4",
+          "x": 643.9791870117188,
+          "y": 161.33334350585938,
+          "w": 202.22918701171875,
+          "h": 48,
+          "contained": true
+        },
+        {
+          "id": "deploy-sell-player-vindicator-5",
+          "x": 854.2083740234375,
+          "y": 161.33334350585938,
+          "w": 202.2291259765625,
+          "h": 48,
+          "contained": true
+        },
+        {
+          "id": "deploy-sell-player-vindicator-6",
+          "x": 1064.4375,
+          "y": 161.33334350585938,
+          "w": 202.229248046875,
+          "h": 48,
+          "contained": true
+        }
+      ],
+      "text": "⚙\nMC FIGHT\n第 1 轮 · 金币 30 · 持有 0/6\n部署 0 · 请至少部署一个单位 · 敌军：卫道士、卫道士、骷髅、恼鬼\n返回商店\n拖动下方圆形单位部署；拖回待命栏撤回。\n开始战斗"
+    }
+  ]
+}

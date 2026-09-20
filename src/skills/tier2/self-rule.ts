@@ -102,8 +102,11 @@ function applySelfAction(world: IWorld, eid: EntityId, a: SelfAction): void {
       if (!originId) break;
       const t = world.getComponent<Transform>(originId, 'Transform');
       if (!t) break;
-      // SpawnRequest 挂自身（一实体一组件：同拍多个 spawn 动作会相互覆盖，普攻一拍一发不受影响）。
-      world.addComponent(eid, { type: 'SpawnRequest', templateId: a.template, x: t.x, y: t.y, source: eid } as SpawnRequest); // source(REQ-F-065)=普攻发起者自身（普攻链的施法者）
+      // A reaction may also destroy its source. Keep its already-decided spawn
+      // receipt independent until Materialize (same tick, next-tick contact).
+      const carrier = `self-spawn:${eid}`;
+      if (!world.hasComponent(carrier, 'SpawnRequest')) world.createEntity(carrier);
+      world.addComponent(carrier, { type: 'SpawnRequest', templateId: a.template, x: t.x, y: t.y, source: eid, spawnPhase: 'resolve' } as SpawnRequest);
       break;
     }
   }
@@ -150,7 +153,9 @@ export const selfRuleCapability = defineCapability({
   systems: [
     {
       id: 'self-rule',
-      phase: SystemPhase.Update,
+      phase: SystemPhase.Resolve,
+      // S4收尾：正式执行结算尾合同（旧Update无法跨相位等待resource）。
+      // 反应仍在死亡/释放检查之前；spawn交Materialize，同拍生成、次拍接触。
       // REQ-F-035 排雷 + REQ-F-036 二刷：self-rule 与 flow/zone-occupancy/group-count/resource-apply
       // 互为 RMW（Flag/Resource/State）；且 self-rule 写 Resource 被 hitbox 读（攻防数值）→ 经
       // hitbox→(ResourceModify)→resource-apply 闭成三元环（F-036 实测残环的真核，报错列的 10 系统
@@ -159,7 +164,8 @@ export const selfRuleCapability = defineCapability({
       // whenGlobal 的同帧阶段门依赖 flow 先行。注意不可反向（runsBefore hitbox 会与既有显式链
       // hitbox→resource-apply→self-rule 合成显式环，无解）。写 SpawnRequest/DestroyRequest 与
       // caster/mortal 仅为同汇（请求集合语义，writer 间无需定序）。无这些系统的世界 id 被忽略。
-      runsAfter: ['flow', 'resource-apply', 'hitbox', 'zone-occupancy', 'group-count'],
+      runsAfter: ['flow', 'damage-route', 'resource-apply', 'hitbox', 'zone-occupancy', 'group-count'],
+      runsBefore: ['mortal', 'death-conversion', 'destroy-apply', 'targeted-caster'],
       reads: ['SelfRule', 'Resource', 'Flag', 'State', 'Timer', 'StringVar', 'Transform', 'Relation'],
       writes: ['SelfRule', 'Flag', 'Resource', 'State', 'DestroyRequest', 'SpawnRequest'],
       consumes: [],

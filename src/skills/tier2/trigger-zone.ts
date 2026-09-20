@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { SystemPhase } from '@engine/core/types.js';
 import type { Overlap, Tag, Trigger } from '@engine/protocol/components.js';
 
 // ZONE_FLAG: Tag.flags 的第 0 位为 1 表示该实体是触发区（trigger zone）。
@@ -42,6 +43,8 @@ export const triggerZoneCapability = defineCapability({
   systems: [
     {
       id: 'trigger-zone',
+      phase: SystemPhase.Resolve,
+      runsAfter: ['overlap-detect'],
       reads: ['Overlap', 'Tag'],
       writes: ['Trigger'],
       consumes: [],

@@ -73,6 +73,26 @@ export interface StateChanged extends Component {
 // 比较算子（确定性：只比较数/字符串/bool，不碰浮点超越函数）。
 export type CmpOp = 'lt' | 'lte' | 'eq' | 'ne' | 'gte' | 'gt';
 
+/** REQ-MCFIGHT-001: current eligibility; omit range/tag during committed execution. */
+export interface EntityCheck {
+  aliveResource?: string;
+  /** Local resource value, inclusive bounds; does not resolve global semantic IDs. */
+  resource?: { id: string; field?:'current'|'max'; min?: number; max?: number };
+  tagMask?: number;
+  rejectStatusMask?: number;
+  /** Inclusive center distance, measured from frame-start positions. */
+  range?: { originEntity: EntityId; min?: number; max: number; includeTargetRadius?:boolean };
+  /** Count other entities in a closed frame-start circle centered on this entity.
+   * Missing positions and ineligible/dead entities are not counted; no target is required.
+   * Invalid bounds fail closed. Omitted count.min/max mean 0/unbounded. */
+  neighborhood?: {
+    radius: number;
+    tagMask?: number;
+    aliveResource?: string;
+    count: { min?: number; max?: number };
+  };
+}
+
 // 布尔条件树：and/or/not 组合在「按语义 id 读世界值」的比较叶子上。纯 POD，
 // structuredClone 友好 → 自动进 world.snapshot()。threshold/状态判定/机关门控都是它的特例。
 export type ConditionExpr =
@@ -154,6 +174,36 @@ export interface Effect extends Component {
   // 概率门（REQ-E-023②）：在场则命中 onSignal 后再掷世界 RandomSeed，nextRandom < num/den 才施用（否则跳过、roll 仍推进 RNG）。
   // 确定性：引擎种子 PRNG（同 random 原子，lockstep/录放安全），绝不 Math.random；无 RandomSeed→不施用（fail-closed）。
   chance?: { num: number; den: number };
+  // 条件门（REQ-G109-002，owner 2026-09-17 判 A·补引擎）：按**信号源实体**求值的布尔条件树，不成立则本效果不施。
+  // 这是 `REQ-F-041`（`targetEntity:'@signal-source'`）的**读侧孪生**：F-041 让效果知道「**写谁**」，
+  // 本字段让效果知道「**要不要写**」——「被点那一格自身的状态决定这次动作成不成立」此前无件可表达
+  // （`chance` 是概率门不是条件门；`SelfRule` 是每拍自治、够不着点击；`EventWhen` 的条件按**全局 id** 求值、
+  //  36 格共用 fsmId 时问不出「第 7 格如何」）。三条需求同时撞在这上面：工具前置门（sow 只在 tilled 格成立）、
+  // 成熟判定（该格生长阶 vs 该作物天数）、按作物路由收获（该格种的是哪一种 → 进背包哪个 Resource）。
+  //
+  // 求值语义（与 `targetEntity` 复合）：
+  //   · `targetEntity:'@signal-source'` → 发信号的源实体**逐个过门**，只有过门的源被施效
+  //     （同拍点两格、只有一格已翻土 → 只有那一格被播种）。
+  //   · 其它目标（字面 `targetEntity` / 全局 id / `tagMask` 批量）→ **任一**源实体过门即施放一次。
+  //     （这是「读本格状态、写全局背包」那条路的形态，见 `REQ-G109-002` §5 的按作物路由。）
+  //   · 全部源都不过门 → 本效果整个跳过（`Signal.source` 是必填字段，故「无源」不可达）。
+  // 复用 `t2-self-rule` 已导出的求值器 `evaluateSelfCondition`（self 作用域：resource/flag/state/timer/string
+  // 读该实体自己那一份），**不新造条件语义**。缺省 = 无门 = 逐字旧行为（**零回归**：在场数据无一填此字段）。
+  when?: ConditionExpr;
+  // 全局条件门（REQ-G109-003，owner 2026-09-18 判 A）：按**全局 id** 求值的附加条件，与 `when` 取 AND
+  // （先求 whenGlobal，false 即整条跳过）。**逐字镜像 `SelfRule.whenGlobal`（REQ-F-035）**——同字段名、
+  // 同语义、同一「与主条件取 AND」约定。
+  //
+  // 为什么 self 门不够：`when` 读的是**信号源实体自己那一份**组件，于是「**做某动作 ∧ 全局状态够**」这种
+  // 合取表达不了——最典型的就是 game109 的「点某格翻土，但**全局体力**得 ≥1」：体力挂在 `wallet` 单例上，
+  // 格子身上没有，`{kind:'resource',id:'energy'}` 在 self 作用域恒 false；而 `CraftRecipe` 虽然能原子地
+  // 查全局可负担性，却没有 `targetEntity`、够不着被点那一格（两半各有一边，合不起来）。
+  // 补上这半边后，「动作 ∧ 全局相位/资源」整族成立：体力、金币、回合相位、天数、解锁门、建造位合法性。
+  // 与 `SelfRule.whenGlobal` 合起来，self 轴的双作用域（自身 + 全局）就齐了。
+  //
+  // 缺省 = 不设 = 逐字旧行为（**零回归**）。求值复用本系统每 tick 已建好的 `buildConditionLookup` 索引，
+  // **不新增遍历**。
+  whenGlobal?: ConditionExpr;
 }
 
 // ── craft-recipe ── 配方/经济：信号到达且所有 costs 可负担时，**原子地**扣全部料 + 产出 gains + 置 flag/state。
@@ -190,12 +240,23 @@ export interface StringSet extends Component {
 // 让最弱 LLM 也能一致产出流程（不变量②）。与 dialogue 同构（图遍历解释器），跨所有游戏复用（通关/场景/回合/波次/ante）。
 // 红线：when 复用 ConditionExpr、do/onEnter 复用 Effect 动词子集——**不接受自由代码字符串**。
 export interface FlowAction {
-  kind: 'set-flag' | 'set-state' | 'modify-resource'; // 复用 Effect 动词（流程相关子集）
-  targetId: string; // Flag.id / State.fsmId / Resource.id（按 id 全局定位）
+  kind: 'set-flag' | 'set-state' | 'modify-resource' | 'set-status'; // 复用 Effect 动词（流程相关子集）
+  targetId: string; // Flag.id / State.fsmId / Resource.id；set-status 为位掩码十进制字符串
+  // set-status 专用：目标实体；value=true 置位，false 清位。
+  targetEntity?: EntityId;
   value?: number | boolean | string;
   op?: 'add' | 'set'; // modify-resource：add(默认) | set；钳 [min,max]
 }
+/** Flow 在本拍发出的窗口变更；由下一拍边界提交器消费，避免与同拍索敌形成读写环。 */
+export interface FlowWindowIntent extends Component {
+  readonly type: 'FlowWindowIntent';
+  changes: Array<{ targetEntity: EntityId; mask: number; active: boolean }>;
+}
 export interface FlowTransition {
+  whenEntities?: Array<{ entityId?: EntityId; targetFlow?: EntityId; check: EntityCheck; not?: boolean }>;
+  // Capture is atomic with transition: reject -> no do/phase/CD changes. Source must have Relation(target).
+  captureTarget?: { sourceEntity: EntityId; check: EntityCheck; captureAim?: boolean; destroyOnCapture?:boolean; projectileRangeMultiplier?:number };
+  clearTarget?: boolean;
   when?: ConditionExpr; // 满足即转移（复用现有条件树；缺省=always 恒真，线性瀑布用）
   after?: number; // 时序门（Matinee/sequence "wait"）：进入当前状态满 after 个 tick 才允许转移；与 when 是「与」
   to: string; // 目标状态 id
@@ -207,6 +268,7 @@ export interface FlowState {
   transitions?: FlowTransition[]; // 按数组序求值，首个 (when 成立 且 满 after) 者转移
 }
 export interface GameFlow extends Component {
+  targetSnapshot?: { sourceId: EntityId; targetId: EntityId; aim?: { x: number; y: number }; projectile?:import('./combat.js').ProjectileShot };
   readonly type: 'GameFlow';
   id: string; // flow 标识（多 flow 区分）
   current: string; // 当前状态 id

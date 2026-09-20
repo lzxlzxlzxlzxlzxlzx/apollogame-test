@@ -197,6 +197,7 @@ export function validateReferences(entities: Record<string, EntityBlueprint>): S
         case 'Caster': {
           checkSignal(c.onSignal, ctype, 'onSignal');
           checkIn(uni.templates, c.template, ctype, 'template', '预制模板');
+          checkEntity(c.targetFlow, ctype, 'targetFlow');
           break;
         }
         case 'MatchBoard':
@@ -248,6 +249,7 @@ export function validateReferences(entities: Record<string, EntityBlueprint>): S
               if (kind === 'set-flag') checkIn(uni.flags, ao.targetId, ctype, field, '旗标 Flag.id');
               else if (kind === 'set-state') checkIn(uni.states, ao.targetId, ctype, field, '状态机 State.fsmId');
               else if (kind === 'modify-resource') checkIn(uni.resources, ao.targetId, ctype, field, '资源 Resource.id');
+              else if (kind === 'set-status') checkEntity(ao.targetEntity, ctype, `${field}.targetEntity`);
             }
           };
           for (const s of states) {
@@ -259,6 +261,14 @@ export function validateReferences(entities: Record<string, EntityBlueprint>): S
               if (!to) continue;
               checkIn(stateIds, to.to, ctype, 'states[].transitions[].to', '流程状态');
               walkCondition(to.when, ctype, 'states[].transitions[].when');
+              const capture = obj(to.captureTarget);
+              if (capture) checkEntity(capture.sourceEntity, ctype, 'states[].transitions[].captureTarget.sourceEntity');
+              for (const entityWhen of arr(to.whenEntities)) {
+                const entityWhenObject = obj(entityWhen);
+                if (!entityWhenObject) continue;
+                checkEntity(entityWhenObject.entityId, ctype, 'states[].transitions[].whenEntities[].entityId');
+                checkEntity(entityWhenObject.targetFlow, ctype, 'states[].transitions[].whenEntities[].targetFlow');
+              }
               checkActions(to.do, 'states[].transitions[].do');
             }
           }

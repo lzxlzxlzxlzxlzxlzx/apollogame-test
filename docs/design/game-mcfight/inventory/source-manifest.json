@@ -1,0 +1,866 @@
+{
+  "sourceRoot": "C:\\Users\\24652\\Desktop\\projects\\apollpgame\\mcfight-unity-main",
+  "scope": "脚本、Resources JSON、单位asset、旧设计文档；素材列表另见assets.json",
+  "files": [
+    {
+      "path": "Assets/Docs/BalanceLabDesign.md",
+      "bytes": 64283,
+      "sha256": "9c0b2ba9e4f40b43ce851f07bf93a0c68ef8504aaa7b73c07931a02c3ad016b0"
+    },
+    {
+      "path": "Assets/Docs/CompletionSummary.md",
+      "bytes": 15788,
+      "sha256": "166cc8b444859c9296b07e6e9bebe9d544b0aa9a7b48492c7fa4a0a345ec73b1"
+    },
+    {
+      "path": "Assets/Docs/DesignDocument.md",
+      "bytes": 80075,
+      "sha256": "567ea34e2a1ea2c2e341f04fae68151030f974f01f9aa6d0816a620216da350b"
+    },
+    {
+      "path": "Assets/Docs/MonsterDesign.md",
+      "bytes": 72046,
+      "sha256": "fed6feb93605f8890d25ec8d3d3eb8c5ed426c036002e858dcd81e7f6246750d"
+    },
+    {
+      "path": "Assets/Docs/OptimizationPlan.md",
+      "bytes": 9805,
+      "sha256": "9e514d8936889f93c10af4da8a91c146725e2863434f9ef3d69abace3e15d621"
+    },
+    {
+      "path": "Assets/Docs/UIUpdatePlan.md",
+      "bytes": 33656,
+      "sha256": "a8c27c917ee238f7972315315e6aabd37b05ee34c841808a4e7929abe40cb780"
+    },
+    {
+      "path": "Assets/Docs/UnityTutorial.md",
+      "bytes": 66178,
+      "sha256": "81a4ae5bb5b624d7f9a727214fabb2f7090a7782a41a31bb2f0b4ed4da16d45d"
+    },
+    {
+      "path": "Assets/Docs/VFXAssetMapping.md",
+      "bytes": 9720,
+      "sha256": "e4385d94e8de305824a4c6865e826ab1c7162eee6b00304f5f7abe7f830acb59"
+    },
+    {
+      "path": "Assets/Docs/VFXRequirements.md",
+      "bytes": 10192,
+      "sha256": "865b10bc0ace9f8b0c9c14795668a713359bb9f191edc861aff3069802a632c6"
+    },
+    {
+      "path": "Assets/Resources/BalanceLab/Tests/sample_3v1.balancetest.json",
+      "bytes": 1362,
+      "sha256": "25fb8cd6c345a2c0c6d180627696e7728d6d3f32434f98279fb05bcb4b56d4d2"
+    },
+    {
+      "path": "Assets/Resources/BalanceLab/Tests/sample_p1.balancetest.json",
+      "bytes": 1073,
+      "sha256": "b59bb7a1df86acfa3bbbb2fba623efb7c61c883e665b12ad237726f0d1d13c5a"
+    },
+    {
+      "path": "Assets/Resources/LabArchive/index.json",
+      "bytes": 2859,
+      "sha256": "95b7959915fb9eb79671fb941bca0c3cee67a86e7586fe9a5791a84225531276"
+    },
+    {
+      "path": "Assets/Resources/LabArchive/knowledge/balance_knowledge.json",
+      "bytes": 8418,
+      "sha256": "ef6fcd1981fa1c57f3223f5f840523f8085771b3002c38d2f17534a4f4b9c240"
+    },
+    {
+      "path": "Assets/Resources/LabArchive/knowledge/strategy_knowledge.json",
+      "bytes": 14585,
+      "sha256": "48c112ab83f5684dd16fac1e7d48db5c2c52d423574b5d7e2c93e7483d9d92cd"
+    },
+    {
+      "path": "Assets/Resources/LabArchive/sessions/session_20260730_091452/report.json",
+      "bytes": 4351,
+      "sha256": "49a9195ea165ebed574a6010c1ecd578e7181ebc63158d60d28fcf1ef5489e98"
+    },
+    {
+      "path": "Assets/Resources/LabArchive/sessions/session_20260730_092700/report.json",
+      "bytes": 4351,
+      "sha256": "e946173f84b0f14056b2c22adf5d1e55f3d9a60d06c065786ed836194d9fe31f"
+    },
+    {
+      "path": "Assets/Resources/LabArchive/sessions/session_20260730_114723/report.json",
+      "bytes": 3087,
+      "sha256": "3165395029b1ab07d6236714a25593273888e35614082784b86e9254997c120e"
+    },
+    {
+      "path": "Assets/Resources/LabArchive/sessions/session_20260730_115351/report.json",
+      "bytes": 4353,
+      "sha256": "233c774717b5c159b94eea340a3a0aad2b31c51f3754d299e186d250bec91e79"
+    },
+    {
+      "path": "Assets/Resources/LabArchive/sessions/session_20260730_145950/report.json",
+      "bytes": 6433,
+      "sha256": "fb3febba559ca256a984a6e05e2afaa3aaf0760ac959e14608042c2f84f42d37"
+    },
+    {
+      "path": "Assets/Resources/LabArchive/sessions/session_20260731_171559/report.json",
+      "bytes": 4343,
+      "sha256": "0a4a2b82dccd89be88b8f54611a1c91146e6f6c33c2e9cf1756c2cb7d10b403e"
+    },
+    {
+      "path": "Assets/Resources/LabArchive/sessions/session_20260731_175911/report.json",
+      "bytes": 13516,
+      "sha256": "1121caffa99e0977df319155abfd089ded92c128e111d064ea7a905ccfd3dca0"
+    },
+    {
+      "path": "Assets/Resources/LabArchive/sessions/session_20260731_180241/report.json",
+      "bytes": 3102,
+      "sha256": "75c6d1cec20122d626d0ded73f9e49acaa1537da3c879f2d1f4bca7c03cee104"
+    },
+    {
+      "path": "Assets/Resources/monster_config.json",
+      "bytes": 47758,
+      "sha256": "eb985ede0c9cf844eee29248e89233a77961dad58e1efca1454f271b07d31480"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexscaves_atlatitan.asset",
+      "bytes": 941,
+      "sha256": "118ccae06dd7dd954b0f640f2001a1baeef829e59f262c53df23ecdd92381632"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexscaves_brainiac.asset",
+      "bytes": 933,
+      "sha256": "c7db1d4f0a67488769f0c4db772e5fd12ed6fb3b961772178b002fc07a3b167d"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexscaves_deep_one.asset",
+      "bytes": 910,
+      "sha256": "eb35bf2f539695fb719a5c54810e302007fe308e6c644261a4d90ecaa690d7f4"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexscaves_deep_one_knight.asset",
+      "bytes": 952,
+      "sha256": "8ca73bf18063533cdc9fc2b73360ac5c313f5ff65c836dbbd8425d013ed8ae2e"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexscaves_deep_one_mage.asset",
+      "bytes": 982,
+      "sha256": "dd4ef146f187661f6df48e311b247713c25a277077e0e0fc053d211fa77b8be1"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexscaves_forsaken.asset",
+      "bytes": 945,
+      "sha256": "e8e38e16f6fb0ca3ddebfb87bfffae27ece3ff678a7c38f02f2e794188fb3d08"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexscaves_luxtructosaurus.asset",
+      "bytes": 1021,
+      "sha256": "060a5e7f36f4de3dc5bb4f21e67b8155f9d70216bdc8ee4e666bd075713657a1"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexscaves_magnetron.asset",
+      "bytes": 933,
+      "sha256": "98883639d8c35cf846677099a5a640a17fbb052484615c46abf88f0b747d8f05"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexscaves_nucleeper.asset",
+      "bytes": 969,
+      "sha256": "6128fc0109012f99eafc91bb4af65109cd08abe25d9d7c4834dd6b9528562140"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexscaves_relicheirus.asset",
+      "bytes": 930,
+      "sha256": "65cd0e81123c97425d45e9c8c632fc8290069ebf23a830daa8f9f413a49c3be4"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexscaves_teleto.asset",
+      "bytes": 911,
+      "sha256": "207b1b423f87d1c5484dbcadca8ce99862e4faca979fc5f864862addde969bf0"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexscaves_tremorsaurus.asset",
+      "bytes": 961,
+      "sha256": "36fb04f0eaeeb98f28d20ccd2099b998e15561b8c0ebe2558635f676a72b52f8"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexscaves_tremorzilla.asset",
+      "bytes": 995,
+      "sha256": "5a129a54a712a051e1643fa425f6838e375f5d4cb21c060c37a9a10775dfab9a"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexscaves_vallumraptor.asset",
+      "bytes": 929,
+      "sha256": "fca48673e0f396ae95a2ee8c29f7dd7285b8b1e8d7f7db0dda55c5607aa7aedf"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexsmobs_bison.asset",
+      "bytes": 896,
+      "sha256": "bfe2e513de49e1f3ecd03e821b9b066bb5d41e054c4bf7058022985efb1feeee"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexsmobs_centipede_head.asset",
+      "bytes": 945,
+      "sha256": "6954339aa9293a1cf5e331388fffd78d139f8e91e571808eda0ac4c0bdfbd19b"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexsmobs_elephant.asset",
+      "bytes": 919,
+      "sha256": "014efddc51e7bd95f21da05bb7d4a179b1c42b9159265e7114984bfb0ea502da"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexsmobs_farseer.asset",
+      "bytes": 946,
+      "sha256": "df281c10057982fc5acfbfd63dd9c2b16f309b3df41fe06cae62c0589d626e9a"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexsmobs_grizzly_bear.asset",
+      "bytes": 910,
+      "sha256": "9554b63a61b4d0d769affb0b12620d8da8d0689935110533c762d86fc1da6766"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexsmobs_murmur.asset",
+      "bytes": 917,
+      "sha256": "e5375edcc2f333db2367161c53f91286a6f838c52a709050da36e9c5bb228327"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexsmobs_rhinoceros.asset",
+      "bytes": 907,
+      "sha256": "250080370c527cd2d3f9bec1db30c7c1ce37ed5383329707211e668f86112f66"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexsmobs_straddler.asset",
+      "bytes": 926,
+      "sha256": "a6a793bf797d036fa555538c4f68343b286da743e270fef283090a8168f36f2b"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexsmobs_tarantula_hawk.asset",
+      "bytes": 962,
+      "sha256": "b0c69399030d2a307968d3ca33456e6a6d487b6088c82024933073186c11c9d4"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexsmobs_tiger.asset",
+      "bytes": 896,
+      "sha256": "12906ced56a833ffad1cc3f9260fe0e0561567fa98534a6b0aaa91ac60fb4d37"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexsmobs_tusklin.asset",
+      "bytes": 906,
+      "sha256": "15083c0b805d63c9c7a6055fef09a104b9abb086addcf0d3f552d2646d2885cf"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_alexsmobs_warped_mosco.asset",
+      "bytes": 970,
+      "sha256": "65d67c19a657fe0780aaae631bfb27d36e16c4593d931feae3bca8f2a3660ad9"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_blaze.asset",
+      "bytes": 905,
+      "sha256": "59b39e2e270fc63c1f641efdd09c3bf939c1a6b60b4de9d6325471b01ad887b8"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_amethyst_crab.asset",
+      "bytes": 973,
+      "sha256": "58d98afcb2508f0626db88c0df69a7348c2ae7b01d669f35b1f9868166984274"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_ancient_remnant.asset",
+      "bytes": 976,
+      "sha256": "025b648f2849d6d37ce1dffdd6ef86e3c231e5cbbfb5c8cf9236dc00c8f294cb"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_coral_golem.asset",
+      "bytes": 958,
+      "sha256": "af6b26da696bc26af5a3f8acd822b6f11a2b423331a7e7602f394909f6fbddf3"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_coralssus.asset",
+      "bytes": 955,
+      "sha256": "fe926b5e451cf4bdff6056725e6c1b1960148651ea107e06976cc76343da0891"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_deepling.asset",
+      "bytes": 919,
+      "sha256": "64fdf2303be4cb5ec333773f60ac1e80f4af2d7932fe9d838a6ca0fd2d514ca5"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_deepling_brute.asset",
+      "bytes": 942,
+      "sha256": "a2d7a2a67aab42fd7b4ee5e5afe45aff9bc2a0a31ce1693011cf7da18cd854c3"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_deepling_priest.asset",
+      "bytes": 938,
+      "sha256": "576d07370ddcf3ae935f48ed393a7526017f97fc6bd56c73c66fe491b70ccad8"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_deepling_warlock.asset",
+      "bytes": 961,
+      "sha256": "47abb30bb4493693e17b04871b8df2d2de48e2820fdc8f777f95d7a488e68a50"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_ender_golem.asset",
+      "bytes": 956,
+      "sha256": "a9e408f9bc34cfbbbd3681428d312ce53cf3e1a4cfd79aa766bef7ee1d2ee45e"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_ignited_berserker.asset",
+      "bytes": 965,
+      "sha256": "c9bda45ba3b7126095055ba926abc80a116b2ca6c46b44f061436080375825f5"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_ignited_revenant.asset",
+      "bytes": 987,
+      "sha256": "7e9ba3033b1fe17acecfae5b4e4b10a352f7301bf4de2d7a667040c7c1be856c"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_kobolediator.asset",
+      "bytes": 991,
+      "sha256": "e07b70836b7af31cc85d4a0a556f1c99aff092ce21058f6150996a7657c74e79"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_koboleton.asset",
+      "bytes": 922,
+      "sha256": "b040d9da4cc332a4fce00cc256a8ad1a5996d80b72f14a32c7557395bae7746f"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_modern_remnant.asset",
+      "bytes": 927,
+      "sha256": "4dce6382f0ecaa4cb4577a0b8632bc71eab6733b47a4748b52b8673b0f8b7b17"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_the_harbinger.asset",
+      "bytes": 969,
+      "sha256": "044bccbf9e35c3f8fadc0cc23f17ad622994159e8bf6f1eb7c3f3a0cd0bc681c"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_the_prowler.asset",
+      "bytes": 946,
+      "sha256": "881b00d408ff7f43a19abd625e3f1e6685caa77c18843928d1f5824ef776957a"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_the_watcher.asset",
+      "bytes": 922,
+      "sha256": "b1ffa5385839f623a23bd061ee989e91b701afe099b247a1f5fea24efa66d193"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_cataclysm_wadjet.asset",
+      "bytes": 945,
+      "sha256": "ac21c9e50d7a4598f2bb0b25bb3caf2c933a1b1a9b664f4c6cd1b0e262af5d12"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_creeper.asset",
+      "bytes": 898,
+      "sha256": "85b888cbe0429ed2cb738c1a0e3da633f4cd3dcfcdc13ecb288b7dadea43d2c3"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_dread_beast.asset",
+      "bytes": 840,
+      "sha256": "98ea6ce966392acb87d62d16fbcba63f1fe039f9aacabb647e3a288f8ed2f42c"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_dread_ghoul.asset",
+      "bytes": 846,
+      "sha256": "519b50b47434f5ee723c67e6908b15b9a1a641d3dd9a4de5fe5a9c657ea4b04c"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_dread_spider.asset",
+      "bytes": 854,
+      "sha256": "ead60b7482f164b15b2561278ed5236d8003df8c6f4dd74533e5f433d61728d5"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_dread_thrall.asset",
+      "bytes": 842,
+      "sha256": "defabb5301959d89678a4eaa41436da14242ab284736063ceacc6de08be92cdc"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_evoker.asset",
+      "bytes": 907,
+      "sha256": "345990d21bc95c80d6757dfd722b7720ee6643d63f3163aa5c0886a68f82160b"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_iceandfire_cyclops.asset",
+      "bytes": 946,
+      "sha256": "0244086b6979efd2f88f8efebc2c621777464e6f6b54c5ac4e6879f9d43f45a4"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_iceandfire_dread_lich.asset",
+      "bytes": 955,
+      "sha256": "62a458c8bd70f9970980c27585621317f058103bc682639a2134a168e1b953c1"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_iceandfire_if_cockatrice.asset",
+      "bytes": 922,
+      "sha256": "96b6cc47be62838cb4b4c0cc13463f0b0b9534e0004c0579c3bcd1495f7ca3ff"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_iceandfire_if_troll.asset",
+      "bytes": 965,
+      "sha256": "5c39a1f9474d0dae10cbc32b6d210b1865fc3a476f2eaee3ebb9d2dcdfb9ee64"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_iceandfire_stymphalianbird.asset",
+      "bytes": 970,
+      "sha256": "f001620e9670c39f39fe46ec258cde72160174dfd3abbe6f5c46e981c062d500"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_iron_golem.asset",
+      "bytes": 895,
+      "sha256": "0c8190619d9337e0520d932d452802f6ff24299e51f1c160fbd0e840eb92b9c7"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_mowziesmobs_frostmaw.asset",
+      "bytes": 968,
+      "sha256": "7966abb91d2435eb30b25f7183e92be242b667d824b46532f8175e7c08e936be"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_mowziesmobs_naga.asset",
+      "bytes": 937,
+      "sha256": "fea871fcb8603cf746d54dee5bc53096d8d61ec8bc3b1d05f92e0ece720f3e2f"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_pillager.asset",
+      "bytes": 885,
+      "sha256": "5c439dc5b0eb0a14e4246202db7d96e32c809a50099761c0976ab5f014ade893"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_ravager.asset",
+      "bytes": 888,
+      "sha256": "494d2b3685e9c667809e3d87b6f766014aa6dc2845791bb562dba6d422cee568"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_skeleton.asset",
+      "bytes": 881,
+      "sha256": "8d4a3e0b55a03d3177d411388c81f90f3aa4f54a12d3077b066c85817ec2cc99"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_stradpole.asset",
+      "bytes": 834,
+      "sha256": "bcdf6c22923a84d2ec56a851463de3db260f08f2e0495a2e67f7b0df74167f8e"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_stray.asset",
+      "bytes": 889,
+      "sha256": "92b8f1bd522e5b12aa1aeed2048bc04ac5a300d1b4a9b3228cbed173a7a3d68c"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_alpha_yeti.asset",
+      "bytes": 974,
+      "sha256": "3d9572bedbd8ebc5e04b3e2c7ca41007f611c20c5591fe126a8f8a32da410578"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_armored_giant.asset",
+      "bytes": 936,
+      "sha256": "57c2bfd0a6bb25a78160824aac94cfcf27b12e8ed0a0158f4c1f80f52ce45f65"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_blockchain_goblin.asset",
+      "bytes": 972,
+      "sha256": "142b64728a488d8c1eff732ea7ceb0bb4d497a4daf8f2a6ad02306d6668e686e"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_death_tome.asset",
+      "bytes": 924,
+      "sha256": "af782ca65251a28f407f26af99362fc9bd814c6f2f1923e50e34abf84947c7f0"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_fire_beetle.asset",
+      "bytes": 962,
+      "sha256": "23123a1a2f39d4d7ca1abd1ddc82dfe06e46a3c158832ac853dc56a74415263a"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_giant_miner.asset",
+      "bytes": 931,
+      "sha256": "01b3b17497c4c2f24b120c94b338aa12e0934bb121fc8df65a01f70ecd2dcd8d"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_king_spider.asset",
+      "bytes": 959,
+      "sha256": "40904317e43d98459596220cb62cf381766ddb30969332437a39f070b45b0053"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_minoshroom.asset",
+      "bytes": 941,
+      "sha256": "3c4e9b631bb713a68bad8c938ce14266ebf5f18698a0df1cd043dc7d7f1fcef1"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_minotaur.asset",
+      "bytes": 918,
+      "sha256": "e68b920745c8c39defa15a77895dd08b8f93ddfd9a2123260bba2f867aba56b6"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_mist_wolf.asset",
+      "bytes": 920,
+      "sha256": "2b5870a70aff6593f1303dca451e62305358cece9ba96584f5b72e3e77929e88"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_naga.asset",
+      "bytes": 930,
+      "sha256": "95bed76849627584f31afa3e1c620b7d18ac6a9c0a8e4261eb1ff7477947a821"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_skeleton_druid.asset",
+      "bytes": 949,
+      "sha256": "577b788879d7cf331a3e02dc56d32de75872504c4b49b3fd9a46721a47ad2fa4"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_slime_beetle.asset",
+      "bytes": 943,
+      "sha256": "ef8cfb8d0d8ceb148d4464ff602d6d9566b01cf446301053de91cb5f72cd8e1e"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_tower_golem.asset",
+      "bytes": 936,
+      "sha256": "c02b44542df497536a5609722e3cae0d35d1aeaa8e80a3f810e0932d8d098ff9"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_twilightforest_winter_wolf.asset",
+      "bytes": 946,
+      "sha256": "4c2394a7e5908f47eaeda46b153c383438c77ffd2394c1ab0568cad55e965cc2"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_vex.asset",
+      "bytes": 829,
+      "sha256": "5badf4024867bed96cfdc3ec9631353925f713e1f779d88dd3c07b9feb2bf38c"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_vindicator.asset",
+      "bytes": 893,
+      "sha256": "de77ec69cab9c262a4a800f42a2bbe89b18caf287542cd5589edabf00bfa4196"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_warden.asset",
+      "bytes": 915,
+      "sha256": "10aef39447e87df687507c8b3f2433c4d84b341090454c29fc158a06e9953d44"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_witch.asset",
+      "bytes": 886,
+      "sha256": "5c6e6bbc2dd8b6e0d13820b8591761bf4106fe721fcd41762232d60d13b15e98"
+    },
+    {
+      "path": "Assets/Resources/Monsters/Monster_wither_skeleton.asset",
+      "bytes": 915,
+      "sha256": "34b160d0a207739ea9620e0e299e506fd5f8428d8c1d1a13678971849eee5259"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/Analysis/KnowledgePersistence.cs",
+      "bytes": 6328,
+      "sha256": "42f7031e5fcbfea5d6748f1292faa04ed0c2ed1284b7115239d1707403e47f0a"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/Analysis/ReportModels.cs",
+      "bytes": 4243,
+      "sha256": "0630b88f0fdf5d2f895e5d44b46f5a42ff8036392584d27e495a9c4f5a5ae568"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/Analysis/SessionAnalyzer.cs",
+      "bytes": 14560,
+      "sha256": "1b5b47a4f804bb27efbfc31fbae29e1872f7c3749391b68f524772162116166f"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/Core/LabModels.cs",
+      "bytes": 915,
+      "sha256": "2690db56bf4a0e6e386abce2ba1ab27b1404c2bf55675d89a21923fd2df0fb42"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/Core/LabSessionController.cs",
+      "bytes": 14752,
+      "sha256": "26d4bcc703dac1d0b8ea1a2b41a9941cc9a64ea52c7f03edf5ddc196901265f3"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/Core/TestPlanLoader.cs",
+      "bytes": 4902,
+      "sha256": "62d119e33124c80c144207ea653a01e489134d5704bc9c0ce70aa5e0eacebec5"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/Core/TestPlanModels.cs",
+      "bytes": 8510,
+      "sha256": "056a61987c605ddbcc3cbad8e7c85217560315cb0e6b8edea67825e3e71f76e8"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/Knowledge/KnowledgeBase.cs",
+      "bytes": 9443,
+      "sha256": "9865869a0f727254c00e1e7c934d81267d25afae266034f354491d3492f713e7"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/LLM/LLMClient.cs",
+      "bytes": 4759,
+      "sha256": "2502e2df191a2c7a1febc3243e2a0d964883988baf006c5b4cbbeedb4a4e204e"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/LLM/PromptTemplates.cs",
+      "bytes": 4435,
+      "sha256": "01c33b826b5fd5951e1e03421e9823ec0d2ed1b9ae9c00faa734de4425319553"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/Planning/IntentParser.cs",
+      "bytes": 5417,
+      "sha256": "08e6a0fdc1239608e07ecee463fcfc2a5cc135507a6c2ef86e7ab8ce12f77a44"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/Planning/LocalPlanner.cs",
+      "bytes": 4131,
+      "sha256": "cf7fcbd963a5a8611107055eeb22bcfcdafbce1c397b8386da76374f28c07882"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/Planning/MonsterCatalog.cs",
+      "bytes": 2627,
+      "sha256": "41318a33cf1bc0b74added9cb753068b7356577fe17eaf7849e6b9eb1556e1b6"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/Planning/SessionReferenceDetector.cs",
+      "bytes": 4698,
+      "sha256": "e1b84ad33bb902fa7eccf5df148798d5c43872f4911122abeee77cb71c4a1767"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/Planning/TestPlanIO.cs",
+      "bytes": 4548,
+      "sha256": "2be6fa95c793288d30cd276ea25a2111a95f6cc9ce7317b5a494dda278199054"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/UI/HistoryBrowserUI.cs",
+      "bytes": 7389,
+      "sha256": "6866298cb10ffc10f288d19e67ff6461f77405756f7ec36a1d1fd0cfcdda7664"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/UI/LabTheme.cs",
+      "bytes": 6353,
+      "sha256": "8f1dd09037ba63fb997d2925b240331439a3755237f6ca82297f5d0431b65111"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/UI/LabUI.cs",
+      "bytes": 9766,
+      "sha256": "03c8cca83961bbf2105bcff63172a700a9126d00610d98254d6632a5b776193e"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/UI/PlanEditorUI.cs",
+      "bytes": 24070,
+      "sha256": "0669aa7ef14bff7c0620ac9b03e8f8f68053778491b4f9617d8452361ff2789e"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/UI/ReportViewerUI.cs",
+      "bytes": 7575,
+      "sha256": "a283a351bb087aa50fa44f7b4c3149d05835f23345861d6ae36d27afde30f0a3"
+    },
+    {
+      "path": "Assets/Scripts/BalanceLab/UI/RequirementChatUI.cs",
+      "bytes": 12712,
+      "sha256": "42be355900c1af86d705ac5afd5f1e32806cbc089e165d4b3a8750ec7db51526"
+    },
+    {
+      "path": "Assets/Scripts/Core/Constants.cs",
+      "bytes": 1767,
+      "sha256": "263e073f675ce9c6b7c8910902ce276465f74ec0f0c343b07ff771821f7502dd"
+    },
+    {
+      "path": "Assets/Scripts/Core/Enums.cs",
+      "bytes": 1242,
+      "sha256": "b148f11d9bbf76fb479c143a990aaccb9eb08a59bd382e0d053f31462f564ede"
+    },
+    {
+      "path": "Assets/Scripts/Core/MonsterDefSO.cs",
+      "bytes": 1652,
+      "sha256": "ed65aa3aeb058b2164a4887dcbc807610ee824093325c3f59b3cd771b21ee33f"
+    },
+    {
+      "path": "Assets/Scripts/Data/MonsterConfigLoader.cs",
+      "bytes": 4652,
+      "sha256": "a99f71d158321d3ecf138af15bc014a5757791b8b1ba460e13f137b352d91c49"
+    },
+    {
+      "path": "Assets/Scripts/Data/MonsterDatabase.cs",
+      "bytes": 1650,
+      "sha256": "635d60a0b5fbaeaf3198cbcd7ab5b2ded739c589f43054d67400bb21bd94df19"
+    },
+    {
+      "path": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+      "bytes": 20250,
+      "sha256": "41694b1e62870da8be6136318f065ce9e776f6e8f91acc7387255f094d08f5ed"
+    },
+    {
+      "path": "Assets/Scripts/GameFlow/GameManager.cs",
+      "bytes": 13476,
+      "sha256": "0446bedbe6a47c241fa3f807d272f6b043b005cf0c818c0f5c71272f625fe232"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/Abilities/AbilityFactory.cs",
+      "bytes": 3894,
+      "sha256": "29514058f7c02d17aaa8fbfd54bd22fd9c8d28a2485ed55844007ef29c26a0f0"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/Abilities/Batch1Abilities.cs",
+      "bytes": 19486,
+      "sha256": "8b02b593b70349d4ae89d82549eff2563591813fd7d4760f11765e063c8bea0e"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/Abilities/Batch2Abilities.cs",
+      "bytes": 23099,
+      "sha256": "6faad6b4dded702556ee79450edb442e38ff3e82b1af67345bc01b9c7d28a473"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/Abilities/Batch3Abilities.cs",
+      "bytes": 95054,
+      "sha256": "77ca75cf35692ae72ad5a447e8bdb07dcbbe55a20289e8914c38604c7b9b5885"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/Abilities/GenericAbilities.cs",
+      "bytes": 9184,
+      "sha256": "8d2d40256f78b068bb030d2750121fc4ac1d91dac97b6d56462a363723ea1d63"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/Abilities/IAbilityComponent.cs",
+      "bytes": 1610,
+      "sha256": "04dff3d77476bfb7a8e630d390739a348ede063409cd8f524c358f275cf6499a"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/AreaEffectSystem.cs",
+      "bytes": 12504,
+      "sha256": "b5ea5a9b495bb17ad25e839541ffc7edaf87499b756c92b11adad1db9e69ab88"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/BattleSimulator.cs",
+      "bytes": 12453,
+      "sha256": "8b0c87cb45f269f1079edf7df5649871f52b7f2e90b7f0735f3d48f4b18e8995"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/BattleState.cs",
+      "bytes": 7466,
+      "sha256": "455b532199bbade61f3a5e9bbbaddee5fd04af49cd2dc681b057da8df5ace0bf"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/BattleStatsCollector.cs",
+      "bytes": 5735,
+      "sha256": "a343f0e2a5f97b8736054585908d273c41cdff4634641aa05299e5c5b5381352"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/DamageSystem.cs",
+      "bytes": 6237,
+      "sha256": "a5b7ea1a6b3f20f49f926ec15f96e55fec97927044f5acf7acdf83a46544ef14"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/MovementSystem.cs",
+      "bytes": 4731,
+      "sha256": "11f5155435704189a2933b7aacfede136f8a0525bfdd2c0d5cc1b298b72091b6"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/ProjectileSystem.cs",
+      "bytes": 6672,
+      "sha256": "e337f02708af7a1cf958f9287aad22e3a4920f5efb8952b0c6ee9c3f30d614c9"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/SkillStateMap.cs",
+      "bytes": 5032,
+      "sha256": "741bae2f99e86febfca63309f8a2e5ba3faf0a80e0ccb7906e0061e4727210e9"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/StatusEffectSystem.cs",
+      "bytes": 6624,
+      "sha256": "cbe5bed1722466e97dcb32124ba5cbc9111a384dcd1f862cfdfadba0471ca940"
+    },
+    {
+      "path": "Assets/Scripts/Simulation/TargetingSystem.cs",
+      "bytes": 4318,
+      "sha256": "5d244698e52bcde6008df6aa27d56babb94d931be0c775e9107b4a49cb436c68"
+    },
+    {
+      "path": "Assets/Scripts/UI/BattleUI.cs",
+      "bytes": 2870,
+      "sha256": "c20fc336ea0791490c09832668be2662bb865902e54a6b57f4caeea187f99adf"
+    },
+    {
+      "path": "Assets/Scripts/UI/CodexUI.cs",
+      "bytes": 20460,
+      "sha256": "069aff16b99c0aacf7e6738f28244b57d7135d5758c8661ccca06262689bc71d"
+    },
+    {
+      "path": "Assets/Scripts/UI/Components/MonsterCardView.cs",
+      "bytes": 7923,
+      "sha256": "b5a698dfc7e9c4bdfaa5e5901d1b6f90fd443c4ce454f6f73dc9002993b7ae4e"
+    },
+    {
+      "path": "Assets/Scripts/UI/Components/MonsterFilterBar.cs",
+      "bytes": 4752,
+      "sha256": "dacb8685fc7d4ac838ab5a8c3fe4a893e9808133445d2a2024894c79f50669fc"
+    },
+    {
+      "path": "Assets/Scripts/UI/Core/ScreenBase.cs",
+      "bytes": 1357,
+      "sha256": "f3acf2ee7eee41ec8c38c5ad49ec745ba9bc3bfb7e86141641f40ef5f8124f8b"
+    },
+    {
+      "path": "Assets/Scripts/UI/Core/UIAnimator.cs",
+      "bytes": 4669,
+      "sha256": "c3ba303bf4ccf954af4b48155b42a1a254d7ccbfd52c6f531720a73ebec7d5cb"
+    },
+    {
+      "path": "Assets/Scripts/UI/Core/UIButtonStyled.cs",
+      "bytes": 2256,
+      "sha256": "bf3e4bf31e0ff441c91010225d8609cb6b247d9b910efdf873ed7e0e56f96f7e"
+    },
+    {
+      "path": "Assets/Scripts/UI/Core/UISoundPlayer.cs",
+      "bytes": 2023,
+      "sha256": "8667abb9075c0c0636e41d7bf810308b340876d5bff233d908a968438bff8ad0"
+    },
+    {
+      "path": "Assets/Scripts/UI/Core/UITheme.cs",
+      "bytes": 2800,
+      "sha256": "9da5af38dc71c82fbbfc9e1645723e300a00fdf4c30f22b298e5fd0cf558ed26"
+    },
+    {
+      "path": "Assets/Scripts/UI/DeployUI.cs",
+      "bytes": 12045,
+      "sha256": "00dfe847dc48302e6a4df8f50873fe82d1871bd37a11219fc110199cd246f133"
+    },
+    {
+      "path": "Assets/Scripts/UI/MainMenuUI.cs",
+      "bytes": 2862,
+      "sha256": "778744489c3838f5cd00b68bf7ea9d96a6cf2eab2fb5d09be9f2e7d4ce171699"
+    },
+    {
+      "path": "Assets/Scripts/UI/ResultUI.cs",
+      "bytes": 8673,
+      "sha256": "b2bd4acdc81951742762d6a35c60c8be373cee9659ead269a487f8bacc465126"
+    },
+    {
+      "path": "Assets/Scripts/UI/ShopUI.cs",
+      "bytes": 9713,
+      "sha256": "9dd27fa869e9a043ac172a92240b4f80e6d5f4f67e7d72b2e0ef452a8edc94c5"
+    },
+    {
+      "path": "Assets/Scripts/View/AttackRangeView.cs",
+      "bytes": 7455,
+      "sha256": "9bd99f7870d836e07e140c539ebc4d9787c2df2c5702c71ba44439905de8176c"
+    },
+    {
+      "path": "Assets/Scripts/View/BattleBridge.cs",
+      "bytes": 14871,
+      "sha256": "1ca72b919daeddbb5b7f66f83eb37d7393fda7e498546d34112053d1c1e8775e"
+    },
+    {
+      "path": "Assets/Scripts/View/BattleEffectViews.cs",
+      "bytes": 17352,
+      "sha256": "d9d7551df4efa2deecafa132b8f2a5e099086453e8a4aabc5fb0a7ab2bf96862"
+    },
+    {
+      "path": "Assets/Scripts/View/BattleFieldRenderer.cs",
+      "bytes": 2124,
+      "sha256": "91237935f88cf8e97ae613e46abdbcaa63f539bfab808a55d14cc3abe8557a70"
+    },
+    {
+      "path": "Assets/Scripts/View/SlashView.cs",
+      "bytes": 3847,
+      "sha256": "12c786e541a760cc2473224e35196232d9bc7f2355a6e55c9dd65d95593cbcb0"
+    },
+    {
+      "path": "Assets/Scripts/View/UnitView.cs",
+      "bytes": 3704,
+      "sha256": "a1de5aa2523fed36faa8cb6fb1658aba208182cb0121a242feaeec84955fb831"
+    },
+    {
+      "path": "Assets/Scripts/View/VFXSpawner.cs",
+      "bytes": 9398,
+      "sha256": "9ea27924f4601e7b81587945d0fbc57189a9af2b534c6d3c2d422d6f1a9d2f0f"
+    },
+    {
+      "path": "Assets/Scripts/View/VFXSpriteView.cs",
+      "bytes": 3704,
+      "sha256": "9ad760399dab73f93a003b12aa0f008f967f51338f0f1cc55dc1ca40059a1099"
+    }
+  ]
+}

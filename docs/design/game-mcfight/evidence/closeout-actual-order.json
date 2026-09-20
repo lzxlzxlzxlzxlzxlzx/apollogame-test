@@ -1,0 +1,118 @@
+[
+  {
+    "id": "frame-start-transform",
+    "phase": -2
+  },
+  {
+    "id": "flow-window-commit",
+    "phase": -1
+  },
+  {
+    "id": "timer-advance",
+    "phase": 0
+  },
+  {
+    "id": "aggro",
+    "phase": 0
+  },
+  {
+    "id": "launch",
+    "phase": 0
+  },
+  {
+    "id": "lifetime",
+    "phase": 0
+  },
+  {
+    "id": "nav-follow",
+    "phase": 0
+  },
+  {
+    "id": "steering",
+    "phase": 0
+  },
+  {
+    "id": "motion-apply",
+    "phase": 0
+  },
+  {
+    "id": "flow",
+    "phase": 0
+  },
+  {
+    "id": "event-when",
+    "phase": 0
+  },
+  {
+    "id": "caster",
+    "phase": 0
+  },
+  {
+    "id": "prefab-spawn",
+    "phase": 0
+  },
+  {
+    "id": "committed-contact-position",
+    "phase": 10
+  },
+  {
+    "id": "overlap-detect",
+    "phase": 10
+  },
+  {
+    "id": "trigger-zone",
+    "phase": 10
+  },
+  {
+    "id": "collision-resolve",
+    "phase": 10
+  },
+  {
+    "id": "hitbox",
+    "phase": 10
+  },
+  {
+    "id": "damage-route",
+    "phase": 10
+  },
+  {
+    "id": "resource-apply",
+    "phase": 10
+  },
+  {
+    "id": "death-conversion",
+    "phase": 10
+  },
+  {
+    "id": "mortal",
+    "phase": 10
+  },
+  {
+    "id": "hierarchy-cascade",
+    "phase": 10
+  },
+  {
+    "id": "destroy-apply",
+    "phase": 10
+  },
+  {
+    "id": "targeted-caster",
+    "phase": 10
+  },
+  {
+    "id": "targeted-prefab-spawn",
+    "phase": 10
+  },
+  {
+    "id": "hierarchy-resolve",
+    "phase": 14
+  },
+  {
+    "id": "effect-apply",
+    "phase": 20
+  },
+  {
+    "id": "anim-state",
+    "phase": 20
+  }
+]

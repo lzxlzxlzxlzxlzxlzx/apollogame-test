@@ -3,7 +3,9 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ALL_CAPABILITIES } from './capability-registry.js';
-import { analyzeSystemGraph } from './system-graph.js';
+import { analyzeSystemGraph, collectSystems } from './system-graph.js';
+import { buildBlueprint } from '../../games/game108/blueprint.js';
+import { s4Capabilities } from '../../games/game-mcfight/s4-world.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  申报对账守卫（REQ-ENGINEAUDIT 根因①·主程 2026-08-16）
@@ -132,13 +134,13 @@ describe('申报对账 — 能力文件的实际组件访问 ⊆ 同文件系统
 describe('相位落桶棘轮 — 非缺省相位成员点名（根因①·A1 探针4 的机器化）', () => {
   it('非缺省相位的系统集合与基线逐一相等（挪相位必须同提交改基线）', () => {
     const byPhase = new Map<number, string[]>();
-    for (const c of ALL_CAPABILITIES) {
-      for (const s of c.systems ?? []) {
-        const p = s.phase ?? 0;
-        if (p === 0) continue;
-        if (!byPhase.has(p)) byPhase.set(p, []);
-        byPhase.get(p)!.push(s.id);
-      }
+    // Match World actual expansion: core snapshot service is not owned by a capability.
+    for (const ref of collectSystems(ALL_CAPABILITIES)) {
+      const s = ref.sys;
+      const p = s.phase ?? 0;
+      if (p === 0) continue;
+      if (!byPhase.has(p)) byPhase.set(p, []);
+      byPhase.get(p)!.push(s.id);
     }
     const actual = [...byPhase.entries()]
       .sort((a, b) => a[0] - b[0])
@@ -147,10 +149,13 @@ describe('相位落桶棘轮 — 非缺省相位成员点名（根因①·A1 探
   });
 });
 
-/** 相位基线（2026-08-16 实测灌入）。改动纪律同 SCC 基线：挪相位 = 同提交带理由更新本表。 */
+/** 2026-09-15：逐边原因及行为证据见 self-check/s4/disposition-declaration.md。 */
 const PHASE_BASELINE: string[] = [
+  'p-2:frame-start-transform',
+  'p-1:flow-window-commit',
   'p4:rotation-apply',
-  'p10:collision-resolve,collision-resolve-3d,tile-collision',
+  'p10:collision-resolve,collision-resolve-3d,committed-contact-position,damage-route,death-conversion,destroy-apply,ground-sense,hierarchy-cascade,hitbox,mortal,over-time,overlap-detect,resource-apply,self-rule,targeted-caster,tile-collision,trigger-zone',
+  'p12:targeted-prefab-spawn',
   'p14:friction,gauge,hierarchy-resolve,orbit-motion,text-binding',
   'p20:anim-state,block-view-sync,bounds-clamp,craft-recipe,effect-apply,face-rotate,facing,jump,match-view-sync,matrix-duel-announce,matrix-duel-intent,stat-bind,weighted-spawn',
 ];
@@ -161,6 +166,29 @@ const PHASE_BASELINE: string[] = [
 // 新环 = 有人引入了新的软耦合（大概率又是一次瞒报或缺显式边），当场红；
 // 环消失 = 有人破了环，有意识地把它从基线删掉（禁静默漂移）。
 describe('系统图软环棘轮 — 全库 SCC 点名基线（根因①·告警收割）', () => {
+  it.each([['game108', buildBlueprint('master').capabilities], ['MCFight', s4Capabilities]] as const)(
+    '%s实际组合补齐条件读取后无新环', (name, caps) => {
+      const report = analyzeSystemGraph(caps);
+      expect(report.systemCount).toBe(collectSystems(caps).length);
+      expect(report.systemCount).toBeGreaterThan(10);
+      expect(report.sccs).toEqual([]);
+      expect(report.duplicateIds).toEqual([]);
+      const allIds = new Set(collectSystems(ALL_CAPABILITIES).map(s => s.id));
+      expect(report.danglingEdges.filter(e => !allIds.has(e.ref))).toEqual([]);
+      console.log('CONDITION_DECLARATION_GAME_GRAPH', name, JSON.stringify(report));
+    });
+  it('真实2D接触/接地/响应/瓦片组合不能借全库3D超集环豁免', () => {
+    const ids = ['t3-prefab', 'd1-overlap-detect', 't2-ground-sense', 't2-collision-resolve', 't2-tilemap'];
+    const caps = ALL_CAPABILITIES.filter(c => ids.includes(c.id));
+    expect(caps.map(c => c.id).sort()).toEqual([...ids].sort());
+    const refs = collectSystems(caps);
+    for (const id of ['committed-contact-position', 'overlap-detect', 'ground-sense', 'collision-resolve', 'tile-collision'])
+      expect(refs.filter(r => r.id === id)).toHaveLength(1);
+    const rep = analyzeSystemGraph(caps);
+    expect(rep.systemCount).toBe(refs.length);
+    expect(rep.sccs).toEqual([]);
+    expect(rep.duplicateIds).toEqual([]);
+  });
   it('SCC 集合与基线逐一相等（多一个红·少一个也红）', () => {
     const rep = analyzeSystemGraph(ALL_CAPABILITIES);
     // 硬不变量（system-graph.test.ts 已各自守着,此处顺带复核）：
@@ -181,11 +209,15 @@ describe('系统图软环棘轮 — 全库 SCC 点名基线（根因①·告警�
  * 变更纪律：新增 = 先按根因① matrix-duel 先例尝试显式边/数据路由消解，消不动才带理由改行；
  * 减少 = 同提交更新（记下是谁破的环）。禁静默改基线换绿。
  */
+// R3 REQ-009: membership unchanged after Flow-before-merge-rule correction.
+// DestroyRequest is now an honestly declared edge within the existing Update
+// supergraph SCC; actual MC Fight combinations remain acyclic. See
+// docs/design/game-mcfight/r3-declaration-disposition.md.
 const SCC_BASELINE: string[] = [
-  // p0 大环 45 系统：prefab-spawn「展开殿后」十连钉边后 caster/merge-rule/mortal/prefab-spawn 已脱环
-  // （PrefabOrigin/SpawnRequest 不再是闭环组件）——本行若再变大，先查是谁的新申报/新读面把它拉回来的。
-  'p0:accel-apply+aggro+block-place+bounce-relay+card-pile+card-play-input+card-score-pass+clickable+dialogue+dice-roll+drag-place+drop-zone+event-when+flow+flow-field+grid-drag-square+grid-move+group-count+hitbox+keybind+launch+match3-drag-swap+matrix-duel+merge-on-place+merge-proximity-clear+motion-apply+nav-follow+navmesh-bake+order-fulfill+over-time+overlap-detect+path-follow+poker-eval+pull-anchor+queue-slots+resource-apply+self-rule+state-sync+steering+string-apply+t3-slot-payout+timeline+tray+trigger-zone+tween+zone-occupancy|via:Bounce,Clickable,Flag,HexPos,MergeEvent,NavGraph,OverTime,Overlap,PlaceBlockIntent,PlayedHand,RandomSeed,Relation,Resource,ResourceModify,RolledDice,Signal,State,Status,StringVar,Transform,Trigger,Tween,Velocity',
-  'p10:collision-resolve+collision-resolve-3d+tile-collision|via:Transform,Velocity',
+  // 2026-09-15：结算系统移出Update；原matrix-duel/string-apply不再被资源回边拉入。
+  // 新Tag边来自drag-place真实部署标记写入。全量变化原因见disposition-declaration.md。
+  'p0:accel-apply+aggro+block-place+bounce-relay+card-pile+card-play-input+card-score-pass+clickable+dialogue+dice-roll+drag-place+drop-zone+event-when+flow+flow-field+grid-drag-square+grid-move+group-count+keybind+launch+match3-drag-swap+merge-on-place+merge-proximity-clear+motion-apply+nav-follow+navmesh-bake+order-fulfill+path-follow+poker-eval+pull-anchor+queue-slots+state-sync+steering+string-apply+t3-slot-payout+timeline+tray+tween+zone-occupancy|via:Bounce,Clickable,DestroyRequest,Flag,HexPos,MergeEvent,NavGraph,PlaceBlockIntent,PlayedHand,RandomSeed,Relation,Resource,RolledDice,Signal,State,StringVar,Tag,Transform,Tween,Velocity',
+  'p10:collision-resolve+collision-resolve-3d+committed-contact-position+ground-sense+overlap-detect+tile-collision|via:Overlap,Transform,Velocity',
   'p20:anim-state+match-view-sync|via:Sprite',
   'p20:bounds-clamp+facing|via:Transform',
 ];

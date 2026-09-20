@@ -1,0 +1,295 @@
+// GD-109 验收剧本 05 · 前置门阶梯：一格里把**每一条门**都撞一遍（brief.md:40-43）。
+// author: GD
+//
+// 条款出处：brief.md:40-43 四条动作的前置与落定：
+//            翻土：荒地 → 已翻土          ⇒ 非荒地不可翻
+//            播种：**已翻土** → 已播种（第 0 阶）⇒ 非已翻土不可播
+//            浇水：**已播种** → 今日已浇    ⇒ 未播种不可浇 · 同一块地一天只浇一次
+//            收获：**成熟** → 产物进背包、地块回已翻土 ⇒ 未熟不可收 · 收完已还田不可再收
+//          · brief.md:15「一次动作 = … = 扣 1 点体力」· brief.md:62 P3「前置不满足 → 动作被拒」
+//          数值取 requests.md §裁决行 A：小麦 **2 天** · 卖价 30 · 体力 20 / 每动作 1 · 起始第 1 天。
+//
+// 一格贯穿（tile-r0c2 = 小麦）：L0 荒地 → L1 翻土 → L2 播种 → L3 浇水 → L4 成熟 → L5 收获 → L6 还田。
+//   每条「不合格的落点」都在**同一格**上撞一次，共 **8 次拒绝**：
+//     L0 上：播种✗ 浇水✗ 收获✗   L1 上：再翻✗   L2 上：再播✗ · 0 阶收✗
+//     L4 前：1 阶收✗（**只差一阶也不许收**）   L6 上：再收✗
+//   每次拒绝都同时断言三件事：**地块态没动** + **生长阶没动** + **体力没白扣**。
+//   收尾再把**循环闭上**：还田的格子重新播种 → 浇一次水 → 睡一觉 → 新一轮只长一阶，
+//   最后补一记**同日重浇探针**（只钉状态后果、不碰体力——理由见该步注释）。
+//
+// 对抗目标（把实现改坏成什么样，这条会变红）：
+//   · **某条门缺失或写反**（播种不看已翻土 / 浇水不看已播种 / 收获不看成熟 / 翻土不看荒地）→ 对应的那步红。
+//   · **同日重浇把状态搅坏**（第二次浇水把标记清掉 / 当场生长 / 把态改回 tilled）→ 末尾探针红。
+//     （条款没写「已浇再浇」是拒绝还是白扣 1 体力 ⇒ 探针**不钉体力**，只钉状态后果。）
+//   · **未熟也能收**（成熟门比的是「有没有播种」而不是「到没到天数」）→ 0 阶收 / 1 阶收 两处红。
+//   · **收完不还田**（收获的落定写成「回荒地」或「原地不动」）→ 末步 `state eq tilled` 红；
+//     **收完还能再收** → 末步 `inv-wheat eq 1` 红（白送第二个）。
+//   · **拒绝也扣体力**（先扣后判门）→ 8 处拒绝的 `energy` 断言红。
+//   · **拒绝也改地块**（门只当提示用）→ 各处 `state`/`stage`/`watered` 断言红。
+//   · **播种不把生长阶压回 0**（brief.md:41 明写「第 0 阶」）→ 收尾那次**重播**的 `Resource eq 0` 等不到 → 红。
+//     判别力来源：这一格刚收过（成熟态 2 阶）；若实现「收获不清阶 + 播种不归零」两处都缺，
+//     播下去仍是 2 阶 = 当场成熟。
+//     ⚠ 收获侧**不判**阶：brief.md:43 只说「地块回已翻土」，没说阶的数 ⇒ 归零点若落在播种，
+//       「收完还挂着旧阶数」是合规的，在收获侧断言 `stage eq 0` 就是假红。判别点只在播种侧。
+//
+// 时序纪律：拒绝路径（「什么都没发生」）用固定观察窗 `{ "tick": 3 }`——waitUntil 表达不了「不变」；
+//   睡觉之后也摆同样的窗（生长**下一拍**才施放，不摆窗则「本夜不长」会被提前判过 = 假绿）。
+//   换工具一律 `pick-*` + `waitUntil [tool eq N]` 两步走：不依赖「同拍里换工具与干活谁先施放」的隐式序。
+{
+  "name": "前置门阶梯·八次拒绝都不动地块也不白扣体力",
+  "game": "game109",
+  "seed": 109,
+  "steps": [
+    // ── L0 荒地：三个动作全都不成立 ──────────────────────────────────
+    { "expect": [
+      { "res": "day", "eq": 1 },
+      { "res": "energy", "eq": 20 },
+      { "res": "inv-wheat", "eq": 0 },
+      { "comp": { "entity": "tile-r0c2", "component": "StringVar", "field": "value" }, "eq": "wheat" },
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "wild" },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": false },
+    ] },
+
+    // 拒绝 1 · 荒地不可播种（brief.md:41 要求已翻土）
+    { "signal": "pick-sow" },
+    { "waitUntil": [{ "res": "tool", "eq": 1 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "tick": 3 },
+    { "expect": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "wild" },
+      { "res": "energy", "eq": 20 },
+    ] },
+
+    // 拒绝 2 · 荒地不可浇水（brief.md:42 要求已播种）
+    { "signal": "pick-water" },
+    { "waitUntil": [{ "res": "tool", "eq": 2 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "tick": 3 },
+    { "expect": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "wild" },
+      { "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": false },
+      { "res": "energy", "eq": 20 },
+    ] },
+
+    // 拒绝 3 · 荒地无物可收（brief.md:43 要求成熟）
+    { "signal": "pick-reap" },
+    { "waitUntil": [{ "res": "tool", "eq": 3 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "tick": 3 },
+    { "expect": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "wild" },
+      { "res": "energy", "eq": 20 },
+      { "res": "inv-wheat", "eq": 0 },
+    ] },
+
+    // ── L1 已翻土 ────────────────────────────────────────────────────
+    { "signal": "pick-till" },
+    { "waitUntil": [{ "res": "tool", "eq": 0 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "res": "energy", "eq": 19 },
+    ], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 19 },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 0 },   // 翻土不动生长阶
+    ] },
+
+    // 拒绝 4 · 已翻土不可再翻（brief.md:40 只认荒地）
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "tick": 3 },
+    { "expect": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "res": "energy", "eq": 19 },
+    ] },
+
+    // ── L2 已播种（第 0 阶）─────────────────────────────────────────
+    { "signal": "pick-sow" },
+    { "waitUntil": [{ "res": "tool", "eq": 1 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "sown" },
+      { "res": "energy", "eq": 18 },
+    ], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 18 },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 0 },   // 「第 0 阶」
+    ] },
+
+    // 拒绝 5 · 已播种不可再播（brief.md:41 只认已翻土）
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "tick": 3 },
+    { "expect": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "res": "energy", "eq": 18 },
+    ] },
+
+    // ── L3 今日已浇 ──────────────────────────────────────────────────
+    { "signal": "pick-water" },
+    { "waitUntil": [{ "res": "tool", "eq": 2 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": true },
+      { "res": "energy", "eq": 17 },
+    ], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 17 },
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "sown" },  // 浇水不换生命周期态
+    ] },
+
+    // （这里原本有一条「同一天再浇一次必须被拒且不扣体力」——**已撤**：brief.md:42 只写了
+    //   结果态是「今日已浇」，没写第二次是**拒绝**还是**照扣 1 体力但状态不变**，两种实现都能自辩。
+    //   钉它就是一条会假红的断言。同日重浇的**状态后果**改在文件末尾探针里钉，且不碰体力。
+    //   见 README「本套剧本的已知含糊」第 6 条。）
+
+    // 拒绝 6 · 0 阶不可收（差 2 阶）
+    { "signal": "pick-reap" },
+    { "waitUntil": [{ "res": "tool", "eq": 3 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "tick": 3 },
+    { "expect": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "res": "inv-wheat", "eq": 0 },
+      { "res": "energy", "eq": 17 },
+    ] },
+
+    // ── L4 差一阶也不许收（小麦 2 天，第 2 天早上才是 1 阶）───────────
+    { "signal": "sleep" },
+    { "waitUntil": [
+      { "res": "day", "eq": 2 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": false },
+    ], "cap": 60 },
+    // 观察窗（3 拍）：生长**下一拍**才施放 —— 等它落定再判「恰好长到 1 阶」。
+    { "tick": 3 },
+    { "expect": [
+      { "res": "day", "eq": 2 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 1 },   // 恰一阶
+      { "flag": "grow-phase", "eq": false },
+    ] },
+
+    // 拒绝 7 · **只差一阶**：1 阶的小麦还不能收（这条是成熟门的硬牙齿）
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "tick": 3 },
+    { "expect": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "res": "inv-wheat", "eq": 0 },
+      { "res": "energy", "eq": 20 },
+    ] },
+
+    // 浇第 2 次水 → 第 3 天早上成熟
+    { "signal": "pick-water" },
+    { "waitUntil": [{ "res": "tool", "eq": 2 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": true },
+      { "res": "energy", "eq": 19 },
+    ], "cap": 30 },
+    { "signal": "sleep" },
+    { "waitUntil": [
+      { "res": "day", "eq": 3 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 2 },   // 成熟线
+    ], "cap": 60 },
+    // 观察窗（3 拍）：等生长落定 —— 小麦到**恰 2 阶**（2 天 = 成熟线，3 阶也红）。
+    { "tick": 3 },
+    { "expect": [
+      { "res": "day", "eq": 3 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 2 },
+      { "flag": "grow-phase", "eq": false },
+    ] },
+
+    // ── L5 → L6 收获：成熟 → 入背包 → 地块回「已翻土」─────────────────
+    { "signal": "pick-reap" },
+    { "waitUntil": [{ "res": "tool", "eq": 3 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    // 收获的落定：还田（`tilled`）+ 入包 + 扣体力。**不判生长阶**——brief.md:43 只说地块回「已翻土」，
+    //   没说阶的数；判了就是对「把归零点放在播种」的合规实现多要求一条 ⇒ 假红。
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "res": "inv-wheat", "eq": 1 },
+      { "res": "energy", "eq": 19 },
+    ], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 19 },
+      { "res": "inv-wheat", "eq": 1 },
+      { "res": "inv-carrot", "eq": 0 },
+      { "res": "inv-pumpkin", "eq": 0 },
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "tilled" },  // 还田 = 可接着播种
+    ] },
+
+    // 拒绝 8（收尾）· 已还田的格子再收一次 —— 不许白送第二个小麦
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "tick": 3 },
+    { "expect": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "res": "inv-wheat", "eq": 1 },
+      { "res": "energy", "eq": 19 },
+    ] },
+
+    // ── 循环闭合：还田的地块**可以重新播种**，新一轮从「第 0 阶」开始（brief.md:41）──
+    //    这是生长阶的**判别点**，且只在播种侧才条款有据（brief.md:41 明写「第 0 阶」）；
+    //    收获侧（brief.md:43）只说回「已翻土」，**没规定阶的数**，所以归零点若落在播种，
+    //    收获后挂着旧阶数的实现**是合规的**——本文件因此**不**断言收获后的阶（那会是假红）。
+    //    判别力从哪来：这一格刚收过（成熟态 2 阶）。若实现「收获不清阶 + 播种不归零」两处都缺，
+    //    此刻播下去仍是 2 阶 = 当场成熟 → 下面 `Resource eq 0` 等不到 → 红。
+    //    （单看「播种归零」一件、在没种过的新格上是不可观测的：那种格本来就该是 0 阶。）
+    { "signal": "pick-sow" },
+    { "waitUntil": [{ "res": "tool", "eq": 1 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "res": "energy", "eq": 18 },
+    ], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 18 },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 0 },
+    ] },
+
+    // 新一轮浇一次水 → 睡一觉 → 只长**一阶**（不是接着旧阶数走）
+    { "signal": "pick-water" },
+    { "waitUntil": [{ "res": "tool", "eq": 2 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": true },
+      { "res": "energy", "eq": 17 },
+    ], "cap": 30 },
+    { "signal": "sleep" },
+    { "waitUntil": [{ "res": "day", "eq": 4 }, { "res": "energy", "eq": 20 }], "cap": 60 },
+    { "tick": 3 },
+    { "expect": [
+      { "res": "day", "eq": 4 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 1 },   // 新一轮的第 1 阶
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": false },
+      { "flag": "grow-phase", "eq": false },
+      { "res": "inv-wheat", "eq": 1 },          // 背包没被第二轮搅动
+    ] },
+
+    // ── 探针（不记入「拒绝」）：同一天把这块地浇第二次，**状态后果**必须停在同一处 ──
+    //   brief.md:42 只规定结果态是「今日已浇」；它**没说**第二次是拒绝还是照扣 1 体力。
+    //   两种实现都能自辩 ⇒ 本步**不钉体力**（钉了就是会假红的断言），只钉：
+    //   标记仍是「已浇」· 生命周期态没被搅动 · 生长阶没被搅动 · 相位旗没被点亮。
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },   // 第 4 天的第 1 次浇水
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": true },
+    ], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },   // 同一天的第二次
+    { "tick": 3 },
+    { "expect": [
+      { "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": true },
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "flag": "grow-phase", "eq": false },
+    ] },
+  ],
+}

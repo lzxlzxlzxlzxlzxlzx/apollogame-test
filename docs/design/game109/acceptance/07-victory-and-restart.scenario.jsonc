@@ -1,0 +1,434 @@
+// GD-109 验收剧本 07 · 通关终局 + 终局出口重开。
+// author: GD
+//
+// 条款出处：brief.md:46「金币 ≥ 目标 → 通关结算屏」· brief.md:30「通关判据：攒够目标金币」
+//          · brief.md:34「T2 闭环竖切（开始→操作→推进→可重开）能被机器证明」（本文件末段即「可重开」）
+//          · brief.md:45「卖货 → 背包里的作物换成金币」
+//          数值一律取 requests.md §裁决行 A（owner 2026-09-18 亲裁）：目标 1000 · 体力 20 · 每动作 1
+//          · 胡萝卜 1 天 12 金 / 小麦 2 天 30 金 / 南瓜 3 天 75 金 · 起始第 1 天。
+//
+// 本文件钉的两件事：
+//   ① **阈值两侧**：把「差一点」和「刚过线」都摆出来——
+//      第一次卖货后金币恰 **990 < 1000** → `sv flow` 必须仍是 `playing`；
+//      第二次卖货后金币恰 **1002 ≥ 1000** → `sv flow` 必须转 `won`。
+//   ② **终局出口**：`won` 之后点 `restart`（PE 的宿主重开）→ 世界回到初态（金币 0/第 1 天/体力 20/工具 0/地块全 wild）。
+//
+// 对抗目标（把实现改坏成什么样，这条会变红）：
+//   · **通关线写错**（如 900 / 950 / 999 / 「有金币就算赢」）→ 990 那一步的 `flow eq "playing"` 当场红。
+//   · **阈值判据写反或永不转移**（>`≥` 写成 `>`、条件没挂上）→ 1002 那一步的 `flow eq "won"` 耗尽 cap 红。
+//   · **卖价错**（12/30/75 任一）→ 990 与 1002 两个数都到不了，两处一起红。
+//   · **卖货不清背包**（清零那一拍缺失或早于结账）→ 第二次卖货把同一批货再卖一遍 → 1002 变 2019 → 红。
+//   · **收获不还田**（reap 的 FOLLOW/CLOSE 拍缺失）→ 该项 waitUntil 的 `state=tilled` 等不到 → 红。
+//     ⚠ 收获侧**不判**生长阶：brief.md:43 只说「地块回已翻土」，没说阶的数 ⇒ 在收获侧钉 `stage 0`
+//       会比条款多要求一条（归零点在**播种**侧·brief.md:41），对合规实现假红。本文件的判别点在
+//       上面每一处播种步（`sow` 之后判 `stage eq 0`）。
+//   · **成熟线写错**（南瓜不是 3 天 / 小麦不是 2 天）→ 第 4 夜 / 第 3 夜的 `stage eq N` 等不到 → 红。
+//   · **重开不重置世界**（上一局的记忆跟进新局）→ 末段的 `gold=0 / day=1 / tool=0 / state=wild` 红；
+//     `restart` 词不存在（PE 未接线）→ 该步「运行错误」红，**与前面通关段的断言无关**（分段注释见下）。
+//
+// 机读态纪律（requests.md 领工声明的契约表）：36 格逐格同名（共用 `Flag{id:watered}` / `Resource{id:stage}`），
+// 故逐格断言一律走 `comp` + 显式实体 id；`res`/`flag` 只用于全局单例（energy/gold/day/tool/inv-*/grow-phase）。
+// 时序纪律：一律 `waitUntil`（先查后拍·cap 必填）。裸 `tick` 只作**观察窗**，两处用：
+//   ① 拒绝路径——「什么都没发生」waitUntil 表达不了（条件恒真=0 拍，信号还没被消费）；
+//   ② 每次睡觉之后——生长是**下一拍**才施放的，先摆 3 拍再判生长，否则「本夜不长/只长一阶」
+//      会在生长之前被判过 = 假绿（这一条是把「成熟即停」「没浇不长」钉住的唯一办法）。
+//
+// 【分段的读法】步号 ≈1~200 = 通关终局段；≈200 之后 = 重开段（由 `signal: "restart"` 一句隔开）。
+{
+  "name": "通关终局·990 未通关 1002 通关·终局出口重开",
+  "game": "game109",
+  "seed": 109,
+  "steps": [
+    // ── 开局态（§裁决行 A：第 1 天 · 体力 20 · 金币 0）─────────────────────────
+    // 作物由列号定死（col 4/5=南瓜·col 2/3=小麦·col 0/1=胡萝卜）——这是装配期事实，不是玩家选择
+    {"expect": [{"res": "day", "eq": 1}, {"res": "energy", "eq": 20}, {"res": "gold", "eq": 0}, {"res": "tool", "eq": 0}, {"sv": "flow", "eq": "playing"}, {"comp": {"entity": "tile-r0c4", "component": "StringVar", "field": "value"}, "eq": "pumpkin"}, {"comp": {"entity": "tile-r0c2", "component": "StringVar", "field": "value"}, "eq": "wheat"}, {"comp": {"entity": "tile-r0c0", "component": "StringVar", "field": "value"}, "eq": "carrot"}]},
+    // ══ 第 1 天 ══ 体力 20：12 格南瓜翻土 + 播 8 格 = 20 个动作
+    // 选工具 till（词表 = hud.ts 的 TOOLS[].pickSignal）
+    {"signal": "pick-till"},
+    // 等工具就位（先查后拍）
+    {"waitUntil": [{"res": "tool", "eq": 0}], "cap": 30},
+    // 点 tile-r0c4·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r0c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c4", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 点 tile-r0c5·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r0c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c5", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 点 tile-r1c4·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r1c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c4", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 点 tile-r1c5·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r1c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c5", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 点 tile-r2c4·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r2c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r2c4", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 点 tile-r2c5·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r2c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r2c5", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 点 tile-r3c4·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r3c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r3c4", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 点 tile-r3c5·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r3c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r3c5", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 点 tile-r4c4·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r4c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r4c4", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 点 tile-r4c5·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r4c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r4c5", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 点 tile-r5c4·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r5c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r5c4", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 点 tile-r5c5·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r5c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r5c5", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 选工具 sow（词表 = hud.ts 的 TOOLS[].pickSignal）
+    {"signal": "pick-sow"},
+    // 等工具就位（先查后拍）
+    {"waitUntil": [{"res": "tool", "eq": 1}], "cap": 30},
+    // 点 tile-r0c4·已翻土 → 已播种（**第 0 阶**）
+    {"signal": "work", "args": {"tile": "tile-r0c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c4", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 点 tile-r0c5·已翻土 → 已播种（**第 0 阶**）
+    {"signal": "work", "args": {"tile": "tile-r0c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c5", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 点 tile-r1c4·已翻土 → 已播种（**第 0 阶**）
+    {"signal": "work", "args": {"tile": "tile-r1c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r1c4", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 点 tile-r1c5·已翻土 → 已播种（**第 0 阶**）
+    {"signal": "work", "args": {"tile": "tile-r1c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r1c5", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 点 tile-r2c4·已翻土 → 已播种（**第 0 阶**）
+    {"signal": "work", "args": {"tile": "tile-r2c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r2c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r2c4", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 点 tile-r2c5·已翻土 → 已播种（**第 0 阶**）
+    {"signal": "work", "args": {"tile": "tile-r2c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r2c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r2c5", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 点 tile-r3c4·已翻土 → 已播种（**第 0 阶**）
+    {"signal": "work", "args": {"tile": "tile-r3c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r3c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r3c4", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 点 tile-r3c5·已翻土 → 已播种（**第 0 阶**）
+    {"signal": "work", "args": {"tile": "tile-r3c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r3c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r3c5", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 体力 20 → 0：一天的动作预算用尽（brief.md:27）
+    {"expect": [{"res": "energy", "eq": 0}, {"res": "day", "eq": 1}]},
+    // 睡觉·第 1 夜：**全场没浇过水** → 一阶都不该长（两个 `stage eq 0` 就是这条的否定断言；长了这步等不到）
+    {"signal": "sleep"},
+    { "waitUntil": [{"res": "day", "eq": 2}, {"res": "energy", "eq": 20}], "cap": 60 },
+    // 观察窗（3 拍）：生长下一拍才施放，等它落定再判生长
+    { "tick": 3 },
+    { "expect": [{"res": "day", "eq": 2}, {"res": "energy", "eq": 20}, {"comp": {"entity": "tile-r0c4", "component": "Resource", "field": "current"}, "eq": 0}, {"comp": {"entity": "tile-r5c5", "component": "Resource", "field": "current"}, "eq": 0}] },
+    // 睡觉回满体力 + 日期 +1（brief.md:16）
+    {"expect": [{"res": "energy", "eq": 20}, {"res": "day", "eq": 2}, {"comp": {"entity": "tile-r0c4", "component": "Flag", "field": "active"}, "eq": false}]},
+    // ══ 第 2 天 ══ 体力 20：补播 4 + 浇 12 + 翻 3 小麦格与 1 胡萝卜格
+    // 选工具 sow（词表 = hud.ts 的 TOOLS[].pickSignal）
+    {"signal": "pick-sow"},
+    // 等工具就位（先查后拍）
+    {"waitUntil": [{"res": "tool", "eq": 1}], "cap": 30},
+    // 点 tile-r4c4·补播剩下的南瓜格
+    {"signal": "work", "args": {"tile": "tile-r4c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r4c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r4c4", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 点 tile-r4c5·补播剩下的南瓜格
+    {"signal": "work", "args": {"tile": "tile-r4c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r4c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r4c5", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 点 tile-r5c4·补播剩下的南瓜格
+    {"signal": "work", "args": {"tile": "tile-r5c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r5c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r5c4", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 点 tile-r5c5·补播剩下的南瓜格
+    {"signal": "work", "args": {"tile": "tile-r5c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r5c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r5c5", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 选工具 water（词表 = hud.ts 的 TOOLS[].pickSignal）
+    {"signal": "pick-water"},
+    // 等工具就位（先查后拍）
+    {"waitUntil": [{"res": "tool", "eq": 2}], "cap": 30},
+    // 点 tile-r0c4·已播种 → 今日已浇（**不改生命周期态**）
+    {"signal": "work", "args": {"tile": "tile-r0c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r0c5·已播种 → 今日已浇（**不改生命周期态**）
+    {"signal": "work", "args": {"tile": "tile-r0c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r1c4·已播种 → 今日已浇（**不改生命周期态**）
+    {"signal": "work", "args": {"tile": "tile-r1c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r1c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r1c5·已播种 → 今日已浇（**不改生命周期态**）
+    {"signal": "work", "args": {"tile": "tile-r1c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r1c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r2c4·已播种 → 今日已浇（**不改生命周期态**）
+    {"signal": "work", "args": {"tile": "tile-r2c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r2c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r2c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r2c5·已播种 → 今日已浇（**不改生命周期态**）
+    {"signal": "work", "args": {"tile": "tile-r2c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r2c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r2c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r3c4·已播种 → 今日已浇（**不改生命周期态**）
+    {"signal": "work", "args": {"tile": "tile-r3c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r3c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r3c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r3c5·已播种 → 今日已浇（**不改生命周期态**）
+    {"signal": "work", "args": {"tile": "tile-r3c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r3c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r3c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r4c4·已播种 → 今日已浇（**不改生命周期态**）
+    {"signal": "work", "args": {"tile": "tile-r4c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r4c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r4c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r4c5·已播种 → 今日已浇（**不改生命周期态**）
+    {"signal": "work", "args": {"tile": "tile-r4c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r4c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r4c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r5c4·已播种 → 今日已浇（**不改生命周期态**）
+    {"signal": "work", "args": {"tile": "tile-r5c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r5c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r5c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r5c5·已播种 → 今日已浇（**不改生命周期态**）
+    {"signal": "work", "args": {"tile": "tile-r5c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r5c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r5c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 选工具 till（词表 = hud.ts 的 TOOLS[].pickSignal）
+    {"signal": "pick-till"},
+    // 等工具就位（先查后拍）
+    {"waitUntil": [{"res": "tool", "eq": 0}], "cap": 30},
+    // 点 tile-r0c2·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r0c2"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c2", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 点 tile-r0c3·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r0c3"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c3", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 点 tile-r1c2·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r1c2"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c2", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 点 tile-r0c0·荒地 → 已翻土
+    {"signal": "work", "args": {"tile": "tile-r0c0"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c0", "component": "State", "field": "current"}, "eq": "tilled"}], "cap": 30 },
+    // 睡觉·第 2 夜：12 格南瓜各长**恰一阶**（`eq 1` 不是 `gte 1`——多长一阶也红）；还没播的小麦格**不长**
+    {"signal": "sleep"},
+    { "waitUntil": [{"res": "day", "eq": 3}, {"res": "energy", "eq": 20}], "cap": 60 },
+    // 观察窗（3 拍）：生长下一拍才施放，等它落定再判生长
+    { "tick": 3 },
+    { "expect": [{"res": "day", "eq": 3}, {"res": "energy", "eq": 20}, {"comp": {"entity": "tile-r0c4", "component": "Resource", "field": "current"}, "eq": 1}, {"comp": {"entity": "tile-r2c5", "component": "Resource", "field": "current"}, "eq": 1}, {"comp": {"entity": "tile-r5c5", "component": "Resource", "field": "current"}, "eq": 1}, {"comp": {"entity": "tile-r0c2", "component": "Resource", "field": "current"}, "eq": 0}] },
+    // 浇水标记清除 + 生长相位收干净（相位旗卡真是「下次浇水当场长一阶」的病根）
+    {"expect": [{"res": "day", "eq": 3}, {"res": "energy", "eq": 20}, {"comp": {"entity": "tile-r0c4", "component": "Flag", "field": "active"}, "eq": false}, {"flag": "grow-phase", "eq": false}]},
+    // ══ 第 3 天 ══ 体力 20：浇 12 南瓜 + 播/浇 3 小麦格与 1 胡萝卜格
+    // 选工具 water（词表 = hud.ts 的 TOOLS[].pickSignal）
+    {"signal": "pick-water"},
+    // 等工具就位（先查后拍）
+    {"waitUntil": [{"res": "tool", "eq": 2}], "cap": 30},
+    // 点 tile-r0c4·第 2 次浇水（昨日标记已在睡觉时清掉）
+    {"signal": "work", "args": {"tile": "tile-r0c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r0c5·第 2 次浇水（昨日标记已在睡觉时清掉）
+    {"signal": "work", "args": {"tile": "tile-r0c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r1c4·第 2 次浇水（昨日标记已在睡觉时清掉）
+    {"signal": "work", "args": {"tile": "tile-r1c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r1c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r1c5·第 2 次浇水（昨日标记已在睡觉时清掉）
+    {"signal": "work", "args": {"tile": "tile-r1c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r1c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r2c4·第 2 次浇水（昨日标记已在睡觉时清掉）
+    {"signal": "work", "args": {"tile": "tile-r2c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r2c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r2c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r2c5·第 2 次浇水（昨日标记已在睡觉时清掉）
+    {"signal": "work", "args": {"tile": "tile-r2c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r2c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r2c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r3c4·第 2 次浇水（昨日标记已在睡觉时清掉）
+    {"signal": "work", "args": {"tile": "tile-r3c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r3c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r3c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r3c5·第 2 次浇水（昨日标记已在睡觉时清掉）
+    {"signal": "work", "args": {"tile": "tile-r3c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r3c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r3c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r4c4·第 2 次浇水（昨日标记已在睡觉时清掉）
+    {"signal": "work", "args": {"tile": "tile-r4c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r4c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r4c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r4c5·第 2 次浇水（昨日标记已在睡觉时清掉）
+    {"signal": "work", "args": {"tile": "tile-r4c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r4c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r4c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r5c4·第 2 次浇水（昨日标记已在睡觉时清掉）
+    {"signal": "work", "args": {"tile": "tile-r5c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r5c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r5c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r5c5·第 2 次浇水（昨日标记已在睡觉时清掉）
+    {"signal": "work", "args": {"tile": "tile-r5c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r5c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r5c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 选工具 sow（词表 = hud.ts 的 TOOLS[].pickSignal）
+    {"signal": "pick-sow"},
+    // 等工具就位（先查后拍）
+    {"waitUntil": [{"res": "tool", "eq": 1}], "cap": 30},
+    // 点 tile-r0c2·已翻土 → 已播种
+    {"signal": "work", "args": {"tile": "tile-r0c2"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c2", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c2", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 点 tile-r0c3·已翻土 → 已播种
+    {"signal": "work", "args": {"tile": "tile-r0c3"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c3", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c3", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 点 tile-r1c2·已翻土 → 已播种
+    {"signal": "work", "args": {"tile": "tile-r1c2"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c2", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r1c2", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 点 tile-r0c0·已翻土 → 已播种
+    {"signal": "work", "args": {"tile": "tile-r0c0"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c0", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c0", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 30 },
+    // 选工具 water（词表 = hud.ts 的 TOOLS[].pickSignal）
+    {"signal": "pick-water"},
+    // 等工具就位（先查后拍）
+    {"waitUntil": [{"res": "tool", "eq": 2}], "cap": 30},
+    // 点 tile-r0c2·同上
+    {"signal": "work", "args": {"tile": "tile-r0c2"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c2", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c2", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r0c3·同上
+    {"signal": "work", "args": {"tile": "tile-r0c3"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c3", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c3", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r1c2·同上
+    {"signal": "work", "args": {"tile": "tile-r1c2"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c2", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r1c2", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r0c0·同上
+    {"signal": "work", "args": {"tile": "tile-r0c0"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c0", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c0", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 睡觉·第 3 夜：南瓜 →2 阶 · 小麦 →1 阶（**未熟**）· 胡萝卜 →1 阶（1 天即熟）
+    {"signal": "sleep"},
+    { "waitUntil": [{"res": "day", "eq": 4}, {"res": "energy", "eq": 20}], "cap": 60 },
+    // 观察窗（3 拍）：生长下一拍才施放，等它落定再判生长
+    { "tick": 3 },
+    { "expect": [{"res": "day", "eq": 4}, {"res": "energy", "eq": 20}, {"comp": {"entity": "tile-r0c4", "component": "Resource", "field": "current"}, "eq": 2}, {"comp": {"entity": "tile-r5c5", "component": "Resource", "field": "current"}, "eq": 2}, {"comp": {"entity": "tile-r0c2", "component": "Resource", "field": "current"}, "eq": 1}, {"comp": {"entity": "tile-r1c2", "component": "Resource", "field": "current"}, "eq": 1}, {"comp": {"entity": "tile-r0c0", "component": "Resource", "field": "current"}, "eq": 1}] },
+    // 胡萝卜在第 4 天已是成熟态（brief.md:26 + §裁决行 A：胡萝卜 1 天）
+    {"expect": [{"res": "day", "eq": 4}, {"res": "energy", "eq": 20}, {"comp": {"entity": "tile-r0c0", "component": "Resource", "field": "current"}, "eq": 1}, {"flag": "grow-phase", "eq": false}]},
+    // ══ 第 4 天 ══ 体力 20：浇 12 南瓜 + 浇 3 小麦（胡萝卜已熟·不再浇）
+    // 选工具 water（词表 = hud.ts 的 TOOLS[].pickSignal）
+    {"signal": "pick-water"},
+    // 等工具就位（先查后拍）
+    {"waitUntil": [{"res": "tool", "eq": 2}], "cap": 30},
+    // 点 tile-r0c4·第 3 次浇水（南瓜明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r0c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r0c5·第 3 次浇水（南瓜明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r0c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r1c4·第 3 次浇水（南瓜明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r1c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r1c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r1c5·第 3 次浇水（南瓜明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r1c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r1c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r2c4·第 3 次浇水（南瓜明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r2c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r2c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r2c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r2c5·第 3 次浇水（南瓜明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r2c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r2c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r2c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r3c4·第 3 次浇水（南瓜明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r3c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r3c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r3c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r3c5·第 3 次浇水（南瓜明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r3c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r3c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r3c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r4c4·第 3 次浇水（南瓜明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r4c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r4c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r4c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r4c5·第 3 次浇水（南瓜明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r4c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r4c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r4c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r5c4·第 3 次浇水（南瓜明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r5c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r5c4", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r5c4", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r5c5·第 3 次浇水（南瓜明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r5c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r5c5", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r5c5", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r0c2·小麦第 2 次浇水（明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r0c2"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c2", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c2", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r0c3·小麦第 2 次浇水（明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r0c3"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c3", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r0c3", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 点 tile-r1c2·小麦第 2 次浇水（明早成熟）
+    {"signal": "work", "args": {"tile": "tile-r1c2"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c2", "component": "State", "field": "current"}, "eq": "sown"}, {"comp": {"entity": "tile-r1c2", "component": "Flag", "field": "active"}, "eq": true}], "cap": 30 },
+    // 睡觉·第 4 夜：南瓜 →3 阶（成熟线）· 小麦 →2 阶（成熟线）· 胡萝卜没浇水**不该再长**（`eq 1` 钉「未浇的不长」）
+    {"signal": "sleep"},
+    { "waitUntil": [{"res": "day", "eq": 5}, {"res": "energy", "eq": 20}], "cap": 60 },
+    // 观察窗（3 拍）：生长下一拍才施放，等它落定再判生长
+    { "tick": 3 },
+    { "expect": [{"res": "day", "eq": 5}, {"res": "energy", "eq": 20}, {"comp": {"entity": "tile-r0c4", "component": "Resource", "field": "current"}, "eq": 3}, {"comp": {"entity": "tile-r2c5", "component": "Resource", "field": "current"}, "eq": 3}, {"comp": {"entity": "tile-r5c5", "component": "Resource", "field": "current"}, "eq": 3}, {"comp": {"entity": "tile-r0c2", "component": "Resource", "field": "current"}, "eq": 2}, {"comp": {"entity": "tile-r1c2", "component": "Resource", "field": "current"}, "eq": 2}, {"comp": {"entity": "tile-r0c0", "component": "Resource", "field": "current"}, "eq": 1}] },
+    // 第 5 天开局
+    {"expect": [{"res": "day", "eq": 5}, {"res": "energy", "eq": 20}, {"flag": "grow-phase", "eq": false}]},
+    // ══ 第 5 天 ══ 收获 12 南瓜 + 3 小麦 → 卖货 990（**不到线**）→ 收 1 胡萝卜 → 卖货 1002（**过线**）
+    // 选工具 reap（词表 = hud.ts 的 TOOLS[].pickSignal）
+    {"signal": "pick-reap"},
+    // 等工具就位（先查后拍）
+    {"waitUntil": [{"res": "tool", "eq": 3}], "cap": 30},
+    // 点 tile-r0c4·收南瓜第 1/12 格：入背包恰 1 个·地块回「已翻土」（不判阶·理由见上）
+    {"signal": "work", "args": {"tile": "tile-r0c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c4", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-pumpkin", "eq": 1}], "cap": 30 },
+    // 点 tile-r0c5·收南瓜第 2/12 格：入背包恰 1 个·地块回「已翻土」（不判阶·理由见上）
+    {"signal": "work", "args": {"tile": "tile-r0c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c5", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-pumpkin", "eq": 2}], "cap": 30 },
+    // 点 tile-r1c4·收南瓜第 3/12 格：入背包恰 1 个·地块回「已翻土」（不判阶·理由见上）
+    {"signal": "work", "args": {"tile": "tile-r1c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c4", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-pumpkin", "eq": 3}], "cap": 30 },
+    // 点 tile-r1c5·收南瓜第 4/12 格：入背包恰 1 个·地块回「已翻土」（不判阶·理由见上）
+    {"signal": "work", "args": {"tile": "tile-r1c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c5", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-pumpkin", "eq": 4}], "cap": 30 },
+    // 点 tile-r2c4·收南瓜第 5/12 格：入背包恰 1 个·地块回「已翻土」（不判阶·理由见上）
+    {"signal": "work", "args": {"tile": "tile-r2c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r2c4", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-pumpkin", "eq": 5}], "cap": 30 },
+    // 点 tile-r2c5·收南瓜第 6/12 格：入背包恰 1 个·地块回「已翻土」（不判阶·理由见上）
+    {"signal": "work", "args": {"tile": "tile-r2c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r2c5", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-pumpkin", "eq": 6}], "cap": 30 },
+    // 点 tile-r3c4·收南瓜第 7/12 格：入背包恰 1 个·地块回「已翻土」（不判阶·理由见上）
+    {"signal": "work", "args": {"tile": "tile-r3c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r3c4", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-pumpkin", "eq": 7}], "cap": 30 },
+    // 点 tile-r3c5·收南瓜第 8/12 格：入背包恰 1 个·地块回「已翻土」（不判阶·理由见上）
+    {"signal": "work", "args": {"tile": "tile-r3c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r3c5", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-pumpkin", "eq": 8}], "cap": 30 },
+    // 点 tile-r4c4·收南瓜第 9/12 格：入背包恰 1 个·地块回「已翻土」（不判阶·理由见上）
+    {"signal": "work", "args": {"tile": "tile-r4c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r4c4", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-pumpkin", "eq": 9}], "cap": 30 },
+    // 点 tile-r4c5·收南瓜第 10/12 格：入背包恰 1 个·地块回「已翻土」（不判阶·理由见上）
+    {"signal": "work", "args": {"tile": "tile-r4c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r4c5", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-pumpkin", "eq": 10}], "cap": 30 },
+    // 点 tile-r5c4·收南瓜第 11/12 格：入背包恰 1 个·地块回「已翻土」（不判阶·理由见上）
+    {"signal": "work", "args": {"tile": "tile-r5c4"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r5c4", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-pumpkin", "eq": 11}], "cap": 30 },
+    // 点 tile-r5c5·收南瓜第 12/12 格：入背包恰 1 个·地块回「已翻土」（不判阶·理由见上）
+    {"signal": "work", "args": {"tile": "tile-r5c5"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r5c5", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-pumpkin", "eq": 12}], "cap": 30 },
+    // 点 tile-r0c2·收小麦第 1/3 格（按作物路由：进的是 inv-wheat，不是别的包）
+    {"signal": "work", "args": {"tile": "tile-r0c2"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c2", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-wheat", "eq": 1}], "cap": 30 },
+    // 点 tile-r0c3·收小麦第 2/3 格（按作物路由：进的是 inv-wheat，不是别的包）
+    {"signal": "work", "args": {"tile": "tile-r0c3"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c3", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-wheat", "eq": 2}], "cap": 30 },
+    // 点 tile-r1c2·收小麦第 3/3 格（按作物路由：进的是 inv-wheat，不是别的包）
+    {"signal": "work", "args": {"tile": "tile-r1c2"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r1c2", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-wheat", "eq": 3}], "cap": 30 },
+    // 背包就位、金币仍是 0——**还没卖**
+    {"expect": [{"res": "inv-pumpkin", "eq": 12}, {"res": "inv-wheat", "eq": 3}, {"res": "inv-carrot", "eq": 0}, {"res": "gold", "eq": 0}]},
+    // 卖货·第一次卖货：12×75 + 3×30 = **990**（§裁决行 A 的卖价）——差 10 金币不到线
+    {"signal": "sell"},
+    { "waitUntil": [{"res": "gold", "eq": 990}], "cap": 60 },
+    // 观察窗：给流程系统三拍去（错误地）转移 —— 990 < 1000 必须**什么都不发生**
+    {"tick": 3},
+    // 990 不到 1000 → **仍是 playing**（通关线若写成 900/950/999，这里当场红）；背包已清空
+    {"expect": [{"res": "gold", "eq": 990}, {"sv": "flow", "eq": "playing"}, {"res": "inv-pumpkin", "eq": 0}, {"res": "inv-wheat", "eq": 0}]},
+    // ══ 终局 ══
+    // 选工具 reap（词表 = hud.ts 的 TOOLS[].pickSignal）
+    {"signal": "pick-reap"},
+    // 等工具就位（先查后拍）
+    {"waitUntil": [{"res": "tool", "eq": 3}], "cap": 30},
+    // 点 tile-r0c0·收下那格胡萝卜（成熟后一直挂在田里没收）
+    {"signal": "work", "args": {"tile": "tile-r0c0"}},
+    { "waitUntil": [{"comp": {"entity": "tile-r0c0", "component": "State", "field": "current"}, "eq": "tilled"}, {"res": "inv-carrot", "eq": 1}], "cap": 30 },
+    // **在卖之前**金币还是 990、流程还是 playing——阈值判的是金币，不是「背包里有货」
+    {"expect": [{"res": "gold", "eq": 990}, {"sv": "flow", "eq": "playing"}, {"res": "inv-carrot", "eq": 1}, {"res": "energy", "eq": 4}]},
+    // 卖货·第二次卖货：990 + 1×12 = **1002 ≥ 1000** → 通关（brief.md:46）
+    {"signal": "sell"},
+    { "waitUntil": [{"res": "gold", "eq": 1002}, {"sv": "flow", "eq": "won"}], "cap": 60 },
+    // ══════════════════════════════════════════════════════════════
+    // 【分段二 · 终局出口】brief.md:34「开始→操作→推进→**可重开**」
+    // 词表：`restart` = 结算屏上的重开键（`data-action="restart"`·`hud.ts` 的 `HUD_ACTION.restart`）。
+    // ⚠ `restart` 与其它信号**同名不同域**：它是**宿主动作**（`mountUI` 查得到本地 handler ⇒
+    //   就地拆局重挂，不入队；`hud.ts:61` 明记「往世界里发名叫 restart 的信号 = 点了没反应且不报错」）。
+    //   验收适配层直接喂 world ⇒ 需要一条约定：收到 `restart` = 拆本局世界、拿**剧本 seed**
+    //   照原路径重挂一局（等价于宿主 handler 的行为）。**Lead 2026-09-18 已裁定**，
+    //   落账 `requests.md §接线契约补遗②`（本作零随机 ⇒「同 seed / 换 seed」不可观测，取剧本 seed 是唯一确定选法）；
+    //   重开后世界须回初态，见 README「接线约定」表。
+    // 本段红 ⇒ **终局出口未接或重开没复位世界**，与上面的通关段无关（上面各步照常单独判）。
+    // 对抗目标：上一局的记忆跟进新局（金币/日期/体力/工具下标/地块状态任一残留 → 红）。
+    // ══════════════════════════════════════════════════════════════
+    // 点重开（宿主生命周期：拆掉本局引擎照原路径重挂一局）
+    {"signal": "restart"},
+    { "waitUntil": [{"res": "gold", "eq": 0}, {"res": "day", "eq": 1}, {"res": "energy", "eq": 20}, {"res": "tool", "eq": 0}, {"sv": "flow", "eq": "playing"}, {"comp": {"entity": "tile-r0c0", "component": "State", "field": "current"}, "eq": "wild"}, {"comp": {"entity": "tile-r0c4", "component": "State", "field": "current"}, "eq": "wild"}, {"comp": {"entity": "tile-r5c5", "component": "State", "field": "current"}, "eq": "wild"}, {"comp": {"entity": "tile-r0c4", "component": "Resource", "field": "current"}, "eq": 0}], "cap": 90 },
+    // 重开后的世界 = 初态：工具下标也回 0（重开前停在 reap=3，残留即红）
+    {"expect": [{"res": "gold", "eq": 0}, {"res": "day", "eq": 1}, {"res": "energy", "eq": 20}, {"res": "tool", "eq": 0}, {"sv": "flow", "eq": "playing"}, {"res": "inv-pumpkin", "eq": 0}, {"res": "inv-carrot", "eq": 0}, {"comp": {"entity": "tile-r0c0", "component": "State", "field": "current"}, "eq": "wild"}, {"comp": {"entity": "tile-r0c4", "component": "State", "field": "current"}, "eq": "wild"}, {"comp": {"entity": "tile-r5c5", "component": "State", "field": "current"}, "eq": "wild"}, {"comp": {"entity": "tile-r0c4", "component": "Resource", "field": "current"}, "eq": 0}, {"comp": {"entity": "tile-r0c4", "component": "Flag", "field": "active"}, "eq": false}, {"flag": "grow-phase", "eq": false}]},
+  ],
+}

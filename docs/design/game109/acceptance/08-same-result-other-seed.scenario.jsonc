@@ -1,0 +1,161 @@
+// GD-109 验收剧本 08 · 换一个 seed，结果**一字不改**（06 的同步骤孪生）。
+// author: GD
+//
+// 条款出处：brief.md:34「T2 闭环竖切必须能被机器证明（同样的操作 → 同样的结果）」；
+//          capability-plan §5「本作**零随机**：作物按天数生长、卖价固定，不掷任何骰子」。
+//
+// 与 06 的关系：**步骤逐字相同**（同一串 signal/waitUntil/expect），只把 `seed` 从 109 换成 7。
+//   06 钉「有随机源也不许用」（`farm-rng.RandomSeed.sequence` 开局 0、终局仍 0）；
+//   08 钉「结果与 seed 无关」——若实现里任何一处把 seed 喂进了作物天数、产量或卖价，
+//   两份剧本的期望不可能同时成立，必有一份红。**两份成对看才有意义，单看任一份都只是半张网。**
+//
+// 对抗目标（把实现改坏成什么样，这条会变红）：
+//   · **按 seed 摇结果**（每格用 seed 派生的随机数决定长不长 / 长几阶 / 产量）→ 本文件红（06 可能仍绿）。
+//   · **seed 影响卖价或成熟天数**（把 seed 当日种子用）→ `gold eq 60` / `stage eq 2` 红。
+//   · **seed 未接线**（`createWorld(seed)` 忽略入参）→ 两份都绿，**这条不算红也不算绿**：
+//     它说明「零随机」是结构保证而不是被测出来的 —— 与 06 的 `sequence eq 0` 合看才成立。
+//   · 其余对抗目标与 06 逐字相同（没浇水也长 / 标记不清 / 卖货不清背包 / 收获数量浮动）。
+//
+// 机器态纪律同 06：逐格断言走 `comp` + 显式实体 id；睡觉之后必摆 3 拍观察窗再判生长。
+{
+  "name": "确定性·换 seed（7）结果逐字不变",
+  "game": "game109",
+  "seed": 7,
+  "steps": [
+    // ── 开局：两格逐字同值 ───────────────────────────────────────────
+    { "expect": [
+      { "res": "day", "eq": 1 },
+      { "res": "energy", "eq": 20 },
+      { "res": "gold", "eq": 0 },
+      { "sv": "flow", "eq": "playing" },
+      { "comp": { "entity": "tile-r2c2", "component": "StringVar", "field": "value" }, "eq": "wheat" },
+      { "comp": { "entity": "tile-r2c3", "component": "StringVar", "field": "value" }, "eq": "wheat" },
+      { "comp": { "entity": "tile-r2c2", "component": "State", "field": "current" }, "eq": "wild" },
+      { "comp": { "entity": "tile-r2c3", "component": "State", "field": "current" }, "eq": "wild" },
+      { "comp": { "entity": "tile-r2c2", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "comp": { "entity": "tile-r2c3", "component": "Resource", "field": "current" }, "eq": 0 },
+      // 全局唯一随机源：开局没抽过签
+      { "comp": { "entity": "farm-rng", "component": "RandomSeed", "field": "sequence" }, "eq": 0 },
+    ] },
+
+    // ── 第 1 天：两格同走 翻土→播种→浇水（各 3 个动作 = 6），体力 20→14 ──
+    { "signal": "work", "args": { "tile": "tile-r2c2" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r2c2", "component": "State", "field": "current" }, "eq": "tilled" }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r2c3" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r2c3", "component": "State", "field": "current" }, "eq": "tilled" }], "cap": 30 },
+    { "signal": "pick-sow" },
+    { "waitUntil": [{ "res": "tool", "eq": 1 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r2c2" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r2c2", "component": "State", "field": "current" }, "eq": "sown" }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r2c3" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r2c3", "component": "State", "field": "current" }, "eq": "sown" }], "cap": 30 },
+    { "signal": "pick-water" },
+    { "waitUntil": [{ "res": "tool", "eq": 2 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r2c2" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r2c2", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r2c3" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r2c3", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 14 },
+      { "comp": { "entity": "tile-r2c2", "component": "Flag", "field": "active" }, "eq": true },
+      { "comp": { "entity": "tile-r2c3", "component": "Flag", "field": "active" }, "eq": true },
+      // 播种产**第 0 阶**（brief.md:41）——两格都得是 0，且逐字相同
+      { "comp": { "entity": "tile-r2c2", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "comp": { "entity": "tile-r2c3", "component": "Resource", "field": "current" }, "eq": 0 },
+    ] },
+
+    // ── 第 1 夜：两格各长**恰一阶**（同一条 waitUntil 里两格同拍判）──
+    { "signal": "sleep" },
+    { "waitUntil": [
+      { "res": "day", "eq": 2 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r2c2", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "comp": { "entity": "tile-r2c3", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "comp": { "entity": "tile-r2c2", "component": "Flag", "field": "active" }, "eq": false },
+      { "comp": { "entity": "tile-r2c3", "component": "Flag", "field": "active" }, "eq": false },
+    ], "cap": 60 },
+    // 观察窗（3 拍）：生长**下一拍**才施放 —— 等它落定再看两格是不是**逐字同值**。
+    { "tick": 3 },
+    { "expect": [
+      { "comp": { "entity": "tile-r2c2", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "comp": { "entity": "tile-r2c3", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "comp": { "entity": "tile-r2c2", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r2c3", "component": "State", "field": "current" }, "eq": "sown" },
+      { "flag": "grow-phase", "eq": false },
+    ] },
+
+    // ── 第 2 夜：**两格都没浇水** → 两格都不长（一起停在 1 阶）──
+    //    否定断言塞在 waitUntil 里：真长了这步就等不到 → 耗尽 cap 红。
+    { "signal": "sleep" },
+    { "waitUntil": [
+      { "res": "day", "eq": 3 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r2c2", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "comp": { "entity": "tile-r2c3", "component": "Resource", "field": "current" }, "eq": 1 },
+    ], "cap": 60 },
+    // 观察窗（3 拍）：**这一窗是「没浇水就不长」的牙** —— 生长在下一拍才施放，
+    //   不摆窗，「两格都停在 1 阶」会在生长之前被判过（假绿）。
+    { "tick": 3 },
+    { "expect": [
+      { "res": "day", "eq": 3 },
+      { "comp": { "entity": "tile-r2c2", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "comp": { "entity": "tile-r2c3", "component": "Resource", "field": "current" }, "eq": 1 },
+    ] },
+
+    // ── 第 3 天：两格各浇第 2 次水 → 第 3 夜各自到成熟线（小麦 2 天）──
+    { "signal": "work", "args": { "tile": "tile-r2c2" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r2c2", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r2c3" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r2c3", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "expect": [{ "res": "energy", "eq": 18 }] },
+    { "signal": "sleep" },
+    { "waitUntil": [
+      { "res": "day", "eq": 4 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r2c2", "component": "Resource", "field": "current" }, "eq": 2 },
+      { "comp": { "entity": "tile-r2c3", "component": "Resource", "field": "current" }, "eq": 2 },
+    ], "cap": 60 },
+    // 观察窗（3 拍）：两格同一天到成熟线（各恰 2 阶）。
+    { "tick": 3 },
+    { "expect": [
+      { "res": "day", "eq": 4 },
+      { "comp": { "entity": "tile-r2c2", "component": "Resource", "field": "current" }, "eq": 2 },
+      { "comp": { "entity": "tile-r2c3", "component": "Resource", "field": "current" }, "eq": 2 },
+    ] },
+
+    // ── 第 4 天：两格各收一次（**逐格**断言入包数：1 → 2）──
+    { "signal": "pick-reap" },
+    { "waitUntil": [{ "res": "tool", "eq": 3 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r2c2" } },
+    // 收获的落定：还田 + 入包（**不判生长阶**——brief.md:43 只说回「已翻土」，没说阶的数；
+    //   「第 0 阶」是播种侧的条款 brief.md:41，本文件在播种那步判它）。
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r2c2", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "res": "inv-wheat", "eq": 1 },
+    ], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r2c3" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r2c3", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "res": "inv-wheat", "eq": 2 },
+    ], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 18 },
+      { "res": "inv-wheat", "eq": 2 },
+      { "res": "inv-carrot", "eq": 0 },
+      { "res": "inv-pumpkin", "eq": 0 },
+      { "comp": { "entity": "tile-r2c2", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "comp": { "entity": "tile-r2c3", "component": "State", "field": "current" }, "eq": "tilled" },
+    ] },
+
+    // ── 卖货：**恰好** 2 × 30 = 60 金 ────────────────────────────────
+    { "signal": "sell" },
+    { "waitUntil": [{ "res": "gold", "eq": 60 }], "cap": 60 },
+    { "expect": [
+      { "res": "gold", "eq": 60 },
+      { "res": "inv-wheat", "eq": 0 },
+      { "sv": "flow", "eq": "playing" },
+      // 终局仍没抽过一次随机
+      { "comp": { "entity": "farm-rng", "component": "RandomSeed", "field": "sequence" }, "eq": 0 },
+    ] },
+  ],
+}

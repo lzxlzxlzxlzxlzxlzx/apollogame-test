@@ -24,6 +24,8 @@
 
 ## ② 样例指针
 
+自由部署（REQ-MCFIGHT-004，owner 选择 A）：`t2-drag-place` 的 `Draggable.freePlacement` 可声明 `bounds` 矩形、`teamMask`、`deployedMask` 和 `bench` 矩形/固定锚点。仅支持完整等比缩放圆；自由落点必须完整圆在界内，且不与已部署同队圆相交，外切合法；拒绝不写位置或标记、不挤开其他单位。拖入 bench 撤回固定锚点并摘部署位。声明此合同后，投放区也遵守 `onlyFlag`；没有该字段的六角格与自由拖放保留旧语义。生产回归见 `src/skills/tier2/drag-place-free.test.ts`；限定扩展独立复查见 `docs/design/game-mcfight/review/s4-drag-independent-review-20260915.md`。
+
 - registry：`t2-grid-move`/`t2-pathfind`/`t2-steering`/`t2-launch` 的 `describe.examples`。
 - 真实用法：`games/game-i/physics-lab.ts`（运动台）、`games/game-i/ai-lab.ts`（转向/索敌台）。
 - 平台跳跃另见 `t2-jump`/`t2-ground-sense`；`src/skills/tier2/platformer.integration.test.ts`。

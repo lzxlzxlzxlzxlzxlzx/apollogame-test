@@ -35,7 +35,10 @@ export interface PrefabLibrary extends Component {
 // 组件级字符串=哨兵（REQ-F-049：HexPos:'@origin-hex' 以请求的出身格代入）；其余字符串补丁不展开（typo 防御）。
 export type SpawnOverrides = Record<string, Record<string, Record<string, unknown> | string>>;
 export interface SpawnRequest extends Component {
+  projectileShot?:import('./combat.js').ProjectileShot;
   readonly type: 'SpawnRequest';
+  /** Explicit late-frame spawn; omitted retains the ordinary Update consumer. */
+  spawnPhase?: 'resolve';
   templateId: string;
   x: number;
   y: number;
@@ -48,6 +51,14 @@ export interface SpawnRequest extends Component {
   // 发起者实体（REQ-F-065）：caster/self-rule 盖章自身 → prefab 转记到每个展开实体的 PrefabOrigin.source，
   // 供 hitbox 的 scaleByResource 先查"施法者本地（源 + 同次展开的复合兄弟）"资源、未命中再回退全局。
   source?: EntityId;
+  // Optional committed entity position: prefab resolves its current Transform
+  // when consuming the request, preserving entity identity across a delayed spawn.
+  targetEntity?: EntityId;
+  /** Orthogonal contact identity; does not change release placement. */
+  onlyHitTarget?: EntityId;
+  /** Captured normalized direction, applied to Launch and capsule geometry. */
+  aim?: { x: number; y: number };
+  followSource?: boolean;
 }
 
 // ── K2 destroy ── 移除实体的请求（read-then-consume）
@@ -143,6 +154,30 @@ export interface MergeProximity extends Component {
 // at 决定生成位置：'self'=施法者自身、'pointer'=光标世界坐标(screenToWorld 逆投影)、'target'=最近的 targetTag 阵营。
 // 确定性：只读 Signal/InputQueue/Transform/Tag + 几何比较；按施法者 id 升序结算；坐标取整前为 IEEE 算术（不喂 Condition）。
 export interface Caster extends Component {
+  /** Optional private ordered-skill state. It advances only after this Caster
+   * has accepted a real release and created its request/plan. */
+  cycleStateEntity?: EntityId;
+  cycleOwner?: EntityId;
+  cycleCandidates?: readonly string[];
+  volleyCount?: number;
+  volleyIntervalTicks?: number;
+  volleySpread?: { kind: 'none' } | { kind: 'seeded-uniform'; halfAngleRadians: number };
+  volleySpeed?: number;
+  volleyMaxDistance?: number;
+  /** Forward the successful-start shot snapshot to an independent projectile. */
+  projectile?:boolean;
+  // Opt-in committed cast. Uses only this GameFlow.targetSnapshot; never reselects.
+  targetFlow?: EntityId;
+  /** Source-only skills can opt into the same post-damage release checks. */
+  releasePhase?: 'resolve';
+  /** Default true for legacy at:target committed casts; false fixes a world point. */
+  alignToTarget?: boolean;
+  onlyHitTarget?: boolean;
+  /** Requires a Flow-captured aim; never reselects on release. */
+  useCapturedAim?: boolean;
+  followSource?: boolean;
+  targetCheck?: import('./logic.js').EntityCheck;
+  sourceCheck?: import('./logic.js').EntityCheck;
   readonly type: 'Caster';
   onSignal: string; // 收到此名 Signal 时释放（来自 clickable / event-when / keybind 输入绑定）
   template: string; // PrefabLibrary 里的模板 id
@@ -174,4 +209,14 @@ export interface WeightedSpawn extends Component {
   onSignal: string; // 收到此信号名才触发（clickable/event-when 等产出的 Signal.name）
   cost?: { id: string; amount: number }; // 可选：原子扣自身 Resource（current<amount 整单不动·不扣不 spawn，同 craft-recipe；扣后钳进 min）
   table: { templateId: string; weight: number }[]; // 加权掉落表（weightedPick 按权重抽一个；空表/权重全 0 = 不 spawn、不崩）
+}
+
+/** One-shot alignment of a committed hit region before its first overlap query. */
+export interface CommittedContact extends Component {
+  readonly type: "CommittedContact";
+  targetEntity: EntityId;
+  offsetX: number;
+  offsetY: number;
+  /** Follow the source before collision until lifetime/source cleanup. */
+  persistent?: boolean;
 }

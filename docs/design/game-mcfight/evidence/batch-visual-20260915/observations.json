@@ -1,0 +1,102 @@
+[
+  {
+    "label": "卫道士临时播放接口",
+    "ticks": 4,
+    "text": "Tick 4 | 卫道士临时播放接口 | 攻击区域 0\n{\"id\":\"flyer\",\"resource\":23,\"status\":8}\n{\"id\":\"melee\",\"phase\":\"Recovery\",\"action\":\"Recovery\",\"resource\":1,\"status\":0,\"target\":\"flyer\"}"
+  },
+  {
+    "label": "斧劈左向",
+    "ticks": 4,
+    "text": "Tick 4 | 斧劈左向 | 攻击区域 0\n{\"id\":\"flyer\",\"resource\":23,\"status\":8}\n{\"id\":\"melee\",\"phase\":\"Recovery\",\"action\":\"Recovery\",\"resource\":1,\"status\":0,\"target\":\"flyer\"}"
+  },
+  {
+    "label": "斧劈同拍硬控",
+    "ticks": 3,
+    "text": "Tick 3 | 斧劈同拍硬控 | 攻击区域 0\n{\"id\":\"flyer\",\"resource\":30,\"status\":8}\n{\"id\":\"melee\",\"phase\":\"Active\",\"action\":\"Active\",\"resource\":1,\"status\":32,\"target\":\"flyer\",\"locked\":\"flyer\"}"
+  },
+  {
+    "label": "斧劈死亡",
+    "ticks": 3,
+    "text": "Tick 3 | 斧劈死亡 | 攻击区域 0\n{\"id\":\"flyer\",\"resource\":30,\"status\":8}"
+  },
+  {
+    "label": "弹丸接触",
+    "ticks": 8,
+    "text": "Tick 8 | 弹丸接触 | 攻击区域 0\n{\"id\":\"gun\",\"action\":\"Fire\"}\n{\"id\":\"enemy\",\"resource\":25}"
+  },
+  {
+    "label": "光束双目标",
+    "ticks": 3,
+    "text": "Tick 3 | 光束双目标 | 攻击区域 0\n{\"id\":\"gun\",\"action\":\"Fire\"}\n{\"id\":\"enemy\",\"resource\":26}\n{\"id\":\"enemy2\",\"resource\":26}\n{\"id\":\"friend\",\"resource\":30}"
+  },
+  {
+    "label": "固定落点躲避",
+    "ticks": 7,
+    "text": "Tick 7 | 固定落点躲避 | 攻击区域 0\n{\"id\":\"gun\",\"phase\":\"Fire\",\"action\":\"Fire\",\"status\":64,\"target\":\"enemy\"}\n{\"id\":\"enemy\",\"resource\":30}"
+  },
+  {
+    "label": "固定落点命中",
+    "ticks": 7,
+    "text": "Tick 7 | 固定落点命中 | 攻击区域 0\n{\"id\":\"gun\",\"phase\":\"Fire\",\"action\":\"Fire\",\"status\":64,\"target\":\"enemy\"}\n{\"id\":\"enemy\",\"resource\":25}"
+  },
+  {
+    "label": "三段硬控中断",
+    "ticks": 6,
+    "text": "Tick 6 | 三段硬控中断 | 攻击区域 0\n{\"id\":\"source\",\"phase\":\"Done\",\"action\":\"Done\",\"resource\":100,\"status\":32}\n{\"id\":\"enemy-a\",\"resource\":47}\n{\"id\":\"enemy-b\",\"resource\":50}\n{\"id\":\"friend\",\"resource\":48.5}\n{\"id\":\"health\",\"resource\":100}"
+  },
+  {
+    "label": "三段死亡中断",
+    "ticks": 6,
+    "text": "Tick 6 | 三段死亡中断 | 攻击区域 0\n{\"id\":\"enemy-a\",\"resource\":47}\n{\"id\":\"enemy-b\",\"resource\":50}\n{\"id\":\"friend\",\"resource\":48.5}\n{\"id\":\"health\",\"resource\":100}"
+  },
+  {
+    "label": "关系骨架清理",
+    "ticks": 6,
+    "text": "Tick 6 | 关系骨架清理 | 攻击区域 0\n{\"id\":\"enemy\",\"resource\":30}"
+  },
+  {
+    "label": "六单位围攻",
+    "ticks": 100,
+    "text": "Tick 100 | 六单位围攻 | 攻击区域 0\n{\"id\":\"scale#0:body\",\"action\":\"ranged\",\"resource\":100,\"status\":0,\"target\":\"target\"}\n{\"id\":\"scale#0:melee\",\"phase\":\"Ready\",\"action\":\"Ready\",\"cd\":0,\"resource\":8,\"target\":\"target\"}\n{\"id\":\"scale#0:ranged\",\"phase\":\"Recovery\",\"action\":\"Recovery\",\"cd\":15,\"resource\":6,\"target\":\"target\",\"locked\":\"target\"}\n{\"id\":\"scale#1:body\",\"action\":\"ranged\",\"resource\":100,\"status\":0,\"target\":\"target\"}\n{\"id\":\"scale#1:melee\",\"phase\":\"Ready\",\"action\":\"Ready\",\"cd\":0,\"resource\":8,\"target\":\"target\"}\n{\"id\":\"scale#1:ranged\",\"phase\":\"Recovery\",\"action\":\"Recovery\",\"cd\":15,\"resource\":6,\"target\":\"target\",\"locked\":\"target\"}\n{\"id\":\"scale#2:body\",\"action\":\"ranged\",\"resource\":100,\"status\":0,\"target\":\"target\"}\n{\"id\":\"scale#2:melee\",\"phase\":\"Ready\",\"action\":\"Ready\",\"cd\":0,\"resource\":8,\"target\":\"target\"}\n{\"id\":\"scale#2:ranged\",\"phase\":\"Recovery\",\"action\":\"Recovery\",\"cd\":15,\"resource\":6,\"target\":\"target\",\"locked\":\"target\"}\n{\"id\":\"scale#3:body\",\"action\":\"ranged\",\"resource\":100,\"status\":0,\"target\":\"target\"}\n{\"id\":\"scale#3:melee\",\"phase\":\"Ready\",\"action\":\"Ready\",\"cd\":0,\"resource\":8,\"target\":\"target\"}\n{\"id\":\"scale#3:ranged\",\"phase\":\"Recovery\",\"action\":\"Recovery\",\"cd\":15,\"resource\":6,\"target\":\"target\",\"locked\":\"target\"}\n{\"id\":\"scale#4:body\",\"action\":\"ranged\",\"resource\":100,\"status\":0,\"target\":\"target\"}\n{\"id\":\"scale#4:melee\",\"phase\":\"Ready\",\"action\":\"Ready\",\"cd\":0,\"resource\":8,\"target\":\"target\"}\n{\"id\":\"scale#4:ranged\",\"phase\":\"Recovery\",\"action\":\"Recovery\",\"cd\":15,\"resource\":6,\"target\":\"target\",\"locked\":\"target\"}\n{\"id\":\"scale#5:body\",\"action\":\"ranged\",\"resource\":100,\"status\":0,\"target\":\"target\"}\n{\"id\":\"scale#5:melee\",\"phase\":\"Ready\",\"action\":\"Ready\",\"cd\":0,\"resource\":8,\"target\":\"target\"}\n{\"id\":\"scale#5:ranged\",\"phase\":\"Recovery\",\"action\":\"Recovery\",\"cd\":15,\"resource\":6,\"target\":\"target\",\"locked\":\"target\"}\n{\"id\":\"target\",\"resource\":999999268}\n"
+  },
+  {
+    "label": "V06 断路阻挡",
+    "ticks": 60,
+    "text": "Tick 60 | V06 断路阻挡 | 攻击区域 0\n\n"
+  },
+  {
+    "label": "持续穿透光束",
+    "ticks": 5,
+    "text": "Tick 5 | 持续穿透光束 | 攻击区域 0\n{\"id\":\"source\",\"phase\":\"Pulse3\",\"action\":\"Pulse3\",\"resource\":100,\"status\":0}\n{\"id\":\"enemy-a\",\"resource\":41}\n{\"id\":\"enemy-b\",\"resource\":41}\n{\"id\":\"friend\",\"resource\":50}\n{\"id\":\"health\",\"resource\":100}\n"
+  },
+  {
+    "label": "光束硬控中断",
+    "ticks": 6,
+    "text": "Tick 6 | 光束硬控中断 | 攻击区域 0\n{\"id\":\"source\",\"phase\":\"Done\",\"action\":\"Done\",\"resource\":100,\"status\":32}\n{\"id\":\"enemy-a\",\"resource\":47}\n{\"id\":\"enemy-b\",\"resource\":47}\n{\"id\":\"friend\",\"resource\":50}\n{\"id\":\"health\",\"resource\":100}\n"
+  },
+  {
+    "label": "普通俯冲",
+    "ticks": 3,
+    "text": "Tick 3 | 普通俯冲 | 攻击区域 1\n{\"id\":\"flyer\",\"phase\":\"Dive\",\"resource\":30,\"status\":8,\"target\":\"ground-target\"}\n{\"unit\":\"vex\",\"phase\":\"Dive\",\"frame\":1,\"facing\":1,\"missingArt\":true,\"anchors\":{\"contact\":{\"x\":2,\"y\":24},\"root\":{\"x\":2,\"y\":0},\"body\":{\"x\":2,\"y\":6},\"grip\":{\"x\":18,\"y\":0},\"effectOrigin\":{\"x\":42,\"y\":0}}}"
+  },
+  {
+    "label": "V02 双技能与参数复用",
+    "ticks": 3,
+    "text": "Tick 3 | V02 双技能与参数复用 | 攻击区域 2\n{\"id\":\"unit#0:body\",\"action\":\"melee\",\"resource\":100,\"status\":0,\"target\":\"target-a\"}\n{\"id\":\"unit#0:melee\",\"phase\":\"Active\",\"action\":\"Active\",\"cd\":6,\"resource\":1,\"target\":\"target-a\",\"locked\":\"target-a\"}\n{\"id\":\"unit#0:ranged\",\"phase\":\"Ready\",\"action\":\"Ready\",\"cd\":0,\"resource\":0,\"target\":\"target-a\"}\n{\"id\":\"unit#1:body\",\"action\":\"melee\",\"resource\":100,\"status\":0,\"target\":\"target-b\"}\n{\"id\":\"unit#1:melee\",\"phase\":\"Active\",\"action\":\"Active\",\"cd\":6,\"resource\":1,\"target\":\"target-b\",\"locked\":\"target-b\"}\n{\"id\":\"target-a\",\"resource\":2000,\"status\":0}\n{\"id\":\"target-b\",\"resource\":2000,\"status\":0}\n{\"unit\":\"vindicator\",\"phase\":\"Active\",\"frame\":0,\"facing\":1,\"missingArt\":true,\"anchors\":{\"contact\":{\"x\":0,\"y\":-32},\"root\":{\"x\":0,\"y\":0},\"body\":{\"x\":0,\"y\":-50},\"grip\":{\"x\":16,\"y\":-56},\"effectOrigin\":{\"x\":40,\"y\":-56}}}\n{\"unit\":\"zombie\",\"phase\":\"Active\",\"frame\":0,\"facing\":1,\"missingArt\":true,\"anchors\":{\"contact\":{\"x\":100,\"y\":-32},\"root\":{\"x\":100,\"y\":0},\"body\":{\"x\":100,\"y\":-50},\"grip\":{\"x\":116,\"y\":-56},\"effectOrigin\":{\"x\":140,\"y\":-56}}}"
+  },
+  {
+    "label": "卫道士临时播放接口",
+    "ticks": 3,
+    "text": "Tick 3 | 卫道士临时播放接口 | 攻击区域 1\n{\"id\":\"flyer\",\"resource\":30,\"status\":8}\n{\"id\":\"melee\",\"phase\":\"Active\",\"action\":\"Active\",\"resource\":1,\"status\":0,\"target\":\"flyer\",\"locked\":\"flyer\"}\n"
+  },
+  {
+    "label": "头部减伤共享生命",
+    "ticks": 2,
+    "text": "Tick 2 | 头部减伤共享生命 | 攻击区域 0\n{\"id\":\"gun\",\"action\":\"Fire\"}\n{\"id\":\"enemy\",\"resource\":27}\n"
+  },
+  {
+    "label": "最后伤害来源转换",
+    "ticks": 3,
+    "text": "Tick 3 | 最后伤害来源转换 | 攻击区域 0\n{\"id\":\"gun\",\"action\":\"Fire\"}\n{\"id\":\"converted#0:body\",\"resource\":10}\n"
+  }
+]

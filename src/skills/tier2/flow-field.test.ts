@@ -69,8 +69,8 @@ describe('flow-field — 元数据 / 定序 / 申报诚实', () => {
       for (const sys of flowFieldCapability.systems) w.addSystem(sys);
       for (const sys of motionApplyCapability.systems) w.addSystem(sys);
       w.tick();
-      const order = (w as unknown as { systems: Array<{ id: string }> }).systems.map((sys) => sys.id);
-      expect(order).toEqual(['steering', 'path-follow', 'flow-field', 'motion-apply']);
+      const order = w.getSortedSystems().map((sys) => sys.id);
+      expect(order).toEqual(['frame-start-transform', 'steering', 'path-follow', 'flow-field', 'motion-apply']);
     } finally { console.warn = origWarn; console.error = origErr; }
     // 撤 runsAfter:['steering','path-follow'] → 这里会抓到
     // 「[topological-sort] phase 0：检测到定序环 [steering, path-follow, flow-field]（闭环组件：Velocity）」
@@ -552,3 +552,4 @@ describe('flow-field — 软分离的两条承重语义（撤修必须转红）'
     expect(four).toBeGreaterThan(one * 1.5);   // 撤成「除以实际邻居数」→ 两者几乎相等，此断言红
   });
 });
+

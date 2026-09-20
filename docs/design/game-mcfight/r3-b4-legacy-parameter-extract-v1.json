@@ -1,0 +1,555 @@
+{
+  "source": "mcfight-unity-main/Assets/Resources/monster_config.json",
+  "extractedAt": "2026-09-17",
+  "units": [
+    {
+      "id": "alexscaves_magnetron",
+      "name": "磁控机兵",
+      "effectiveAttributes": {
+        "hp": 80,
+        "attack": 2,
+        "armor": 6,
+        "armorToughness": 0,
+        "moveSpeed": 50,
+        "attackRange": 42,
+        "attackInterval": 1.5,
+        "radius": 18,
+        "price": 40
+      },
+      "abilityParams": [
+        {
+          "key": "detectRadius",
+          "value": 100.0,
+          "_comment": "探测范围"
+        },
+        {
+          "key": "baseDamage",
+          "value": 2.0,
+          "_comment": "基础伤害"
+        },
+        {
+          "key": "knockbackForce",
+          "value": 20.0,
+          "_comment": "击退力度"
+        }
+      ]
+    },
+    {
+      "id": "alexscaves_nucleeper",
+      "name": "核能苦力怕",
+      "effectiveAttributes": {
+        "hp": 30,
+        "attack": 500,
+        "armor": 4,
+        "armorToughness": 0,
+        "moveSpeed": 42,
+        "attackRange": 200,
+        "attackInterval": 99.0,
+        "radius": 14,
+        "price": 100
+      },
+      "abilityParams": [
+        {
+          "key": "explodeRadius",
+          "value": 200.0,
+          "_comment": "爆炸范围"
+        },
+        {
+          "key": "fuseDuration",
+          "value": 10.0,
+          "_comment": "引信时间"
+        },
+        {
+          "key": "centerDamage",
+          "value": 500.0,
+          "_comment": "中心伤害"
+        },
+        {
+          "key": "edgeDamage",
+          "value": 100.0,
+          "_comment": "边缘伤害"
+        },
+        {
+          "key": "explodeRadius",
+          "value": 200.0,
+          "_comment": "爆炸范围"
+        },
+        {
+          "key": "fuseDuration",
+          "value": 10.0,
+          "_comment": "引信时间"
+        },
+        {
+          "key": "centerDamage",
+          "value": 500.0,
+          "_comment": "中心伤害"
+        },
+        {
+          "key": "edgeDamage",
+          "value": 100.0,
+          "_comment": "边缘伤害"
+        }
+      ]
+    },
+    {
+      "id": "alexscaves_tremorsaurus",
+      "name": "撼地龙",
+      "effectiveAttributes": {
+        "hp": 150,
+        "attack": 14,
+        "armor": 8,
+        "armorToughness": 0,
+        "moveSpeed": 50,
+        "attackRange": 42,
+        "attackInterval": 0.7,
+        "radius": 18,
+        "price": 200
+      },
+      "abilityParams": [
+        {
+          "key": "roarCooldown",
+          "value": 10.0,
+          "_comment": "怒吼冷却"
+        },
+        {
+          "key": "roarRadius",
+          "value": 140.0,
+          "_comment": "怒吼范围"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 14.0,
+          "_comment": "近战伤害"
+        }
+      ]
+    },
+    {
+      "id": "alexscaves_tremorzilla",
+      "name": "撼地斯拉",
+      "effectiveAttributes": {
+        "hp": 500,
+        "attack": 30,
+        "armor": 10,
+        "armorToughness": 0,
+        "moveSpeed": 48,
+        "attackRange": 58,
+        "attackInterval": 1.0,
+        "radius": 56,
+        "price": 1000
+      },
+      "abilityParams": [
+        {
+          "key": "beamCooldown",
+          "value": 20.0,
+          "_comment": "激光冷却"
+        },
+        {
+          "key": "beamDuration",
+          "value": 5.0,
+          "_comment": "激光持续"
+        },
+        {
+          "key": "beamDamage",
+          "value": 20.0,
+          "_comment": "激光每tick伤害"
+        },
+        {
+          "key": "beamTicks",
+          "value": 15.0,
+          "_comment": "激光tick数"
+        },
+        {
+          "key": "beamHalfWidth",
+          "value": 24.0,
+          "_comment": "激光半宽"
+        },
+        {
+          "key": "beamLength",
+          "value": 500.0,
+          "_comment": "激光长度"
+        },
+        {
+          "key": "stompDamage",
+          "value": 30.0,
+          "_comment": "践踏伤害"
+        },
+        {
+          "key": "stompRadius",
+          "value": 92.0,
+          "_comment": "践踏范围"
+        }
+      ]
+    },
+    {
+      "id": "alexsmobs_centipede_head",
+      "name": "洞穴蜈蚣",
+      "effectiveAttributes": {
+        "hp": 35,
+        "attack": 8,
+        "armor": 6,
+        "armorToughness": 0,
+        "moveSpeed": 50,
+        "attackRange": 42,
+        "attackInterval": 0.9,
+        "radius": 18,
+        "price": 30
+      },
+      "abilityParams": [
+        null
+      ]
+    },
+    {
+      "id": "cataclysm_ignited_berserker",
+      "name": "炽燃狂魂",
+      "effectiveAttributes": {
+        "hp": 65,
+        "attack": 14,
+        "armor": 8,
+        "armorToughness": 0,
+        "moveSpeed": 40,
+        "attackRange": 42,
+        "attackInterval": 3.0,
+        "radius": 18,
+        "price": 60
+      },
+      "abilityParams": [
+        {
+          "key": "aoeRadius",
+          "value": 48.0,
+          "_comment": "AOE范围"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 8.0,
+          "_comment": "近战伤害"
+        },
+        {
+          "key": "meleeCooldown",
+          "value": 2.0,
+          "_comment": "近战冷却"
+        }
+      ]
+    },
+    {
+      "id": "cataclysm_ignited_revenant",
+      "name": "炽燃遗魂",
+      "effectiveAttributes": {
+        "hp": 80,
+        "attack": 6,
+        "armor": 12,
+        "armorToughness": 0,
+        "moveSpeed": 42,
+        "attackRange": 160,
+        "attackInterval": 1.0,
+        "radius": 18,
+        "price": 180
+      },
+      "abilityParams": [
+        {
+          "key": "spinTicks",
+          "value": 2.0,
+          "_comment": "旋转最大次数"
+        },
+        {
+          "key": "spinDamage",
+          "value": 11.0,
+          "_comment": "旋转AOE伤害"
+        },
+        {
+          "key": "spinRadius",
+          "value": 64.0,
+          "_comment": "旋转AOE范围"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 14.0,
+          "_comment": "近战伤害"
+        },
+        {
+          "key": "spinInterval",
+          "value": 1.5,
+          "_comment": "旋转间隔"
+        },
+        {
+          "key": "spinTicks",
+          "value": 2.0,
+          "_comment": "旋转最大次数"
+        },
+        {
+          "key": "spinDamage",
+          "value": 11.0,
+          "_comment": "旋转AOE伤害"
+        },
+        {
+          "key": "spinRadius",
+          "value": 64.0,
+          "_comment": "旋转AOE范围"
+        }
+      ]
+    },
+    {
+      "id": "creeper",
+      "name": "苦力怕",
+      "effectiveAttributes": {
+        "hp": 20,
+        "attack": 49,
+        "armor": 0,
+        "armorToughness": 0,
+        "moveSpeed": 38,
+        "attackRange": 42,
+        "attackInterval": 0.9,
+        "radius": 18,
+        "price": 20
+      },
+      "abilityParams": [
+        {
+          "key": "explodeRadius",
+          "value": 60.0,
+          "_comment": "爆炸范围"
+        },
+        {
+          "key": "fuseDuration",
+          "value": 1.5,
+          "_comment": "引信时间"
+        }
+      ]
+    },
+    {
+      "id": "iceandfire_if_troll",
+      "name": "食人妖",
+      "effectiveAttributes": {
+        "hp": 50,
+        "attack": 10,
+        "armor": 9,
+        "armorToughness": 0,
+        "moveSpeed": 50,
+        "attackRange": 42,
+        "attackInterval": 0.9,
+        "radius": 18,
+        "price": 60
+      },
+      "abilityParams": [
+        {
+          "key": "heavyDamage",
+          "value": 27.0,
+          "_comment": "重击伤害"
+        },
+        {
+          "key": "normalDamage",
+          "value": 10.0,
+          "_comment": "普攻伤害"
+        },
+        {
+          "key": "heavyCooldown",
+          "value": 15.0,
+          "_comment": "重击冷却"
+        }
+      ]
+    },
+    {
+      "id": "mowziesmobs_frostmaw",
+      "name": "霜冻巨兽",
+      "effectiveAttributes": {
+        "hp": 250,
+        "attack": 8,
+        "armor": 6,
+        "armorToughness": 0,
+        "moveSpeed": 44,
+        "attackRange": 220,
+        "attackInterval": 3.0,
+        "radius": 28,
+        "price": 150
+      },
+      "abilityParams": [
+        {
+          "key": "slamDamage",
+          "value": 40.0,
+          "_comment": "重击伤害"
+        },
+        {
+          "key": "slamRadius",
+          "value": 90.0,
+          "_comment": "重击范围"
+        },
+        {
+          "key": "slamCooldown",
+          "value": 20.0,
+          "_comment": "重击冷却"
+        },
+        {
+          "key": "frostDamage",
+          "value": 1.0,
+          "_comment": "冰雾伤害"
+        },
+        {
+          "key": "frostRadius",
+          "value": 140.0,
+          "_comment": "冰雾范围"
+        },
+        {
+          "key": "projectileDamage",
+          "value": 12.0,
+          "_comment": "冰球伤害"
+        }
+      ]
+    },
+    {
+      "id": "twilightforest_alpha_yeti",
+      "name": "雪怪首领",
+      "effectiveAttributes": {
+        "hp": 200,
+        "attack": 7,
+        "armor": 0,
+        "armorToughness": 0,
+        "moveSpeed": 40,
+        "attackRange": 220,
+        "attackInterval": 1.5,
+        "radius": 24,
+        "price": 150
+      },
+      "abilityParams": [
+        {
+          "key": "frenzyDamage",
+          "value": 5.0,
+          "_comment": "狂暴伤害"
+        },
+        {
+          "key": "frenzyRadius",
+          "value": 80.0,
+          "_comment": "狂暴范围"
+        },
+        {
+          "key": "frenzyTicks",
+          "value": 3.0,
+          "_comment": "狂暴次数"
+        },
+        {
+          "key": "frostZoneRadius",
+          "value": 50.0,
+          "_comment": "冰霜区域半径"
+        },
+        {
+          "key": "frostZoneDuration",
+          "value": 5.0,
+          "_comment": "冰霜区域持续"
+        },
+        {
+          "key": "iceBombDamage",
+          "value": 8.0,
+          "_comment": "冰炸弹伤害"
+        },
+        {
+          "key": "iceBombRadius",
+          "value": 60.0,
+          "_comment": "冰炸弹范围"
+        }
+      ]
+    },
+    {
+      "id": "twilightforest_blockchain_goblin",
+      "name": "链锤哥布林",
+      "effectiveAttributes": {
+        "hp": 20,
+        "attack": 8,
+        "armor": 0,
+        "armorToughness": 0,
+        "moveSpeed": 40,
+        "attackRange": 80,
+        "attackInterval": 0.9,
+        "radius": 18,
+        "price": 20
+      },
+      "abilityParams": [
+        {
+          "key": "aoeRadius",
+          "value": 80.0,
+          "_comment": "AOE范围"
+        },
+        {
+          "key": "aoeDamage",
+          "value": 8.0,
+          "_comment": "AOE伤害"
+        },
+        {
+          "key": "knockbackForce",
+          "value": 10.0,
+          "_comment": "击退力度"
+        }
+      ]
+    },
+    {
+      "id": "warden",
+      "name": "监守者",
+      "effectiveAttributes": {
+        "hp": 500,
+        "attack": 30,
+        "armor": 0,
+        "armorToughness": 0,
+        "moveSpeed": 58,
+        "attackRange": 48,
+        "attackInterval": 1.5,
+        "radius": 22,
+        "price": 400
+      },
+      "abilityParams": [
+        {
+          "key": "sonicDamage",
+          "value": 10.0,
+          "_comment": "声波伤害"
+        },
+        {
+          "key": "sonicRange",
+          "value": 220.0,
+          "_comment": "声波射程"
+        },
+        {
+          "key": "sonicCooldown",
+          "value": 10.0,
+          "_comment": "声波冷却"
+        },
+        {
+          "key": "sonicSpeed",
+          "value": 300.0,
+          "_comment": "声波速度"
+        },
+        {
+          "key": "meleeDamage",
+          "value": 30.0,
+          "_comment": "近战伤害"
+        }
+      ]
+    },
+    {
+      "id": "witch",
+      "name": "女巫",
+      "effectiveAttributes": {
+        "hp": 26,
+        "attack": 6,
+        "armor": 0,
+        "armorToughness": 0,
+        "moveSpeed": 30,
+        "attackRange": 160,
+        "attackInterval": 2.0,
+        "radius": 18,
+        "price": 20
+      },
+      "abilityParams": [
+        {
+          "key": "healAmount",
+          "value": 10.0,
+          "_comment": "治疗量"
+        },
+        {
+          "key": "aoeDamage",
+          "value": 6.0,
+          "_comment": "AOE伤害"
+        },
+        {
+          "key": "aoeRadius",
+          "value": 48.0,
+          "_comment": "AOE范围"
+        }
+      ]
+    }
+  ]
+}

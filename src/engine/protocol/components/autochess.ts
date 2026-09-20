@@ -15,6 +15,15 @@ export interface Draggable extends Component {
   onlyFlag?: string; // 全局 Flag id：为真才可拖（如 'in_prep'）
   capTagMask?: number; // 上板限额的计数掩码（与 capResource 成对）
   capResource?: string; // 上板限额资源 id（如 'level'）
+  /** Opt-in atomic free deployment. Incompatible with snap. Invalid drops do not write. */
+  freePlacement?: {
+    bounds: { minX: number; maxX: number; minY: number; maxY: number };
+    /** Other deployed circles matching this team mask block intersecting drops. Tangency is legal. */
+    teamMask: number;
+    deployedMask: number;
+    /** A drop inside this rectangle withdraws to the instance's fixed bench anchor. */
+    bench: { minX: number; maxX: number; minY: number; maxY: number; x: number; y: number };
+  };
 }
 
 // ── Tray / TraySeat（REQ-F-055 托盘落座）── 「一排槽位」的自动落座/拖拽互换/离座原语。

@@ -1,0 +1,47 @@
+// author: GD-MCFIGHT
+// S4 场景01：查看不是购买；购买扣款；进入部署并放置后才允许开战。
+// 对抗目标：选择误扣款、购买不建实例、未部署可开战、部署信号未接真实会话。
+{
+  "name": "商店购买、部署并开始战斗",
+  "game": "game-mcfight",
+  "seed": 4101,
+  "config": { "enemyPreset": "standard-round1" },
+  "steps": [
+    { "expect": [
+      { "sv": "phase", "eq": "shop" },
+      { "res": "gold", "eq": 30 },
+      { "res": "owned-count", "eq": 0 },
+      { "flag": "can-enter-deploy", "eq": false }
+    ] },
+    { "signal": "shop.unit.select", "args": { "unitId": "vindicator" }, "by": "player" },
+    { "expect": [
+      { "sv": "selected-unit", "eq": "vindicator" },
+      { "res": "gold", "eq": 30 },
+      { "res": "owned-count", "eq": 0 }
+    ] },
+    { "signal": "shop.unit.buy", "args": { "unitId": "vindicator" }, "by": "player" },
+    { "expect": [
+      { "res": "gold", "eq": 25 },
+      { "res": "owned-count", "eq": 1 },
+      { "flag": "can-enter-deploy", "eq": true }
+    ] },
+    { "signal": "shop.continue", "by": "player" },
+    { "expect": [
+      { "sv": "phase", "eq": "deploy" },
+      { "res": "deployed-count", "eq": 0 },
+      { "flag": "can-start-battle", "eq": false }
+    ] },
+    { "signal": "deployment.unit.place", "args": { "instanceId": "player-vindicator-1", "x": -12, "y": 0 }, "by": "player" },
+    { "expect": [
+      { "res": "deployed-count", "eq": 1 },
+      { "flag": "can-start-battle", "eq": true }
+    ] },
+    { "signal": "deployment.start", "by": "player" },
+    { "expect": [
+      { "sv": "phase", "eq": "battle" },
+      { "res": "player-alive", "eq": 1 },
+      { "res": "enemy-alive", "eq": 4 },
+      { "sv": "outcome", "eq": "none" }
+    ] }
+  ]
+}

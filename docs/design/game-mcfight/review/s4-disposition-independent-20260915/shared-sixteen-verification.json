@@ -1,0 +1,233 @@
+[
+  {
+    "run": 1,
+    "file": "games/game-103/game-103.test.ts",
+    "status": "passed",
+    "count": 42,
+    "failures": []
+  },
+  {
+    "run": 1,
+    "file": "games/game-i/ai-lab.test.ts",
+    "status": "passed",
+    "count": 3,
+    "failures": []
+  },
+  {
+    "run": 1,
+    "file": "games/game211/slg-scale.bench.test.ts",
+    "status": "passed",
+    "count": 2,
+    "failures": []
+  },
+  {
+    "run": 1,
+    "file": "src/assembly/cycle-tiebreak.test.ts",
+    "status": "passed",
+    "count": 10,
+    "failures": []
+  },
+  {
+    "run": 1,
+    "file": "src/assembly/declaration-audit.test.ts",
+    "status": "passed",
+    "count": 7,
+    "failures": []
+  },
+  {
+    "run": 1,
+    "file": "src/skills/tier2/boomerang-compose.test.ts",
+    "status": "passed",
+    "count": 4,
+    "failures": []
+  },
+  {
+    "run": 1,
+    "file": "src/skills/tier2/flow-field.test.ts",
+    "status": "passed",
+    "count": 39,
+    "failures": []
+  },
+  {
+    "run": 1,
+    "file": "src/skills/tier2/path-follow.test.ts",
+    "status": "passed",
+    "count": 21,
+    "failures": []
+  },
+  {
+    "run": 1,
+    "file": "src/skills/tier2/platformer.integration.test.ts",
+    "status": "passed",
+    "count": 4,
+    "failures": []
+  },
+  {
+    "run": 1,
+    "file": "src/skills/tier2/pull-anchor.test.ts",
+    "status": "passed",
+    "count": 13,
+    "failures": []
+  },
+  {
+    "run": 1,
+    "file": "src/skills/atoms/resource/resource.test.ts",
+    "status": "passed",
+    "count": 28,
+    "failures": []
+  },
+  {
+    "run": 2,
+    "file": "games/game-103/game-103.test.ts",
+    "status": "passed",
+    "count": 42,
+    "failures": []
+  },
+  {
+    "run": 2,
+    "file": "games/game-i/ai-lab.test.ts",
+    "status": "passed",
+    "count": 3,
+    "failures": []
+  },
+  {
+    "run": 2,
+    "file": "games/game211/slg-scale.bench.test.ts",
+    "status": "passed",
+    "count": 2,
+    "failures": []
+  },
+  {
+    "run": 2,
+    "file": "src/assembly/cycle-tiebreak.test.ts",
+    "status": "passed",
+    "count": 10,
+    "failures": []
+  },
+  {
+    "run": 2,
+    "file": "src/assembly/declaration-audit.test.ts",
+    "status": "passed",
+    "count": 7,
+    "failures": []
+  },
+  {
+    "run": 2,
+    "file": "src/skills/tier2/boomerang-compose.test.ts",
+    "status": "passed",
+    "count": 4,
+    "failures": []
+  },
+  {
+    "run": 2,
+    "file": "src/skills/tier2/flow-field.test.ts",
+    "status": "passed",
+    "count": 39,
+    "failures": []
+  },
+  {
+    "run": 2,
+    "file": "src/skills/tier2/path-follow.test.ts",
+    "status": "passed",
+    "count": 21,
+    "failures": []
+  },
+  {
+    "run": 2,
+    "file": "src/skills/tier2/platformer.integration.test.ts",
+    "status": "passed",
+    "count": 4,
+    "failures": []
+  },
+  {
+    "run": 2,
+    "file": "src/skills/tier2/pull-anchor.test.ts",
+    "status": "passed",
+    "count": 13,
+    "failures": []
+  },
+  {
+    "run": 2,
+    "file": "src/skills/atoms/resource/resource.test.ts",
+    "status": "passed",
+    "count": 28,
+    "failures": []
+  },
+  {
+    "run": 3,
+    "file": "games/game-103/game-103.test.ts",
+    "status": "passed",
+    "count": 42,
+    "failures": []
+  },
+  {
+    "run": 3,
+    "file": "games/game-i/ai-lab.test.ts",
+    "status": "passed",
+    "count": 3,
+    "failures": []
+  },
+  {
+    "run": 3,
+    "file": "games/game211/slg-scale.bench.test.ts",
+    "status": "passed",
+    "count": 2,
+    "failures": []
+  },
+  {
+    "run": 3,
+    "file": "src/assembly/cycle-tiebreak.test.ts",
+    "status": "passed",
+    "count": 10,
+    "failures": []
+  },
+  {
+    "run": 3,
+    "file": "src/assembly/declaration-audit.test.ts",
+    "status": "passed",
+    "count": 7,
+    "failures": []
+  },
+  {
+    "run": 3,
+    "file": "src/skills/tier2/boomerang-compose.test.ts",
+    "status": "passed",
+    "count": 4,
+    "failures": []
+  },
+  {
+    "run": 3,
+    "file": "src/skills/tier2/flow-field.test.ts",
+    "status": "passed",
+    "count": 39,
+    "failures": []
+  },
+  {
+    "run": 3,
+    "file": "src/skills/tier2/path-follow.test.ts",
+    "status": "passed",
+    "count": 21,
+    "failures": []
+  },
+  {
+    "run": 3,
+    "file": "src/skills/tier2/platformer.integration.test.ts",
+    "status": "passed",
+    "count": 4,
+    "failures": []
+  },
+  {
+    "run": 3,
+    "file": "src/skills/tier2/pull-anchor.test.ts",
+    "status": "passed",
+    "count": 13,
+    "failures": []
+  },
+  {
+    "run": 3,
+    "file": "src/skills/atoms/resource/resource.test.ts",
+    "status": "passed",
+    "count": 28,
+    "failures": []
+  }
+]

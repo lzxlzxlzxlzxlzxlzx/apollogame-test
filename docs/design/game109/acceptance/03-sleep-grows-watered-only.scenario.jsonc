@@ -1,0 +1,207 @@
+// GD-109 验收剧本 03 · 睡觉的两条生长律：**只长浇过水的** · **每夜恰一阶**（brief.md:16,44）。
+// author: GD
+//
+// 条款出处：brief.md:16「睡觉 → 作物按天生长一阶 → 体力回满 → 日期 +1」
+//          · brief.md:44「睡觉：**浇过水的**作物按各自天数生长；没浇水的**不长**；
+//             每日的浇水标记在睡觉后清掉（第二天要重新浇）」
+//          · requests.md §裁决行 A（数值）：南瓜 3 天 · 起始第 1 天 · 体力 20 / 每动作 1。
+//
+// 两格孪生对照（同一行、同一作物、开局逐字同值）：
+//     A = tile-r1c4（**浇水**）· B = tile-r1c5（**从不浇水**）。
+//     除了「浇没浇」这一件事，两格走的是完全一样的动作序列——B 就是 A 的否定对照。
+//
+// 对抗目标（把实现改坏成什么样，这条会变红）：
+//   · **没浇水也长**（生长门漏判 `watered`）→ B 的 `stage eq 0` 在每一夜都等不到 → 红。
+//   · **浇水标记不清**（睡完 `watered` 还在）→ 第 3 天「整夜没浇谁也不长」那步红：
+//     标记残留 ⇒ 两格都会长一阶（A→3 / B→1）。
+//   · **生长相位卡真**（`grow-phase` 置了不落）：同一处红——此后每次浇水都当场长一阶，
+//     第 2 天的 `stage eq 1`（浇水后）与第 3 天的 `stage eq 2` 都会被打乱。
+//   · **浇水当场就长**（把生长挂到浇水动作上）→ 第 2 天浇水那步的 `stage eq 1` 红。
+//   · **每夜长多阶 / 长半阶**（`eq` 不是 `gte`：多长一阶也红）→ 各夜 `stage eq N` 红。
+//   · **未熟也能收**（成熟门缺失，或成熟线不看本格的天数）→ 第 5 天 B 的「收不动」红。
+//   · **没浇水也回满体力 / 日期不 +1** → 每夜 `day`/`energy` 两断言红。
+//   · **播种不把生长阶压回 0**（brief.md:41「第 0 阶」）→ 收尾把答案收下来（成熟态 3 阶）后再播一次，
+//     那步的 `Resource eq 0` 等不到 → 红。⚠ 收获侧**不判**阶（brief.md:43 没说阶的数）——判别点在播种侧。
+//
+// 时序纪律：全程 `waitUntil`（先查后拍）；拒绝路径用固定观察窗 `{ "tick": 3 }`。
+//   逐格断言一律 `comp` + 显式实体 id（36 格共用同名 `stage`/`watered`，裸 `res`/`flag` 只看得到最后一格）。
+{
+  "name": "睡觉只长浇过水的·每夜恰一阶",
+  "game": "game109",
+  "seed": 109,
+  "steps": [
+    // ── 开局：两格同作物、同值（对照成立的前提）──────────────────────
+    { "expect": [
+      { "res": "day", "eq": 1 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r1c4", "component": "StringVar", "field": "value" }, "eq": "pumpkin" },
+      { "comp": { "entity": "tile-r1c5", "component": "StringVar", "field": "value" }, "eq": "pumpkin" },
+      { "comp": { "entity": "tile-r1c4", "component": "State", "field": "current" }, "eq": "wild" },
+      { "comp": { "entity": "tile-r1c5", "component": "State", "field": "current" }, "eq": "wild" },
+      { "comp": { "entity": "tile-r1c4", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "comp": { "entity": "tile-r1c5", "component": "Resource", "field": "current" }, "eq": 0 },
+    ] },
+
+    // ── 第 1 天：两格同走 翻土→播种；**只给 A 浇水** ────────────────
+    { "signal": "work", "args": { "tile": "tile-r1c4" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r1c4", "component": "State", "field": "current" }, "eq": "tilled" }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r1c5" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r1c5", "component": "State", "field": "current" }, "eq": "tilled" }], "cap": 30 },
+    { "signal": "pick-sow" },
+    { "waitUntil": [{ "res": "tool", "eq": 1 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r1c4" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r1c4", "component": "State", "field": "current" }, "eq": "sown" }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r1c5" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r1c5", "component": "State", "field": "current" }, "eq": "sown" }], "cap": 30 },
+    { "signal": "pick-water" },
+    { "waitUntil": [{ "res": "tool", "eq": 2 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r1c4" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r1c4", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 15 },          // 翻 2 + 播 2 + 浇 1 = 5
+      { "comp": { "entity": "tile-r1c4", "component": "Flag", "field": "active" }, "eq": true },
+      { "comp": { "entity": "tile-r1c5", "component": "Flag", "field": "active" }, "eq": false },   // B 没浇
+      { "comp": { "entity": "tile-r1c4", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "comp": { "entity": "tile-r1c5", "component": "Resource", "field": "current" }, "eq": 0 },
+    ] },
+
+    // ── 第 1 夜：A 长的**同时** B 不长（一条 waitUntil 里同拍判两个方向）──
+    { "signal": "sleep" },
+    { "waitUntil": [
+      { "res": "day", "eq": 2 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r1c4", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "comp": { "entity": "tile-r1c5", "component": "Resource", "field": "current" }, "eq": 0 },   // **没浇的没长**
+      { "comp": { "entity": "tile-r1c4", "component": "Flag", "field": "active" }, "eq": false },    // 标记已清
+      { "comp": { "entity": "tile-r1c5", "component": "Flag", "field": "active" }, "eq": false },
+    ], "cap": 60 },
+    // 观察窗（3 拍）：生长**下一拍**才施放 —— 不摆窗，「B 没长」这条会在生长之前被判过（假绿）。
+    { "tick": 3 },
+    { "expect": [
+      { "res": "day", "eq": 2 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r1c4", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "comp": { "entity": "tile-r1c5", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "comp": { "entity": "tile-r1c4", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r1c5", "component": "State", "field": "current" }, "eq": "sown" },
+      { "flag": "grow-phase", "eq": false },
+    ] },
+
+    // ── 第 2 天：给 A 浇第 2 次水 —— **浇水本身不当拍生长**（A 仍是 1 阶）──
+    { "signal": "pick-water" },
+    { "waitUntil": [{ "res": "tool", "eq": 2 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r1c4" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r1c4", "component": "Flag", "field": "active" }, "eq": true },
+      { "comp": { "entity": "tile-r1c4", "component": "Resource", "field": "current" }, "eq": 1 },
+    ], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 19 },
+      { "comp": { "entity": "tile-r1c4", "component": "Resource", "field": "current" }, "eq": 1 },    // 浇水不长
+      { "comp": { "entity": "tile-r1c5", "component": "Resource", "field": "current" }, "eq": 0 },
+    ] },
+
+    // ── 第 2 夜：A →2 阶 · B 仍 0 阶（B 连着第二夜没浇）──
+    { "signal": "sleep" },
+    { "waitUntil": [
+      { "res": "day", "eq": 3 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r1c4", "component": "Resource", "field": "current" }, "eq": 2 },
+      { "comp": { "entity": "tile-r1c5", "component": "Resource", "field": "current" }, "eq": 0 },
+    ], "cap": 60 },
+    // 观察窗（3 拍）：等生长落定再判 —— A 恰 2 阶、B 恰 0 阶。
+    { "tick": 3 },
+    { "expect": [
+      { "res": "day", "eq": 3 },
+      { "comp": { "entity": "tile-r1c4", "component": "Resource", "field": "current" }, "eq": 2 },
+      { "comp": { "entity": "tile-r1c5", "component": "Resource", "field": "current" }, "eq": 0 },
+    ] },
+
+    // ── 第 3 夜：整夜一个动作都没做 —— **两格都不该长**（标记已清 ⇒ 没浇水 ⇒ 不长）──
+    //    这一夜是「只长浇过水的」的第二重牙齿：如果标记没清干净，两格都会各长一阶。
+    { "signal": "sleep" },
+    { "waitUntil": [
+      { "res": "day", "eq": 4 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r1c4", "component": "Resource", "field": "current" }, "eq": 2 },    // 停在 2，不是 3
+      { "comp": { "entity": "tile-r1c5", "component": "Resource", "field": "current" }, "eq": 0 },
+    ], "cap": 60 },
+    // 观察窗（3 拍）——**这一窗是本条剧本最要紧的一处**：整夜没浇水 ⇒ 两格都不长。
+    //   不摆窗，这条断言会在生长之前被判过：「没浇水也长」的病根本咬不住。
+    { "tick": 3 },
+    { "expect": [
+      { "res": "day", "eq": 4 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r1c4", "component": "Resource", "field": "current" }, "eq": 2 },   // 停在 2，不是 3
+      { "comp": { "entity": "tile-r1c5", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "flag": "grow-phase", "eq": false },
+    ] },
+
+    // ── 第 4 天：两格都浇 —— A 第 3 次、B 第 1 次 ──────────────────
+    { "signal": "work", "args": { "tile": "tile-r1c4" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r1c4", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r1c5" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r1c5", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "expect": [{ "res": "energy", "eq": 18 }] },
+
+    // ── 第 4 夜：A →3 阶（成熟）· B →1 阶（落后两夜）──
+    { "signal": "sleep" },
+    { "waitUntil": [
+      { "res": "day", "eq": 5 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r1c4", "component": "Resource", "field": "current" }, "eq": 3 },
+      { "comp": { "entity": "tile-r1c5", "component": "Resource", "field": "current" }, "eq": 1 },
+    ], "cap": 60 },
+    // 观察窗（3 拍）：A 恰 3 阶（成熟线，4 阶也红）· B 恰 1 阶。
+    { "tick": 3 },
+    { "expect": [
+      { "res": "day", "eq": 5 },
+      { "comp": { "entity": "tile-r1c4", "component": "Resource", "field": "current" }, "eq": 3 },    // 南瓜 3 天 = 成熟线
+      { "comp": { "entity": "tile-r1c5", "component": "Resource", "field": "current" }, "eq": 1 },    // 少浇两次 = 少长两阶
+      { "flag": "grow-phase", "eq": false },
+    ] },
+
+    // ── 第 5 天：A 收得了（3 阶）· B 收不了（1 阶）——同一把工具同一天，两格结果相反 ──
+    { "signal": "pick-reap" },
+    { "waitUntil": [{ "res": "tool", "eq": 3 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r1c4" } },
+    // 收获的落定：还田 + 入包。**不判生长阶**——brief.md:43 只说地块回「已翻土」，没说阶的数。
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r1c4", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "res": "inv-pumpkin", "eq": 1 },
+    ], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 19 },
+      { "res": "inv-pumpkin", "eq": 1 },
+      { "comp": { "entity": "tile-r1c5", "component": "State", "field": "current" }, "eq": "sown" },
+    ] },
+
+    // 同一把收获工具、同一天，对没熟的 B 再点一次 —— 必须什么都没发生
+    { "signal": "work", "args": { "tile": "tile-r1c5" } },
+    { "tick": 3 },
+    { "expect": [
+      { "comp": { "entity": "tile-r1c5", "component": "State", "field": "current" }, "eq": "sown" },  // 收不动
+      { "comp": { "entity": "tile-r1c5", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "res": "inv-pumpkin", "eq": 1 },      // 没多给货
+      { "res": "energy", "eq": 19 },          // 被拒的动作不白扣体力
+    ] },
+
+    // ── 生长阶的**真判别点**：把刚收完的 A 重新播一次（brief.md:41「已播种（**第 0 阶**）」）──
+    //    A 收下来时是**成熟态 3 阶**（南瓜）⇒ 播种必须把它压回第 0 阶。
+    //    若实现「收获不清阶 + 播种不归零」两处都缺，此刻播下去仍是 3 阶 = 当场成熟 → 下面等不到 → 红。
+    //    （收获侧**不判**阶：brief.md:43 没说阶的数，判了就是对合规实现多要求一条。判别点只能在播种侧。）
+    { "signal": "pick-sow" },
+    { "waitUntil": [{ "res": "tool", "eq": 1 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r1c4" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r1c4", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r1c4", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "res": "energy", "eq": 18 },
+    ], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 18 },
+      { "comp": { "entity": "tile-r1c4", "component": "Resource", "field": "current" }, "eq": 0 },   // 新一轮从**第 0 阶**起
+      { "comp": { "entity": "tile-r1c5", "component": "Resource", "field": "current" }, "eq": 1 },   // 对照格原样
+    ] },
+  ],
+}

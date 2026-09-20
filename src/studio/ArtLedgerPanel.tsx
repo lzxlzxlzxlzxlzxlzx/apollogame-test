@@ -467,9 +467,10 @@ export function ArtLedgerPanel({ slug, title, kind, onBack, onChanged }: { slug:
 
 // ═══ 游戏选择器（owner 07-09 review ③）：美术平台入口=先选游戏目录——内置（games）+ library 卡带全列，
 // 每个游戏一个美术资料库。点击进入该游戏的台账面板（library 缺台账会自动 derive 初始化）。 ═══
-export function ArtGamePicker({ onPick, onBack }: {
+export function ArtGamePicker({ onPick, onBack, purpose = 'art' }: {
   onPick: (g: { slug: string; title: string; kind: 'builtin' | 'library' }) => void;
   onBack: () => void;
+  purpose?: 'art' | 'pipeline';
 }) {
   const [builtin, setBuiltin] = useState<Array<{ id: string; hasLocalArt?: boolean }>>([]);
   const [carts, setCarts] = useState<Array<{ slug: string; meta?: { name?: string } }>>([]);
@@ -494,8 +495,12 @@ export function ArtGamePicker({ onPick, onBack }: {
   return (
     <div style={{ position: 'fixed', inset: 0, background: SHELL.appBg, color: SHELL.text, fontFamily: SHELL.fontUi, zIndex: 400, display: 'flex', flexDirection: 'column' }}>
       <div style={{ padding: '12px 20px', borderBottom: `1px solid ${SHELL.line}`, display: 'flex', alignItems: 'center', gap: 14 }}>
-        <span style={{ fontSize: 15, fontWeight: 700, color: SHELL.violet }}>🎨 美术平台 · 选择游戏</span>
-        <span style={{ fontSize: 12, color: SHELL.dim }}>每个游戏一个美术资料库（需求台账+生成产物+本地索引）</span>
+        <span style={{ fontSize: 15, fontWeight: 700, color: SHELL.violet }}>
+          {purpose === 'pipeline' ? '🏭 生产流程 · 选择游戏' : '🎨 美术平台 · 选择游戏'}
+        </span>
+        <span style={{ fontSize: 12, color: SHELL.dim }}>
+          {purpose === 'pipeline' ? '选择游戏后查看八阶段机器门、独立复查与人审状态' : '每个游戏一个美术资料库（需求台账+生成产物+本地索引）'}
+        </span>
         <button onClick={onBack} style={{ ...sBtn('ghost'), marginLeft: 'auto' }}>← 返回</button>
       </div>
       <div style={{ flex: 1, overflow: 'auto', padding: 20 }}>

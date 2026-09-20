@@ -1,0 +1,141 @@
+// GD-109 验收剧本 01 · 四个动作的前置门与落定态（一格走完 翻土→播种→浇水→睡觉→收获）。
+// author: GD
+//
+// 条款出处：brief.md:15「一次动作 = 选定当前工具（翻土/播种/浇水/收获）+ 点一个地块 = 扣 1 点体力」
+//          · brief.md:40-43 核心循环四条：翻土=荒地→已翻土 · 播种=已翻土→已播种（**第 0 阶**）
+//            · 浇水=已播种→今日已浇 · 收获=成熟→产物进背包、**地块回「已翻土」**
+//          · brief.md:16「睡觉 → 作物按天生长一阶 → 体力回满 → 日期 +1」
+//          数值取 requests.md §裁决行 A（owner 2026-09-18 亲裁）；机读态名取领工声明契约表。
+//
+// 对抗目标（把实现改坏成什么样，这条会变红）：
+//   · **点谁改谁**（REQ-G109-001 的回归指纹）：被点的是 tile-r2c0，同时断言**队首那格 tile-r0c0 不变**——
+//     若寻址退化回「按全局 id 取首份」，改的会是 tile-r0c0，两处一起红（这是 S2 实查过的真事故形态）。
+//   · 三个状态互串（翻土直接落 sown / 播种落 tilled / 浇水把生命周期态也改掉）→ 各自的落定态断言红。
+//   · 播种不把生长阶压回 0（brief.md:41 明写「第 0 阶」）→ 收尾**重播**那步的 `Resource eq 0` 等不到 → 红。
+//   · 动作不扣体力 / 扣错数（brief.md:15 每个动作恰 1）→ energy 20→19→18→17→…→19→18 的阶梯红。
+//   · 收获不还田 / 不给货 → 两条落定断言各自红。
+//     ⚠ **收获侧不断言生长阶**：brief.md:43 只写「地块回**已翻土**」，没说阶的数——在收获侧钉 `stage eq 0`
+//       是比条款多要求一条（归零点在**播种**侧·brief.md:41），会对合规实现假红。判别点见收尾的重播步。
+//   · 睡觉不推进日期 / 不回满体力 / 不给浇过水的作物长一阶 → 睡觉那步的 waitUntil 等不到 → 红。
+//
+// 时序纪律：全程 `waitUntil`（先查后拍·cap 必填），不赌拍数。空格断言一律 `comp` + 显式实体 id
+//   （36 格共用 `Flag{id:watered}` / `Resource{id:stage}`，用裸 `flag`/`res` 只会看到「最后一格」）。
+{
+  "name": "四动作前置门与落定态·点谁改谁",
+  "game": "game109",
+  "seed": 109,
+  "steps": [
+    // ── 开局态 ────────────────────────────────────────────────────────
+    // 开局工具 = 翻土（下标 0）⇒ 本剧本第一个动作不必换工具；换工具那条路随后走三遍。
+    { "expect": [
+      { "res": "day", "eq": 1 },
+      { "res": "energy", "eq": 20 },          // §裁决行 A：起始=上限=20
+      { "res": "gold", "eq": 0 },
+      { "res": "tool", "eq": 0 },
+      { "sv": "flow", "eq": "playing" },
+      { "comp": { "entity": "tile-r2c0", "component": "StringVar", "field": "value" }, "eq": "carrot" },
+      { "comp": { "entity": "tile-r2c0", "component": "State", "field": "current" }, "eq": "wild" },
+      { "comp": { "entity": "tile-r2c0", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "comp": { "entity": "tile-r2c0", "component": "Flag", "field": "active" }, "eq": false },
+      { "comp": { "entity": "tile-r0c0", "component": "State", "field": "current" }, "eq": "wild" },  // 对照组（队首那格）
+    ] },
+
+    // ── 动作① 翻土：荒地 → 已翻土（brief.md:40）────────────────────────
+    { "signal": "work", "args": { "tile": "tile-r2c0" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r2c0", "component": "State", "field": "current" }, "eq": "tilled" }], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 19 },          // 一次动作扣 1（brief.md:15）
+      { "comp": { "entity": "tile-r2c0", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "comp": { "entity": "tile-r2c0", "component": "Resource", "field": "current" }, "eq": 0 },  // 翻土不动生长阶
+      { "comp": { "entity": "tile-r0c0", "component": "State", "field": "current" }, "eq": "wild" }, // **点谁改谁**：没点的那格原样
+    ] },
+
+    // ── 动作② 播种：已翻土 → 已播种（第 0 阶）（brief.md:41）─────────────
+    { "signal": "pick-sow" },
+    { "waitUntil": [{ "res": "tool", "eq": 1 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r2c0" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r2c0", "component": "State", "field": "current" }, "eq": "sown" }], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 18 },
+      { "res": "tool", "eq": 1 },
+      { "comp": { "entity": "tile-r2c0", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r2c0", "component": "Resource", "field": "current" }, "eq": 0 },  // 「第 0 阶」
+      { "comp": { "entity": "tile-r0c0", "component": "State", "field": "current" }, "eq": "wild" },
+    ] },
+
+    // ── 动作③ 浇水：已播种 → 今日已浇（**不换生命周期态**）（brief.md:42）──
+    { "signal": "pick-water" },
+    { "waitUntil": [{ "res": "tool", "eq": 2 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r2c0" } },
+    { "waitUntil": [{ "comp": { "entity": "tile-r2c0", "component": "Flag", "field": "active" }, "eq": true }], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 17 },
+      { "comp": { "entity": "tile-r2c0", "component": "Flag", "field": "active" }, "eq": true },
+      { "comp": { "entity": "tile-r2c0", "component": "State", "field": "current" }, "eq": "sown" },   // 浇水不换态
+      { "comp": { "entity": "tile-r2c0", "component": "Resource", "field": "current" }, "eq": 0 },     // 浇水不当拍生长
+    ] },
+
+    // ── 睡觉：浇过水的长一阶 · 标记清除 · 体力回满 · 日期 +1（brief.md:16,44）──
+    { "signal": "sleep" },
+    { "waitUntil": [
+      { "res": "day", "eq": 2 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r2c0", "component": "Resource", "field": "current" }, "eq": 1 },      // 恰一阶（`eq` 不是 `gte`）
+      { "comp": { "entity": "tile-r2c0", "component": "Flag", "field": "active" }, "eq": false },       // 标记清除
+      { "comp": { "entity": "tile-r0c0", "component": "State", "field": "current" }, "eq": "wild" },    // 没碰过的格不长
+    ], "cap": 60 },
+    // 观察窗（3 拍）：睡觉的生长是**下一拍**才施放的（日子/体力当拍就变）——
+    //   不摆这个窗，「本夜该长几阶」「相位旗收没收干净」都会在生长之前就被判过 = 假绿。
+    //   副作用也有用：相位旗若卡真，这里会看到**第二次**生长 → 下面的 `eq 1` 当场红。
+    { "tick": 3 },
+    { "expect": [
+      { "res": "day", "eq": 2 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r2c0", "component": "Resource", "field": "current" }, "eq": 1 },
+      { "comp": { "entity": "tile-r2c0", "component": "Flag", "field": "active" }, "eq": false },
+      { "comp": { "entity": "tile-r2c0", "component": "State", "field": "current" }, "eq": "sown" },
+      { "flag": "grow-phase", "eq": false },  // 相位旗收干净（卡真 = 之后任何一次浇水都会当场长一阶）
+    ] },
+
+    // ── 动作④ 收获：成熟 → 产物进背包 · 地块回「已翻土」（brief.md:43）────
+    //    胡萝卜天数 = 1（§裁决行 A），故睡一夜即成熟。
+    { "signal": "pick-reap" },
+    { "waitUntil": [{ "res": "tool", "eq": 3 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r2c0" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r2c0", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "res": "inv-carrot", "eq": 1 },
+    ], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 19 },
+      { "res": "inv-carrot", "eq": 1 },       // 产物入背包（按作物路由：胡萝卜进 inv-carrot）
+      { "res": "inv-wheat", "eq": 0 },
+      { "res": "inv-pumpkin", "eq": 0 },
+      { "comp": { "entity": "tile-r2c0", "component": "State", "field": "current" }, "eq": "tilled" }, // 还田 = 可接着播种
+      { "comp": { "entity": "tile-r0c0", "component": "State", "field": "current" }, "eq": "wild" },
+      // ⚠ 这里**不**断言生长阶：brief.md:43 的收获只写「地块回**已翻土**」，**一个字没提阶的数**。
+      //   在收获侧断言 `Resource eq 0` = 比条款多要求一条 ⇒ 若实现把归零点放在播种（条款允许），
+      //   会对一个正确实现**假红**。判别点只能放在播种侧（下一段就是）。
+    ] },
+
+    // ── 生长阶的**真判别点**：重播一次（brief.md:41「已翻土 + 有种子 → 已播种（**第 0 阶**）」）──
+    //    这一格刚收过（成熟态：胡萝卜 1 阶）⇒ 播种**必须**把它压回第 0 阶。
+    //    若实现「两处都不归零」，此刻播下去仍是 1 阶 = 当场成熟 ⇒ 下面的 `Resource eq 0` 等不到 → 红。
+    //    （诚实交代：单看「播种归零」这一件事、在**没种过的新格**上是判不了的——已翻土的格子本来就该是 0 阶。
+    //      只有在「收获也没归零」同时成立时才可观测，所以本步靠**重播**把判别力做出来。）
+    { "signal": "pick-sow" },
+    { "waitUntil": [{ "res": "tool", "eq": 1 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r2c0" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r2c0", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r2c0", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "res": "energy", "eq": 18 },
+    ], "cap": 30 },
+    { "expect": [
+      { "res": "energy", "eq": 18 },
+      { "comp": { "entity": "tile-r2c0", "component": "Resource", "field": "current" }, "eq": 0 },  // 新一轮从**第 0 阶**起
+      { "comp": { "entity": "tile-r2c0", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r0c0", "component": "State", "field": "current" }, "eq": "wild" }, // 对照组仍没被碰
+    ] },
+  ],
+}

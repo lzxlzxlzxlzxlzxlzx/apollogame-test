@@ -15,7 +15,7 @@ describe('T1 motion-apply — capability metadata（契约钉死）', () => {
     expect(motionApplyCapability.version).toBe('1.0.0');
   });
 
-  it('一个系统：读 Transform+Velocity，写 Transform，不 provide/consume', () => {
+  it('移动能力仅供运动；快照由实际决策依赖装配（snapshot-provider固定回归）', () => {
     expect(motionApplyCapability.systems).toHaveLength(1);
     expect(motionApplyCapability.components.provides).toEqual({});
     expect(motionApplyCapability.components.reads).toEqual(['Transform', 'Velocity']);

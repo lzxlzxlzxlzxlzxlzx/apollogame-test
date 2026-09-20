@@ -1,3 +1,4 @@
+import { SystemPhase } from '@engine/core/types.js';
 import { defineCapability } from '@engine/core/define-capability.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Hierarchy, DestroyRequest } from '@engine/protocol/components.js';
@@ -44,6 +45,8 @@ export const hierarchyCascadeCapability = defineCapability({
   systems: [
     {
       id: 'hierarchy-cascade',
+      phase: SystemPhase.Resolve,
+      runsAfter: ['mortal', 'hitbox'],
       reads: ['Hierarchy', 'DestroyRequest'],
       writes: ['DestroyRequest'],
       consumes: [],
@@ -81,3 +84,4 @@ export const hierarchyCascadeCapability = defineCapability({
     },
   ],
 });
+

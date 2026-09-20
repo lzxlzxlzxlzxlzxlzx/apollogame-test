@@ -1,0 +1,7 @@
+{
+  "node": "v24.15.0",
+  "workers": 1,
+  "fileParallelism": false,
+  "NODE_OPTIONS": null,
+  "startedAt": "2026-09-15T19:12:24.0591738+08:00"
+}

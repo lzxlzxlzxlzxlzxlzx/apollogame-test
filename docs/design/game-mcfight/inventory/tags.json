@@ -1,0 +1,829 @@
+[
+  {
+    "tag": "alpha_yeti_special",
+    "units": [
+      "twilightforest_alpha_yeti"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 127,
+        "text": "list.Add(MonsterData.Make(\"twilightforest_alpha_yeti\", \"雪怪首领\", 150, 200, 7, 0, 0, 40, 220, 1.5f, 24, MoveType.Ground, AttackType.Ranged, new[] { \"alpha_yeti_special\" }, new[] { StatusEffectType.Slow }, \"AlphaYetiAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "amethyst_crab_special",
+    "units": [
+      "cataclysm_amethyst_crab"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 121,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_amethyst_crab\", \"紫水晶巨蟹\", 180, 200, 16, 10, 0, 30, 48, 1f, 22, MoveType.Ground, AttackType.Melee, new[] { \"amethyst_crab_special\" }, null, \"AmethystCrabAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "aoe_melee",
+    "units": [
+      "alexscaves_atlatitan",
+      "alexscaves_tremorzilla",
+      "cataclysm_ignited_berserker",
+      "cataclysm_wadjet",
+      "twilightforest_blockchain_goblin"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 111,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_tremorzilla\", \"撼地斯拉\", 1000, 500, 30, 10, 0, 48, 58, 1.0f, 56, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"aoe_melee\", \"giant\", \"beam_skill\" }, new[] { StatusEffectType.Poison }, \"TremorzillaAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 117,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_atlatitan\", \"擎天龙\", 200, 400, 8, 0, 0, 30, 48, 2f, 24, MoveType.Ground, AttackType.Melee, new[] { \"atlatitan_unit\", \"aoe_melee\" }, null, \"\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 124,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_wadjet\", \"瓦吉特\", 150, 150, 11, 5, 0, 52, 240, 2f, 20, MoveType.Ground, AttackType.Melee, new[] { \"wadjet_boss\", \"aoe_melee\" }, null, \"WadjetAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 141,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_ignited_berserker\", \"炽燃狂魂\", 60, 65, 14, 8, 0, 40, 42, 3f, 18, MoveType.Ground, AttackType.Melee, new[] { \"aoe_melee\" }, new[] { StatusEffectType.Burn }, \"BerserkerAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 154,
+        "text": "list.Add(MonsterData.Make(\"twilightforest_blockchain_goblin\", \"链锤哥布林\", 20, 20, 8, 0, 0, 40, 42, 0.85f, 18, MoveType.Ground, AttackType.Melee, new[] { \"aoe_melee\" }, null, \"GoblinAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/BattleSimulator.cs",
+        "line": 112,
+        "text": "else if (def.HasTag(\"aoe_melee\"))"
+      },
+      {
+        "source": "Assets/Scripts/UI/CodexUI.cs",
+        "line": 150,
+        "text": "\"aoe_melee\" => \"范围近战\", \"explosive\" => \"自爆\","
+      }
+    ]
+  },
+  {
+    "tag": "armor_piercing",
+    "units": [
+      "iceandfire_stymphalianbird"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 158,
+        "text": "list.Add(MonsterData.Make(\"iceandfire_stymphalianbird\", \"铜羽泽鹗\", 15, 24, 1, 4, 0, 90, 100, 1f, 16, MoveType.Fly, AttackType.Ranged, new[] { \"fly\", \"armor_piercing\" }, null, \"StymphalianAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/DamageSystem.cs",
+        "line": 71,
+        "text": "if (!attacker.HasTag(\"armor_piercing\"))"
+      },
+      {
+        "source": "Assets/Scripts/UI/CodexUI.cs",
+        "line": 154,
+        "text": "\"knockback_immune\" => \"免疫击退\", \"armor_piercing\" => \"穿透护甲\","
+      }
+    ]
+  },
+  {
+    "tag": "arthropod",
+    "units": [
+      "alexsmobs_centipede_head",
+      "alexsmobs_tarantula_hawk",
+      "alexsmobs_warped_mosco",
+      "dread_spider",
+      "twilightforest_fire_beetle",
+      "twilightforest_king_spider",
+      "twilightforest_slime_beetle"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 120,
+        "text": "list.Add(MonsterData.Make(\"alexsmobs_warped_mosco\", \"诡异蚊鬼\", 180, 100, 15, 10, 0, 58, 42, 3f, 18, MoveType.Ground, AttackType.Melee, new[] { \"mosco_special\", \"arthropod\" }, null, \"WarpedMoscoAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 148,
+        "text": "list.Add(MonsterData.Make(\"alexsmobs_centipede_head\", \"洞穴蜈蚣\", 30, 35, 8, 6, 0, 58, 42, 0.85f, 18, MoveType.Ground, AttackType.Melee, new[] { \"arthropod\" }, new[] { StatusEffectType.Poison }));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 157,
+        "text": "list.Add(MonsterData.Make(\"alexsmobs_tarantula_hawk\", \"沙漠蛛蜂\", 15, 18, 5, 4, 0, 72, 42, 2f, 16, MoveType.Fly, AttackType.Melee, new[] { \"fly\", \"arthropod\" }, null, \"TarantulaHawkAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 159,
+        "text": "list.Add(MonsterData.Make(\"twilightforest_king_spider\", \"国王蜘蛛\", 12, 30, 6, 0, 0, 58, 42, 0.85f, 18, MoveType.Ground, AttackType.Melee, new[] { \"arthropod\" }, null, \"SpiderRiderAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 165,
+        "text": "list.Add(MonsterData.Make(\"twilightforest_fire_beetle\", \"喷火甲虫\", 6, 25, 4, 0, 0, 50, 64, 2f, 18, MoveType.Ground, AttackType.Ranged, new[] { \"arthropod\" }, new[] { StatusEffectType.Burn }, \"ConeBreathAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 189,
+        "text": "list.Add(MonsterData.Make(\"twilightforest_slime_beetle\", \"粘液甲虫\", 12, 25, 8, 0, 0, 58, 160, 1.1f, 18, MoveType.Ground, AttackType.Ranged, new[] { \"arthropod\" }));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 200,
+        "text": "list.Add(MonsterData.Make(\"dread_spider\", \"悚怖劫蛛\", 0, 40, 7, 10, 0, 64, 42, 1f, 16, MoveType.Ground, AttackType.Melee, new[] { \"arthropod\" }));"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/TargetingSystem.cs",
+        "line": 93,
+        "text": "if (unit.HasTag(\"anti_arthropod\") && enemy.MoveType == MoveType.Fly && enemy.HasTag(\"arthropod\"))"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/Abilities/Batch2Abilities.cs",
+        "line": 77,
+        "text": "if (target.HasTag(\"arthropod\")) StatusEffectSystem.Apply(ref target, StatusEffectType.Stun);"
+      },
+      {
+        "source": "Assets/Scripts/UI/CodexUI.cs",
+        "line": 155,
+        "text": "\"spider_rider\" => \"骑乘\", \"arthropod\" => \"节肢动物\","
+      }
+    ]
+  },
+  {
+    "tag": "atlatitan_unit",
+    "units": [
+      "alexscaves_atlatitan"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 117,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_atlatitan\", \"擎天龙\", 200, 400, 8, 0, 0, 30, 48, 2f, 24, MoveType.Ground, AttackType.Melee, new[] { \"atlatitan_unit\", \"aoe_melee\" }, null, \"\"));"
+      }
+    ]
+  },
+  {
+    "tag": "beam_skill",
+    "units": [
+      "alexscaves_tremorzilla"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 111,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_tremorzilla\", \"撼地斯拉\", 1000, 500, 30, 10, 0, 48, 58, 1.0f, 56, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"aoe_melee\", \"giant\", \"beam_skill\" }, new[] { StatusEffectType.Poison }, \"TremorzillaAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/UI/CodexUI.cs",
+        "line": 151,
+        "text": "\"guard\" => \"近战\", \"beam_skill\" => \"光束技能\","
+      }
+    ]
+  },
+  {
+    "tag": "boss",
+    "units": [
+      "alexscaves_luxtructosaurus",
+      "alexscaves_tremorzilla",
+      "cataclysm_ancient_remnant",
+      "cataclysm_kobolediator",
+      "cataclysm_the_harbinger",
+      "mowziesmobs_frostmaw"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 111,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_tremorzilla\", \"撼地斯拉\", 1000, 500, 30, 10, 0, 48, 58, 1.0f, 56, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"aoe_melee\", \"giant\", \"beam_skill\" }, new[] { StatusEffectType.Poison }, \"TremorzillaAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 112,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_luxtructosaurus\", \"暝煌龙\", 800, 600, 12, 20, 0, 24, 55, 2.2f, 56, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"lux_boss\", \"giant\", \"fire_immune\", \"meteor_passive\" }, new[] { StatusEffectType.Burn }, \"LuxtructosaurusAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 113,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_ancient_remnant\", \"远古遗魂\", 700, 420, 22, 12, 0, 36, 55, 3f, 56, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"remnant_boss\", \"giant\" }, null, \"RemnantAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 114,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_the_harbinger\", \"先驱者\", 600, 390, 16, 12, 0, 64, 240, 2f, 28, MoveType.Fly, AttackType.Ranged, new[] { \"boss\", \"harbinger_boss\", \"fly\" }, null, \"HarbingerAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 116,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_kobolediator\", \"骸骨斩首者\", 250, 180, 14, 10, 0, 56, 260, 3f, 20, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"kobo_boss\", \"kobo_block_ranged\" }, null, \"KobolediatorAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 126,
+        "text": "list.Add(MonsterData.Make(\"mowziesmobs_frostmaw\", \"霜冻巨兽\", 150, 250, 8, 6, 0, 44, 220, 3f, 28, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"frostmaw_special\" }, new[] { StatusEffectType.Slow }, \"FrostmawAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/BattleState.cs",
+        "line": 82,
+        "text": "if (HasTag(\"boss\")) return BattleConstants.SIZE_BOSS * 0.5f;"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/Abilities/Batch3Abilities.cs",
+        "line": 45,
+        "text": "if (_roarCd <= 0) { _roarTimer = 2f; _roarCd = _roarCooldown + (float)state.RNG.NextDouble() * 5f; for (int i = 0; i < state.Units.Count; i++) { ref var u = ref state.Units[i]; if (u.Team == unit.Team || u.State == UnitStateEnum.Dead) continue; if (!u.HasTag(\"boss\")) StatusEffectSystem.Apply(ref u, StatusEffectType.Fear); } state.AreaEffects.Add(AreaEffectSystem.CreateShockwave(state.NextId(), unit.Team, unit.X, unit.Y, _roarRadius, 0.55f)); unit.State = UnitStateEnum.Attack; return true; }"
+      },
+      {
+        "source": "Assets/Scripts/UI/CodexUI.cs",
+        "line": 149,
+        "text": "\"boss\" => \"Boss\", \"giant\" => \"巨型\", \"fly\" => \"飞行\","
+      },
+      {
+        "source": "Assets/Scripts/View/BattleBridge.cs",
+        "line": 364,
+        "text": "u.HasTag(\"boss\") ? BattleConstants.SIZE_BOSS :"
+      }
+    ]
+  },
+  {
+    "tag": "coral_leap_special",
+    "units": [
+      "cataclysm_coral_golem",
+      "cataclysm_coralssus"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 123,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_coralssus\", \"珊瑚巨兽\", 150, 150, 11.5f, 5, 0, 30, 200, 3f, 22, MoveType.Ground, AttackType.Melee, new[] { \"coral_leap_special\" }, null, \"CoralLeapAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 136,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_coral_golem\", \"珊瑚傀儡\", 80, 110, 12.5f, 5, 0, 30, 200, 3f, 18, MoveType.Ground, AttackType.Melee, new[] { \"coral_leap_special\" }, null, \"CoralLeapAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "cyclops_special",
+    "units": [
+      "iceandfire_cyclops"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 125,
+        "text": "list.Add(MonsterData.Make(\"iceandfire_cyclops\", \"独眼巨人\", 150, 150, 17, 20, 0, 48, 42, 2f, 22, MoveType.Ground, AttackType.Melee, new[] { \"cyclops_special\" }, null, \"CyclopsAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "deep_one_mage_special",
+    "units": [
+      "alexscaves_deep_one_mage"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 131,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_deep_one_mage\", \"深潜者法师\", 100, 80, 4, 0, 0, 60, 220, 1.2f, 16, MoveType.Fly, AttackType.Ranged, new[] { \"deep_one_mage_special\", \"fly\" }, null, \"DeepOneMageAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "dread_lich_special",
+    "units": [
+      "iceandfire_dread_lich"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 134,
+        "text": "list.Add(MonsterData.Make(\"iceandfire_dread_lich\", \"悚怖尸巫\", 100, 50, 6, 2, 0, 40, 200, 1f, 16, MoveType.Ground, AttackType.Ranged, new[] { \"dread_lich_special\" }, null, \"DreadLichAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "ender_golem_boss",
+    "units": [
+      "cataclysm_ender_golem"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 119,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_ender_golem\", \"末影傀儡\", 200, 120, 13, 12, 0, 40, 42, 2f, 20, MoveType.Ground, AttackType.Melee, new[] { \"ender_golem_boss\" }, null, \"EnderGolemAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "explosive",
+    "units": [
+      "creeper"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 184,
+        "text": "list.Add(MonsterData.Make(\"creeper\", \"苦力怕\", 20, 20, 49, 0, 0, 58, 42, 0.85f, 18, MoveType.Ground, AttackType.Melee, new[] { \"explosive\" }));"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/BattleSimulator.cs",
+        "line": 100,
+        "text": "if (def.HasTag(\"explosive\"))"
+      },
+      {
+        "source": "Assets/Scripts/UI/CodexUI.cs",
+        "line": 150,
+        "text": "\"aoe_melee\" => \"范围近战\", \"explosive\" => \"自爆\","
+      }
+    ]
+  },
+  {
+    "tag": "farseer_special",
+    "units": [
+      "alexsmobs_farseer"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 129,
+        "text": "list.Add(MonsterData.Make(\"alexsmobs_farseer\", \"瞻远者\", 120, 70, 6, 6, 0, 50, 200, 1.5f, 16, MoveType.Fly, AttackType.Ranged, new[] { \"farseer_special\", \"fly\" }, null, \"FarseerAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "fire_immune",
+    "units": [
+      "alexscaves_luxtructosaurus",
+      "cataclysm_ignited_revenant"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 112,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_luxtructosaurus\", \"暝煌龙\", 800, 600, 12, 20, 0, 24, 55, 2.2f, 56, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"lux_boss\", \"giant\", \"fire_immune\", \"meteor_passive\" }, new[] { StatusEffectType.Burn }, \"LuxtructosaurusAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 122,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_ignited_revenant\", \"炽燃遗魂\", 180, 80, 6, 12, 0, 42, 160, 1f, 18, MoveType.Ground, AttackType.Melee, new[] { \"fire_immune\", \"revenant_special\" }, new[] { StatusEffectType.Burn }, \"RevenantAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/AreaEffectSystem.cs",
+        "line": 146,
+        "text": "if (u.HasTag(\"fire_immune\")) continue;"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/StatusEffectSystem.cs",
+        "line": 114,
+        "text": "if (type == StatusEffectType.Burn && unit.HasTag(\"fire_immune\")) return;"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/StatusEffectSystem.cs",
+        "line": 149,
+        "text": "if (effect.Type == StatusEffectType.Burn && unit.HasTag(\"fire_immune\")) continue;"
+      },
+      {
+        "source": "Assets/Scripts/UI/CodexUI.cs",
+        "line": 152,
+        "text": "\"fire_immune\" => \"免疫火焰\", \"kobo_block_ranged\" => \"格挡远程50%\","
+      }
+    ]
+  },
+  {
+    "tag": "fly",
+    "units": [
+      "alexscaves_deep_one_mage",
+      "alexscaves_teleto",
+      "alexsmobs_farseer",
+      "alexsmobs_tarantula_hawk",
+      "blaze",
+      "cataclysm_the_harbinger",
+      "iceandfire_stymphalianbird",
+      "mowziesmobs_naga",
+      "twilightforest_death_tome",
+      "vex"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/BalanceLab/Planning/IntentParser.cs",
+        "line": 27,
+        "text": "if (lower.Contains(\"飞行\") || lower.Contains(\"空军\") || lower.Contains(\"fly\"))"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 114,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_the_harbinger\", \"先驱者\", 600, 390, 16, 12, 0, 64, 240, 2f, 28, MoveType.Fly, AttackType.Ranged, new[] { \"boss\", \"harbinger_boss\", \"fly\" }, null, \"HarbingerAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 129,
+        "text": "list.Add(MonsterData.Make(\"alexsmobs_farseer\", \"瞻远者\", 120, 70, 6, 6, 0, 50, 200, 1.5f, 16, MoveType.Fly, AttackType.Ranged, new[] { \"farseer_special\", \"fly\" }, null, \"FarseerAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 131,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_deep_one_mage\", \"深潜者法师\", 100, 80, 4, 0, 0, 60, 220, 1.2f, 16, MoveType.Fly, AttackType.Ranged, new[] { \"deep_one_mage_special\", \"fly\" }, null, \"DeepOneMageAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 157,
+        "text": "list.Add(MonsterData.Make(\"alexsmobs_tarantula_hawk\", \"沙漠蛛蜂\", 15, 18, 5, 4, 0, 72, 42, 2f, 16, MoveType.Fly, AttackType.Melee, new[] { \"fly\", \"arthropod\" }, null, \"TarantulaHawkAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 158,
+        "text": "list.Add(MonsterData.Make(\"iceandfire_stymphalianbird\", \"铜羽泽鹗\", 15, 24, 1, 4, 0, 90, 100, 1f, 16, MoveType.Fly, AttackType.Ranged, new[] { \"fly\", \"armor_piercing\" }, null, \"StymphalianAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 160,
+        "text": "list.Add(MonsterData.Make(\"blaze\", \"烈焰人\", 10, 20, 5, 0, 0, 20, 160, 5f, 16, MoveType.Fly, AttackType.Ranged, new[] { \"fly\" }, new[] { StatusEffectType.Burn }, \"BlazeAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 161,
+        "text": "list.Add(MonsterData.Make(\"mowziesmobs_naga\", \"娜迦(飞行)\", 10, 30, 4, 0, 0, 72, 160, 3f, 16, MoveType.Fly, AttackType.Ranged, new[] { \"fly\" }, new[] { StatusEffectType.Poison }, \"FlyNagaAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 166,
+        "text": "list.Add(MonsterData.Make(\"twilightforest_death_tome\", \"死灵书\", 5, 30, 6, 0, 0, 30, 160, 2f, 16, MoveType.Fly, AttackType.Ranged, new[] { \"fly\" }));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 183,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_teleto\", \"磁流灵\", 25, 18, 6, 0, 0, 72, 160, 1.1f, 16, MoveType.Fly, AttackType.Ranged, new[] { \"fly\" }));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 195,
+        "text": "list.Add(MonsterData.Make(\"vex\", \"恼鬼\", 0, 14, 13, 0, 0, 100, 42, 5f, 12, MoveType.Fly, AttackType.Melee, new[] { \"fly\" }, null, \"VexAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/Abilities/Batch2Abilities.cs",
+        "line": 203,
+        "text": "if (_summonCd <= 0) { for (int i = 0; i < 2; i++) { float angle = (float)(state.RNG.NextDouble() * Mathf.PI * 2); float r = 30f + (float)state.RNG.NextDouble() * 30f; var vex = new UnitState { Id = state.NextId(), Team = unit.Team, MonsterId = \"vex\", X = unit.X + Mathf.Cos(angle) * r, Y = unit.Y + Mathf.Sin(angle) * r, Facing = unit.Facing, Hp = 14, MaxHp = 14, Attack = 13, Armor = 0, ArmorToughness = 0, MoveSpeed = 100, AttackRange = 42, AttackInterval = 5f, Radius = 12, MoveType = MoveType.Fly, AttackType = AttackType.Melee, State = UnitStateEnum.Idle, BaseMoveSpeed = 100, BaseAttackInterval = 5f, TargetId = -1, RiderUnitId = -1, MountUnitId = -1, RetargetTimer = BattleConstants.TARGET_RETARGET_INTERVAL, Tags = new[] { \"fly\" } }; vex.StatusEffects = new StatusEffectList(); vex.SkillState = new SkillStateMap(); state.Units.Add(vex); } _summonCd = 15f; unit.AttackCooldown = 1f; unit.State = UnitStateEnum.Attack; return true; }"
+      },
+      {
+        "source": "Assets/Scripts/UI/CodexUI.cs",
+        "line": 149,
+        "text": "\"boss\" => \"Boss\", \"giant\" => \"巨型\", \"fly\" => \"飞行\","
+      }
+    ]
+  },
+  {
+    "tag": "forsaken_special",
+    "units": [
+      "alexscaves_forsaken"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 135,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_forsaken\", \"遗弃者\", 150, 250, 12, 0, 0, 62, 1280, 2f, 20, MoveType.Ground, AttackType.Melee, new[] { \"forsaken_special\" }, null, \"ForsakenAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "frostmaw_special",
+    "units": [
+      "mowziesmobs_frostmaw"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 126,
+        "text": "list.Add(MonsterData.Make(\"mowziesmobs_frostmaw\", \"霜冻巨兽\", 150, 250, 8, 6, 0, 44, 220, 3f, 28, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"frostmaw_special\" }, new[] { StatusEffectType.Slow }, \"FrostmawAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "giant",
+    "units": [
+      "alexscaves_luxtructosaurus",
+      "alexscaves_tremorzilla",
+      "cataclysm_ancient_remnant"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 111,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_tremorzilla\", \"撼地斯拉\", 1000, 500, 30, 10, 0, 48, 58, 1.0f, 56, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"aoe_melee\", \"giant\", \"beam_skill\" }, new[] { StatusEffectType.Poison }, \"TremorzillaAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 112,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_luxtructosaurus\", \"暝煌龙\", 800, 600, 12, 20, 0, 24, 55, 2.2f, 56, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"lux_boss\", \"giant\", \"fire_immune\", \"meteor_passive\" }, new[] { StatusEffectType.Burn }, \"LuxtructosaurusAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 113,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_ancient_remnant\", \"远古遗魂\", 700, 420, 22, 12, 0, 36, 55, 3f, 56, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"remnant_boss\", \"giant\" }, null, \"RemnantAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/BattleState.cs",
+        "line": 81,
+        "text": "if (HasTag(\"giant\")) return BattleConstants.SIZE_GIANT * 0.5f;"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/Abilities/GenericAbilities.cs",
+        "line": 70,
+        "text": "float aoeRadius = unit.HasTag(\"giant\") ? 92f : BattleConstants.DEFAULT_AOE_RADIUS;"
+      },
+      {
+        "source": "Assets/Scripts/UI/CodexUI.cs",
+        "line": 149,
+        "text": "\"boss\" => \"Boss\", \"giant\" => \"巨型\", \"fly\" => \"飞行\","
+      },
+      {
+        "source": "Assets/Scripts/View/BattleBridge.cs",
+        "line": 363,
+        "text": "float targetSize = u.HasTag(\"giant\") ? BattleConstants.SIZE_GIANT :"
+      }
+    ]
+  },
+  {
+    "tag": "harbinger_boss",
+    "units": [
+      "cataclysm_the_harbinger"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 114,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_the_harbinger\", \"先驱者\", 600, 390, 16, 12, 0, 64, 240, 2f, 28, MoveType.Fly, AttackType.Ranged, new[] { \"boss\", \"harbinger_boss\", \"fly\" }, null, \"HarbingerAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "knockback_immune",
+    "units": [
+      "iceandfire_if_troll"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 142,
+        "text": "list.Add(MonsterData.Make(\"iceandfire_if_troll\", \"食人妖\", 60, 50, 10, 9, 0, 50, 42, 0.85f, 18, MoveType.Ground, AttackType.Melee, new[] { \"knockback_immune\", \"troll_immune_ranged\" }, null, \"TrollAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/DamageSystem.cs",
+        "line": 100,
+        "text": "if (target.HasTag(\"knockback_immune\")) return;"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/MovementSystem.cs",
+        "line": 40,
+        "text": "bool immuneKnockback = unit.HasTag(\"knockback_immune\");"
+      },
+      {
+        "source": "Assets/Scripts/UI/CodexUI.cs",
+        "line": 154,
+        "text": "\"knockback_immune\" => \"免疫击退\", \"armor_piercing\" => \"穿透护甲\","
+      }
+    ]
+  },
+  {
+    "tag": "kobo_block_ranged",
+    "units": [
+      "cataclysm_kobolediator"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 116,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_kobolediator\", \"骸骨斩首者\", 250, 180, 14, 10, 0, 56, 260, 3f, 20, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"kobo_boss\", \"kobo_block_ranged\" }, null, \"KobolediatorAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/DamageSystem.cs",
+        "line": 58,
+        "text": "if (category == DamageCategory.Ranged && target.HasTag(\"kobo_block_ranged\"))"
+      },
+      {
+        "source": "Assets/Scripts/UI/CodexUI.cs",
+        "line": 152,
+        "text": "\"fire_immune\" => \"免疫火焰\", \"kobo_block_ranged\" => \"格挡远程50%\","
+      }
+    ]
+  },
+  {
+    "tag": "kobo_boss",
+    "units": [
+      "cataclysm_kobolediator"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 116,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_kobolediator\", \"骸骨斩首者\", 250, 180, 14, 10, 0, 56, 260, 3f, 20, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"kobo_boss\", \"kobo_block_ranged\" }, null, \"KobolediatorAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "lux_boss",
+    "units": [
+      "alexscaves_luxtructosaurus"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 112,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_luxtructosaurus\", \"暝煌龙\", 800, 600, 12, 20, 0, 24, 55, 2.2f, 56, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"lux_boss\", \"giant\", \"fire_immune\", \"meteor_passive\" }, new[] { StatusEffectType.Burn }, \"LuxtructosaurusAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "meteor_passive",
+    "units": [
+      "alexscaves_luxtructosaurus"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 112,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_luxtructosaurus\", \"暝煌龙\", 800, 600, 12, 20, 0, 24, 55, 2.2f, 56, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"lux_boss\", \"giant\", \"fire_immune\", \"meteor_passive\" }, new[] { StatusEffectType.Burn }, \"LuxtructosaurusAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "mosco_special",
+    "units": [
+      "alexsmobs_warped_mosco"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 120,
+        "text": "list.Add(MonsterData.Make(\"alexsmobs_warped_mosco\", \"诡异蚊鬼\", 180, 100, 15, 10, 0, 58, 42, 3f, 18, MoveType.Ground, AttackType.Melee, new[] { \"mosco_special\", \"arthropod\" }, null, \"WarpedMoscoAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "naga_special",
+    "units": [
+      "twilightforest_naga"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 130,
+        "text": "list.Add(MonsterData.Make(\"twilightforest_naga\", \"娜迦\", 120, 200, 6, 0, 0, 80, 42, 0.1f, 12, MoveType.Ground, AttackType.Melee, new[] { \"naga_special\" }, null, \"NagaAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "nucleeper_special",
+    "units": [
+      "alexscaves_nucleeper"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 132,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_nucleeper\", \"核能苦力怕\", 100, 30, 500, 4, 0, 42, 200, 99f, 14, MoveType.Ground, AttackType.Melee, new[] { \"nucleeper_special\" }, new[] { StatusEffectType.Poison }, \"NucleeperAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "prowler_special",
+    "units": [
+      "cataclysm_the_prowler"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 128,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_the_prowler\", \"徘徊者\", 140, 160, 7, 10, 0, 52, 240, 3f, 18, MoveType.Ground, AttackType.Melee, new[] { \"prowler_special\" }, null, \"ProwlerAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "remnant_boss",
+    "units": [
+      "cataclysm_ancient_remnant"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 113,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_ancient_remnant\", \"远古遗魂\", 700, 420, 22, 12, 0, 36, 55, 3f, 56, MoveType.Ground, AttackType.Melee, new[] { \"boss\", \"remnant_boss\", \"giant\" }, null, \"RemnantAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "revenant_special",
+    "units": [
+      "cataclysm_ignited_revenant"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 122,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_ignited_revenant\", \"炽燃遗魂\", 180, 80, 6, 12, 0, 42, 160, 1f, 18, MoveType.Ground, AttackType.Melee, new[] { \"fire_immune\", \"revenant_special\" }, new[] { StatusEffectType.Burn }, \"RevenantAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/DamageSystem.cs",
+        "line": 48,
+        "text": "if (target.HasTag(\"revenant_special\"))"
+      }
+    ]
+  },
+  {
+    "tag": "summoner",
+    "units": [
+      "evoker"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 143,
+        "text": "list.Add(MonsterData.Make(\"evoker\", \"唤魔者\", 50, 24, 6, 0, 0, 40, 160, 1.1f, 16, MoveType.Ground, AttackType.Ranged, new[] { \"summoner\" }, null, \"EvokerAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "tremorsaurus_special",
+    "units": [
+      "alexscaves_tremorsaurus"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 118,
+        "text": "list.Add(MonsterData.Make(\"alexscaves_tremorsaurus\", \"撼地龙\", 200, 150, 14, 8, 0, 50, 42, 0.7f, 18, MoveType.Ground, AttackType.Melee, new[] { \"tremorsaurus_special\" }, null, \"TremorsaurusAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "troll_immune_ranged",
+    "units": [
+      "iceandfire_if_troll"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 142,
+        "text": "list.Add(MonsterData.Make(\"iceandfire_if_troll\", \"食人妖\", 60, 50, 10, 9, 0, 50, 42, 0.85f, 18, MoveType.Ground, AttackType.Melee, new[] { \"knockback_immune\", \"troll_immune_ranged\" }, null, \"TrollAbility\"));"
+      },
+      {
+        "source": "Assets/Scripts/Simulation/DamageSystem.cs",
+        "line": 61,
+        "text": "if (target.HasTag(\"troll_immune_ranged\"))"
+      },
+      {
+        "source": "Assets/Scripts/UI/CodexUI.cs",
+        "line": 153,
+        "text": "\"troll_immune_ranged\" => \"免疫远程/光束\","
+      }
+    ]
+  },
+  {
+    "tag": "wadjet_boss",
+    "units": [
+      "cataclysm_wadjet"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 124,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_wadjet\", \"瓦吉特\", 150, 150, 11, 5, 0, 52, 240, 2f, 20, MoveType.Ground, AttackType.Melee, new[] { \"wadjet_boss\", \"aoe_melee\" }, null, \"WadjetAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "warden_special",
+    "units": [
+      "warden"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 115,
+        "text": "list.Add(MonsterData.Make(\"warden\", \"监守者\", 400, 500, 30, 0, 0, 78, 48, 1.5f, 22, MoveType.Ground, AttackType.Melee, new[] { \"warden_special\" }, null, \"WardenAbility\"));"
+      }
+    ]
+  },
+  {
+    "tag": "warlock_special",
+    "units": [
+      "cataclysm_deepling_warlock"
+    ],
+    "literalSourceMentions": [
+      {
+        "source": "Assets/Scripts/Editor/MonsterDataGenerator.cs",
+        "line": 133,
+        "text": "list.Add(MonsterData.Make(\"cataclysm_deepling_warlock\", \"渊灵术士\", 50, 45, 14, 0, 0, 30, 260, 10f, 14, MoveType.Ground, AttackType.Ranged, new[] { \"warlock_special\" }, null, \"WarlockAbility\"));"
+      }
+    ]
+  }
+]

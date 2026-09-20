@@ -1,3 +1,4 @@
+import { SystemPhase } from '@engine/core/types.js';
 import { defineCapability } from '@engine/core/define-capability.js';
 import type { Overlap, Grounded } from '@engine/protocol/components.js';
 
@@ -38,6 +39,9 @@ export const groundSenseCapability = defineCapability({
   systems: [
     {
       id: 'ground-sense',
+      phase: SystemPhase.Resolve,
+      runsAfter: ['overlap-detect'],
+      runsBefore: ['collision-resolve'],
       reads: ['Overlap', 'Velocity', 'Sensor'],
       writes: ['Grounded'],
       consumes: [],

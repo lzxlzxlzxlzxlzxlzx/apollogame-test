@@ -1,0 +1,57 @@
+[
+  {
+    "name": "pending-runtime",
+    "file": "games/game-mcfight/content/runtime-selection.ts",
+    "anchorHits": 1,
+    "before": "49d2a25025bf3ecfa6617fb2a6de7e125102936d1d679a28ce6100c9f87648e8",
+    "mutated": "b562752f67d9182b90e9b7ec383d5d3032bce53abc2842ddbaa64c335a508796",
+    "exitCode": 1,
+    "error": null,
+    "restored": "49d2a25025bf3ecfa6617fb2a6de7e125102936d1d679a28ce6100c9f87648e8",
+    "restoreMatched": true
+  },
+  {
+    "name": "same-template-alternatives",
+    "file": "scripts/mcfight-r2-generate.ts",
+    "anchorHits": 1,
+    "before": "c7ee24b0603cb9508fed87b1e23bd3488f40254c9cc3d45bf4a1160db0112a51",
+    "mutated": "4b52cf2514abbee1dbebfdb33c28407772002c108838f1f103fbf22ad8e7df12",
+    "exitCode": 1,
+    "error": null,
+    "restored": "c7ee24b0603cb9508fed87b1e23bd3488f40254c9cc3d45bf4a1160db0112a51",
+    "restoreMatched": true
+  },
+  {
+    "name": "confirmed-rule-check",
+    "file": "games/game-mcfight/content/r2-validate.ts",
+    "anchorHits": 1,
+    "before": "79247c224e51e1bfe343bc8365a1f2564cd1a6690b048a416a08df1a39432d81",
+    "mutated": "07a01e29a1607b5c59d09bab2da8944838a01c8568134385c59a45c0fd728717",
+    "exitCode": 1,
+    "error": null,
+    "restored": "79247c224e51e1bfe343bc8365a1f2564cd1a6690b048a416a08df1a39432d81",
+    "restoreMatched": true
+  },
+  {
+    "name": "runtime-source-isolation",
+    "file": "games/game-mcfight/content/runtime-selection.ts",
+    "anchorHits": 1,
+    "before": "49d2a25025bf3ecfa6617fb2a6de7e125102936d1d679a28ce6100c9f87648e8",
+    "mutated": "5b7da218745a12ac40c2963a14ccd0ef9cdd482d20497bfa1c75c20a54989ba5",
+    "exitCode": 1,
+    "error": null,
+    "restored": "49d2a25025bf3ecfa6617fb2a6de7e125102936d1d679a28ce6100c9f87648e8",
+    "restoreMatched": true
+  },
+  {
+    "name": "runtime-alias-uniqueness",
+    "file": "games/game-mcfight/content/r2-validate.ts",
+    "anchorHits": 1,
+    "before": "79247c224e51e1bfe343bc8365a1f2564cd1a6690b048a416a08df1a39432d81",
+    "mutated": "4b6ba5f4d716ecb476b2d2a213eaf3aa7a80893f24a20812c9bb6631003c08bb",
+    "exitCode": 1,
+    "error": null,
+    "restored": "79247c224e51e1bfe343bc8365a1f2564cd1a6690b048a416a08df1a39432d81",
+    "restoreMatched": true
+  }
+]

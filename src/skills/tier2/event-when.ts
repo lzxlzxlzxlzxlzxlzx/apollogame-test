@@ -50,7 +50,7 @@ export const eventWhenCapability = defineCapability({
         },
       },
     },
-    reads: ['EventWhen', 'Resource', 'Flag', 'State'],
+    reads: ['EventWhen', 'Resource', 'Flag', 'State', 'Timer', 'StringVar'],
     writes: ['Signal'],
     consumes: [],
   },
@@ -60,7 +60,7 @@ export const eventWhenCapability = defineCapability({
   systems: [
     {
       id: 'event-when',
-      reads: ['EventWhen', 'Resource', 'Flag', 'State'],
+      reads: ['EventWhen', 'Resource', 'Flag', 'State', 'Timer', 'StringVar'],
       writes: ['Signal'],
       consumes: [],
       execute(world) {

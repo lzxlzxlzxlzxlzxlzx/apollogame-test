@@ -1,0 +1,172 @@
+{
+  "economy": {
+    "initialGold": 30,
+    "rosterCap": 6,
+    "refund": 1,
+    "rewards": {
+      "victory": 10,
+      "defeat": 5,
+      "draw": 7
+    }
+  },
+  "battlefield": {
+    "width": 40,
+    "height": 24,
+    "player": {
+      "minX": -18,
+      "maxX": -2,
+      "minY": -10,
+      "maxY": 10
+    },
+    "enemy": {
+      "minX": 2,
+      "maxX": 18,
+      "minY": -10,
+      "maxY": 10
+    },
+    "timeoutSeconds": 180
+  },
+  "units": {
+    "vindicator": {
+      "name": "卫道士",
+      "role": "基础近战",
+      "price": 5,
+      "hp": 60,
+      "speed": 3,
+      "radius": 0.7,
+      "armor": 0,
+      "skills": [
+        "slash"
+      ]
+    },
+    "skeleton": {
+      "name": "骷髅",
+      "role": "基础远程",
+      "price": 6,
+      "hp": 35,
+      "speed": 2.6,
+      "radius": 0.6,
+      "armor": 0,
+      "skills": [
+        "arrow"
+      ]
+    },
+    "vex": {
+      "name": "恼鬼",
+      "role": "飞行突击",
+      "price": 8,
+      "hp": 32,
+      "speed": 4,
+      "radius": 0.55,
+      "armor": 0,
+      "skills": [
+        "dive"
+      ]
+    },
+    "elephant": {
+      "name": "大象",
+      "role": "冲锋前排",
+      "price": 10,
+      "hp": 110,
+      "speed": 2.2,
+      "radius": 1,
+      "armor": 0,
+      "skills": [
+        "charge",
+        "strike"
+      ]
+    },
+    "earthshaker": {
+      "name": "撼地斯拉",
+      "role": "双技能重装",
+      "price": 12,
+      "hp": 140,
+      "speed": 1.8,
+      "radius": 1.2,
+      "armor": 0,
+      "skills": [
+        "beam",
+        "quake"
+      ]
+    },
+    "witch": {
+      "name": "女巫",
+      "role": "范围与续航",
+      "price": 9,
+      "hp": 55,
+      "speed": 2.4,
+      "radius": 0.65,
+      "armor": 0,
+      "skills": [
+        "heal",
+        "potion"
+      ]
+    }
+  },
+  "skills": {
+    "slash": {
+      "damage": 12,
+      "cd": 1.2,
+      "range": 1.3,
+      "windup": 0.35,
+      "active": 0.1,
+      "recovery": 0.45
+    },
+    "arrow": {
+      "damage": 9,
+      "cd": 1.5,
+      "range": 8,
+      "windup": 0.4,
+      "speed": 10,
+      "radius": 0.25,
+      "travel": 10,
+      "recovery": 0.35
+    },
+    "dive": {
+      "damage": 14,
+      "cd": 2.4,
+      "range": 6,
+      "descend": 0.45,
+      "contact": 0.35,
+      "rise": 0.45,
+      "radius": 0.65
+    },
+    "charge": {
+      "damage": 22,
+      "cd": 5,
+      "minRange": 4,
+      "speed": 7,
+      "radius": 1.1
+    },
+    "strike": {
+      "damage": 10,
+      "cd": 1.5,
+      "range": 1.5
+    },
+    "quake": {
+      "damage": 20,
+      "cd": 1.8,
+      "radius": 2.2,
+      "windup": 0.6
+    },
+    "beam": {
+      "damage": 18,
+      "cd": 6,
+      "range": 10,
+      "windup": 0.8,
+      "width": 0.6
+    },
+    "potion": {
+      "damage": 12,
+      "cd": 2.5,
+      "range": 7,
+      "radius": 1.6
+    },
+    "heal": {
+      "healing": 15,
+      "cd": 6,
+      "hpRatioAtMost": 0.7,
+      "safeRadius": 3
+    }
+  }
+}

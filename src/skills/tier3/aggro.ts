@@ -1,7 +1,22 @@
 import { defineCapability } from '@engine/core/define-capability.js';
 import type { IWorld } from '@engine/core/types.js';
-import type { Perception, Transform, Relation } from '@engine/protocol/components.js';
-import { nearestByTag } from '@skills/atoms/spatial-query/index.js';
+import type { Perception, Transform, Relation, Tag, FrameStartTransform } from '@engine/protocol/components.js';
+import { checkEntity } from '@skills/tier2/entity-check.js';
+
+function nearestEligible(world: IWorld, x: number, y: number, tagMask: number, excludeId: string, maxRadius: number, check?: Perception['targetCheck']): string | undefined {
+  const maxR2 = maxRadius > 0 ? maxRadius * maxRadius : Infinity;
+  let best: string | undefined, bestD2 = Infinity;
+  for (const [candidate] of world.query('FrameStartTransform')) {
+    if (candidate === excludeId || (check !== undefined && !checkEntity(world, candidate, check))) continue;
+    const tag = world.getComponent<Tag>(candidate, 'Tag');
+    if (tagMask && (!tag || (tag.flags & tagMask) === 0)) continue;
+    const at = world.getComponent<FrameStartTransform>(candidate, 'FrameStartTransform')!;
+    const dx = at.x - x, dy = at.y - y, d2 = dx * dx + dy * dy;
+    if (d2 > maxR2 || d2 > bestD2 || (d2 === bestD2 && best !== undefined && candidate > best)) continue;
+    best = candidate; bestD2 = d2;
+  }
+  return best;
+}
 
 // ═══════════════════════════════════════════════════════════════
 //  aggro —— 数据驱动 AI 的「索敌」段（D-001）。对应周期表 auto-target / range-detect：
@@ -47,10 +62,11 @@ export const aggroCapability = defineCapability({
           targetTag: { type: 'number', describe: '感知的阵营位（Tag.flags & targetTag）' },
           sightRadius: { type: 'number', describe: '感知半径（<=0=无限视野）' },
           lureTag: { type: 'number', describe: 'sightRadius 内若有 Tag.flags 含此位的实体，优先选它为目标（盖过 targetTag 默认选择）；无则回落 targetTag。缺省=不查 lure（零回归）' },
+          targetCheck: { type: 'string', describe: '可选 EntityCheck：仅从满足生命/标签/状态/距离资格的候选中选最近目标；缺省保持原索敌' },
         },
       },
     },
-    reads: ['Perception', 'Transform', 'Tag', 'Relation'],
+    reads: ['Perception', 'FrameStartTransform', 'Tag', 'Relation', 'Resource', 'Status'],
     writes: ['Relation'],
     consumes: [],
   },
@@ -60,18 +76,20 @@ export const aggroCapability = defineCapability({
   systems: [
     {
       id: 'aggro',
-      runsBefore: ['motion-apply'],
-      reads: ['Perception', 'Transform', 'Tag', 'Relation'],
+      // 本拍索敌只消费边界已提交的生命/资格；本拍伤害在稍后 resource-apply 结算，
+      // 不反向反馈到同拍 Relation，死亡由后段 targeted-caster / destroy 安全门处理。
+      runsBefore: ['motion-apply', 'resource-apply'],
+      reads: ['Perception', 'FrameStartTransform', 'Tag', 'Relation', 'Resource', 'Status'],
       writes: ['Relation'],
       consumes: [],
       execute(world: IWorld) {
-        const ids = world.query('Perception', 'Transform').map(([id]) => id).sort();
+        const ids = world.query('Perception', 'FrameStartTransform').map(([id]) => id).sort();
         for (const id of ids) {
           const p = world.getComponent<Perception>(id, 'Perception')!;
-          const t = world.getComponent<Transform>(id, 'Transform')!;
+          const t = world.getComponent<FrameStartTransform>(id, 'FrameStartTransform')!;
           // lureTag 优先：范围内有诱饵 → 盖过默认 targetTag 选择；否则回落默认索敌（零回归口径）。
-          const targetId = (p.lureTag ? nearestByTag(world, t.x, t.y, p.lureTag, { excludeId: id, maxRadius: p.sightRadius }) : undefined)
-            ?? nearestByTag(world, t.x, t.y, p.targetTag, { excludeId: id, maxRadius: p.sightRadius });
+          const targetId = (p.lureTag ? nearestEligible(world, t.x, t.y, p.lureTag, id, p.sightRadius, p.targetCheck) : undefined)
+            ?? nearestEligible(world, t.x, t.y, p.targetTag, id, p.sightRadius, p.targetCheck);
           const rel = world.getComponent<Relation>(id, 'Relation');
           if (targetId) {
             if (!rel) world.addComponent(id, { type: 'Relation', kind: 'target', targetId } as Relation);

@@ -23,6 +23,7 @@ export const spawnCapability = defineCapability({
         describe: '在 (x,y) 实例化模板 templateId 的请求。由 spawner（assembly 层）消费。',
         fields: {
           templateId: { type: 'string', describe: '要实例化的模板 id' },
+          spawnPhase: { type: 'string', describe: 'resolve：死亡等后段请求同拍展开，下一拍进入普通系统；省略保留Update消费' },
           x: { type: 'number', describe: '生成位置 X' },
           y: { type: 'number', describe: '生成位置 Y' },
         },

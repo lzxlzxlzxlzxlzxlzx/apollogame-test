@@ -1,0 +1,123 @@
+{
+  "slug": "game-mcfight",
+  "exit": 0,
+  "summary": "✓ 点击打穿（12 个控件 · 11 个点后 DOM 真的变了 · 零控制台 error）",
+  "controls": 12,
+  "changed": 11,
+  "hits": [
+    {
+      "id": "r3-select-alexscaves_atlatitan",
+      "changed": false,
+      "changedIds": []
+    },
+    {
+      "id": "r3-buy-alexscaves_atlatitan",
+      "changed": true,
+      "changedIds": [
+        "r3-gold",
+        "r3-empty",
+        "r3-deploy",
+        "r3-sell-player-alexscaves_atlatitan-1"
+      ]
+    },
+    {
+      "id": "r3-select-alexscaves_deep_one",
+      "changed": true,
+      "changedIds": [
+        "r3-selected",
+        "r3-detail-hp",
+        "r3-detail-attack",
+        "r3-detail-speed",
+        "r3-detail-radius",
+        "r3-detail-attackRange"
+      ]
+    },
+    {
+      "id": "r3-buy-alexscaves_deep_one",
+      "changed": true,
+      "changedIds": [
+        "r3-gold",
+        "r3-sell-player-alexscaves_deep_one-1"
+      ]
+    },
+    {
+      "id": "r3-select-alexscaves_relicheirus",
+      "changed": true,
+      "changedIds": [
+        "r3-selected",
+        "r3-detail-hp",
+        "r3-detail-attack",
+        "r3-detail-speed"
+      ]
+    },
+    {
+      "id": "r3-buy-alexscaves_relicheirus",
+      "changed": true,
+      "changedIds": [
+        "r3-gold",
+        "r3-sell-player-alexscaves_relicheirus-1"
+      ]
+    },
+    {
+      "id": "r3-select-alexscaves_vallumraptor",
+      "changed": true,
+      "changedIds": [
+        "r3-selected",
+        "r3-detail-hp",
+        "r3-detail-attack",
+        "r3-detail-speed"
+      ]
+    },
+    {
+      "id": "r3-buy-alexscaves_vallumraptor",
+      "changed": true,
+      "changedIds": [
+        "r3-gold",
+        "r3-sell-player-alexscaves_vallumraptor-1"
+      ]
+    },
+    {
+      "id": "r3-select-alexsmobs_bison",
+      "changed": true,
+      "changedIds": [
+        "r3-selected",
+        "r3-detail-hp",
+        "r3-detail-attack",
+        "r3-detail-speed"
+      ]
+    },
+    {
+      "id": "r3-buy-alexsmobs_bison",
+      "changed": true,
+      "changedIds": [
+        "r3-gold",
+        "r3-sell-player-alexsmobs_bison-1"
+      ]
+    },
+    {
+      "id": "r3-select-alexsmobs_grizzly_bear",
+      "changed": true,
+      "changedIds": [
+        "r3-selected",
+        "r3-detail-hp"
+      ]
+    },
+    {
+      "id": "r3-buy-alexsmobs_grizzly_bear",
+      "changed": true,
+      "changedIds": [
+        "r3-gold",
+        "r3-buy-alexscaves_atlatitan",
+        "r3-buy-alexscaves_deep_one",
+        "r3-buy-alexscaves_relicheirus",
+        "r3-buy-alexscaves_vallumraptor",
+        "r3-buy-alexsmobs_bison"
+      ]
+    }
+  ],
+  "bindWiring": {
+    "ok": true,
+    "detail": "未用 props.bind"
+  },
+  "consoleErrors": []
+}

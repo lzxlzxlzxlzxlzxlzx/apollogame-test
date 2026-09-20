@@ -1,0 +1,37 @@
+{
+  "slug": "game-mcfight",
+  "at": "2026-09-15T07:46:53.784Z",
+  "gameHash": "4c62ac755a8195c3",
+  "ok": false,
+  "form": "compiled",
+  "assertions": {
+    "nonBlank": {
+      "pass": false,
+      "variance": 0,
+      "mean": 18.33,
+      "threshold": 15
+    },
+    "consoleErrors": {
+      "pass": false,
+      "count": 108,
+      "messages": [
+        "Failed to load resource: net::ERR_NETWORK_CHANGED",
+        "Failed to load resource: net::ERR_NETWORK_CHANGED",
+        "Failed to load resource: net::ERR_NETWORK_CHANGED",
+        "Failed to load resource: net::ERR_NETWORK_CHANGED",
+        "Failed to load resource: net::ERR_NETWORK_CHANGED"
+      ]
+    },
+    "noUncaught": {
+      "pass": true,
+      "pageErrors": 0,
+      "overlay": false,
+      "messages": []
+    }
+  },
+  "screenshot": "public/games/game-mcfight/probe/S3-render.png",
+  "browser": {
+    "execPath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "via": "Windows Chrome"
+  }
+}

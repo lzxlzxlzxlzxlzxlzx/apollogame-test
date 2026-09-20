@@ -1,0 +1,33 @@
+{
+  "sourceFiles": 1328,
+  "sourceDifferences": [],
+  "runs": [
+    {
+      "run": 1,
+      "files": 555,
+      "passed": 5139,
+      "failed": 0,
+      "skipped": 1,
+      "success": true,
+      "workerErrors": 0
+    },
+    {
+      "run": 2,
+      "files": 555,
+      "passed": 5139,
+      "failed": 0,
+      "skipped": 1,
+      "success": true,
+      "workerErrors": 0
+    },
+    {
+      "run": 3,
+      "files": 555,
+      "passed": 5139,
+      "failed": 0,
+      "skipped": 1,
+      "success": true,
+      "workerErrors": 0
+    }
+  ]
+}

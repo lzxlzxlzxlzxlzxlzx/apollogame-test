@@ -1,0 +1,127 @@
+{
+  "programPassed": 24,
+  "pending": 60,
+  "shopOffers": 20,
+  "identity": [
+    {
+      "unitId": "alexscaves_atlatitan",
+      "sha256": "f721e00d4c308e48d68390a0fb02c01c2ff5d900b081103f439728e0e5d25f9d",
+      "evidence": "self-check/r3/identity-alexscaves_atlatitan.json"
+    },
+    {
+      "unitId": "alexscaves_deep_one",
+      "sha256": "2e1dee1117b3449b4c8df40a4543088ab03b7c1a29b37d8c1000d6bb91136e2c",
+      "evidence": "self-check/r3/identity-alexscaves_deep_one.json"
+    },
+    {
+      "unitId": "alexscaves_relicheirus",
+      "sha256": "8e90c48951eb69ddf29dfdab1f9b64fa8a6a39238fce26d10641d276fee27aa7",
+      "evidence": "self-check/r3/identity-alexscaves_relicheirus.json"
+    },
+    {
+      "unitId": "alexscaves_vallumraptor",
+      "sha256": "037e6f19dfbdb4a595887a6ce2068e986dabcdbd0b2563dc20e98797309b80df",
+      "evidence": "self-check/r3/identity-alexscaves_vallumraptor.json"
+    },
+    {
+      "unitId": "alexsmobs_bison",
+      "sha256": "ca9486bcbfc55ddf47ad7855753e73b1b742971ea9c8ecf301df66edc2dc2758",
+      "evidence": "self-check/r3/identity-alexsmobs_bison.json"
+    },
+    {
+      "unitId": "alexsmobs_grizzly_bear",
+      "sha256": "b71b939f43c0083ff61607fc79cd07a832a0623d023c4050b4a23936a90abc71",
+      "evidence": "self-check/r3/identity-alexsmobs_grizzly_bear.json"
+    },
+    {
+      "unitId": "alexsmobs_rhinoceros",
+      "sha256": "bcb226cff5463b7341edfb70abaf4d5e26dce4d529be85766840eb52fdbe215a",
+      "evidence": "self-check/r3/identity-alexsmobs_rhinoceros.json"
+    },
+    {
+      "unitId": "alexsmobs_tiger",
+      "sha256": "7937d2a004cd9cff6f85cb27929d4587c38dfb894c155fc1e4cec14d8ebc38d7",
+      "evidence": "self-check/r3/identity-alexsmobs_tiger.json"
+    },
+    {
+      "unitId": "alexsmobs_tusklin",
+      "sha256": "d522061e6940bccda201b8ece4cc8c876acfe50ad2feb963c94c141b278da9cf",
+      "evidence": "self-check/r3/identity-alexsmobs_tusklin.json"
+    },
+    {
+      "unitId": "cataclysm_koboleton",
+      "sha256": "abecded69886b692c857fa21e4b7007fb73d31e39f46b28ad3a994168ae8e989",
+      "evidence": "self-check/r3/identity-cataclysm_koboleton.json"
+    },
+    {
+      "unitId": "cataclysm_modern_remnant",
+      "sha256": "4ab0f00f6a1d26f52b78b79e3fdf7d9c18dedcc855b176f901eefa1efd4ae50b",
+      "evidence": "self-check/r3/identity-cataclysm_modern_remnant.json"
+    },
+    {
+      "unitId": "dread_beast",
+      "sha256": "a7b2cc96f426c4aeac266405f57f89f6bda1ee821d10723cbf62528192afffa9",
+      "evidence": "self-check/r3/identity-dread_beast.json"
+    },
+    {
+      "unitId": "dread_ghoul",
+      "sha256": "0723bc0aef010409d05ed749d225ad74da3fdbae1201d1f2b896052ea3e8a4f5",
+      "evidence": "self-check/r3/identity-dread_ghoul.json"
+    },
+    {
+      "unitId": "dread_spider",
+      "sha256": "9e1cd922629e64324362efc16f411bd170371c6852613947485a723824141f8e",
+      "evidence": "self-check/r3/identity-dread_spider.json"
+    },
+    {
+      "unitId": "dread_thrall",
+      "sha256": "c825a519f7e26a0625dc89b916aca58bb07b1266c5d060a0fce18a2bdd728e76",
+      "evidence": "self-check/r3/identity-dread_thrall.json"
+    },
+    {
+      "unitId": "iceandfire_cyclops",
+      "sha256": "3349b05a1ba5a13fea57be14366d6b99d7a7c25e3152643e0fc31c8f7237959a",
+      "evidence": "self-check/r3/identity-iceandfire_cyclops.json"
+    },
+    {
+      "unitId": "iron_golem",
+      "sha256": "dc2ea882f12995dd5743beb52cb94ba399f41fd890619750e9fb2fcff90699de",
+      "evidence": "self-check/r3/identity-iron_golem.json"
+    },
+    {
+      "unitId": "ravager",
+      "sha256": "0b2f319903d40b64386a0442a1cad54be43de8b450e28e099258045737ee90b6",
+      "evidence": "self-check/r3/identity-ravager.json"
+    },
+    {
+      "unitId": "twilightforest_armored_giant",
+      "sha256": "c3e31a6a754f9b11a35a8527ab2f74f5f9b202cf60c1164d65e11ec86d722f59",
+      "evidence": "self-check/r3/identity-twilightforest_armored_giant.json"
+    },
+    {
+      "unitId": "twilightforest_giant_miner",
+      "sha256": "22cda9f547f8f35323491ba66b285270285a8c14662a859f90cd54cb2d3d2dad",
+      "evidence": "self-check/r3/identity-twilightforest_giant_miner.json"
+    },
+    {
+      "unitId": "twilightforest_minotaur",
+      "sha256": "6507348e26a98dd3f984f63bf98b20d8a8d8a39a8b99b376ffe57c5f94a2a4f6",
+      "evidence": "self-check/r3/identity-twilightforest_minotaur.json"
+    },
+    {
+      "unitId": "twilightforest_mist_wolf",
+      "sha256": "49914f40b19969f233891e191e605705b274f3eeeef84a2ea0042f4e9aee2e63",
+      "evidence": "self-check/r3/identity-twilightforest_mist_wolf.json"
+    },
+    {
+      "unitId": "twilightforest_tower_golem",
+      "sha256": "f169fe4bede0e1c4ecfd58f0159fa5001ffea9a1812c4207f30a178aa838afcf",
+      "evidence": "self-check/r3/identity-twilightforest_tower_golem.json"
+    },
+    {
+      "unitId": "vindicator",
+      "sha256": "6fc050ea180cd838a121e07cd9c6a4204e27f1ebbb8cf45198d15478963ed0f4",
+      "evidence": "self-check/r3/identity-vindicator.json"
+    }
+  ]
+}

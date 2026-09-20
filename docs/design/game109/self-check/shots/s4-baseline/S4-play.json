@@ -1,0 +1,1364 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "name": "深链 `?game=game109` 装载：HUD 与画布都在",
+      "pass": true,
+      "detail": "canvas×1 · HUD×1",
+      "named": []
+    },
+    {
+      "name": "画布是定尺 720×910（坐标换算的锚点）",
+      "pass": true,
+      "detail": "实测 720×910（期望 720×910）",
+      "named": []
+    },
+    {
+      "name": "开局读数：体力 20/20 · 金币 0 / 1000 · 第 1 天 · 工具=锄地",
+      "pass": true,
+      "detail": "20/20 · 0/1000 · 第1天 · 锄地",
+      "named": []
+    },
+    {
+      "name": "开局 6 枚动作键都在（4 工具 + 睡觉 + 卖货）",
+      "pass": true,
+      "detail": "till:pick-till sow:pick-sow water:pick-water reap:pick-reap sleep:sleep sell:sell",
+      "named": []
+    },
+    {
+      "name": "开局无结算面板（flow=playing）",
+      "pass": true,
+      "detail": "result=false",
+      "named": []
+    },
+    {
+      "name": "选工具「锄地」：读数为「当前工具：锄地」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：锄地 · 选中键=till",
+      "named": [
+        "pick-till"
+      ]
+    },
+    {
+      "name": "点 r0c4 干活成功（扣 1 体力 → 19）",
+      "pass": true,
+      "detail": "体力 20 → 19",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c4 干活成功（扣 1 体力 → 18）",
+      "pass": true,
+      "detail": "体力 19 → 18",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c4 干活成功（扣 1 体力 → 17）",
+      "pass": true,
+      "detail": "体力 18 → 17",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r3c4 干活成功（扣 1 体力 → 16）",
+      "pass": true,
+      "detail": "体力 17 → 16",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r4c4 干活成功（扣 1 体力 → 15）",
+      "pass": true,
+      "detail": "体力 16 → 15",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r5c4 干活成功（扣 1 体力 → 14）",
+      "pass": true,
+      "detail": "体力 15 → 14",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「播种」：读数为「当前工具：播种」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：播种 · 选中键=sow",
+      "named": [
+        "pick-sow"
+      ]
+    },
+    {
+      "name": "点 r0c4 干活成功（扣 1 体力 → 13）",
+      "pass": true,
+      "detail": "体力 14 → 13",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c4 干活成功（扣 1 体力 → 12）",
+      "pass": true,
+      "detail": "体力 13 → 12",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c4 干活成功（扣 1 体力 → 11）",
+      "pass": true,
+      "detail": "体力 12 → 11",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r3c4 干活成功（扣 1 体力 → 10）",
+      "pass": true,
+      "detail": "体力 11 → 10",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r4c4 干活成功（扣 1 体力 → 9）",
+      "pass": true,
+      "detail": "体力 10 → 9",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r5c4 干活成功（扣 1 体力 → 8）",
+      "pass": true,
+      "detail": "体力 9 → 8",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「浇水」：读数为「当前工具：浇水」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：浇水 · 选中键=water",
+      "named": [
+        "pick-water"
+      ]
+    },
+    {
+      "name": "点 r0c4 干活成功（扣 1 体力 → 7）",
+      "pass": true,
+      "detail": "体力 8 → 7",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c4 干活成功（扣 1 体力 → 6）",
+      "pass": true,
+      "detail": "体力 7 → 6",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c4 干活成功（扣 1 体力 → 5）",
+      "pass": true,
+      "detail": "体力 6 → 5",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r3c4 干活成功（扣 1 体力 → 4）",
+      "pass": true,
+      "detail": "体力 5 → 4",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r4c4 干活成功（扣 1 体力 → 3）",
+      "pass": true,
+      "detail": "体力 4 → 3",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r5c4 干活成功（扣 1 体力 → 2）",
+      "pass": true,
+      "detail": "体力 3 → 2",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "第 1 天收工账：20 − 18 = 2 体力（每动作恰 1）",
+      "pass": true,
+      "detail": "实测 2",
+      "named": []
+    },
+    {
+      "name": "选工具「播种」：读数为「当前工具：播种」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：播种 · 选中键=sow",
+      "named": [
+        "pick-sow"
+      ]
+    },
+    {
+      "name": "荒地播种：动作被拒且**不扣体力**",
+      "pass": true,
+      "detail": "体力 2 → 2（要求不变）",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "失败路径后读数不变（体力仍是 2 · 天数/金币不动）",
+      "pass": true,
+      "detail": "体力 2 · 第 1 天 · 金币 0",
+      "named": []
+    },
+    {
+      "name": "点画布空白处（非地块）不产生动作也不扣体力",
+      "pass": true,
+      "detail": "体力 2",
+      "named": []
+    },
+    {
+      "name": "点「睡觉」：第 1 天 → 第 2 天，体力回满 20/20",
+      "pass": true,
+      "detail": "日期+1、体力回满",
+      "named": [
+        "sleep"
+      ]
+    },
+    {
+      "name": "选工具「浇水」：读数为「当前工具：浇水」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：浇水 · 选中键=water",
+      "named": [
+        "pick-water"
+      ]
+    },
+    {
+      "name": "点 r0c4 干活成功（扣 1 体力 → 19）",
+      "pass": true,
+      "detail": "体力 20 → 19",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c4 干活成功（扣 1 体力 → 18）",
+      "pass": true,
+      "detail": "体力 19 → 18",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c4 干活成功（扣 1 体力 → 17）",
+      "pass": true,
+      "detail": "体力 18 → 17",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r3c4 干活成功（扣 1 体力 → 16）",
+      "pass": true,
+      "detail": "体力 17 → 16",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r4c4 干活成功（扣 1 体力 → 15）",
+      "pass": true,
+      "detail": "体力 16 → 15",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r5c4 干活成功（扣 1 体力 → 14）",
+      "pass": true,
+      "detail": "体力 15 → 14",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「锄地」：读数为「当前工具：锄地」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：锄地 · 选中键=till",
+      "named": [
+        "pick-till"
+      ]
+    },
+    {
+      "name": "点 r0c5 干活成功（扣 1 体力 → 13）",
+      "pass": true,
+      "detail": "体力 14 → 13",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c5 干活成功（扣 1 体力 → 12）",
+      "pass": true,
+      "detail": "体力 13 → 12",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c5 干活成功（扣 1 体力 → 11）",
+      "pass": true,
+      "detail": "体力 12 → 11",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r3c5 干活成功（扣 1 体力 → 10）",
+      "pass": true,
+      "detail": "体力 11 → 10",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「播种」：读数为「当前工具：播种」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：播种 · 选中键=sow",
+      "named": [
+        "pick-sow"
+      ]
+    },
+    {
+      "name": "点 r0c5 干活成功（扣 1 体力 → 9）",
+      "pass": true,
+      "detail": "体力 10 → 9",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c5 干活成功（扣 1 体力 → 8）",
+      "pass": true,
+      "detail": "体力 9 → 8",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c5 干活成功（扣 1 体力 → 7）",
+      "pass": true,
+      "detail": "体力 8 → 7",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r3c5 干活成功（扣 1 体力 → 6）",
+      "pass": true,
+      "detail": "体力 7 → 6",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「浇水」：读数为「当前工具：浇水」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：浇水 · 选中键=water",
+      "named": [
+        "pick-water"
+      ]
+    },
+    {
+      "name": "点 r0c5 干活成功（扣 1 体力 → 5）",
+      "pass": true,
+      "detail": "体力 6 → 5",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c5 干活成功（扣 1 体力 → 4）",
+      "pass": true,
+      "detail": "体力 5 → 4",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c5 干活成功（扣 1 体力 → 3）",
+      "pass": true,
+      "detail": "体力 4 → 3",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r3c5 干活成功（扣 1 体力 → 2）",
+      "pass": true,
+      "detail": "体力 3 → 2",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "第 2 天收工账：20 − 18 = 2 体力",
+      "pass": true,
+      "detail": "实测 2",
+      "named": []
+    },
+    {
+      "name": "点「睡觉」：第 2 天 → 第 3 天，体力回满 20/20",
+      "pass": true,
+      "detail": "日期+1、体力回满",
+      "named": [
+        "sleep"
+      ]
+    },
+    {
+      "name": "选工具「浇水」：读数为「当前工具：浇水」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：浇水 · 选中键=water",
+      "named": [
+        "pick-water"
+      ]
+    },
+    {
+      "name": "点 r0c4 干活成功（扣 1 体力 → 19）",
+      "pass": true,
+      "detail": "体力 20 → 19",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c4 干活成功（扣 1 体力 → 18）",
+      "pass": true,
+      "detail": "体力 19 → 18",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c4 干活成功（扣 1 体力 → 17）",
+      "pass": true,
+      "detail": "体力 18 → 17",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r3c4 干活成功（扣 1 体力 → 16）",
+      "pass": true,
+      "detail": "体力 17 → 16",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r4c4 干活成功（扣 1 体力 → 15）",
+      "pass": true,
+      "detail": "体力 16 → 15",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r5c4 干活成功（扣 1 体力 → 14）",
+      "pass": true,
+      "detail": "体力 15 → 14",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「浇水」：读数为「当前工具：浇水」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：浇水 · 选中键=water",
+      "named": [
+        "pick-water"
+      ]
+    },
+    {
+      "name": "点 r0c5 干活成功（扣 1 体力 → 13）",
+      "pass": true,
+      "detail": "体力 14 → 13",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c5 干活成功（扣 1 体力 → 12）",
+      "pass": true,
+      "detail": "体力 13 → 12",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c5 干活成功（扣 1 体力 → 11）",
+      "pass": true,
+      "detail": "体力 12 → 11",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r3c5 干活成功（扣 1 体力 → 10）",
+      "pass": true,
+      "detail": "体力 11 → 10",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「锄地」：读数为「当前工具：锄地」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：锄地 · 选中键=till",
+      "named": [
+        "pick-till"
+      ]
+    },
+    {
+      "name": "点 r0c2 干活成功（扣 1 体力 → 9）",
+      "pass": true,
+      "detail": "体力 10 → 9",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c2 干活成功（扣 1 体力 → 8）",
+      "pass": true,
+      "detail": "体力 9 → 8",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c2 干活成功（扣 1 体力 → 7）",
+      "pass": true,
+      "detail": "体力 8 → 7",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「播种」：读数为「当前工具：播种」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：播种 · 选中键=sow",
+      "named": [
+        "pick-sow"
+      ]
+    },
+    {
+      "name": "点 r0c2 干活成功（扣 1 体力 → 6）",
+      "pass": true,
+      "detail": "体力 7 → 6",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c2 干活成功（扣 1 体力 → 5）",
+      "pass": true,
+      "detail": "体力 6 → 5",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c2 干活成功（扣 1 体力 → 4）",
+      "pass": true,
+      "detail": "体力 5 → 4",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「浇水」：读数为「当前工具：浇水」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：浇水 · 选中键=water",
+      "named": [
+        "pick-water"
+      ]
+    },
+    {
+      "name": "点 r0c2 干活成功（扣 1 体力 → 3）",
+      "pass": true,
+      "detail": "体力 4 → 3",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c2 干活成功（扣 1 体力 → 2）",
+      "pass": true,
+      "detail": "体力 3 → 2",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c2 干活成功（扣 1 体力 → 1）",
+      "pass": true,
+      "detail": "体力 2 → 1",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "第 3 天收工账：20 − 19 = 1 体力",
+      "pass": true,
+      "detail": "实测 1",
+      "named": []
+    },
+    {
+      "name": "点「睡觉」：第 3 天 → 第 4 天，体力回满 20/20",
+      "pass": true,
+      "detail": "日期+1、体力回满",
+      "named": [
+        "sleep"
+      ]
+    },
+    {
+      "name": "选工具「收获」：读数为「当前工具：收获」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：收获 · 选中键=reap",
+      "named": [
+        "pick-reap"
+      ]
+    },
+    {
+      "name": "点 r0c4 干活成功（扣 1 体力 → 19）",
+      "pass": true,
+      "detail": "体力 20 → 19",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c4 干活成功（扣 1 体力 → 18）",
+      "pass": true,
+      "detail": "体力 19 → 18",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c4 干活成功（扣 1 体力 → 17）",
+      "pass": true,
+      "detail": "体力 18 → 17",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r3c4 干活成功（扣 1 体力 → 16）",
+      "pass": true,
+      "detail": "体力 17 → 16",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r4c4 干活成功（扣 1 体力 → 15）",
+      "pass": true,
+      "detail": "体力 16 → 15",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r5c4 干活成功（扣 1 体力 → 14）",
+      "pass": true,
+      "detail": "体力 15 → 14",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点「卖货」：金币 0 → +450（卖价换算 12/30/75）",
+      "pass": true,
+      "detail": "实测金币 450",
+      "named": [
+        "sell"
+      ]
+    },
+    {
+      "name": "第 4 天：卖货后仍在局中（450 < 1000 ⇒ 无结算面板）",
+      "pass": true,
+      "detail": "金币 450 · 面板=false",
+      "named": []
+    },
+    {
+      "name": "选工具「浇水」：读数为「当前工具：浇水」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：浇水 · 选中键=water",
+      "named": [
+        "pick-water"
+      ]
+    },
+    {
+      "name": "点 r0c5 干活成功（扣 1 体力 → 13）",
+      "pass": true,
+      "detail": "体力 14 → 13",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c5 干活成功（扣 1 体力 → 12）",
+      "pass": true,
+      "detail": "体力 13 → 12",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c5 干活成功（扣 1 体力 → 11）",
+      "pass": true,
+      "detail": "体力 12 → 11",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r3c5 干活成功（扣 1 体力 → 10）",
+      "pass": true,
+      "detail": "体力 11 → 10",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「浇水」：读数为「当前工具：浇水」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：浇水 · 选中键=water",
+      "named": [
+        "pick-water"
+      ]
+    },
+    {
+      "name": "点 r0c2 干活成功（扣 1 体力 → 9）",
+      "pass": true,
+      "detail": "体力 10 → 9",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c2 干活成功（扣 1 体力 → 8）",
+      "pass": true,
+      "detail": "体力 9 → 8",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c2 干活成功（扣 1 体力 → 7）",
+      "pass": true,
+      "detail": "体力 8 → 7",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「锄地」：读数为「当前工具：锄地」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：锄地 · 选中键=till",
+      "named": [
+        "pick-till"
+      ]
+    },
+    {
+      "name": "点 r4c5 干活成功（扣 1 体力 → 6）",
+      "pass": true,
+      "detail": "体力 7 → 6",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r5c5 干活成功（扣 1 体力 → 5）",
+      "pass": true,
+      "detail": "体力 6 → 5",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「播种」：读数为「当前工具：播种」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：播种 · 选中键=sow",
+      "named": [
+        "pick-sow"
+      ]
+    },
+    {
+      "name": "点 r4c5 干活成功（扣 1 体力 → 4）",
+      "pass": true,
+      "detail": "体力 5 → 4",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r5c5 干活成功（扣 1 体力 → 3）",
+      "pass": true,
+      "detail": "体力 4 → 3",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「浇水」：读数为「当前工具：浇水」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：浇水 · 选中键=water",
+      "named": [
+        "pick-water"
+      ]
+    },
+    {
+      "name": "点 r4c5 干活成功（扣 1 体力 → 2）",
+      "pass": true,
+      "detail": "体力 3 → 2",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r5c5 干活成功（扣 1 体力 → 1）",
+      "pass": true,
+      "detail": "体力 2 → 1",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "第 4 天收工账：20 − 19 = 1 体力",
+      "pass": true,
+      "detail": "实测 1",
+      "named": []
+    },
+    {
+      "name": "点「睡觉」：第 4 天 → 第 5 天，体力回满 20/20",
+      "pass": true,
+      "detail": "日期+1、体力回满",
+      "named": [
+        "sleep"
+      ]
+    },
+    {
+      "name": "选工具「收获」：读数为「当前工具：收获」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：收获 · 选中键=reap",
+      "named": [
+        "pick-reap"
+      ]
+    },
+    {
+      "name": "点 r0c5 干活成功（扣 1 体力 → 19）",
+      "pass": true,
+      "detail": "体力 20 → 19",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c5 干活成功（扣 1 体力 → 18）",
+      "pass": true,
+      "detail": "体力 19 → 18",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c5 干活成功（扣 1 体力 → 17）",
+      "pass": true,
+      "detail": "体力 18 → 17",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r3c5 干活成功（扣 1 体力 → 16）",
+      "pass": true,
+      "detail": "体力 17 → 16",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「收获」：读数为「当前工具：收获」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：收获 · 选中键=reap",
+      "named": [
+        "pick-reap"
+      ]
+    },
+    {
+      "name": "点 r0c2 干活成功（扣 1 体力 → 15）",
+      "pass": true,
+      "detail": "体力 16 → 15",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c2 干活成功（扣 1 体力 → 14）",
+      "pass": true,
+      "detail": "体力 15 → 14",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c2 干活成功（扣 1 体力 → 13）",
+      "pass": true,
+      "detail": "体力 14 → 13",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点「卖货」：金币 450 → +390（卖价换算 12/30/75）",
+      "pass": true,
+      "detail": "实测金币 840",
+      "named": [
+        "sell"
+      ]
+    },
+    {
+      "name": "第 5 天：卖货后仍在局中（840 < 1000 ⇒ 无结算面板）",
+      "pass": true,
+      "detail": "金币 840 · 面板=false",
+      "named": []
+    },
+    {
+      "name": "选工具「浇水」：读数为「当前工具：浇水」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：浇水 · 选中键=water",
+      "named": [
+        "pick-water"
+      ]
+    },
+    {
+      "name": "点 r4c5 干活成功（扣 1 体力 → 12）",
+      "pass": true,
+      "detail": "体力 13 → 12",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r5c5 干活成功（扣 1 体力 → 11）",
+      "pass": true,
+      "detail": "体力 12 → 11",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「锄地」：读数为「当前工具：锄地」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：锄地 · 选中键=till",
+      "named": [
+        "pick-till"
+      ]
+    },
+    {
+      "name": "点 r0c0 干活成功（扣 1 体力 → 10）",
+      "pass": true,
+      "detail": "体力 11 → 10",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c0 干活成功（扣 1 体力 → 9）",
+      "pass": true,
+      "detail": "体力 10 → 9",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c0 干活成功（扣 1 体力 → 8）",
+      "pass": true,
+      "detail": "体力 9 → 8",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「播种」：读数为「当前工具：播种」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：播种 · 选中键=sow",
+      "named": [
+        "pick-sow"
+      ]
+    },
+    {
+      "name": "点 r0c0 干活成功（扣 1 体力 → 7）",
+      "pass": true,
+      "detail": "体力 8 → 7",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c0 干活成功（扣 1 体力 → 6）",
+      "pass": true,
+      "detail": "体力 7 → 6",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c0 干活成功（扣 1 体力 → 5）",
+      "pass": true,
+      "detail": "体力 6 → 5",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「浇水」：读数为「当前工具：浇水」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：浇水 · 选中键=water",
+      "named": [
+        "pick-water"
+      ]
+    },
+    {
+      "name": "点 r0c0 干活成功（扣 1 体力 → 4）",
+      "pass": true,
+      "detail": "体力 5 → 4",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c0 干活成功（扣 1 体力 → 3）",
+      "pass": true,
+      "detail": "体力 4 → 3",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c0 干活成功（扣 1 体力 → 2）",
+      "pass": true,
+      "detail": "体力 3 → 2",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "第 5 天收工账：20 − 18 = 2 体力",
+      "pass": true,
+      "detail": "实测 2",
+      "named": []
+    },
+    {
+      "name": "点「睡觉」：第 5 天 → 第 6 天，体力回满 20/20",
+      "pass": true,
+      "detail": "日期+1、体力回满",
+      "named": [
+        "sleep"
+      ]
+    },
+    {
+      "name": "选工具「浇水」：读数为「当前工具：浇水」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：浇水 · 选中键=water",
+      "named": [
+        "pick-water"
+      ]
+    },
+    {
+      "name": "点 r4c5 干活成功（扣 1 体力 → 19）",
+      "pass": true,
+      "detail": "体力 20 → 19",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r5c5 干活成功（扣 1 体力 → 18）",
+      "pass": true,
+      "detail": "体力 19 → 18",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「收获」：读数为「当前工具：收获」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：收获 · 选中键=reap",
+      "named": [
+        "pick-reap"
+      ]
+    },
+    {
+      "name": "点 r0c0 干活成功（扣 1 体力 → 17）",
+      "pass": true,
+      "detail": "体力 18 → 17",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c0 干活成功（扣 1 体力 → 16）",
+      "pass": true,
+      "detail": "体力 17 → 16",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c0 干活成功（扣 1 体力 → 15）",
+      "pass": true,
+      "detail": "体力 16 → 15",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点「卖货」：金币 840 → +36（卖价换算 12/30/75）",
+      "pass": true,
+      "detail": "实测金币 876",
+      "named": [
+        "sell"
+      ]
+    },
+    {
+      "name": "第 6 天：876 < 1000 ⇒ **仍在局中**（阈值下方·无结算面板）",
+      "pass": true,
+      "detail": "金币 876 · 面板=false",
+      "named": [
+        "sell"
+      ]
+    },
+    {
+      "name": "点「睡觉」：第 6 天 → 第 7 天，体力回满 20/20",
+      "pass": true,
+      "detail": "日期+1、体力回满",
+      "named": [
+        "sleep"
+      ]
+    },
+    {
+      "name": "选工具「锄地」：读数为「当前工具：锄地」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：锄地 · 选中键=till",
+      "named": [
+        "pick-till"
+      ]
+    },
+    {
+      "name": "旧局 r0c4 已翻过土（第 4 天收完还原成 tilled）：动作被拒且**不扣体力**",
+      "pass": true,
+      "detail": "体力 20 → 20（要求不变）",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "选工具「收获」：读数为「当前工具：收获」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：收获 · 选中键=reap",
+      "named": [
+        "pick-reap"
+      ]
+    },
+    {
+      "name": "点 r4c5 干活成功（扣 1 体力 → 19）",
+      "pass": true,
+      "detail": "体力 20 → 19",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r5c5 干活成功（扣 1 体力 → 18）",
+      "pass": true,
+      "detail": "体力 19 → 18",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点「卖货」：金币 876 → +150（卖价换算 12/30/75）",
+      "pass": true,
+      "detail": "实测金币 1026",
+      "named": [
+        "sell"
+      ]
+    },
+    {
+      "name": "**打到终局**：金币 1026 ≥ 1000 → 结算屏出现（flow=won）",
+      "pass": true,
+      "detail": "金币 1026 · 面板=true",
+      "named": [
+        "sell"
+      ]
+    },
+    {
+      "name": "结算面板三件套：标题「通关！」+ 战绩（用时·最终金币）+ 重开键",
+      "pass": true,
+      "detail": "title=通关！ · stats=用时 7 天 · 最终金币 1026 / 1000",
+      "named": []
+    },
+    {
+      "name": "结算屏**对局键整条收起**（无死路操作·屏上只有这一个出口）",
+      "pass": true,
+      "detail": "readouts=false actions=false till键=false",
+      "named": []
+    },
+    {
+      "name": "重开键：真 DOM button 且 data-action=restart（消费者 = 宿主局生命周期 handler）",
+      "pass": true,
+      "detail": "data-action=restart label=重开",
+      "named": [
+        "restart"
+      ]
+    },
+    {
+      "name": "重开后：结算面板消失 + 读数回来了",
+      "pass": true,
+      "detail": "面板=false 读数=true 动作条=true",
+      "named": [
+        "restart"
+      ]
+    },
+    {
+      "name": "重开后：金币 0 / 1000 · 第 1 天 · 体力 20/20 · 工具回到锄地",
+      "pass": true,
+      "detail": "0/1000 · 第1天 · 20/20 · 锄地",
+      "named": [
+        "restart"
+      ]
+    },
+    {
+      "name": "重开后：6 枚动作键全回来（4 工具 + 睡觉 + 卖货）",
+      "pass": true,
+      "detail": "till,sow,water,reap,sleep,sell",
+      "named": [
+        "restart"
+      ]
+    },
+    {
+      "name": "重开后：canvas 与 HUD 各只有一份（没起两台引擎/两个挂载）",
+      "pass": true,
+      "detail": "canvas×1 · HUD×1",
+      "named": [
+        "restart"
+      ]
+    },
+    {
+      "name": "选工具「锄地」：读数为「当前工具：锄地」且该键带选中标记 ▶",
+      "pass": true,
+      "detail": "实测 当前工具：锄地 · 选中键=till",
+      "named": [
+        "pick-till"
+      ]
+    },
+    {
+      "name": "点 r0c4 干活成功（扣 1 体力 → 19）",
+      "pass": true,
+      "detail": "体力 20 → 19",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r1c4 干活成功（扣 1 体力 → 18）",
+      "pass": true,
+      "detail": "体力 19 → 18",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r2c4 干活成功（扣 1 体力 → 17）",
+      "pass": true,
+      "detail": "体力 18 → 17",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r3c4 干活成功（扣 1 体力 → 16）",
+      "pass": true,
+      "detail": "体力 17 → 16",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r4c4 干活成功（扣 1 体力 → 15）",
+      "pass": true,
+      "detail": "体力 16 → 15",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "点 r5c4 干活成功（扣 1 体力 → 14）",
+      "pass": true,
+      "detail": "体力 15 → 14",
+      "named": [
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "重开后：旧局已翻土的 6 格全部**可重新锄地**且逐格扣 1（体力 20 → 14）⇒ 世界真回初态",
+      "pass": true,
+      "detail": "成功 6/6 · 体力 14",
+      "named": [
+        "restart",
+        "pick-till",
+        "work-canvas"
+      ]
+    },
+    {
+      "name": "连点 5 下重开键：屏与世界都稳（单 canvas/单 HUD·体力仍 14）【对抗性输入】",
+      "pass": true,
+      "detail": "canvas×1 · 体力 14",
+      "named": [
+        "restart"
+      ]
+    },
+    {
+      "name": "全程控制台零 error / 零未捕获异常",
+      "pass": true,
+      "detail": "干净",
+      "named": []
+    },
+    {
+      "name": "屏上 8 个世界动作逐个被断言点名（无死键）",
+      "pass": true,
+      "detail": "全部点名",
+      "named": []
+    }
+  ],
+  "consoleErrors": []
+}

@@ -71,6 +71,8 @@ export { pathFollowCapability, pathFollowAt } from './path-follow.js';
 export { gaugeCapability } from './gauge.js';
 // text-binding（REQ-F-043）：Resource 数字 → Text 投影（HUD 金币/回合/等级；gauge 管条、本件管数字）。
 export { textBindingCapability } from './text-binding.js';
+// sprite-binding（REQ-G109-004）：Resource 数字 → 外观投影（生长阶/升级外观/血量变色；text-binding 管文字、gauge 管条、本件管长相）。
+export { spriteBindingCapability } from './sprite-binding.js';
 // drag-place（REQ-F-045）：拖拽摆放输入桥——壳层合成 drag 动作→命中 Draggable→hex 吸附/回席/限额（摆子/放塔通用）。
 export { dragPlaceCapability } from './drag-place.js';
 export { trayCapability } from './tray.js';
@@ -142,3 +144,5 @@ export type {
   DuelIntent,
   DuelOutcome,
 } from './matrix-duel.js';
+
+export { knockbackCapability } from './knockback.js';

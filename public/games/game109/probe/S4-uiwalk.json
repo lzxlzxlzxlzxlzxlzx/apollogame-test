@@ -1,0 +1,4679 @@
+{
+  "slug": "game109",
+  "at": "2026-09-18T10:52:45.797Z",
+  "gameHash": "e73a9e932ed1de01",
+  "ok": true,
+  "form": "compiled",
+  "uiDrivableRate": 0.299625468164794,
+  "totalSummary": {
+    "signalSteps": 267,
+    "drivenSteps": 80,
+    "tickSteps": 291,
+    "expectSteps": 91,
+    "uiDrivableRate": 0.299625468164794
+  },
+  "scenarios": [
+    {
+      "name": "四动作前置门与落定态·点谁改谁",
+      "file": "01-four-actions-and-settle.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 2,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 3,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 4,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 5,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 6,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 7,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 8,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 9,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 10,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 11,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 12,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 13,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 14,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 15,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 16,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 17,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 18,
+          "kind": "signal",
+          "signal": "pick-reap",
+          "mappedAction": "pick-reap",
+          "driven": true
+        },
+        {
+          "step": 19,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 20,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 21,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 22,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 23,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 24,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 25,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 26,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 27,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 28,
+        "signalSteps": 10,
+        "drivenSteps": 5,
+        "tickSteps": 11,
+        "expectSteps": 7,
+        "uiDrivableRate": 0.5
+      }
+    },
+    {
+      "name": "三种作物的天数与卖价·12/30/75",
+      "file": "02-crop-days-and-prices.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 2,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 3,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 4,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 5,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 6,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 7,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 8,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 9,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 10,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 11,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 12,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 13,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 14,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 15,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 16,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 17,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 18,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 19,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 20,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 21,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 22,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 23,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 24,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 25,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 26,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 27,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 28,
+          "kind": "signal",
+          "signal": "pick-reap",
+          "mappedAction": "pick-reap",
+          "driven": true
+        },
+        {
+          "step": 29,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 30,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 31,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 32,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 33,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 34,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 35,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 36,
+          "kind": "signal",
+          "signal": "sell",
+          "mappedAction": "sell",
+          "driven": true
+        },
+        {
+          "step": 37,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 38,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 39,
+          "kind": "signal",
+          "signal": "sell",
+          "mappedAction": "sell",
+          "driven": true
+        },
+        {
+          "step": 40,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 41,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 42,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 43,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 44,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 45,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 46,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 47,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 48,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 49,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 50,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 51,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 52,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 53,
+          "kind": "signal",
+          "signal": "pick-reap",
+          "mappedAction": "pick-reap",
+          "driven": true
+        },
+        {
+          "step": 54,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 55,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 56,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 57,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 58,
+          "kind": "signal",
+          "signal": "sell",
+          "mappedAction": "sell",
+          "driven": true
+        },
+        {
+          "step": 59,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 60,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 61,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 62,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 63,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 64,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 65,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 66,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 67,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 68,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 69,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 70,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 71,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 72,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 73,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 74,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 75,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 76,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 77,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 78,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 79,
+          "kind": "signal",
+          "signal": "pick-reap",
+          "mappedAction": "pick-reap",
+          "driven": true
+        },
+        {
+          "step": 80,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 81,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 82,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 83,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 84,
+          "kind": "signal",
+          "signal": "sell",
+          "mappedAction": "sell",
+          "driven": true
+        },
+        {
+          "step": 85,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 86,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 87,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 88,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 89,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 90,
+        "signalSteps": 34,
+        "drivenSteps": 16,
+        "tickSteps": 38,
+        "expectSteps": 18,
+        "uiDrivableRate": 0.47058823529411764
+      }
+    },
+    {
+      "name": "睡觉只长浇过水的·每夜恰一阶",
+      "file": "03-sleep-grows-watered-only.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 2,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 3,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 4,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 5,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 6,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 7,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 8,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 9,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 10,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 11,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 12,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 13,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 14,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 15,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 16,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 17,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 18,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 19,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 20,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 21,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 22,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 23,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 24,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 25,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 26,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 27,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 28,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 29,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 30,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 31,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 32,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 33,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 34,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 35,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 36,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 37,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 38,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 39,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 40,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 41,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 42,
+          "kind": "signal",
+          "signal": "pick-reap",
+          "mappedAction": "pick-reap",
+          "driven": true
+        },
+        {
+          "step": 43,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 44,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 45,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 46,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 47,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 48,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 49,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 50,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 51,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 52,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 53,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 54,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 55,
+        "signalSteps": 20,
+        "drivenSteps": 9,
+        "tickSteps": 24,
+        "expectSteps": 11,
+        "uiDrivableRate": 0.45
+      }
+    },
+    {
+      "name": "体力 20 的预算·体力耗尽动作被拒且不白扣",
+      "file": "04-energy-budget-reject-no-free-spend.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 2,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 3,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c1",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 4,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 5,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 6,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 7,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 8,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 9,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 10,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 11,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 12,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 13,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 14,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 15,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c1",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 16,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 17,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 18,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 19,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 20,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 21,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 22,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 23,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 24,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 25,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 26,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 27,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c1",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 28,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 29,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 30,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 31,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 32,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 33,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 34,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 35,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 36,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 37,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 38,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 39,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c1",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 40,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 41,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 42,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 43,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 44,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 45,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 46,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 47,
+          "kind": "signal",
+          "signal": "pick-till",
+          "mappedAction": "pick-till",
+          "driven": true
+        },
+        {
+          "step": 48,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 49,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 50,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 51,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 52,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 53,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 54,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 55,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 56,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 57,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 58,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 59,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 60,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 61,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 62,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 63,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 64,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 65,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 66,
+        "signalSteps": 29,
+        "drivenSteps": 5,
+        "tickSteps": 30,
+        "expectSteps": 7,
+        "uiDrivableRate": 0.1724137931034483
+      }
+    },
+    {
+      "name": "前置门阶梯·八次拒绝都不动地块也不白扣体力",
+      "file": "05-gate-rejections-ladder.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 2,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 3,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 4,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 5,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 6,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 7,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 8,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 9,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 10,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 11,
+          "kind": "signal",
+          "signal": "pick-reap",
+          "mappedAction": "pick-reap",
+          "driven": true
+        },
+        {
+          "step": 12,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 13,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 14,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 15,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 16,
+          "kind": "signal",
+          "signal": "pick-till",
+          "mappedAction": "pick-till",
+          "driven": true
+        },
+        {
+          "step": 17,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 18,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 19,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 20,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 21,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 22,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 23,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 24,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 25,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 26,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 27,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 28,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 29,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 30,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 31,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 32,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 33,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 34,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 35,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 36,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 37,
+          "kind": "signal",
+          "signal": "pick-reap",
+          "mappedAction": "pick-reap",
+          "driven": true
+        },
+        {
+          "step": 38,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 39,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 40,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 41,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 42,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 43,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 44,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 45,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 46,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 47,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 48,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 49,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 50,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 51,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 52,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 53,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 54,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 55,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 56,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 57,
+          "kind": "signal",
+          "signal": "pick-reap",
+          "mappedAction": "pick-reap",
+          "driven": true
+        },
+        {
+          "step": 58,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 59,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 60,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 61,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 62,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 63,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 64,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 65,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 66,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 67,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 68,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 69,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 70,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 71,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 72,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 73,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 74,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 75,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 76,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 77,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 78,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 79,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 80,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 81,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 82,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 83,
+        "signalSteps": 31,
+        "drivenSteps": 14,
+        "tickSteps": 34,
+        "expectSteps": 18,
+        "uiDrivableRate": 0.45161290322580644
+      }
+    },
+    {
+      "name": "确定性·孪生两格逐字同值·零随机",
+      "file": "06-determinism-twin-and-zero-rng.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 2,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 3,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 4,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 5,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 6,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 7,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 8,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 9,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 10,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 11,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 12,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 13,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 14,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 15,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 16,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 17,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 18,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 19,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 20,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 21,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 22,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 23,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 24,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 25,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 26,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 27,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 28,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 29,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 30,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 31,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 32,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 33,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 34,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 35,
+          "kind": "signal",
+          "signal": "pick-reap",
+          "mappedAction": "pick-reap",
+          "driven": true
+        },
+        {
+          "step": 36,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 37,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 38,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 39,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 40,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 41,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 42,
+          "kind": "signal",
+          "signal": "sell",
+          "mappedAction": "sell",
+          "driven": true
+        },
+        {
+          "step": 43,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 44,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 45,
+        "signalSteps": 17,
+        "drivenSteps": 7,
+        "tickSteps": 20,
+        "expectSteps": 8,
+        "uiDrivableRate": 0.4117647058823529
+      }
+    },
+    {
+      "name": "通关终局·990 未通关 1002 通关·终局出口重开",
+      "file": "07-victory-and-restart.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "pick-till",
+          "mappedAction": "pick-till",
+          "driven": true
+        },
+        {
+          "step": 2,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 3,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 4,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 5,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 6,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 7,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 8,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 9,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 10,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 11,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 12,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 13,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 14,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 15,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 16,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 17,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 18,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 19,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r4c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 20,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 21,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r4c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 22,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 23,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r5c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 24,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 25,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r5c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 26,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 27,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 28,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 29,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 30,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 31,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 32,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 33,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 34,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 35,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 36,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 37,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 38,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 39,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 40,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 41,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 42,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 43,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 44,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 45,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 46,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 47,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 48,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 49,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 50,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 51,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 52,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 53,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r4c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 54,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 55,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r4c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 56,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 57,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r5c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 58,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 59,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r5c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 60,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 61,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 62,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 63,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 64,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 65,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 66,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 67,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 68,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 69,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 70,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 71,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 72,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 73,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 74,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 75,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 76,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 77,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 78,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 79,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r4c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 80,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 81,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r4c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 82,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 83,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r5c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 84,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 85,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r5c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 86,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 87,
+          "kind": "signal",
+          "signal": "pick-till",
+          "mappedAction": "pick-till",
+          "driven": true
+        },
+        {
+          "step": 88,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 89,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 90,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 91,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 92,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 93,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 94,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 95,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 96,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 97,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 98,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 99,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 100,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 101,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 102,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 103,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 104,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 105,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 106,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 107,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 108,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 109,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 110,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 111,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 112,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 113,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 114,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 115,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 116,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 117,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 118,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 119,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 120,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r4c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 121,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 122,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r4c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 123,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 124,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r5c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 125,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 126,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r5c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 127,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 128,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 129,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 130,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 131,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 132,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 133,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 134,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 135,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 136,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 137,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 138,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 139,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 140,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 141,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 142,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 143,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 144,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 145,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 146,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 147,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 148,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 149,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 150,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 151,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 152,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 153,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 154,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 155,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 156,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 157,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 158,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 159,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 160,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 161,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 162,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 163,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 164,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 165,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 166,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 167,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 168,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 169,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 170,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 171,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r4c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 172,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 173,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r4c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 174,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 175,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r5c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 176,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 177,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r5c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 178,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 179,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 180,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 181,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 182,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 183,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 184,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 185,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 186,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 187,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 188,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 189,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 190,
+          "kind": "signal",
+          "signal": "pick-reap",
+          "mappedAction": "pick-reap",
+          "driven": true
+        },
+        {
+          "step": 191,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 192,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 193,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 194,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 195,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 196,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 197,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 198,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 199,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 200,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 201,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 202,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 203,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 204,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 205,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 206,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r3c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 207,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 208,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r4c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 209,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 210,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r4c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 211,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 212,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r5c4",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 213,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 214,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r5c5",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 215,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 216,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 217,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 218,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 219,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 220,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r1c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 221,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 222,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 223,
+          "kind": "signal",
+          "signal": "sell",
+          "mappedAction": "sell",
+          "driven": true
+        },
+        {
+          "step": 224,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 225,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 226,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 227,
+          "kind": "signal",
+          "signal": "pick-reap",
+          "mappedAction": "pick-reap",
+          "driven": true
+        },
+        {
+          "step": 228,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 229,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r0c0",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 230,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 231,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 232,
+          "kind": "signal",
+          "signal": "sell",
+          "mappedAction": "sell",
+          "driven": true
+        },
+        {
+          "step": 233,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 234,
+          "kind": "signal",
+          "signal": "restart",
+          "mappedAction": "restart",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 235,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 236,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 237,
+        "signalSteps": 109,
+        "drivenSteps": 17,
+        "tickSteps": 114,
+        "expectSteps": 14,
+        "uiDrivableRate": 0.1559633027522936
+      }
+    },
+    {
+      "name": "确定性·换 seed（7）结果逐字不变",
+      "file": "08-same-result-other-seed.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 2,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 3,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 4,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 5,
+          "kind": "signal",
+          "signal": "pick-sow",
+          "mappedAction": "pick-sow",
+          "driven": true
+        },
+        {
+          "step": 6,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 7,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 8,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 9,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 10,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 11,
+          "kind": "signal",
+          "signal": "pick-water",
+          "mappedAction": "pick-water",
+          "driven": true
+        },
+        {
+          "step": 12,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 13,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 14,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 15,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 16,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 17,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 18,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 19,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 20,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 21,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 22,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 23,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 24,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 25,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 26,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 27,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 28,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 29,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 30,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 31,
+          "kind": "signal",
+          "signal": "sleep",
+          "mappedAction": "sleep",
+          "driven": true
+        },
+        {
+          "step": 32,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 33,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 34,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 35,
+          "kind": "signal",
+          "signal": "pick-reap",
+          "mappedAction": "pick-reap",
+          "driven": true
+        },
+        {
+          "step": 36,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 37,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c2",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 38,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 39,
+          "kind": "signal",
+          "signal": "work",
+          "mappedAction": "work",
+          "arg": "tile-r2c3",
+          "driven": false,
+          "note": "已映射到真实控件，但当前页面无可用控件（可能尚未到达该状态，或该一次性动作已合法禁用）"
+        },
+        {
+          "step": 40,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 41,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 42,
+          "kind": "signal",
+          "signal": "sell",
+          "mappedAction": "sell",
+          "driven": true
+        },
+        {
+          "step": 43,
+          "kind": "tick",
+          "driven": false,
+          "note": "装配/时间推进类·UI 无对应控件"
+        },
+        {
+          "step": 44,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 45,
+        "signalSteps": 17,
+        "drivenSteps": 7,
+        "tickSteps": 20,
+        "expectSteps": 8,
+        "uiDrivableRate": 0.4117647058823529
+      }
+    }
+  ],
+  "assertions": {
+    "consoleErrors": {
+      "pass": true,
+      "count": 0,
+      "messages": []
+    },
+    "noUncaught": {
+      "pass": true,
+      "count": 0,
+      "messages": []
+    }
+  },
+  "browser": {
+    "execPath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "via": "Windows Chrome"
+  }
+}

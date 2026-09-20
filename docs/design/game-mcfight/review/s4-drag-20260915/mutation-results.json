@@ -1,0 +1,26 @@
+{
+  "sha256": "80bec49c0837385f9b5cd95e8cdf811cfda061606d4597eeefefc02bd977003b",
+  "results": [
+    {
+      "name": "bounds",
+      "hits": 1,
+      "exit": 1,
+      "detected": true,
+      "restored": true
+    },
+    {
+      "name": "overlap",
+      "hits": 1,
+      "exit": 1,
+      "detected": true,
+      "restored": true
+    },
+    {
+      "name": "phase",
+      "hits": 1,
+      "exit": 1,
+      "detected": true,
+      "restored": true
+    }
+  ]
+}

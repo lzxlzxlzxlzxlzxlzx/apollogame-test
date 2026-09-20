@@ -1,0 +1,35 @@
+import { expect, it } from 'vitest';
+import { World } from '@engine/core/world.js';
+import type { Component } from '@engine/core/types.js';
+import type { Resource, Transform, PrefabLibrary } from '@engine/protocol/components.js';
+import { selfRuleCapability } from './self-rule.js';
+import { resourceCapability } from '../atoms/resource/index.js';
+import { destroyCapability } from '../atoms/destroy/index.js';
+import { motionApplyCapability } from '../tier1/motion-apply.js';
+import { prefabCapability } from '../tier3/prefab.js';
+import { overTimeCapability } from './over-time.js';
+import { hitboxCapability } from './hitbox.js';
+import { overlapDetectCapability } from '../atoms/overlap-detect/index.js';
+import { triggerZoneCapability } from './trigger-zone.js';
+const xf=(x=0)=>({x,y:0,rotation:0,scaleX:1,scaleY:1});
+const add=(w:World,id:string,data:Record<string,object>)=>{w.createEntity(id);for(const[type,value]of Object.entries(data))w.addComponent(id,{type,...value} as Component);};
+it('SelfRule observes settled resources and moved position; source death does not discard same-tick spawn',()=>{
+ const w=new World();for(const c of [prefabCapability,selfRuleCapability,destroyCapability,resourceCapability,motionApplyCapability])for(const s of c.systems)w.addSystem(s);
+ add(w,'lib',{PrefabLibrary:{seq:0,templates:{drop:{entities:{body:{Transform:xf(),Tag:{flags:32}}}}}}});
+ add(w,'source',{Transform:xf(2),Velocity:{vx:3,vy:0},Resource:{id:'hp',current:7,min:0,max:10},ResourceModify:{resourceId:'hp',amount:-7,scope:'local'},SelfRule:{when:{kind:'resource',id:'hp',cmp:'lte',value:0},do:[{kind:'spawn',template:'drop'},{kind:'destroy'}],once:true}});
+ const trace:string[]=[];w.setObserver({onSystemEnd:s=>trace.push(s.id)});w.tick();
+ expect(w.hasComponent('source','Resource')).toBe(false);
+ const drops=w.query('Tag');expect(drops).toHaveLength(1);expect(w.getComponent<Transform>(drops[0]![0],'Transform')!.x).toBe(5);
+ expect(trace.indexOf('resource-apply')).toBeLessThan(trace.indexOf('self-rule'));
+ expect(trace.indexOf('self-rule')).toBeLessThan(trace.indexOf('destroy-apply'));
+ expect(trace.indexOf('destroy-apply')).toBeLessThan(trace.indexOf('targeted-prefab-spawn'));
+ w.tick();expect(w.query('Tag')).toHaveLength(1);expect(w.query('SpawnRequest')).toHaveLength(0);
+ console.log('REACTION_TIMING',JSON.stringify({trace,spawnX:5,sourceGone:true}));
+});
+it('new contact timed damage settles in the same tick before SelfRule observes HP',()=>{
+ const w=new World();for(const c of [selfRuleCapability,resourceCapability,overTimeCapability,hitboxCapability,overlapDetectCapability,triggerZoneCapability])for(const s of c.systems)w.addSystem(s);
+ add(w,'target',{Transform:xf(),Shape:{kind:'circle',radius:1},Tag:{flags:2},Resource:{id:'hp',current:10,min:0,max:10},Flag:{id:'hurt',active:false},SelfRule:{when:{kind:'resource',id:'hp',cmp:'lte',value:5},do:[{kind:'set-flag',value:true}]}});
+ add(w,'zone',{Transform:xf(),Shape:{kind:'circle',radius:1},Sensor:{},Tag:{flags:1},Hitbox:{resource:'hp',amount:2,targetMask:2,consumeOnHit:true,dotPerTick:3,dotPeriod:1,dotDuration:1}});
+ w.tick();expect(w.getComponent<Resource>('target','Resource')!.current).toBe(5);
+ expect(w.getComponent<any>('target','Flag')!.active).toBe(true);
+});

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "purchase",
+    "hits": 1,
+    "exit": 1,
+    "failCount": 4,
+    "before": "35aa076d0633e6f21d331063d6d67509e5e1c46651e7f4d998d58742c397ae69",
+    "after": "35aa076d0633e6f21d331063d6d67509e5e1c46651e7f4d998d58742c397ae69"
+  },
+  {
+    "id": "reward",
+    "hits": 1,
+    "exit": 1,
+    "failCount": 2,
+    "before": "35aa076d0633e6f21d331063d6d67509e5e1c46651e7f4d998d58742c397ae69",
+    "after": "35aa076d0633e6f21d331063d6d67509e5e1c46651e7f4d998d58742c397ae69"
+  },
+  {
+    "id": "clear-roster",
+    "hits": 1,
+    "exit": 1,
+    "failCount": 2,
+    "before": "35aa076d0633e6f21d331063d6d67509e5e1c46651e7f4d998d58742c397ae69",
+    "after": "35aa076d0633e6f21d331063d6d67509e5e1c46651e7f4d998d58742c397ae69"
+  }
+]

@@ -1,6 +1,7 @@
 import { defineCapability } from '@engine/core/define-capability.js';
 import type { Transform, Velocity } from '@engine/protocol/components.js';
 
+
 // Tier 1 涌现（直接结算）：velocity → transform。无新组件，纯系统。
 export const motionApplyCapability = defineCapability({
   id: 't1-motion-apply',
@@ -40,3 +41,4 @@ export const motionApplyCapability = defineCapability({
     },
   ],
 });
+

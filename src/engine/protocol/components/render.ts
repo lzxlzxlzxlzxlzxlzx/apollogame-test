@@ -622,6 +622,23 @@ export interface Frame extends Component {
   total: number;
 }
 
+// ── sprite-binding（REQ-G109-004）── Resource 数字 → 外观投影（text-binding/gauge 的**家族第三员**）。
+// 每拍把目标资源 current 夹取成下标，取该阶的 skins[i]/tints[i]/frames[i] 写成自身
+// Sprite.textureKey / Color.tint / Frame.index。生长阶、建筑升级外观、血量变色、形态分档通用。
+// 补的是**真缺口**：渲染器早在读 Frame.index（canvas-renderer:87 → assets.resolve(key,frame)），
+// 但「谁写 Frame.index」从来没人回答——状态驱动换帧只能靠游戏层手写。本件把那**投影**补上。
+// 三支数组各自独立可选（FieldType 闭集无嵌套对象，故不并成一个 stages[]）。
+// 红线：**确定性投影**——纯查表 + 整数夹取，零浮点零随机；Sprite/Color/Frame 均不在 NON_DETERMINISTIC，
+// 即本件写的值**进 snapshot/hash**（与 gauge 宽度、text-binding 文案同纪律），故绝不可引入随机/时间。
+export interface SpriteBinding extends Component {
+  readonly type: 'SpriteBinding';
+  resourceId: string; // 跟踪的 Resource.id
+  fromParent?: boolean; // true=读 Hierarchy.parentId 宿主的 Resource（每格各持一份同名资源时用）；缺省=先自身后全局（R11 auto）
+  skins?: readonly string[]; // 阶→皮肤槽（textureKey）；缺省=不动 Sprite
+  tints?: readonly number[]; // 阶→素坯染色 0xRRGGBB（资产未就绪时渲染器的回退填充色就是它）；缺省=不动 Color
+  frames?: readonly number[]; // 阶→精灵帧号（单张 sheet 分帧）；缺省=不动 Frame（实体须已有 Frame）
+}
+
 // ── gauge（REQ-F-029）── Resource 比例 → 条形 Shape 投影（血条/蓝条/读条/护盾；gauge 系统每 tick 写）。
 // 条实体 = 宿主的 Hierarchy 子体：gauge 写自身 Shape.width = 比例*width、Hierarchy.localX = leftX + 现宽/2
 // （左锚：左端钉死在 leftX，从右端缩——血条惯例）。跟随靠 hierarchy-resolve、随宿主销毁靠 hierarchy-cascade。
@@ -645,6 +662,8 @@ export interface AnimClip {
   loop: boolean; // 循环 or 播到末帧停
 }
 export interface AnimState extends Component {
+  interruptStatusMask?: number; // Commit reads settled Status; presentation-only override.
+  interruptClip?: string; // Must name a configured clip; does not mutate gameplay State.
   readonly type: 'AnimState';
   clips: Record<string, AnimClip>; // 状态名 → clip
   fsmId?: string; // 设了就读 State{fsmId}.current 当 clip 名；否则按 Velocity 自动 move/idle
@@ -774,3 +793,4 @@ export interface Coachmark extends Component {
   dimAlpha?: number; // 遮罩透明度 [0,1]（缺省 0.6）
   visibleWhen?: string; // 绑定 Flag id：该 Flag active 才显示（缺省=总显示）。流程把当前 step 的 flag 置真即亮对应 mark
 }
+

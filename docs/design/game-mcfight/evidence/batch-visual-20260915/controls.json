@@ -1,0 +1,5 @@
+{
+  "pausedUnchanged": true,
+  "resetTick": 0,
+  "method": "clicked Continue, then Pause at Tick15; later read unchanged; Reset returns Tick0"
+}

@@ -1,0 +1,51 @@
+{
+  "scope": "R3 first executable families and REQ-007/008/009; NOT entire R3 approval",
+  "fullRegression": {
+    "command": "node node_modules/vitest/vitest.mjs run --maxWorkers=1 --minWorkers=1 --no-file-parallelism",
+    "files": 564,
+    "passed": 5210,
+    "skipped": 1,
+    "exitCode": 0,
+    "log": "full-regression-serial.log"
+  },
+  "related": {
+    "files": 44,
+    "passed": 321,
+    "skipped": 1,
+    "exitCode": 0,
+    "log": "final-tests.log"
+  },
+  "typecheck": {
+    "exitCode": 0,
+    "log": "typecheck-final.log"
+  },
+  "build": {
+    "exitCode": 0,
+    "log": "build-final.log",
+    "warning": "chunks > 500 kB"
+  },
+  "audit": {
+    "exitCode": 0,
+    "log": "combination-audit.json"
+  },
+  "browser": {
+    "exitCode": 0,
+    "log": "browser-current.json",
+    "pageErrors": []
+  },
+  "identity": {
+    "programPassed": 24,
+    "pending": 60,
+    "shopOffers": 20
+  },
+  "independent": {
+    "public007": "PASS: review/r3-public-007-independent-20260915.md",
+    "public008009": "PASS: review/r3-public-008009-independent-20260915.md",
+    "wholeR3": "not-complete"
+  },
+  "historicalFailures": [
+    "full-regression.log: 4 declaration/generated-inventory assertions",
+    "full-regression-final.log: one worker exit; not a passing run",
+    "devour-pending-before.log: original 7 HP leak"
+  ]
+}

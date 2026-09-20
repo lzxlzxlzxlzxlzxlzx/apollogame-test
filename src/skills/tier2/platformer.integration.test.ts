@@ -44,7 +44,7 @@ function trace(w: World, ticks: number): Frame[] {
 }
 
 describe('T2 涌现：6 原子组合 = 平台跳跃（重力⊕运动⊕检测⊕落地感知⊕碰撞解算⊕跳跃）', () => {
-  it('管线自动定序：Update(accel→motion→overlap→ground-sense) → Resolve(collision) → Commit(jump)', () => {
+  it('管线自动定序：Update(accel→motion) → Resolve(overlap→ground-sense→collision) → Commit(jump)', () => {
     const order = platformerWorld(false).getSortedSystems().map((s) => s.id);
     expect(order.indexOf('overlap-detect')).toBeLessThan(order.indexOf('ground-sense'));
     expect(order.indexOf('ground-sense')).toBeLessThan(order.indexOf('collision-resolve'));

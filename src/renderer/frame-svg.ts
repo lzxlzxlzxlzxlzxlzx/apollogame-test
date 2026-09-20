@@ -1,4 +1,5 @@
 import type { IWorld } from '@engine/core/types.js';
+import { capsuleOf } from '@engine/spatial/capsule.js';
 import { collectRenderables, getCameraView, chooseRenderMode } from './renderable.js';
 import { faceDown } from './three-projection.js';
 
@@ -55,6 +56,9 @@ export function frameSvg(world: IWorld, opts: FrameSvgOptions = {}): string {
       });
     } else if (mode === 'sprite') {
       body += `<g transform="translate(${n(r.x)},${n(r.y)})">${snip}</g>`;
+    } else if (mode === 'shape' && r.shape?.kind === 'capsule') {
+      const c=capsuleOf(r,r.shape);
+      body += `<line x1="${n(c.a.x)}" y1="${n(c.a.y)}" x2="${n(c.b.x)}" y2="${n(c.b.y)}" stroke="${fill}" stroke-width="${n(c.radius*2)}" stroke-linecap="round"/>`;
     } else if (mode === 'shape' && r.shape?.kind === 'circle') {
       body += `<circle cx="${n(r.x)}" cy="${n(r.y)}" r="${n(r.shape.radius ?? 4)}" fill="${fill}"/>`;
     } else if (mode === 'shape' && r.shape?.kind === 'box') {

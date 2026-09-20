@@ -33,6 +33,7 @@ export const DOMAIN_RULES: readonly DomainRule[] = [
   { id: 'slot', label: '席位/拖放', icon: '⇄', anyOf: ['Tray', 'TraySeat', 'DropZone', 'Draggable'], hint: '备战席、拖拽、投放区' },
   { id: 'flow', label: '流程/逻辑', icon: '⮕', anyOf: ['GameFlow', 'FlowState', 'EventWhen', 'Effect', 'CraftRecipe'], hint: '回合流程、事件→效果链、配方' },
   { id: 'gauge', label: 'HUD/数值条', icon: '▭', anyOf: ['Gauge', 'TextBinding'], hint: '血条/蓝条、绑定数字读出' },
+  { id: 'visual', label: '外观/皮肤', icon: '🎨', anyOf: ['SpriteBinding'], hint: '随资源变样子（生长阶/升级外观/血量变色）' },
   { id: 'text', label: '文字/名牌', icon: 'T', anyOf: ['Text'], hint: '头顶名字、标题、说明文字' },
   { id: 'camera', label: '相机', icon: '🎥', anyOf: ['Camera', 'CameraTarget'], hint: '视口跟随' },
   { id: 'fx', label: '特效/动画', icon: '✶', anyOf: ['Tween', 'AnimState', 'Frame'], hint: '补间、序列帧、状态动画' },

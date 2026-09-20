@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Mortal, Resource, DestroyRequest, Transform, SpawnRequest } from '@engine/protocol/components.js';
 
@@ -56,6 +57,7 @@ export const mortalCapability = defineCapability({
   systems: [
     {
       id: 'mortal',
+      phase: SystemPhase.Resolve,
       runsAfter: ['resource-apply'],
       reads: ['Mortal', 'Resource', 'Transform'],
       writes: ['DestroyRequest', 'SpawnRequest'],
@@ -75,6 +77,7 @@ export const mortalCapability = defineCapability({
             world.addComponent(carrier, {
               type: 'SpawnRequest',
               templateId: m.dropTemplate,
+              spawnPhase: 'resolve',
               x: t?.x ?? 0,
               y: t?.y ?? 0,
             } as SpawnRequest);

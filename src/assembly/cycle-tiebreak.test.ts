@@ -2,6 +2,8 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { World } from '@engine/core/world.js';
 import type { CapabilityDefinition } from '@engine/core/define-capability.js';
 import { ALL_CAPABILITIES, CAPABILITY_REGISTRY } from './capability-registry.js';
+import { SystemPhase, type SystemDeclaration } from '@engine/core/types.js';
+import type { Resource } from '@engine/protocol/components.js';
 
 // ══════════════════════════════════════════════════════════════════════════
 //  REQ-CYCLEHAZ 方案 B —— 真能力装载冒烟（引擎单测在 engine/core/topological-sort.test.ts 钉算法，
@@ -48,42 +50,92 @@ function captureWarn(): string[] {
 }
 afterEach(() => vi.restoreAllMocks());
 
-describe('REQ-CYCLEHAZ B — Lead 点名最小复现（真能力）', () => {
-  it('① t3-timeline + f1-resource（双方 RMW Resource·2-环）装得进且顺序确定', () => {
+describe('正式相位合同 — timeline/event Update，resource Resolve', () => {
+  it('timeline + resource 按相位排序，不再伪称同相位二元环', () => {
     const warns = captureWarn();
     const order = loadTwice(['t3-timeline', 'f1-resource']);
     expect(order).toContain('timeline');
     expect(order).toContain('resource-apply');
-    // 按注册表序装载 → atom(f1-resource) 在 tier3(t3-timeline) 之前 = 平局键即 tier 序。
-    expect(order.indexOf('resource-apply')).toBeLessThan(order.indexOf('timeline'));
-    expect(warns.some((w) => w.includes('timeline') && w.includes('resource-apply'))).toBe(true);
+    expect(order.indexOf('timeline')).toBeLessThan(order.indexOf('resource-apply'));
+    expect(warns).toEqual([]);
   });
 
-  it('② t2-event-when 叠加成 3-环（event-when→timeline→resource-apply）装得进', () => {
+  it('event-when → timeline → resource-apply 实际组合无环且保持显式顺序', () => {
     const warns = captureWarn();
     const order = loadTwice(['t2-event-when', 't3-timeline', 'f1-resource']);
     for (const id of ['event-when', 'timeline', 'resource-apply']) expect(order).toContain(id);
     // timeline 自带 runsAfter:['event-when'] = 硬约束，平局裁决不许推翻它。
     expect(order.indexOf('event-when')).toBeLessThan(order.indexOf('timeline'));
-    // 点名环成员（同 :59 口径·升格自「存在任意 warn」）：实测基线（2026-08-24）该组合恰闭合
-    // 这一个三元推断环——告警若换了环成员/消失，都是定序面变动，必须转红被看见。
-    expect(warns.some((w) => w.includes('[resource-apply, event-when, timeline]'))).toBe(true);
+    expect(order.indexOf('timeline')).toBeLessThan(order.indexOf('resource-apply'));
+    expect(warns).toEqual([]);
   });
 
-  it('④ 平局键与 tier/注册序一致：按注册表序装载 → 低 tier 在前', () => {
+  it('正式相位优先于能力 tier/注册顺序', () => {
     captureWarn();
     const order = loadTwice(['f1-resource', 't2-event-when', 't3-timeline']);
     const rank = (id: string): number => order.indexOf(id);
-    expect(rank('resource-apply')).toBeLessThan(rank('event-when')); // atom < tier2
-    expect(rank('event-when')).toBeLessThan(rank('timeline')); // tier2 < tier3
+    expect(rank('event-when')).toBeLessThan(rank('timeline'));
+    expect(rank('timeline')).toBeLessThan(rank('resource-apply'));
   });
 
-  it('平局键 = 装载序：反序装载则裁决反转（键就是注册序本身）', () => {
+  it('反序装载不能推翻 Update → Resolve 正式时序', () => {
     captureWarn();
     const forward = loadOrder(inRegistryOrder(['t3-timeline', 'f1-resource']));
     const reversed = loadOrder([...inRegistryOrder(['t3-timeline', 'f1-resource'])].reverse());
-    expect(forward.indexOf('resource-apply')).toBeLessThan(forward.indexOf('timeline'));
+    expect(forward.indexOf('timeline')).toBeLessThan(forward.indexOf('resource-apply'));
     expect(reversed.indexOf('timeline')).toBeLessThan(reversed.indexOf('resource-apply'));
+  });
+  it('真实事件起播、Timeline资源写入及Resolve修改在当拍按合同生效', () => {
+    const warns = captureWarn();
+    const run = (reverse: boolean) => {
+      const w = new World();
+      const caps = inRegistryOrder(['f1-resource', 't2-event-when', 't3-timeline']);
+      for (const c of reverse ? caps.reverse() : caps) for (const s of c.systems) w.addSystem(s);
+      w.createEntity('counter');
+      w.addComponent('counter', { type: 'Resource', id: 'counter', current: 0, min: 0, max: 100 });
+      w.addComponent('counter', { type: 'ResourceModify', resourceId: 'counter', amount: 5, scope: 'local' });
+      w.createEntity('start');
+      w.addComponent('start', { type: 'EventWhen', signal: 'play', mode: 'edge', when: { kind: 'resource', id: 'counter', cmp: 'eq', value: 0 } });
+      w.createEntity('timeline');
+      w.addComponent('timeline', { type: 'Timeline', id: 'timeline', playOnSignal: 'play', cues: [{ at: 0, do: { kind: 'resource', resourceId: 'counter', op: 'set', amount: 10 } }] });
+      const values: number[] = [];
+      for (let i = 0; i < 3; i++) { w.tick(); values.push(w.getComponent<Resource>('counter', 'Resource')!.current); }
+      expect(w.hasComponent('counter', 'ResourceModify')).toBe(false);
+      return values;
+    };
+    expect(run(false)).toEqual([15, 15, 15]);
+    expect(run(true)).toEqual([15, 15, 15]);
+    expect(warns).toEqual([]);
+  });
+});
+
+describe('REQ-CYCLEHAZ B — 真正同相位的RMW平局夹具', () => {
+  function run(reverse = false, explicit = false) {
+    const w = new World();
+    const systems: SystemDeclaration[] = ['atom-like', 'tier-like'].map((id, i) => ({
+      id, phase: SystemPhase.Update, reads: ['Resource'], writes: ['Resource'], consumes: [],
+      ...(explicit && i === 1 ? { runsBefore: ['atom-like'] } : {}),
+      execute(world) { const r = world.getComponent<Resource>('counter', 'Resource')!; r.current = r.current * 10 + i + 1; },
+    }));
+    for (const s of reverse ? systems.reverse() : systems) w.addSystem(s);
+    w.createEntity('counter'); w.addComponent('counter', { type: 'Resource', id: 'counter', current: 0, min: 0, max: 999 });
+    const order = w.getSortedSystems().map(s => s.id); w.tick();
+    return { order, value: w.getComponent<Resource>('counter', 'Resource')!.current };
+  }
+  it('同相位Resource推断环确实发生，注册顺序决定实际RMW结果且重复运行一致', () => {
+    const warns = captureWarn();
+    const forward = run(), again = run(), reverse = run(true);
+    expect(forward).toEqual({ order: ['atom-like', 'tier-like'], value: 12 });
+    expect(again).toEqual(forward);
+    expect(reverse).toEqual({ order: ['tier-like', 'atom-like'], value: 21 });
+    expect(warns).toHaveLength(3);
+    expect(warns.every(w => w.includes('闭环组件：Resource') && w.includes('atom-like') && w.includes('tier-like'))).toBe(true);
+  });
+  it('同相位显式硬约束优先于装载平局键', () => {
+    const warns = captureWarn();
+    expect(run(false, true)).toEqual({ order: ['tier-like', 'atom-like'], value: 21 });
+    expect(run(true, true)).toEqual({ order: ['tier-like', 'atom-like'], value: 21 });
+    expect(warns).toEqual([]);
   });
 });
 

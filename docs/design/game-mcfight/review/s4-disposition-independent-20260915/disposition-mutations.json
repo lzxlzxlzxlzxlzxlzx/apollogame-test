@@ -1,0 +1,34 @@
+[
+  {
+    "id": "actual-receipt",
+    "file": "src/skills/tier2/damage-routing.ts",
+    "hits": 1,
+    "exit": 1,
+    "before": "74395cbe0746c072aa3074dc14a737d5a9f135de750b50cedc04bee6cd5ae234",
+    "after": "74395cbe0746c072aa3074dc14a737d5a9f135de750b50cedc04bee6cd5ae234"
+  },
+  {
+    "id": "healing-channel",
+    "file": "games/game-mcfight/s4-session.ts",
+    "hits": 1,
+    "exit": 1,
+    "before": "27e1810f44cfbe48e5ef0dd3daa9888336224e0e9fada6f99c879fcdaae1a37d",
+    "after": "27e1810f44cfbe48e5ef0dd3daa9888336224e0e9fada6f99c879fcdaae1a37d"
+  },
+  {
+    "id": "snapshot-install",
+    "file": "src/engine/core/snapshot-provider.ts",
+    "hits": 1,
+    "exit": 1,
+    "before": "b5dd51c0fba317e4d01b54ae7f6d2c916726d433a350622bbb244ffedc759f6e",
+    "after": "b5dd51c0fba317e4d01b54ae7f6d2c916726d433a350622bbb244ffedc759f6e"
+  },
+  {
+    "id": "self-rule-phase",
+    "file": "src/skills/tier2/self-rule.ts",
+    "hits": 1,
+    "exit": 1,
+    "before": "32c64d2fd959115d28de1150dc21b9a0a9c0a35783bbfb5ea1120926eb80281b",
+    "after": "32c64d2fd959115d28de1150dc21b9a0a9c0a35783bbfb5ea1120926eb80281b"
+  }
+]

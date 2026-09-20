@@ -1,0 +1,70 @@
+[
+  {
+    "id": "REQ-MCFIGHT-001",
+    "title": "技能启动时目标绑定及失效取消",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-mcfight/requests.md",
+    "blocks": [
+      "S2",
+      "S3",
+      "S4"
+    ]
+  },
+  {
+    "id": "REQ-MCFIGHT-002",
+    "title": "阶段驱动状态窗口",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-mcfight/requests.md",
+    "blocks": [
+      "S2"
+    ]
+  },
+  {
+    "id": "REQ-MCFIGHT-003",
+    "title": "索敌按动态窗口资格筛选",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-mcfight/requests.md",
+    "blocks": [
+      "S2"
+    ]
+  },
+  {
+    "id": "REQ-MCFIGHT-004",
+    "title": "自由部署完整圆边界与重叠拒绝",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-mcfight/s4-placement-gap.md",
+    "blocks": [
+      "S4"
+    ]
+  },
+  {
+    "id": "REQ-MCFIGHT-005",
+    "title": "移动圆邻域安全资格",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-mcfight/s4-combat-gaps.md",
+    "blocks": [
+      "S4"
+    ]
+  },
+  {
+    "id": "REQ-MCFIGHT-006",
+    "title": "定向光束实际碰撞几何",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-mcfight/s4-combat-gaps.md",
+    "blocks": [
+      "S4"
+    ]
+  }
+]

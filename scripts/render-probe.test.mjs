@@ -18,6 +18,7 @@ import {
   decodePNG, pixelVariance, isBlank, DEFAULT_VARIANCE_THRESHOLD, deepLinkQuery, detectBrowserRuntime,
 } from './render-probe.mjs';
 import { interpretRenderProbe } from './game-pipeline.mjs';
+import { parseDevServerPort } from './lib/render-harness.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const CLI = join(HERE, 'render-probe.mjs');
@@ -108,6 +109,35 @@ describe('deepLinkQuery（游戏形态 → 深链 query·跟玩家点开启动�
     expect(deepLinkQuery('compiled', 'game-e')).toBe('game=game-e');
     expect(deepLinkQuery('builtin', 'g2')).toBe('game=g2');
     expect(deepLinkQuery('cart', 'my-cart')).toBe('game=lib:my-cart');
+  });
+});
+
+// ═══ parseDevServerPort（vite 就绪行 → 端口，纯函数·不 spawn）═══
+// 2026-09-18 实撞：vite 5 在 Windows 上经 picocolors 上色（其 isColorSupported 含
+// `process.platform==='win32'`，**无视 TTY**），stdio 是 pipe 也照样吐 ANSI。原正则没剥 ANSI，
+// → 20s 超时 → 所有编译期游戏的渲染门在 Windows 上假红。下面第 2 条用的就是当时抓到的原文。
+describe('parseDevServerPort（剥 ANSI 后解析 vite 端口）', () => {
+  it('Linux/无色输出：逐字同前', () => {
+    expect(parseDevServerPort('  ➜  Local:   http://localhost:5700/\n')).toBe(5700);
+    expect(parseDevServerPort('  ➜  Local:   http://127.0.0.1:5199/')).toBe(5199);
+  });
+
+  it('Windows 上色输出（实测原文·端口被 \\x1b[1m 夹住 + Local 与 : 之间夹 \\x1b[22m）', () => {
+    const raw = '  \x1b[32m➜\x1b[39m  \x1b[1mLocal\x1b[22m:   \x1b[36mhttp://localhost:\x1b[1m5199\x1b[22m/\x1b[39m\n';
+    expect(parseDevServerPort(raw)).toBe(5199);
+  });
+
+  it('未就绪 / 无关输出 → null（不误报端口）', () => {
+    expect(parseDevServerPort('')).toBeNull();
+    expect(parseDevServerPort('VITE v5.4.21  ready in 1634 ms')).toBeNull();
+    expect(parseDevServerPort('  ➜  Network: use --host to expose')).toBeNull();
+  });
+
+  it('跨 chunk 拼接：半行到达时给 null，整行到齐才给端口（订阅者按每次 data 调用）', () => {
+    const whole = '  ➜  Local:   http://localhost:5700/\n';
+    const cut = 20;
+    expect(parseDevServerPort(whole.slice(0, cut))).toBeNull();
+    expect(parseDevServerPort(whole)).toBe(5700);
   });
 });
 

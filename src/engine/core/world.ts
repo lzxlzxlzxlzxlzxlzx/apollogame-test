@@ -1,5 +1,6 @@
 import type { EntityId, ComponentType, Component, SystemDeclaration, IWorld, TickObserver, WorldSnapshot } from './types.js';
 import { topologicalSort } from './topological-sort.js';
+import { withSnapshotProvider } from './snapshot-provider.js';
 
 export class World implements IWorld {
   private entities = new Map<EntityId, Map<ComponentType, Component>>();
@@ -126,7 +127,7 @@ export class World implements IWorld {
 
   private ensureSorted(): void {
     if (this.needsSort) {
-      this.sorted = topologicalSort(this.systems);
+      this.sorted = topologicalSort(withSnapshotProvider(this.systems));
       this.needsSort = false;
     }
   }
@@ -235,3 +236,4 @@ export class World implements IWorld {
     this.version++;
   }
 }
+

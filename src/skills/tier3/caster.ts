@@ -1,7 +1,24 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
-import type { Caster, Signal, InputQueue, Transform, SpawnRequest, Relation, HexPos } from '@engine/protocol/components.js';
+import type { Caster, Signal, InputQueue, Transform, SpawnRequest, Relation, HexPos, GameFlow, DestroyRequest, VolleyPlan } from '@engine/protocol/components.js';
 import { nearestByTag } from '@skills/atoms/spatial-query/index.js';
+import { checkEntity } from '@skills/tier2/entity-check.js';
+import { findDebugTrace, appendTrace } from '@skills/debug-trace.js';
+
+function advanceCycle(world:IWorld,c: Caster):void {
+  if(!c.cycleStateEntity || !c.cycleCandidates?.length)return;
+  const state=world.getComponent<any>(c.cycleStateEntity,'State');
+  if(!state)return;
+  const cycle= c.cycleOwner ? world.getComponent<any>(c.cycleOwner,'SkillCycle') : undefined;
+  // Candidate IDs may intentionally repeat (Farseer: beam×3 then dive×5),
+  // so State.current alone is not enough to recover the private position.
+  const current=typeof cycle?.index==='number' ? cycle.index : c.cycleCandidates.indexOf(state.current);
+  state.previous=state.current;
+  const index=(current<0?0:current+1)%c.cycleCandidates.length;
+  state.current=c.cycleCandidates[index]!;
+  if(cycle) cycle.index=index;
+}
 
 // ═══════════════════════════════════════════════════════════════
 //  caster —— 信号→生成桥（D-002）。把"按键/点地/条件成立"产出的 Signal 变成一条**算好坐标**的
@@ -69,10 +86,18 @@ export const casterCapability = defineCapability({
           targetTag: { type: 'number', describe: "at:'target' 时索敌的阵营位（Tag.flags & targetTag；缺省找最近任意）" },
           overrides: { type: 'string', describe: '实例参数覆盖(REQ-F-032)：{localId:{组件:{字段:值}}}，透传进 SpawnRequest 由 prefab 合并（槽位实体各自声明棋子 HexPos/Tag/数值）' },
           requireHexPos: { type: 'boolean', describe: '部署门(REQ-F-049)：true=锚点实体无 HexPos 则收信号不展开（在板=部署源、离板=静默；拖上板/回席即天然开关）' },
+          releasePhase: { type: 'string', describe: 'resolve：来源独立技能也在本拍伤害/死亡结算后检查释放' },
+          alignToTarget: { type: 'boolean', describe: '承诺目标首次接触前对齐；false=固定落点' },
+          onlyHitTarget: { type: 'boolean', describe: '生成区域仅能作用捕获目标；self无目标则仅自身' },
+          useCapturedAim: { type: 'boolean', describe: '将Flow启动方向传给Launch及capsule' },
+          followSource: { type: 'boolean', describe: '区域在每次碰撞前跟随来源位置' },
+          targetFlow: { type: 'string', describe: '可选：只消费该GameFlow已捕获的targetSnapshot，缺失或失效时拒绝，绝不回退最近目标；位置由at独立选择' },
+          targetCheck: { type: 'string', describe: '对捕获目标的执行期EntityCheck；未设仅要求实体仍存在' },
+          sourceCheck: { type: 'string', describe: '对捕获时sourceId的执行期EntityCheck；未设仅要求实体仍存在' },
         },
       },
     },
-    reads: ['Caster', 'Signal', 'InputQueue', 'Transform', 'Tag', 'Relation', 'HexPos'],
+    reads: ['Caster', 'Signal', 'InputQueue', 'Transform', 'FrameStartTransform', 'Tag', 'Relation', 'HexPos', 'GameFlow', 'Resource', 'Status', 'DestroyRequest'],
     writes: ['SpawnRequest'],
     consumes: [],
   },
@@ -101,7 +126,7 @@ export const casterCapability = defineCapability({
         const casterIds = world.query('Caster').map(([id]) => id).sort();
         for (const id of casterIds) {
           const c = world.getComponent<Caster>(id, 'Caster');
-          if (!c || !signals.has(c.onSignal)) continue;
+          if (!c || c.targetFlow || c.releasePhase === 'resolve' || !signals.has(c.onSignal)) continue;
 
           // 锚点实体：缺省=施法者自身；技能绑定实体可委托给英雄（originEntity）。
           const originId = c.originEntity ?? id;
@@ -140,7 +165,106 @@ export const casterCapability = defineCapability({
           }
 
           // overrides 原样透传（REQ-F-032）：槽位实体声明自己棋子的 HexPos/Tag/数值补丁，prefab 合并。
-          world.addComponent(id, { type: 'SpawnRequest', templateId: c.template, x, y, source: originId, ...(originHex ? { originHex: { q: originHex.q, r: originHex.r } } : {}), ...(c.overrides ? { overrides: c.overrides } : {}) } as SpawnRequest); // source(REQ-F-065)=施法锚点(originEntity ?? 自身)
+          if (c.volleyCount && c.volleyCount > 0) {
+            const sourceT = world.getComponent<Transform>(originId, 'Transform');
+            const snap = c.targetFlow ? world.getComponent<GameFlow>(c.targetFlow,'GameFlow')?.targetSnapshot : undefined;
+            const targetId = snap?.targetId ?? world.getComponent<Relation>(originId,'Relation')?.targetId;
+            if(c.targetFlow && !snap?.targetId) continue;
+            const dx = snap?.aim?.x ?? (x - (sourceT?.x ?? x)), dy = snap?.aim?.y ?? (y - (sourceT?.y ?? y)); const len = Math.sqrt(dx*dx+dy*dy) || 1;
+            const castId = `${originId}:cast:${world.getVersion()}:${id}`; const planId = `${castId}:volley`;
+            world.createEntity(planId); world.addComponent(planId, { type:'VolleyPlan', castId, templateId:c.template, source:originId, sourceTagSnapshot:world.getComponent<any>(originId,'Tag')?.flags ?? 0, targetId:targetId ?? '', aimX:dx/len, aimY:dy/len, count:c.volleyCount, nextShotIndex:0, intervalTicks:c.volleyIntervalTicks ?? 0, nextEmitTick:world.getVersion() + 1, spread:c.volleySpread ?? {kind:'none'}, seed:world.getVersion() ^ originId.length, shotMaxDistance:c.volleyMaxDistance ?? 12, speed:c.volleySpeed ?? 0.6 } as VolleyPlan); advanceCycle(world,c);
+          } else { world.addComponent(id, { type: 'SpawnRequest', templateId: c.template, x, y, source: originId, ...(originHex ? { originHex: { q: originHex.q, r: originHex.r } } : {}), ...(c.overrides ? { overrides: c.overrides } : {}) } as SpawnRequest); advanceCycle(world,c); } // source(REQ-F-065)=施法锚点(originEntity ??自身)
+        }
+      },
+    },
+    {
+      id: 'targeted-caster',
+      // Targeted releases must observe this frame's resource/mortal/destroy
+      // resolution.  A phase-0 declaration cannot outrun Resolve systems.
+      phase: SystemPhase.Resolve,
+      // Late eligibility prevents a same-tick death from creating a new effect.  The
+      // legacy caster keeps its existing schedule because it ignores targetFlow.
+      runsAfter: ['event-when', 'resource-apply', 'mortal', 'destroy-apply', 'caster'],
+      reads: ['Caster', 'Signal', 'GameFlow', 'Transform', 'FrameStartTransform', 'Resource', 'Tag', 'Status', 'DestroyRequest'],
+      writes: ['SpawnRequest'],
+      consumes: [],
+      execute(world: IWorld) {
+        const signals = new Set<string>();
+        for (const [signalId] of world.query('Signal')) {
+          const signal = world.getComponent<Signal>(signalId, 'Signal');
+          if (signal) signals.add(signal.name);
+        }
+        if (signals.size === 0) return;
+        const doomed = new Set<string>();
+        for (const [holderId] of world.query('DestroyRequest')) {
+          const request = world.getComponent<DestroyRequest>(holderId, 'DestroyRequest');
+          if (request) doomed.add(request.entityId);
+        }
+        const trace = findDebugTrace(world);
+        const committed: string[] = [], rejected: string[] = [];
+        const casterIds = world.query('Caster').map(([id]) => id).sort();
+        for (const id of casterIds) {
+          const caster = world.getComponent<Caster>(id, 'Caster');
+          if (!caster || (!caster.targetFlow && caster.releasePhase !== 'resolve') || !signals.has(caster.onSignal)) continue;
+          const flow = caster.targetFlow ? world.getComponent<GameFlow>(caster.targetFlow, 'GameFlow') : undefined;
+          const snapshot = flow?.targetSnapshot;
+          const sourceId = snapshot?.sourceId ?? caster.originEntity ?? id;
+          const targetId = snapshot?.targetId;
+          if ((caster.targetFlow && !snapshot) || doomed.has(sourceId)
+            || !checkEntity(world, sourceId, caster.sourceCheck ?? {})
+            || (targetId && (doomed.has(targetId) || !checkEntity(world, targetId, caster.targetCheck ?? {})))) {
+            if (trace) rejected.push(id);
+            continue;
+          }
+          // Placement, identity filtering, aim and contact alignment are independent.
+          // Source-only late releases never borrow an unrelated enemy Relation.
+          const positionId = caster.at === 'self' ? sourceId : caster.at === 'target' ? targetId : undefined;
+          const position = positionId ? world.getComponent<Transform>(positionId, 'Transform') : undefined;
+          const aim = caster.useCapturedAim ? snapshot?.aim : undefined;
+          if (!position || (caster.useCapturedAim && !aim) || (caster.onlyHitTarget && !targetId && caster.at !== 'self')) {
+            if (trace) rejected.push(id);
+            continue;
+          }
+          if (caster.volleyCount && caster.volleyCount > 0) {
+            // A committed volley captures the Flow snapshot once.  It must never
+            // fall back to a later Relation selection in this Resolve phase.
+            const volleyAim = aim ?? snapshot?.aim;
+            if (!volleyAim) { if (trace) rejected.push(id); continue; }
+            const len = Math.hypot(volleyAim.x, volleyAim.y) || 1;
+            const castId = `${sourceId}:cast:${world.getVersion()}:${id}`;
+            const planId = `${castId}:volley`;
+            world.createEntity(planId);
+            world.addComponent(planId, {
+              type: 'VolleyPlan', castId, templateId: caster.template, source: sourceId,
+              sourceTagSnapshot: world.getComponent<any>(sourceId, 'Tag')?.flags ?? 0,
+              targetId: targetId ?? '', aimX: volleyAim.x / len, aimY: volleyAim.y / len,
+              count: caster.volleyCount, nextShotIndex: 0,
+              intervalTicks: caster.volleyIntervalTicks ?? 0, nextEmitTick: world.getVersion() + 1,
+              spread: caster.volleySpread ?? { kind: 'none' },
+              // A cast-specific integer seed preserves repeatability without
+              // sharing a mutable sequence between different casters.
+              seed: (world.getVersion() * 1103515245 + id.length * 12345) >>> 0,
+              shotMaxDistance: caster.volleyMaxDistance ?? 12, speed: caster.volleySpeed ?? 0.6,
+            } as VolleyPlan);
+            advanceCycle(world,caster); if (trace) committed.push(`${id}:volley:${planId}`);
+            continue;
+          }
+          world.addComponent(id, {
+            type: 'SpawnRequest', spawnPhase: 'resolve', templateId: caster.template,
+            x: position.x, y: position.y, source: sourceId,
+            ...(caster.at === 'target' && caster.alignToTarget !== false && targetId ? { targetEntity: targetId } : {}),
+            ...(caster.onlyHitTarget ? { onlyHitTarget: targetId ?? sourceId } : {}),
+            ...(aim ? { aim: { ...aim } } : {}),
+            ...(caster.projectile && snapshot?.projectile ? { projectileShot: { ...snapshot.projectile } } : {}),
+            ...(caster.followSource ? { followSource: true } : {}),
+            ...(caster.overrides ? { overrides: caster.overrides } : {}),
+          } as SpawnRequest);
+          advanceCycle(world,caster);
+          if (trace) committed.push(`${id}:${positionId}`);
+        }
+        if (trace) {
+          if (committed.length) appendTrace(trace, world.getVersion() + 1, 'targeted-caster', 'commit', committed.join(','), 'committed target');
+          if (rejected.length) appendTrace(trace, world.getVersion() + 1, 'targeted-caster', 'reject', rejected.join(','), 'missing, destroyed, or ineligible target');
         }
       },
     },

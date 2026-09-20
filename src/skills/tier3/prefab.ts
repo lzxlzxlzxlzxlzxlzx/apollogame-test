@@ -1,6 +1,7 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld, Component, EntityId } from '@engine/core/types.js';
-import type { SpawnRequest, PrefabLibrary, PrefabTemplate, SpawnOverrides } from '@engine/protocol/components.js';
+import type { SpawnRequest, PrefabLibrary, PrefabTemplate, SpawnOverrides, Transform, CommittedContact, Hitbox, Shape, Launch, DestroyRequest, ProjectileFlight } from '@engine/protocol/components.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  prefab —— 数据级预制模板展开（T4 授权层）。ARPG 评审里回驳了「YAML→Node 编译器」，
@@ -118,19 +119,42 @@ export const prefabCapability = defineCapability({
         },
       },
     },
-    reads: ['SpawnRequest', 'PrefabLibrary'],
-    writes: ['PrefabLibrary', 'PrefabOrigin', 'HexPos'], // 展开盖章（申报对账·根因①·模板变量组件仍在守卫局限内）
-    consumes: ['SpawnRequest'],
+    reads: ['SpawnRequest', 'PrefabLibrary', 'Transform', 'CommittedContact', 'Hitbox', 'Shape', 'Launch'],
+    writes: ['PrefabLibrary', 'PrefabOrigin', 'HexPos', 'Transform', 'CommittedContact', 'Hitbox', 'Shape', 'Launch', 'DestroyRequest'], // 展开盖章（申报对账·根因①·模板变量组件仍在守卫局限内）
+    consumes: [],
   },
 
   config: {},
 
   systems: [
     {
+      id: 'committed-contact-position', phase: SystemPhase.Resolve,
+      runsBefore: ['overlap-detect', 'hitbox', 'targeted-prefab-spawn'],
+      reads: ['CommittedContact', 'Transform'], writes: ['Transform', 'CommittedContact', 'DestroyRequest', 'Hitbox'], consumes: [],
+      execute(world: IWorld) {
+        // One alignment before the first physical contact query, not perpetual homing.
+        for (const [id] of world.query('CommittedContact')) {
+          const contact = world.getComponent<CommittedContact>(id, 'CommittedContact')!;
+          const target = world.getComponent<Transform>(contact.targetEntity, 'Transform');
+          const position = world.getComponent<Transform>(id, 'Transform');
+          if (!target || !position) {
+            // Invalidate before overlap; normal destruction then cascades child presentation.
+            world.removeComponent(id, 'Hitbox');
+            world.removeComponent(id, 'CommittedContact');
+            world.addComponent(id, { type: 'DestroyRequest', entityId: id } as DestroyRequest);
+            continue;
+          }
+          position.x = target.x + contact.offsetX;
+          position.y = target.y + contact.offsetY;
+          if (!contact.persistent) world.removeComponent(id, 'CommittedContact');
+        }
+      },
+    },
+    {
       id: 'prefab-spawn',
       reads: ['SpawnRequest', 'PrefabLibrary'],
       writes: ['PrefabLibrary', 'PrefabOrigin', 'HexPos'], // 展开盖章（申报对账·根因①·模板变量组件仍在守卫局限内）
-      consumes: ['SpawnRequest'],
+      consumes: [],
       // 展开殿后（根因①·2026-08-16）：诚实申报 PrefabOrigin/HexPos 写面后，与「SpawnRequest 写者 ∩
       // PrefabOrigin/HexPos 读者」闭真环、与其余读者单向重排——平局裁决落序曾翻转 game101/102 实测
       // 行为。显式钉死旧有效语义（= 各环裁决序里 prefab-spawn 本就实际落后的现状）：产请求者先行、
@@ -145,6 +169,7 @@ export const prefabCapability = defineCapability({
         if (!lib) return;
         for (const [rid, comps] of world.query('SpawnRequest')) {
           const req = world.getComponent<SpawnRequest>(rid, 'SpawnRequest');
+          if (req?.targetEntity || req?.spawnPhase === 'resolve') continue; // Resolve consumer keeps committed-target requests for this frame's late release.
           if (req) {
             const tmpl = lib.templates[req.templateId];
             if (tmpl) {
@@ -155,7 +180,63 @@ export const prefabCapability = defineCapability({
           // BUG-004：专用请求载体（仅 SpawnRequest 一个组件，如 mortal 的 drop:<id>）展开后销毁回收，
           // 否则空实体永久残留（长局/刷怪无界增长，进 snapshot 拖慢，id 复用还会抛错）。
           // caster 等把 SpawnRequest 挂在持久实体上（组件数 >1）→ 不销毁，仅其 SpawnRequest 被 consume。
-          if (comps.size === 1) world.destroyEntity(rid);
+          if (comps.size === 1) world.destroyEntity(rid); else world.removeComponent(rid, 'SpawnRequest');
+        }
+      },
+    },
+    {
+      id: 'targeted-prefab-spawn', phase: SystemPhase.Materialize, runsAfter: ['targeted-caster', 'committed-contact-position', 'overlap-detect', 'trigger-zone', 'hitbox', 'resource-apply', 'mortal', 'destroy-apply'],
+      reads: ['SpawnRequest', 'PrefabLibrary', 'Transform', 'Hitbox', 'Shape', 'Launch'], writes: ['PrefabLibrary', 'PrefabOrigin', 'HexPos', 'CommittedContact', 'Hitbox', 'Shape', 'Launch', 'Transform', 'ProjectileFlight'], consumes: [],
+      execute(world: IWorld) {
+        const lib = findLibrary(world); if (!lib) return;
+        for (const [rid, comps] of world.query('SpawnRequest')) {
+          const req = world.getComponent<SpawnRequest>(rid, 'SpawnRequest');
+          if (!req || (!req.targetEntity && req.spawnPhase !== 'resolve')) continue;
+          const tmpl = lib.templates[req.templateId];
+          // Late static drops keep the death position; committed attacks still resolve their target.
+          const target = req.targetEntity ? world.getComponent<Transform>(req.targetEntity, 'Transform') : { x: req.x, y: req.y };
+          if (tmpl && target) {
+            const created = instantiate(world, tmpl, req.templateId, lib.seq, target.x, target.y, req.overrides, req.originHex, req.source);
+            for (const id of created) {
+              const position = world.getComponent<Transform>(id, 'Transform');
+              const hitbox = world.getComponent<Hitbox>(id, 'Hitbox');
+              if (hitbox && req.onlyHitTarget) hitbox.onlyTarget = req.onlyHitTarget;
+              if (req.aim) {
+                const launch = world.getComponent<Launch>(id, 'Launch');
+                if (launch) { launch.toward = 'dir'; launch.dirX = req.aim.x; launch.dirY = req.aim.y; }
+                const shape = world.getComponent<Shape>(id, 'Shape');
+                if (shape?.kind === 'capsule' && position) {
+                  shape.axisX = req.aim.x; shape.axisY = req.aim.y;
+                  position.x += req.aim.x * ((shape.length ?? 0) / 2 + (shape.radius ?? 0));
+                  position.y += req.aim.y * ((shape.length ?? 0) / 2 + (shape.radius ?? 0));
+                }
+                if (shape?.kind === 'cone' && position) {
+                  // A cone zone is commonly parented to its caster.  Preserve
+                  // the captured world aim in the hierarchy local rotation as
+                  // well as Transform: otherwise hierarchy-resolve resets the
+                  // just-spawned Transform to the parent's zero rotation on the
+                  // next phase and later channel pulses silently point +X.
+                  const rotation = Math.atan2(req.aim.y, req.aim.x);
+                  position.rotation = rotation;
+                  const hierarchy = world.getComponent<any>(id, 'Hierarchy');
+                  if (hierarchy) hierarchy.localRotation = rotation;
+                }
+              }
+              if (req.projectileShot && position) {
+                world.addComponent(id, { type: 'ProjectileFlight', bounds: { minX: -10000, minY: -10000, maxX: 10000, maxY: 10000 }, shot: { ...req.projectileShot }, lastX: position.x, lastY: position.y, traveled: 0 } as ProjectileFlight);
+              }
+              if (req.followSource && req.source && position && hitbox) {
+                const source = world.getComponent<Transform>(req.source, 'Transform');
+                if (source) world.addComponent(id, { type: 'CommittedContact', targetEntity: req.source,
+                  offsetX: position.x - source.x, offsetY: position.y - source.y, persistent: true } as CommittedContact);
+              } else if (req.targetEntity && position && hitbox) world.addComponent(id, {
+                type: 'CommittedContact', targetEntity: req.targetEntity,
+                offsetX: position.x - target.x, offsetY: position.y - target.y,
+              } as CommittedContact);
+            }
+            lib.seq += 1;
+          }
+          if (comps.size === 1) world.destroyEntity(rid); else world.removeComponent(rid, 'SpawnRequest');
         }
       },
     },

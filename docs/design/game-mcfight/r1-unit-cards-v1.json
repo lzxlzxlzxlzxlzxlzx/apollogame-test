@@ -1,0 +1,2982 @@
+{
+  "schemaVersion": 1,
+  "purpose": "R2 input. Join each card to inventory/units.json by legacyUnitIndex; no legacy gameplay value is approved until adoption is filled.",
+  "sources": {
+    "legacyFacts": "inventory/units.json",
+    "behaviorNarratives": "unit-gameplay-descriptions.md",
+    "proposedLoadouts": "unit-skill-loadouts-v0.1.md",
+    "presentationRules": "unit-skill-presentation-design.md"
+  },
+  "cards": [
+    {
+      "id": "alexscaves_atlatitan",
+      "name": "擎天龙",
+      "legacyUnitIndex": 0,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK02 圆形践踏",
+        "decision": "接近后践踏",
+        "unresolved": "范围、伤害、动作时序"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexscaves_atlatitan/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexscaves_atlatitan/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "aoeRadius",
+          "meleeCooldown",
+          "meleeDamage"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexscaves_brainiac",
+      "name": "舐脑魔",
+      "legacyUnitIndex": 1,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 毒击；SK05 毒弹；SK05 爆炸投掷＋SK16 污染区；M07",
+        "decision": "危机时优先一次废料桶；否则按空地和距离选近战/毒弹",
+        "unresolved": "危机阈值、污染范围/时长、毒效果"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexscaves_brainiac/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexscaves_brainiac/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "bucketDamage",
+          "bucketRadius",
+          "bucketThreshold",
+          "pollutionDPS",
+          "pollutionDuration"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexscaves_deep_one",
+      "name": "深潜者",
+      "legacyUnitIndex": 2,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexscaves_deep_one/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexscaves_deep_one/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexscaves_deep_one_knight",
+      "name": "深潜者骑士",
+      "legacyUnitIndex": 3,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 近战；SK05 远程",
+        "decision": "距离切换",
+        "unresolved": "切换距离、两招各自伤害/CD"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexscaves_deep_one_knight/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexscaves_deep_one_knight/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "meleeDamage",
+          "rangedDamage",
+          "rangedRange"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexscaves_deep_one_mage",
+      "name": "深潜者法师",
+      "legacyUnitIndex": 4,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 水弹；SK02 水波＋击退；SK04 近身甩动",
+        "decision": "贴身优先甩动；否则从合法水弹/水波选择",
+        "unresolved": "水波形状与击退、近身段数"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexscaves_deep_one_mage/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexscaves_deep_one_mage/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "waveCount"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexscaves_forsaken",
+      "name": "遗弃者",
+      "legacyUnitIndex": 5,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK03 啃咬；SK02 锤击；SK04 周身声波；SK05 穿透弧波；SK10 接近跳跃；M05",
+        "decision": "远距优先接近；其余按距离选择可用攻击",
+        "unresolved": "跳跃无伤害；回血与攻击独立；声波形状"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexscaves_forsaken/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexscaves_forsaken/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexscaves_luxtructosaurus",
+      "name": "暝煌龙",
+      "legacyUnitIndex": 6,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK10 跃击；SK02 甩尾/践踏；SK18 陨石＋SK16 熔岩；M08/M10",
+        "decision": "远处跃击，近处轮换甩尾/践踏；独立周期陨石",
+        "unresolved": "火焰免疫、落地范围、区域寿命"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexscaves_luxtructosaurus/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexscaves_luxtructosaurus/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexscaves_magnetron",
+      "name": "磁控机兵",
+      "legacyUnitIndex": 7,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 单击＋击退；M03",
+        "decision": "近战",
+        "unresolved": "敌人数统计半径、每敌增伤与上限"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexscaves_magnetron/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexscaves_magnetron/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexscaves_nucleeper",
+      "name": "核能苦力怕",
+      "legacyUnitIndex": 8,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK12 核爆；M01",
+        "decision": "敌人进入范围触发一次",
+        "unresolved": "长引信、范围、衰减、友伤、辐照"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexscaves_nucleeper/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexscaves_nucleeper/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexscaves_relicheirus",
+      "name": "遗迹恐手龙",
+      "legacyUnitIndex": 9,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexscaves_relicheirus/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexscaves_relicheirus/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 2,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "aoeRadius",
+          "meleeCooldown",
+          "meleeDamage"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexscaves_teleto",
+      "name": "磁流灵",
+      "legacyUnitIndex": 10,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK05 飞行远程攻击",
+        "decision": "进入射程后射击",
+        "unresolved": "弹丸和对空配置"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexscaves_teleto/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexscaves_teleto/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "aoeRadius",
+          "meleeCooldown",
+          "meleeDamage"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexscaves_tremorsaurus",
+      "name": "撼地龙",
+      "legacyUnitIndex": 11,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 近战；SK13 怒吼",
+        "decision": "怒吼合法且就绪优先",
+        "unresolved": "怒吼范围/首领过滤、恐惧持续"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexscaves_tremorsaurus/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexscaves_tremorsaurus/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexscaves_tremorzilla",
+      "name": "撼地斯拉",
+      "legacyUnitIndex": 12,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK02 范围践踏；SK07 持续激光",
+        "decision": "合法激光优先，否则践踏或接近",
+        "unresolved": "长CD、光束范围/段数、转向速度"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexscaves_tremorzilla/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexscaves_tremorzilla/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexscaves_vallumraptor",
+      "name": "阔鼻迅猛龙",
+      "legacyUnitIndex": 13,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexscaves_vallumraptor/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexscaves_vallumraptor/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 2,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexsmobs_bison",
+      "name": "野牛",
+      "legacyUnitIndex": 14,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexsmobs_bison/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexsmobs_bison/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexsmobs_centipede_head",
+      "name": "洞穴蜈蚣",
+      "legacyUnitIndex": 15,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 毒击；M01",
+        "decision": "近战",
+        "unresolved": "中毒效果；节肢身份"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexsmobs_centipede_head/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexsmobs_centipede_head/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 2,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexsmobs_elephant",
+      "name": "大象",
+      "legacyUnitIndex": 16,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 普通近战；SK09 真实冲锋",
+        "decision": "地面目标距离大于阈值且冲锋CD就绪则冲锋，否则普通攻击",
+        "unresolved": "冲锋速度大幅提高；距离阈值、伤害、CD可配置；长牙变体待定"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexsmobs_elephant/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexsmobs_elephant/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexsmobs_farseer",
+      "name": "瞻远者",
+      "legacyUnitIndex": 17,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 百分比射线；SK11 俯冲＋SK02 小范围爪击",
+        "decision": "三次射线后五次近身攻击，再循环",
+        "unresolved": "百分比、爪击范围与飞行反击窗口"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexsmobs_farseer/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexsmobs_farseer/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexsmobs_grizzly_bear",
+      "name": "灰熊",
+      "legacyUnitIndex": 18,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexsmobs_grizzly_bear/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexsmobs_grizzly_bear/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexsmobs_murmur",
+      "name": "轻语灵",
+      "legacyUnitIndex": 19,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK23 分离头部＋SK01 部位近战",
+        "decision": "头部接近并攻击，主体保持允许距离",
+        "unresolved": "两个可索敌部位共享血量，只有头部减伤；主体远距、头部近战"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexsmobs_murmur/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexsmobs_murmur/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexsmobs_rhinoceros",
+      "name": "犀牛",
+      "legacyUnitIndex": 20,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexsmobs_rhinoceros/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexsmobs_rhinoceros/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexsmobs_straddler",
+      "name": "跨座兽",
+      "legacyUnitIndex": 21,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 投射＋击退＋SK15 命中生成蝌蚪",
+        "decision": "持续远程攻击",
+        "unresolved": "每次有效命中生成数量、随从上限"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexsmobs_straddler/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexsmobs_straddler/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "projectileDamage"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexsmobs_tarantula_hawk",
+      "name": "沙漠蛛蜂",
+      "legacyUnitIndex": 22,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK11 蛰击；M02",
+        "decision": "飞行接近后蛰击",
+        "unresolved": "对节肢施加禁足/落地，仍可攻击"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexsmobs_tarantula_hawk/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexsmobs_tarantula_hawk/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "meleeCooldown",
+          "meleeDamage"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexsmobs_tiger",
+      "name": "老虎",
+      "legacyUnitIndex": 23,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexsmobs_tiger/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexsmobs_tiger/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexsmobs_tusklin",
+      "name": "獠牙兽",
+      "legacyUnitIndex": 24,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexsmobs_tusklin/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexsmobs_tusklin/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "alexsmobs_warped_mosco",
+      "name": "诡异蚊鬼",
+      "legacyUnitIndex": 25,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 拳击/吸血＋SK14 治疗效果；SK02 拍击；SK21 变身；SK05 变身后射击",
+        "decision": "低血转换形态；地面选近战招式，飞行用远程",
+        "unresolved": "生命继承、变身CD继承、吸血条件"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/alexsmobs_warped_mosco/idle.png",
+        "attack": "Assets/Sprites/Monsters/alexsmobs_warped_mosco/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "blaze",
+      "name": "烈焰人",
+      "legacyUnitIndex": 26,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK06 三连火球；M01",
+        "decision": "轮间冷却后齐射",
+        "unresolved": "发数、轮内间隔、轮间CD、偏移与燃烧"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/blaze/idle.png",
+        "attack": "Assets/Sprites/Monsters/blaze/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_amethyst_crab",
+      "name": "紫水晶巨蟹",
+      "legacyUnitIndex": 27,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK19 缩地循环＋SK02 破土/横扫",
+        "decision": "缩地→破土→横扫；无邻近敌人则退出",
+        "unresolved": "免伤时段、退出条件、不同命中掩码"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_amethyst_crab/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_amethyst_crab/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_ancient_remnant",
+      "name": "远古遗魂",
+      "legacyUnitIndex": 28,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 百分比撕咬；SK02 甩尾/践踏；SK17 沙暴；SK18 石碑",
+        "decision": "按空地、距离、CD和已有沙暴筛选后选择",
+        "unresolved": "沙暴唯一实例、石碑整次去重、百分比"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_ancient_remnant/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_ancient_remnant/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_coral_golem",
+      "name": "珊瑚傀儡",
+      "legacyUnitIndex": 29,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK10 跃击",
+        "decision": "进入跳跃范围后使用",
+        "unresolved": "较快动作、较小落地范围"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_coral_golem/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_coral_golem/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [
+          "leapDamage",
+          "leapDuration",
+          "leapMaxRange",
+          "leapRadius"
+        ],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_coralssus",
+      "name": "珊瑚巨兽",
+      "legacyUnitIndex": 30,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK10 跃击",
+        "decision": "进入跳跃范围后使用",
+        "unresolved": "较慢动作、较大落地范围"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_coralssus/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_coralssus/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [
+          "leapDamage",
+          "leapDuration",
+          "leapMaxRange",
+          "leapRadius"
+        ],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_deepling",
+      "name": "渊灵",
+      "legacyUnitIndex": 31,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 近战；SK05 远程",
+        "decision": "按距离切换",
+        "unresolved": "两种技能独立伤害、时序与表现"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_deepling/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_deepling/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "meleeDamage",
+          "rangedDamage",
+          "rangedRange"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_deepling_brute",
+      "name": "渊灵蛮兵",
+      "legacyUnitIndex": 32,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 近战；SK05 远程",
+        "decision": "按距离切换",
+        "unresolved": "与渊灵共模板、参数不同"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_deepling_brute/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_deepling_brute/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "meleeDamage",
+          "rangedDamage",
+          "rangedRange"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_deepling_priest",
+      "name": "渊灵祭司",
+      "legacyUnitIndex": 33,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK04 自身圆形法术",
+        "decision": "敌人进入范围后停下施法；恢复期移动",
+        "unresolved": "持续段数、引导/冷却时移动许可"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_deepling_priest/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_deepling_priest/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_deepling_warlock",
+      "name": "渊灵术士",
+      "legacyUnitIndex": 34,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK08 标记激光雨",
+        "decision": "合法目标进入范围后标记轰击",
+        "unresolved": "标记结束固定落点，后续可躲避"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_deepling_warlock/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_deepling_warlock/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [
+          "abilityCooldown",
+          "laserRadius",
+          "laserTickDamage",
+          "laserTickInterval",
+          "laserTicks",
+          "markDelay",
+          "markRange"
+        ],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_ender_golem",
+      "name": "末影傀儡",
+      "legacyUnitIndex": 35,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 拳击；SK02 猛击/十字符文",
+        "decision": "按距离选择，常态对空优先符文",
+        "unresolved": "十字组合去重、技能后停顿"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_ender_golem/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_ender_golem/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_ignited_berserker",
+      "name": "炽燃狂魂",
+      "legacyUnitIndex": 36,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK03 双斩；SK04 周身旋转",
+        "decision": "完成后交替",
+        "unresolved": "双斩与旋转各自参数；燃烧待定"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_ignited_berserker/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_ignited_berserker/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [
+          "spinDamage",
+          "spinInterval",
+          "spinRadius",
+          "spinTicks"
+        ],
+        "unconsumedParameterCandidates": [
+          "aoeRadius",
+          "meleeCooldown"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_ignited_revenant",
+      "name": "炽燃遗魂",
+      "legacyUnitIndex": 37,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK04 旋转/扇形火焰；SK06 骨弹；M08 防御",
+        "decision": "从距离/空地合法技能中选择；骨弹阶段撤防",
+        "unresolved": "撤防时间、火焰免疫、免伤类别"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_ignited_revenant/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_ignited_revenant/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [
+          "projDamage",
+          "projRange",
+          "sonicDamage",
+          "sonicRadius",
+          "sonicTickInterval",
+          "sonicTicks",
+          "spinTickInterval"
+        ],
+        "unconsumedParameterCandidates": [
+          "meleeDamage",
+          "spinInterval"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_kobolediator",
+      "name": "骸骨斩首者",
+      "legacyUnitIndex": 38,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK09 冲锋；SK03 三连击；SK02 践踏；M08",
+        "decision": "远距冲锋；近距交替三连击/践踏",
+        "unresolved": "三段几何、移动跟进、远程格挡"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_kobolediator/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_kobolediator/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_koboleton",
+      "name": "骷髅狗头人",
+      "legacyUnitIndex": 39,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_koboleton/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_koboleton/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 2,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_modern_remnant",
+      "name": "现世遗魂",
+      "legacyUnitIndex": 40,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_modern_remnant/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_modern_remnant/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 2,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "aoeRadius",
+          "meleeCooldown",
+          "meleeDamage"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_the_harbinger",
+      "name": "先驱者",
+      "legacyUnitIndex": 41,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 日常导弹/激光弹；SK06 导弹群；SK18 手雷；SK09 冲撞；SK07 死亡射线；M05/M06",
+        "decision": "定时切换日常武器；特殊技能按四步循环优先",
+        "unresolved": "武器切换不切断当前招式，特殊循环计时、击杀回血"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_the_harbinger/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_the_harbinger/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_the_prowler",
+      "name": "徘徊者",
+      "legacyUnitIndex": 42,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK03 双横砍；SK04 电锯切割；SK06 三连追踪弹；SK07 光束",
+        "decision": "每第四次技能为光束；其余按空地和距离选择",
+        "unresolved": "切割扇形、追踪、凋零、百分比光束"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_the_prowler/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_the_prowler/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_the_watcher",
+      "name": "观测者",
+      "legacyUnitIndex": 43,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 燃烧弹；M01",
+        "decision": "远程射击",
+        "unresolved": "燃烧持续与伤害"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_the_watcher/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_the_watcher/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "cataclysm_wadjet",
+      "name": "瓦吉特",
+      "legacyUnitIndex": 44,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK03 双扫；SK05 穿透龙卷；SK18 石碑",
+        "decision": "石碑就绪优先；其余按目标类型轮换",
+        "unresolved": "龙卷已确认对空；石碑逐环时间"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/cataclysm_wadjet/idle.png",
+        "attack": "Assets/Sprites/Monsters/cataclysm_wadjet/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "creeper",
+      "name": "苦力怕",
+      "legacyUnitIndex": 45,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK12 自爆",
+        "decision": "接近后启动引信",
+        "unresolved": "友军伤害倍率0.5；范围与衰减待定"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/creeper/idle.png",
+        "attack": "Assets/Sprites/Monsters/creeper/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 2,
+        "missingParameterKeys": [
+          "centerDamage"
+        ],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "dread_beast",
+      "name": "悚怖尸兽",
+      "legacyUnitIndex": 46,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/dread_beast/idle.png",
+        "attack": null,
+        "attackStatus": "missing",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "rangedCooldown",
+          "rangedDamage",
+          "rangedRange"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "dread_ghoul",
+      "name": "悚怖食尸鬼",
+      "legacyUnitIndex": 47,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/dread_ghoul/idle.png",
+        "attack": null,
+        "attackStatus": "missing",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "rangedCooldown",
+          "rangedDamage",
+          "rangedRange"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "dread_spider",
+      "name": "悚怖劫蛛",
+      "legacyUnitIndex": 48,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/dread_spider/idle.png",
+        "attack": null,
+        "attackStatus": "missing",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "dread_thrall",
+      "name": "悚怖尸奴",
+      "legacyUnitIndex": 49,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/dread_thrall/idle.png",
+        "attack": null,
+        "attackStatus": "missing",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "rangedCooldown",
+          "rangedDamage",
+          "rangedRange"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "evoker",
+      "name": "唤魔者",
+      "legacyUnitIndex": 50,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK02 近身圆形/远距直线尖牙；SK15 恼鬼召唤",
+        "decision": "召唤就绪优先，否则合法地面尖牙",
+        "unresolved": "召唤数量/上限，尖牙两种几何"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/evoker/idle.png",
+        "attack": "Assets/Sprites/Monsters/evoker/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "fangDamage",
+          "fangRange",
+          "fangRangedRadius",
+          "summonCooldown",
+          "vexCount"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "iceandfire_cyclops",
+      "name": "独眼巨人",
+      "legacyUnitIndex": 51,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK20 吞噬；SK02 重击",
+        "decision": "满足吞噬条件则吞噬，否则合法重击",
+        "unresolved": "最大生命阈值、吞噬恢复；可吞噬飞行单位"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/iceandfire_cyclops/idle.png",
+        "attack": "Assets/Sprites/Monsters/iceandfire_cyclops/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "iceandfire_dread_lich",
+      "name": "悚怖尸巫",
+      "legacyUnitIndex": 52,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 法术；SK15 随从召唤；M06 击杀转化",
+        "decision": "周期召唤优先，其余远程攻击",
+        "unresolved": "被尸巫伤害后死亡转化：节肢→劫蛛；非节肢按最大生命分档；多尸巫归最后伤害者，只转化一次"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/iceandfire_dread_lich/idle.png",
+        "attack": "Assets/Sprites/Monsters/iceandfire_dread_lich/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "iceandfire_if_cockatrice",
+      "name": "鸡蛇",
+      "legacyUnitIndex": 53,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 高频攻击；M01",
+        "decision": "远程射击",
+        "unresolved": "短CD、低单次伤害、凋零"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/iceandfire_if_cockatrice/idle.png",
+        "attack": "Assets/Sprites/Monsters/iceandfire_if_cockatrice/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 2,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "iceandfire_if_troll",
+      "name": "食人妖",
+      "legacyUnitIndex": 54,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 普通/重击；M08",
+        "decision": "重击合法且就绪优先",
+        "unresolved": "独立重击CD、远程免伤/击退免疫"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/iceandfire_if_troll/idle.png",
+        "attack": "Assets/Sprites/Monsters/iceandfire_if_troll/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "iceandfire_stymphalianbird",
+      "name": "铜羽泽鹗",
+      "legacyUnitIndex": 55,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK06 双羽；M09",
+        "decision": "飞行远程齐射",
+        "unresolved": "双发、短射程、穿甲"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/iceandfire_stymphalianbird/idle.png",
+        "attack": "Assets/Sprites/Monsters/iceandfire_stymphalianbird/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "iron_golem",
+      "name": "铁傀儡",
+      "legacyUnitIndex": 56,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/iron_golem/idle.png",
+        "attack": "Assets/Sprites/Monsters/iron_golem/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "mowziesmobs_frostmaw",
+      "name": "霜冻巨兽",
+      "legacyUnitIndex": 57,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 冰球；SK04 冰雾；SK03 双爪；SK02 猛砸",
+        "decision": "地面猛砸就绪优先，其余合法技能中选择",
+        "unresolved": "Freeze与Slow分开、猛砸长CD"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/mowziesmobs_frostmaw/idle.png",
+        "attack": "Assets/Sprites/Monsters/mowziesmobs_frostmaw/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "mowziesmobs_naga",
+      "name": "娜迦(飞行)",
+      "legacyUnitIndex": 58,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 毒弹；SK11 俯冲；M01",
+        "decision": "射击/俯冲交替，间歇盘旋",
+        "unresolved": "窗口、回升、毒效果"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/mowziesmobs_naga/idle.png",
+        "attack": "Assets/Sprites/Monsters/mowziesmobs_naga/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "contactCooldown",
+          "contactDamage",
+          "maxSegments",
+          "minSegments"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "pillager",
+      "name": "掠夺者",
+      "legacyUnitIndex": 59,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 单体射击",
+        "decision": "远程射击",
+        "unresolved": "较长攻击间隔"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/pillager/idle.png",
+        "attack": "Assets/Sprites/Monsters/pillager/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "ravager",
+      "name": "劫掠兽",
+      "legacyUnitIndex": 60,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/ravager/idle.png",
+        "attack": "Assets/Sprites/Monsters/ravager/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "skeleton",
+      "name": "骷髅",
+      "legacyUnitIndex": 61,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK05 箭矢",
+        "decision": "远程射击",
+        "unresolved": "基础弹速、射程、伤害"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/skeleton/idle.png",
+        "attack": "Assets/Sprites/Monsters/skeleton/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "stradpole",
+      "name": "跨座蝌蚪",
+      "legacyUnitIndex": 62,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "无主动攻击",
+        "decision": "出生点附近游走，不主动索敌",
+        "unresolved": "碰撞体积、生命周期、生成上限"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/stradpole/idle.png",
+        "attack": null,
+        "attackStatus": "missing",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "stray",
+      "name": "流浪者",
+      "legacyUnitIndex": 63,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 减速箭；M01",
+        "decision": "远程射击",
+        "unresolved": "减速持续与强度"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/stray/idle.png",
+        "attack": "Assets/Sprites/Monsters/stray/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_alpha_yeti",
+      "name": "雪怪首领",
+      "legacyUnitIndex": 64,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 冰炸弹＋SK16 冰区；SK04 狂暴",
+        "decision": "近身地面且狂暴就绪优先，否则投弹",
+        "unresolved": "冰区只影响地面，爆炸过滤独立"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_alpha_yeti/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_alpha_yeti/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_armored_giant",
+      "name": "武装巨人",
+      "legacyUnitIndex": 65,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_armored_giant/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_armored_giant/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_blockchain_goblin",
+      "name": "链锤哥布林",
+      "legacyUnitIndex": 66,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK02 圆形横扫＋击退",
+        "decision": "近身横扫",
+        "unresolved": "范围、伤害、击退距离"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_blockchain_goblin/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_blockchain_goblin/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 2,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_death_tome",
+      "name": "死灵书",
+      "legacyUnitIndex": 67,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 法术投射",
+        "decision": "远程射击",
+        "unresolved": "较长间隔、表现绑定"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_death_tome/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_death_tome/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_fire_beetle",
+      "name": "喷火甲虫",
+      "legacyUnitIndex": 68,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK04 扇形喷火；M01",
+        "decision": "接近后引导喷火",
+        "unresolved": "扇角、段数、间隔、燃烧"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_fire_beetle/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_fire_beetle/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_giant_miner",
+      "name": "矿工巨人",
+      "legacyUnitIndex": 69,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_giant_miner/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_giant_miner/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_king_spider",
+      "name": "国王蜘蛛",
+      "legacyUnitIndex": 70,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 蜘蛛近战；SK24 德鲁伊骑乘",
+        "decision": "坐骑近战，骑手独立远程",
+        "unresolved": "两个生命池、位置绑定、死亡下马"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_king_spider/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_king_spider/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "mountDamage",
+          "riderDamage"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_minoshroom",
+      "name": "米诺菇",
+      "legacyUnitIndex": 71,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 普通近战；SK09 真实冲锋",
+        "decision": "地面目标距离大于阈值且冲锋CD就绪则冲锋",
+        "unresolved": "与大象共享真实冲锋模板，独立参数"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_minoshroom/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_minoshroom/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [
+          "chargeDamage",
+          "chargeThreshold",
+          "normalDamage"
+        ],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_minotaur",
+      "name": "牛头人",
+      "legacyUnitIndex": 72,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_minotaur/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_minotaur/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_mist_wolf",
+      "name": "迷雾狼",
+      "legacyUnitIndex": 73,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_mist_wolf/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_mist_wolf/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_naga",
+      "name": "娜迦",
+      "legacyUnitIndex": 74,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK22 接触攻击",
+        "decision": "蛇形穿梭，低血缩短体节并加速",
+        "unresolved": "整只单位共享接触CD，仅头部受伤"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_naga/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_naga/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_skeleton_druid",
+      "name": "骷髅德鲁伊",
+      "legacyUnitIndex": 75,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 毒弹；M01；可作为SK24骑手",
+        "decision": "独立远程决策，骑乘时不自行移动",
+        "unresolved": "中毒、下马行为，购买方式待定"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_skeleton_druid/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_skeleton_druid/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": [
+          "rangedDamage",
+          "rangedRange"
+        ]
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_slime_beetle",
+      "name": "粘液甲虫",
+      "legacyUnitIndex": 76,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK05 粘液弹",
+        "decision": "远程射击",
+        "unresolved": "不默认附加减速或中毒"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_slime_beetle/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_slime_beetle/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_tower_golem",
+      "name": "砷铅铁傀儡",
+      "legacyUnitIndex": 77,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_tower_golem/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_tower_golem/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "twilightforest_winter_wolf",
+      "name": "寒冬狼",
+      "legacyUnitIndex": 78,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK04 扇形冰雾；M01",
+        "decision": "接近后引导冰雾",
+        "unresolved": "与喷火共模板，改为Slow效果"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/twilightforest_winter_wolf/idle.png",
+        "attack": "Assets/Sprites/Monsters/twilightforest_winter_wolf/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "vex",
+      "name": "恼鬼",
+      "legacyUnitIndex": 79,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK11 飞行近战",
+        "decision": "攻击就绪则接近，冷却时飞行游走",
+        "unresolved": "单击较强、较长CD、反击窗口"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/vex/idle.png",
+        "attack": null,
+        "attackStatus": "missing",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 0,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "vindicator",
+      "name": "卫道士",
+      "legacyUnitIndex": 80,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "summary-only",
+      "proposed": {
+        "templates": "SK01 单体近战",
+        "decision": "接近合法目标后攻击",
+        "unresolved": "伤害、触及距离、动作时序；不另增专属技能"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/vindicator/idle.png",
+        "attack": "Assets/Sprites/Monsters/vindicator/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "warden",
+      "name": "监守者",
+      "legacyUnitIndex": 81,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 近战；SK05 穿透声波",
+        "decision": "声波合法且就绪优先，否则接近近战",
+        "unresolved": "已确认声波穿透；宽度、行程与伤害待配"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/warden/idle.png",
+        "attack": "Assets/Sprites/Monsters/warden/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "witch",
+      "name": "女巫",
+      "legacyUnitIndex": 82,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK05 范围药水；SK14 自疗；M01",
+        "decision": "无邻近敌人且受伤优先治疗；否则选攻击药水",
+        "unresolved": "伤害/中毒/减速三种效果包，不默认全都有直接伤害"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/witch/idle.png",
+        "attack": "Assets/Sprites/Monsters/witch/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    },
+    {
+      "id": "wither_skeleton",
+      "name": "凋零骷髅",
+      "legacyUnitIndex": 83,
+      "legacyFactsStatus": "static-verified",
+      "legacyEvidence": "detailed-design",
+      "proposed": {
+        "templates": "SK01 凋零近战；M01",
+        "decision": "近战",
+        "unresolved": "凋零持续与叠加规则"
+      },
+      "presentation": {
+        "idle": "Assets/Sprites/Monsters/wither_skeleton/idle.png",
+        "attack": "Assets/Sprites/Monsters/wither_skeleton/attack.png",
+        "attackStatus": "single-pose-candidate",
+        "deathStatus": "missing"
+      },
+      "reconciliation": {
+        "attributeConflicts": 1,
+        "missingParameterKeys": [],
+        "unconsumedParameterCandidates": []
+      },
+      "r2": {
+        "definition": "pending",
+        "loadout": "pending",
+        "adoption": "pending"
+      },
+      "r3": {
+        "identityTest": "pending"
+      },
+      "s6": {
+        "artBinding": "pending"
+      }
+    }
+  ]
+}
+

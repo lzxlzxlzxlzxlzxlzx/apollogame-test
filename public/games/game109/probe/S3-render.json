@@ -1,0 +1,31 @@
+{
+  "slug": "game109",
+  "at": "2026-09-20T07:50:52.925Z",
+  "gameHash": "592645fda91ea522",
+  "ok": true,
+  "form": "compiled",
+  "assertions": {
+    "nonBlank": {
+      "pass": true,
+      "variance": 2974.45,
+      "mean": 71.29,
+      "threshold": 15
+    },
+    "consoleErrors": {
+      "pass": true,
+      "count": 0,
+      "messages": []
+    },
+    "noUncaught": {
+      "pass": true,
+      "pageErrors": 0,
+      "overlay": false,
+      "messages": []
+    }
+  },
+  "screenshot": "public/games/game109/probe/S3-render.png",
+  "browser": {
+    "execPath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "via": "Windows Chrome"
+  }
+}

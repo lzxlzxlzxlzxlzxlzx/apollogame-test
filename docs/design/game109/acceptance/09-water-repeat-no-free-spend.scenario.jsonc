@@ -1,0 +1,137 @@
+// GD-109 验收剧本 09 · R-19：同一天把**同一格**浇第二次 = **被拒不白扣**（条款沉默处·按阶梯模式读）。
+// author: GD
+//
+// 条款出处：brief.md:42「浇水：已播种 → 今日已浇」——**只规定结果态**，没说第二次浇水是拒绝还是照扣。
+//           裁在读法：requests.md **§0.8**（S4 施工日志）——「已浇的格子再浇 = 拒绝且不扣…与 `04`（体力不足被拒）
+//           `05`（前置不满足被拒）是**同一条「被拒不白扣」模式**——不是新规则，是既有模式的一个实例」。
+//           实现面：`blueprint.ts:284` 认领拍 `claim('water-claim-fx', TOOL_WATER, and(atState(SOWN), notWatered))`
+//           + `:76` 的 `notWatered`（**self 作用域** ⇒ **逐格**判定，不是全局旗）。
+//
+// 【为什么这条剧本到今天才有】（据实交代，免得后人以为是补漏）
+//   §0.8 末尾明写「**⚠ 未做（刻意）**：GD 提议往 `05` 加一条 `energy` 断言把现状钉死——**本轮不加**。
+//   理由：PE 正拿着当前这套字节跑自证走查与递归复核，**并发改 `05` 会让它测的字节与盘上不符、证据作废**。
+//   …**留作 S4 复查后的收尾项；复查人若点名，届时补。**」
+//   S4 复查人点名了（递归复核第 16 条仍标 `known-naked`：拿掉 `notWatered` 无剧本转红）⇒ 本剧本就是那笔
+//   「届时补」的账。**另开新本而不是改 `05`**：`05` 自己的注释解释了它为何不钉体力（「两种实现都能自辩」），
+//   两处若并存会读起来自相矛盾；独立成本后 §0.8 的读法有了唯一的落点，`05` 的历史注释保持当时语境不变。
+//
+// 判别式（这条剧本的**唯一要害**）：第二次浇水必须**不动体力**。
+//   `notWatered` 在场 ⇒ 该格进不了 BUSY ⇒ ②扣费拍不施放 ⇒ 体力停在 **17**。
+//   拿掉 `notWatered` ⇒ 认领成功 ⇒ ②施放 ⇒ 体力 **17→16** ←**这正是 S3 首轮实红的原值**
+//   （`blueprint.ts:75` 注释：「S3 首轮实红就死在这（重复浇水白扣体力 17→16）」）。
+//   故本剧本把当年那个 bug 的原值钉成断言 —— 它红的方式与被恢复的病**逐字相同**。
+//
+// 对抗目标（把实现改坏成什么样，这条会变红）：
+//   · **`notWatered` 被摘掉 / 恒真**（门形同虚设）→ 第二次浇水的 `energy eq 17` 红（实测 16）。
+//   · **第二次浇水把标记清掉**（`set-flag` 写成 toggle/取反）→ 该步 `Flag.active eq true` 红。
+//   · **第二次浇水把生命周期态或生长阶搅动**（当场生长 / 态回 tilled）→ 该步 `State`/`Resource` 断言红。
+//   · **浇水压根不扣体力**（②扣费拍死掉）→ 对照格那步 `energy eq 14` 红 —— 见下「为什么留一个对照格」。
+//
+// 为什么留一个**对照格**（`tile-r0c3`）——防止这条剧本变成「恒真断言」：
+//   只断言「第二次浇水不扣体力」的话，一个**浇水永远不扣体力**的坏实现也能让它全绿（那样病换了、剧本没红）。
+//   故末尾在**另一格**（已播种·今日未浇·`notWatered` 为真）上真浇一次，断言体力**确实掉了**（15→14）。
+//   两格合起来才表达完整语义：**该扣的照扣，不该扣的一分不扣**。递归复核摘的是 `notWatered`，
+//   它只让第一格失守、不影响对照格那条 —— 两条断言各管各的，不会互相遮蔽。
+//
+// 时序纪律（照 `05` 的既有口径）：
+//   · 「什么都没发生」用固定观察窗 `{ "tick": 3 }` —— `waitUntil` 表达不了「不变」。
+//   · 换工具一律 `pick-*` + `waitUntil [tool eq N]` 两步走，不依赖「同拍里换工具与干活谁先施放」的隐式序。
+//   · 正期望（真发生了的事）用 `waitUntil` 等到位再断言，不用裸 tick 赌。
+{
+  "name": "R-19 同日重浇被拒不白扣（该扣的照扣·不该扣的一分不扣）",
+  "game": "game109",
+  "seed": 109,
+  "steps": [
+    // ── 开局态：体力 20 · 第 1 天 · 两格都是荒地、都没浇过 ──────────────────────
+    { "expect": [
+      { "res": "day", "eq": 1 },
+      { "res": "energy", "eq": 20 },
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "wild" },
+      { "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": false },
+      { "comp": { "entity": "tile-r0c3", "component": "State", "field": "current" }, "eq": "wild" },
+      { "comp": { "entity": "tile-r0c3", "component": "Flag", "field": "active" }, "eq": false },
+    ] },
+
+    // ── 把 r0c2 推到「已播种」：翻土 → 播种（每步照扣 1 体力·20→19→18）──────────
+    { "signal": "pick-till" },
+    { "waitUntil": [{ "res": "tool", "eq": 0 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "res": "energy", "eq": 19 },
+    ], "cap": 30 },
+
+    { "signal": "pick-sow" },
+    { "waitUntil": [{ "res": "tool", "eq": 1 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "res": "energy", "eq": 18 },
+    ], "cap": 30 },
+
+    // ── 第一次浇水：**该扣的照扣**（18→17），标记置真（这一拍是下面判别式的基线）──
+    { "signal": "pick-water" },
+    { "waitUntil": [{ "res": "tool", "eq": 2 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": true },
+      { "res": "energy", "eq": 17 },
+    ], "cap": 30 },
+
+    // ═══ R-19 判别点：同一天、同一格、同一把浇水工具，再点一次 ═══════════════
+    //   期望：**体力停在 17**（拒且不扣）+ 标记仍是「已浇」+ 态与阶都没被搅动。
+    //   拿掉 `notWatered` ⇒ 这里读到的就是 16 ← S3 首轮实红的同一个数。
+    //   工具仍是 water（上一步刚选过）⇒ 不再插 `pick-*`，免得引入一次多余的合法扣费。
+    { "signal": "work", "args": { "tile": "tile-r0c2" } },
+    { "tick": 3 },
+    { "expect": [
+      { "res": "energy", "eq": 17 },     // ★ 本剧本的要害：第二次浇水一分不扣
+      { "res": "day", "eq": 1 },         //   同一天（睡觉没有发生过）
+      { "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": true },
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "flag": "grow-phase", "eq": false },   // 白天不长（生长相位在睡觉那一拍才点）
+    ] },
+
+    // ── 对照格 r0c3：已播种 + **今日未浇**（`notWatered` 为真）⇒ 必须真扣 ───────
+    //   这一段存在的唯一理由：把「浇水永远不扣体力」这种坏实现也钉红（见文件头「为什么留一个对照格」）。
+    { "signal": "pick-till" },
+    { "waitUntil": [{ "res": "tool", "eq": 0 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c3" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c3", "component": "State", "field": "current" }, "eq": "tilled" },
+      { "res": "energy", "eq": 16 },
+    ], "cap": 30 },
+
+    { "signal": "pick-sow" },
+    { "waitUntil": [{ "res": "tool", "eq": 1 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c3" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c3", "component": "State", "field": "current" }, "eq": "sown" },
+      { "res": "energy", "eq": 15 },
+    ], "cap": 30 },
+
+    { "signal": "pick-water" },
+    { "waitUntil": [{ "res": "tool", "eq": 2 }], "cap": 30 },
+    { "signal": "work", "args": { "tile": "tile-r0c3" } },
+    { "waitUntil": [
+      { "comp": { "entity": "tile-r0c3", "component": "Flag", "field": "active" }, "eq": true },
+      { "res": "energy", "eq": 14 },     // ★ 该扣的照扣：这一格真浇上了
+    ], "cap": 30 },
+
+    // ── 收尾全账：两格各自「已浇」，体力账 14 = 20 − 3（r0c2 三个动作）− 3（r0c3 三个动作）──
+    { "expect": [
+      { "res": "day", "eq": 1 },
+      { "res": "energy", "eq": 14 },
+      { "comp": { "entity": "tile-r0c2", "component": "Flag", "field": "active" }, "eq": true },
+      { "comp": { "entity": "tile-r0c2", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r0c2", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "comp": { "entity": "tile-r0c3", "component": "Flag", "field": "active" }, "eq": true },
+      { "comp": { "entity": "tile-r0c3", "component": "State", "field": "current" }, "eq": "sown" },
+      { "comp": { "entity": "tile-r0c3", "component": "Resource", "field": "current" }, "eq": 0 },
+      { "flag": "grow-phase", "eq": false },
+      { "res": "inv-wheat", "eq": 0 },    // 没收获过 —— 本剧本全程不碰背包
+    ] },
+  ],
+}

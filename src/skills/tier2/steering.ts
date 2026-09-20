@@ -1,32 +1,35 @@
 import { defineCapability } from '@engine/core/define-capability.js';
 import type { IWorld } from '@engine/core/types.js';
-import type { Steering, Transform, Velocity, Relation, Status, Tag } from '@engine/protocol/components.js';
-import { queryRange } from '@atom-skills/index.js';
+import type { Steering, Velocity, Relation, Status, Tag, FrameStartTransform } from '@engine/protocol/components.js';
 
 // 群体分离（REQ-SURVIVOR群体①·seek 专属）：在 separation.radius 内被同群邻居线性衰减斥力推开，
 // 叠加到基础转向后连同 clamp 回 speed。同群=给 tagMask 按 Tag.flags 位筛，否则只认带 Steering 的邻居
-// （不推开玩家/子弹）。确定性：邻居 id 排序遍历 + IEEE 数学；完全重合(d=0)本 tick 跳过（近距斥力已强，
-// 实际到不了精确重合）。缺 separation/radius≤0/weight≤0 → no-op（零回归）。
-function applySeparation(world: IWorld, id: string, t: Transform, s: Steering, v: Velocity): void {
+// （不推开玩家/子弹）。确定性：邻居 id 排序遍历 + IEEE 数学；完全重合(d=0)按实体id给出相反侧向分离力（仍限速，
+// 不以瞬移或随机方向处理重叠出生）。缺 separation/radius≤0/weight≤0 → no-op（零回归）。
+interface SeparationNeighbor { id: string; position: FrameStartTransform; flags: number | undefined; steering: boolean }
+function applySeparation(neighbors: readonly SeparationNeighbor[], id: string, t: FrameStartTransform, s: Steering, v: Velocity): void {
   const sep = s.separation;
   if (!sep || !(sep.radius > 0) || !(sep.weight > 0)) return;
-  const neighbors = queryRange(world, t.x, t.y, sep.radius).slice().sort();
   let rx = 0;
   let ry = 0;
-  for (const nid of neighbors) {
+  for (const neighbor of neighbors) {
+    const nid = neighbor.id;
     if (nid === id) continue;
     if (sep.tagMask !== undefined) {
-      const tag = world.getComponent<Tag>(nid, 'Tag');
-      if (!tag || (tag.flags & sep.tagMask) === 0) continue;
-    } else if (!world.getComponent<Steering>(nid, 'Steering')) {
+      if (neighbor.flags === undefined || (neighbor.flags & sep.tagMask) === 0) continue;
+    } else if (!neighbor.steering) {
       continue; // 缺省只与其它群体成员（带 Steering）互斥
     }
-    const nt = world.getComponent<Transform>(nid, 'Transform');
-    if (!nt) continue;
+    const nt = neighbor.position;
     const dx = t.x - nt.x;
     const dy = t.y - nt.y;
     const d = Math.sqrt(dx * dx + dy * dy);
-    if (d === 0) continue; // 完全重合：本 tick 不加（避免除零/无定向）
+    if (d === 0) {
+      // Stable opposite lateral directions break coincident spawn symmetry.
+      // No randomness or teleport: this remains a speed-limited steering force.
+      ry += id < nid ? -1 : 1;
+      continue;
+    }
     const falloff = 1 - d / sep.radius; // 线性衰减：越近越强（(0,1]）
     if (falloff <= 0) continue;
     rx += (dx / d) * falloff;
@@ -104,14 +107,17 @@ export const steeringCapability = defineCapability({
       // 声明 steering 跑在状态施加者之前 = 读"上一拍"的 Status（冻结延迟一帧生效，与 Condition→Effect 同纪律）。
       // 这两个 id 在无 hitbox/over-time 的世界里被忽略（steering 仍可独立用）。
       runsBefore: ['motion-apply', 'hitbox', 'over-time'],
-      reads: ['Steering', 'Transform', 'Relation', 'Velocity', 'Status', 'Tag'],
+      reads: ['Steering', 'FrameStartTransform', 'Relation', 'Velocity', 'Status', 'Tag'],
       writes: ['Velocity'],
       consumes: [],
       execute(world: IWorld) {
-        const ids = world.query('Steering', 'Transform').map(([id]) => id).sort();
+        const ids = world.query('Steering', 'FrameStartTransform').map(([id]) => id).sort();
+        // Input references are immutable during steering (only Velocity is written).
+        // Build lazily once per execute; never retain across ticks or worlds.
+        let neighbors: SeparationNeighbor[] | undefined;
         for (const id of ids) {
           const s = world.getComponent<Steering>(id, 'Steering')!;
-          const t = world.getComponent<Transform>(id, 'Transform')!;
+          const t = world.getComponent<FrameStartTransform>(id, 'FrameStartTransform')!;
 
           let v = world.getComponent<Velocity>(id, 'Velocity');
           if (!v) {
@@ -131,7 +137,7 @@ export const steeringCapability = defineCapability({
 
           // 读自身锁定的目标（aggro 写的 Relation(target)）。
           const rel = world.getComponent<Relation>(id, 'Relation');
-          const tt = rel && rel.kind === 'target' ? world.getComponent<Transform>(rel.targetId, 'Transform') : undefined;
+          const tt = rel && rel.kind === 'target' ? world.getComponent<FrameStartTransform>(rel.targetId, 'FrameStartTransform') : undefined;
           if (!tt) {
             v.vx = 0;
             v.vy = 0;
@@ -160,10 +166,22 @@ export const steeringCapability = defineCapability({
               v.vy = uy * s.speed;
             }
             // 群体分离（seek 专属·含 stopRange 环绕）：斥力叠加到基础转向、clamp 回 speed。
-            applySeparation(world, id, t, s, v);
+            if (s.separation && s.separation.radius > 0 && s.separation.weight > 0) {
+              neighbors ??= world.query('FrameStartTransform').map(([nid, components]) => ({
+                id: nid,
+                position: components.get('FrameStartTransform') as FrameStartTransform,
+                flags: (components.get('Tag') as Tag | undefined)?.flags,
+                steering: components.has('Steering'),
+              })).sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+              applySeparation(neighbors, id, t, s, v);
+            }
           }
         }
       },
     },
   ],
 });
+
+
+
+

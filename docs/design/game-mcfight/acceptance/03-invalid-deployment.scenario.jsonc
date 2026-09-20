@@ -1,0 +1,26 @@
+// author: GD-MCFIGHT
+// S4 场景03：非法区域与单位重叠都不得改变真实部署状态。
+// 对抗目标：越界被接受、重叠自动挤开、失败拖放仍增加部署数。
+{
+  "name": "非法部署回退且不污染计数",
+  "game": "game-mcfight",
+  "seed": 4103,
+  "steps": [
+    { "signal": "shop.unit.buy", "args": { "unitId": "vindicator" }, "by": "player" },
+    { "signal": "shop.unit.buy", "args": { "unitId": "skeleton" }, "by": "player" },
+    { "signal": "shop.continue", "by": "player" },
+    { "signal": "deployment.unit.place", "args": { "instanceId": "player-vindicator-1", "x": 8, "y": 0 }, "by": "player" },
+    { "expect": [
+      { "res": "deployed-count", "eq": 0 },
+      { "flag": "can-start-battle", "eq": false }
+    ] },
+    { "signal": "deployment.unit.place", "args": { "instanceId": "player-vindicator-1", "x": -10, "y": 0 }, "by": "player" },
+    { "signal": "deployment.unit.place", "args": { "instanceId": "player-skeleton-1", "x": -10, "y": 0 }, "by": "player" },
+    { "expect": [
+      { "res": "deployed-count", "eq": 1 },
+      { "flag": "can-start-battle", "eq": true },
+      { "res": "owned-count", "eq": 2 },
+      { "res": "gold", "eq": 19 }
+    ] }
+  ]
+}

@@ -2,6 +2,7 @@
 // 实体的阵营身份(Tag)、战斗状态位(Status)、逻辑关系(Relation)，加上伤害判定(Hitbox)、限时效果(OverTime)、
 // 数据驱动 AI(Perception/Steering)、逐实体死亡(Mortal)、抛射(Launch)、属性分层(Stats)。
 import type { Component, EntityId } from '../../core/types.js';
+import type { EntityCheck } from './logic.js';
 
 // ── G1 tag ── 实体属于哪些分类（bitmask，位运算 O(1)）
 export interface Tag extends Component {
@@ -14,6 +15,7 @@ export interface Tag extends Component {
 export interface Status extends Component {
   readonly type: 'Status';
   flags: number;
+  effects?: Array<{ id:'burn'|'wither'|'slow'|'poison'|'freeze'|'fear'; multiplier?:number; source:string; sourceTags:number }>;
 }
 
 // ── G2 relation ── 实体跟谁有什么逻辑关系（非空间）
@@ -30,8 +32,24 @@ export interface Relation extends Component {
 // AOE = 多 Trigger 自然 fan-out；逐目标 = 局部寻址；计算伤害 = fracOfMax；阵营/状态门 = mask。
 export interface Hitbox extends Component {
   readonly type: 'Hitbox';
+  /** First legal contact only; unlike consumeOnHit, no same-tick AOE fan-out. */
+  singleImpact?: boolean;
+  onlyTarget?: EntityId;
+  /** Recheck the PrefabOrigin source before each real contact. */
+  sourceCheck?: EntityCheck;
   resource: string; // 目标身上要改的 Resource id（如 'hp'）
   amount?: number; // 固定伤害（正数 = 伤害；内部按负向施加）
+  /** Legacy mitigation mode. Category supplies game-facing damage semantics. */
+  damageType?: 'normal' | 'true';
+  /** Game-facing damage category, checked before armour and status application. */
+  damageCategory?: 'melee'|'ranged'|'beam'|'explosion'|'true';
+  /** Applied only after actual positive damage resolves through the route. */
+  knockback?: number;
+  armorPiercing?: boolean;
+  damageOrigin?: 'direct'|'indirect';
+  /** Opt-in routed periodic receipts; default retains legacy local resource effects. */
+  routePeriodicDamage?: boolean;
+  dotEffectId?: string;
   fracOfMax?: number; // 计算伤害 = 目标该资源 max 的此分数（如 0.2 = 20% max）
   targetMask?: number; // 仅作用于 Tag.flags 含此位的目标（阵营过滤；缺省/0 = 不限）
   requireMask?: number; // 仅作用于 Status.flags 含齐此位的目标（如碎冰要求 frozen）
@@ -58,11 +76,16 @@ export interface Hitbox extends Component {
   // 缺省不填 = 零回归（现有 hitbox 行为逐字节不变）。发 SpawnRequest 在**被命中目标位置**（命中点近似），
   // 与伤害同一结算循环、同拍：穿透/AOE（一伤害区 N Trigger）→ 每个 other 各喷一个（fan-out 天然成立）。
   onHit?: { spawnTemplate: string }; // 命中（过滤门通过后）在 target 位置发 SpawnRequest{templateId:此值}。
+  /** Data-driven status payloads applied only after a legal physical hit. */
+  onHitStatus?: Array<{ id:'burn'|'wither'|'slow'|'poison'|'freeze'|'fear'; duration:number; damagePerTick?:number; period?:number; multiplier?:number; statusMask?:number }>;
+  /** Non-hard-control movement veto; the target may continue its current Flow. */
+  onHitMobilityLock?: { duration:number; requireTagMask?:number; groundWhileLocked?:boolean };
 }
 
 // ── TimedEffect ── 一个限时/持续效果（DoT/regen/定时状态）。多个并存在 OverTime.effects 列表里。
 // id：同 id 刷新（重置）而非叠加，防持续源无限叠层；不同 id 共存（燃烧 vs 冰冻 vs 毒，R14 真修 B）。
 export interface TimedEffect {
+  damageRoute?: {source:string;sourceTags:number};
   id?: string; // 效果标识（同 id 刷新、不同 id 共存）；缺省=每次都叠加一条
   resource?: string; // 周期改的资源 id（如 'hp'）；缺省 = 不改资源（纯定时状态，如定时冻结）
   amountPerTick?: number; // 每 period 改的量（负=DoT，正=regen）；缺省 0
@@ -94,6 +117,8 @@ export interface Perception extends Component {
   // 优先选它为目标（覆盖 targetTag 默认选择；多个候选按 nearestByTag 的 id tie-break）；范围内无 lure
   // 才回落 targetTag 默认索敌。缺省 undefined = 现行为不变（诱饵/嘲讽标记通用，不限本游戏）。
   lureTag?: number;
+  // 可选动态资格门：在候选中只保留满足 EntityCheck 的实体（如“仅地面窗口”）。缺省零回归。
+  targetCheck?: EntityCheck;
 }
 
 // ── Steering ── 数据驱动 AI 的"转向"原子（D-001）。读自身 Relation{kind:'target'} → 朝目标 seek（到 stopRange
@@ -210,6 +235,9 @@ export interface Launch extends Component {
   // 声明此字段则改沿它发射（归一化×speed）而非冻结——弹幕/AOE 落空不哑火，仍朝一个默认方向飞出去。
   // 缺省 undefined = 现行为不变。
   fallbackDir?: { x: number; y: number };
+  /** Captured travel budget for a standard straight projectile. */
+  maxDistance?: number;
+  sourceShot?: ProjectileShot;
   // bounce（薄加性·零回归·REQ-SURVIVOR武器缺口 W7）：声明"跳弹"次数与目标阵营。launch 是发射瞬间定向
   // 后即自删 Launch 的一次性组件（fire-and-forget），无法持有"命中后还能再弹几次"的运行时状态——
   // 声明本字段时，launch 系统在自删 Launch 前会把它落地成持久的 Bounce{remaining,targetTag,speed}
@@ -228,3 +256,80 @@ export interface Bounce extends Component {
   targetTag: number; // 弹射目标阵营（Tag.flags & targetTag，同 nearestByTag 的 tagMask 语义）
   speed: number; // 弹射后保持的速度模长（发射时的 Launch.speed，一次性抄录，不逐帧重算）
 }
+
+// Opt-in shared damage pools. No configuration retains local Hitbox behavior.
+export interface DamageReceiver extends Component {
+ readonly type:'DamageReceiver'; resource:string; targetEntity?:string; multiplier?:number;
+ /** Opt-in Minecraft mitigation on this struck part, after its multiplier. */
+ armor?:number; toughness?:number;
+ /** Damage categories that never reach armour, resource, or on-hit statuses. */
+ rejectDamageCategories?: Array<'melee'|'ranged'|'beam'|'explosion'|'true'>;
+ /** Per-category multiplier applied after part multiplier and before armour. */
+ damageCategoryMultipliers?: Partial<Record<'melee'|'ranged'|'beam'|'explosion'|'true', number>>;
+ /** Opt-out of displacement only; legal damage still resolves. */
+ knockbackImmune?: boolean;
+}
+export interface DamageRequest extends Component {
+ readonly type:'DamageRequest'; target:string; source:string; sourceTags:number; resource:string; amount:number;
+ /** Settlement receipt, written by damage-route before consumption. Positive =
+  * actual resource removed; negative = actual restored. Never author as input. */
+ appliedAmount?:number;
+ damageType?:'normal'|'true'; damageCategory?:'melee'|'ranged'|'beam'|'explosion'|'true'; armorPiercing?:boolean;
+ knockback?:number;
+ origin?:'direct'|'indirect'|'periodic';
+ /** Settlement diagnostics, not authoring inputs. */
+ afterArmorAmount?:number; armorUsed?:number; toughnessUsed?:number;
+}
+
+/** Post-damage displacement receipt. It is intentionally an event entity so
+ * multiple legal hits never overwrite one another on the target. */
+export interface KnockbackRequest extends Component {
+ readonly type:'KnockbackRequest'; target:string; source:string; distance:number;
+}
+
+/** Immutable identity captured on successful start; no live source lookup. */
+/** Ordered per-instance skill selection. Advancement occurs only after a confirmed release. */
+export interface SkillCycle extends Component { readonly type:'SkillCycle'; candidates:string[]; index:number; }
+/** A non-interrupting, refreshable movement lock. */
+export interface MobilityLock extends Component {
+ readonly type:'MobilityLock'; untilTick:number; groundWhileLocked?:boolean;
+ /** Captured when grounding an airborne body and restored at expiry. */
+ originalAir?:boolean; originalGround?:boolean;
+}
+/** One-shot in-place form replacement; identity is intentionally preserved. */
+export interface FormChange extends Component {
+ readonly type:'FormChange'; threshold:number; formId:string; changed?:boolean;
+ /** Data-only in-place projection for the destination form. */
+ formStateEntity?:EntityId; formMaxHp?:number; formSpeed?:number; formRadius?:number;
+ formAirborne?:boolean; formPerceptionRejectStatusMask?:number;
+}
+/** Steering-only orbit request. It never writes Transform. */
+export interface RelationOrbit extends Component { readonly type:'RelationOrbit'; radius:number; speed:number; active?:boolean; clockwise?:boolean; }
+
+export interface ProjectileShot {source:string;sourceTags:number;targetId:string;maxDistance:number;castId?:string;shotIndex?:number}
+/** One cast owns a plan; each emitted projectile receives its own ProjectileShot. */
+export interface VolleyPlan extends Component {
+  readonly type:'VolleyPlan'; castId:string; templateId:string; source:string; sourceTagSnapshot:number;
+  targetId:string; aimX:number; aimY:number; count:number; nextShotIndex:number;
+  intervalTicks:number; nextEmitTick:number; spread?:{kind:'none'}|{kind:'seeded-uniform';halfAngleRadians:number};
+  seed?:number; shotMaxDistance:number; speed:number; cancelled?:boolean;
+}
+export interface ProjectileFlight extends Component {
+  readonly type:'ProjectileFlight';
+  bounds:{minX:number;maxX:number;minY:number;maxY:number};
+  shot?:ProjectileShot;
+  lastX?:number;lastY?:number;traveled?:number;
+  exhausted?:boolean;invalid?:boolean;
+}
+export interface LastDamage extends Component {
+ readonly type:'LastDamage'; source:string; sourceTags:number; part:string; amount:number;
+}
+export interface QualifiedDamage extends Component {
+ readonly type:'QualifiedDamage';source:string;sourceTags:number;part:string;amount:number;
+}
+export interface DeathConversion extends Component {
+ readonly type:'DeathConversion'; resource:string; remaining:number; sourceMask:number;
+ retainQualifiedSource?:boolean;
+ rules:Array<{template:string;requireTag?:number;requireSourceTag?:number;minMaxHp?:number;maxMaxHp?:number}>;
+}
+export interface DeathConverted extends Component {readonly type:'DeathConverted';}

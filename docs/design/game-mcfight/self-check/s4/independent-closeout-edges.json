@@ -1,0 +1,1363 @@
+{
+  "report": {
+    "systemCount": 29,
+    "phases": [
+      -2,
+      -1,
+      0,
+      10,
+      14,
+      20
+    ],
+    "explicitEdgeCount": 67,
+    "sccs": [
+      {
+        "phase": 10,
+        "systems": [
+          {
+            "id": "collision-resolve",
+            "capId": "t2-collision-resolve"
+          },
+          {
+            "id": "damage-route",
+            "capId": "t2-damage-routing"
+          },
+          {
+            "id": "death-conversion",
+            "capId": "t2-damage-routing"
+          },
+          {
+            "id": "destroy-apply",
+            "capId": "k2-destroy"
+          },
+          {
+            "id": "hierarchy-cascade",
+            "capId": "t1-hierarchy-cascade"
+          },
+          {
+            "id": "hitbox",
+            "capId": "t2-hitbox"
+          },
+          {
+            "id": "mortal",
+            "capId": "t2-mortal"
+          },
+          {
+            "id": "resource-apply",
+            "capId": "f1-resource"
+          },
+          {
+            "id": "targeted-caster",
+            "capId": "t3-caster"
+          },
+          {
+            "id": "targeted-prefab-spawn",
+            "capId": "t3-prefab"
+          }
+        ],
+        "viaComponents": [
+          "DamageRequest",
+          "DestroyRequest",
+          "LastDamage",
+          "Resource",
+          "ResourceModify",
+          "Shape",
+          "SpawnRequest",
+          "Status",
+          "Transform"
+        ],
+        "suggestion": "在环内系统间加显式 runsBefore/runsAfter 打破 RMW（闭环组件：DamageRequest, DestroyRequest, LastDamage, Resource, ResourceModify, Shape, SpawnRequest, Status, Transform）"
+      }
+    ],
+    "danglingEdges": [
+      {
+        "system": "flow",
+        "capId": "t3-flow",
+        "kind": "runsBefore",
+        "ref": "poker-eval"
+      },
+      {
+        "system": "flow",
+        "capId": "t3-flow",
+        "kind": "runsBefore",
+        "ref": "string-apply"
+      },
+      {
+        "system": "flow",
+        "capId": "t3-flow",
+        "kind": "runsAfter",
+        "ref": "zone-occupancy"
+      },
+      {
+        "system": "flow",
+        "capId": "t3-flow",
+        "kind": "runsAfter",
+        "ref": "group-count"
+      },
+      {
+        "system": "caster",
+        "capId": "t3-caster",
+        "kind": "runsAfter",
+        "ref": "clickable"
+      },
+      {
+        "system": "prefab-spawn",
+        "capId": "t3-prefab",
+        "kind": "runsAfter",
+        "ref": "merge-rule"
+      },
+      {
+        "system": "prefab-spawn",
+        "capId": "t3-prefab",
+        "kind": "runsAfter",
+        "ref": "merge-on-place"
+      },
+      {
+        "system": "prefab-spawn",
+        "capId": "t3-prefab",
+        "kind": "runsAfter",
+        "ref": "merge-proximity-clear"
+      },
+      {
+        "system": "prefab-spawn",
+        "capId": "t3-prefab",
+        "kind": "runsAfter",
+        "ref": "order-fulfill"
+      },
+      {
+        "system": "prefab-spawn",
+        "capId": "t3-prefab",
+        "kind": "runsAfter",
+        "ref": "group-count"
+      },
+      {
+        "system": "prefab-spawn",
+        "capId": "t3-prefab",
+        "kind": "runsAfter",
+        "ref": "tray"
+      },
+      {
+        "system": "prefab-spawn",
+        "capId": "t3-prefab",
+        "kind": "runsAfter",
+        "ref": "drag-place"
+      },
+      {
+        "system": "prefab-spawn",
+        "capId": "t3-prefab",
+        "kind": "runsAfter",
+        "ref": "grid-move"
+      },
+      {
+        "system": "hitbox",
+        "capId": "t2-hitbox",
+        "kind": "runsBefore",
+        "ref": "over-time"
+      },
+      {
+        "system": "steering",
+        "capId": "t2-steering",
+        "kind": "runsBefore",
+        "ref": "over-time"
+      },
+      {
+        "system": "nav-follow",
+        "capId": "t2-pathfind",
+        "kind": "runsBefore",
+        "ref": "over-time"
+      }
+    ],
+    "duplicateIds": [],
+    "acyclic": false
+  },
+  "refs": [
+    {
+      "id": "damage-route",
+      "capId": "t2-damage-routing",
+      "phase": 10,
+      "sys": {
+        "id": "damage-route",
+        "phase": 10,
+        "runsAfter": [
+          "hitbox"
+        ],
+        "runsBefore": [
+          "resource-apply"
+        ],
+        "reads": [
+          "DamageReceiver",
+          "Resource"
+        ],
+        "writes": [
+          "Resource",
+          "LastDamage"
+        ],
+        "consumes": [
+          "DamageRequest"
+        ]
+      }
+    },
+    {
+      "id": "death-conversion",
+      "capId": "t2-damage-routing",
+      "phase": 10,
+      "sys": {
+        "id": "death-conversion",
+        "phase": 10,
+        "runsAfter": [
+          "resource-apply",
+          "damage-route"
+        ],
+        "runsBefore": [
+          "mortal",
+          "targeted-prefab-spawn"
+        ],
+        "reads": [
+          "DeathConversion",
+          "DeathConverted",
+          "Resource",
+          "LastDamage",
+          "Tag",
+          "Transform",
+          "PrefabLibrary"
+        ],
+        "writes": [
+          "DeathConverted",
+          "SpawnRequest"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "timer-advance",
+      "capId": "e1-timer",
+      "phase": 0,
+      "sys": {
+        "id": "timer-advance",
+        "reads": [
+          "Timer"
+        ],
+        "writes": [
+          "Timer",
+          "TimerDone"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "flow-window-commit",
+      "capId": "t3-flow",
+      "phase": -1,
+      "sys": {
+        "id": "flow-window-commit",
+        "phase": -1,
+        "runsBefore": [
+          "aggro",
+          "flow"
+        ],
+        "reads": [
+          "FlowWindowIntent"
+        ],
+        "writes": [
+          "Status"
+        ],
+        "consumes": [
+          "FlowWindowIntent"
+        ]
+      }
+    },
+    {
+      "id": "flow",
+      "capId": "t3-flow",
+      "phase": 0,
+      "sys": {
+        "id": "flow",
+        "phase": 0,
+        "runsBefore": [
+          "poker-eval",
+          "resource-apply",
+          "string-apply",
+          "event-when"
+        ],
+        "runsAfter": [
+          "zone-occupancy",
+          "group-count",
+          "aggro",
+          "hitbox"
+        ],
+        "reads": [
+          "GameFlow",
+          "Resource",
+          "Flag",
+          "State",
+          "Relation",
+          "FrameStartTransform",
+          "Tag",
+          "Status"
+        ],
+        "writes": [
+          "GameFlow",
+          "Resource",
+          "Flag",
+          "State",
+          "FlowWindowIntent"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "aggro",
+      "capId": "t3-aggro",
+      "phase": 0,
+      "sys": {
+        "id": "aggro",
+        "runsBefore": [
+          "motion-apply",
+          "resource-apply"
+        ],
+        "reads": [
+          "Perception",
+          "FrameStartTransform",
+          "Tag",
+          "Relation",
+          "Resource",
+          "Status"
+        ],
+        "writes": [
+          "Relation"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "caster",
+      "capId": "t3-caster",
+      "phase": 0,
+      "sys": {
+        "id": "caster",
+        "runsAfter": [
+          "event-when",
+          "clickable"
+        ],
+        "reads": [
+          "Caster",
+          "Signal",
+          "InputQueue",
+          "Transform",
+          "Tag",
+          "HexPos",
+          "Relation"
+        ],
+        "writes": [
+          "SpawnRequest"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "targeted-caster",
+      "capId": "t3-caster",
+      "phase": 10,
+      "sys": {
+        "id": "targeted-caster",
+        "phase": 10,
+        "runsAfter": [
+          "event-when",
+          "resource-apply",
+          "mortal",
+          "destroy-apply",
+          "caster"
+        ],
+        "reads": [
+          "Caster",
+          "Signal",
+          "GameFlow",
+          "Transform",
+          "FrameStartTransform",
+          "Resource",
+          "Tag",
+          "Status",
+          "DestroyRequest"
+        ],
+        "writes": [
+          "SpawnRequest"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "committed-contact-position",
+      "capId": "t3-prefab",
+      "phase": 10,
+      "sys": {
+        "id": "committed-contact-position",
+        "phase": 10,
+        "runsBefore": [
+          "overlap-detect",
+          "hitbox",
+          "targeted-prefab-spawn"
+        ],
+        "reads": [
+          "CommittedContact",
+          "Transform"
+        ],
+        "writes": [
+          "Transform",
+          "CommittedContact",
+          "DestroyRequest",
+          "Hitbox"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "prefab-spawn",
+      "capId": "t3-prefab",
+      "phase": 0,
+      "sys": {
+        "id": "prefab-spawn",
+        "reads": [
+          "SpawnRequest",
+          "PrefabLibrary"
+        ],
+        "writes": [
+          "PrefabLibrary",
+          "PrefabOrigin",
+          "HexPos"
+        ],
+        "consumes": [],
+        "runsAfter": [
+          "hitbox",
+          "caster",
+          "merge-rule",
+          "merge-on-place",
+          "merge-proximity-clear",
+          "resource-apply",
+          "order-fulfill",
+          "group-count",
+          "tray",
+          "drag-place",
+          "grid-move"
+        ]
+      }
+    },
+    {
+      "id": "targeted-prefab-spawn",
+      "capId": "t3-prefab",
+      "phase": 10,
+      "sys": {
+        "id": "targeted-prefab-spawn",
+        "phase": 10,
+        "runsAfter": [
+          "targeted-caster",
+          "committed-contact-position",
+          "overlap-detect",
+          "trigger-zone",
+          "hitbox",
+          "resource-apply",
+          "mortal",
+          "destroy-apply"
+        ],
+        "reads": [
+          "SpawnRequest",
+          "PrefabLibrary",
+          "Transform",
+          "Hitbox",
+          "Shape",
+          "Launch"
+        ],
+        "writes": [
+          "PrefabLibrary",
+          "PrefabOrigin",
+          "HexPos",
+          "CommittedContact",
+          "Hitbox",
+          "Shape",
+          "Launch",
+          "Transform"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "event-when",
+      "capId": "t2-event-when",
+      "phase": 0,
+      "sys": {
+        "id": "event-when",
+        "reads": [
+          "EventWhen",
+          "Resource",
+          "Flag",
+          "State"
+        ],
+        "writes": [
+          "Signal"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "effect-apply",
+      "capId": "t2-effect-apply",
+      "phase": 20,
+      "sys": {
+        "id": "effect-apply",
+        "phase": 20,
+        "reads": [
+          "Effect",
+          "Signal",
+          "Timer",
+          "Tag",
+          "PrefabOrigin",
+          "RandomSeed"
+        ],
+        "writes": [
+          "Flag",
+          "Resource",
+          "State",
+          "Sensor",
+          "Visibility",
+          "DestroyRequest",
+          "Timer",
+          "RandomSeed"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "frame-start-transform",
+      "capId": "t1-motion-apply",
+      "phase": -2,
+      "sys": {
+        "id": "frame-start-transform",
+        "phase": -2,
+        "reads": [
+          "Transform"
+        ],
+        "writes": [
+          "FrameStartTransform"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "motion-apply",
+      "capId": "t1-motion-apply",
+      "phase": 0,
+      "sys": {
+        "id": "motion-apply",
+        "reads": [
+          "Transform",
+          "Velocity"
+        ],
+        "writes": [
+          "Transform"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "overlap-detect",
+      "capId": "d1-overlap-detect",
+      "phase": 10,
+      "sys": {
+        "id": "overlap-detect",
+        "phase": 10,
+        "reads": [
+          "Transform",
+          "Shape"
+        ],
+        "writes": [
+          "Overlap"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "trigger-zone",
+      "capId": "t2-trigger-zone",
+      "phase": 10,
+      "sys": {
+        "id": "trigger-zone",
+        "phase": 10,
+        "runsAfter": [
+          "overlap-detect"
+        ],
+        "reads": [
+          "Overlap",
+          "Tag"
+        ],
+        "writes": [
+          "Trigger"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "hitbox",
+      "capId": "t2-hitbox",
+      "phase": 10,
+      "sys": {
+        "id": "hitbox",
+        "phase": 10,
+        "reads": [
+          "Trigger",
+          "Hitbox",
+          "Tag",
+          "Status",
+          "Resource",
+          "PrefabOrigin",
+          "Transform",
+          "FrameStartTransform",
+          "DamageReceiver",
+          "DeathConversion"
+        ],
+        "writes": [
+          "ResourceModify",
+          "Status",
+          "OverTime",
+          "DestroyRequest",
+          "SpawnRequest",
+          "DamageRequest"
+        ],
+        "consumes": [],
+        "runsAfter": [
+          "trigger-zone"
+        ],
+        "runsBefore": [
+          "resource-apply",
+          "over-time"
+        ]
+      }
+    },
+    {
+      "id": "resource-apply",
+      "capId": "f1-resource",
+      "phase": 10,
+      "sys": {
+        "id": "resource-apply",
+        "phase": 10,
+        "runsAfter": [
+          "hitbox"
+        ],
+        "reads": [
+          "Resource",
+          "PrefabOrigin"
+        ],
+        "writes": [
+          "Resource"
+        ],
+        "consumes": [
+          "ResourceModify"
+        ]
+      }
+    },
+    {
+      "id": "mortal",
+      "capId": "t2-mortal",
+      "phase": 10,
+      "sys": {
+        "id": "mortal",
+        "phase": 10,
+        "runsAfter": [
+          "resource-apply"
+        ],
+        "reads": [
+          "Mortal",
+          "Resource",
+          "Transform"
+        ],
+        "writes": [
+          "DestroyRequest",
+          "SpawnRequest"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "destroy-apply",
+      "capId": "k2-destroy",
+      "phase": 10,
+      "sys": {
+        "id": "destroy-apply",
+        "phase": 10,
+        "runsAfter": [
+          "mortal"
+        ],
+        "reads": [],
+        "writes": [],
+        "consumes": [
+          "DestroyRequest"
+        ]
+      }
+    },
+    {
+      "id": "hierarchy-resolve",
+      "capId": "t1-hierarchy-resolve",
+      "phase": 14,
+      "sys": {
+        "id": "hierarchy-resolve",
+        "phase": 14,
+        "reads": [
+          "Hierarchy",
+          "Transform"
+        ],
+        "writes": [
+          "Transform"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "hierarchy-cascade",
+      "capId": "t1-hierarchy-cascade",
+      "phase": 10,
+      "sys": {
+        "id": "hierarchy-cascade",
+        "phase": 10,
+        "runsAfter": [
+          "mortal",
+          "hitbox"
+        ],
+        "reads": [
+          "Hierarchy",
+          "DestroyRequest"
+        ],
+        "writes": [
+          "DestroyRequest"
+        ],
+        "consumes": [],
+        "runsBefore": [
+          "destroy-apply"
+        ]
+      }
+    },
+    {
+      "id": "launch",
+      "capId": "t2-launch",
+      "phase": 0,
+      "sys": {
+        "id": "launch",
+        "runsBefore": [
+          "motion-apply"
+        ],
+        "reads": [
+          "Launch",
+          "Transform",
+          "Tag"
+        ],
+        "writes": [
+          "Velocity",
+          "Launch",
+          "Bounce"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "lifetime",
+      "capId": "t1-lifetime",
+      "phase": 0,
+      "sys": {
+        "id": "lifetime",
+        "reads": [
+          "TimerDone"
+        ],
+        "writes": [
+          "DestroyRequest"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "steering",
+      "capId": "t2-steering",
+      "phase": 0,
+      "sys": {
+        "id": "steering",
+        "runsBefore": [
+          "motion-apply",
+          "hitbox",
+          "over-time"
+        ],
+        "reads": [
+          "Steering",
+          "FrameStartTransform",
+          "Relation",
+          "Velocity",
+          "Status",
+          "Tag"
+        ],
+        "writes": [
+          "Velocity"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "collision-resolve",
+      "capId": "t2-collision-resolve",
+      "phase": 10,
+      "sys": {
+        "id": "collision-resolve",
+        "runsAfter": [
+          "committed-contact-position",
+          "overlap-detect"
+        ],
+        "phase": 10,
+        "reads": [
+          "Overlap",
+          "Transform",
+          "Shape",
+          "Velocity",
+          "Mass",
+          "Sensor"
+        ],
+        "writes": [
+          "Transform",
+          "Velocity"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "nav-follow",
+      "capId": "t2-pathfind",
+      "phase": 0,
+      "sys": {
+        "id": "nav-follow",
+        "phase": 0,
+        "runsAfter": [
+          "aggro"
+        ],
+        "runsBefore": [
+          "motion-apply",
+          "hitbox",
+          "over-time"
+        ],
+        "reads": [
+          "NavGraph",
+          "NavAgent",
+          "NavPath",
+          "Transform",
+          "Relation",
+          "Status"
+        ],
+        "writes": [
+          "Velocity",
+          "NavPath"
+        ],
+        "consumes": []
+      }
+    },
+    {
+      "id": "anim-state",
+      "capId": "t2-anim-state",
+      "phase": 20,
+      "sys": {
+        "id": "anim-state",
+        "phase": 20,
+        "reads": [
+          "AnimState",
+          "Frame",
+          "Velocity",
+          "State",
+          "Sprite",
+          "Relation",
+          "Status"
+        ],
+        "writes": [
+          "AnimState",
+          "Frame",
+          "Sprite"
+        ],
+        "consumes": []
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "damage-route",
+      "to": "death-conversion",
+      "explicit": true,
+      "components": [
+        "Resource",
+        "LastDamage"
+      ]
+    },
+    {
+      "from": "damage-route",
+      "to": "targeted-caster",
+      "explicit": false,
+      "components": [
+        "Resource"
+      ]
+    },
+    {
+      "from": "damage-route",
+      "to": "resource-apply",
+      "explicit": true,
+      "components": [
+        "Resource"
+      ]
+    },
+    {
+      "from": "damage-route",
+      "to": "mortal",
+      "explicit": false,
+      "components": [
+        "Resource"
+      ]
+    },
+    {
+      "from": "death-conversion",
+      "to": "targeted-prefab-spawn",
+      "explicit": true,
+      "components": [
+        "SpawnRequest"
+      ]
+    },
+    {
+      "from": "death-conversion",
+      "to": "mortal",
+      "explicit": true,
+      "components": []
+    },
+    {
+      "from": "timer-advance",
+      "to": "lifetime",
+      "explicit": false,
+      "components": [
+        "TimerDone"
+      ]
+    },
+    {
+      "from": "flow",
+      "to": "event-when",
+      "explicit": true,
+      "components": [
+        "Resource",
+        "Flag",
+        "State"
+      ]
+    },
+    {
+      "from": "aggro",
+      "to": "flow",
+      "explicit": true,
+      "components": [
+        "Relation"
+      ]
+    },
+    {
+      "from": "aggro",
+      "to": "caster",
+      "explicit": false,
+      "components": [
+        "Relation"
+      ]
+    },
+    {
+      "from": "aggro",
+      "to": "motion-apply",
+      "explicit": true,
+      "components": []
+    },
+    {
+      "from": "aggro",
+      "to": "steering",
+      "explicit": false,
+      "components": [
+        "Relation"
+      ]
+    },
+    {
+      "from": "aggro",
+      "to": "nav-follow",
+      "explicit": true,
+      "components": [
+        "Relation"
+      ]
+    },
+    {
+      "from": "caster",
+      "to": "prefab-spawn",
+      "explicit": true,
+      "components": [
+        "SpawnRequest"
+      ]
+    },
+    {
+      "from": "targeted-caster",
+      "to": "targeted-prefab-spawn",
+      "explicit": true,
+      "components": [
+        "SpawnRequest"
+      ]
+    },
+    {
+      "from": "committed-contact-position",
+      "to": "death-conversion",
+      "explicit": false,
+      "components": [
+        "Transform"
+      ]
+    },
+    {
+      "from": "committed-contact-position",
+      "to": "targeted-caster",
+      "explicit": false,
+      "components": [
+        "Transform",
+        "DestroyRequest"
+      ]
+    },
+    {
+      "from": "committed-contact-position",
+      "to": "targeted-prefab-spawn",
+      "explicit": true,
+      "components": [
+        "Transform",
+        "Hitbox"
+      ]
+    },
+    {
+      "from": "committed-contact-position",
+      "to": "overlap-detect",
+      "explicit": true,
+      "components": [
+        "Transform"
+      ]
+    },
+    {
+      "from": "committed-contact-position",
+      "to": "hitbox",
+      "explicit": true,
+      "components": [
+        "Transform",
+        "Hitbox"
+      ]
+    },
+    {
+      "from": "committed-contact-position",
+      "to": "mortal",
+      "explicit": false,
+      "components": [
+        "Transform"
+      ]
+    },
+    {
+      "from": "committed-contact-position",
+      "to": "destroy-apply",
+      "explicit": false,
+      "components": [
+        "DestroyRequest"
+      ]
+    },
+    {
+      "from": "committed-contact-position",
+      "to": "hierarchy-cascade",
+      "explicit": false,
+      "components": [
+        "DestroyRequest"
+      ]
+    },
+    {
+      "from": "committed-contact-position",
+      "to": "collision-resolve",
+      "explicit": true,
+      "components": [
+        "Transform"
+      ]
+    },
+    {
+      "from": "targeted-prefab-spawn",
+      "to": "collision-resolve",
+      "explicit": false,
+      "components": [
+        "Shape",
+        "Transform"
+      ]
+    },
+    {
+      "from": "event-when",
+      "to": "caster",
+      "explicit": true,
+      "components": [
+        "Signal"
+      ]
+    },
+    {
+      "from": "effect-apply",
+      "to": "anim-state",
+      "explicit": false,
+      "components": [
+        "State"
+      ]
+    },
+    {
+      "from": "motion-apply",
+      "to": "caster",
+      "explicit": false,
+      "components": [
+        "Transform"
+      ]
+    },
+    {
+      "from": "overlap-detect",
+      "to": "targeted-prefab-spawn",
+      "explicit": true,
+      "components": []
+    },
+    {
+      "from": "overlap-detect",
+      "to": "trigger-zone",
+      "explicit": true,
+      "components": [
+        "Overlap"
+      ]
+    },
+    {
+      "from": "overlap-detect",
+      "to": "collision-resolve",
+      "explicit": true,
+      "components": [
+        "Overlap"
+      ]
+    },
+    {
+      "from": "trigger-zone",
+      "to": "targeted-prefab-spawn",
+      "explicit": true,
+      "components": []
+    },
+    {
+      "from": "trigger-zone",
+      "to": "hitbox",
+      "explicit": true,
+      "components": [
+        "Trigger"
+      ]
+    },
+    {
+      "from": "hitbox",
+      "to": "damage-route",
+      "explicit": true,
+      "components": [
+        "DamageRequest"
+      ]
+    },
+    {
+      "from": "hitbox",
+      "to": "targeted-caster",
+      "explicit": false,
+      "components": [
+        "Status",
+        "DestroyRequest"
+      ]
+    },
+    {
+      "from": "hitbox",
+      "to": "targeted-prefab-spawn",
+      "explicit": true,
+      "components": [
+        "SpawnRequest"
+      ]
+    },
+    {
+      "from": "hitbox",
+      "to": "resource-apply",
+      "explicit": true,
+      "components": [
+        "ResourceModify"
+      ]
+    },
+    {
+      "from": "hitbox",
+      "to": "destroy-apply",
+      "explicit": false,
+      "components": [
+        "DestroyRequest"
+      ]
+    },
+    {
+      "from": "hitbox",
+      "to": "hierarchy-cascade",
+      "explicit": true,
+      "components": [
+        "DestroyRequest"
+      ]
+    },
+    {
+      "from": "resource-apply",
+      "to": "death-conversion",
+      "explicit": true,
+      "components": [
+        "Resource"
+      ]
+    },
+    {
+      "from": "resource-apply",
+      "to": "targeted-caster",
+      "explicit": true,
+      "components": [
+        "Resource"
+      ]
+    },
+    {
+      "from": "resource-apply",
+      "to": "targeted-prefab-spawn",
+      "explicit": true,
+      "components": []
+    },
+    {
+      "from": "resource-apply",
+      "to": "mortal",
+      "explicit": true,
+      "components": [
+        "Resource"
+      ]
+    },
+    {
+      "from": "mortal",
+      "to": "targeted-caster",
+      "explicit": true,
+      "components": [
+        "DestroyRequest"
+      ]
+    },
+    {
+      "from": "mortal",
+      "to": "targeted-prefab-spawn",
+      "explicit": true,
+      "components": [
+        "SpawnRequest"
+      ]
+    },
+    {
+      "from": "mortal",
+      "to": "destroy-apply",
+      "explicit": true,
+      "components": [
+        "DestroyRequest"
+      ]
+    },
+    {
+      "from": "mortal",
+      "to": "hierarchy-cascade",
+      "explicit": true,
+      "components": [
+        "DestroyRequest"
+      ]
+    },
+    {
+      "from": "destroy-apply",
+      "to": "targeted-caster",
+      "explicit": true,
+      "components": []
+    },
+    {
+      "from": "destroy-apply",
+      "to": "targeted-prefab-spawn",
+      "explicit": true,
+      "components": []
+    },
+    {
+      "from": "hierarchy-cascade",
+      "to": "targeted-caster",
+      "explicit": false,
+      "components": [
+        "DestroyRequest"
+      ]
+    },
+    {
+      "from": "hierarchy-cascade",
+      "to": "destroy-apply",
+      "explicit": true,
+      "components": [
+        "DestroyRequest"
+      ]
+    },
+    {
+      "from": "launch",
+      "to": "motion-apply",
+      "explicit": true,
+      "components": [
+        "Velocity"
+      ]
+    },
+    {
+      "from": "launch",
+      "to": "steering",
+      "explicit": false,
+      "components": [
+        "Velocity"
+      ]
+    },
+    {
+      "from": "steering",
+      "to": "motion-apply",
+      "explicit": true,
+      "components": [
+        "Velocity"
+      ]
+    },
+    {
+      "from": "collision-resolve",
+      "to": "death-conversion",
+      "explicit": false,
+      "components": [
+        "Transform"
+      ]
+    },
+    {
+      "from": "collision-resolve",
+      "to": "targeted-caster",
+      "explicit": false,
+      "components": [
+        "Transform"
+      ]
+    },
+    {
+      "from": "collision-resolve",
+      "to": "targeted-prefab-spawn",
+      "explicit": false,
+      "components": [
+        "Transform"
+      ]
+    },
+    {
+      "from": "collision-resolve",
+      "to": "hitbox",
+      "explicit": false,
+      "components": [
+        "Transform"
+      ]
+    },
+    {
+      "from": "collision-resolve",
+      "to": "mortal",
+      "explicit": false,
+      "components": [
+        "Transform"
+      ]
+    },
+    {
+      "from": "nav-follow",
+      "to": "motion-apply",
+      "explicit": true,
+      "components": [
+        "Velocity"
+      ]
+    },
+    {
+      "from": "nav-follow",
+      "to": "steering",
+      "explicit": false,
+      "components": [
+        "Velocity"
+      ]
+    }
+  ]
+}

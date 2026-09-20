@@ -1,0 +1,248 @@
+{
+  "version": 1,
+  "slug": "game-mcfight",
+  "concept": {
+    "name": "MC Fight",
+    "pitch": "购买怪物组成军团，拖拽布阵，与AI军团自动交战，通过结算反馈调整下一局阵容。",
+    "refs": "同级mcfight-unity-main原型；docs/design/game-mcfight/brief.md",
+    "style": "2D精灵战场为建议方向，正式美术待定；仅PvAI，无主菜单。"
+  },
+  "signoffs": {
+    "S2": {
+      "by": "owner",
+      "note": "确认",
+      "at": "2026-09-15T07:04:49.264Z"
+    },
+    "S1": {
+      "by": "owner",
+      "note": "确认",
+      "at": "2026-09-15T07:04:54.424Z"
+    },
+    "S3": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-09-15T08:08:11.580Z"
+    },
+    "S4": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-09-15T12:13:34.058Z"
+    }
+  },
+  "evidence": {
+    "S3": {
+      "exit": 0,
+      "summary": "编译期游戏免 manifest 校验 · ✓ 渲染探针过（截图 public/games/<slug>/probe/S3-render.png） · ✓ 点击打穿（12 个控件 · 11 个点后 DOM 真的变了 · 零控制台 error）",
+      "at": "2026-09-16T05:51:52.798Z",
+      "gameHash": "3079655e84b05fda"
+    },
+    "S2": {
+      "exit": 0,
+      "summary": "capability-plan.md 在档 · ✓ 缺口 6 条全已裁决 · 全部了结",
+      "at": "2026-09-15T10:03:25.464Z",
+      "gameHash": "5451968f76008952"
+    },
+    "S4": {
+      "exit": 1,
+      "summary": "✗ walkthrough ·  Test Files  3 failed | 38 passed (41) ·       Tests  3 failed | 277 passed | 1 skipped (281)",
+      "at": "2026-09-16T03:14:12.005Z",
+      "gameHash": "32ad25475ecab7d3"
+    }
+  },
+  "history": [
+    {
+      "action": "concept",
+      "at": "2026-09-09T17:34:32.049Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S2",
+      "at": "2026-09-15T07:04:49.264Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S1",
+      "at": "2026-09-15T07:04:54.424Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-09-15T07:15:55.681Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-15T07:40:13.377Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-09-15T07:46:54.015Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-09-15T07:49:10.598Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-15T07:51:21.947Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-15T07:57:05.188Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-09-15T07:57:39.807Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S3",
+      "at": "2026-09-15T08:08:11.580Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-09-15T09:55:21.253Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-09-15T10:03:25.464Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 1,
+      "at": "2026-09-15T10:05:00.363Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-15T10:06:38.379Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 1,
+      "at": "2026-09-15T10:16:13.173Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "CONCERNS",
+      "at": "2026-09-15T10:16:50.852Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-15T10:18:27.956Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-15T11:50:49.494Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-09-15T11:56:31.013Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-09-15T12:00:45.718Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-15T12:01:05.993Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-09-15T12:02:10.964Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S4",
+      "at": "2026-09-15T12:13:34.058Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-09-16T03:14:01.994Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 1,
+      "at": "2026-09-16T03:14:12.005Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-09-16T05:50:29.567Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-09-16T05:51:52.798Z"
+    }
+  ],
+  "reviews": {
+    "S2": {
+      "verdict": "PASS",
+      "note": "能力计划S4增量复核：005006为owner A限定扩展，公共实现与六组撤修通过；隔离36文件255通过1历史skip，tsc0，S3骨架亦通过；保留S2/S3已验范围，几何占位不冒充正式素材。详见review/s2-s4-plan-incremental-review-20260915.md。全库旧失败不豁免，不代S4及owner签核。",
+      "by": "s4_drag_review",
+      "at": "2026-09-15T09:55:21.253Z",
+      "gameHash": "b076c0c6228c0a97",
+      "reviewHash": "de53e01f5b14860d",
+      "gapsHash": "0f993302499644b6"
+    },
+    "S3": {
+      "verdict": "PASS",
+      "note": "当前源码S3增量独立PASS：骨架7项含实际装配/tick无环，隔离39文件256pass1历史skip；四组新增撤修均锚点1/exit1/SHA还原。核对正式三轮555文件5139pass1skip、worker未复现、1328文件SHA无差异；16旧失败全部修复无隔离。manifest/plan/公开字段解释一致。详见review/s3-disposition-independent-20260915.md，不代owner签核。",
+      "by": "s4_drag_review",
+      "at": "2026-09-15T11:56:31.013Z",
+      "gameHash": "fa44cf15c26e5769"
+    },
+    "S4": {
+      "verdict": "PASS",
+      "note": "CONCERNS闭合：隔离39文件256pass1历史skip，新统计实际扣HP/治疗分账及四撤修均验红SHA恢复；真实正式入口新版6图伤害36/60治疗0/0，出售/禁售通过。独立逐文件核对最终三轮555文件5139pass1skip，16旧失败全部修复无隔离，worker本次未复现，1328文件SHA零差异。详见review/s4-disposition-independent-20260915.md；同hash机器门另验，不代owner签核。",
+      "by": "s4_drag_review",
+      "at": "2026-09-15T12:00:45.718Z",
+      "gameHash": "fa44cf15c26e5769"
+    }
+  },
+  "selfCheck": {
+    "S4": {
+      "at": "2026-09-16T03:14:12.005Z",
+      "shots": 6,
+      "gameHash": "32ad25475ecab7d3"
+    }
+  }
+}

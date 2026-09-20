@@ -14,7 +14,7 @@
 //  纯 node/fs·文本扫 `readonly type: 'X'`（引擎组件声明的稳定形态·每个 extends Component 都有）。
 // ═══════════════════════════════════════════════════════════════
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { dirname, resolve, join } from 'node:path';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -81,4 +81,4 @@ function main(argv) {
   process.exit(ok ? 0 : 1);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main(process.argv.slice(2));
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) main(process.argv.slice(2));

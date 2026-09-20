@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { SystemPhase } from '@engine/core/types.js';
 import type { DestroyRequest } from '@engine/protocol/components.js';
 
 export const destroyCapability = defineCapability({
@@ -34,6 +35,8 @@ export const destroyCapability = defineCapability({
   systems: [
     {
       id: 'destroy-apply',
+      phase: SystemPhase.Resolve,
+      runsAfter: ['mortal'],
       reads: [],
       writes: [],
       consumes: ['DestroyRequest'],

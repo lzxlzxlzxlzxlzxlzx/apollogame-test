@@ -1,0 +1,625 @@
+{
+  "graphs": [
+    {
+      "label": "R3 current production + deployment",
+      "capabilities": [
+        "e1-timer",
+        "t3-flow",
+        "t3-aggro",
+        "t3-caster",
+        "t3-prefab",
+        "t2-event-when",
+        "t2-effect-apply",
+        "t1-motion-apply",
+        "d1-overlap-detect",
+        "t2-trigger-zone",
+        "t2-hitbox",
+        "t2-over-time",
+        "f1-resource",
+        "t2-mortal",
+        "k2-destroy",
+        "t1-hierarchy-resolve",
+        "t1-hierarchy-cascade",
+        "t2-launch",
+        "t1-lifetime",
+        "t2-steering",
+        "t2-keybind",
+        "t3-volley-emitter",
+        "mcfight-b3-mechanics",
+        "t2-modifier-stack",
+        "t2-stat-bind",
+        "t2-damage-routing",
+        "t2-drag-place"
+      ],
+      "systemCount": 37,
+      "phases": [
+        -2,
+        -1,
+        0,
+        1,
+        10,
+        12,
+        14,
+        20
+      ],
+      "explicitEdgeCount": 96,
+      "sccs": [],
+      "danglingEdges": [
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsBefore",
+          "ref": "poker-eval"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsBefore",
+          "ref": "string-apply"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsBefore",
+          "ref": "merge-rule"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsAfter",
+          "ref": "zone-occupancy"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsAfter",
+          "ref": "group-count"
+        },
+        {
+          "system": "caster",
+          "capId": "t3-caster",
+          "kind": "runsAfter",
+          "ref": "clickable"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "merge-rule"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "merge-on-place"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "merge-proximity-clear"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "order-fulfill"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "group-count"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "tray"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "grid-move"
+        },
+        {
+          "system": "mcfight-mobility-lock",
+          "capId": "mcfight-b3-mechanics",
+          "kind": "runsAfter",
+          "ref": "path-follow"
+        },
+        {
+          "system": "relation-orbit",
+          "capId": "mcfight-b3-mechanics",
+          "kind": "runsAfter",
+          "ref": "path-follow"
+        },
+        {
+          "system": "drag-place",
+          "capId": "t2-drag-place",
+          "kind": "runsBefore",
+          "ref": "grid-move"
+        },
+        {
+          "system": "drag-place",
+          "capId": "t2-drag-place",
+          "kind": "runsBefore",
+          "ref": "tween"
+        },
+        {
+          "system": "drag-place",
+          "capId": "t2-drag-place",
+          "kind": "runsBefore",
+          "ref": "zone-occupancy"
+        },
+        {
+          "system": "drag-place",
+          "capId": "t2-drag-place",
+          "kind": "runsBefore",
+          "ref": "group-count"
+        },
+        {
+          "system": "drag-place",
+          "capId": "t2-drag-place",
+          "kind": "runsBefore",
+          "ref": "self-rule"
+        },
+        {
+          "system": "drop-zone",
+          "capId": "t2-drag-place",
+          "kind": "runsAfter",
+          "ref": "card-pile"
+        }
+      ],
+      "duplicateIds": [],
+      "acyclic": true,
+      "unknownReferences": []
+    },
+    {
+      "label": "R3 source/periodic receipts",
+      "capabilities": [
+        "e1-timer",
+        "t3-flow",
+        "t3-aggro",
+        "t3-caster",
+        "t3-prefab",
+        "t2-event-when",
+        "t2-effect-apply",
+        "t1-motion-apply",
+        "d1-overlap-detect",
+        "t2-trigger-zone",
+        "t2-hitbox",
+        "t2-over-time",
+        "f1-resource",
+        "t2-mortal",
+        "k2-destroy",
+        "t1-hierarchy-resolve",
+        "t1-hierarchy-cascade",
+        "t2-launch",
+        "t1-lifetime",
+        "t2-steering",
+        "t2-keybind",
+        "t3-volley-emitter",
+        "mcfight-b3-mechanics",
+        "t2-modifier-stack",
+        "t2-stat-bind",
+        "t2-damage-routing"
+      ],
+      "systemCount": 35,
+      "phases": [
+        -2,
+        -1,
+        0,
+        1,
+        10,
+        12,
+        14,
+        20
+      ],
+      "explicitEdgeCount": 86,
+      "sccs": [],
+      "danglingEdges": [
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsBefore",
+          "ref": "poker-eval"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsBefore",
+          "ref": "string-apply"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsBefore",
+          "ref": "merge-rule"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsAfter",
+          "ref": "zone-occupancy"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsAfter",
+          "ref": "group-count"
+        },
+        {
+          "system": "caster",
+          "capId": "t3-caster",
+          "kind": "runsAfter",
+          "ref": "clickable"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "merge-rule"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "merge-on-place"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "merge-proximity-clear"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "order-fulfill"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "group-count"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "tray"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "drag-place"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "grid-move"
+        },
+        {
+          "system": "mcfight-mobility-lock",
+          "capId": "mcfight-b3-mechanics",
+          "kind": "runsAfter",
+          "ref": "path-follow"
+        },
+        {
+          "system": "relation-orbit",
+          "capId": "mcfight-b3-mechanics",
+          "kind": "runsAfter",
+          "ref": "path-follow"
+        }
+      ],
+      "duplicateIds": [],
+      "acyclic": true,
+      "unknownReferences": []
+    },
+    {
+      "label": "R3 planar boundary probe",
+      "capabilities": [
+        "e1-timer",
+        "t3-flow",
+        "t3-aggro",
+        "t3-caster",
+        "t3-prefab",
+        "t2-event-when",
+        "t2-effect-apply",
+        "t1-motion-apply",
+        "d1-overlap-detect",
+        "t2-trigger-zone",
+        "t2-hitbox",
+        "t2-over-time",
+        "f1-resource",
+        "t2-mortal",
+        "k2-destroy",
+        "t1-hierarchy-resolve",
+        "t1-hierarchy-cascade",
+        "t2-launch",
+        "t1-lifetime",
+        "t2-steering",
+        "t2-keybind",
+        "t3-volley-emitter",
+        "mcfight-b3-mechanics",
+        "t2-modifier-stack",
+        "t2-stat-bind",
+        "t2-damage-routing",
+        "t2-path-follow"
+      ],
+      "systemCount": 36,
+      "phases": [
+        -2,
+        -1,
+        0,
+        1,
+        10,
+        12,
+        14,
+        20
+      ],
+      "explicitEdgeCount": 88,
+      "sccs": [],
+      "danglingEdges": [
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsBefore",
+          "ref": "poker-eval"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsBefore",
+          "ref": "string-apply"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsBefore",
+          "ref": "merge-rule"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsAfter",
+          "ref": "zone-occupancy"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsAfter",
+          "ref": "group-count"
+        },
+        {
+          "system": "caster",
+          "capId": "t3-caster",
+          "kind": "runsAfter",
+          "ref": "clickable"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "merge-rule"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "merge-on-place"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "merge-proximity-clear"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "order-fulfill"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "group-count"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "tray"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "drag-place"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "grid-move"
+        }
+      ],
+      "duplicateIds": [],
+      "acyclic": true,
+      "unknownReferences": []
+    },
+    {
+      "label": "R3 all current and probe capabilities",
+      "capabilities": [
+        "e1-timer",
+        "t3-flow",
+        "t3-aggro",
+        "t3-caster",
+        "t3-prefab",
+        "t2-event-when",
+        "t2-effect-apply",
+        "t1-motion-apply",
+        "d1-overlap-detect",
+        "t2-trigger-zone",
+        "t2-hitbox",
+        "t2-over-time",
+        "f1-resource",
+        "t2-mortal",
+        "k2-destroy",
+        "t1-hierarchy-resolve",
+        "t1-hierarchy-cascade",
+        "t2-launch",
+        "t1-lifetime",
+        "t2-steering",
+        "t2-keybind",
+        "t3-volley-emitter",
+        "mcfight-b3-mechanics",
+        "t2-modifier-stack",
+        "t2-stat-bind",
+        "t2-damage-routing",
+        "t2-drag-place",
+        "t2-path-follow"
+      ],
+      "systemCount": 38,
+      "phases": [
+        -2,
+        -1,
+        0,
+        1,
+        10,
+        12,
+        14,
+        20
+      ],
+      "explicitEdgeCount": 98,
+      "sccs": [],
+      "danglingEdges": [
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsBefore",
+          "ref": "poker-eval"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsBefore",
+          "ref": "string-apply"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsBefore",
+          "ref": "merge-rule"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsAfter",
+          "ref": "zone-occupancy"
+        },
+        {
+          "system": "flow",
+          "capId": "t3-flow",
+          "kind": "runsAfter",
+          "ref": "group-count"
+        },
+        {
+          "system": "caster",
+          "capId": "t3-caster",
+          "kind": "runsAfter",
+          "ref": "clickable"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "merge-rule"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "merge-on-place"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "merge-proximity-clear"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "order-fulfill"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "group-count"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "tray"
+        },
+        {
+          "system": "prefab-spawn",
+          "capId": "t3-prefab",
+          "kind": "runsAfter",
+          "ref": "grid-move"
+        },
+        {
+          "system": "drag-place",
+          "capId": "t2-drag-place",
+          "kind": "runsBefore",
+          "ref": "grid-move"
+        },
+        {
+          "system": "drag-place",
+          "capId": "t2-drag-place",
+          "kind": "runsBefore",
+          "ref": "tween"
+        },
+        {
+          "system": "drag-place",
+          "capId": "t2-drag-place",
+          "kind": "runsBefore",
+          "ref": "zone-occupancy"
+        },
+        {
+          "system": "drag-place",
+          "capId": "t2-drag-place",
+          "kind": "runsBefore",
+          "ref": "group-count"
+        },
+        {
+          "system": "drag-place",
+          "capId": "t2-drag-place",
+          "kind": "runsBefore",
+          "ref": "self-rule"
+        },
+        {
+          "system": "drop-zone",
+          "capId": "t2-drag-place",
+          "kind": "runsAfter",
+          "ref": "card-pile"
+        }
+      ],
+      "duplicateIds": [],
+      "acyclic": true,
+      "unknownReferences": []
+    }
+  ],
+  "failures": []
+}

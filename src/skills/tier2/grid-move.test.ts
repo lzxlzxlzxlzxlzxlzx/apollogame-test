@@ -111,12 +111,15 @@ describe('grid-move · 确定性', () => {
 
 // ── REQ-025 回归：aggro(读 Transform/写 Relation) + grid-move(读 Relation/写 Transform) 同场不成环 ──
 import { aggroCapability } from '../tier3/aggro.js';
+import { motionApplyCapability } from '../tier1/motion-apply.js';
 import type { Perception, Tag } from '@engine/protocol/components.js';
 describe('grid-move · REQ-025 与 aggro 同场不成环', () => {
   it('aggro+grid-move 同跑：拓扑排序不抛 + 单位索敌并沿 hex 寻路逼近', () => {
     const w = new World();
     for (const s of aggroCapability.systems) w.addSystem(s);
     for (const s of gridMoveCapability.systems) w.addSystem(s);
+    // Aggro reads frame-start positions; grid movement is not a snapshot producer.
+    for (const s of motionApplyCapability.systems) w.addSystem(s);
     board(w);
     const ENEMY = 1 << 1;
     w.createEntity('hero');
@@ -323,4 +326,3 @@ describe('grid-move · REQ-F-037 odd-r 棋盘（几何与拓扑同构）', () =>
     expect(hexDistance(pos(w, 'mover'), pos(w, 'tgt'))).toBe(1); // 占位语义正常
   });
 });
-

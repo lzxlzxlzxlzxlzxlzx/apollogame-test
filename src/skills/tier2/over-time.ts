@@ -1,7 +1,7 @@
 import { defineCapability } from '@engine/core/define-capability.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
-import type { OverTime, TimedEffect, Status } from '@engine/protocol/components.js';
+import type { OverTime, TimedEffect, Status,DamageRequest } from '@engine/protocol/components.js';
 import { queueResourceMod } from '@skills/atoms/resource/index.js';
 
 // ═══════════════════════════════════════════════════════════════
@@ -64,7 +64,7 @@ export const overTimeCapability = defineCapability({
       },
     },
     reads: ['OverTime', 'Status'],
-    writes: ['ResourceModify', 'Status', 'OverTime'],
+    writes: ['ResourceModify', 'Status', 'OverTime','DamageRequest'],
     consumes: [],
   },
 
@@ -73,10 +73,11 @@ export const overTimeCapability = defineCapability({
   systems: [
     {
       id: 'over-time',
+      phase: SystemPhase.Resolve,
       // Update 阶段产 ResourceModify；显式排在 resource-apply 之前（与 hitbox 同纪律），本帧产当帧结算。
-      runsBefore: ['resource-apply'],
+      runsBefore: ['resource-apply','damage-route'],
       reads: ['OverTime', 'Status'],
-      writes: ['ResourceModify', 'Status', 'OverTime'],
+      writes: ['ResourceModify', 'Status', 'OverTime','DamageRequest'],
       consumes: [],
       execute(world: IWorld) {
         const ids = world.query('OverTime').map(([id]) => id).sort();
@@ -86,10 +87,16 @@ export const overTimeCapability = defineCapability({
 
           // ① 逐效果推进 + 周期结算（累加到自身）。
           let anyExpired = false;
-          for (const ef of ot.effects) {
+          for (const [effectIndex,ef] of ot.effects.entries()) {
             ef.elapsed += 1;
             if (ef.resource && ef.amountPerTick && ef.period >= 1 && ef.elapsed % ef.period === 0) {
-              queueResourceMod(world, id, ef.resource, ef.amountPerTick, 'local');
+              if(ef.damageRoute){
+                // A periodic effect can fire more than once.  Its routing carrier must
+                // therefore be unique per firing tick; reusing effectIndex made the
+                // second pulse attempt to create an existing entity.
+                const carrier=`periodic:${id}:${effectIndex}:${ef.elapsed}`;world.createEntity(carrier);
+                world.addComponent(carrier,{type:'DamageRequest',target:id,source:ef.damageRoute.source,sourceTags:ef.damageRoute.sourceTags,resource:ef.resource,amount:-ef.amountPerTick,damageType:'true',origin:'periodic'} as DamageRequest);
+              }else queueResourceMod(world, id, ef.resource, ef.amountPerTick, 'local');
             }
             if (ef.duration > 0 && ef.elapsed >= ef.duration) anyExpired = true;
           }

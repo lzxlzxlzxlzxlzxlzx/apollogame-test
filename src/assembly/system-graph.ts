@@ -1,3 +1,4 @@
+import { withSnapshotProvider } from '@engine/core/snapshot-provider.js';
 import type { SystemDeclaration, ComponentType } from '@engine/core/types.js';
 import type { CapabilityDefinition } from '@engine/core/define-capability.js';
 import { stronglyConnectedComponents } from '@engine/core/topological-sort.js';
@@ -61,6 +62,11 @@ export function collectSystems(caps: readonly CapabilityDefinition[]): SysRef[] 
     for (const s of c.systems ?? []) {
       out.push({ id: s.id, capId: c.id, phase: s.phase ?? 0, sys: s });
     }
+  }
+  const expanded = withSnapshotProvider(out.map(ref => ref.sys));
+  if (expanded.length > out.length) {
+    const sys = expanded[0];
+    out.unshift({ id: sys.id, capId: 'engine-snapshot-provider', phase: sys.phase ?? 0, sys });
   }
   return out;
 }
@@ -179,3 +185,4 @@ export function analyzeSystemGraph(caps: readonly CapabilityDefinition[]): Syste
     acyclic: sccs.length === 0,
   };
 }
+

@@ -1,0 +1,2536 @@
+{
+  "version": 1,
+  "game": "game109",
+  "mode": "requirements",
+  "count": 15,
+  "instances": 331,
+  "rows": [
+    {
+      "skinKey": "109/scene/farm",
+      "no": "art-01",
+      "kind": "bg",
+      "desc": "农场全景底（草地 + 田埂围栏 + 下沿木条）",
+      "slot": {
+        "entity": "scene-background",
+        "component": "MountHost",
+        "field": "sceneBgSkin.imageUrl"
+      },
+      "slots": [
+        {
+          "entity": "scene-background",
+          "component": "MountHost",
+          "field": "sceneBgSkin.imageUrl"
+        }
+      ],
+      "query": "农场场景底",
+      "prompt": "农场全景底（草地 + 田埂围栏 + 下沿木条）, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "程序化 CSS 渐变底（SCENE_BG）",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "scene-background.MountHost.sceneBgSkin.imageUrl"
+        ]
+      },
+      "spec": {
+        "w": 720,
+        "h": 910,
+        "displayW": 720,
+        "displayH": 910,
+        "transparent": false
+      },
+      "context": "美术需求：「农场场景底」（场景底（mountHost 背景皮肤槽）·720×910·需满幅）·当前占位=程序化渐变",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/scene-farm.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/scene-farm.svg",
+        "license": "CC0",
+        "source": "apollo-procedural",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "skinKey": "109/soil/wild",
+      "no": "art-02",
+      "kind": "sprite",
+      "desc": "未开垦的草地土块（行 0 荒·干）",
+      "slot": {
+        "entity": "tile-r0c0",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "slots": [
+        {
+          "entity": "tile-r0c0",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r0c0",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r0c0",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r0c1",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r0c1",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r0c1",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r0c2",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r0c2",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r0c2",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r0c3",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r0c3",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r0c3",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r0c4",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r0c4",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r0c4",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r0c5",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r0c5",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r0c5",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r1c0",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c0",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r1c0",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r1c1",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c1",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r1c1",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r1c2",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c2",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r1c2",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r1c3",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c3",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r1c3",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r1c4",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c4",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r1c4",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r1c5",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c5",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r1c5",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r2c0",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c0",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r2c0",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r2c1",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c1",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r2c1",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r2c2",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c2",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r2c2",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r2c3",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c3",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r2c3",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r2c4",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c4",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r2c4",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r2c5",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c5",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r2c5",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r3c0",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c0",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r3c0",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r3c1",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c1",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r3c1",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r3c2",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c2",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r3c2",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r3c3",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c3",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r3c3",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r3c4",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c4",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r3c4",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r3c5",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c5",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r3c5",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r4c0",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c0",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r4c0",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r4c1",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c1",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r4c1",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r4c2",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c2",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r4c2",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r4c3",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c3",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r4c3",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r4c4",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c4",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r4c4",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r4c5",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c5",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r4c5",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r5c0",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c0",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r5c0",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r5c1",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c1",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r5c1",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r5c2",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c2",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r5c2",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r5c3",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c3",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r5c3",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r5c4",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c4",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r5c4",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        },
+        {
+          "entity": "tile-r5c5",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c5",
+          "component": "SpriteBinding",
+          "field": "skins[0]"
+        },
+        {
+          "entity": "tile-r5c5",
+          "component": "SpriteBinding",
+          "field": "skins[1]"
+        }
+      ],
+      "query": "荒地土壤",
+      "prompt": "未开垦的草地土块（行 0 荒·干）, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "素坯 Shape + Color.tint（无图回退）",
+        "source": "procedural",
+        "count": 108,
+        "instances": [
+          "tile-r0c0.Sprite.textureKey",
+          "tile-r0c0.SpriteBinding.skins[0]",
+          "tile-r0c0.SpriteBinding.skins[1]",
+          "tile-r0c1.Sprite.textureKey",
+          "tile-r0c1.SpriteBinding.skins[0]",
+          "tile-r0c1.SpriteBinding.skins[1]",
+          "tile-r0c2.Sprite.textureKey",
+          "tile-r0c2.SpriteBinding.skins[0]"
+        ]
+      },
+      "spec": {
+        "w": 102,
+        "h": 102,
+        "displayW": 102,
+        "displayH": 102,
+        "transparent": false
+      },
+      "context": "美术需求：「荒地土壤」（36 处槽位共用·102×102·需满幅）·当前占位=素坯色块",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/soil-wild.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/soil-wild.svg",
+        "license": "CC0",
+        "source": "apollo-procedural",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "skinKey": "109/soil/tilled",
+      "no": "art-03",
+      "kind": "sprite",
+      "desc": "翻开的垄沟土块（行 2 翻·干·亦作行 1/3 不可达档的共图）",
+      "slot": {
+        "entity": "tile-r0c0",
+        "component": "SpriteBinding",
+        "field": "skins[2]"
+      },
+      "slots": [
+        {
+          "entity": "tile-r0c0",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r0c0",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r0c1",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r0c1",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r0c2",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r0c2",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r0c3",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r0c3",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r0c4",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r0c4",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r0c5",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r0c5",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r1c0",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r1c0",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r1c1",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r1c1",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r1c2",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r1c2",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r1c3",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r1c3",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r1c4",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r1c4",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r1c5",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r1c5",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r2c0",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r2c0",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r2c1",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r2c1",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r2c2",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r2c2",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r2c3",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r2c3",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r2c4",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r2c4",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r2c5",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r2c5",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r3c0",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r3c0",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r3c1",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r3c1",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r3c2",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r3c2",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r3c3",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r3c3",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r3c4",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r3c4",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r3c5",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r3c5",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r4c0",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r4c0",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r4c1",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r4c1",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r4c2",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r4c2",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r4c3",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r4c3",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r4c4",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r4c4",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r4c5",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r4c5",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r5c0",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r5c0",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r5c1",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r5c1",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r5c2",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r5c2",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r5c3",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r5c3",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r5c4",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r5c4",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        },
+        {
+          "entity": "tile-r5c5",
+          "component": "SpriteBinding",
+          "field": "skins[2]"
+        },
+        {
+          "entity": "tile-r5c5",
+          "component": "SpriteBinding",
+          "field": "skins[3]"
+        }
+      ],
+      "query": "翻过的土壤",
+      "prompt": "翻开的垄沟土块（行 2 翻·干·亦作行 1/3 不可达档的共图）, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "素坯 Shape + Color.tint（无图回退）",
+        "source": "procedural",
+        "count": 72,
+        "instances": [
+          "tile-r0c0.SpriteBinding.skins[2]",
+          "tile-r0c0.SpriteBinding.skins[3]",
+          "tile-r0c1.SpriteBinding.skins[2]",
+          "tile-r0c1.SpriteBinding.skins[3]",
+          "tile-r0c2.SpriteBinding.skins[2]",
+          "tile-r0c2.SpriteBinding.skins[3]",
+          "tile-r0c3.SpriteBinding.skins[2]",
+          "tile-r0c3.SpriteBinding.skins[3]"
+        ]
+      },
+      "spec": {
+        "w": 102,
+        "h": 102,
+        "displayW": 102,
+        "displayH": 102,
+        "transparent": false
+      },
+      "context": "美术需求：「翻过的土壤」（36 处槽位共用·102×102·需满幅）·当前占位=素坯色块",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/soil-tilled.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/soil-tilled.svg",
+        "license": "CC0",
+        "source": "apollo-procedural",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "skinKey": "109/soil/sown",
+      "no": "art-04",
+      "kind": "sprite",
+      "desc": "播过种的深色垄沟（行 4 播·干）",
+      "slot": {
+        "entity": "tile-r0c0",
+        "component": "SpriteBinding",
+        "field": "skins[4]"
+      },
+      "slots": [
+        {
+          "entity": "tile-r0c0",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r0c1",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r0c2",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r0c3",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r0c4",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r0c5",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r1c0",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r1c1",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r1c2",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r1c3",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r1c4",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r1c5",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r2c0",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r2c1",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r2c2",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r2c3",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r2c4",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r2c5",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r3c0",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r3c1",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r3c2",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r3c3",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r3c4",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r3c5",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r4c0",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r4c1",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r4c2",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r4c3",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r4c4",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r4c5",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r5c0",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r5c1",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r5c2",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r5c3",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r5c4",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        },
+        {
+          "entity": "tile-r5c5",
+          "component": "SpriteBinding",
+          "field": "skins[4]"
+        }
+      ],
+      "query": "播种后的土壤",
+      "prompt": "播过种的深色垄沟（行 4 播·干）, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "素坯 Shape + Color.tint（无图回退）",
+        "source": "procedural",
+        "count": 36,
+        "instances": [
+          "tile-r0c0.SpriteBinding.skins[4]",
+          "tile-r0c1.SpriteBinding.skins[4]",
+          "tile-r0c2.SpriteBinding.skins[4]",
+          "tile-r0c3.SpriteBinding.skins[4]",
+          "tile-r0c4.SpriteBinding.skins[4]",
+          "tile-r0c5.SpriteBinding.skins[4]",
+          "tile-r1c0.SpriteBinding.skins[4]",
+          "tile-r1c1.SpriteBinding.skins[4]"
+        ]
+      },
+      "spec": {
+        "w": 102,
+        "h": 102,
+        "displayW": 102,
+        "displayH": 102,
+        "transparent": false
+      },
+      "context": "美术需求：「播种后的土壤」（36 处槽位共用·102×102·需满幅）·当前占位=素坯色块",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/soil-sown.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/soil-sown.svg",
+        "license": "CC0",
+        "source": "apollo-procedural",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "skinKey": "109/soil/sown-wet",
+      "no": "art-05",
+      "kind": "sprite",
+      "desc": "浇透的近黑湿土带反光（行 5 播·湿·今晚会长的那格）",
+      "slot": {
+        "entity": "tile-r0c0",
+        "component": "SpriteBinding",
+        "field": "skins[5]"
+      },
+      "slots": [
+        {
+          "entity": "tile-r0c0",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r0c1",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r0c2",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r0c3",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r0c4",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r0c5",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r1c0",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r1c1",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r1c2",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r1c3",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r1c4",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r1c5",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r2c0",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r2c1",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r2c2",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r2c3",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r2c4",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r2c5",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r3c0",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r3c1",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r3c2",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r3c3",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r3c4",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r3c5",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r4c0",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r4c1",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r4c2",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r4c3",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r4c4",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r4c5",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r5c0",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r5c1",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r5c2",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r5c3",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r5c4",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        },
+        {
+          "entity": "tile-r5c5",
+          "component": "SpriteBinding",
+          "field": "skins[5]"
+        }
+      ],
+      "query": "浇过水的土壤",
+      "prompt": "浇透的近黑湿土带反光（行 5 播·湿·今晚会长的那格）, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "素坯 Shape + Color.tint（无图回退）",
+        "source": "procedural",
+        "count": 36,
+        "instances": [
+          "tile-r0c0.SpriteBinding.skins[5]",
+          "tile-r0c1.SpriteBinding.skins[5]",
+          "tile-r0c2.SpriteBinding.skins[5]",
+          "tile-r0c3.SpriteBinding.skins[5]",
+          "tile-r0c4.SpriteBinding.skins[5]",
+          "tile-r0c5.SpriteBinding.skins[5]",
+          "tile-r1c0.SpriteBinding.skins[5]",
+          "tile-r1c1.SpriteBinding.skins[5]"
+        ]
+      },
+      "spec": {
+        "w": 102,
+        "h": 102,
+        "displayW": 102,
+        "displayH": 102,
+        "transparent": false
+      },
+      "context": "美术需求：「浇过水的土壤」（36 处槽位共用·102×102·需满幅）·当前占位=素坯色块",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/soil-sown-wet.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/soil-sown-wet.svg",
+        "license": "CC0",
+        "source": "apollo-procedural",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "skinKey": "109/crop/carrot",
+      "no": "art-06",
+      "kind": "sprite",
+      "desc": "胡萝卜 3 帧横排：幼苗 / 成熟 / 空帧",
+      "slot": {
+        "entity": "tile-r0c0-crop",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "slots": [
+        {
+          "entity": "tile-r0c0-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r0c1-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c0-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c1-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c0-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c1-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c0-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c1-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c0-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c1-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c0-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c1-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        }
+      ],
+      "query": "胡萝卜生长阶",
+      "prompt": "胡萝卜 3 帧横排：幼苗 / 成熟 / 空帧, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "素坯 Shape + Color.tint（无图回退）",
+        "source": "procedural",
+        "count": 12,
+        "instances": [
+          "tile-r0c0-crop.Sprite.textureKey",
+          "tile-r0c1-crop.Sprite.textureKey",
+          "tile-r1c0-crop.Sprite.textureKey",
+          "tile-r1c1-crop.Sprite.textureKey",
+          "tile-r2c0-crop.Sprite.textureKey",
+          "tile-r2c1-crop.Sprite.textureKey",
+          "tile-r3c0-crop.Sprite.textureKey",
+          "tile-r3c1-crop.Sprite.textureKey"
+        ]
+      },
+      "spec": {
+        "w": 102,
+        "h": 102,
+        "displayW": 102,
+        "displayH": 102,
+        "transparent": true,
+        "sheet": {
+          "frameWidth": 102,
+          "frameHeight": 102,
+          "columns": 3,
+          "count": 3
+        }
+      },
+      "context": "美术需求：「胡萝卜生长阶」（12 处槽位共用·102×102·3 帧（102×102／帧）·需透明底）·当前占位=素坯色块",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/crop-carrot.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/crop-carrot.svg",
+        "license": "CC BY 3.0",
+        "source": "apollo-procedural + gameicons/delapouite/carrot",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "derivesFrom": "assets/gameicons/delapouite/carrot.svg",
+        "author": "Delapouite / Lorc (game-icons.net)",
+        "attribution": "CC BY 3.0 — 需署名（显示机制未立项）",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "skinKey": "109/crop/wheat",
+      "no": "art-07",
+      "kind": "sprite",
+      "desc": "小麦 4 帧横排：幼苗 / 抽穗 / 成熟 / 空帧",
+      "slot": {
+        "entity": "tile-r0c2-crop",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "slots": [
+        {
+          "entity": "tile-r0c2-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r0c3-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c2-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c3-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c2-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c3-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c2-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c3-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c2-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c3-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c2-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c3-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        }
+      ],
+      "query": "小麦生长阶",
+      "prompt": "小麦 4 帧横排：幼苗 / 抽穗 / 成熟 / 空帧, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "素坯 Shape + Color.tint（无图回退）",
+        "source": "procedural",
+        "count": 12,
+        "instances": [
+          "tile-r0c2-crop.Sprite.textureKey",
+          "tile-r0c3-crop.Sprite.textureKey",
+          "tile-r1c2-crop.Sprite.textureKey",
+          "tile-r1c3-crop.Sprite.textureKey",
+          "tile-r2c2-crop.Sprite.textureKey",
+          "tile-r2c3-crop.Sprite.textureKey",
+          "tile-r3c2-crop.Sprite.textureKey",
+          "tile-r3c3-crop.Sprite.textureKey"
+        ]
+      },
+      "spec": {
+        "w": 102,
+        "h": 102,
+        "displayW": 102,
+        "displayH": 102,
+        "transparent": true,
+        "sheet": {
+          "frameWidth": 102,
+          "frameHeight": 102,
+          "columns": 4,
+          "count": 4
+        }
+      },
+      "context": "美术需求：「小麦生长阶」（12 处槽位共用·102×102·4 帧（102×102／帧）·需透明底）·当前占位=素坯色块",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/crop-wheat.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/crop-wheat.svg",
+        "license": "CC BY 3.0",
+        "source": "apollo-procedural + gameicons/lorc/wheat",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "derivesFrom": "assets/gameicons/lorc/wheat.svg",
+        "author": "Delapouite / Lorc (game-icons.net)",
+        "attribution": "CC BY 3.0 — 需署名（显示机制未立项）",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "skinKey": "109/crop/pumpkin",
+      "no": "art-08",
+      "kind": "sprite",
+      "desc": "南瓜 5 帧横排：幼芽 / 藤叶 / 结瓜 / 成熟 / 空帧",
+      "slot": {
+        "entity": "tile-r0c4-crop",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "slots": [
+        {
+          "entity": "tile-r0c4-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r0c5-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c4-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c5-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c4-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c5-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c4-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c5-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c4-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c5-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c4-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c5-crop",
+          "component": "Sprite",
+          "field": "textureKey"
+        }
+      ],
+      "query": "南瓜生长阶",
+      "prompt": "南瓜 5 帧横排：幼芽 / 藤叶 / 结瓜 / 成熟 / 空帧, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "素坯 Shape + Color.tint（无图回退）",
+        "source": "procedural",
+        "count": 12,
+        "instances": [
+          "tile-r0c4-crop.Sprite.textureKey",
+          "tile-r0c5-crop.Sprite.textureKey",
+          "tile-r1c4-crop.Sprite.textureKey",
+          "tile-r1c5-crop.Sprite.textureKey",
+          "tile-r2c4-crop.Sprite.textureKey",
+          "tile-r2c5-crop.Sprite.textureKey",
+          "tile-r3c4-crop.Sprite.textureKey",
+          "tile-r3c5-crop.Sprite.textureKey"
+        ]
+      },
+      "spec": {
+        "w": 102,
+        "h": 102,
+        "displayW": 102,
+        "displayH": 102,
+        "transparent": true,
+        "sheet": {
+          "frameWidth": 102,
+          "frameHeight": 102,
+          "columns": 5,
+          "count": 5
+        }
+      },
+      "context": "美术需求：「南瓜生长阶」（12 处槽位共用·102×102·5 帧（102×102／帧）·需透明底）·当前占位=素坯色块",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/crop-pumpkin.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/crop-pumpkin.svg",
+        "license": "CC BY 3.0",
+        "source": "apollo-procedural + gameicons/delapouite/pumpkin",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "derivesFrom": "assets/gameicons/delapouite/pumpkin.svg",
+        "author": "Delapouite / Lorc (game-icons.net)",
+        "attribution": "CC BY 3.0 — 需署名（显示机制未立项）",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "skinKey": "109/plant/bar",
+      "no": "art-09",
+      "kind": "sprite",
+      "desc": "生长条 4 帧横排：0% / 33% / 66% / 100% 填充",
+      "slot": {
+        "entity": "tile-r0c0-plant",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "slots": [
+        {
+          "entity": "tile-r0c0-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r0c1-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r0c2-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r0c3-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r0c4-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r0c5-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c0-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c1-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c2-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c3-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c4-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r1c5-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c0-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c1-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c2-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c3-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c4-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r2c5-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c0-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c1-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c2-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c3-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c4-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r3c5-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c0-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c1-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c2-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c3-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c4-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r4c5-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c0-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c1-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c2-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c3-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c4-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        },
+        {
+          "entity": "tile-r5c5-plant",
+          "component": "Sprite",
+          "field": "textureKey"
+        }
+      ],
+      "query": "生长条",
+      "prompt": "生长条 4 帧横排：0% / 33% / 66% / 100% 填充, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "素坯 Shape + Color.tint（无图回退）",
+        "source": "procedural",
+        "count": 36,
+        "instances": [
+          "tile-r0c0-plant.Sprite.textureKey",
+          "tile-r0c1-plant.Sprite.textureKey",
+          "tile-r0c2-plant.Sprite.textureKey",
+          "tile-r0c3-plant.Sprite.textureKey",
+          "tile-r0c4-plant.Sprite.textureKey",
+          "tile-r0c5-plant.Sprite.textureKey",
+          "tile-r1c0-plant.Sprite.textureKey",
+          "tile-r1c1-plant.Sprite.textureKey"
+        ]
+      },
+      "spec": {
+        "w": 96,
+        "h": 10,
+        "displayW": 96,
+        "displayH": 10,
+        "transparent": true,
+        "sheet": {
+          "frameWidth": 96,
+          "frameHeight": 10,
+          "columns": 4,
+          "count": 4
+        }
+      },
+      "context": "美术需求：「生长条」（36 处槽位共用·96×10·4 帧（96×10／帧）·需透明底）·当前占位=素坯色块",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/plant-bar.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/plant-bar.svg",
+        "license": "CC0",
+        "source": "apollo-procedural",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "skinKey": "109/tool/plow",
+      "no": "art-10",
+      "kind": "sprite",
+      "desc": "工具按钮：锄头",
+      "slot": {
+        "entity": "btn-till",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "slots": [
+        {
+          "entity": "btn-till",
+          "component": "Sprite",
+          "field": "textureKey"
+        }
+      ],
+      "query": "锄地工具图标",
+      "prompt": "工具按钮：锄头, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "素坯 Shape + Color.tint（无图回退）",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "btn-till.Sprite.textureKey"
+        ]
+      },
+      "spec": {
+        "w": 96,
+        "h": 88,
+        "displayW": 96,
+        "displayH": 88,
+        "transparent": true
+      },
+      "context": "美术需求：「锄地工具图标」（单处槽位·96×88·需透明底）·当前占位=素坯色块",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/tool-plow.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/tool-plow.svg",
+        "license": "CC BY 3.0",
+        "source": "apollo-procedural + gameicons/delapouite/plow",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "derivesFrom": "assets/gameicons/delapouite/plow.svg",
+        "author": "Delapouite / Lorc (game-icons.net)",
+        "attribution": "CC BY 3.0 — 需署名（显示机制未立项）",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "skinKey": "109/tool/plant-seed",
+      "no": "art-11",
+      "kind": "sprite",
+      "desc": "工具按钮：种子袋",
+      "slot": {
+        "entity": "btn-sow",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "slots": [
+        {
+          "entity": "btn-sow",
+          "component": "Sprite",
+          "field": "textureKey"
+        }
+      ],
+      "query": "播种工具图标",
+      "prompt": "工具按钮：种子袋, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "素坯 Shape + Color.tint（无图回退）",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "btn-sow.Sprite.textureKey"
+        ]
+      },
+      "spec": {
+        "w": 96,
+        "h": 88,
+        "displayW": 96,
+        "displayH": 88,
+        "transparent": true
+      },
+      "context": "美术需求：「播种工具图标」（单处槽位·96×88·需透明底）·当前占位=素坯色块",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/tool-plant-seed.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/tool-plant-seed.svg",
+        "license": "CC BY 3.0",
+        "source": "apollo-procedural + gameicons/delapouite/plant-seed",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "derivesFrom": "assets/gameicons/delapouite/plant-seed.svg",
+        "author": "Delapouite / Lorc (game-icons.net)",
+        "attribution": "CC BY 3.0 — 需署名（显示机制未立项）",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "skinKey": "109/tool/watering-can",
+      "no": "art-12",
+      "kind": "sprite",
+      "desc": "工具按钮：洒水壶",
+      "slot": {
+        "entity": "btn-water",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "slots": [
+        {
+          "entity": "btn-water",
+          "component": "Sprite",
+          "field": "textureKey"
+        }
+      ],
+      "query": "浇水工具图标",
+      "prompt": "工具按钮：洒水壶, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "素坯 Shape + Color.tint（无图回退）",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "btn-water.Sprite.textureKey"
+        ]
+      },
+      "spec": {
+        "w": 96,
+        "h": 88,
+        "displayW": 96,
+        "displayH": 88,
+        "transparent": true
+      },
+      "context": "美术需求：「浇水工具图标」（单处槽位·96×88·需透明底）·当前占位=素坯色块",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/tool-watering-can.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/tool-watering-can.svg",
+        "license": "CC BY 3.0",
+        "source": "apollo-procedural + gameicons/delapouite/watering-can",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "derivesFrom": "assets/gameicons/delapouite/watering-can.svg",
+        "author": "Delapouite / Lorc (game-icons.net)",
+        "attribution": "CC BY 3.0 — 需署名（显示机制未立项）",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "skinKey": "109/tool/scythe",
+      "no": "art-13",
+      "kind": "sprite",
+      "desc": "工具按钮：镰刀",
+      "slot": {
+        "entity": "btn-reap",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "slots": [
+        {
+          "entity": "btn-reap",
+          "component": "Sprite",
+          "field": "textureKey"
+        }
+      ],
+      "query": "收获工具图标",
+      "prompt": "工具按钮：镰刀, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "素坯 Shape + Color.tint（无图回退）",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "btn-reap.Sprite.textureKey"
+        ]
+      },
+      "spec": {
+        "w": 96,
+        "h": 88,
+        "displayW": 96,
+        "displayH": 88,
+        "transparent": true
+      },
+      "context": "美术需求：「收获工具图标」（单处槽位·96×88·需透明底）·当前占位=素坯色块",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/tool-scythe.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/tool-scythe.svg",
+        "license": "CC BY 3.0",
+        "source": "apollo-procedural + gameicons/lorc/scythe",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "derivesFrom": "assets/gameicons/lorc/scythe.svg",
+        "author": "Delapouite / Lorc (game-icons.net)",
+        "attribution": "CC BY 3.0 — 需署名（显示机制未立项）",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "skinKey": "109/hud/night-sleep",
+      "no": "art-14",
+      "kind": "sprite",
+      "desc": "动作按钮：月亮睡觉",
+      "slot": {
+        "entity": "btn-sleep",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "slots": [
+        {
+          "entity": "btn-sleep",
+          "component": "Sprite",
+          "field": "textureKey"
+        }
+      ],
+      "query": "睡觉动作图标",
+      "prompt": "动作按钮：月亮睡觉, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "素坯 Shape + Color.tint（无图回退）",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "btn-sleep.Sprite.textureKey"
+        ]
+      },
+      "spec": {
+        "w": 96,
+        "h": 88,
+        "displayW": 96,
+        "displayH": 88,
+        "transparent": true
+      },
+      "context": "美术需求：「睡觉动作图标」（单处槽位·96×88·需透明底）·当前占位=素坯色块",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/hud-night-sleep.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/hud-night-sleep.svg",
+        "license": "CC BY 3.0",
+        "source": "apollo-procedural + gameicons/delapouite/night-sleep",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "derivesFrom": "assets/gameicons/delapouite/night-sleep.svg",
+        "author": "Delapouite / Lorc (game-icons.net)",
+        "attribution": "CC BY 3.0 — 需署名（显示机制未立项）",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "skinKey": "109/hud/coins",
+      "no": "art-15",
+      "kind": "sprite",
+      "desc": "动作按钮：金币",
+      "slot": {
+        "entity": "btn-sell",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "slots": [
+        {
+          "entity": "btn-sell",
+          "component": "Sprite",
+          "field": "textureKey"
+        }
+      ],
+      "query": "卖货动作图标",
+      "prompt": "动作按钮：金币, flat vector game asset, transparent background, chunky cartoon farm style, 2d top-down",
+      "placeholder": {
+        "current": "素坯 Shape + Color.tint（无图回退）",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "btn-sell.Sprite.textureKey"
+        ]
+      },
+      "spec": {
+        "w": 96,
+        "h": 88,
+        "displayW": 96,
+        "displayH": 88,
+        "transparent": true
+      },
+      "context": "美术需求：「卖货动作图标」（单处槽位·96×88·需透明底）·当前占位=素坯色块",
+      "status": "approved",
+      "gen": {
+        "servedPath": "/games/game109/art/hud-coins.svg",
+        "generator": "apollo-procedural",
+        "mock": false
+      },
+      "provenance": {
+        "path": "/games/game109/art/hud-coins.svg",
+        "license": "CC BY 3.0",
+        "source": "apollo-procedural + gameicons/delapouite/coins",
+        "generator": "apollo-procedural",
+        "script": "scripts/game109-art-gen.mjs",
+        "style": "chunky cartoon farm (flat shapes + 1px-ish stroke + soft speckle)",
+        "derivesFrom": "assets/gameicons/delapouite/coins.svg",
+        "author": "Delapouite / Lorc (game-icons.net)",
+        "attribution": "CC BY 3.0 — 需署名（显示机制未立项）",
+        "mock": false
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    }
+  ]
+}
