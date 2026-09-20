@@ -55,7 +55,7 @@ overlayHost (inset:0 · z20 · pointer-events:auto)
 - **世界在菜单期不特殊**：开局态（day 1 / energy 20 / gold 0）**本身就是菜单态** ⇒ 「开始」只收屏、**不改世界一个字节**
   （形态声明 #3）。这也是它不需要新 flow 状态、不需要动 `blueprint.ts` 的原因。
 
-### ② 结算屏（`buildStarterResult`）—— ⏳ **本批未施工·撞两条硬墙·已报裁**
+### ② 结算屏（`buildStarterResult`）—— ⏳ **owner 2026-09-20 裁 A：不换·记债为「可判定的边界事实」**
 
 `buildStarterResult` 的签名是 `{title?, stars, score, hasNext?, retryAction?, nextAction?}`（`starter-kit.ts:64-67`）。
 本关的水土不服有两条，**都不是口味问题**：
@@ -65,7 +65,15 @@ overlayHost (inset:0 · z20 · pointer-events:auto)
 | **① `score` 破坏精确金币** | `score` 渲在 **硬编码 `format:'compact'`** 的 Label 上（`starter-kit.ts:76`）；`formatNumber(1026,'compact')` = **`1K`**（`render.ts:39-45` 实测口径·`juice-fx.test.ts:84` 钉着） | 走查的跨线卖货那条**必须读精确金币**：`sell()` 在换屏后用 `最终金币 (\d+) / \d+` 兜底（`game109-playthrough.mjs:90`），终局那条断言是 `g7 === 1026`（`:372`）。换 builder ⇒ 只剩 `1K` ⇒ **断言强度下降**——而 owner 授权的前提正是「一条不降」 |
 | **② `stars` 无源** | builder **强制** `stars`（`:65`）并 clamp 到 0..3（`:73`） | 本关**没有「分数」这个量**：通关是**二值**判据（`gold >= goldTarget`）⇒ 任何 0..3 的档位都得**新编一条规则**（如「几天内通关算几星」）＝撞形态声明 #3「玩法数值/规则一个字节不改」。`BALANCE` 里也没有可复用的档位量（`data.ts:196-206` 只有 goldTarget/energy/actionCost…） |
 
-**三案（Lead 只推荐·不自裁）**：见 `requests.md` §0.(r)。
+**owner 裁定（2026-09-20「继续A」）= A：结算屏不换，把这半笔债写成可判定的边界事实。**
+⇒ D-13 的两个半笔现在**逐半可判**：
+- **`buildStarterHome` 那半 ✅ 已清**——是**字面调用**（`hud.ts:1` import + `buildHome()` 全文），不是「向它看齐」。
+- **`buildStarterResult` 那半 ⏳ 记债**——判据**不是**「没做 / 没时间」，而是**「在本关现有两条明文红线内不可满足」**，
+  两条红线与各自的具体缺件已逐条钉在上表 ①/②（**可被独立复查人逐条复核真假**）。**解锁条件写在债表 D-13 行**：
+  要么 owner 松绑「断言强度一条不降」（接受金币读数降级成 `1K`），要么松绑「玩法数值/规则一个字节不改」（为 0..3 星新编一条规则并重跑玩法验证）。
+- **本批一个字节未动**结算屏：`resultPanel`（`hud.ts`）原样保留。
+
+**三案原文**（Lead 只推荐·不自裁·存档备查）：见 `requests.md` §0.(r)。
 
 ### ③ 走查随动（`scripts/game109-playthrough.mjs`·owner 已授权）—— ✅ 本批施工
 
@@ -103,7 +111,7 @@ Playwright 的 `page.click` 会做 actionability 检查（含「事件真落到�
 - **不动**玩法数值与规则：`BALANCE` / `CROPS` / `TOOLS` / `FARM.cropByCol` 一个数不改。
 - **不动**走查按正则读的四串文案格式与既有 6 个 id。
 - **不跑** `game109-art-requirements.mjs`（会把人门 15 行打回未审）。
-- ⏳ **结算屏**：本批不动（§二-② 两条硬墙未裁前，一个字节都不改）。
+- ⏳ **结算屏**：不动——owner 2026-09-20 裁 **A**（不换·记债为可判定边界事实·§二-②），**本批零字节改动**。
 
 **边界唯一一处跨界（owner 明许·逐条可核）**：本批**动了 `scripts/game109-playthrough.mjs`**——它在 S7 领工声明 §(n) 的
 「明确不碰：其它 `scripts/**`」栏内。**动它的依据是 owner 2026-09-20 裁 A 的原文授权**（`requests.md` §0.(q)：授权按

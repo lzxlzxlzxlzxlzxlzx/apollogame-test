@@ -1021,7 +1021,7 @@ node scripts/game-pipeline.mjs gate game109 S4
 | D-10 | **`theme.ts` 自述的「阶→帧投影」缺口未登记进 `capability-gaps.json`** | 报 owner（与 §4 同裁） |
 | D-11 | ~~**`SpriteBinding` 未登记进 `component-manifest-baseline.json`**~~ **已关闭** | owner 授权合并跑 `--update`（§0.16）· 155→163 · 归属已留档 |
 | D-12 | **冻结快照把 `docs-ref-guard` 撑爆**（`docs/design/**` × 175 万文件 → 4GB 堆爆） | 报 mcfight / owner（§0.15·**非我引入，但拦着全库绿**） |
-| D-13 | **`capability-plan.md §4.6` 的换屏结构未落地（②b）**：该用 `@ui/starters` 的 `buildStarterHome`（主菜单屏）+ `buildStarterResult`（结算屏）替掉自建结算面板；现状 = **自建 HUD + 自建结算面板、无主菜单屏** ⇒ `§4.6` 写的「用 `@ui/starters`…**不自建朴素屏**」与实现是**显性偏差**（不是「已解决」）。同屏另叠两条观感债：**两套控件并存**（画布动作条 + DOM HUD）、且画布那 6 枚**无字色块与地块近同色**（`theme.ts:26-28` 自述「两套控件并存…合并成一套留给 S4/S5 的真 HUD」——S4/S5 都没做） | **owner 裁 B（§0.18 裁决行 E ②b·§0.20）**：记债 · 归 ②b「真 HUD」/ S6 美术期（与 D-9/D-14 一揽子）；**不选「回 S4 补」**——那要重开 S4、作废刚落的人门，为一个功能不缺（E2E 174/174 全绿）的换屏付一整轮复查 · **§0.(p) 部分落地**：「两套控件并存」✅ **已合并成一套**（撤画布 6 枚 `btn-*` · DOM 条盖住原按钮带 · 六条槽换消费者给 `Panel.skin`）；「换屏结构」⏳ **仍欠**，A/B 已报裁（§0.(q)）|
+| D-13 | **`capability-plan.md §4.6` 的换屏结构未落地（②b）**：该用 `@ui/starters` 的 `buildStarterHome`（主菜单屏）+ `buildStarterResult`（结算屏）替掉自建结算面板；现状 = **自建 HUD + 自建结算面板、无主菜单屏** ⇒ `§4.6` 写的「用 `@ui/starters`…**不自建朴素屏**」与实现是**显性偏差**（不是「已解决」）。同屏另叠两条观感债：**两套控件并存**（画布动作条 + DOM HUD）、且画布那 6 枚**无字色块与地块近同色**（`theme.ts:26-28` 自述「两套控件并存…合并成一套留给 S4/S5 的真 HUD」——S4/S5 都没做） | **owner 裁 B（§0.18 裁决行 E ②b·§0.20）**：记债 · 归 ②b「真 HUD」/ S6 美术期（与 D-9/D-14 一揽子）；**不选「回 S4 补」**——那要重开 S4、作废刚落的人门，为一个功能不缺（E2E 174/174 全绿）的换屏付一整轮复查 · **§0.(p) 部分落地**：「两套控件并存」✅ **已合并成一套**（撤画布 6 枚 `btn-*` · DOM 条盖住原按钮带 · 六条槽换消费者给 `Panel.skin`）；「换屏结构」**主菜单屏 ✅ 已落地 / 结算屏 ⏳ 记债**——**owner 2026-09-20 裁 A（§0.(r)）**：`buildStarterHome` 那半已**字面调用**（§0.(q) 执行结果）；`buildStarterResult` 那半**撞两条明文红线**（走查断言强度一条不降 · 玩法数值/规则一个字节不改）⇒ 记债，判据 = 「**在本关现有两条红线内不可满足**」，**缺的具体是什么**逐条写在 §0.(r)（不是一句『没做』） |
 | D-14 | **`capability-plan.md §4.6`「成熟件清单」五项里三项未落地**：第 3 项 网格容器（背包/工具栏格子）· 第 4 项 `Particles`（通关庆祝）· 第 2 项 `Label.format`（数值） | **owner 裁 B（§0.20）**：记债 · 与 D-13 同归「真 HUD」/ S6 美术期 · **§0.(p) 部分落地**：第 3 项 ✅（`Panel` grid·`cols: CROPS.length`）· 第 4 项 ✅（`Particles{kind:'confetti'}` 通关屏）· 第 2 项 ❌ **本关边界内做不了**（走查按 `最终金币 (\d+) / \d+` 等正则读四串读数 ⇒ 插千分位当场红·见 `S7-hud-design.md` §二-④）|
 | D-15 | **S4 的「δ 全轴」给引擎留下 24 条 `tsc --noEmit` 红**（13 `src/skills/tier2/sprite-binding.ts` + 9 其单测 + 1 `knockback.ts` + 1 `games/game-mcfight/r3-b4-public-capabilities.test.ts`，game109 **0 条**）——协议接口 `render.ts:633-640` 没跟上运行时的 `states`/`flagId`/`stride` | **owner 裁 B（§0.20）**：记债 · **不与本关捆绑**（下一关/全库层面处理）；代价照记——`build:cartridge` 的 `tsc` 修好前一直红 |
 | D-16 | **四关机械门禁查不到「文字换行」**：布局卫生只验 `validateLayoutNode` 零 issue，不验文本溢出/换行 ⇒ D-9 那类病**只有人眼能抓** | 工具侧 |
@@ -1382,7 +1382,7 @@ S4 复查的条件②原话是「现挂缺省 SHELL + 自建 HUD，plan §4.6 �
 |---|---|---|---|
 | 1 | 补 `tints` 单测证人 | ✅ **完成** | `games/game109/game109.skeleton.test.ts`（含撤修验红） |
 | 2a | `STARTER_THEME` 换皮 | ✅ **完成**（并修掉一处**四关实测抓到**的真红·见 (b)） | `games/game109/game109.ts:110` · `games/game109/hud.ts` 根面 |
-| 2b | 换屏结构（`buildStarterHome`/`buildStarterResult`） | ⏸ **记债 D-13**（owner 已裁·§0.18） | — |
+| 2b | 换屏结构（`buildStarterHome`/`buildStarterResult`） | ⏸ **记债 D-13**（owner 已裁·§0.18）→ **S7 现场态**：`buildStarterHome` 半 ✅ **已清**（字面调用）· `buildStarterResult` 半 ⏳ **owner 2026-09-20 裁 A 记债**（两条红线·§0.(r)） | — |
 | 3 | R-19 重复浇水（无专属守卫） | ✅ **完成** | `docs/design/game109/acceptance/09-water-repeat-no-free-spend.scenario.jsonc`（新建）+ 递归脚本第 16 条 `known-naked`→`guarded` |
 | 4 | §0.10 双构造（`buildEngine(seed)` 缝） | ⏸ **保债 D-3 / D-8**（本关未收敛·未点名的债不自行消） | — |
 | 5 | **观感精修**（本关本职·分关律 `ui.md:21`） | ✅ **完成**（范围与"为什么只有两件"见 (d)） | `games/game109/hud.ts` |
@@ -2127,3 +2127,97 @@ owner 裁 B，我即按「**不在 S5 动、记债交接 S4**」落。**若本�
 
 **⚠ 本回合交接形态**：依据收工律，本回合停在 **①缺口 A/B 裁决点**（本条）**＋** 授权条款里那条**待派的复查门**。
 **Lead 只推荐，不自裁**。
+
+#### 裁定与执行（owner 2026-09-20 回「A」）
+
+**裁 A** ⇒ 结算屏**不换**，把这半笔债写成**可判定的边界事实**；本回合施工到此为止。
+
+**不是「没做」——是可复核的不可满足判据。** 逐条钉死如下（两条都能被独立复查人拿码当场验真假）：
+
+| # | 红线（owner 原文） | 缺的具体是什么 | 复核方式（一句话） |
+|---|---|---|---|
+| ① | 「**断言强度一条不降**」（§0.(q) 授权条款原文） | `buildStarterResult` 把 `score` 渲在**硬编码 `format:'compact'`** 的 Label 上（`starter-kit.ts:76`）⇒ 金币只能读成 `1K`；而走查跨线卖货那条**读的是个位数**（`game109-playthrough.mjs:90` 正则 `最终金币 (\d+) / \d+` + `:372` 的 `g7 === 1026`）⇒ **换屏必然让这条从「精确到个位」降级** | `grep -n "format:'compact'" src/ui/starters/starter-kit.ts` + 跑 `node -e` 看 `formatNumber(1026,'compact')` |
+| ② | 「**玩法数值/规则一个字节不改**」（形态声明 #3） | `stars` 是**必填**参数且 clamp 0..3（`starter-kit.ts:65,73`）⇒ 必须**新编**一条「几天内通关算几星」之类的规则；`BALANCE` 里**没有**可复用的档位量（`data.ts:196-206` 只有 `goldTarget`/`energy`/`actionCost`…），通关本身是**二值**判据（`gold >= goldTarget`） | `grep -n "stars" src/ui/starters/starter-kit.ts` + `grep -n "goldTarget\|actionCost" games/game109/data.ts` |
+
+**解锁条件（写给未来的自己 / 复查人）**：这两条**任一条**被 owner 松绑 ⇒ 本债即刻可清，且**必须**连带重跑玩法验证（①降级的是证据强度，②引入的是新数值规则）。
+**在那之前，结算屏 `resultPanel` 一个字节不动**（本批实测零改动）。
+
+**D-13 现状**：`buildStarterHome` 半 **✅ 已清**（字面调用·非「看齐」）· `buildStarterResult` 半 **⏳ 记债**（判据 = 上表）。
+
+**新增证据**：设计稿 §二-② 落地后的版本即本条的规格侧；机器判据与指纹见 §0.(q) 尾（**同源**·不重复贴）。
+
+#### 裁定后的重跑（**规格先冻结 → 后跑门 → 最后算指纹**·本轮第二次执行这套纪律）
+
+改设计稿会**移动 `gameHash`**（`docs/design/game109/**` 在指纹根内）⇒ 落账后**必须重跑三张判据并重算指纹**，
+否则 §0.(q) 那张表就成了**过去某一刻的读数**被当成现在的证据用（假绿来源）。本轮照做：
+
+| # | 判据 | 读数（本回合实跑·逐条可复跑） |
+|---|---|---|
+| 1 | `npx tsc --noEmit -p .` | 全仓 **24** 条错，**`games/game109/**` 与 `scripts/**` = 0 条**；24 条全在 `src/skills/tier2/**`（13+9+1）与 `games/game-mcfight/**`（1）——**边界外·既有·与 §0.(q) 逐条同分布** |
+| 2 | `npx vitest run games/game109/` | **2 文件 52/52 通过**·真退出码 **0**·**`Failed Tests` 段 0 处**（D-24 的判据就是这一条，不只看退出码） |
+| 3 | `node scripts/game109-playthrough.mjs` | **176/176 全绿**·真退出码 **0**·点名表 9 行全 ✓（含 `work-canvas` 108 条点名）·零 console error |
+
+**ui-audit ×4 未重跑（照实记，不粉饰）**：audit 消费的是 `games/**` 与 `self-check/audit-*.ts`，
+本轮落账**只写了 `docs/design/game109/` 下的 markdown 与 `requests.md`** ⇒ audit 消费的字节与 §0.(q) 那次**逐一相同**，读数仍有效。
+**这条是判断，不是读数**——复查人若认为该重跑，说一声就补。
+
+**新指纹（= 上表三张判据的同一刻字节态）**：
+
+| 文件 | sha256(前 12) | 与 §0.(q) 相比 |
+|---|---|---|
+| `games/game109/theme.ts` | `ab9fa8284490` | 未动 |
+| `games/game109/blueprint.ts` | `f6bfb2b7d590` | 未动 |
+| `games/game109/data.ts` | `4bfebe50ec23` | **未动**（形态声明 #3 的字节证据·**owner 裁 A 后仍是零改动**）|
+| `games/game109/hud.ts` | `f0b91a3c616e` | 未动 |
+| `games/game109/game109.ts` | `f2a91544e73d` | 未动 |
+| `games/game109/game109.skeleton.test.ts` | `6efec5fa8db0` | 未动 |
+| `scripts/game109-playthrough.mjs` | `660ccd04a865` | 未动 |
+| `public/games/game109/self-check/audit-home.audit.ts` | `944f0cf7aad7` | 未动（证据目录·不入指纹）|
+| `docs/design/game109/S7-screen-swap-design.md` | **`ace367bcd5ce`** | **改**（§二-② 记 A 裁定 + §三 那条「未裁前不动」改成「已裁 A·不动」）|
+
+**`gameHash` = `e8b39d1194d35dd4`**（自 §0.(q) 的 `05a827b907877415`；**变动源唯一 = 设计稿**）。
+
+⚠ **这条要念给下一个接手的人**：`gameHash` 一动，**已清过的闸就与新字节态脱钩**。A 裁定本身**不碰任何门**（不动 `games/**` 运行代码），
+但它**改了 `docs/design/**`** ⇒ 若 S4/S5 的 gate 已经按 `05a827b907877415` 清了，那两张门**现在绑的是旧指纹**。
+**处置：本回合之后立刻进评分卡 + 清闸流程（§0.(o) 既定序列）——清闸时用的就是 `e8b39d1194d35dd4`**，不是回头去补旧指纹。
+
+**⚠ 本回合并发的一件事**：owner 同轮另下「提交一次更新到 github」（远端 `lzxlzxlzxlzxlzxlzx/apollogame-test`·分支 `game-105-standalone`）——
+**git 推送与三个门无关**，它只是把工作副本同步上去；**不改变任何判据、不移动 `gameHash`**（`requests.md` 本身就被 `game-hash` 显式排除）。
+
+#### git 同步侧（owner 指令原文·逐条落账）
+
+**远端以 owner 更正为准**：`https://github.com/lzxlzxlzxlzxlzxlzx/apollogame-test.git`——顶层 `PUSH-TEST.md` 里写的 `eaglefly628/ApolloGame`
+**是错仓**（我已按错仓分析过一轮，读数全部作废；owner 的更正与拒绝同一条消息发出）。**本条留档以防下一个接手的人再照 `PUSH-TEST.md` 跑。**
+
+已完成的本地动作（**全部可逆**）：`git init -b claude/game109-s7-screens` · `origin` 指向更正后的 URL · `core.longpaths true`（Windows 长路径，
+不设则 `git add -A` 会在 `…/FreeArtLib/…starspawn_tentacle_segment_north_southeast.png` 上 `Filename too long`）· `git add -A`（**125,106** 条目）
+· root commit **`ea3ce1e3`** · 安全标签 **`pre-sync-root`**（**回退锚点：`git reset --hard pre-sync-root`**）。**尚未 `push`——一个字节都没到远端。**
+
+**冻结快照的处置（本回合把账算清后翻过一次案，照实记）**：
+
+| 两个非空 `frozen-source` 目录 | 磁盘 `find -type f` | 进 index | **被 `.gitignore` 挡下** | 未跟踪未忽略 |
+|---|---|---|---|---|
+| `…/r3-b2-freeze-20260917-r6-complete/frozen-source` | 59,411 | 42,246 | 17,165 | 0 |
+| `…/r3-b3-freeze-20260917-r3-complete/frozen-source` | 57,545 | 40,382 | 17,163 | 0 |
+| **合计** | **116,956** | **82,628** | **34,328** | **0** |
+
+⚠ **这一栏是本回合最容易出人命的地方，留档**：我先用「磁盘 116,956」对上「上一轮那个 82,628」，
+**当场得出「约 3.4 万个冻结文件已在远端」的结论** ⇒ 若照此办，`git rm -r --cached <整个目录>` 就会**静默删掉远端 3.4 万条**。
+**继续查才发现那 34,328 条根本不进 index——它们是 `.gitignore` 挡下的，从来没被 staged 过。**
+⇒ **82,628 = 上一轮实测的「本地有·远端没有」精确对上** ⇒ 目录级 `rm --cached` **安全**（删的全是本地独有）。
+**教训**：`find | wc -l` 是**磁盘**数，`git ls-files | wc -l` 是**索引**数，**两者不能互相代入**——
+这次是靠 `git ls-files --others --ignored --exclude-standard` 把差额**归零到了 `.gitignore`** 才定案的。
+
+**另一个真坑（本回合亲手踩）**：上一轮我挂的后台重试循环写成 `for i in ...; do timeout 200 git fetch ...; done`。
+**`timeout 200` 让这个循环永远不可能成功**——链路实测吞吐约 **22 KB/s**，200 秒只够下几 MB，
+每次超时都把**已经下到的部分 pack 整个丢掉**、下一轮从零开始。
+⇒ 已停掉该循环，换成**单次长时 fetch**（`http.lowSpeedLimit=1000` + `lowSpeedTime=900`·后台任务 `bv3nsa6ik`）。
+**教训（通用）**：给「慢但活着」的链路配超时，超时值要按**实测吞吐 × 预期体积**算，不能拍一个整数。
+
+**增量提交的内容边界（等 `FETCH_HEAD` 到手后执行）**：`git fetch --depth 1` → `reset --soft FETCH_HEAD`（HEAD 移到上游 tip·index 不动）
+→ `git rm -r --cached -q -- <两个 `frozen-source` 目录>`（删 82,628 条**本地独有**路径）
+→ **不碰**两个包里的 **11 份非冻结交付物**（`README.md`/`PACKAGE-MANIFEST.json`/`REVIEW-ENTRY.md`/`independent-review*.md`/`integrity.sha256`/`review-input/**`·**要保留**）
+→ 保留 `cartridge-station/library/.gitkeep`（远端独有 1 条·不静默删）
+→ `commit` → `push origin HEAD:game-105-standalone`（应为 **fast-forward**）。
+**⚠ 一并要写进 `.git/info/exclude`（本地专用·不碰仓内 `.gitignore`）**：`*/frozen-source/`，
+否则下次 `git add -A` 又会把那 82,628 条吞回来。
