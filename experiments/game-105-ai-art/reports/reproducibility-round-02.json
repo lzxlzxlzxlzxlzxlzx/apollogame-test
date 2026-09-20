@@ -1,0 +1,68 @@
+{
+  "deterministicArtifactHashesStable": true,
+  "artifactCount": 9,
+  "runtimeMeasurementsExactlyStable": true,
+  "runtimeScreenshots": {
+    "ink-proposal-1280x720-card-run-1.png": {
+      "run1": "FEEE4852F8DF6225AD55E834424864C0EF38B8B27838D25526C7C314FAC71842",
+      "run2": "847A0401809D873BBD5C7AAD75D1B584075EB1DF1F005A9339817287BA84FEE1",
+      "stable": false
+    },
+    "ink-proposal-1280x720-run-1.png": {
+      "run1": "547F0DA2980065EBF95EFC35265EA93CBEE5AE57F4599572ACDA58629FEF9FE4",
+      "run2": "EC9AE594C8E674D1683DBCAA4FE956A31682F349B0A23995C777E5FFED85EB21",
+      "stable": false
+    },
+    "ink-proposal-800x450-card-run-1.png": {
+      "run1": "AC25ED4E68587E20F2B2DD40A8C692258FE8FC6359D1DF06482A61E56FA7B325",
+      "run2": "62226C44E03F4621EF32138FDCACE69FFA29621C25CF0F803220B78A883C7D06",
+      "stable": false
+    },
+    "ink-proposal-800x450-run-1.png": {
+      "run1": "1534E6C66EE2EA6B35103F6647031AAE0E6CFE2358A32E1113FEE324F56FF1A4",
+      "run2": "6AB660C8C43C67E6EDAAFAFB5311FAE5A1C504FEF2AB0B957A816845C25EF885",
+      "stable": false
+    },
+    "ink-proposal-after-submit-run-1.png": {
+      "run1": "C289D3BF4B57132449F8330FC85D5881DC611CC506305852A24F07183F3CB112",
+      "run2": "00F86227468B39BB5ABCC23AAA0498495A3357CB9867BD8ECE98193A554390D9",
+      "stable": false
+    },
+    "ink-proposal-ai-run-1.png": {
+      "run1": "2179C959221CB9C1759B59D6E446208D567DFB4F7578DE9DFC440E4E3C6D4E1A",
+      "run2": "5C30EE20A6F68B369FFD1FD382607FEC63280DFBE34F9901F490B221D308E7E4",
+      "stable": false
+    },
+    "original-ink-1280x720-card-run-1.png": {
+      "run1": "900A11559ABB26FF68A28CC0543B547BFE6AD82F4320A5C9295E2E0249700BC5",
+      "run2": "02ED47C62B7E5288425FD85328CCDB53890B0A53CFA7D40FCE1D6EDD455706EE",
+      "stable": false
+    },
+    "original-ink-1280x720-run-1.png": {
+      "run1": "07600EAFDFA570124936A9783800E7BAC0ABEDB857109D3919804D2F9ADF4961",
+      "run2": "AADF7557C988281DABFFC195757914AEF1A65ACF4AB1EE41FD062B8BE97115E1",
+      "stable": false
+    },
+    "original-ink-800x450-card-run-1.png": {
+      "run1": "02C1087827A2E8237632CC22D105D93615FAD2488F62167A6C0AB149631B8948",
+      "run2": "51AEEC4B210492CD75CD4C1C8CA68CF8DDB92C43066AFC37E507F9C2DF758346",
+      "stable": false
+    },
+    "original-ink-800x450-run-1.png": {
+      "run1": "8309BC8715F287393FD3045DA2764B0FA683A3BFD471F79D488F19115E94D1EC",
+      "run2": "18C4DB55D831FB849BAC33EB30E907F0827861DA3A89B4AB101D7AADB3057343",
+      "stable": false
+    },
+    "original-ink-after-submit-run-1.png": {
+      "run1": "EBB1CA808C44CB98F106A26F50C43697694B11A56F0C4BD21C3F60E7E04887F5",
+      "run2": "8C0B29397E3F01A2A0AF078F2FA00AB1AF403B25AF5CFB7149CB05BE5003C4EA",
+      "stable": false
+    },
+    "original-ink-ai-run-1.png": {
+      "run1": "23C651045F4CD91CBC8BDA50B96BDF254D23C8C51C9C974861BE7408C50452AE",
+      "run2": "31A9E93DC56F4061277B712BECBD30D2EB7CEE33B73BFB265AC6BBDF7CA46849",
+      "stable": false
+    }
+  },
+  "scope": "Two deterministic builds use the same preserved generated original and frozen browser evidence. Image generation is not rerun and is not deterministic. Live physics screenshots are checked separately; unequal hashes are reported, never hidden."
+}

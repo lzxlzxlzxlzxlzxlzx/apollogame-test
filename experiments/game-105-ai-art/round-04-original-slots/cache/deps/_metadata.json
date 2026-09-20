@@ -1,0 +1,166 @@
+{
+  "hash": "d2058fe0",
+  "configHash": "b241d7dc",
+  "lockfileHash": "d296b408",
+  "browserHash": "8d1648a8",
+  "optimized": {
+    "cannon-es": {
+      "src": "../../../../../node_modules/cannon-es/dist/cannon-es.js",
+      "file": "cannon-es.js",
+      "fileHash": "24abd72e",
+      "needsInterop": false
+    },
+    "three": {
+      "src": "../../../../../node_modules/three/build/three.module.js",
+      "file": "three.js",
+      "fileHash": "e79c1dc7",
+      "needsInterop": false
+    },
+    "three/addons/environments/RoomEnvironment.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "file": "three_addons_environments_RoomEnvironment__js.js",
+      "fileHash": "d159cf82",
+      "needsInterop": false
+    },
+    "three/addons/geometries/ConvexGeometry.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/geometries/ConvexGeometry.js",
+      "file": "three_addons_geometries_ConvexGeometry__js.js",
+      "fileHash": "23564ad6",
+      "needsInterop": false
+    },
+    "three/addons/loaders/GLTFLoader.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+      "file": "three_addons_loaders_GLTFLoader__js.js",
+      "fileHash": "50879ba5",
+      "needsInterop": false
+    },
+    "three/addons/loaders/HDRLoader.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/loaders/HDRLoader.js",
+      "file": "three_addons_loaders_HDRLoader__js.js",
+      "fileHash": "aee7e9f6",
+      "needsInterop": false
+    },
+    "three/addons/math/ConvexHull.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/math/ConvexHull.js",
+      "file": "three_addons_math_ConvexHull__js.js",
+      "fileHash": "b60c6a07",
+      "needsInterop": false
+    },
+    "three/addons/objects/Reflector.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/objects/Reflector.js",
+      "file": "three_addons_objects_Reflector__js.js",
+      "fileHash": "a19dcee3",
+      "needsInterop": false
+    },
+    "three/addons/postprocessing/EffectComposer.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/postprocessing/EffectComposer.js",
+      "file": "three_addons_postprocessing_EffectComposer__js.js",
+      "fileHash": "527f2bed",
+      "needsInterop": false
+    },
+    "three/addons/postprocessing/GTAOPass.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/postprocessing/GTAOPass.js",
+      "file": "three_addons_postprocessing_GTAOPass__js.js",
+      "fileHash": "0caffd45",
+      "needsInterop": false
+    },
+    "three/addons/postprocessing/OutputPass.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/postprocessing/OutputPass.js",
+      "file": "three_addons_postprocessing_OutputPass__js.js",
+      "fileHash": "813f2852",
+      "needsInterop": false
+    },
+    "three/addons/postprocessing/RenderPass.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/postprocessing/RenderPass.js",
+      "file": "three_addons_postprocessing_RenderPass__js.js",
+      "fileHash": "d7537d57",
+      "needsInterop": false
+    },
+    "three/addons/postprocessing/ShaderPass.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/postprocessing/ShaderPass.js",
+      "file": "three_addons_postprocessing_ShaderPass__js.js",
+      "fileHash": "c1d43392",
+      "needsInterop": false
+    },
+    "three/addons/postprocessing/SMAAPass.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/postprocessing/SMAAPass.js",
+      "file": "three_addons_postprocessing_SMAAPass__js.js",
+      "fileHash": "5fc01dfc",
+      "needsInterop": false
+    },
+    "three/addons/postprocessing/UnrealBloomPass.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/postprocessing/UnrealBloomPass.js",
+      "file": "three_addons_postprocessing_UnrealBloomPass__js.js",
+      "fileHash": "b78bba09",
+      "needsInterop": false
+    },
+    "three/addons/renderers/CSS3DRenderer.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/renderers/CSS3DRenderer.js",
+      "file": "three_addons_renderers_CSS3DRenderer__js.js",
+      "fileHash": "36c4c02b",
+      "needsInterop": false
+    },
+    "three/addons/shaders/HorizontalTiltShiftShader.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/shaders/HorizontalTiltShiftShader.js",
+      "file": "three_addons_shaders_HorizontalTiltShiftShader__js.js",
+      "fileHash": "f39405c5",
+      "needsInterop": false
+    },
+    "three/addons/shaders/VerticalTiltShiftShader.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/shaders/VerticalTiltShiftShader.js",
+      "file": "three_addons_shaders_VerticalTiltShiftShader__js.js",
+      "fileHash": "303412a0",
+      "needsInterop": false
+    },
+    "three/addons/utils/SkeletonUtils.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/utils/SkeletonUtils.js",
+      "file": "three_addons_utils_SkeletonUtils__js.js",
+      "fileHash": "bb78603f",
+      "needsInterop": false
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../../../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "582007dc",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../../../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "b712db05",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../../../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "cb346ee5",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-MGQTRLQN": {
+      "file": "chunk-MGQTRLQN.js"
+    },
+    "chunk-FFCRXCIR": {
+      "file": "chunk-FFCRXCIR.js"
+    },
+    "chunk-JNUSAJXS": {
+      "file": "chunk-JNUSAJXS.js"
+    },
+    "chunk-YQHTS6HF": {
+      "file": "chunk-YQHTS6HF.js"
+    },
+    "chunk-CULDPS2E": {
+      "file": "chunk-CULDPS2E.js"
+    },
+    "chunk-VRFVX2CD": {
+      "file": "chunk-VRFVX2CD.js"
+    },
+    "chunk-YOWFAJAG": {
+      "file": "chunk-YOWFAJAG.js"
+    },
+    "chunk-BUSYA2B4": {
+      "file": "chunk-BUSYA2B4.js"
+    }
+  }
+}

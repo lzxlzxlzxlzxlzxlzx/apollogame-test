@@ -1,0 +1,451 @@
+{
+  "comparisons": [
+    {
+      "run": "1",
+      "candidate": "A",
+      "viewport": [
+        1280,
+        720
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": false,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": "only game-driven ledger loot count may increase as the detached block settles; no text was edited",
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": [
+        "g105-ledger-detail"
+      ]
+    },
+    {
+      "run": "1",
+      "candidate": "B",
+      "viewport": [
+        1280,
+        720
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": false,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": "only game-driven ledger loot count may increase as the detached block settles; no text was edited",
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": [
+        "g105-ledger-detail"
+      ]
+    },
+    {
+      "run": "1",
+      "candidate": "C",
+      "viewport": [
+        1280,
+        720
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": false,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": "only game-driven ledger loot count may increase as the detached block settles; no text was edited",
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": [
+        "g105-ledger-detail"
+      ]
+    },
+    {
+      "run": "1",
+      "candidate": "A",
+      "viewport": [
+        1024,
+        576
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "1",
+      "candidate": "B",
+      "viewport": [
+        1024,
+        576
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "1",
+      "candidate": "C",
+      "viewport": [
+        1024,
+        576
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "1",
+      "candidate": "A",
+      "viewport": [
+        800,
+        450
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "1",
+      "candidate": "B",
+      "viewport": [
+        800,
+        450
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "1",
+      "candidate": "C",
+      "viewport": [
+        800,
+        450
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "1",
+      "candidate": "A",
+      "viewport": [
+        667,
+        375
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "1",
+      "candidate": "B",
+      "viewport": [
+        667,
+        375
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "1",
+      "candidate": "C",
+      "viewport": [
+        667,
+        375
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "1",
+      "candidate": "A",
+      "viewport": [
+        390,
+        844
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "1",
+      "candidate": "B",
+      "viewport": [
+        390,
+        844
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "1",
+      "candidate": "C",
+      "viewport": [
+        390,
+        844
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "A",
+      "viewport": [
+        1280,
+        720
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "B",
+      "viewport": [
+        1280,
+        720
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "C",
+      "viewport": [
+        1280,
+        720
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "A",
+      "viewport": [
+        1024,
+        576
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "B",
+      "viewport": [
+        1024,
+        576
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "C",
+      "viewport": [
+        1024,
+        576
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "A",
+      "viewport": [
+        800,
+        450
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "B",
+      "viewport": [
+        800,
+        450
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "C",
+      "viewport": [
+        800,
+        450
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "A",
+      "viewport": [
+        667,
+        375
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "B",
+      "viewport": [
+        667,
+        375
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "C",
+      "viewport": [
+        667,
+        375
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "A",
+      "viewport": [
+        390,
+        844
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "B",
+      "viewport": [
+        390,
+        844
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    },
+    {
+      "run": "2",
+      "candidate": "C",
+      "viewport": [
+        390,
+        844
+      ],
+      "allUIGeometryTextColorsSkinsIdentical": true,
+      "mechanicsEqualAllowingNaturalLootCounter": true,
+      "dynamicCounterNote": null,
+      "sceneGeometryCropAndScaleIdentical": true,
+      "selectedImageCorrect": true,
+      "changedUIIds": []
+    }
+  ],
+  "switchWithoutRestart": [
+    {
+      "run": "1",
+      "beforeStatus": "轻松分享：说一个让你放松的瞬间。",
+      "afterStatus": "轻松分享：说一个让你放松的瞬间。",
+      "value": "背景切换保留输入",
+      "selected": "baseline"
+    },
+    {
+      "run": "2",
+      "beforeStatus": "轻松分享：说一个让你放松的瞬间。",
+      "afterStatus": "轻松分享：说一个让你放松的瞬间。",
+      "value": "背景切换保留输入",
+      "selected": "baseline"
+    }
+  ],
+  "browserErrors": [],
+  "slotMechanicsPass": true,
+  "inPlaceRuntimeApproval": "pending planner; program verifies mechanics and captures evidence only",
+  "softKeyboard": "not tested in this background batch",
+  "fullLauncher": "not run; uses unmodified game105 direct mount with original Apollo global box-sizing/font CSS, same known boundary as stage4"
+}

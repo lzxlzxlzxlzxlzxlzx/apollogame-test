@@ -1,0 +1,8 @@
+Use case: stylized-concept
+Asset type: production-ready game UI nine-slice interaction card frame, transparent PNG
+Input images: the real game screenshot is context only; the defective current asset is used only to identify the checkerboard defect and must not be copied.
+Primary request: create one empty decorative interaction-card frame for 心跳叠叠塔 in the “moonlit cream night” direction: warm cream paper, restrained rose-gold metallic trim, subtle plum-violet accents, elegant softly rounded corners, and a clean low-texture center.
+Composition: straight-on orthographic landscape frame; ornaments remain in the outer border; corner details are fixed; long edge middles are repeatable and stretch-safe; central text-safe area is unobstructed.
+Constraints: genuinely transparent pixels outside the frame; no background, characters, scene, illustration, text, digits, icons, symbols, logos, or watermark.
+Avoid: checkerboard/transparency grid, black or gray squares, dense center texture, dark fringe, white halo, irregular torn edges.
+

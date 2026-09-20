@@ -1,0 +1,53 @@
+{
+  "pilot": "Pilot 1 / round 01 / card frame",
+  "sourceIsRealGeneratedAsset": true,
+  "rawVerdict": "reject",
+  "normalizedVerdict": "provisional-pass",
+  "issues": [
+    {
+      "severity": "P0",
+      "asset": "round-01-candidate-01",
+      "problem": "The built-in generator returned RGB with a baked checkerboard instead of genuine alpha.",
+      "evidence": {
+        "mode": "RGB",
+        "width": 1448,
+        "height": 1086,
+        "aspectRatio": 1.3333,
+        "alphaRange": [
+          255,
+          255
+        ],
+        "fileBytes": 1509554,
+        "opaqueOuterEdgeRatio": 1.0,
+        "checkerRisk": 0.8544,
+        "safeAreaLumaStdDev": 38.9168,
+        "safeAreaEdgeMean": 8.765
+      },
+      "promptPatch": "Return actual transparent pixels outside the card. Do not visualize transparency with any checkerboard. Output RGBA PNG and keep every canvas-edge pixel fully transparent."
+    },
+    {
+      "severity": "P1",
+      "asset": "round-01-candidate-01-normalized",
+      "problem": "Decorative moon/star symbols conflict with the no-icons constraint and may be too prominent for a stretch-safe frame.",
+      "promptPatch": "Remove all moon and star symbols. Keep only abstract restrained corner filigree; leave the long edge middles plain and repeatable."
+    },
+    {
+      "severity": "P1",
+      "asset": "offline-composites",
+      "problem": "The offline mockup replaces the defective image region but does not reconstruct the original input and button layers, so control fit cannot be accepted from these composites.",
+      "promptPatch": "No image-generation patch. If the owner selects this direction, validate controls in the isolated runtime-preview step before proposing any formal replacement."
+    }
+  ],
+  "composites": [
+    "experiments/game-105-ai-art/composites/player-card-1280x720-candidate-01.png",
+    "experiments/game-105-ai-art/composites/player-card-800x450-candidate-01.png"
+  ],
+  "decision": "The raw candidate is not eligible. The normalized derivative may be reviewed only as a composition experiment; it must not enter runtime or formal approval.",
+  "nextRoundPromptPatch": [
+    "actual RGBA transparency, all canvas-edge pixels alpha 0",
+    "no transparency-grid visualization",
+    "no moon, stars, hearts, icons, glyphs, letters or digits",
+    "plain stretch-safe long-edge middles",
+    "quieter rose-gold border and larger untextured center"
+  ]
+}

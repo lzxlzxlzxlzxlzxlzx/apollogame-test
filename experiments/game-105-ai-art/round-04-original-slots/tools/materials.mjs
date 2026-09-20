@@ -1,0 +1,5 @@
+import{chromium}from'playwright';import{writeFileSync}from'node:fs';
+const base='experiments/game-105-ai-art/round-04-original-slots';const browser=await chromium.launch({channel:'chrome',headless:true}),page=await browser.newPage(),records=[];
+await page.goto(`http://127.0.0.1:5197/${base}/index.html?inspect=1`);await page.waitForFunction(()=>document.querySelector('#g105-status')?.textContent?.includes('轮到你'));
+for(const[width,height]of[[1280,720],[1024,576],[800,450],[667,375],[390,844]]){await page.setViewportSize({width,height});await page.waitForTimeout(150);records.push({width,height,materials:await page.evaluate(()=>window.__measureMaterials())});}
+writeFileSync(`${base}/reports/materials.json`,JSON.stringify({method:'opt-in read-only renderer reference; original sync delegated once per call; no production files changed',records},null,2));console.log(records.map(r=>({size:[r.width,r.height],meshes:r.materials.length,keys:[...new Set(r.materials.map(m=>m.skinKey))]})));await browser.close();

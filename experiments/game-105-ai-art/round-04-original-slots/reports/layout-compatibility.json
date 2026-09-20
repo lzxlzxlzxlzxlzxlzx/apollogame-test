@@ -1,0 +1,353 @@
+{
+  "realRuntime": [
+    {
+      "candidate": "A",
+      "viewport": [
+        1280,
+        720
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        1024,
+        576
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        800,
+        450
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        667,
+        375
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        390,
+        844
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        1280,
+        720
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        1024,
+        576
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        800,
+        450
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        667,
+        375
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        390,
+        844
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        1280,
+        720
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        1024,
+        576
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        800,
+        450
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        667,
+        375
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        390,
+        844
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "D",
+      "viewport": [
+        1280,
+        720
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "D",
+      "viewport": [
+        1024,
+        576
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "D",
+      "viewport": [
+        800,
+        450
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "D",
+      "viewport": [
+        667,
+        375
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    },
+    {
+      "candidate": "D",
+      "viewport": [
+        390,
+        844
+      ],
+      "exactMatch": true,
+      "within001pxTolerance": true,
+      "differences": []
+    }
+  ],
+  "controlledFixtureComparisons": [
+    {
+      "candidate": "A",
+      "state": "longest",
+      "width": 1280,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "A",
+      "state": "longest",
+      "width": 800,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "A",
+      "state": "summary",
+      "width": 1280,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "A",
+      "state": "summary",
+      "width": 800,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "A",
+      "state": "ai",
+      "width": 1280,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "A",
+      "state": "ai",
+      "width": 800,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "B",
+      "state": "longest",
+      "width": 1280,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "B",
+      "state": "longest",
+      "width": 800,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "B",
+      "state": "summary",
+      "width": 1280,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "B",
+      "state": "summary",
+      "width": 800,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "B",
+      "state": "ai",
+      "width": 1280,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "B",
+      "state": "ai",
+      "width": 800,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "C",
+      "state": "longest",
+      "width": 1280,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "C",
+      "state": "longest",
+      "width": 800,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "C",
+      "state": "summary",
+      "width": 1280,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "C",
+      "state": "summary",
+      "width": 800,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "C",
+      "state": "ai",
+      "width": 1280,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "C",
+      "state": "ai",
+      "width": 800,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "D",
+      "state": "longest",
+      "width": 1280,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "D",
+      "state": "longest",
+      "width": 800,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "D",
+      "state": "summary",
+      "width": 1280,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "D",
+      "state": "summary",
+      "width": 800,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "D",
+      "state": "ai",
+      "width": 1280,
+      "identicalGeometryTypographyAndText": true
+    },
+    {
+      "candidate": "D",
+      "state": "ai",
+      "width": 800,
+      "identicalGeometryTypographyAndText": true
+    }
+  ],
+  "layoutModified": false,
+  "productionSkinSlice": 22,
+  "note": "comparison checks card and controls; physical tower and dynamic top status vary between live runs; known original overlap and tiny portrait type retained"
+}

@@ -1,0 +1,296 @@
+{
+  "slicePx": 28,
+  "autoMeasured": false,
+  "sourceContour": {
+    "top": {
+      "straightInset": 16,
+      "startExtent": 45,
+      "endExtent": 45
+    },
+    "bottom": {
+      "straightInset": 17,
+      "startExtent": 40,
+      "endExtent": 39
+    },
+    "left": {
+      "straightInset": 16,
+      "startExtent": 41,
+      "endExtent": 41
+    },
+    "right": {
+      "straightInset": 16,
+      "startExtent": 41,
+      "endExtent": 41
+    }
+  },
+  "measurements": [
+    {
+      "edgeStrokeProxy": {
+        "top": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            3,
+            7
+          ]
+        },
+        "bottom": {
+          "coloredStrokeMedianPx": 4.0,
+          "coloredStrokeRangePx": [
+            4,
+            6
+          ]
+        },
+        "left": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            5,
+            7
+          ]
+        },
+        "right": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            5,
+            7
+          ]
+        }
+      },
+      "seamMeanRgbDelta": [
+        6.1382716049382715,
+        5.385185185185185,
+        3.744490358126722,
+        3.2741046831955924
+      ],
+      "centerLumaStd": 0.4388,
+      "centerGradientMean": 0.4125,
+      "size": [
+        484,
+        270
+      ],
+      "cornerCurvatureOutsideFixedRegionPx": 17,
+      "fixedCornerPixelsPreserved": true,
+      "stretchScale": [
+        0.7329,
+        0.6221
+      ],
+      "withinGeometricEnvelope": true,
+      "normalUsePass": false,
+      "extremeStretchPass": null
+    },
+    {
+      "edgeStrokeProxy": {
+        "top": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            4,
+            6
+          ]
+        },
+        "bottom": {
+          "coloredStrokeMedianPx": 4.0,
+          "coloredStrokeRangePx": [
+            4,
+            6
+          ]
+        },
+        "left": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            5,
+            7
+          ]
+        },
+        "right": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            5,
+            6
+          ]
+        }
+      },
+      "seamMeanRgbDelta": [
+        8.756666666666666,
+        9.02,
+        2.6348148148148147,
+        2.6777777777777776
+      ],
+      "centerLumaStd": 0.252,
+      "centerGradientMean": 0.1648,
+      "size": [
+        900,
+        100
+      ],
+      "cornerCurvatureOutsideFixedRegionPx": 17,
+      "fixedCornerPixelsPreserved": true,
+      "stretchScale": [
+        1.4452,
+        0.1279
+      ],
+      "withinGeometricEnvelope": false,
+      "normalUsePass": false,
+      "extremeStretchPass": false
+    },
+    {
+      "edgeStrokeProxy": {
+        "top": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            4,
+            6
+          ]
+        },
+        "bottom": {
+          "coloredStrokeMedianPx": 4.0,
+          "coloredStrokeRangePx": [
+            4,
+            6
+          ]
+        },
+        "left": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            5,
+            7
+          ]
+        },
+        "right": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            4,
+            7
+          ]
+        }
+      },
+      "seamMeanRgbDelta": [
+        6.003888888888889,
+        5.245,
+        7.816666666666666,
+        6.746666666666667
+      ],
+      "centerLumaStd": 0.2277,
+      "centerGradientMean": 0.1322,
+      "size": [
+        100,
+        600
+      ],
+      "cornerCurvatureOutsideFixedRegionPx": 17,
+      "fixedCornerPixelsPreserved": true,
+      "stretchScale": [
+        0.0753,
+        1.5814
+      ],
+      "withinGeometricEnvelope": false,
+      "normalUsePass": false,
+      "extremeStretchPass": false
+    },
+    {
+      "edgeStrokeProxy": {
+        "top": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            4,
+            6
+          ]
+        },
+        "bottom": {
+          "coloredStrokeMedianPx": 4.0,
+          "coloredStrokeRangePx": [
+            4,
+            6
+          ]
+        },
+        "left": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            5,
+            7
+          ]
+        },
+        "right": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            5,
+            7
+          ]
+        }
+      },
+      "seamMeanRgbDelta": [
+        7.05,
+        6.459722222222222,
+        4.869483568075117,
+        4.193427230046948
+      ],
+      "centerLumaStd": 0.3779,
+      "centerGradientMean": 0.3316,
+      "size": [
+        355,
+        240
+      ],
+      "cornerCurvatureOutsideFixedRegionPx": 17,
+      "fixedCornerPixelsPreserved": true,
+      "stretchScale": [
+        0.512,
+        0.5349
+      ],
+      "withinGeometricEnvelope": true,
+      "normalUsePass": false,
+      "extremeStretchPass": null
+    },
+    {
+      "edgeStrokeProxy": {
+        "top": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            3,
+            7
+          ]
+        },
+        "bottom": {
+          "coloredStrokeMedianPx": 4.0,
+          "coloredStrokeRangePx": [
+            4,
+            6
+          ]
+        },
+        "left": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            5,
+            7
+          ]
+        },
+        "right": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            5,
+            7
+          ]
+        }
+      },
+      "seamMeanRgbDelta": [
+        8.540740740740741,
+        8.448148148148148,
+        4.914444444444444,
+        5.148888888888889
+      ],
+      "centerLumaStd": 0.3086,
+      "centerGradientMean": 0.2549,
+      "size": [
+        300,
+        180
+      ],
+      "cornerCurvatureOutsideFixedRegionPx": 17,
+      "fixedCornerPixelsPreserved": true,
+      "stretchScale": [
+        0.4178,
+        0.3605
+      ],
+      "withinGeometricEnvelope": true,
+      "normalUsePass": false,
+      "extremeStretchPass": null
+    }
+  ],
+  "risks": [
+    "Curvature lies in stretched center/edge strips; fixed corner hash is insufficient."
+  ]
+}

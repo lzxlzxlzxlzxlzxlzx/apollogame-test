@@ -1,0 +1,704 @@
+{
+  "assetId": "game-105/scene/night-room",
+  "path": "/games/game-105/art/scene/night-room.jpeg",
+  "original": {
+    "size": [
+      1376,
+      768
+    ],
+    "aspect": 1.7916666666666667,
+    "format": "JPEG",
+    "mode": "RGB",
+    "alpha": "opaque; background needs no transparency",
+    "iccProfile": false,
+    "sha256": "732aff5a5540658a1f660c89b627c0257ca17592952d854dc7cbf96d65f1f0f2"
+  },
+  "render": {
+    "consumer": "mountHost.sceneBackground set by original game art load",
+    "size": "center / cover no-repeat on fixed1280x720 scene",
+    "sceneFit": "uniform min(viewportWidth/1280,viewportHeight/720), centered letterbox; no portrait recompose",
+    "sourceCropPixels": [
+      5.333333333333371,
+      0.0,
+      5.333333333333371,
+      0.0
+    ],
+    "nineSlice": null,
+    "colorSpace": "browser sRGB assumed when no ICC; no environment-map/lighting changes"
+  },
+  "sourceCompositionObservations": {
+    "window": [
+      175,
+      0,
+      737,
+      547
+    ],
+    "sofa": [
+      805,
+      310,
+      1376,
+      717
+    ],
+    "lamp": [
+      806,
+      229,
+      903,
+      354
+    ],
+    "existingPaintedForegroundTable": [
+      565,
+      500,
+      919,
+      704
+    ],
+    "visualFoci": [
+      "bright moon/window upper left-center",
+      "warm lamp right-center",
+      "many star/moon decorations and window mullions",
+      "painted foreground coffee table conflicts with real3D table"
+    ],
+    "provenance": "manual source-image inspection; approximate source-pixel boxes, not automatic object recognition"
+  },
+  "fixed3DReference": {
+    "cameraYaw": 0.7,
+    "cameraPitch": 0.52,
+    "distance": 15,
+    "pivot": [
+      0,
+      3.6,
+      0
+    ],
+    "tableGeometry": [
+      12,
+      0.7,
+      12
+    ],
+    "unchanged": true,
+    "perspectiveGoal": "leave lower center for real table; no painted foreground tabletop or table edge; subdued sparse floor lines consistent with oblique elevated view"
+  },
+  "quietZones": [
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "sceneRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720
+      },
+      "scale": 1.0,
+      "sourceVisibleRect": [
+        5.333333333333371,
+        0.0,
+        1365.3333333333333,
+        768.0
+      ],
+      "zones": [
+        {
+          "consumer": "g105-companion-card",
+          "viewportRect": {
+            "x": 40,
+            "y": 36,
+            "width": 300,
+            "height": 172
+          },
+          "sourceRect": {
+            "x": 48.000000000000036,
+            "y": 38.4,
+            "width": 320.0,
+            "height": 183.46666666666667
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-ledger",
+          "viewportRect": {
+            "x": 976,
+            "y": 36,
+            "width": 304,
+            "height": 183.296875
+          },
+          "sourceRect": {
+            "x": 1046.4,
+            "y": 38.4,
+            "width": 324.26666666666665,
+            "height": 195.51666666666668
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-controls",
+          "viewportRect": {
+            "x": 376,
+            "y": 622,
+            "width": 568,
+            "height": 91
+          },
+          "sourceRect": {
+            "x": 406.40000000000003,
+            "y": 663.4666666666667,
+            "width": 605.8666666666667,
+            "height": 97.06666666666666
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-interaction-card",
+          "viewportRect": {
+            "x": 40,
+            "y": 360,
+            "width": 363,
+            "height": 242.5078125
+          },
+          "sourceRect": {
+            "x": 48.000000000000036,
+            "y": 384.0,
+            "width": 387.2,
+            "height": 258.675
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "main-tower-envelope",
+          "viewportRect": {
+            "x": 540.0216279681299,
+            "y": 135.82258239323656,
+            "width": 181.99406266507344,
+            "height": 416.06808643985687
+          },
+          "sourceRect": {
+            "x": 581.3564031660053,
+            "y": 144.87742121945232,
+            "width": 194.12700017607833,
+            "height": 443.80595886918064
+          },
+          "method": "union of current projected block boxes with centers in35–65% scene and top above80%; conservative, not visible pixels"
+        },
+        {
+          "consumer": "3d-table-projection",
+          "viewportRect": {
+            "x": 235.87290115627752,
+            "y": 324.9771224470783,
+            "width": 779.0905229938367,
+            "height": 659.2048395527481
+          },
+          "sourceRect": {
+            "x": 256.93109456669606,
+            "y": 346.6422639435502,
+            "width": 831.0298911934258,
+            "height": 703.1518288562646
+          },
+          "method": "current render mesh/instance eight-corner projected bounding box; includes occluded faces, not visible-pixel segmentation"
+        }
+      ]
+    },
+    {
+      "viewport": [
+        1024,
+        576
+      ],
+      "sceneRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1024,
+        "height": 576
+      },
+      "scale": 0.8,
+      "sourceVisibleRect": [
+        5.333333333333371,
+        0.0,
+        1365.3333333333333,
+        768.0
+      ],
+      "zones": [
+        {
+          "consumer": "g105-companion-card",
+          "viewportRect": {
+            "x": 32,
+            "y": 28.80000114440918,
+            "width": 240,
+            "height": 137.60000610351562
+          },
+          "sourceRect": {
+            "x": 48.000000000000036,
+            "y": 38.400001525878906,
+            "width": 320.0,
+            "height": 183.4666748046875
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-ledger",
+          "viewportRect": {
+            "x": 780.7999877929688,
+            "y": 28.80000114440918,
+            "width": 243.20001220703125,
+            "height": 146.6374969482422
+          },
+          "sourceRect": {
+            "x": 1046.3999837239585,
+            "y": 38.400001525878906,
+            "width": 324.2666829427083,
+            "height": 195.51666259765625
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-controls",
+          "viewportRect": {
+            "x": 300.8000183105469,
+            "y": 497.6000061035156,
+            "width": 454.3999938964844,
+            "height": 72.80001831054688
+          },
+          "sourceRect": {
+            "x": 406.40002441406256,
+            "y": 663.4666748046875,
+            "width": 605.8666585286459,
+            "height": 97.06669108072917
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-interaction-card",
+          "viewportRect": {
+            "x": 32,
+            "y": 288,
+            "width": 290.3999938964844,
+            "height": 194.00625610351562
+          },
+          "sourceRect": {
+            "x": 48.000000000000036,
+            "y": 384.0,
+            "width": 387.1999918619792,
+            "height": 258.6750081380208
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "main-tower-envelope",
+          "viewportRect": {
+            "x": 432.01730237450397,
+            "y": 108.65806591458923,
+            "width": 145.5952501320587,
+            "height": 332.8544691518855
+          },
+          "sourceRect": {
+            "x": 581.3564031660053,
+            "y": 144.8774212194523,
+            "width": 194.12700017607827,
+            "height": 443.80595886918064
+          },
+          "method": "union of current projected block boxes with centers in35–65% scene and top above80%; conservative, not visible pixels"
+        },
+        {
+          "consumer": "3d-table-projection",
+          "viewportRect": {
+            "x": 188.69832092502202,
+            "y": 259.9816979576626,
+            "width": 623.2724183950693,
+            "height": 527.3638716421984
+          },
+          "sourceRect": {
+            "x": 256.93109456669606,
+            "y": 346.6422639435502,
+            "width": 831.0298911934257,
+            "height": 703.1518288562645
+          },
+          "method": "current render mesh/instance eight-corner projected bounding box; includes occluded faces, not visible-pixel segmentation"
+        }
+      ]
+    },
+    {
+      "viewport": [
+        800,
+        450
+      ],
+      "sceneRect": {
+        "x": 0,
+        "y": 0,
+        "width": 800,
+        "height": 450
+      },
+      "scale": 0.625,
+      "sourceVisibleRect": [
+        5.333333333333371,
+        0.0,
+        1365.3333333333333,
+        768.0
+      ],
+      "zones": [
+        {
+          "consumer": "g105-companion-card",
+          "viewportRect": {
+            "x": 25,
+            "y": 22.5,
+            "width": 187.5,
+            "height": 107.5
+          },
+          "sourceRect": {
+            "x": 48.000000000000036,
+            "y": 38.4,
+            "width": 320.0,
+            "height": 183.46666666666667
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-ledger",
+          "viewportRect": {
+            "x": 610,
+            "y": 22.5,
+            "width": 190,
+            "height": 114.560546875
+          },
+          "sourceRect": {
+            "x": 1046.4,
+            "y": 38.4,
+            "width": 324.26666666666665,
+            "height": 195.51666666666668
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-controls",
+          "viewportRect": {
+            "x": 235,
+            "y": 388.75,
+            "width": 355,
+            "height": 65.625
+          },
+          "sourceRect": {
+            "x": 406.40000000000003,
+            "y": 663.4666666666667,
+            "width": 605.8666666666667,
+            "height": 112.0
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-interaction-card",
+          "viewportRect": {
+            "x": 25,
+            "y": 190,
+            "width": 302.5,
+            "height": 262.24609375
+          },
+          "sourceRect": {
+            "x": 48.000000000000036,
+            "y": 324.26666666666665,
+            "width": 516.2666666666667,
+            "height": 447.56666666666666
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "main-tower-envelope",
+          "viewportRect": {
+            "x": 337.51351748008125,
+            "y": 84.88911399577285,
+            "width": 113.74628916567082,
+            "height": 260.04255402491054
+          },
+          "sourceRect": {
+            "x": 581.3564031660054,
+            "y": 144.87742121945232,
+            "width": 194.12700017607818,
+            "height": 443.80595886918064
+          },
+          "method": "union of current projected block boxes with centers in35–65% scene and top above80%; conservative, not visible pixels"
+        },
+        {
+          "consumer": "3d-table-projection",
+          "viewportRect": {
+            "x": 147.42056322267345,
+            "y": 203.11070152942392,
+            "width": 486.93157687114785,
+            "height": 412.0030247204675
+          },
+          "sourceRect": {
+            "x": 256.93109456669606,
+            "y": 346.6422639435502,
+            "width": 831.0298911934257,
+            "height": 703.1518288562645
+          },
+          "method": "current render mesh/instance eight-corner projected bounding box; includes occluded faces, not visible-pixel segmentation"
+        }
+      ]
+    },
+    {
+      "viewport": [
+        667,
+        375
+      ],
+      "sceneRect": {
+        "x": 0.16668701171875,
+        "y": 0,
+        "width": 666.6666259765625,
+        "height": 375
+      },
+      "scale": 0.5208333015441895,
+      "sourceVisibleRect": [
+        5.333333333333371,
+        0.0,
+        1365.3333333333333,
+        768.0
+      ],
+      "zones": [
+        {
+          "consumer": "g105-companion-card",
+          "viewportRect": {
+            "x": 21.000019073486328,
+            "y": 18.75,
+            "width": 156.25,
+            "height": 89.58332824707031
+          },
+          "sourceRect": {
+            "x": 48.000000000000036,
+            "y": 38.40000234375014,
+            "width": 320.00001953125116,
+            "height": 183.4666674479167
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-ledger",
+          "viewportRect": {
+            "x": 508.5,
+            "y": 18.75,
+            "width": 158.33331298828125,
+            "height": 95.46711730957031
+          },
+          "sourceRect": {
+            "x": 1046.4000218750011,
+            "y": 38.40000234375014,
+            "width": 324.2666447916653,
+            "height": 195.51666818339038
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-controls",
+          "viewportRect": {
+            "x": 196.00001525878906,
+            "y": 323.95831298828125,
+            "width": 295.83331298828125,
+            "height": 54.6875
+          },
+          "sourceRect": {
+            "x": 406.4000140625009,
+            "y": 663.4666654947916,
+            "width": 605.8666619791663,
+            "height": 112.00000683593791
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-interaction-card",
+          "viewportRect": {
+            "x": 21.000019073486328,
+            "y": 158.3333282470703,
+            "width": 252.0833282470703,
+            "height": 218.5384063720703
+          },
+          "sourceRect": {
+            "x": 48.000000000000036,
+            "y": 324.2666760416672,
+            "width": 516.2666877604179,
+            "height": 447.56668356730245
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "main-tower-envelope",
+          "viewportRect": {
+            "x": 281.42793441162786,
+            "y": 70.7409283298107,
+            "width": 94.78856851929032,
+            "height": 216.70212835409217
+          },
+          "sourceRect": {
+            "x": 581.3564031660053,
+            "y": 144.8774300620689,
+            "width": 194.12700017607833,
+            "height": 443.8059859569484
+          },
+          "method": "union of current projected block boxes with centers in35–65% scene and top above80%; conservative, not visible pixels"
+        },
+        {
+          "consumer": "3d-table-projection",
+          "viewportRect": {
+            "x": 123.01714886574904,
+            "y": 169.25891794118658,
+            "width": 405.77628929266916,
+            "height": 343.335853933723
+          },
+          "sourceRect": {
+            "x": 256.93109456669606,
+            "y": 346.6422851009161,
+            "width": 831.0298911934257,
+            "height": 703.151871773249
+          },
+          "method": "current render mesh/instance eight-corner projected bounding box; includes occluded faces, not visible-pixel segmentation"
+        }
+      ]
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "sceneRect": {
+        "x": 0,
+        "y": 312.3125,
+        "width": 390,
+        "height": 219.375
+      },
+      "scale": 0.3046875,
+      "sourceVisibleRect": [
+        5.333333333333371,
+        0.0,
+        1365.3333333333333,
+        768.0
+      ],
+      "zones": [
+        {
+          "consumer": "g105-companion-card",
+          "viewportRect": {
+            "x": 12.1875,
+            "y": 323.28125,
+            "width": 91.40625,
+            "height": 52.40625
+          },
+          "sourceRect": {
+            "x": 48.000000000000036,
+            "y": 38.4,
+            "width": 320.0,
+            "height": 183.46666666666667
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-ledger",
+          "viewportRect": {
+            "x": 297.375,
+            "y": 323.28125,
+            "width": 92.625,
+            "height": 55.8482666015625
+          },
+          "sourceRect": {
+            "x": 1046.4,
+            "y": 38.4,
+            "width": 324.26666666666665,
+            "height": 195.51666666666668
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-controls",
+          "viewportRect": {
+            "x": 114.5625,
+            "y": 501.828125,
+            "width": 173.0625,
+            "height": 27.7265625
+          },
+          "sourceRect": {
+            "x": 406.40000000000003,
+            "y": 663.4666666666667,
+            "width": 605.8666666666667,
+            "height": 97.06666666666666
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "g105-interaction-card",
+          "viewportRect": {
+            "x": 12.1875,
+            "y": 422,
+            "width": 110.6015625,
+            "height": 73.88909912109375
+          },
+          "sourceRect": {
+            "x": 48.000000000000036,
+            "y": 384.0,
+            "width": 387.2,
+            "height": 258.675
+          },
+          "requirement": "quiet low-detail imagery behind unchanged opaque/partly-transparent original UI"
+        },
+        {
+          "consumer": "main-tower-envelope",
+          "viewportRect": {
+            "x": 164.5378397715396,
+            "y": 353.69594307293926,
+            "width": 55.45131596826454,
+            "height": 126.7707450871439
+          },
+          "sourceRect": {
+            "x": 581.3564031660054,
+            "y": 144.8774212194523,
+            "width": 194.12700017607824,
+            "height": 443.80595886918064
+          },
+          "method": "union of current projected block boxes with centers in35–65% scene and top above80%; conservative, not visible pixels"
+        },
+        {
+          "consumer": "3d-table-projection",
+          "viewportRect": {
+            "x": 71.86752457105331,
+            "y": 411.32896699559416,
+            "width": 237.37914372468458,
+            "height": 200.8514745512279
+          },
+          "sourceRect": {
+            "x": 256.93109456669606,
+            "y": 346.6422639435502,
+            "width": 831.0298911934257,
+            "height": 703.1518288562645
+          },
+          "method": "current render mesh/instance eight-corner projected bounding box; includes occluded faces, not visible-pixel segmentation"
+        }
+      ]
+    }
+  ],
+  "generationConstraints": {
+    "sourceTarget": [
+      1376,
+      768
+    ],
+    "onlyBackground": true,
+    "no": [
+      "text",
+      "logo",
+      "watermark",
+      "people",
+      "painted complete foreground table",
+      "bright source behind tower",
+      "dense lines behind tower",
+      "clutter behind upper UI and lower-left card"
+    ],
+    "framing": "retain window-left, sofa-right, lamp-right spatial anchors; can simplify or shift details away from protected zones",
+    "palette": [
+      "warm cream",
+      "muted dusty rose",
+      "desaturated plum",
+      "soft amber",
+      "quiet blue night"
+    ],
+    "thresholds": {
+      "rawAspectErrorMax": 0.02,
+      "derivedDimensions": [
+        1376,
+        768
+      ],
+      "derivedBytesMax": 4194304,
+      "allOpaque": true,
+      "protectedROIEdgeRateThreshold": 0.1,
+      "edgeDefinition": "luma finite-difference gradient>20/255 at normalized1376x768 source resolution",
+      "quietnessNote": "relative proxy, not a semantic/visual pass or text-contrast guarantee"
+    }
+  },
+  "baselineLimit": "unmodified game direct mount with original Apollo global styles; full launcher imports missing unrelated games in this standalone tree, as documented last phase"
+}

@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "asset": {
+    "path": "/experiments/game-105-ai-art/normalized/card-frame/round-02/candidate-01-resized.png",
+    "sourceSize": [
+      640,
+      400
+    ],
+    "slice": 49,
+    "renderBorderWidth": 24
+  },
+  "themes": {
+    "light": {
+      "title": "#fff8e9",
+      "body": "#fff8e9",
+      "aux": "#f1cf8d",
+      "inputBg": "#fffdf8",
+      "inputBorder": "#875118",
+      "placeholder": "#73525a",
+      "primaryBg": "#80364e",
+      "primaryText": "#ffffff",
+      "secondaryBg": "#fff9ed",
+      "secondaryText": "#442a31",
+      "disabledBg": "#d9d1cd",
+      "disabledText": "#62545b",
+      "focus": "#74305b",
+      "shadow": "0 3px 12px #35152b33"
+    },
+    "plum": {
+      "title": "#442a31",
+      "body": "#442a31",
+      "aux": "#644651",
+      "inputBg": "#fffdf8",
+      "inputBorder": "#986c78",
+      "placeholder": "#705460",
+      "primaryBg": "#80364e",
+      "primaryText": "#ffffff",
+      "secondaryBg": "#fff9ed",
+      "secondaryText": "#442a31",
+      "disabledBg": "#d9d1cd",
+      "disabledText": "#62545b",
+      "focus": "#74305b",
+      "shadow": "0 3px 12px #35152b33"
+    },
+    "contrast": {
+      "title": "#261721",
+      "body": "#261721",
+      "aux": "#44323e",
+      "inputBg": "#ffffff",
+      "inputBorder": "#553149",
+      "placeholder": "#55404d",
+      "primaryBg": "#512239",
+      "primaryText": "#ffffff",
+      "secondaryBg": "#ffffff",
+      "secondaryText": "#261721",
+      "disabledBg": "#ded7da",
+      "disabledText": "#655861",
+      "focus": "#4b1650",
+      "shadow": "0 3px 12px #35152b33"
+    }
+  },
+  "typography": {
+    "title": 16,
+    "body": 14,
+    "aux": 11,
+    "button": 14,
+    "input": 14,
+    "lineHeight": 1.35
+  },
+  "controls": {
+    "height": 40,
+    "minWidth": 44,
+    "gap": 2,
+    "padding": 16
+  },
+  "responsive": {
+    "desktopMinWidth": 1000,
+    "portraitRule": "height > width",
+    "desktop": {
+      "margin": 12,
+      "statusHeight": 26,
+      "A": {
+        "width": 340,
+        "height": 236
+      },
+      "B": {
+        "width": 850,
+        "height": 156
+      },
+      "C": {
+        "width": 350,
+        "height": 220,
+        "collapsedHeight": 92
+      }
+    },
+    "landscape": {
+      "margin": 8,
+      "statusHeight": 24,
+      "A": {
+        "width": 300,
+        "height": 236
+      },
+      "B": {
+        "width": 640,
+        "height": 156
+      },
+      "C": {
+        "width": 460,
+        "height": 108,
+        "collapsedWidth": 260,
+        "collapsedHeight": 92,
+        "compact": true,
+        "copyWidth": 100,
+        "padding": 12,
+        "columnGap": 8
+      }
+    },
+    "portrait": {
+      "margin": 12,
+      "statusHeight": 26,
+      "A": {
+        "width": 366,
+        "height": 220
+      },
+      "B": {
+        "width": 366,
+        "height": 220
+      },
+      "C": {
+        "width": 366,
+        "height": 220,
+        "collapsedHeight": 92
+      }
+    }
+  },
+  "limits": {
+    "desktopArea": 0.15,
+    "landscapeArea": 0.2,
+    "portraitArea": 0.25,
+    "towerOverlap": 0.05,
+    "bodyFont": 14,
+    "auxFont": 11,
+    "inputHeight": 40,
+    "buttonWidth": 44,
+    "buttonHeight": 40
+  },
+  "layouts": {
+    "A": "left-bottom compact; all controls retained; wrap action rows",
+    "B": "bottom horizontal: question left, response right; portrait stacks",
+    "C": "collapsed question+Answer; expands real response/quick/actions"
+  },
+  "towerReference": {
+    "box1280": [
+      548,
+      132,
+      182,
+      423
+    ],
+    "method": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection."
+  },
+  "compactCopy": {
+    "safety": "可跳过，仅本局可见。",
+    "quick": "快捷回应",
+    "swap": "换一张",
+    "skip": "跳过",
+    "collapse": "收起"
+  },
+  "pageBackground": "#1c1728"
+}

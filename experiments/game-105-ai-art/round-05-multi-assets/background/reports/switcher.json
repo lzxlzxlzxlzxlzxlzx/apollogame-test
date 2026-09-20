@@ -1,0 +1,24 @@
+[
+  {
+    "clicked": "A",
+    "selected": "A"
+  },
+  {
+    "clicked": "B",
+    "selected": "B"
+  },
+  {
+    "clicked": "C",
+    "selected": "C"
+  },
+  {
+    "clicked": "baseline",
+    "selected": "baseline"
+  },
+  {
+    "selectedViewport": [
+      800,
+      450
+    ]
+  }
+]

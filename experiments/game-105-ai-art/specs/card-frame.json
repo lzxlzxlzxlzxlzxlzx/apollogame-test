@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "skinKey": "game-105/ui/card-frame",
+  "purpose": "玩家、AI 与收尾互动卡共用的空白装饰框",
+  "format": "png",
+  "transparent": true,
+  "embeddedText": false,
+  "nineSlice": 22,
+  "targetSize": { "width": 640, "height": 400 },
+  "aspectRatio": { "min": 1.25, "max": 1.8 },
+  "safeTextArea": { "left": 88, "top": 72, "right": 88, "bottom": 72 },
+  "styleTags": ["moonlit-cream-night", "cream-paper", "rose-gold", "romantic-night", "quiet-luxury"],
+  "forbidden": [
+    "checkerboard",
+    "transparency-grid",
+    "letters",
+    "words",
+    "numbers",
+    "icons",
+    "characters",
+    "embedded-illustration",
+    "heavy-center-texture",
+    "dark-alpha-fringe",
+    "white-alpha-halo"
+  ],
+  "checks": {
+    "maxSafeAreaLumaStdDev": 28,
+    "maxSafeAreaEdgeMean": 10,
+    "maxOpaqueOuterEdgeRatio": 0.04,
+    "maxCheckerRisk": 0.16,
+    "maxFileBytes": 5000000
+  }
+}
+

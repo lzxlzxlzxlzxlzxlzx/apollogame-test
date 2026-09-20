@@ -1,0 +1,4319 @@
+{
+  "results": [
+    {
+      "layout": "A",
+      "theme": "plum",
+      "expanded": false,
+      "width": 1280,
+      "height": 720,
+      "mode": "desktop",
+      "card": {
+        "x": 12,
+        "y": 438,
+        "width": 340,
+        "height": 236,
+        "right": 352,
+        "bottom": 674
+      },
+      "status": {
+        "x": 340,
+        "y": 682,
+        "width": 600,
+        "height": 26,
+        "right": 940,
+        "bottom": 708
+      },
+      "tower": {
+        "x": 548,
+        "y": 132,
+        "width": 182,
+        "height": 423,
+        "right": 730,
+        "bottom": 555
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "right": 1280,
+        "bottom": 720
+      },
+      "gameViewportShare": 1,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.08706597222222222,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 60,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 0.9129340277777778,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 28,
+            "y": 498.484375,
+            "width": 308,
+            "height": 40,
+            "right": 336,
+            "bottom": 538.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-quick-one",
+          "rect": {
+            "x": 83,
+            "y": 540.484375,
+            "width": 74,
+            "height": 40,
+            "right": 157,
+            "bottom": 580.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "我记住了"
+        },
+        {
+          "id": "g105-quick-two",
+          "rect": {
+            "x": 159,
+            "y": 540.484375,
+            "width": 60,
+            "height": 40,
+            "right": 219,
+            "bottom": 580.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "谢谢你"
+        },
+        {
+          "id": "g105-quick-three",
+          "rect": {
+            "x": 221,
+            "y": 540.484375,
+            "width": 60,
+            "height": 40,
+            "right": 281,
+            "bottom": 580.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "慢慢来"
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 58.6875,
+            "y": 582.484375,
+            "width": 74,
+            "height": 40,
+            "right": 132.6875,
+            "bottom": 622.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 134.6875,
+            "y": 582.484375,
+            "width": 94.609375,
+            "height": 40,
+            "right": 229.296875,
+            "bottom": 622.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张（1）"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 231.296875,
+            "y": 582.484375,
+            "width": 74,
+            "height": 40,
+            "right": 305.296875,
+            "bottom": 622.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "这次跳过"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-title",
+          "rect": {
+            "x": 28,
+            "y": 454,
+            "width": 65.546875,
+            "height": 21.59375,
+            "right": 93.546875,
+            "bottom": 475.59375
+          },
+          "font": 16,
+          "color": "rgb(68, 42, 49)",
+          "text": "轻松分享"
+        },
+        {
+          "id": "g105-card-kicker",
+          "rect": {
+            "x": 238.90625,
+            "y": 457.375,
+            "width": 97.09375,
+            "height": 14.84375,
+            "right": 336,
+            "bottom": 472.21875
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "主卡  ·  轻语 / 樱粉"
+        },
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 28,
+            "y": 477.59375,
+            "width": 308,
+            "height": 18.890625,
+            "right": 336,
+            "bottom": 496.484375
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 28,
+            "y": 624.484375,
+            "width": 308,
+            "height": 14.84375,
+            "right": 336,
+            "bottom": 639.328125
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "不想展开时，可以跳过；本局不会记录到长期记忆。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/A-default-1280x720.png"
+    },
+    {
+      "layout": "B",
+      "theme": "plum",
+      "expanded": false,
+      "width": 1280,
+      "height": 720,
+      "mode": "desktop",
+      "card": {
+        "x": 214.9951171875,
+        "y": 517.9911499023438,
+        "width": 850,
+        "height": 156.00006103515625,
+        "right": 1064.9951171875,
+        "bottom": 673.9912109375
+      },
+      "status": {
+        "x": 339.99072265625,
+        "y": 681.990966796875,
+        "width": 600,
+        "height": 26,
+        "right": 939.99072265625,
+        "bottom": 707.990966796875
+      },
+      "tower": {
+        "x": 575.3444671630859,
+        "y": 92.76666259765625,
+        "width": 127.90557098388672,
+        "height": 297.2750358581543,
+        "right": 703.2500381469727,
+        "bottom": 390.04169845581055
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 190.22219848632812,
+        "y": -0.0000152587890625,
+        "width": 899.5556640625,
+        "height": 506,
+        "right": 1089.7778625488281,
+        "bottom": 505.99998474121094
+      },
+      "gameViewportShare": 0.49389666451348196,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.14388026462660897,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 60,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 1,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 497.9951171875,
+            "y": 533.9911499023438,
+            "width": 551,
+            "height": 40,
+            "right": 1048.9951171875,
+            "bottom": 573.9911499023438
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-quick-one",
+          "rect": {
+            "x": 674.4951171875,
+            "y": 575.9911499023438,
+            "width": 74,
+            "height": 40,
+            "right": 748.4951171875,
+            "bottom": 615.9911499023438
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "我记住了"
+        },
+        {
+          "id": "g105-quick-two",
+          "rect": {
+            "x": 750.4951171875,
+            "y": 575.9911499023438,
+            "width": 60,
+            "height": 40,
+            "right": 810.4951171875,
+            "bottom": 615.9911499023438
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "谢谢你"
+        },
+        {
+          "id": "g105-quick-three",
+          "rect": {
+            "x": 812.4951171875,
+            "y": 575.9911499023438,
+            "width": 60,
+            "height": 40,
+            "right": 872.4951171875,
+            "bottom": 615.9911499023438
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "慢慢来"
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 650.1826171875,
+            "y": 617.9911499023438,
+            "width": 74,
+            "height": 40,
+            "right": 724.1826171875,
+            "bottom": 657.9911499023438
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 726.1826171875,
+            "y": 617.9911499023438,
+            "width": 94.609375,
+            "height": 40,
+            "right": 820.7919921875,
+            "bottom": 657.9911499023438
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张（1）"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 822.7919921875,
+            "y": 617.9911499023438,
+            "width": 74,
+            "height": 40,
+            "right": 896.7919921875,
+            "bottom": 657.9911499023438
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "这次跳过"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-title",
+          "rect": {
+            "x": 230.9951171875,
+            "y": 533.9911499023438,
+            "width": 65.546875,
+            "height": 21.59375,
+            "right": 296.5419921875,
+            "bottom": 555.5848999023438
+          },
+          "font": 16,
+          "color": "rgb(68, 42, 49)",
+          "text": "轻松分享"
+        },
+        {
+          "id": "g105-card-kicker",
+          "rect": {
+            "x": 388.9013671875,
+            "y": 537.3661499023438,
+            "width": 97.09375,
+            "height": 14.84381103515625,
+            "right": 485.9951171875,
+            "bottom": 552.2099609375
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "主卡  ·  轻语 / 樱粉"
+        },
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 230.9951171875,
+            "y": 557.5848999023438,
+            "width": 255,
+            "height": 18.890625,
+            "right": 485.9951171875,
+            "bottom": 576.4755249023438
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 230.9951171875,
+            "y": 578.4755249023438,
+            "width": 255,
+            "height": 14.84375,
+            "right": 485.9951171875,
+            "bottom": 593.3192749023438
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "不想展开时，可以跳过；本局不会记录到长期记忆。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/B-default-1280x720.png"
+    },
+    {
+      "layout": "C",
+      "theme": "plum",
+      "expanded": false,
+      "width": 1280,
+      "height": 720,
+      "mode": "desktop",
+      "card": {
+        "x": 12,
+        "y": 582,
+        "width": 350,
+        "height": 92,
+        "right": 362,
+        "bottom": 674
+      },
+      "status": {
+        "x": 340,
+        "y": 682,
+        "width": 600,
+        "height": 26,
+        "right": 940,
+        "bottom": 708
+      },
+      "tower": {
+        "x": 548,
+        "y": 132,
+        "width": 182,
+        "height": 423,
+        "right": 730,
+        "bottom": 555
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "right": 1280,
+        "bottom": 720
+      },
+      "gameViewportShare": 1,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.03493923611111111,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 14,
+      "inputHeight": null,
+      "minButtonWidth": 46,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 0.9650607638888888,
+      "controls": [
+        {
+          "id": "pilot-answer",
+          "rect": {
+            "x": 300,
+            "y": 598,
+            "width": 46,
+            "height": 40,
+            "right": 346,
+            "bottom": 638
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "回答"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 28,
+            "y": 608.546875,
+            "width": 157.703125,
+            "height": 18.890625,
+            "right": 185.703125,
+            "bottom": 627.4375
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/C-default-1280x720.png"
+    },
+    {
+      "layout": "C",
+      "theme": "plum",
+      "expanded": true,
+      "width": 1280,
+      "height": 720,
+      "mode": "desktop",
+      "card": {
+        "x": 12,
+        "y": 454,
+        "width": 350,
+        "height": 220,
+        "right": 362,
+        "bottom": 674
+      },
+      "status": {
+        "x": 340,
+        "y": 682,
+        "width": 600,
+        "height": 26,
+        "right": 940,
+        "bottom": 708
+      },
+      "tower": {
+        "x": 548,
+        "y": 132,
+        "width": 182,
+        "height": 423,
+        "right": 730,
+        "bottom": 555
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "right": 1280,
+        "bottom": 720
+      },
+      "gameViewportShare": 1,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.08355034722222222,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 46,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 0.9164496527777778,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 28,
+            "y": 514.484375,
+            "width": 318,
+            "height": 40,
+            "right": 346,
+            "bottom": 554.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-quick-one",
+          "rect": {
+            "x": 88,
+            "y": 556.484375,
+            "width": 74,
+            "height": 40,
+            "right": 162,
+            "bottom": 596.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "我记住了"
+        },
+        {
+          "id": "g105-quick-two",
+          "rect": {
+            "x": 164,
+            "y": 556.484375,
+            "width": 60,
+            "height": 40,
+            "right": 224,
+            "bottom": 596.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "谢谢你"
+        },
+        {
+          "id": "g105-quick-three",
+          "rect": {
+            "x": 226,
+            "y": 556.484375,
+            "width": 60,
+            "height": 40,
+            "right": 286,
+            "bottom": 596.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "慢慢来"
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 39.6875,
+            "y": 598.484375,
+            "width": 74,
+            "height": 40,
+            "right": 113.6875,
+            "bottom": 638.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 115.6875,
+            "y": 598.484375,
+            "width": 94.609375,
+            "height": 40,
+            "right": 210.296875,
+            "bottom": 638.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张（1）"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 212.296875,
+            "y": 598.484375,
+            "width": 74,
+            "height": 40,
+            "right": 286.296875,
+            "bottom": 638.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "这次跳过"
+        },
+        {
+          "id": "pilot-collapse",
+          "rect": {
+            "x": 288.296875,
+            "y": 598.484375,
+            "width": 46,
+            "height": 40,
+            "right": 334.296875,
+            "bottom": 638.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "收起"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-title",
+          "rect": {
+            "x": 28,
+            "y": 470,
+            "width": 65.546875,
+            "height": 21.59375,
+            "right": 93.546875,
+            "bottom": 491.59375
+          },
+          "font": 16,
+          "color": "rgb(68, 42, 49)",
+          "text": "轻松分享"
+        },
+        {
+          "id": "g105-card-kicker",
+          "rect": {
+            "x": 248.90625,
+            "y": 473.375,
+            "width": 97.09375,
+            "height": 14.84375,
+            "right": 346,
+            "bottom": 488.21875
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "主卡  ·  轻语 / 樱粉"
+        },
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 28,
+            "y": 493.59375,
+            "width": 318,
+            "height": 18.890625,
+            "right": 346,
+            "bottom": 512.484375
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 28,
+            "y": 640.484375,
+            "width": 318,
+            "height": 14.84375,
+            "right": 346,
+            "bottom": 655.328125
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "不想展开时，可以跳过；本局不会记录到长期记忆。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/C-expanded-1280x720.png",
+      "focusWithoutNativeKeyboard": {
+        "allControlsInside": true,
+        "outsideScreen": false
+      }
+    },
+    {
+      "layout": "A",
+      "theme": "plum",
+      "expanded": false,
+      "width": 1024,
+      "height": 576,
+      "mode": "desktop",
+      "card": {
+        "x": 12,
+        "y": 294,
+        "width": 340,
+        "height": 236,
+        "right": 352,
+        "bottom": 530
+      },
+      "status": {
+        "x": 212,
+        "y": 538,
+        "width": 600,
+        "height": 26,
+        "right": 812,
+        "bottom": 564
+      },
+      "tower": {
+        "x": 438.40000000000003,
+        "y": 105.60000000000001,
+        "width": 145.6,
+        "height": 338.40000000000003,
+        "right": 584,
+        "bottom": 444.00000000000006
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 0,
+        "y": 0,
+        "width": 1024,
+        "height": 576,
+        "right": 1024,
+        "bottom": 576
+      },
+      "gameViewportShare": 1,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.1360405815972222,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 60,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 0.8639594184027778,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 28,
+            "y": 354.484375,
+            "width": 308,
+            "height": 40,
+            "right": 336,
+            "bottom": 394.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-quick-one",
+          "rect": {
+            "x": 83,
+            "y": 396.484375,
+            "width": 74,
+            "height": 40,
+            "right": 157,
+            "bottom": 436.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "我记住了"
+        },
+        {
+          "id": "g105-quick-two",
+          "rect": {
+            "x": 159,
+            "y": 396.484375,
+            "width": 60,
+            "height": 40,
+            "right": 219,
+            "bottom": 436.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "谢谢你"
+        },
+        {
+          "id": "g105-quick-three",
+          "rect": {
+            "x": 221,
+            "y": 396.484375,
+            "width": 60,
+            "height": 40,
+            "right": 281,
+            "bottom": 436.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "慢慢来"
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 58.6875,
+            "y": 438.484375,
+            "width": 74,
+            "height": 40,
+            "right": 132.6875,
+            "bottom": 478.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 134.6875,
+            "y": 438.484375,
+            "width": 94.609375,
+            "height": 40,
+            "right": 229.296875,
+            "bottom": 478.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张（1）"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 231.296875,
+            "y": 438.484375,
+            "width": 74,
+            "height": 40,
+            "right": 305.296875,
+            "bottom": 478.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "这次跳过"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-title",
+          "rect": {
+            "x": 28,
+            "y": 310,
+            "width": 65.546875,
+            "height": 21.59375,
+            "right": 93.546875,
+            "bottom": 331.59375
+          },
+          "font": 16,
+          "color": "rgb(68, 42, 49)",
+          "text": "轻松分享"
+        },
+        {
+          "id": "g105-card-kicker",
+          "rect": {
+            "x": 238.90625,
+            "y": 313.375,
+            "width": 97.09375,
+            "height": 14.84375,
+            "right": 336,
+            "bottom": 328.21875
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "主卡  ·  轻语 / 樱粉"
+        },
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 28,
+            "y": 333.59375,
+            "width": 308,
+            "height": 18.890625,
+            "right": 336,
+            "bottom": 352.484375
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 28,
+            "y": 480.484375,
+            "width": 308,
+            "height": 14.84375,
+            "right": 336,
+            "bottom": 495.328125
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "不想展开时，可以跳过；本局不会记录到长期记忆。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/A-default-1024x576.png"
+    },
+    {
+      "layout": "B",
+      "theme": "plum",
+      "expanded": false,
+      "width": 1024,
+      "height": 576,
+      "mode": "desktop",
+      "card": {
+        "x": 87.00352478027344,
+        "y": 373.9959716796875,
+        "width": 849.9999389648438,
+        "height": 155.99993896484375,
+        "right": 937.0034637451172,
+        "bottom": 529.9959106445312
+      },
+      "status": {
+        "x": 211.99879455566406,
+        "y": 537.9957885742188,
+        "width": 599.9999389648438,
+        "height": 25.99993896484375,
+        "right": 811.9987335205078,
+        "bottom": 563.9957275390625
+      },
+      "tower": {
+        "x": 465.7444454193115,
+        "y": 66.36668052673339,
+        "width": 91.50555362701415,
+        "height": 212.6749955177307,
+        "right": 557.2499990463257,
+        "bottom": 279.0416760444641
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 190.22222900390625,
+        "y": 0.0000152587890625,
+        "width": 643.5555419921875,
+        "height": 362,
+        "right": 833.7777709960938,
+        "bottom": 362.00001525878906
+      },
+      "gameViewportShare": 0.39497732578052414,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.22481272141967187,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 59.99993896484375,
+      "minButtonHeight": 39.99993896484375,
+      "visibleGameAreaRatio": 1,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 370.0035095214844,
+            "y": 389.9959716796875,
+            "width": 551,
+            "height": 40,
+            "right": 921.0035095214844,
+            "bottom": 429.9959716796875
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-quick-one",
+          "rect": {
+            "x": 546.5035400390625,
+            "y": 431.9959716796875,
+            "width": 74,
+            "height": 40,
+            "right": 620.5035400390625,
+            "bottom": 471.9959716796875
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "我记住了"
+        },
+        {
+          "id": "g105-quick-two",
+          "rect": {
+            "x": 622.5035400390625,
+            "y": 431.9959716796875,
+            "width": 60,
+            "height": 40,
+            "right": 682.5035400390625,
+            "bottom": 471.9959716796875
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "谢谢你"
+        },
+        {
+          "id": "g105-quick-three",
+          "rect": {
+            "x": 684.5035400390625,
+            "y": 431.9959716796875,
+            "width": 59.99993896484375,
+            "height": 40,
+            "right": 744.5034790039062,
+            "bottom": 471.9959716796875
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "慢慢来"
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 522.1910400390625,
+            "y": 473.9959716796875,
+            "width": 73.99993896484375,
+            "height": 39.99993896484375,
+            "right": 596.1909790039062,
+            "bottom": 513.9959106445312
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 598.1910400390625,
+            "y": 473.9959716796875,
+            "width": 94.609375,
+            "height": 39.99993896484375,
+            "right": 692.8004150390625,
+            "bottom": 513.9959106445312
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张（1）"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 694.8004150390625,
+            "y": 473.9959716796875,
+            "width": 73.99993896484375,
+            "height": 39.99993896484375,
+            "right": 768.8003540039062,
+            "bottom": 513.9959106445312
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "这次跳过"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-title",
+          "rect": {
+            "x": 103.00353240966797,
+            "y": 389.9959716796875,
+            "width": 65.54686737060547,
+            "height": 21.59375,
+            "right": 168.55039978027344,
+            "bottom": 411.5897216796875
+          },
+          "font": 16,
+          "color": "rgb(68, 42, 49)",
+          "text": "轻松分享"
+        },
+        {
+          "id": "g105-card-kicker",
+          "rect": {
+            "x": 260.9097595214844,
+            "y": 393.3709716796875,
+            "width": 97.09371948242188,
+            "height": 14.84375,
+            "right": 358.00347900390625,
+            "bottom": 408.2147216796875
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "主卡  ·  轻语 / 樱粉"
+        },
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 103.00353240966797,
+            "y": 413.5897216796875,
+            "width": 254.99993896484375,
+            "height": 18.890625,
+            "right": 358.0034713745117,
+            "bottom": 432.4803466796875
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 103.00353240966797,
+            "y": 434.4803466796875,
+            "width": 254.99993896484375,
+            "height": 14.84375,
+            "right": 358.0034713745117,
+            "bottom": 449.3240966796875
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "不想展开时，可以跳过；本局不会记录到长期记忆。"
+        }
+      ],
+      "areaPass": false,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/B-default-1024x576.png"
+    },
+    {
+      "layout": "C",
+      "theme": "plum",
+      "expanded": false,
+      "width": 1024,
+      "height": 576,
+      "mode": "desktop",
+      "card": {
+        "x": 12,
+        "y": 438,
+        "width": 350,
+        "height": 92,
+        "right": 362,
+        "bottom": 530
+      },
+      "status": {
+        "x": 212,
+        "y": 538,
+        "width": 600,
+        "height": 26,
+        "right": 812,
+        "bottom": 564
+      },
+      "tower": {
+        "x": 438.40000000000003,
+        "y": 105.60000000000001,
+        "width": 145.6,
+        "height": 338.40000000000003,
+        "right": 584,
+        "bottom": 444.00000000000006
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 0,
+        "y": 0,
+        "width": 1024,
+        "height": 576,
+        "right": 1024,
+        "bottom": 576
+      },
+      "gameViewportShare": 1,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.05459255642361111,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 14,
+      "inputHeight": null,
+      "minButtonWidth": 46,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 0.9454074435763888,
+      "controls": [
+        {
+          "id": "pilot-answer",
+          "rect": {
+            "x": 300,
+            "y": 454,
+            "width": 46,
+            "height": 40,
+            "right": 346,
+            "bottom": 494
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "回答"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 28,
+            "y": 464.546875,
+            "width": 157.703125,
+            "height": 18.890625,
+            "right": 185.703125,
+            "bottom": 483.4375
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/C-default-1024x576.png"
+    },
+    {
+      "layout": "C",
+      "theme": "plum",
+      "expanded": true,
+      "width": 1024,
+      "height": 576,
+      "mode": "desktop",
+      "card": {
+        "x": 12,
+        "y": 310,
+        "width": 350,
+        "height": 220,
+        "right": 362,
+        "bottom": 530
+      },
+      "status": {
+        "x": 212,
+        "y": 538,
+        "width": 600,
+        "height": 26,
+        "right": 812,
+        "bottom": 564
+      },
+      "tower": {
+        "x": 438.40000000000003,
+        "y": 105.60000000000001,
+        "width": 145.6,
+        "height": 338.40000000000003,
+        "right": 584,
+        "bottom": 444.00000000000006
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 0,
+        "y": 0,
+        "width": 1024,
+        "height": 576,
+        "right": 1024,
+        "bottom": 576
+      },
+      "gameViewportShare": 1,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.1305474175347222,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 46,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 0.8694525824652778,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 28,
+            "y": 370.484375,
+            "width": 318,
+            "height": 40,
+            "right": 346,
+            "bottom": 410.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-quick-one",
+          "rect": {
+            "x": 88,
+            "y": 412.484375,
+            "width": 74,
+            "height": 40,
+            "right": 162,
+            "bottom": 452.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "我记住了"
+        },
+        {
+          "id": "g105-quick-two",
+          "rect": {
+            "x": 164,
+            "y": 412.484375,
+            "width": 60,
+            "height": 40,
+            "right": 224,
+            "bottom": 452.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "谢谢你"
+        },
+        {
+          "id": "g105-quick-three",
+          "rect": {
+            "x": 226,
+            "y": 412.484375,
+            "width": 60,
+            "height": 40,
+            "right": 286,
+            "bottom": 452.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "慢慢来"
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 39.6875,
+            "y": 454.484375,
+            "width": 74,
+            "height": 40,
+            "right": 113.6875,
+            "bottom": 494.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 115.6875,
+            "y": 454.484375,
+            "width": 94.609375,
+            "height": 40,
+            "right": 210.296875,
+            "bottom": 494.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张（1）"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 212.296875,
+            "y": 454.484375,
+            "width": 74,
+            "height": 40,
+            "right": 286.296875,
+            "bottom": 494.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "这次跳过"
+        },
+        {
+          "id": "pilot-collapse",
+          "rect": {
+            "x": 288.296875,
+            "y": 454.484375,
+            "width": 46,
+            "height": 40,
+            "right": 334.296875,
+            "bottom": 494.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "收起"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-title",
+          "rect": {
+            "x": 28,
+            "y": 326,
+            "width": 65.546875,
+            "height": 21.59375,
+            "right": 93.546875,
+            "bottom": 347.59375
+          },
+          "font": 16,
+          "color": "rgb(68, 42, 49)",
+          "text": "轻松分享"
+        },
+        {
+          "id": "g105-card-kicker",
+          "rect": {
+            "x": 248.90625,
+            "y": 329.375,
+            "width": 97.09375,
+            "height": 14.84375,
+            "right": 346,
+            "bottom": 344.21875
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "主卡  ·  轻语 / 樱粉"
+        },
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 28,
+            "y": 349.59375,
+            "width": 318,
+            "height": 18.890625,
+            "right": 346,
+            "bottom": 368.484375
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 28,
+            "y": 496.484375,
+            "width": 318,
+            "height": 14.84375,
+            "right": 346,
+            "bottom": 511.328125
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "不想展开时，可以跳过；本局不会记录到长期记忆。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/C-expanded-1024x576.png",
+      "focusWithoutNativeKeyboard": {
+        "allControlsInside": true,
+        "outsideScreen": false
+      }
+    },
+    {
+      "layout": "A",
+      "theme": "plum",
+      "expanded": false,
+      "width": 800,
+      "height": 450,
+      "mode": "landscape",
+      "card": {
+        "x": 8.0078125,
+        "y": 173.994140625,
+        "width": 300,
+        "height": 236,
+        "right": 308.0078125,
+        "bottom": 409.994140625
+      },
+      "status": {
+        "x": 100,
+        "y": 417.998046875,
+        "width": 600,
+        "height": 24,
+        "right": 700,
+        "bottom": 441.998046875
+      },
+      "tower": {
+        "x": 342.5,
+        "y": 82.5,
+        "width": 113.75,
+        "height": 264.375,
+        "right": 456.25,
+        "bottom": 346.875
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 0,
+        "y": 0,
+        "width": 800,
+        "height": 450,
+        "right": 800,
+        "bottom": 450
+      },
+      "gameViewportShare": 1,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.19666666666666666,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 60,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 0.8033333333333333,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 24.0078125,
+            "y": 234.478515625,
+            "width": 268,
+            "height": 40,
+            "right": 292.0078125,
+            "bottom": 274.478515625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-quick-one",
+          "rect": {
+            "x": 59.0078125,
+            "y": 276.478515625,
+            "width": 74,
+            "height": 40,
+            "right": 133.0078125,
+            "bottom": 316.478515625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "我记住了"
+        },
+        {
+          "id": "g105-quick-two",
+          "rect": {
+            "x": 135.0078125,
+            "y": 276.478515625,
+            "width": 60,
+            "height": 40,
+            "right": 195.0078125,
+            "bottom": 316.478515625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "谢谢你"
+        },
+        {
+          "id": "g105-quick-three",
+          "rect": {
+            "x": 197.0078125,
+            "y": 276.478515625,
+            "width": 60,
+            "height": 40,
+            "right": 257.0078125,
+            "bottom": 316.478515625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "慢慢来"
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 34.6953125,
+            "y": 318.478515625,
+            "width": 74,
+            "height": 40.000030517578125,
+            "right": 108.6953125,
+            "bottom": 358.4785461425781
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 110.6953125,
+            "y": 318.478515625,
+            "width": 94.60939025878906,
+            "height": 40.000030517578125,
+            "right": 205.30470275878906,
+            "bottom": 358.4785461425781
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张（1）"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 207.3046875,
+            "y": 318.478515625,
+            "width": 74,
+            "height": 40.000030517578125,
+            "right": 281.3046875,
+            "bottom": 358.4785461425781
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "这次跳过"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-title",
+          "rect": {
+            "x": 24.0078125,
+            "y": 189.994140625,
+            "width": 65.546875,
+            "height": 21.59375,
+            "right": 89.5546875,
+            "bottom": 211.587890625
+          },
+          "font": 16,
+          "color": "rgb(68, 42, 49)",
+          "text": "轻松分享"
+        },
+        {
+          "id": "g105-card-kicker",
+          "rect": {
+            "x": 194.91407775878906,
+            "y": 193.369140625,
+            "width": 97.09373474121094,
+            "height": 14.84375,
+            "right": 292.0078125,
+            "bottom": 208.212890625
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "主卡  ·  轻语 / 樱粉"
+        },
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 24.0078125,
+            "y": 213.587890625,
+            "width": 268,
+            "height": 18.890625,
+            "right": 292.0078125,
+            "bottom": 232.478515625
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 24.0078125,
+            "y": 360.478515625,
+            "width": 268,
+            "height": 14.84375,
+            "right": 292.0078125,
+            "bottom": 375.322265625
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "不想展开时，可以跳过；本局不会记录到长期记忆。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/A-default-800x450.png"
+    },
+    {
+      "layout": "B",
+      "theme": "plum",
+      "expanded": false,
+      "width": 800,
+      "height": 450,
+      "mode": "landscape",
+      "card": {
+        "x": 80.00245666503906,
+        "y": 253.99713134765625,
+        "width": 640.0000610351562,
+        "height": 156.00003051757812,
+        "right": 720.0025177001953,
+        "bottom": 409.9971618652344
+      },
+      "status": {
+        "x": 100.0006332397461,
+        "y": 417.99713134765625,
+        "width": 600.0000610351562,
+        "height": 24,
+        "right": 700.0006942749023,
+        "bottom": 441.99713134765625
+      },
+      "tower": {
+        "x": 368.5666376113892,
+        "y": 45.0999979019165,
+        "width": 62.18333044052124,
+        "height": 144.52499327659606,
+        "right": 430.7499680519104,
+        "bottom": 189.62499117851257
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 181.33331298828125,
+        "y": 0,
+        "width": 437.33331298828125,
+        "height": 246,
+        "right": 618.6666259765625,
+        "bottom": 246
+      },
+      "gameViewportShare": 0.29884443054199217,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.2773334140353784,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 59.999969482421875,
+      "minButtonHeight": 40.000030517578125,
+      "visibleGameAreaRatio": 1,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 300.0024719238281,
+            "y": 269.99713134765625,
+            "width": 404.0000305175781,
+            "height": 40,
+            "right": 704.0025024414062,
+            "bottom": 309.99713134765625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-quick-one",
+          "rect": {
+            "x": 403.0024719238281,
+            "y": 311.99713134765625,
+            "width": 74,
+            "height": 40.000030517578125,
+            "right": 477.0024719238281,
+            "bottom": 351.9971618652344
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "我记住了"
+        },
+        {
+          "id": "g105-quick-two",
+          "rect": {
+            "x": 479.0024719238281,
+            "y": 311.99713134765625,
+            "width": 59.999969482421875,
+            "height": 40.000030517578125,
+            "right": 539.00244140625,
+            "bottom": 351.9971618652344
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "谢谢你"
+        },
+        {
+          "id": "g105-quick-three",
+          "rect": {
+            "x": 541.00244140625,
+            "y": 311.99713134765625,
+            "width": 60,
+            "height": 40.000030517578125,
+            "right": 601.00244140625,
+            "bottom": 351.9971618652344
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "慢慢来"
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 378.68994140625,
+            "y": 353.9971008300781,
+            "width": 74.00003051757812,
+            "height": 40.000030517578125,
+            "right": 452.6899719238281,
+            "bottom": 393.99713134765625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 454.6899719238281,
+            "y": 353.9971008300781,
+            "width": 94.60934448242188,
+            "height": 40.000030517578125,
+            "right": 549.29931640625,
+            "bottom": 393.99713134765625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张（1）"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 551.29931640625,
+            "y": 353.9971008300781,
+            "width": 74,
+            "height": 40.000030517578125,
+            "right": 625.29931640625,
+            "bottom": 393.99713134765625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "这次跳过"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-title",
+          "rect": {
+            "x": 96.00245666503906,
+            "y": 269.99713134765625,
+            "width": 65.546875,
+            "height": 21.593780517578125,
+            "right": 161.54933166503906,
+            "bottom": 291.5909118652344
+          },
+          "font": 16,
+          "color": "rgb(68, 42, 49)",
+          "text": "轻松分享"
+        },
+        {
+          "id": "g105-card-kicker",
+          "rect": {
+            "x": 190.90870666503906,
+            "y": 273.37213134765625,
+            "width": 97.09376525878906,
+            "height": 14.84375,
+            "right": 288.0024719238281,
+            "bottom": 288.21588134765625
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "主卡  ·  轻语 / 樱粉"
+        },
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 96.00245666503906,
+            "y": 293.59088134765625,
+            "width": 192.00001525878906,
+            "height": 18.890625,
+            "right": 288.0024719238281,
+            "bottom": 312.48150634765625
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 96.00245666503906,
+            "y": 314.48150634765625,
+            "width": 192.00001525878906,
+            "height": 29.687530517578125,
+            "right": 288.0024719238281,
+            "bottom": 344.1690368652344
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "不想展开时，可以跳过；本局不会记录到长期记忆。"
+        }
+      ],
+      "areaPass": false,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/B-default-800x450.png"
+    },
+    {
+      "layout": "C",
+      "theme": "plum",
+      "expanded": false,
+      "width": 800,
+      "height": 450,
+      "mode": "landscape",
+      "card": {
+        "x": 8.0078125,
+        "y": 317.998046875,
+        "width": 260,
+        "height": 92,
+        "right": 268.0078125,
+        "bottom": 409.998046875
+      },
+      "status": {
+        "x": 100,
+        "y": 417.998046875,
+        "width": 600,
+        "height": 24,
+        "right": 700,
+        "bottom": 441.998046875
+      },
+      "tower": {
+        "x": 342.5,
+        "y": 82.5,
+        "width": 113.75,
+        "height": 264.375,
+        "right": 456.25,
+        "bottom": 346.875
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 0,
+        "y": 0,
+        "width": 800,
+        "height": 450,
+        "right": 800,
+        "bottom": 450
+      },
+      "gameViewportShare": 1,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.06644444444444444,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 14,
+      "inputHeight": null,
+      "minButtonWidth": 46,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 0.9335555555555556,
+      "controls": [
+        {
+          "id": "pilot-answer",
+          "rect": {
+            "x": 210.0078125,
+            "y": 329.998046875,
+            "width": 46,
+            "height": 40,
+            "right": 256.0078125,
+            "bottom": 369.998046875
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "回答"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 20.0078125,
+            "y": 340.544921875,
+            "width": 157.703125,
+            "height": 18.890625,
+            "right": 177.7109375,
+            "bottom": 359.435546875
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/C-default-800x450.png"
+    },
+    {
+      "layout": "C",
+      "theme": "plum",
+      "expanded": true,
+      "width": 800,
+      "height": 450,
+      "mode": "landscape",
+      "card": {
+        "x": 7.9999847412109375,
+        "y": 301.994384765625,
+        "width": 460,
+        "height": 108.00003051757812,
+        "right": 467.99998474121094,
+        "bottom": 409.9944152832031
+      },
+      "status": {
+        "x": 100.00259399414062,
+        "y": 417.9993591308594,
+        "width": 600,
+        "height": 24,
+        "right": 700.0025939941406,
+        "bottom": 441.9993591308594
+      },
+      "tower": {
+        "x": 362.43335800170894,
+        "y": 53.90000839233398,
+        "width": 74.31667823791504,
+        "height": 172.7250268936157,
+        "right": 436.75003623962397,
+        "bottom": 226.62503528594968
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 138.66665649414062,
+        "y": 0,
+        "width": 522.666748046875,
+        "height": 294,
+        "right": 661.3334045410156,
+        "bottom": 294
+      },
+      "gameViewportShare": 0.4268445109049479,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.13800003899468316,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 45.999969482421875,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 1,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 127.99999237060547,
+            "y": 313.994384765625,
+            "width": 252,
+            "height": 40,
+            "right": 379.99999237060547,
+            "bottom": 353.994384765625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 382,
+            "y": 313.994384765625,
+            "width": 73.99996948242188,
+            "height": 40,
+            "right": 455.9999694824219,
+            "bottom": 353.994384765625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "pilot-quick-select",
+          "rect": {
+            "x": 127.99999237060547,
+            "y": 355.994384765625,
+            "width": 86.00000762939453,
+            "height": 40.000030517578125,
+            "right": 214,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "快捷回应我记住了谢谢你慢慢来"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 243.99998474121094,
+            "y": 355.994384765625,
+            "width": 60.00001525878906,
+            "height": 40.000030517578125,
+            "right": 304,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 334,
+            "y": 355.994384765625,
+            "width": 46,
+            "height": 40.000030517578125,
+            "right": 380,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "跳过"
+        },
+        {
+          "id": "pilot-collapse",
+          "rect": {
+            "x": 410,
+            "y": 355.994384765625,
+            "width": 45.999969482421875,
+            "height": 40.000030517578125,
+            "right": 455.9999694824219,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "收起"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 19.99999237060547,
+            "y": 313.994384765625,
+            "width": 99.99999237060547,
+            "height": 37.781280517578125,
+            "right": 119.99998474121094,
+            "bottom": 351.7756652832031
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 19.99999237060547,
+            "y": 353.775634765625,
+            "width": 99.99999237060547,
+            "height": 29.687530517578125,
+            "right": 119.99998474121094,
+            "bottom": 383.4631652832031
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "可跳过，仅本局可见。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/C-expanded-800x450.png",
+      "focusWithoutNativeKeyboard": {
+        "allControlsInside": true,
+        "outsideScreen": false
+      }
+    },
+    {
+      "layout": "A",
+      "theme": "plum",
+      "expanded": false,
+      "width": 667,
+      "height": 375,
+      "mode": "landscape",
+      "card": {
+        "x": 8.00360107421875,
+        "y": 98.9990234375,
+        "width": 300,
+        "height": 235.99996948242188,
+        "right": 308.00360107421875,
+        "bottom": 334.9989929199219
+      },
+      "status": {
+        "x": 33.50001907348633,
+        "y": 342.9931640625,
+        "width": 600,
+        "height": 24,
+        "right": 633.5000190734863,
+        "bottom": 366.9931640625
+      },
+      "tower": {
+        "x": 285.5833362579346,
+        "y": 68.74999580383302,
+        "width": 94.79166088104249,
+        "height": 220.31248655319214,
+        "right": 380.3749971389771,
+        "bottom": 289.06248235702515
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 0.16668701171875,
+        "y": 0,
+        "width": 666.6666259765625,
+        "height": 375,
+        "right": 666.8333129882812,
+        "bottom": 375
+      },
+      "gameViewportShare": 0.9995001888704086,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.28305843416182536,
+      "towerOverlapArea": 4261.2730808746965,
+      "towerOverlapRatio": 0.2040469566273029,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 39.99998474121094,
+      "minButtonWidth": 59.999969482421875,
+      "minButtonHeight": 39.999969482421875,
+      "visibleGameAreaRatio": 0.7168000193359387,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 24.00360107421875,
+            "y": 159.4833984375,
+            "width": 267.9999694824219,
+            "height": 39.99998474121094,
+            "right": 292.0035705566406,
+            "bottom": 199.48338317871094
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-quick-one",
+          "rect": {
+            "x": 59.003597259521484,
+            "y": 201.48338317871094,
+            "width": 74,
+            "height": 40.00001525878906,
+            "right": 133.00359725952148,
+            "bottom": 241.4833984375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "我记住了"
+        },
+        {
+          "id": "g105-quick-two",
+          "rect": {
+            "x": 135.00360107421875,
+            "y": 201.48338317871094,
+            "width": 59.99998474121094,
+            "height": 40.00001525878906,
+            "right": 195.0035858154297,
+            "bottom": 241.4833984375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "谢谢你"
+        },
+        {
+          "id": "g105-quick-three",
+          "rect": {
+            "x": 197.00360107421875,
+            "y": 201.48338317871094,
+            "width": 59.999969482421875,
+            "height": 40.00001525878906,
+            "right": 257.0035705566406,
+            "bottom": 241.4833984375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "慢慢来"
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 34.691097259521484,
+            "y": 243.4833984375,
+            "width": 74,
+            "height": 39.999969482421875,
+            "right": 108.69109725952148,
+            "bottom": 283.4833679199219
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 110.69109344482422,
+            "y": 243.4833984375,
+            "width": 94.60936737060547,
+            "height": 39.999969482421875,
+            "right": 205.3004608154297,
+            "bottom": 283.4833679199219
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张（1）"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 207.3004608154297,
+            "y": 243.4833984375,
+            "width": 73.99998474121094,
+            "height": 39.999969482421875,
+            "right": 281.3004455566406,
+            "bottom": 283.4833679199219
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "这次跳过"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-title",
+          "rect": {
+            "x": 24.00360107421875,
+            "y": 114.9990234375,
+            "width": 65.54686737060547,
+            "height": 21.593734741210938,
+            "right": 89.55046844482422,
+            "bottom": 136.59275817871094
+          },
+          "font": 16,
+          "color": "rgb(68, 42, 49)",
+          "text": "轻松分享"
+        },
+        {
+          "id": "g105-card-kicker",
+          "rect": {
+            "x": 194.9098358154297,
+            "y": 118.37401580810547,
+            "width": 97.09373474121094,
+            "height": 14.843757629394531,
+            "right": 292.0035705566406,
+            "bottom": 133.2177734375
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "主卡  ·  轻语 / 樱粉"
+        },
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 24.00360107421875,
+            "y": 138.59275817871094,
+            "width": 267.9999694824219,
+            "height": 18.890640258789062,
+            "right": 292.0035705566406,
+            "bottom": 157.4833984375
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 24.00360107421875,
+            "y": 285.4833679199219,
+            "width": 267.9999694824219,
+            "height": 14.84375,
+            "right": 292.0035705566406,
+            "bottom": 300.3271179199219
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "不想展开时，可以跳过；本局不会记录到长期记忆。"
+        }
+      ],
+      "areaPass": false,
+      "towerPass": false,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/A-default-667x375.png"
+    },
+    {
+      "layout": "B",
+      "theme": "plum",
+      "expanded": false,
+      "width": 667,
+      "height": 375,
+      "mode": "landscape",
+      "card": {
+        "x": 13.502151489257812,
+        "y": 178.9970703125,
+        "width": 640,
+        "height": 155.99996948242188,
+        "right": 653.5021514892578,
+        "bottom": 334.9970397949219
+      },
+      "status": {
+        "x": 33.500396728515625,
+        "y": 342.99822998046875,
+        "width": 600,
+        "height": 24,
+        "right": 633.5003967285156,
+        "bottom": 366.99822998046875
+      },
+      "tower": {
+        "x": 311.65,
+        "y": 31.349999999999998,
+        "width": 43.225,
+        "height": 100.46249999999999,
+        "right": 354.875,
+        "bottom": 131.8125
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 181.5,
+        "y": 0,
+        "width": 304,
+        "height": 171,
+        "right": 485.5,
+        "bottom": 171
+      },
+      "gameViewportShare": 0.207832083958021,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.39916034170414794,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 60,
+      "minButtonHeight": 39.999969482421875,
+      "visibleGameAreaRatio": 1,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 233.5021514892578,
+            "y": 194.9970703125,
+            "width": 404,
+            "height": 40,
+            "right": 637.5021514892578,
+            "bottom": 234.9970703125
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-quick-one",
+          "rect": {
+            "x": 336.50213623046875,
+            "y": 236.99708557128906,
+            "width": 74,
+            "height": 39.99998474121094,
+            "right": 410.50213623046875,
+            "bottom": 276.9970703125
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "我记住了"
+        },
+        {
+          "id": "g105-quick-two",
+          "rect": {
+            "x": 412.50213623046875,
+            "y": 236.99708557128906,
+            "width": 60,
+            "height": 39.99998474121094,
+            "right": 472.50213623046875,
+            "bottom": 276.9970703125
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "谢谢你"
+        },
+        {
+          "id": "g105-quick-three",
+          "rect": {
+            "x": 474.5021667480469,
+            "y": 236.99708557128906,
+            "width": 60.000030517578125,
+            "height": 39.99998474121094,
+            "right": 534.502197265625,
+            "bottom": 276.9970703125
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "慢慢来"
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 312.18963623046875,
+            "y": 278.9970703125,
+            "width": 74,
+            "height": 39.999969482421875,
+            "right": 386.18963623046875,
+            "bottom": 318.9970397949219
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 388.18963623046875,
+            "y": 278.9970703125,
+            "width": 94.60940551757812,
+            "height": 39.999969482421875,
+            "right": 482.7990417480469,
+            "bottom": 318.9970397949219
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张（1）"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 484.7990417480469,
+            "y": 278.9970703125,
+            "width": 73.99996948242188,
+            "height": 39.999969482421875,
+            "right": 558.7990112304688,
+            "bottom": 318.9970397949219
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "这次跳过"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-title",
+          "rect": {
+            "x": 29.502151489257812,
+            "y": 194.9970703125,
+            "width": 65.546875,
+            "height": 21.59375,
+            "right": 95.04902648925781,
+            "bottom": 216.5908203125
+          },
+          "font": 16,
+          "color": "rgb(68, 42, 49)",
+          "text": "轻松分享"
+        },
+        {
+          "id": "g105-card-kicker",
+          "rect": {
+            "x": 124.40840148925781,
+            "y": 198.3720703125,
+            "width": 97.09375,
+            "height": 14.84375,
+            "right": 221.5021514892578,
+            "bottom": 213.2158203125
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "主卡  ·  轻语 / 樱粉"
+        },
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 29.502151489257812,
+            "y": 218.5908203125,
+            "width": 192,
+            "height": 18.890625,
+            "right": 221.5021514892578,
+            "bottom": 237.4814453125
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 29.502151489257812,
+            "y": 239.4814453125,
+            "width": 192,
+            "height": 29.6875,
+            "right": 221.5021514892578,
+            "bottom": 269.1689453125
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "不想展开时，可以跳过；本局不会记录到长期记忆。"
+        }
+      ],
+      "areaPass": false,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/B-default-667x375.png"
+    },
+    {
+      "layout": "C",
+      "theme": "plum",
+      "expanded": false,
+      "width": 667,
+      "height": 375,
+      "mode": "landscape",
+      "card": {
+        "x": 8.00360107421875,
+        "y": 242.99314880371094,
+        "width": 259.9999694824219,
+        "height": 92.00001525878906,
+        "right": 268.0035705566406,
+        "bottom": 334.9931640625
+      },
+      "status": {
+        "x": 33.50001907348633,
+        "y": 342.9931640625,
+        "width": 600,
+        "height": 24,
+        "right": 633.5000190734863,
+        "bottom": 366.9931640625
+      },
+      "tower": {
+        "x": 285.5833362579346,
+        "y": 68.74999580383302,
+        "width": 94.79166088104249,
+        "height": 220.31248655319214,
+        "right": 380.3749971389771,
+        "bottom": 289.06248235702515
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 0.16668701171875,
+        "y": 0,
+        "width": 666.6666259765625,
+        "height": 375,
+        "right": 666.8333129882812,
+        "bottom": 375
+      },
+      "gameViewportShare": 0.9995001888704086,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.09563218854439781,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 14,
+      "inputHeight": null,
+      "minButtonWidth": 46.00001525878906,
+      "minButtonHeight": 39.999969482421875,
+      "visibleGameAreaRatio": 0.9043199895214856,
+      "controls": [
+        {
+          "id": "pilot-answer",
+          "rect": {
+            "x": 210.0035858154297,
+            "y": 254.9931640625,
+            "width": 46.00001525878906,
+            "height": 39.999969482421875,
+            "right": 256.00360107421875,
+            "bottom": 294.9931335449219
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "回答"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 20.00360107421875,
+            "y": 265.5400390625,
+            "width": 157.70310974121094,
+            "height": 18.890625,
+            "right": 177.7067108154297,
+            "bottom": 284.4306640625
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/C-default-667x375.png"
+    },
+    {
+      "layout": "C",
+      "theme": "plum",
+      "expanded": true,
+      "width": 667,
+      "height": 375,
+      "mode": "landscape",
+      "card": {
+        "x": 8.003616333007812,
+        "y": 226.99864196777344,
+        "width": 460.00006103515625,
+        "height": 107.99998474121094,
+        "right": 468.00367736816406,
+        "bottom": 334.9986267089844
+      },
+      "status": {
+        "x": 33.5013427734375,
+        "y": 342.9954528808594,
+        "width": 600,
+        "height": 23.999969482421875,
+        "right": 633.5013427734375,
+        "bottom": 366.99542236328125
+      },
+      "tower": {
+        "x": 305.5166376113891,
+        "y": 40.1499979019165,
+        "width": 55.358330440521236,
+        "height": 128.66249327659605,
+        "right": 360.87496805191034,
+        "bottom": 168.81249117851254
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 138.83331298828125,
+        "y": 0,
+        "width": 389.33331298828125,
+        "height": 219,
+        "right": 528.1666259765625,
+        "bottom": 219
+      },
+      "gameViewportShare": 0.34088553940803035,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.19862068794703838,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40.000030517578125,
+      "minButtonWidth": 45.999969482421875,
+      "minButtonHeight": 40.000030517578125,
+      "visibleGameAreaRatio": 1,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 128.00363159179688,
+            "y": 238.99862670898438,
+            "width": 252.00003051757812,
+            "height": 40.000030517578125,
+            "right": 380.003662109375,
+            "bottom": 278.9986572265625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 382.003662109375,
+            "y": 238.99862670898438,
+            "width": 73.99996948242188,
+            "height": 40.000030517578125,
+            "right": 456.0036315917969,
+            "bottom": 278.9986572265625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "pilot-quick-select",
+          "rect": {
+            "x": 128.00363159179688,
+            "y": 280.9986267089844,
+            "width": 86,
+            "height": 40.000030517578125,
+            "right": 214.00363159179688,
+            "bottom": 320.9986572265625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "快捷回应我记住了谢谢你慢慢来"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 244.00363159179688,
+            "y": 280.9986267089844,
+            "width": 60,
+            "height": 40.000030517578125,
+            "right": 304.0036315917969,
+            "bottom": 320.9986572265625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 334.003662109375,
+            "y": 280.9986267089844,
+            "width": 46,
+            "height": 40.000030517578125,
+            "right": 380.003662109375,
+            "bottom": 320.9986572265625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "跳过"
+        },
+        {
+          "id": "pilot-collapse",
+          "rect": {
+            "x": 410.003662109375,
+            "y": 280.9986267089844,
+            "width": 45.999969482421875,
+            "height": 40.000030517578125,
+            "right": 456.0036315917969,
+            "bottom": 320.9986572265625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "收起"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 20.003623962402344,
+            "y": 238.99862670898438,
+            "width": 100,
+            "height": 37.78125,
+            "right": 120.00362396240234,
+            "bottom": 276.7798767089844
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 20.003623962402344,
+            "y": 278.7799072265625,
+            "width": 100,
+            "height": 29.687469482421875,
+            "right": 120.00362396240234,
+            "bottom": 308.4673767089844
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "可跳过，仅本局可见。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/C-expanded-667x375.png",
+      "focusWithoutNativeKeyboard": {
+        "allControlsInside": true,
+        "outsideScreen": false
+      }
+    },
+    {
+      "layout": "A",
+      "theme": "plum",
+      "expanded": false,
+      "width": 390,
+      "height": 844,
+      "mode": "portrait",
+      "card": {
+        "x": 11.9970703125,
+        "y": 578,
+        "width": 366.0000305175781,
+        "height": 220,
+        "right": 377.9971008300781,
+        "bottom": 798
+      },
+      "status": {
+        "x": 11.9970703125,
+        "y": 805.9967041015625,
+        "width": 366.0000305175781,
+        "height": 26,
+        "right": 377.9971008300781,
+        "bottom": 831.9967041015625
+      },
+      "tower": {
+        "x": 166.96875,
+        "y": 352.53125,
+        "width": 55.453125,
+        "height": 128.8828125,
+        "right": 222.421875,
+        "bottom": 481.4140625
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 0,
+        "y": 312.3125,
+        "width": 390,
+        "height": 219.375,
+        "right": 390,
+        "bottom": 531.6875
+      },
+      "gameViewportShare": 0.2599229857819905,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.24462269629926842,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 59.99998474121094,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 1,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 27.9970703125,
+            "y": 638.484375,
+            "width": 334.0000305175781,
+            "height": 40,
+            "right": 361.9971008300781,
+            "bottom": 678.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-quick-one",
+          "rect": {
+            "x": 95.99707794189453,
+            "y": 680.484375,
+            "width": 73.99999237060547,
+            "height": 40,
+            "right": 169.9970703125,
+            "bottom": 720.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "我记住了"
+        },
+        {
+          "id": "g105-quick-two",
+          "rect": {
+            "x": 171.99708557128906,
+            "y": 680.484375,
+            "width": 59.99998474121094,
+            "height": 40,
+            "right": 231.9970703125,
+            "bottom": 720.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "谢谢你"
+        },
+        {
+          "id": "g105-quick-three",
+          "rect": {
+            "x": 233.99708557128906,
+            "y": 680.484375,
+            "width": 59.99998474121094,
+            "height": 40,
+            "right": 293.9970703125,
+            "bottom": 720.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "慢慢来"
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 71.6845703125,
+            "y": 722.484375,
+            "width": 74,
+            "height": 40,
+            "right": 145.6845703125,
+            "bottom": 762.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 147.6845703125,
+            "y": 722.484375,
+            "width": 94.60939025878906,
+            "height": 40,
+            "right": 242.29396057128906,
+            "bottom": 762.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张（1）"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 244.2939453125,
+            "y": 722.484375,
+            "width": 73.99996948242188,
+            "height": 40,
+            "right": 318.2939147949219,
+            "bottom": 762.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "这次跳过"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-title",
+          "rect": {
+            "x": 27.9970703125,
+            "y": 594,
+            "width": 65.546875,
+            "height": 21.59375,
+            "right": 93.5439453125,
+            "bottom": 615.59375
+          },
+          "font": 16,
+          "color": "rgb(68, 42, 49)",
+          "text": "轻松分享"
+        },
+        {
+          "id": "g105-card-kicker",
+          "rect": {
+            "x": 264.9033203125,
+            "y": 597.375,
+            "width": 97.09378051757812,
+            "height": 14.84375,
+            "right": 361.9971008300781,
+            "bottom": 612.21875
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "主卡  ·  轻语 / 樱粉"
+        },
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 27.9970703125,
+            "y": 617.59375,
+            "width": 334.0000305175781,
+            "height": 18.890625,
+            "right": 361.9971008300781,
+            "bottom": 636.484375
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 27.9970703125,
+            "y": 764.484375,
+            "width": 334.0000305175781,
+            "height": 14.84375,
+            "right": 361.9971008300781,
+            "bottom": 779.328125
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "不想展开时，可以跳过；本局不会记录到长期记忆。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/A-default-390x844.png"
+    },
+    {
+      "layout": "B",
+      "theme": "plum",
+      "expanded": false,
+      "width": 390,
+      "height": 844,
+      "mode": "portrait",
+      "card": {
+        "x": 11.9970703125,
+        "y": 578,
+        "width": 366.0000305175781,
+        "height": 220,
+        "right": 377.9971008300781,
+        "bottom": 798
+      },
+      "status": {
+        "x": 11.9970703125,
+        "y": 805.9967041015625,
+        "width": 366.0000305175781,
+        "height": 26,
+        "right": 377.9971008300781,
+        "bottom": 831.9967041015625
+      },
+      "tower": {
+        "x": 166.96875,
+        "y": 352.53125,
+        "width": 55.453125,
+        "height": 128.8828125,
+        "right": 222.421875,
+        "bottom": 481.4140625
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 0,
+        "y": 312.3125,
+        "width": 390,
+        "height": 219.375,
+        "right": 390,
+        "bottom": 531.6875
+      },
+      "gameViewportShare": 0.2599229857819905,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.24462269629926842,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 59.99998474121094,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 1,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 27.9970703125,
+            "y": 638.484375,
+            "width": 334.0000305175781,
+            "height": 40,
+            "right": 361.9971008300781,
+            "bottom": 678.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-quick-one",
+          "rect": {
+            "x": 95.99707794189453,
+            "y": 680.484375,
+            "width": 73.99999237060547,
+            "height": 40,
+            "right": 169.9970703125,
+            "bottom": 720.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "我记住了"
+        },
+        {
+          "id": "g105-quick-two",
+          "rect": {
+            "x": 171.99708557128906,
+            "y": 680.484375,
+            "width": 59.99998474121094,
+            "height": 40,
+            "right": 231.9970703125,
+            "bottom": 720.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "谢谢你"
+        },
+        {
+          "id": "g105-quick-three",
+          "rect": {
+            "x": 233.99708557128906,
+            "y": 680.484375,
+            "width": 59.99998474121094,
+            "height": 40,
+            "right": 293.9970703125,
+            "bottom": 720.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "慢慢来"
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 71.6845703125,
+            "y": 722.484375,
+            "width": 74,
+            "height": 40,
+            "right": 145.6845703125,
+            "bottom": 762.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 147.6845703125,
+            "y": 722.484375,
+            "width": 94.60939025878906,
+            "height": 40,
+            "right": 242.29396057128906,
+            "bottom": 762.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张（1）"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 244.2939453125,
+            "y": 722.484375,
+            "width": 73.99996948242188,
+            "height": 40,
+            "right": 318.2939147949219,
+            "bottom": 762.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "这次跳过"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-title",
+          "rect": {
+            "x": 27.9970703125,
+            "y": 594,
+            "width": 65.546875,
+            "height": 21.59375,
+            "right": 93.5439453125,
+            "bottom": 615.59375
+          },
+          "font": 16,
+          "color": "rgb(68, 42, 49)",
+          "text": "轻松分享"
+        },
+        {
+          "id": "g105-card-kicker",
+          "rect": {
+            "x": 264.9033203125,
+            "y": 597.375,
+            "width": 97.09378051757812,
+            "height": 14.84375,
+            "right": 361.9971008300781,
+            "bottom": 612.21875
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "主卡  ·  轻语 / 樱粉"
+        },
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 27.9970703125,
+            "y": 617.59375,
+            "width": 334.0000305175781,
+            "height": 18.890625,
+            "right": 361.9971008300781,
+            "bottom": 636.484375
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 27.9970703125,
+            "y": 764.484375,
+            "width": 334.0000305175781,
+            "height": 14.84375,
+            "right": 361.9971008300781,
+            "bottom": 779.328125
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "不想展开时，可以跳过；本局不会记录到长期记忆。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/B-default-390x844.png"
+    },
+    {
+      "layout": "C",
+      "theme": "plum",
+      "expanded": false,
+      "width": 390,
+      "height": 844,
+      "mode": "portrait",
+      "card": {
+        "x": 11.9970703125,
+        "y": 705.997314453125,
+        "width": 366.0000305175781,
+        "height": 92,
+        "right": 377.9971008300781,
+        "bottom": 797.997314453125
+      },
+      "status": {
+        "x": 11.9970703125,
+        "y": 805.9967041015625,
+        "width": 366.0000305175781,
+        "height": 26,
+        "right": 377.9971008300781,
+        "bottom": 831.9967041015625
+      },
+      "tower": {
+        "x": 166.96875,
+        "y": 352.53125,
+        "width": 55.453125,
+        "height": 128.8828125,
+        "right": 222.421875,
+        "bottom": 481.4140625
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 0,
+        "y": 312.3125,
+        "width": 390,
+        "height": 219.375,
+        "right": 390,
+        "bottom": 531.6875
+      },
+      "gameViewportShare": 0.2599229857819905,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.10229676390696679,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 14,
+      "inputHeight": null,
+      "minButtonWidth": 46,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 1,
+      "controls": [
+        {
+          "id": "pilot-answer",
+          "rect": {
+            "x": 315.9971008300781,
+            "y": 721.997314453125,
+            "width": 46,
+            "height": 40,
+            "right": 361.9971008300781,
+            "bottom": 761.997314453125
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "回答"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 27.9970703125,
+            "y": 732.544189453125,
+            "width": 157.70314025878906,
+            "height": 18.890625,
+            "right": 185.70021057128906,
+            "bottom": 751.434814453125
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/C-default-390x844.png"
+    },
+    {
+      "layout": "C",
+      "theme": "plum",
+      "expanded": true,
+      "width": 390,
+      "height": 844,
+      "mode": "portrait",
+      "card": {
+        "x": 11.9970703125,
+        "y": 578,
+        "width": 366.0000305175781,
+        "height": 220,
+        "right": 377.9971008300781,
+        "bottom": 798
+      },
+      "status": {
+        "x": 11.9970703125,
+        "y": 805.9967041015625,
+        "width": 366.0000305175781,
+        "height": 26,
+        "right": 377.9971008300781,
+        "bottom": 831.9967041015625
+      },
+      "tower": {
+        "x": 166.96875,
+        "y": 352.53125,
+        "width": 55.453125,
+        "height": 128.8828125,
+        "right": 222.421875,
+        "bottom": 481.4140625
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 0,
+        "y": 312.3125,
+        "width": 390,
+        "height": 219.375,
+        "right": 390,
+        "bottom": 531.6875
+      },
+      "gameViewportShare": 0.2599229857819905,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.24462269629926842,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 46,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 1,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 27.9970703125,
+            "y": 638.484375,
+            "width": 334.0000305175781,
+            "height": 40,
+            "right": 361.9971008300781,
+            "bottom": 678.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-quick-one",
+          "rect": {
+            "x": 95.99707794189453,
+            "y": 680.484375,
+            "width": 73.99999237060547,
+            "height": 40,
+            "right": 169.9970703125,
+            "bottom": 720.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "我记住了"
+        },
+        {
+          "id": "g105-quick-two",
+          "rect": {
+            "x": 171.99708557128906,
+            "y": 680.484375,
+            "width": 59.99998474121094,
+            "height": 40,
+            "right": 231.9970703125,
+            "bottom": 720.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "谢谢你"
+        },
+        {
+          "id": "g105-quick-three",
+          "rect": {
+            "x": 233.99708557128906,
+            "y": 680.484375,
+            "width": 59.99998474121094,
+            "height": 40,
+            "right": 293.9970703125,
+            "bottom": 720.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "慢慢来"
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 47.6845703125,
+            "y": 722.484375,
+            "width": 74,
+            "height": 40,
+            "right": 121.6845703125,
+            "bottom": 762.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 123.68457794189453,
+            "y": 722.484375,
+            "width": 94.60936737060547,
+            "height": 40,
+            "right": 218.2939453125,
+            "bottom": 762.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张（1）"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 220.29396057128906,
+            "y": 722.484375,
+            "width": 73.99998474121094,
+            "height": 40,
+            "right": 294.2939453125,
+            "bottom": 762.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "这次跳过"
+        },
+        {
+          "id": "pilot-collapse",
+          "rect": {
+            "x": 296.2939453125,
+            "y": 722.484375,
+            "width": 46,
+            "height": 40,
+            "right": 342.2939453125,
+            "bottom": 762.484375
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "收起"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-title",
+          "rect": {
+            "x": 27.9970703125,
+            "y": 594,
+            "width": 65.546875,
+            "height": 21.59375,
+            "right": 93.5439453125,
+            "bottom": 615.59375
+          },
+          "font": 16,
+          "color": "rgb(68, 42, 49)",
+          "text": "轻松分享"
+        },
+        {
+          "id": "g105-card-kicker",
+          "rect": {
+            "x": 264.9033203125,
+            "y": 597.375,
+            "width": 97.09378051757812,
+            "height": 14.84375,
+            "right": 361.9971008300781,
+            "bottom": 612.21875
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "主卡  ·  轻语 / 樱粉"
+        },
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 27.9970703125,
+            "y": 617.59375,
+            "width": 334.0000305175781,
+            "height": 18.890625,
+            "right": 361.9971008300781,
+            "bottom": 636.484375
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 27.9970703125,
+            "y": 764.484375,
+            "width": 334.0000305175781,
+            "height": 14.84375,
+            "right": 361.9971008300781,
+            "bottom": 779.328125
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "不想展开时，可以跳过；本局不会记录到长期记忆。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "screenshot": "screenshots/run-1/C-expanded-390x844.png",
+      "focusWithoutNativeKeyboard": {
+        "allControlsInside": true,
+        "outsideScreen": false
+      }
+    },
+    {
+      "layout": "C",
+      "theme": "light",
+      "expanded": true,
+      "width": 800,
+      "height": 450,
+      "mode": "landscape",
+      "card": {
+        "x": 7.9999847412109375,
+        "y": 301.994384765625,
+        "width": 460,
+        "height": 108.00003051757812,
+        "right": 467.99998474121094,
+        "bottom": 409.9944152832031
+      },
+      "status": {
+        "x": 100.00259399414062,
+        "y": 417.9993591308594,
+        "width": 600,
+        "height": 24,
+        "right": 700.0025939941406,
+        "bottom": 441.9993591308594
+      },
+      "tower": {
+        "x": 362.43335800170894,
+        "y": 53.90000839233398,
+        "width": 74.31667823791504,
+        "height": 172.7250268936157,
+        "right": 436.75003623962397,
+        "bottom": 226.62503528594968
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 138.66665649414062,
+        "y": 0,
+        "width": 522.666748046875,
+        "height": 294,
+        "right": 661.3334045410156,
+        "bottom": 294
+      },
+      "gameViewportShare": 0.4268445109049479,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.13800003899468316,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 45.999969482421875,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 1,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 127.99999237060547,
+            "y": 313.994384765625,
+            "width": 252,
+            "height": 40,
+            "right": 379.99999237060547,
+            "bottom": 353.994384765625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 382,
+            "y": 313.994384765625,
+            "width": 73.99996948242188,
+            "height": 40,
+            "right": 455.9999694824219,
+            "bottom": 353.994384765625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "pilot-quick-select",
+          "rect": {
+            "x": 127.99999237060547,
+            "y": 355.994384765625,
+            "width": 86.00000762939453,
+            "height": 40.000030517578125,
+            "right": 214,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "快捷回应我记住了谢谢你慢慢来"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 243.99998474121094,
+            "y": 355.994384765625,
+            "width": 60.00001525878906,
+            "height": 40.000030517578125,
+            "right": 304,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 334,
+            "y": 355.994384765625,
+            "width": 46,
+            "height": 40.000030517578125,
+            "right": 380,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "跳过"
+        },
+        {
+          "id": "pilot-collapse",
+          "rect": {
+            "x": 410,
+            "y": 355.994384765625,
+            "width": 45.999969482421875,
+            "height": 40.000030517578125,
+            "right": 455.9999694824219,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "收起"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 19.99999237060547,
+            "y": 313.994384765625,
+            "width": 99.99999237060547,
+            "height": 37.781280517578125,
+            "right": 119.99998474121094,
+            "bottom": 351.7756652832031
+          },
+          "font": 14,
+          "color": "rgb(255, 248, 233)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 19.99999237060547,
+            "y": 353.775634765625,
+            "width": 99.99999237060547,
+            "height": 29.687530517578125,
+            "right": 119.99998474121094,
+            "bottom": 383.4631652832031
+          },
+          "font": 11,
+          "color": "rgb(241, 207, 141)",
+          "text": "可跳过，仅本局可见。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "comparison": "theme"
+    },
+    {
+      "layout": "C",
+      "theme": "plum",
+      "expanded": true,
+      "width": 800,
+      "height": 450,
+      "mode": "landscape",
+      "card": {
+        "x": 7.9999847412109375,
+        "y": 301.994384765625,
+        "width": 460,
+        "height": 108.00003051757812,
+        "right": 467.99998474121094,
+        "bottom": 409.9944152832031
+      },
+      "status": {
+        "x": 100.00259399414062,
+        "y": 417.9993591308594,
+        "width": 600,
+        "height": 24,
+        "right": 700.0025939941406,
+        "bottom": 441.9993591308594
+      },
+      "tower": {
+        "x": 362.43335800170894,
+        "y": 53.90000839233398,
+        "width": 74.31667823791504,
+        "height": 172.7250268936157,
+        "right": 436.75003623962397,
+        "bottom": 226.62503528594968
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 138.66665649414062,
+        "y": 0,
+        "width": 522.666748046875,
+        "height": 294,
+        "right": 661.3334045410156,
+        "bottom": 294
+      },
+      "gameViewportShare": 0.4268445109049479,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.13800003899468316,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 45.999969482421875,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 1,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 127.99999237060547,
+            "y": 313.994384765625,
+            "width": 252,
+            "height": 40,
+            "right": 379.99999237060547,
+            "bottom": 353.994384765625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 382,
+            "y": 313.994384765625,
+            "width": 73.99996948242188,
+            "height": 40,
+            "right": 455.9999694824219,
+            "bottom": 353.994384765625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "pilot-quick-select",
+          "rect": {
+            "x": 127.99999237060547,
+            "y": 355.994384765625,
+            "width": 86.00000762939453,
+            "height": 40.000030517578125,
+            "right": 214,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "快捷回应我记住了谢谢你慢慢来"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 243.99998474121094,
+            "y": 355.994384765625,
+            "width": 60.00001525878906,
+            "height": 40.000030517578125,
+            "right": 304,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 334,
+            "y": 355.994384765625,
+            "width": 46,
+            "height": 40.000030517578125,
+            "right": 380,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "跳过"
+        },
+        {
+          "id": "pilot-collapse",
+          "rect": {
+            "x": 410,
+            "y": 355.994384765625,
+            "width": 45.999969482421875,
+            "height": 40.000030517578125,
+            "right": 455.9999694824219,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "收起"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 19.99999237060547,
+            "y": 313.994384765625,
+            "width": 99.99999237060547,
+            "height": 37.781280517578125,
+            "right": 119.99998474121094,
+            "bottom": 351.7756652832031
+          },
+          "font": 14,
+          "color": "rgb(68, 42, 49)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 19.99999237060547,
+            "y": 353.775634765625,
+            "width": 99.99999237060547,
+            "height": 29.687530517578125,
+            "right": 119.99998474121094,
+            "bottom": 383.4631652832031
+          },
+          "font": 11,
+          "color": "rgb(100, 70, 81)",
+          "text": "可跳过，仅本局可见。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "comparison": "theme"
+    },
+    {
+      "layout": "C",
+      "theme": "contrast",
+      "expanded": true,
+      "width": 800,
+      "height": 450,
+      "mode": "landscape",
+      "card": {
+        "x": 7.9999847412109375,
+        "y": 301.994384765625,
+        "width": 460,
+        "height": 108.00003051757812,
+        "right": 467.99998474121094,
+        "bottom": 409.9944152832031
+      },
+      "status": {
+        "x": 100.00259399414062,
+        "y": 417.9993591308594,
+        "width": 600,
+        "height": 24,
+        "right": 700.0025939941406,
+        "bottom": 441.9993591308594
+      },
+      "tower": {
+        "x": 362.43335800170894,
+        "y": 53.90000839233398,
+        "width": 74.31667823791504,
+        "height": 172.7250268936157,
+        "right": 436.75003623962397,
+        "bottom": 226.62503528594968
+      },
+      "validation": [],
+      "gameCanvas": {
+        "x": 138.66665649414062,
+        "y": 0,
+        "width": 522.666748046875,
+        "height": 294,
+        "right": 661.3334045410156,
+        "bottom": 294
+      },
+      "gameViewportShare": 0.4268445109049479,
+      "towerEnvelopeMethod": "Conservative measured screen-space envelope of intact tower in calibrated default camera; transform through actual canvas rect. Runtime screenshot visual check supplements fixed envelope; not animated per-block projection.",
+      "cardAreaRatio": 0.13800003899468316,
+      "towerOverlapArea": 0,
+      "towerOverlapRatio": 0,
+      "statusOverlapArea": 0,
+      "outsideScreen": false,
+      "allControlsInside": true,
+      "allLabelsInside": true,
+      "minTextFont": 11,
+      "inputHeight": 40,
+      "minButtonWidth": 45.999969482421875,
+      "minButtonHeight": 40,
+      "visibleGameAreaRatio": 1,
+      "controls": [
+        {
+          "id": "g105-response-input",
+          "rect": {
+            "x": 127.99999237060547,
+            "y": 313.994384765625,
+            "width": 252,
+            "height": 40,
+            "right": 379.99999237060547,
+            "bottom": 353.994384765625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": ""
+        },
+        {
+          "id": "g105-interaction-complete",
+          "rect": {
+            "x": 382,
+            "y": 313.994384765625,
+            "width": 73.99996948242188,
+            "height": 40,
+            "right": 455.9999694824219,
+            "bottom": 353.994384765625
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "提交回应"
+        },
+        {
+          "id": "pilot-quick-select",
+          "rect": {
+            "x": 127.99999237060547,
+            "y": 355.994384765625,
+            "width": 86.00000762939453,
+            "height": 40.000030517578125,
+            "right": 214,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "快捷回应我记住了谢谢你慢慢来"
+        },
+        {
+          "id": "g105-interaction-swap",
+          "rect": {
+            "x": 243.99998474121094,
+            "y": 355.994384765625,
+            "width": 60.00001525878906,
+            "height": 40.000030517578125,
+            "right": 304,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "换一张"
+        },
+        {
+          "id": "g105-interaction-skip",
+          "rect": {
+            "x": 334,
+            "y": 355.994384765625,
+            "width": 46,
+            "height": 40.000030517578125,
+            "right": 380,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "跳过"
+        },
+        {
+          "id": "pilot-collapse",
+          "rect": {
+            "x": 410,
+            "y": 355.994384765625,
+            "width": 45.999969482421875,
+            "height": 40.000030517578125,
+            "right": 455.9999694824219,
+            "bottom": 395.9944152832031
+          },
+          "disabled": false,
+          "font": 14,
+          "text": "收起"
+        }
+      ],
+      "labels": [
+        {
+          "id": "g105-card-text",
+          "rect": {
+            "x": 19.99999237060547,
+            "y": 313.994384765625,
+            "width": 99.99999237060547,
+            "height": 37.781280517578125,
+            "right": 119.99998474121094,
+            "bottom": 351.7756652832031
+          },
+          "font": 14,
+          "color": "rgb(38, 23, 33)",
+          "text": "说一个让你放松的瞬间。"
+        },
+        {
+          "id": "g105-card-safety",
+          "rect": {
+            "x": 19.99999237060547,
+            "y": 353.775634765625,
+            "width": 99.99999237060547,
+            "height": 29.687530517578125,
+            "right": 119.99998474121094,
+            "bottom": 383.4631652832031
+          },
+          "font": 11,
+          "color": "rgb(68, 50, 62)",
+          "text": "可跳过，仅本局可见。"
+        }
+      ],
+      "areaPass": true,
+      "towerPass": true,
+      "statusPass": true,
+      "comparison": "theme"
+    }
+  ],
+  "states": [
+    {
+      "name": "opening",
+      "status": "轮到你抽取一根积木。",
+      "card": 0,
+      "heart": "心动值  0"
+    },
+    {
+      "name": "player-pulling",
+      "status": "慢一点，塔还在回应你。",
+      "card": 0,
+      "heart": "心动值  0"
+    },
+    {
+      "name": "interaction-collapsed",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "card": 1,
+      "heart": "心动值  0"
+    },
+    {
+      "name": "expand-button",
+      "expanded": true
+    },
+    {
+      "name": "collapse-button",
+      "expanded": false
+    },
+    {
+      "name": "input-focused",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "card": 1,
+      "heart": "心动值  0"
+    },
+    {
+      "name": "focus-outline",
+      "outline": "rgb(116, 48, 91) solid 3px"
+    },
+    {
+      "name": "keyboard-input",
+      "value": "这一刻很安心"
+    },
+    {
+      "name": "quick-reply",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "card": 1,
+      "heart": "心动值  0"
+    },
+    {
+      "name": "quick-value",
+      "value": "我记住了。"
+    },
+    {
+      "name": "swapped",
+      "status": "轻松分享：分享一个最近的小确幸。",
+      "card": 1,
+      "heart": "心动值  0"
+    },
+    {
+      "name": "swap-check",
+      "before": "说一个让你放松的瞬间。",
+      "after": "分享一个最近的小确幸。",
+      "disabled": true
+    },
+    {
+      "name": "submitted",
+      "status": "TA 正在找一根。",
+      "card": 0,
+      "heart": "心动值  1"
+    },
+    {
+      "name": "after-ai-wait",
+      "status": "这个小计划不错，我们可以从不赶时间的那一步开始。",
+      "card": 0,
+      "heart": "心动值  4"
+    },
+    {
+      "name": "restarted",
+      "status": "等待真实物理塔落定...",
+      "card": 0,
+      "heart": "心动值  0"
+    },
+    {
+      "name": "player-pulling",
+      "status": "慢一点，塔还在回应你。",
+      "card": 0,
+      "heart": "心动值  0"
+    },
+    {
+      "name": "skipped",
+      "status": "TA 正在找一根。",
+      "card": 0,
+      "heart": "心动值  0"
+    },
+    {
+      "name": "collapse-attempt",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "card": 1,
+      "heart": "心动值  0"
+    }
+  ],
+  "errors": [],
+  "softKeyboard": "not-verified: desktop headless browser cannot display native mobile IME"
+}

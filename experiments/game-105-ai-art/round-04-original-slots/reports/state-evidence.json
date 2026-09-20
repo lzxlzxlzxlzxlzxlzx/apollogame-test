@@ -1,0 +1,304 @@
+{
+  "actualStates": [
+    {
+      "candidate": "A",
+      "name": "opening",
+      "status": "轮到你抽取一根积木。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "A",
+      "name": "interaction-1280x720",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "A",
+      "name": "interaction-1024x576",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "A",
+      "name": "interaction-800x450",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "A",
+      "name": "interaction-667x375",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "A",
+      "name": "interaction-390x844",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "A",
+      "name": "input",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "A",
+      "name": "quick",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "A",
+      "name": "swap",
+      "status": "轻松分享：分享一个最近的小确幸。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "A",
+      "name": "submit",
+      "status": "TA 正在找一根。",
+      "heart": "心动值  1"
+    },
+    {
+      "candidate": "A",
+      "name": "ai",
+      "status": "这个小计划不错，我们可以从不赶时间的那一步开始。",
+      "heart": "心动值  4"
+    },
+    {
+      "candidate": "A",
+      "name": "skip",
+      "status": "TA 正在找一根。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "B",
+      "name": "opening",
+      "status": "轮到你抽取一根积木。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "B",
+      "name": "interaction-1280x720",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "B",
+      "name": "interaction-1024x576",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "B",
+      "name": "interaction-800x450",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "B",
+      "name": "interaction-667x375",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "B",
+      "name": "interaction-390x844",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "B",
+      "name": "input",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "B",
+      "name": "quick",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "B",
+      "name": "swap",
+      "status": "轻松分享：留下一句温柔的提醒。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "B",
+      "name": "submit",
+      "status": "默契选择：换一个角度回答也可以。",
+      "heart": "心动值  1"
+    },
+    {
+      "candidate": "B",
+      "name": "ai",
+      "status": "默契选择：换一个角度回答也可以。",
+      "heart": "心动值  1"
+    },
+    {
+      "candidate": "B",
+      "name": "skip",
+      "status": "TA 正在找一根。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "C",
+      "name": "opening",
+      "status": "轮到你抽取一根积木。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "C",
+      "name": "interaction-1280x720",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "C",
+      "name": "interaction-1024x576",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "C",
+      "name": "interaction-800x450",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "C",
+      "name": "interaction-667x375",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "C",
+      "name": "interaction-390x844",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "C",
+      "name": "input",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "C",
+      "name": "quick",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "C",
+      "name": "swap",
+      "status": "轻松分享：分享一个最近的小确幸。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "C",
+      "name": "submit",
+      "status": "TA 正在找一根。",
+      "heart": "心动值  1"
+    },
+    {
+      "candidate": "C",
+      "name": "ai",
+      "status": "这个小计划不错，我们可以从不赶时间的那一步开始。",
+      "heart": "心动值  4"
+    },
+    {
+      "candidate": "C",
+      "name": "skip",
+      "status": "TA 正在找一根。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "D",
+      "name": "opening",
+      "status": "轮到你抽取一根积木。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "D",
+      "name": "interaction-1280x720",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "D",
+      "name": "interaction-1024x576",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "D",
+      "name": "interaction-800x450",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "D",
+      "name": "interaction-667x375",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "D",
+      "name": "interaction-390x844",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "D",
+      "name": "input",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "D",
+      "name": "quick",
+      "status": "轻松分享：说一个让你放松的瞬间。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "D",
+      "name": "swap",
+      "status": "轻松分享：分享一个最近的小确幸。",
+      "heart": "心动值  0"
+    },
+    {
+      "candidate": "D",
+      "name": "submit",
+      "status": "TA 正在找一根。",
+      "heart": "心动值  1"
+    },
+    {
+      "candidate": "D",
+      "name": "ai",
+      "status": "这个小计划不错，我们可以从不赶时间的那一步开始。",
+      "heart": "心动值  11"
+    },
+    {
+      "candidate": "D",
+      "name": "skip",
+      "status": "TA 正在找一根。",
+      "heart": "心动值  0"
+    }
+  ],
+  "longestTextEvidence": "screenshots/{candidate}/fixture explicitly static original HUD",
+  "historicalAttempts": [
+    {
+      "candidate": "C",
+      "attempt": 1,
+      "result": "early diagnostic real pull did not reach interaction within30s while concurrent captures active; no success claimed",
+      "retry": "sequential attempt succeeded"
+    },
+    {
+      "baseline": "early diagnostic submit advanced to another real queued card; this is historical, final actual statuses are in runtime-baseline.json and capture-run-log.json"
+    }
+  ]
+}

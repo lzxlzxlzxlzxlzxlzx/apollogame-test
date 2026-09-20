@@ -1,0 +1,12 @@
+{
+  "source": "experiments/game-105-ai-art/candidates/card-frame/round-01/candidate-01.png",
+  "output": "experiments/game-105-ai-art/normalized/card-frame/round-01/candidate-01-normalized.png",
+  "operation": "detect chromatic border, crop, resize to 640x400, apply deterministic rounded alpha mask",
+  "sourceBounds": [
+    38,
+    82,
+    1410,
+    955
+  ],
+  "warning": "The raw generator output lacked alpha. This normalized derivative is for pilot validation only."
+}

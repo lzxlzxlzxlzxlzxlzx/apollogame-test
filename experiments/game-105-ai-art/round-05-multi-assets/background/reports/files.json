@@ -1,0 +1,146 @@
+[
+  {
+    "candidate": "A",
+    "original": {
+      "size": [
+        1678,
+        937
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "bytes": 2215910,
+      "sha256": "3B5F2D629048ED2929C740C32984BD3787DFFE0F29683C5F26BD38D78145A658",
+      "alphaMin": 255,
+      "alphaMax": 255,
+      "postProcessing": false,
+      "iccProfile": false
+    },
+    "derived": {
+      "size": [
+        1376,
+        768
+      ],
+      "format": "PNG",
+      "mode": "RGB",
+      "bytes": 1486010,
+      "sha256": "C3A51EFD312B19E0F4699674E12B1C470663A3D9F8977CD7724DD6E8C9EEB952",
+      "operation": "uniform center-cover resize/crop using Pillow ImageOps.fit LANCZOS; remove alpha only if fully opaque; no repaint/no color grade/no object removal",
+      "scale": 0.8200238379022646,
+      "symmetricSourceCropEachSideXY": [
+        0.0,
+        0.22093023255814614
+      ],
+      "originalAspectRelativeError": 0.0004715693331016624
+    },
+    "checks": {
+      "parse": true,
+      "originalExactRequestedSize": false,
+      "aspectWithin2Percent": true,
+      "opaque": true,
+      "derivedDimensions": true,
+      "derivedWithin4MiB": true,
+      "colorSpace": "unprofiled sRGB browser assumption"
+    },
+    "semanticChecks": {
+      "textLogoWatermarkPeople": "none observed in visual inspection; human confirmation pending",
+      "foregroundTable": "no complete foreground table observed; background side cabinets remain"
+    },
+    "fileTechnicalPass": true
+  },
+  {
+    "candidate": "B",
+    "original": {
+      "size": [
+        1678,
+        937
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "bytes": 1799566,
+      "sha256": "587AC5C5803C905893731D0FD93DC63E2B9D5A221493DD4C243333BB0683646D",
+      "alphaMin": 255,
+      "alphaMax": 255,
+      "postProcessing": false,
+      "iccProfile": false
+    },
+    "derived": {
+      "size": [
+        1376,
+        768
+      ],
+      "format": "PNG",
+      "mode": "RGB",
+      "bytes": 1203183,
+      "sha256": "AFDDEB6953228F43909A16872EA6CC9912534A2AB1882E3DD85D288B611E0979",
+      "operation": "uniform center-cover resize/crop using Pillow ImageOps.fit LANCZOS; remove alpha only if fully opaque; no repaint/no color grade/no object removal",
+      "scale": 0.8200238379022646,
+      "symmetricSourceCropEachSideXY": [
+        0.0,
+        0.22093023255814614
+      ],
+      "originalAspectRelativeError": 0.0004715693331016624
+    },
+    "checks": {
+      "parse": true,
+      "originalExactRequestedSize": false,
+      "aspectWithin2Percent": true,
+      "opaque": true,
+      "derivedDimensions": true,
+      "derivedWithin4MiB": true,
+      "colorSpace": "unprofiled sRGB browser assumption"
+    },
+    "semanticChecks": {
+      "textLogoWatermarkPeople": "none observed in visual inspection; human confirmation pending",
+      "foregroundTable": "no complete foreground table observed; background side cabinets remain"
+    },
+    "fileTechnicalPass": true
+  },
+  {
+    "candidate": "C",
+    "original": {
+      "size": [
+        1677,
+        938
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "bytes": 2047019,
+      "sha256": "1198F8352152B982404A01481EF743BEBB11A9C8C6525C5BC211AAA8B3A7D7F0",
+      "alphaMin": 255,
+      "alphaMax": 255,
+      "postProcessing": false,
+      "iccProfile": false
+    },
+    "derived": {
+      "size": [
+        1376,
+        768
+      ],
+      "format": "PNG",
+      "mode": "RGB",
+      "bytes": 1374680,
+      "sha256": "6C2363ABB801C8C318D39CFC982000EFEBC58DC54CAFE7F19E45B70BDA7C9148",
+      "operation": "uniform center-cover resize/crop using Pillow ImageOps.fit LANCZOS; remove alpha only if fully opaque; no repaint/no color grade/no object removal",
+      "scale": 0.8205128205128205,
+      "symmetricSourceCropEachSideXY": [
+        0.0,
+        1.0
+      ],
+      "originalAspectRelativeError": 0.002132196162046962
+    },
+    "checks": {
+      "parse": true,
+      "originalExactRequestedSize": false,
+      "aspectWithin2Percent": true,
+      "opaque": true,
+      "derivedDimensions": true,
+      "derivedWithin4MiB": true,
+      "colorSpace": "unprofiled sRGB browser assumption"
+    },
+    "semanticChecks": {
+      "textLogoWatermarkPeople": "none observed in visual inspection; human confirmation pending",
+      "foregroundTable": "no complete foreground table observed; background side cabinets remain"
+    },
+    "fileTechnicalPass": true
+  }
+]

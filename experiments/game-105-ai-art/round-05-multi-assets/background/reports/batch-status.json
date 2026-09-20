@@ -1,0 +1,32 @@
+[
+  {
+    "candidate": "A",
+    "fileTechnicalPass": true,
+    "slotMechanicsPass": true,
+    "visualDirectionPass": null,
+    "inPlaceRuntimePass": null,
+    "formalAdmissionAllowed": false,
+    "approvalOwner": "planner/owner; program does not approve last three",
+    "nextBatchStarted": false
+  },
+  {
+    "candidate": "B",
+    "fileTechnicalPass": true,
+    "slotMechanicsPass": true,
+    "visualDirectionPass": null,
+    "inPlaceRuntimePass": null,
+    "formalAdmissionAllowed": false,
+    "approvalOwner": "planner/owner; program does not approve last three",
+    "nextBatchStarted": false
+  },
+  {
+    "candidate": "C",
+    "fileTechnicalPass": true,
+    "slotMechanicsPass": true,
+    "visualDirectionPass": null,
+    "inPlaceRuntimePass": null,
+    "formalAdmissionAllowed": false,
+    "approvalOwner": "planner/owner; program does not approve last three",
+    "nextBatchStarted": false
+  }
+]

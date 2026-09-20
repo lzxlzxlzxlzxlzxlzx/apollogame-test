@@ -1,0 +1,100 @@
+[
+  {
+    "sourceSlice": 49,
+    "destinationSlice": 49,
+    "size": [
+      114,
+      114
+    ],
+    "metrics": {
+      "edgeStrokeProxy": {
+        "top": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            5,
+            5
+          ]
+        },
+        "bottom": {
+          "coloredStrokeMedianPx": 4.0,
+          "coloredStrokeRangePx": [
+            4,
+            4
+          ]
+        },
+        "left": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            5,
+            5
+          ]
+        },
+        "right": {
+          "coloredStrokeMedianPx": 5.0,
+          "coloredStrokeRangePx": [
+            5,
+            5
+          ]
+        }
+      },
+      "seamMeanRgbDelta": [
+        2.1695906432748537,
+        0.7953216374269005,
+        0.8245614035087719,
+        1.2309941520467835
+      ],
+      "centerLumaStd": 0.0558,
+      "centerGradientMean": 0.0259
+    },
+    "scope": "Geometry only; not a text-bearing interaction card."
+  },
+  {
+    "sourceSlice": 49,
+    "destinationSlice": 24,
+    "size": [
+      64,
+      64
+    ],
+    "metrics": {
+      "edgeStrokeProxy": {
+        "top": {
+          "coloredStrokeMedianPx": 3.0,
+          "coloredStrokeRangePx": [
+            3,
+            3
+          ]
+        },
+        "bottom": {
+          "coloredStrokeMedianPx": 3.0,
+          "coloredStrokeRangePx": [
+            3,
+            3
+          ]
+        },
+        "left": {
+          "coloredStrokeMedianPx": 3.0,
+          "coloredStrokeRangePx": [
+            2,
+            3
+          ]
+        },
+        "right": {
+          "coloredStrokeMedianPx": 2.0,
+          "coloredStrokeRangePx": [
+            2,
+            2
+          ]
+        }
+      },
+      "seamMeanRgbDelta": [
+        1.734375,
+        0.5833333333333334,
+        0.4427083333333333,
+        0.8229166666666666
+      ],
+      "centerLumaStd": 0.0558,
+      "centerGradientMean": 0.0259
+    },
+    "scope": "Geometry only; not a text-bearing interaction card."
+  }
+]

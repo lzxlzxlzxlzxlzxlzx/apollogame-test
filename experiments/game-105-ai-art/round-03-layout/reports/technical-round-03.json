@@ -1,0 +1,33 @@
+{
+  "sourceUnchanged": true,
+  "sourceSlice": 49,
+  "destinationFixedCornerWidth": 24,
+  "cornerUniformScale": 0.4897959183673469,
+  "imageEdited": false,
+  "normalUsePassed": true,
+  "extremeGeometryPassed": true,
+  "measurementReport": "nine-slice/run-01/summary.json",
+  "destination24Report": "nine-slice/run-01/slice-49-dest24.json",
+  "minimumSafeImageSize": {
+    "oneToOne49": [
+      114,
+      114
+    ],
+    "dest24": [
+      64,
+      64
+    ],
+    "meaning": "conservative 16px center-span reserve, not experimentally proven mathematical minimum. All requested sizes were rendered. Full response UI needs larger sizes (desktop350x220,compact460x108,portrait366x220)."
+  },
+  "distinction": "At49→49, 100px short axis is below the conservative114px envelope, although the observed outline looks intact; do not call it a validated general-use size. At49→24, all five specified normal/extreme geometries pass visual and structure screening.",
+  "visualInspection": {
+    "curves": "49 contains the45px alpha-contour transition;8/12/16/22/28 stretch part of the curve.",
+    "stroke": "dest24 colored-stroke proxy2–3px; slight source asymmetry remains.",
+    "highlight": "Long edges look continuous; small irregular bright fringes inherited from generation remain, especially in49→49.",
+    "seams": "No obvious breaks in49→24; RGB seam delta is heuristic and includes transparent RGB.",
+    "center": "Quiet flat cream, no visible stretched center pattern."
+  },
+  "assetReusableForExperiment": true,
+  "newGenerationRecommended": false,
+  "formalApproval": false
+}

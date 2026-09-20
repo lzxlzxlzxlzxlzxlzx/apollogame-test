@@ -1,0 +1,53 @@
+{
+  "results": [
+    {
+      "candidate": "A",
+      "sampleMeanRGB": [
+        55.07983981979727,
+        38.94950569390564,
+        46.617382054811664
+      ],
+      "method": "asset center color vs unchanged production text; excludes existing animated sheen and text shadow",
+      "titleBodyContrast": 13.300256992573187,
+      "helperContrast": 9.411315058812836,
+      "passesColorContrast": true
+    },
+    {
+      "candidate": "B",
+      "sampleMeanRGB": [
+        56.231885871605556,
+        38.88405706419722,
+        46.74540107621074
+      ],
+      "method": "asset center color vs unchanged production text; excludes existing animated sheen and text shadow",
+      "titleBodyContrast": 13.247536339050379,
+      "helperContrast": 9.374009713458477,
+      "passesColorContrast": true
+    },
+    {
+      "candidate": "C",
+      "sampleMeanRGB": [
+        54.84651482918283,
+        37.94187210611938,
+        46.75647603553998
+      ],
+      "method": "asset center color vs unchanged production text; excludes existing animated sheen and text shadow",
+      "titleBodyContrast": 13.427403779576029,
+      "helperContrast": 9.501284633977262,
+      "passesColorContrast": true
+    },
+    {
+      "candidate": "D",
+      "sampleMeanRGB": [
+        55.68583406332124,
+        39.152171192591666,
+        48.37004129645852
+      ],
+      "method": "asset center color vs unchanged production text; excludes existing animated sheen and text shadow",
+      "titleBodyContrast": 13.220761598526497,
+      "helperContrast": 9.355063799945007,
+      "passesColorContrast": true
+    }
+  ],
+  "limitations": "small original fonts and portrait scaling unchanged; numeric contrast is not full accessibility approval; production sheen may locally reduce contrast"
+}

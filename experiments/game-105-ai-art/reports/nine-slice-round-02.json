@@ -1,0 +1,23 @@
+{
+  "slice": 22,
+  "sizes": [
+    [
+      484,
+      270
+    ],
+    [
+      900,
+      100
+    ],
+    [
+      100,
+      600
+    ]
+  ],
+  "cornersByteIdentical": [
+    true,
+    true,
+    true
+  ],
+  "limitation": "Fixed corner pixels do not prove all curvature fits inside slice; inspect seams visually."
+}

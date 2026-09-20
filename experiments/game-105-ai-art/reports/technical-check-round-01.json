@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "spec": "experiments/game-105-ai-art/specs/card-frame.json",
+  "method": {
+    "parse": "Pillow verify",
+    "alpha": "source mode contains alpha and alpha minimum is below 255",
+    "outerEdge": "ratio of visible alpha on the outer 1% perimeter",
+    "checkerRisk": "low-chroma mid-luma visible pixels within the outer 8% band",
+    "safeArea": "luminance standard deviation and FIND_EDGES mean inside the declared text-safe rectangle"
+  },
+  "candidates": [
+    {
+      "label": "raw-generated-candidate",
+      "path": "experiments/game-105-ai-art/candidates/card-frame/round-01/candidate-01.png",
+      "passed": false,
+      "metrics": {
+        "mode": "RGB",
+        "width": 1448,
+        "height": 1086,
+        "aspectRatio": 1.3333,
+        "alphaRange": [
+          255,
+          255
+        ],
+        "fileBytes": 1509554,
+        "opaqueOuterEdgeRatio": 1.0,
+        "checkerRisk": 0.8544,
+        "safeAreaLumaStdDev": 38.9168,
+        "safeAreaEdgeMean": 8.765
+      },
+      "issues": [
+        {
+          "code": "alpha",
+          "message": "mode=RGB, alpha range=(255, 255); genuine transparency is required"
+        },
+        {
+          "code": "outer-edge",
+          "message": "opaque outer edge ratio 1.000 suggests clipped/dirty alpha"
+        },
+        {
+          "code": "safe-area-variance",
+          "message": "safe-area luma stddev 38.92 is too high"
+        },
+        {
+          "code": "checker-risk",
+          "message": "visible gray checker risk 0.854 exceeds threshold"
+        }
+      ]
+    },
+    {
+      "label": "normalized-candidate",
+      "path": "experiments/game-105-ai-art/normalized/card-frame/round-01/candidate-01-normalized.png",
+      "passed": true,
+      "metrics": {
+        "mode": "RGBA",
+        "width": 640,
+        "height": 400,
+        "aspectRatio": 1.6,
+        "alphaRange": [
+          0,
+          255
+        ],
+        "fileBytes": 273174,
+        "opaqueOuterEdgeRatio": 0.0,
+        "checkerRisk": 0.0004,
+        "safeAreaLumaStdDev": 0.7148,
+        "safeAreaEdgeMean": 4.6117
+      },
+      "issues": []
+    }
+  ]
+}

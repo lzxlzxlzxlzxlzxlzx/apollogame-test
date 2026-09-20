@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 2,
+  "rawSizePolicy": "Raw >=640x400 and allowed aspect; exact target required for derived runtime asset",
+  "method": {
+    "checker": "Heuristic gray visible pixels in outer 8%; not proof of absence",
+    "safeArea": "Proportional safe area; interior luminance std and finite difference mean (no artificial crop-edge)",
+    "symbols": "Semantic vision screening, human review required"
+  },
+  "candidates": [
+    {
+      "path": "candidates\\card-frame\\round-02\\candidate-01.png",
+      "sha256": "326980778C2CBD4E86A75DA98AF73EE3A4388552A970C181B2AE523A456A3232",
+      "passed": true,
+      "metrics": {
+        "mode": "RGBA",
+        "width": 1586,
+        "height": 992,
+        "aspectRatio": 1.59879,
+        "exactTargetSize": false,
+        "realAlpha": true,
+        "alphaRange": [
+          0,
+          255
+        ],
+        "canvasEdgeTransparent": true,
+        "opaqueOuterEdgeRatio": 0.0,
+        "checkerRisk": 0.0,
+        "safeAreaLumaStdDev": 0.42389,
+        "safeAreaEdgeMean": 0.239916,
+        "fileBytes": 896881
+      },
+      "issues": [],
+      "forbiddenSymbolRisk": {
+        "status": "vision-inspected-low-risk",
+        "method": "Assistant visual inspection of original; no moon/star/text/number/icon/person observed. Not OCR or an exhaustive detector.",
+        "requiresHumanReview": true
+      }
+    },
+    {
+      "path": "normalized\\card-frame\\round-02\\candidate-01-resized.png",
+      "sha256": "BE4202004A667735605AE57B5A54139570C6DE335E3B88835ADD3A5FBEFD3FCB",
+      "passed": true,
+      "metrics": {
+        "mode": "RGBA",
+        "width": 640,
+        "height": 400,
+        "aspectRatio": 1.6,
+        "exactTargetSize": true,
+        "realAlpha": true,
+        "alphaRange": [
+          0,
+          255
+        ],
+        "canvasEdgeTransparent": true,
+        "opaqueOuterEdgeRatio": 0.0,
+        "checkerRisk": 0.0,
+        "safeAreaLumaStdDev": 0.396198,
+        "safeAreaEdgeMean": 0.35569,
+        "fileBytes": 179792
+      },
+      "issues": [],
+      "forbiddenSymbolRisk": {
+        "status": "vision-inspected-low-risk",
+        "method": "Assistant visual inspection of original; no moon/star/text/number/icon/person observed. Not OCR or an exhaustive detector.",
+        "requiresHumanReview": true
+      }
+    }
+  ],
+  "normalization": {
+    "operation": "resize only; preserve generated alpha; NO background removal, masks, recolor or cleanup",
+    "sourceHash": "326980778C2CBD4E86A75DA98AF73EE3A4388552A970C181B2AE523A456A3232",
+    "outputHash": "BE4202004A667735605AE57B5A54139570C6DE335E3B88835ADD3A5FBEFD3FCB"
+  },
+  "approval": {
+    "technicalPassed": false,
+    "visualDirectionPassed": null,
+    "runtimeFitPassed": null,
+    "eligibleForProduction": false,
+    "rasterChecksPassed": true,
+    "technicalBlocker": "Visual nine-slice inspection: corner curvature extends beyond slice 22 and deforms under extreme stretch."
+  }
+}

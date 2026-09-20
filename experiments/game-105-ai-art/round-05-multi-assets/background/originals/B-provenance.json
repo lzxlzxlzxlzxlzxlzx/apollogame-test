@@ -1,0 +1,8 @@
+{
+  "tool": "image_gen.imagegen",
+  "generationStartUTC": "2026-09-10 02:25:32 UTC",
+  "originalPostProcessing": false,
+  "prompt": "../prompts/B.txt",
+  "reference": "formal night-room.jpeg (style/spatial reference)",
+  "outputHint": "Generated images are saved to C:\\Users\\24652\\.codex\\generated_images\\01a08610-8ab8-7a91-b121-03e1c00a5a43 as C:\\Users\\24652\\.codex\\generated_images\\01a08610-8ab8-7a91-b121-03e1c00a5a43\\exec-fab93a5f-00b3-4583-8901-e8d81b9e411b.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+}

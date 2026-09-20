@@ -1,0 +1,5 @@
+import{chromium}from'playwright';import{writeFileSync}from'node:fs';
+const base='experiments/game-105-ai-art/round-05-multi-assets',b=await chromium.launch({channel:'chrome',headless:true}),p=await b.newPage({viewport:{width:1360,height:1050}}),results=[];
+await p.goto(`http://127.0.0.1:5198/${base}/review.html`);const f=p.frames().find(f=>f.url().includes('/index.html'));await f.waitForFunction(()=>window.__bgLab?.ready);
+for(const k of ['A','B','C','baseline']){await p.locator(`[data-bg="${k}"]`).click();await f.waitForFunction(k=>window.__bgLab.selected===k,k);results.push({clicked:k,selected:await f.evaluate(()=>window.__bgLab.selected)});}
+await p.locator('#size').selectOption('800×450');await p.waitForTimeout(750);results.push({selectedViewport:await f.evaluate(()=>[innerWidth,innerHeight])});await p.screenshot({path:`${base}/background/screenshots/review-switcher.png`});writeFileSync(`${base}/background/reports/switcher.json`,JSON.stringify(results,null,2));await b.close();console.log(results);

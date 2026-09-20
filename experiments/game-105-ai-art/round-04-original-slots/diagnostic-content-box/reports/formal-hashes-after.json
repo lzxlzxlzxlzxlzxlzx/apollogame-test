@@ -1,0 +1,30 @@
+{
+  "before": {
+    "public/games/game-105/art/art-ledger.json": "20E94AF67F7FAD0D67E4DBA47D7AC532EC2340A25E89A7418A6A75366D4F28F0",
+    "games/game-105/game-105.ts": "FEB78CA609F1CCFFB821FD22001903A51D0236859ACF1233724CE2AC6B37F4EA",
+    "public/games/game-105/pipeline.json": "E2ECEF4F3C7CF6E000F9B72DEB3F00899052A6F147AC732AE8015DF217A34549",
+    "public/games/game-105/art/index.json": "EB634342F33D7972992F3D578138F382C9A2B279B0B5D4A8798CFDDA1843F8A8",
+    "src/ui/components/render.ts": "43DF9933F0949CAA6AFF1576047BF53071B1BCA8E8FF0EFE47F270A105C60129",
+    "public/games/game-105/art/ui/card-frame.png": "DC80F5E609A9FB585A34E4D55C19FFA20C344F86E244453BA1117EC9D730A2A0",
+    "games/game-105/game-105-s5.css": "65B6D40A4C241CB93572D19EE5FB95DE341D24CB0148997EC43F2E1E70C01EA7"
+  },
+  "after": {
+    "public/games/game-105/art/art-ledger.json": "20E94AF67F7FAD0D67E4DBA47D7AC532EC2340A25E89A7418A6A75366D4F28F0",
+    "games/game-105/game-105.ts": "FEB78CA609F1CCFFB821FD22001903A51D0236859ACF1233724CE2AC6B37F4EA",
+    "public/games/game-105/pipeline.json": "E2ECEF4F3C7CF6E000F9B72DEB3F00899052A6F147AC732AE8015DF217A34549",
+    "public/games/game-105/art/index.json": "EB634342F33D7972992F3D578138F382C9A2B279B0B5D4A8798CFDDA1843F8A8",
+    "src/ui/components/render.ts": "43DF9933F0949CAA6AFF1576047BF53071B1BCA8E8FF0EFE47F270A105C60129",
+    "public/games/game-105/art/ui/card-frame.png": "DC80F5E609A9FB585A34E4D55C19FFA20C344F86E244453BA1117EC9D730A2A0",
+    "games/game-105/game-105-s5.css": "65B6D40A4C241CB93572D19EE5FB95DE341D24CB0148997EC43F2E1E70C01EA7"
+  },
+  "unchanged": true,
+  "perFileUnchanged": {
+    "public/games/game-105/art/art-ledger.json": true,
+    "games/game-105/game-105.ts": true,
+    "public/games/game-105/pipeline.json": true,
+    "public/games/game-105/art/index.json": true,
+    "src/ui/components/render.ts": true,
+    "public/games/game-105/art/ui/card-frame.png": true,
+    "games/game-105/game-105-s5.css": true
+  }
+}

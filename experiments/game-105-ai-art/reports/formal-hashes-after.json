@@ -1,0 +1,9 @@
+{
+  "algorithm": "SHA256",
+  "files": {
+    "public/games/game-105/art/ui/card-frame.png": "DC80F5E609A9FB585A34E4D55C19FFA20C344F86E244453BA1117EC9D730A2A0",
+    "public/games/game-105/art/index.json": "EB634342F33D7972992F3D578138F382C9A2B279B0B5D4A8798CFDDA1843F8A8",
+    "public/games/game-105/pipeline.json": "E2ECEF4F3C7CF6E000F9B72DEB3F00899052A6F147AC732AE8015DF217A34549"
+  },
+  "matchesBefore": true
+}

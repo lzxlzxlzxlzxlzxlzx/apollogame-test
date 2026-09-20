@@ -1,0 +1,2405 @@
+{
+  "metrics": [
+    {
+      "candidate": "baseline",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 42.725630892906665,
+      "meanGradient": 12.557618137364754,
+      "strongEdgeFraction": 0.14020462296324365,
+      "lumaMean": 139.9594949146175,
+      "meanRGB": [
+        156.50194672131147,
+        135.01939890710383,
+        140.18430669398907
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 40.55656106235578,
+      "meanGradient": 16.538247791755957,
+      "strongEdgeFraction": 0.17738023044269255,
+      "lumaMean": 189.6545815257993,
+      "meanRGB": [
+        211.03616650838873,
+        185.11310541310542,
+        171.68143399810066
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        760
+      ],
+      "lumaStd": 50.05375175785598,
+      "meanGradient": 13.866671835579004,
+      "strongEdgeFraction": 0.15239325068870524,
+      "lumaMean": 164.82665612602497,
+      "meanRGB": [
+        193.53351366064442,
+        157.78428770712122,
+        150.0569051750536
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        384,
+        435,
+        642
+      ],
+      "lumaStd": 52.69373720606779,
+      "meanGradient": 15.289861479329002,
+      "strongEdgeFraction": 0.18192173544888207,
+      "lumaMean": 145.27294832041343,
+      "meanRGB": [
+        163.29664683612765,
+        141.3743364781764,
+        130.81933177092722
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 38.65865915565179,
+      "meanGradient": 16.43992405554082,
+      "strongEdgeFraction": 0.17381489841986456,
+      "lumaMean": 186.8035196921148,
+      "meanRGB": [
+        205.90591622550386,
+        182.17207671589114,
+        176.43286198569703
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 42.725630892906665,
+      "meanGradient": 12.557618137364754,
+      "strongEdgeFraction": 0.14020462296324365,
+      "lumaMean": 139.9594949146175,
+      "meanRGB": [
+        156.50194672131147,
+        135.01939890710383,
+        140.18430669398907
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 40.55656106235578,
+      "meanGradient": 16.538247791755957,
+      "strongEdgeFraction": 0.17738023044269255,
+      "lumaMean": 189.6545815257993,
+      "meanRGB": [
+        211.03616650838873,
+        185.11310541310542,
+        171.68143399810066
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        760
+      ],
+      "lumaStd": 50.05375175785598,
+      "meanGradient": 13.866671835579004,
+      "strongEdgeFraction": 0.15239325068870524,
+      "lumaMean": 164.82665612602497,
+      "meanRGB": [
+        193.53351366064442,
+        157.78428770712122,
+        150.0569051750536
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        384,
+        435,
+        642
+      ],
+      "lumaStd": 52.69373720606779,
+      "meanGradient": 15.289861479329002,
+      "strongEdgeFraction": 0.18192173544888207,
+      "lumaMean": 145.27294832041343,
+      "meanRGB": [
+        163.29664683612765,
+        141.3743364781764,
+        130.81933177092722
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 38.65865915565179,
+      "meanGradient": 16.43992405554082,
+      "strongEdgeFraction": 0.17381489841986456,
+      "lumaMean": 186.8035196921148,
+      "meanRGB": [
+        205.90591622550386,
+        182.17207671589114,
+        176.43286198569703
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 42.725630892906665,
+      "meanGradient": 12.557618137364754,
+      "strongEdgeFraction": 0.14020462296324365,
+      "lumaMean": 139.9594949146175,
+      "meanRGB": [
+        156.50194672131147,
+        135.01939890710383,
+        140.18430669398907
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 40.55656106235578,
+      "meanGradient": 16.538247791755957,
+      "strongEdgeFraction": 0.17738023044269255,
+      "lumaMean": 189.6545815257993,
+      "meanRGB": [
+        211.03616650838873,
+        185.11310541310542,
+        171.68143399810066
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        768
+      ],
+      "lumaStd": 48.93984912134457,
+      "meanGradient": 13.398009707616914,
+      "strongEdgeFraction": 0.1467418944691672,
+      "lumaMean": 165.48630192047776,
+      "meanRGB": [
+        194.32588401697313,
+        158.4016973125884,
+        150.74411441144113
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        324,
+        564,
+        768
+      ],
+      "lumaStd": 57.88191308359773,
+      "meanGradient": 14.771842513425554,
+      "strongEdgeFraction": 0.16109930088321023,
+      "lumaMean": 141.0406371429569,
+      "meanRGB": [
+        159.53922672672672,
+        136.71237953069348,
+        129.4446495914519
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 38.65865915565179,
+      "meanGradient": 16.43992405554082,
+      "strongEdgeFraction": 0.17381489841986456,
+      "lumaMean": 186.8035196921148,
+      "meanRGB": [
+        205.90591622550386,
+        182.17207671589114,
+        176.43286198569703
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 42.725630892906665,
+      "meanGradient": 12.557618137364754,
+      "strongEdgeFraction": 0.14020462296324365,
+      "lumaMean": 139.9594949146175,
+      "meanRGB": [
+        156.50194672131147,
+        135.01939890710383,
+        140.18430669398907
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 40.55656106235578,
+      "meanGradient": 16.538247791755957,
+      "strongEdgeFraction": 0.17738023044269255,
+      "lumaMean": 189.6545815257993,
+      "meanRGB": [
+        211.03616650838873,
+        185.11310541310542,
+        171.68143399810066
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        768
+      ],
+      "lumaStd": 48.93984912134457,
+      "meanGradient": 13.398009707616914,
+      "strongEdgeFraction": 0.1467418944691672,
+      "lumaMean": 165.48630192047776,
+      "meanRGB": [
+        194.32588401697313,
+        158.4016973125884,
+        150.74411441144113
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        324,
+        564,
+        768
+      ],
+      "lumaStd": 57.88191308359773,
+      "meanGradient": 14.771842513425554,
+      "strongEdgeFraction": 0.16109930088321023,
+      "lumaMean": 141.0406371429569,
+      "meanRGB": [
+        159.53922672672672,
+        136.71237953069348,
+        129.4446495914519
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 38.65865915565179,
+      "meanGradient": 16.43992405554082,
+      "strongEdgeFraction": 0.17381489841986456,
+      "lumaMean": 186.8035196921148,
+      "meanRGB": [
+        205.90591622550386,
+        182.17207671589114,
+        176.43286198569703
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 42.725630892906665,
+      "meanGradient": 12.557618137364754,
+      "strongEdgeFraction": 0.14020462296324365,
+      "lumaMean": 139.9594949146175,
+      "meanRGB": [
+        156.50194672131147,
+        135.01939890710383,
+        140.18430669398907
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 40.55656106235578,
+      "meanGradient": 16.538247791755957,
+      "strongEdgeFraction": 0.17738023044269255,
+      "lumaMean": 189.6545815257993,
+      "meanRGB": [
+        211.03616650838873,
+        185.11310541310542,
+        171.68143399810066
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        760
+      ],
+      "lumaStd": 50.05375175785598,
+      "meanGradient": 13.866671835579004,
+      "strongEdgeFraction": 0.15239325068870524,
+      "lumaMean": 164.82665612602497,
+      "meanRGB": [
+        193.53351366064442,
+        157.78428770712122,
+        150.0569051750536
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        384,
+        435,
+        642
+      ],
+      "lumaStd": 52.69373720606779,
+      "meanGradient": 15.289861479329002,
+      "strongEdgeFraction": 0.18192173544888207,
+      "lumaMean": 145.27294832041343,
+      "meanRGB": [
+        163.29664683612765,
+        141.3743364781764,
+        130.81933177092722
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "baseline",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 38.65865915565179,
+      "meanGradient": 16.43992405554082,
+      "strongEdgeFraction": 0.17381489841986456,
+      "lumaMean": 186.8035196921148,
+      "meanRGB": [
+        205.90591622550386,
+        182.17207671589114,
+        176.43286198569703
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 37.47317872374615,
+      "meanGradient": 9.498911880579364,
+      "strongEdgeFraction": 0.11471287333356299,
+      "lumaMean": 103.72745025273224,
+      "meanRGB": [
+        124.90988729508197,
+        97.57163592896175,
+        102.33205259562841
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 39.6512954911743,
+      "meanGradient": 13.737514462614616,
+      "strongEdgeFraction": 0.19330694838977372,
+      "lumaMean": 171.3436841120608,
+      "meanRGB": [
+        207.58817663817663,
+        163.7207185818297,
+        140.12991452991454
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        760
+      ],
+      "lumaStd": 15.93845371398682,
+      "meanGradient": 4.970508218469838,
+      "strongEdgeFraction": 0.04647038567493113,
+      "lumaMean": 136.66049784287705,
+      "meanRGB": [
+        182.30471913170697,
+        126.67716307713246,
+        101.14968868020823
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        384,
+        435,
+        642
+      ],
+      "lumaStd": 43.28132933951682,
+      "meanGradient": 10.362697540592368,
+      "strongEdgeFraction": 0.12590471966291003,
+      "lumaMean": 123.28878590228953,
+      "meanRGB": [
+        151.04911563808264,
+        116.95073413056106,
+        104.32934719467981
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 19.798642857491707,
+      "meanGradient": 2.616042728600456,
+      "strongEdgeFraction": 0.011660955098890046,
+      "lumaMean": 128.12227102256895,
+      "meanRGB": [
+        166.45765997956718,
+        118.51533621250115,
+        110.40448825113774
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 37.47317872374615,
+      "meanGradient": 9.498911880579364,
+      "strongEdgeFraction": 0.11471287333356299,
+      "lumaMean": 103.72745025273224,
+      "meanRGB": [
+        124.90988729508197,
+        97.57163592896175,
+        102.33205259562841
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 39.6512954911743,
+      "meanGradient": 13.737514462614616,
+      "strongEdgeFraction": 0.19330694838977372,
+      "lumaMean": 171.3436841120608,
+      "meanRGB": [
+        207.58817663817663,
+        163.7207185818297,
+        140.12991452991454
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        760
+      ],
+      "lumaStd": 15.93845371398682,
+      "meanGradient": 4.970508218469838,
+      "strongEdgeFraction": 0.04647038567493113,
+      "lumaMean": 136.66049784287705,
+      "meanRGB": [
+        182.30471913170697,
+        126.67716307713246,
+        101.14968868020823
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        384,
+        435,
+        642
+      ],
+      "lumaStd": 43.28132933951682,
+      "meanGradient": 10.362697540592368,
+      "strongEdgeFraction": 0.12590471966291003,
+      "lumaMean": 123.28878590228953,
+      "meanRGB": [
+        151.04911563808264,
+        116.95073413056106,
+        104.32934719467981
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 19.798642857491707,
+      "meanGradient": 2.616042728600456,
+      "strongEdgeFraction": 0.011660955098890046,
+      "lumaMean": 128.12227102256895,
+      "meanRGB": [
+        166.45765997956718,
+        118.51533621250115,
+        110.40448825113774
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 37.47317872374615,
+      "meanGradient": 9.498911880579364,
+      "strongEdgeFraction": 0.11471287333356299,
+      "lumaMean": 103.72745025273224,
+      "meanRGB": [
+        124.90988729508197,
+        97.57163592896175,
+        102.33205259562841
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 39.6512954911743,
+      "meanGradient": 13.737514462614616,
+      "strongEdgeFraction": 0.19330694838977372,
+      "lumaMean": 171.3436841120608,
+      "meanRGB": [
+        207.58817663817663,
+        163.7207185818297,
+        140.12991452991454
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        768
+      ],
+      "lumaStd": 16.335221840675,
+      "meanGradient": 4.899595589736157,
+      "strongEdgeFraction": 0.045518118245390975,
+      "lumaMean": 135.10809558070093,
+      "meanRGB": [
+        180.54763476347634,
+        125.11911048247681,
+        100.25596416784536
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        324,
+        564,
+        768
+      ],
+      "lumaStd": 41.182221483534995,
+      "meanGradient": 9.069922557762267,
+      "strongEdgeFraction": 0.10744482675491464,
+      "lumaMean": 120.5331586091906,
+      "meanRGB": [
+        150.56277498428662,
+        113.6978970249319,
+        99.81685173545638
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 19.798642857491707,
+      "meanGradient": 2.616042728600456,
+      "strongEdgeFraction": 0.011660955098890046,
+      "lumaMean": 128.12227102256895,
+      "meanRGB": [
+        166.45765997956718,
+        118.51533621250115,
+        110.40448825113774
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 37.47317872374615,
+      "meanGradient": 9.498911880579364,
+      "strongEdgeFraction": 0.11471287333356299,
+      "lumaMean": 103.72745025273224,
+      "meanRGB": [
+        124.90988729508197,
+        97.57163592896175,
+        102.33205259562841
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 39.6512954911743,
+      "meanGradient": 13.737514462614616,
+      "strongEdgeFraction": 0.19330694838977372,
+      "lumaMean": 171.3436841120608,
+      "meanRGB": [
+        207.58817663817663,
+        163.7207185818297,
+        140.12991452991454
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        768
+      ],
+      "lumaStd": 16.335221840675,
+      "meanGradient": 4.899595589736157,
+      "strongEdgeFraction": 0.045518118245390975,
+      "lumaMean": 135.10809558070093,
+      "meanRGB": [
+        180.54763476347634,
+        125.11911048247681,
+        100.25596416784536
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        324,
+        564,
+        768
+      ],
+      "lumaStd": 41.182221483534995,
+      "meanGradient": 9.069922557762267,
+      "strongEdgeFraction": 0.10744482675491464,
+      "lumaMean": 120.5331586091906,
+      "meanRGB": [
+        150.56277498428662,
+        113.6978970249319,
+        99.81685173545638
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 19.798642857491707,
+      "meanGradient": 2.616042728600456,
+      "strongEdgeFraction": 0.011660955098890046,
+      "lumaMean": 128.12227102256895,
+      "meanRGB": [
+        166.45765997956718,
+        118.51533621250115,
+        110.40448825113774
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 37.47317872374615,
+      "meanGradient": 9.498911880579364,
+      "strongEdgeFraction": 0.11471287333356299,
+      "lumaMean": 103.72745025273224,
+      "meanRGB": [
+        124.90988729508197,
+        97.57163592896175,
+        102.33205259562841
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 39.6512954911743,
+      "meanGradient": 13.737514462614616,
+      "strongEdgeFraction": 0.19330694838977372,
+      "lumaMean": 171.3436841120608,
+      "meanRGB": [
+        207.58817663817663,
+        163.7207185818297,
+        140.12991452991454
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        760
+      ],
+      "lumaStd": 15.93845371398682,
+      "meanGradient": 4.970508218469838,
+      "strongEdgeFraction": 0.04647038567493113,
+      "lumaMean": 136.66049784287705,
+      "meanRGB": [
+        182.30471913170697,
+        126.67716307713246,
+        101.14968868020823
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        384,
+        435,
+        642
+      ],
+      "lumaStd": 43.28132933951682,
+      "meanGradient": 10.362697540592368,
+      "strongEdgeFraction": 0.12590471966291003,
+      "lumaMean": 123.28878590228953,
+      "meanRGB": [
+        151.04911563808264,
+        116.95073413056106,
+        104.32934719467981
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "A",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 19.798642857491707,
+      "meanGradient": 2.616042728600456,
+      "strongEdgeFraction": 0.011660955098890046,
+      "lumaMean": 128.12227102256895,
+      "meanRGB": [
+        166.45765997956718,
+        118.51533621250115,
+        110.40448825113774
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 29.11225566201615,
+      "meanGradient": 4.5745801972296425,
+      "strongEdgeFraction": 0.04574735609218368,
+      "lumaMean": 102.97339339480874,
+      "meanRGB": [
+        119.73625341530055,
+        96.31253415300546,
+        119.59475751366121
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 28.156976093162662,
+      "meanGradient": 4.694497651440861,
+      "strongEdgeFraction": 0.06983498771185088,
+      "lumaMean": 137.61949489711935,
+      "meanRGB": [
+        174.35921177587844,
+        128.51856600189933,
+        119.58792339347895
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        760
+      ],
+      "lumaStd": 9.631722255195987,
+      "meanGradient": 2.5202079686333216,
+      "strongEdgeFraction": 0.014962121212121211,
+      "lumaMean": 114.27488442040081,
+      "meanRGB": [
+        157.5387193358511,
+        104.05760266748324,
+        88.09079309992855
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        384,
+        435,
+        642
+      ],
+      "lumaStd": 37.71121299698899,
+      "meanGradient": 6.390268662207594,
+      "strongEdgeFraction": 0.0757444406362775,
+      "lumaMean": 109.38622456983752,
+      "meanRGB": [
+        138.70712897862708,
+        101.70163051098692,
+        99.17012198786131
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 20.57426079380208,
+      "meanGradient": 2.6013189993443384,
+      "strongEdgeFraction": 0.024397946174809063,
+      "lumaMean": 115.1770870483886,
+      "meanRGB": [
+        152.74166434475714,
+        105.21237345593016,
+        103.2731262190025
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 29.11225566201615,
+      "meanGradient": 4.5745801972296425,
+      "strongEdgeFraction": 0.04574735609218368,
+      "lumaMean": 102.97339339480874,
+      "meanRGB": [
+        119.73625341530055,
+        96.31253415300546,
+        119.59475751366121
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 28.156976093162662,
+      "meanGradient": 4.694497651440861,
+      "strongEdgeFraction": 0.06983498771185088,
+      "lumaMean": 137.61949489711935,
+      "meanRGB": [
+        174.35921177587844,
+        128.51856600189933,
+        119.58792339347895
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        760
+      ],
+      "lumaStd": 9.631722255195987,
+      "meanGradient": 2.5202079686333216,
+      "strongEdgeFraction": 0.014962121212121211,
+      "lumaMean": 114.27488442040081,
+      "meanRGB": [
+        157.5387193358511,
+        104.05760266748324,
+        88.09079309992855
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        384,
+        435,
+        642
+      ],
+      "lumaStd": 37.71121299698899,
+      "meanGradient": 6.390268662207594,
+      "strongEdgeFraction": 0.0757444406362775,
+      "lumaMean": 109.38622456983752,
+      "meanRGB": [
+        138.70712897862708,
+        101.70163051098692,
+        99.17012198786131
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 20.57426079380208,
+      "meanGradient": 2.6013189993443384,
+      "strongEdgeFraction": 0.024397946174809063,
+      "lumaMean": 115.1770870483886,
+      "meanRGB": [
+        152.74166434475714,
+        105.21237345593016,
+        103.2731262190025
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 29.11225566201615,
+      "meanGradient": 4.5745801972296425,
+      "strongEdgeFraction": 0.04574735609218368,
+      "lumaMean": 102.97339339480874,
+      "meanRGB": [
+        119.73625341530055,
+        96.31253415300546,
+        119.59475751366121
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 28.156976093162662,
+      "meanGradient": 4.694497651440861,
+      "strongEdgeFraction": 0.06983498771185088,
+      "lumaMean": 137.61949489711935,
+      "meanRGB": [
+        174.35921177587844,
+        128.51856600189933,
+        119.58792339347895
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        768
+      ],
+      "lumaStd": 9.739972799406898,
+      "meanGradient": 2.4482676010129616,
+      "strongEdgeFraction": 0.01381118881118881,
+      "lumaMean": 113.52264825396826,
+      "meanRGB": [
+        156.66619519094766,
+        103.31257268584001,
+        87.62137356592802
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        324,
+        564,
+        768
+      ],
+      "lumaStd": 38.011859670238884,
+      "meanGradient": 5.732809332136342,
+      "strongEdgeFraction": 0.06419601569177497,
+      "lumaMean": 104.08007397164607,
+      "meanRGB": [
+        132.69923266289544,
+        96.53359609609609,
+        94.56217700258398
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 20.57426079380208,
+      "meanGradient": 2.6013189993443384,
+      "strongEdgeFraction": 0.024397946174809063,
+      "lumaMean": 115.1770870483886,
+      "meanRGB": [
+        152.74166434475714,
+        105.21237345593016,
+        103.2731262190025
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 29.11225566201615,
+      "meanGradient": 4.5745801972296425,
+      "strongEdgeFraction": 0.04574735609218368,
+      "lumaMean": 102.97339339480874,
+      "meanRGB": [
+        119.73625341530055,
+        96.31253415300546,
+        119.59475751366121
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 28.156976093162662,
+      "meanGradient": 4.694497651440861,
+      "strongEdgeFraction": 0.06983498771185088,
+      "lumaMean": 137.61949489711935,
+      "meanRGB": [
+        174.35921177587844,
+        128.51856600189933,
+        119.58792339347895
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        768
+      ],
+      "lumaStd": 9.739972799406898,
+      "meanGradient": 2.4482676010129616,
+      "strongEdgeFraction": 0.01381118881118881,
+      "lumaMean": 113.52264825396826,
+      "meanRGB": [
+        156.66619519094766,
+        103.31257268584001,
+        87.62137356592802
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        324,
+        564,
+        768
+      ],
+      "lumaStd": 38.011859670238884,
+      "meanGradient": 5.732809332136342,
+      "strongEdgeFraction": 0.06419601569177497,
+      "lumaMean": 104.08007397164607,
+      "meanRGB": [
+        132.69923266289544,
+        96.53359609609609,
+        94.56217700258398
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 20.57426079380208,
+      "meanGradient": 2.6013189993443384,
+      "strongEdgeFraction": 0.024397946174809063,
+      "lumaMean": 115.1770870483886,
+      "meanRGB": [
+        152.74166434475714,
+        105.21237345593016,
+        103.2731262190025
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 29.11225566201615,
+      "meanGradient": 4.5745801972296425,
+      "strongEdgeFraction": 0.04574735609218368,
+      "lumaMean": 102.97339339480874,
+      "meanRGB": [
+        119.73625341530055,
+        96.31253415300546,
+        119.59475751366121
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 28.156976093162662,
+      "meanGradient": 4.694497651440861,
+      "strongEdgeFraction": 0.06983498771185088,
+      "lumaMean": 137.61949489711935,
+      "meanRGB": [
+        174.35921177587844,
+        128.51856600189933,
+        119.58792339347895
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        760
+      ],
+      "lumaStd": 9.631722255195987,
+      "meanGradient": 2.5202079686333216,
+      "strongEdgeFraction": 0.014962121212121211,
+      "lumaMean": 114.27488442040081,
+      "meanRGB": [
+        157.5387193358511,
+        104.05760266748324,
+        88.09079309992855
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        384,
+        435,
+        642
+      ],
+      "lumaStd": 37.71121299698899,
+      "meanGradient": 6.390268662207594,
+      "strongEdgeFraction": 0.0757444406362775,
+      "lumaMean": 109.38622456983752,
+      "meanRGB": [
+        138.70712897862708,
+        101.70163051098692,
+        99.17012198786131
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "B",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 20.57426079380208,
+      "meanGradient": 2.6013189993443384,
+      "strongEdgeFraction": 0.024397946174809063,
+      "lumaMean": 115.1770870483886,
+      "meanRGB": [
+        152.74166434475714,
+        105.21237345593016,
+        103.2731262190025
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 42.69375911998792,
+      "meanGradient": 8.834316660258937,
+      "strongEdgeFraction": 0.10034792793413483,
+      "lumaMean": 123.33038983265027,
+      "meanRGB": [
+        142.726912568306,
+        117.50802595628416,
+        123.89069330601093
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 34.853198713408624,
+      "meanGradient": 9.674605107737943,
+      "strongEdgeFraction": 0.14327662698286042,
+      "lumaMean": 173.02547496043047,
+      "meanRGB": [
+        205.56991136435582,
+        166.2815289648623,
+        143.999477682811
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        760
+      ],
+      "lumaStd": 13.417243340984502,
+      "meanGradient": 4.445506919232653,
+      "strongEdgeFraction": 0.05368457300275482,
+      "lumaMean": 139.77264457827224,
+      "meanRGB": [
+        178.84866115477527,
+        131.36839508693137,
+        107.96043006362491
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        384,
+        435,
+        642
+      ],
+      "lumaStd": 47.756066436881454,
+      "meanGradient": 10.337103231585075,
+      "strongEdgeFraction": 0.1252494909376827,
+      "lumaMean": 145.12831157782983,
+      "meanRGB": [
+        173.5042265088236,
+        139.29642649680508,
+        119.34222702962562
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        1280,
+        720
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 20.81412608935888,
+      "meanGradient": 3.2480306561618253,
+      "strongEdgeFraction": 0.03548579515549889,
+      "lumaMean": 135.46823701820378,
+      "meanRGB": [
+        171.05658493545093,
+        126.91280068728523,
+        115.42343503297111
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 42.69375911998792,
+      "meanGradient": 8.834316660258937,
+      "strongEdgeFraction": 0.10034792793413483,
+      "lumaMean": 123.33038983265027,
+      "meanRGB": [
+        142.726912568306,
+        117.50802595628416,
+        123.89069330601093
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 34.853198713408624,
+      "meanGradient": 9.674605107737943,
+      "strongEdgeFraction": 0.14327662698286042,
+      "lumaMean": 173.02547496043047,
+      "meanRGB": [
+        205.56991136435582,
+        166.2815289648623,
+        143.999477682811
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        760
+      ],
+      "lumaStd": 13.417243340984502,
+      "meanGradient": 4.445506919232653,
+      "strongEdgeFraction": 0.05368457300275482,
+      "lumaMean": 139.77264457827224,
+      "meanRGB": [
+        178.84866115477527,
+        131.36839508693137,
+        107.96043006362491
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        384,
+        435,
+        642
+      ],
+      "lumaStd": 47.756066436881454,
+      "meanGradient": 10.337103231585075,
+      "strongEdgeFraction": 0.1252494909376827,
+      "lumaMean": 145.12831157782983,
+      "meanRGB": [
+        173.5042265088236,
+        139.29642649680508,
+        119.34222702962562
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        1024,
+        576
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 20.81412608935888,
+      "meanGradient": 3.2480306561618253,
+      "strongEdgeFraction": 0.03548579515549889,
+      "lumaMean": 135.46823701820378,
+      "meanRGB": [
+        171.05658493545093,
+        126.91280068728523,
+        115.42343503297111
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 42.69375911998792,
+      "meanGradient": 8.834316660258937,
+      "strongEdgeFraction": 0.10034792793413483,
+      "lumaMean": 123.33038983265027,
+      "meanRGB": [
+        142.726912568306,
+        117.50802595628416,
+        123.89069330601093
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 34.853198713408624,
+      "meanGradient": 9.674605107737943,
+      "strongEdgeFraction": 0.14327662698286042,
+      "lumaMean": 173.02547496043047,
+      "meanRGB": [
+        205.56991136435582,
+        166.2815289648623,
+        143.999477682811
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        768
+      ],
+      "lumaStd": 13.709907701441487,
+      "meanGradient": 4.370386853282078,
+      "strongEdgeFraction": 0.05303560076287349,
+      "lumaMean": 138.5151240484048,
+      "meanRGB": [
+        177.46973125884017,
+        130.0907747917649,
+        107.25951595159516
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        324,
+        564,
+        768
+      ],
+      "lumaStd": 46.01727498996947,
+      "meanGradient": 8.70503304880907,
+      "strongEdgeFraction": 0.10498148107563172,
+      "lumaMean": 136.04079571286405,
+      "meanRGB": [
+        164.65626091207486,
+        130.03123908792514,
+        111.30931367413926
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        800,
+        450
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 20.81412608935888,
+      "meanGradient": 3.2480306561618253,
+      "strongEdgeFraction": 0.03548579515549889,
+      "lumaMean": 135.46823701820378,
+      "meanRGB": [
+        171.05658493545093,
+        126.91280068728523,
+        115.42343503297111
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 42.69375911998792,
+      "meanGradient": 8.834316660258937,
+      "strongEdgeFraction": 0.10034792793413483,
+      "lumaMean": 123.33038983265027,
+      "meanRGB": [
+        142.726912568306,
+        117.50802595628416,
+        123.89069330601093
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 34.853198713408624,
+      "meanGradient": 9.674605107737943,
+      "strongEdgeFraction": 0.14327662698286042,
+      "lumaMean": 173.02547496043047,
+      "meanRGB": [
+        205.56991136435582,
+        166.2815289648623,
+        143.999477682811
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        768
+      ],
+      "lumaStd": 13.709907701441487,
+      "meanGradient": 4.370386853282078,
+      "strongEdgeFraction": 0.05303560076287349,
+      "lumaMean": 138.5151240484048,
+      "meanRGB": [
+        177.46973125884017,
+        130.0907747917649,
+        107.25951595159516
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        324,
+        564,
+        768
+      ],
+      "lumaStd": 46.01727498996947,
+      "meanGradient": 8.70503304880907,
+      "strongEdgeFraction": 0.10498148107563172,
+      "lumaMean": 136.04079571286405,
+      "meanRGB": [
+        164.65626091207486,
+        130.03123908792514,
+        111.30931367413926
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 20.81412608935888,
+      "meanGradient": 3.2480306561618253,
+      "strongEdgeFraction": 0.03548579515549889,
+      "lumaMean": 135.46823701820378,
+      "meanRGB": [
+        171.05658493545093,
+        126.91280068728523,
+        115.42343503297111
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-companion-card",
+      "sourceRectClipped": [
+        48,
+        38,
+        368,
+        221
+      ],
+      "lumaStd": 42.69375911998792,
+      "meanGradient": 8.834316660258937,
+      "strongEdgeFraction": 0.10034792793413483,
+      "lumaMean": 123.33038983265027,
+      "meanRGB": [
+        142.726912568306,
+        117.50802595628416,
+        123.89069330601093
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-ledger",
+      "sourceRectClipped": [
+        1046,
+        38,
+        1370,
+        233
+      ],
+      "lumaStd": 34.853198713408624,
+      "meanGradient": 9.674605107737943,
+      "strongEdgeFraction": 0.14327662698286042,
+      "lumaMean": 173.02547496043047,
+      "meanRGB": [
+        205.56991136435582,
+        166.2815289648623,
+        143.999477682811
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-controls",
+      "sourceRectClipped": [
+        406,
+        663,
+        1012,
+        760
+      ],
+      "lumaStd": 13.417243340984502,
+      "meanGradient": 4.445506919232653,
+      "strongEdgeFraction": 0.05368457300275482,
+      "lumaMean": 139.77264457827224,
+      "meanRGB": [
+        178.84866115477527,
+        131.36839508693137,
+        107.96043006362491
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "g105-interaction-card",
+      "sourceRectClipped": [
+        48,
+        384,
+        435,
+        642
+      ],
+      "lumaStd": 47.756066436881454,
+      "meanGradient": 10.337103231585075,
+      "strongEdgeFraction": 0.1252494909376827,
+      "lumaMean": 145.12831157782983,
+      "meanRGB": [
+        173.5042265088236,
+        139.29642649680508,
+        119.34222702962562
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    },
+    {
+      "candidate": "C",
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": "main-tower-envelope",
+      "sourceRectClipped": [
+        581,
+        144,
+        775,
+        588
+      ],
+      "lumaStd": 20.81412608935888,
+      "meanGradient": 3.2480306561618253,
+      "strongEdgeFraction": 0.03548579515549889,
+      "lumaMean": 135.46823701820378,
+      "meanRGB": [
+        171.05658493545093,
+        126.91280068728523,
+        115.42343503297111
+      ],
+      "method": "background only, rendered-source ROI proxy; not actual text contrast/attention test"
+    }
+  ],
+  "threshold": "edge fraction <=0.10 diagnostic; rank relative to baseline, not an aesthetic approval"
+}

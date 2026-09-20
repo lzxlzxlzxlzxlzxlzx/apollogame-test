@@ -1,0 +1,44 @@
+{
+  "paperMedianRGB": [
+    250,
+    244,
+    233
+  ],
+  "method": "sRGB relative luminance contrast; median quiet-center paper sample, not per-glyph anti-aliased contrast; shadow excluded. Body/text threshold4.5, focus threshold3.",
+  "themes": {
+    "light": {
+      "titleOnPaper": 1.035,
+      "bodyOnPaper": 1.035,
+      "auxOnPaper": 1.365,
+      "placeholderOnInput": 6.699,
+      "primaryTextOnButton": 8.218,
+      "secondaryTextOnButton": 12.351,
+      "disabledTextOnButton": 4.748,
+      "focusOnPaper": 8.281
+    },
+    "plum": {
+      "titleOnPaper": 11.831,
+      "bodyOnPaper": 11.831,
+      "auxOnPaper": 7.562,
+      "placeholderOnInput": 6.608,
+      "primaryTextOnButton": 8.218,
+      "secondaryTextOnButton": 12.351,
+      "disabledTextOnButton": 4.748,
+      "focusOnPaper": 8.281
+    },
+    "contrast": {
+      "titleOnPaper": 15.634,
+      "bodyOnPaper": 15.634,
+      "auxOnPaper": 10.827,
+      "placeholderOnInput": 9.431,
+      "primaryTextOnButton": 12.822,
+      "secondaryTextOnButton": 17.116,
+      "disabledTextOnButton": 4.753,
+      "focusOnPaper": 12.539
+    }
+  },
+  "recommended": "plum",
+  "plumPass": true,
+  "disabledDistinction": "Changed label + disabled state + dashed border + separate neutral color; not color alone.",
+  "softKeyboard": "not verified: no native mobile IME in headless desktop Chromium."
+}

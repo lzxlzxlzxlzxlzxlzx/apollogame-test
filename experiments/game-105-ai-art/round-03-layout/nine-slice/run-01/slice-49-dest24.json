@@ -1,0 +1,277 @@
+[
+  {
+    "edgeStrokeProxy": {
+      "top": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          3,
+          3
+        ]
+      },
+      "bottom": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          3,
+          3
+        ]
+      },
+      "left": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          2,
+          3
+        ]
+      },
+      "right": {
+        "coloredStrokeMedianPx": 2.0,
+        "coloredStrokeRangePx": [
+          2,
+          2
+        ]
+      }
+    },
+    "seamMeanRgbDelta": [
+      0.48271604938271606,
+      0.3987654320987654,
+      0.5674931129476584,
+      0.45523415977961434
+    ],
+    "centerLumaStd": 0.4494,
+    "centerGradientMean": 0.4328,
+    "size": [
+      484,
+      270
+    ],
+    "sourceSlice": 49,
+    "destinationSlice": 24,
+    "cornerScale": 0.4897959183673469,
+    "curvatureInStretchBand": false,
+    "geometricMinimum": [
+      64,
+      64
+    ],
+    "normalGeometryPass": true,
+    "extremeGeometryPass": true,
+    "limitation": "Offline raster geometry only; browser and touch content acceptance separate. Corner pixels resampled uniformly, not byte-identical."
+  },
+  {
+    "edgeStrokeProxy": {
+      "top": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          3,
+          3
+        ]
+      },
+      "bottom": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          3,
+          3
+        ]
+      },
+      "left": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          2,
+          3
+        ]
+      },
+      "right": {
+        "coloredStrokeMedianPx": 2.0,
+        "coloredStrokeRangePx": [
+          2,
+          2
+        ]
+      }
+    },
+    "seamMeanRgbDelta": [
+      0.44,
+      0.39666666666666667,
+      0.3851851851851852,
+      0.3622222222222222
+    ],
+    "centerLumaStd": 0.2799,
+    "centerGradientMean": 0.1859,
+    "size": [
+      900,
+      100
+    ],
+    "sourceSlice": 49,
+    "destinationSlice": 24,
+    "cornerScale": 0.4897959183673469,
+    "curvatureInStretchBand": false,
+    "geometricMinimum": [
+      64,
+      64
+    ],
+    "normalGeometryPass": true,
+    "extremeGeometryPass": true,
+    "limitation": "Offline raster geometry only; browser and touch content acceptance separate. Corner pixels resampled uniformly, not byte-identical."
+  },
+  {
+    "edgeStrokeProxy": {
+      "top": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          3,
+          3
+        ]
+      },
+      "bottom": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          3,
+          3
+        ]
+      },
+      "left": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          2,
+          3
+        ]
+      },
+      "right": {
+        "coloredStrokeMedianPx": 2.0,
+        "coloredStrokeRangePx": [
+          2,
+          2
+        ]
+      }
+    },
+    "seamMeanRgbDelta": [
+      0.375,
+      0.5683333333333334,
+      0.8633333333333333,
+      0.42
+    ],
+    "centerLumaStd": 0.2507,
+    "centerGradientMean": 0.1467,
+    "size": [
+      100,
+      600
+    ],
+    "sourceSlice": 49,
+    "destinationSlice": 24,
+    "cornerScale": 0.4897959183673469,
+    "curvatureInStretchBand": false,
+    "geometricMinimum": [
+      64,
+      64
+    ],
+    "normalGeometryPass": true,
+    "extremeGeometryPass": true,
+    "limitation": "Offline raster geometry only; browser and touch content acceptance separate. Corner pixels resampled uniformly, not byte-identical."
+  },
+  {
+    "edgeStrokeProxy": {
+      "top": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          3,
+          3
+        ]
+      },
+      "bottom": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          3,
+          3
+        ]
+      },
+      "left": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          2,
+          3
+        ]
+      },
+      "right": {
+        "coloredStrokeMedianPx": 2.0,
+        "coloredStrokeRangePx": [
+          2,
+          2
+        ]
+      }
+    },
+    "seamMeanRgbDelta": [
+      0.5555555555555556,
+      0.48055555555555557,
+      0.5774647887323944,
+      0.43380281690140843
+    ],
+    "centerLumaStd": 0.4269,
+    "centerGradientMean": 0.4091,
+    "size": [
+      355,
+      240
+    ],
+    "sourceSlice": 49,
+    "destinationSlice": 24,
+    "cornerScale": 0.4897959183673469,
+    "curvatureInStretchBand": false,
+    "geometricMinimum": [
+      64,
+      64
+    ],
+    "normalGeometryPass": true,
+    "extremeGeometryPass": true,
+    "limitation": "Offline raster geometry only; browser and touch content acceptance separate. Corner pixels resampled uniformly, not byte-identical."
+  },
+  {
+    "edgeStrokeProxy": {
+      "top": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          3,
+          3
+        ]
+      },
+      "bottom": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          3,
+          3
+        ]
+      },
+      "left": {
+        "coloredStrokeMedianPx": 3.0,
+        "coloredStrokeRangePx": [
+          2,
+          3
+        ]
+      },
+      "right": {
+        "coloredStrokeMedianPx": 2.0,
+        "coloredStrokeRangePx": [
+          2,
+          2
+        ]
+      }
+    },
+    "seamMeanRgbDelta": [
+      0.47962962962962963,
+      0.43333333333333335,
+      0.4622222222222222,
+      0.37333333333333335
+    ],
+    "centerLumaStd": 0.3193,
+    "centerGradientMean": 0.2646,
+    "size": [
+      300,
+      180
+    ],
+    "sourceSlice": 49,
+    "destinationSlice": 24,
+    "cornerScale": 0.4897959183673469,
+    "curvatureInStretchBand": false,
+    "geometricMinimum": [
+      64,
+      64
+    ],
+    "normalGeometryPass": true,
+    "extremeGeometryPass": true,
+    "limitation": "Offline raster geometry only; browser and touch content acceptance separate. Corner pixels resampled uniformly, not byte-identical."
+  }
+]

@@ -1,0 +1,6 @@
+/* Experimental ink proposal only; does not modify the production stylesheet. */
+#g105-interaction-card #g105-card-title,
+#g105-interaction-card #g105-card-text,
+#g105-interaction-card #g105-card-kicker,
+#g105-interaction-card #g105-card-safety,
+#g105-interaction-card #g105-aftershock-summary {color:#442a31 !important;text-shadow:none !important;}

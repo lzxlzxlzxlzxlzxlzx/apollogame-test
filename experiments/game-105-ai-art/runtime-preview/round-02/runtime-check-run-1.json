@@ -1,0 +1,578 @@
+[
+  {
+    "mode": "original-ink",
+    "size": {
+      "width": 1280,
+      "height": 720
+    },
+    "box": {
+      "x": 40,
+      "y": 360,
+      "width": 426,
+      "height": 242.5078125,
+      "right": 466,
+      "bottom": 602.5078125
+    },
+    "controls": [
+      {
+        "id": "g105-response-input",
+        "rect": {
+          "x": 71.5,
+          "y": 452.25,
+          "width": 363,
+          "height": 23.25,
+          "right": 434.5,
+          "bottom": 475.5
+        },
+        "fontSize": "12px",
+        "text": "",
+        "value": ""
+      },
+      {
+        "id": "g105-quick-one",
+        "rect": {
+          "x": 154.75,
+          "y": 483,
+          "width": 70.5,
+          "height": 26.09765625,
+          "right": 225.25,
+          "bottom": 509.09765625
+        },
+        "fontSize": "16px",
+        "text": "我记住了",
+        "value": ""
+      },
+      {
+        "id": "g105-quick-two",
+        "rect": {
+          "x": 229.75,
+          "y": 483,
+          "width": 58.5,
+          "height": 26.09765625,
+          "right": 288.25,
+          "bottom": 509.09765625
+        },
+        "fontSize": "16px",
+        "text": "谢谢你",
+        "value": ""
+      },
+      {
+        "id": "g105-quick-three",
+        "rect": {
+          "x": 292.75,
+          "y": 483,
+          "width": 58.5,
+          "height": 26.09765625,
+          "right": 351.25,
+          "bottom": 509.09765625
+        },
+        "fontSize": "16px",
+        "text": "慢慢来",
+        "value": ""
+      },
+      {
+        "id": "g105-interaction-complete",
+        "rect": {
+          "x": 119.6640625,
+          "y": 516.59765625,
+          "width": 96,
+          "height": 35.66015625,
+          "right": 215.6640625,
+          "bottom": 552.2578125
+        },
+        "fontSize": "16px",
+        "text": "提交回应",
+        "value": ""
+      },
+      {
+        "id": "g105-interaction-swap",
+        "rect": {
+          "x": 221.6640625,
+          "y": 516.59765625,
+          "width": 88.16015625,
+          "height": 35.66015625,
+          "right": 309.82421875,
+          "bottom": 552.2578125
+        },
+        "fontSize": "16px",
+        "text": "换一张（1）",
+        "value": ""
+      },
+      {
+        "id": "g105-interaction-skip",
+        "rect": {
+          "x": 315.82421875,
+          "y": 516.59765625,
+          "width": 70.5,
+          "height": 35.66015625,
+          "right": 386.32421875,
+          "bottom": 552.2578125
+        },
+        "fontSize": "16px",
+        "text": "这次跳过",
+        "value": ""
+      }
+    ],
+    "labels": [
+      {
+        "id": "g105-card-title",
+        "text": "轻松分享",
+        "color": "rgb(255, 248, 233)",
+        "fontSize": "18px"
+      },
+      {
+        "id": "g105-card-text",
+        "text": "说一个让你放松的瞬间。",
+        "color": "rgb(255, 248, 233)",
+        "fontSize": "18px"
+      },
+      {
+        "id": "g105-card-safety",
+        "text": "不想展开时，可以跳过；本局不会记录到长期记忆。",
+        "color": "rgb(241, 207, 141)",
+        "fontSize": "10px"
+      }
+    ],
+    "occupancy": 0.11209671020507812,
+    "allControlsInside": true,
+    "skin": "url(\"http://127.0.0.1:5195/experiments/game-105-ai-art/normalized/card-frame/round-02/candidate-01-resized.png\")",
+    "errors": [],
+    "assetLoaded": true
+  },
+  {
+    "mode": "original-ink",
+    "size": {
+      "width": 800,
+      "height": 450
+    },
+    "box": {
+      "x": 25,
+      "y": 190,
+      "width": 355,
+      "height": 251.25,
+      "right": 380,
+      "bottom": 441.25
+    },
+    "controls": [
+      {
+        "id": "g105-response-input",
+        "rect": {
+          "x": 51.25,
+          "y": 266.875,
+          "width": 302.5,
+          "height": 40,
+          "right": 353.75,
+          "bottom": 306.875
+        },
+        "fontSize": "28px",
+        "text": "",
+        "value": ""
+      },
+      {
+        "id": "g105-quick-one",
+        "rect": {
+          "x": 83.125,
+          "y": 313.125,
+          "width": 88.75,
+          "height": 40,
+          "right": 171.875,
+          "bottom": 353.125
+        },
+        "fontSize": "28px",
+        "text": "我记住了",
+        "value": ""
+      },
+      {
+        "id": "g105-quick-two",
+        "rect": {
+          "x": 175.625,
+          "y": 313.125,
+          "width": 71.25,
+          "height": 40,
+          "right": 246.875,
+          "bottom": 353.125
+        },
+        "fontSize": "28px",
+        "text": "谢谢你",
+        "value": ""
+      },
+      {
+        "id": "g105-quick-three",
+        "rect": {
+          "x": 250.625,
+          "y": 313.125,
+          "width": 71.25,
+          "height": 40,
+          "right": 321.875,
+          "bottom": 353.125
+        },
+        "fontSize": "28px",
+        "text": "慢慢来",
+        "value": ""
+      },
+      {
+        "id": "g105-interaction-complete",
+        "rect": {
+          "x": 65.869140625,
+          "y": 359.375,
+          "width": 60,
+          "height": 40,
+          "right": 125.869140625,
+          "bottom": 399.375
+        },
+        "fontSize": "28px",
+        "text": "提交回应",
+        "value": ""
+      },
+      {
+        "id": "g105-interaction-swap",
+        "rect": {
+          "x": 130.869140625,
+          "y": 359.375,
+          "width": 114.501953125,
+          "height": 40,
+          "right": 245.37109375,
+          "bottom": 399.375
+        },
+        "fontSize": "28px",
+        "text": "换一张（1）",
+        "value": ""
+      },
+      {
+        "id": "g105-interaction-skip",
+        "rect": {
+          "x": 250.37109375,
+          "y": 359.375,
+          "width": 88.75,
+          "height": 40,
+          "right": 339.12109375,
+          "bottom": 399.375
+        },
+        "fontSize": "28px",
+        "text": "这次跳过",
+        "value": ""
+      }
+    ],
+    "labels": [
+      {
+        "id": "g105-card-title",
+        "text": "轻松分享",
+        "color": "rgb(255, 248, 233)",
+        "fontSize": "18px"
+      },
+      {
+        "id": "g105-card-text",
+        "text": "说一个让你放松的瞬间。",
+        "color": "rgb(255, 248, 233)",
+        "fontSize": "18px"
+      },
+      {
+        "id": "g105-card-safety",
+        "text": "不想展开时，可以跳过；本局不会记录到长期记忆。",
+        "color": "rgb(241, 207, 141)",
+        "fontSize": "10px"
+      }
+    ],
+    "occupancy": 0.24776041666666668,
+    "allControlsInside": true,
+    "skin": "url(\"http://127.0.0.1:5195/experiments/game-105-ai-art/normalized/card-frame/round-02/candidate-01-resized.png\")",
+    "errors": [],
+    "assetLoaded": true
+  },
+  {
+    "mode": "original-ink",
+    "inputWorks": true,
+    "quickWorks": true,
+    "heartText": "心动值  1",
+    "aiStatus": "等待真实物理塔落定...",
+    "restartWorks": true
+  },
+  {
+    "mode": "ink-proposal",
+    "size": {
+      "width": 1280,
+      "height": 720
+    },
+    "box": {
+      "x": 40,
+      "y": 360,
+      "width": 426,
+      "height": 242.5078125,
+      "right": 466,
+      "bottom": 602.5078125
+    },
+    "controls": [
+      {
+        "id": "g105-response-input",
+        "rect": {
+          "x": 71.5,
+          "y": 452.25,
+          "width": 363,
+          "height": 23.25,
+          "right": 434.5,
+          "bottom": 475.5
+        },
+        "fontSize": "12px",
+        "text": "",
+        "value": ""
+      },
+      {
+        "id": "g105-quick-one",
+        "rect": {
+          "x": 154.75,
+          "y": 483,
+          "width": 70.5,
+          "height": 26.09765625,
+          "right": 225.25,
+          "bottom": 509.09765625
+        },
+        "fontSize": "16px",
+        "text": "我记住了",
+        "value": ""
+      },
+      {
+        "id": "g105-quick-two",
+        "rect": {
+          "x": 229.75,
+          "y": 483,
+          "width": 58.5,
+          "height": 26.09765625,
+          "right": 288.25,
+          "bottom": 509.09765625
+        },
+        "fontSize": "16px",
+        "text": "谢谢你",
+        "value": ""
+      },
+      {
+        "id": "g105-quick-three",
+        "rect": {
+          "x": 292.75,
+          "y": 483,
+          "width": 58.5,
+          "height": 26.09765625,
+          "right": 351.25,
+          "bottom": 509.09765625
+        },
+        "fontSize": "16px",
+        "text": "慢慢来",
+        "value": ""
+      },
+      {
+        "id": "g105-interaction-complete",
+        "rect": {
+          "x": 119.6640625,
+          "y": 516.59765625,
+          "width": 96,
+          "height": 35.66015625,
+          "right": 215.6640625,
+          "bottom": 552.2578125
+        },
+        "fontSize": "16px",
+        "text": "提交回应",
+        "value": ""
+      },
+      {
+        "id": "g105-interaction-swap",
+        "rect": {
+          "x": 221.6640625,
+          "y": 516.59765625,
+          "width": 88.16015625,
+          "height": 35.66015625,
+          "right": 309.82421875,
+          "bottom": 552.2578125
+        },
+        "fontSize": "16px",
+        "text": "换一张（1）",
+        "value": ""
+      },
+      {
+        "id": "g105-interaction-skip",
+        "rect": {
+          "x": 315.82421875,
+          "y": 516.59765625,
+          "width": 70.5,
+          "height": 35.66015625,
+          "right": 386.32421875,
+          "bottom": 552.2578125
+        },
+        "fontSize": "16px",
+        "text": "这次跳过",
+        "value": ""
+      }
+    ],
+    "labels": [
+      {
+        "id": "g105-card-title",
+        "text": "轻松分享",
+        "color": "rgb(68, 42, 49)",
+        "fontSize": "18px"
+      },
+      {
+        "id": "g105-card-text",
+        "text": "说一个让你放松的瞬间。",
+        "color": "rgb(68, 42, 49)",
+        "fontSize": "18px"
+      },
+      {
+        "id": "g105-card-safety",
+        "text": "不想展开时，可以跳过；本局不会记录到长期记忆。",
+        "color": "rgb(68, 42, 49)",
+        "fontSize": "10px"
+      }
+    ],
+    "occupancy": 0.11209671020507812,
+    "allControlsInside": true,
+    "skin": "url(\"http://127.0.0.1:5195/experiments/game-105-ai-art/normalized/card-frame/round-02/candidate-01-resized.png\")",
+    "errors": [],
+    "assetLoaded": true
+  },
+  {
+    "mode": "ink-proposal",
+    "size": {
+      "width": 800,
+      "height": 450
+    },
+    "box": {
+      "x": 25,
+      "y": 190,
+      "width": 355,
+      "height": 251.25,
+      "right": 380,
+      "bottom": 441.25
+    },
+    "controls": [
+      {
+        "id": "g105-response-input",
+        "rect": {
+          "x": 51.25,
+          "y": 266.875,
+          "width": 302.5,
+          "height": 40,
+          "right": 353.75,
+          "bottom": 306.875
+        },
+        "fontSize": "28px",
+        "text": "",
+        "value": ""
+      },
+      {
+        "id": "g105-quick-one",
+        "rect": {
+          "x": 83.125,
+          "y": 313.125,
+          "width": 88.75,
+          "height": 40,
+          "right": 171.875,
+          "bottom": 353.125
+        },
+        "fontSize": "28px",
+        "text": "我记住了",
+        "value": ""
+      },
+      {
+        "id": "g105-quick-two",
+        "rect": {
+          "x": 175.625,
+          "y": 313.125,
+          "width": 71.25,
+          "height": 40,
+          "right": 246.875,
+          "bottom": 353.125
+        },
+        "fontSize": "28px",
+        "text": "谢谢你",
+        "value": ""
+      },
+      {
+        "id": "g105-quick-three",
+        "rect": {
+          "x": 250.625,
+          "y": 313.125,
+          "width": 71.25,
+          "height": 40,
+          "right": 321.875,
+          "bottom": 353.125
+        },
+        "fontSize": "28px",
+        "text": "慢慢来",
+        "value": ""
+      },
+      {
+        "id": "g105-interaction-complete",
+        "rect": {
+          "x": 65.869140625,
+          "y": 359.375,
+          "width": 60,
+          "height": 40,
+          "right": 125.869140625,
+          "bottom": 399.375
+        },
+        "fontSize": "28px",
+        "text": "提交回应",
+        "value": ""
+      },
+      {
+        "id": "g105-interaction-swap",
+        "rect": {
+          "x": 130.869140625,
+          "y": 359.375,
+          "width": 114.501953125,
+          "height": 40,
+          "right": 245.37109375,
+          "bottom": 399.375
+        },
+        "fontSize": "28px",
+        "text": "换一张（1）",
+        "value": ""
+      },
+      {
+        "id": "g105-interaction-skip",
+        "rect": {
+          "x": 250.37109375,
+          "y": 359.375,
+          "width": 88.75,
+          "height": 40,
+          "right": 339.12109375,
+          "bottom": 399.375
+        },
+        "fontSize": "28px",
+        "text": "这次跳过",
+        "value": ""
+      }
+    ],
+    "labels": [
+      {
+        "id": "g105-card-title",
+        "text": "轻松分享",
+        "color": "rgb(68, 42, 49)",
+        "fontSize": "18px"
+      },
+      {
+        "id": "g105-card-text",
+        "text": "说一个让你放松的瞬间。",
+        "color": "rgb(68, 42, 49)",
+        "fontSize": "18px"
+      },
+      {
+        "id": "g105-card-safety",
+        "text": "不想展开时，可以跳过；本局不会记录到长期记忆。",
+        "color": "rgb(68, 42, 49)",
+        "fontSize": "10px"
+      }
+    ],
+    "occupancy": 0.24776041666666668,
+    "allControlsInside": true,
+    "skin": "url(\"http://127.0.0.1:5195/experiments/game-105-ai-art/normalized/card-frame/round-02/candidate-01-resized.png\")",
+    "errors": [],
+    "assetLoaded": true
+  },
+  {
+    "mode": "ink-proposal",
+    "inputWorks": true,
+    "quickWorks": true,
+    "heartText": "心动值  1",
+    "aiStatus": "等待真实物理塔落定...",
+    "restartWorks": true
+  }
+]

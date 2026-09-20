@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "role": "program-agent construction evidence; not independent review or human signoff",
+  "round": 2,
+  "generation": {
+    "tool": "built-in image_gen",
+    "calls": 1,
+    "original": "candidates/card-frame/round-02/candidate-01.png",
+    "originalSource": "C:/Users/24652/.codex/generated_images/01a08610-8ab8-7a91-b121-03e1c00a5a43/exec-b77ee9b9-32bd-4a8c-8357-59f41a099bc5.png",
+    "prompt": "prompts/card-frame-round-02.txt",
+    "references": "Round-01 original, derivative and two composites visually inspected before prompting; no reference image passed to generation call",
+    "derivative": "normalized/card-frame/round-02/candidate-01-resized.png",
+    "derivativeOperation": "resize only; original alpha preserved; no automatic background removal or cleanup"
+  },
+  "decisions": {
+    "technical": {"passed": false, "rasterChecksPassed": true, "reason": "文件与透明技术检查通过，但22px九宫格弧线越过固定角区，极端拉伸失败；原图1586×992，需缩放派生才达到640×400。"},
+    "visualDirection": {"passed": null, "status": "recommend-human-review", "reason": "奶油纸张、玫瑰金与梅子紫方向成立，中央安静，未见禁止符号；仅建议人工评审，不代替策划审美裁决。"},
+    "runtimeFit": {"passed": false, "reason": "真实输入和按钮不越界且可操作，但只换图时浅色文字对比差；窄屏卡框遮挡塔体，22px极端拉伸不合格。"},
+    "eligibleForProduction": {"passed": false, "status": "not-authorized", "reason": "候选仅在实验目录；未批准、未登记、未进入正式游戏。"}
+  },
+  "round01Inspection": [
+    "原图棋盘格已烘焙，RGB无真实透明。",
+    "清理图保留月亮和星星，透明边缘仍存在可疑网格残留；不得视为原始生成成功。",
+    "两张旧合成缺少输入与按钮，不能用于控件适配验收。"
+  ],
+  "issues": [
+    {"severity":"P1","code":"nine-slice-curvature","evidence":"composites/nine-slice-round-02.png","detail":"正常484×270可接受，900×100与100×600中弧线沿边拉长；四角字节相同并不等于圆角完整固定。","next":"重新生成更小角弧，或另提切片规格变更；不修改正式22px规格。"},
+    {"severity":"P1","code":"ink-contrast","evidence":"runtime-preview/round-02/original-ink-1280x720-run-1.png","detail":"正式样式的浅色标题和正文与奶油底接近；独立ink-proposal.css将其改为梅子深色，效果改善，但这也是实验改动。"},
+    {"severity":"P1","code":"narrow-tower-occlusion","evidence":"runtime-preview/round-02/ink-proposal-800x450-run-1.png","detail":"窄屏卡框矩形x25..380、y190..441.25，占屏24.776%；遮住塔左下部分，并覆盖底部提示条左侧。桌面卡框x40..466不遮主塔，占屏11.210%。边框变薄不会自动缩小现有布局。"},
+    {"severity":"P1","code":"small-text","detail":"窄屏标题/正文视觉字号约11.25px、安全提示约6.25px；输入和按钮40px高，但提交按钮宽仅60px，主次按钮比例仍需人工评估。桌面输入框高23.25px。"},
+    {"severity":"P2","code":"alpha-fringe","detail":"真实Alpha已成立；原图上下外轮廓仍可见少量不规则亮色细屑，外围1%规则无法排除此类内侧边缘污染。"},
+    {"severity":"P2","code":"style-weight","detail":"颜色与正式背景协调，但细边框比现有厚金色面板更轻，整套UI权重一致性待策划评审。"},
+    {"severity":"P1","code":"state-coverage","detail":"已验证开局、真实玩家抽取松手、互动卡、输入、快捷回应、提交心动值0到1、重开。提交后采样仍为等待真实物理塔落定，AI抽取未获证据；额外倒塌拖动探针也未触发倒塌判定。不得将文件名ai或collapse当作状态成功。未测390×844和帧率退化。"},
+    {"severity":"P2","code":"live-screenshot-hashes","detail":"9项确定性产物哈希与两次控件/交互测量一致；动态实机截图哈希不一致，原始差异完整保留。未声称实时渲染逐像素确定。"}
+  ],
+  "runtime": {
+    "entry": "http://127.0.0.1:5195/experiments/game-105-ai-art/runtime-preview/index.html",
+    "inkProposal": "http://127.0.0.1:5195/experiments/game-105-ai-art/runtime-preview/index.html?ink",
+    "baseline": "http://127.0.0.1:5195/experiments/game-105-ai-art/runtime-preview/index.html?baseline",
+    "implementation": "独立页面直接调用正式mount，页面内fetch响应副本覆盖唯一card-frame路径；正式文件零写入。真实生产HUD、输入、按钮及行为均复用。",
+    "runs": ["runtime-preview/round-02/runtime-check-run-1.json","runtime-preview/round-02/runtime-check-run-2.json"],
+    "loadErrors": 0,
+    "allControlsInside": true,
+    "offlineMethod": "冻结的真实浏览器无卡框背景+真实卡框及控件截取离线合成；不使用伪造文字，不等同连续实机回放。"
+  },
+  "reproducibility": "reports/reproducibility-round-02.json",
+  "formalIntegrity": "reports/formal-hashes-round-02-after.json",
+  "recommendation": "建议策划进行有条件人工方向评审，明确这不是入库评审；先处理九宫格与窄屏遮挡，再由独立测试复查。"
+}
