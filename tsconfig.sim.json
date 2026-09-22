@@ -1,0 +1,32 @@
+{
+  "//": "P3a 机器围栏（REQ-P3TAIL M1·owner 2026-09-12 令）：sim 面必须能在**没有 DOM** 的环境里编译。",
+  "//why": [
+    "架构评审 §5 P3a 的验收原文：『sim 在 Node/Worker 里 import 不带 DOM lib 也过 tsc』。",
+    "在这份 tsconfig 之前，这句话只是文档里的一句话——主 tsconfig 带 lib:dom，",
+    "sim 面偷偷用了 window/document/HTMLElement 也照样编译过，谁都不知道。",
+    "本文件把它变成机器判据：lib 只给 es2022，谁碰 DOM 谁编译不过。",
+    "它**不参与产物构建**，只作门禁的一道 check（scripts/sim-dom-fence.mjs）。"
+  ],
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "types": [],
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": false,
+    "baseUrl": ".",
+    "paths": {
+      "@engine/*": ["src/engine/*"],
+      "@skills/*": ["src/skills/*"],
+      "@atom-skills/*": ["src/skills/atoms/*"],
+      "@assets/*": ["src/assets/*"],
+      "@ui/*": ["src/ui/*"]
+    }
+  },
+  "include": ["types/sim-env.d.ts", "src/engine/**/*.ts", "src/skills/**/*.ts", "src/net/**/*.ts"],
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "src/engine/host/**", "src/net/host/**"]
+}

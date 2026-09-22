@@ -1,6 +1,7 @@
 import { defineCapability } from '@engine/core/define-capability.js';
 import type { Tag, GroupCount } from '@engine/protocol/components.js';
 import { buildConditionLookup } from './condition.js';
+import { clamp } from '@engine/math/scalar.js';
 
 // group-count —— 集合读：按 Tag 掩码数全场实体 → 写数值 Resource（REQ-022，实体寻址轴「集合计数」端）。
 //
@@ -91,7 +92,7 @@ export const groupCountCapability = defineCapability({
           const r = lookup.resource(gc.countResource);
           if (!r) continue; // 目标资源不存在 → 不动（与 effect-apply 同容错；引用校验归 manifest 链接器）
           const v = counts[i];
-          r.current = v < r.min ? r.min : v > r.max ? r.max : v;
+          r.current = clamp(v, r.min, r.max);
         }
       },
     },

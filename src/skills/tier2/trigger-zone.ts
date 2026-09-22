@@ -23,6 +23,12 @@ export const triggerZoneCapability = defineCapability({
 
   components: {
     provides: {
+      // C 治理：Sensor 标记由 effect-apply 的 set-sensor 写、本能力读，此前无 provider。
+      Sensor: {
+        category: 'marker',
+        describe: '触发区标记：挂了它的 Shape 实体只产 Trigger 事件、不参与推开。',
+        fields: {},
+      },
       Trigger: {
         category: 'event',
         describe: '实体 other 进入了触发区 zone。每帧重算（先清后标）。挂在 trigger:<zone>:<other> 实体上。',

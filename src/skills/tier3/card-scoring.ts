@@ -1,10 +1,12 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { worldSeed } from '@engine/core/query.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Card, PlayedHand, HeldHand, PerCardScore, PerCardRule, PerCardRetrigger, PerCardWhen, Resource, RandomSeed } from '@engine/protocol/components.js';
 import { scoringCardIndices } from './poker-hand.js';
 import { chancePass } from '@atom-skills/index.js';
 import { findScoreTrace, appendScoreEvent } from '../score-trace.js';
+import { clamp } from '@engine/math/scalar.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  card-scoring —— 「逐张计分 pass」（REQ-014；Tier3「算法/解释器型机制」，poker-hand 的伴生件）。
@@ -47,11 +49,11 @@ export function matchPerCardWhen(when: PerCardWhen, card: Card, index: number): 
 }
 
 // ── 副作用 helper：按 id 改 Resource.current（钳 [min,max]）。用预建 lookup 避免逐次全表扫描。返回钳后值（供 REQ-019 trace）。──
-function applyToResource(lookup: Map<string, Resource>, id: string, op: 'add' | 'mul', value: number): number | undefined {
-  const r = lookup.get(id);
+function applyToResource(lookup: (id: string) => Resource | undefined, id: string, op: 'add' | 'mul', value: number): number | undefined {
+  const r = lookup(id);
   if (!r) return undefined;
   const next = op === 'mul' ? r.current * value : r.current + value;
-  r.current = next < r.min ? r.min : next > r.max ? r.max : next;
+  r.current = clamp(next, r.min, r.max);
   return r.current;
 }
 
@@ -124,18 +126,9 @@ export const cardScoringCapability = defineCapability({
       writes: ['Resource', 'RandomSeed'],
       consumes: [],
       execute(world: IWorld) {
-        // 预建 Resource id → 组件 的 lookup（一次扫描，避免逐次全表）。
-        let resLookup: Map<string, Resource> | null = null;
-        const lookup = (): Map<string, Resource> => {
-          if (!resLookup) {
-            resLookup = new Map();
-            for (const [eid] of world.query('Resource')) {
-              const r = world.getComponent<Resource>(eid, 'Resource');
-              if (r) resLookup.set(r.id, r);
-            }
-          }
-          return resLookup;
-        };
+        // Resource id → 组件：走 World.byId 索引（B-3）。注意：旧懒建 Map 是「后写者胜」，索引是「创建序首个」——
+        // 与 resource-apply / buildIdLookup / 全库其它 5 处的全局路由口径对齐；同 id 多份 Resource 本就是数据错。
+        const resById = (id: string): Resource | undefined => { const e = world.byId('Resource', 'id', id); return e === undefined ? undefined : world.getComponent<Resource>(e, 'Resource'); };
 
         // 收集逐张规则 / 重触发，按实体 id 升序（确定性结算序，与 effect-apply 的 eid tie-break 一致）。
         const rules: Array<{ eid: string; rule: PerCardRule }> = [];
@@ -152,14 +145,12 @@ export const cardScoringCapability = defineCapability({
         }
 
         const trace = findScoreTrace(world); // REQ-019：poker-eval 已清空，这里只 append（opt-in：无则 no-op）
-        let rng: RandomSeed | undefined; // REQ-E-023②：per-card 概率门用世界 RNG（逐张独立 roll，如 Bloodstone 每张♥ 1/2）
-        for (const [rid] of world.query('RandomSeed')) { rng = world.getComponent<RandomSeed>(rid, 'RandomSeed'); break; }
+        const rng = worldSeed(world); // REQ-E-023②：per-card 概率门用世界 RNG（逐张独立 roll，如 Bloodstone 每张♥ 1/2）·黑板单例·统一取法（B-3）
         for (const [eid] of world.query('PerCardScore', 'PlayedHand')) {
           const cfg = world.getComponent<PerCardScore>(eid, 'PerCardScore')!;
           const played = world.getComponent<PlayedHand>(eid, 'PlayedHand')!;
           if (played.cards.length === 0) continue; // 无出牌 → 不结算（与 poker-eval 一致）
 
-          const lk = lookup();
           // BUG-001 修复：只遍历**计分牌**（构成牌型的牌；垫牌 kicker 不计分），按计分序重排下标。
           // index = 计分序位置（非原始出牌位置）→ "首张计分牌"(Hanging Chad)/逐张小丑都对齐 Balatro 语义。
           const scoringIdx = scoringCardIndices(played.cards);
@@ -173,21 +164,21 @@ export const cardScoringCapability = defineCapability({
 
             for (let r = 0; r < repeats; r++) {
               if (baseChips !== 0) {
-                const after = applyToResource(lk, cfg.chipsResource, 'add', baseChips);
+                const after = applyToResource(resById, cfg.chipsResource, 'add', baseChips);
                 if (after !== undefined) appendScoreEvent(trace, 'percard', cfg.chipsResource, 'add', baseChips, after, src);
               }
               // REQ-E-021：牌的内禀修正（附魔/版式/增强）按序套用——在 baseChips 之后、外部小丑(PerCardRule)之前（同 Balatro：牌自身先于小丑）。
               if (c.mods) {
                 for (const m of c.mods) {
                   if (m.held) continue; // REQ-E-023③：留手 mod（Steel 等）归 held-card-score pass，出牌 pass 跳过
-                  const after = applyToResource(lk, m.target, m.op, m.value);
+                  const after = applyToResource(resById, m.target, m.op, m.value);
                   if (after !== undefined) appendScoreEvent(trace, 'percard-mod', m.target, m.op, m.value, after, src);
                 }
               }
               for (const { eid: ruleEid, rule } of rules) {
                 // REQ-E-023②：概率小丑（Bloodstone 等）—— when 命中后再掷世界 RNG 才施用（逐张独立 roll，确定）。
                 if (!rule.held && matchPerCardWhen(rule.when, c, pos) && (!rule.chance || chancePass(rng, rule.chance.num, rule.chance.den))) {
-                  const after = applyToResource(lk, rule.targetResource, rule.op ?? 'add', rule.value);
+                  const after = applyToResource(resById, rule.targetResource, rule.op ?? 'add', rule.value);
                   if (after !== undefined) appendScoreEvent(trace, 'percard-rule', rule.targetResource, rule.op ?? 'add', rule.value, after, ruleEid);
                 }
               }
@@ -200,16 +191,15 @@ export const cardScoringCapability = defineCapability({
         for (const [hid] of world.query('HeldHand')) {
           const held = world.getComponent<HeldHand>(hid, 'HeldHand');
           if (!held || held.cards.length === 0) continue;
-          const hlk = lookup();
           held.cards.forEach((c, pos) => {
             if (c.mods) for (const m of c.mods) {
               if (!m.held) continue; // 只 held mod
-              const after = applyToResource(hlk, m.target, m.op, m.value);
+              const after = applyToResource(resById, m.target, m.op, m.value);
               if (after !== undefined) appendScoreEvent(trace, 'held-mod', m.target, m.op, m.value, after, `held:${pos}`);
             }
             for (const { eid: ruleEid, rule } of rules) {
               if (rule.held && matchPerCardWhen(rule.when, c, pos) && (!rule.chance || chancePass(rng, rule.chance.num, rule.chance.den))) {
-                const after = applyToResource(hlk, rule.targetResource, rule.op ?? 'add', rule.value);
+                const after = applyToResource(resById, rule.targetResource, rule.op ?? 'add', rule.value);
                 if (after !== undefined) appendScoreEvent(trace, 'held-rule', rule.targetResource, rule.op ?? 'add', rule.value, after, ruleEid);
               }
             }

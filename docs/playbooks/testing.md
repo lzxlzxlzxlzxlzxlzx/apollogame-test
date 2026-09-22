@@ -6,7 +6,7 @@
 
 | 要测什么 | 基座件 | 判定 |
 |---|---|---|
-| 纯逻辑 / capability 语义 | vitest（`src/**/*.test.ts`） | 退出码 0 |
+| 纯逻辑 / capability 语义 | vitest（`src/**/*.test.ts`）· 夹具 `src/test-fixtures/test-kit.ts`（`worldWith/button/press/tickN` + **契约三件套** `expectDeterministic/expectRestoreContinues/expectQuiescent`·带运行态的能力必过·样板 `tier2/contracts.test.ts`·不变量样板 `tier2/invariants.test.ts`·评审 `docs/design/test-strategy-review-2026-09-10.md`） | 退出码 0 |
 | capability 注册完整性 | `src/assembly/registry-guard.test.ts`（漏注册即红·计数下限防空 glob 假绿） | vitest 内 |
 | 确定性 / 回放 / 性能 | ZeroCraftBench（`src/bench/`·双跑同 hash）·单 manifest 走 `scripts/bench-manifest.mjs` | hash 一致 |
 | 数值平衡 | `scripts/game-d-balance-sim.mjs` · `games/game-g/simulate-balance.ts`（N=500 胜率扫描） | 胜率∈目标带 |

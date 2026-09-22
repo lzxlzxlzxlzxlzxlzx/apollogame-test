@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Resource, Signal, RolledDice, SlotMachine, LineWins, LineWin } from '@engine/protocol/components.js';
@@ -79,11 +80,8 @@ export function evaluateSlot(
 }
 
 function findResource(world: IWorld, id: string): Resource | undefined {
-  for (const [eid] of world.query('Resource')) {
-    const r = world.getComponent<Resource>(eid, 'Resource');
-    if (r && r.id === id) return r;
-  }
-  return undefined;
+  const eid = world.byId('Resource', 'id', id); // B-3：索引取创建序首个（= 旧线性扫）
+  return eid === undefined ? undefined : world.getComponent<Resource>(eid, 'Resource');
 }
 function credit(r: Resource, delta: number): void {
   r.current = Math.max(r.min, Math.min(r.max, r.current + delta));
@@ -172,7 +170,7 @@ export const slotPayoutCapability = defineCapability({
         }
         if (signals.size === 0) return;
 
-        const machineIds = world.query('SlotMachine').map(([id]) => id).sort();
+        const machineIds = sortedIds(world, 'SlotMachine');
         for (const mid of machineIds) {
           const m = world.getComponent<SlotMachine>(mid, 'SlotMachine');
           if (!m) continue;

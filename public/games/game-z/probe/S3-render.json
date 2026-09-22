@@ -1,14 +1,14 @@
 {
   "slug": "game-z",
-  "at": "2026-08-16T02:39:29.631Z",
-  "gameHash": "ef74c259c719547c",
+  "at": "2026-09-14T07:09:28.055Z",
+  "gameHash": "7c0904865cbdfd87",
   "ok": true,
   "form": "compiled",
   "assertions": {
     "nonBlank": {
       "pass": true,
-      "variance": 2730.41,
-      "mean": 114.11,
+      "variance": 2676.27,
+      "mean": 113.44,
       "threshold": 15
     },
     "consoleErrors": {

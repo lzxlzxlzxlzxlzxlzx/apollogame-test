@@ -146,13 +146,17 @@ describe('T3 match3-board — 全流程终止 + 确定性', () => {
     expect(b.cells.includes(-1)).toBe(false); // 全部补满
     expect(findMatches(b.cells, b.cols, b.rows).size).toBe(0); // 稳定
   });
-  it('同种子 → 补块结果完全一致（确定性/录放安全）', () => {
-    const run = (): number[] => {
+  it('同种子 → 补块结果完全一致（确定性/录放安全）；换种子 → 分化', () => {
+    const run = (seed?: number): number[] => {
       const w = loadBoard([0, 0, 0, 1, 2, 1, 2, 1, 2], { phase: 'match' });
+      if (seed !== undefined) w.getComponent<RandomSeed>('board', 'RandomSeed')!.seed = seed;
       for (let i = 0; i < 100 && board(w).phase !== 'idle'; i++) w.tick();
       return board(w).cells;
     };
     expect(run()).toEqual(run());
+    expect(run()).toEqual([2, 0, 1, 1, 2, 1, 2, 1, 2]);      // golden（缺省 seed 12345·实跑取值）
+    expect(run(54321)).toEqual([1, 1, 0, 1, 2, 1, 2, 1, 2]); // 换 seed → 补块不同（实跑取值）
+    expect(run(54321)).not.toEqual(run());                   // 异 seed 分化：无视种子恒填同值的实现在此转红
   });
 });
 
@@ -386,18 +390,21 @@ describe('T3 match3 二期 — 目标：步数（组合交换扣步）+ 确定�
     w.tick(); // 下一拍结算
     expect(w.getComponent<Resource>('res:moves', 'Resource')!.current).toBe(19);
   });
-  it('同 seed → 特殊糖 + 格层全程逐字节复现（录放安全）', () => {
-    const run = (): { cells: number[]; jelly: number[] | undefined } => {
+  it('同 seed → 特殊糖 + 格层全程逐字节复现（录放安全）；异 seed → 分化', () => {
+    const run = (seed?: number): { cells: number[]; jelly: number[] | undefined } => {
       const w = loadBoard(
         [0, 0, 0, 0, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2],
         { cols: 4, rows: 4, kindCount: 3, phase: 'match', stripedOrientation: 'perpendicular', jelly: new Array(16).fill(1), jellyResource: 'jel' },
         true,
       );
+      if (seed !== undefined) w.getComponent<RandomSeed>('board', 'RandomSeed')!.seed = seed;
       w.createEntity('res:jel');
       w.addComponent('res:jel', { type: 'Resource', id: 'jel', current: 0, min: 0, max: 999 } as Resource);
       for (let i = 0; i < 200 && board(w).phase !== 'idle'; i++) w.tick();
       return { cells: [...board(w).cells], jelly: board(w).jelly ? [...board(w).jelly!] : undefined };
     };
     expect(run()).toEqual(run());
+    // 换 seed → 补块分化（实跑：cells 头两格由 [2,0,…] 变 [1,1,…]）——无视种子的实现在此转红。
+    expect(run(54321)).not.toEqual(run());
   });
 });

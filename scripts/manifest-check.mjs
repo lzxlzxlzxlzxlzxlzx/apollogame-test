@@ -75,6 +75,8 @@ async function main() {
     JSON.stringify({
       ok: true,
       inferredCapabilities: result.inferredCapabilities,
+      // 真解析出的能力 id（显式或推断·登记序无关=manifest 序）——package-web 据此裁剪懒注册表打子集外壳（P2e）。
+      capabilities: result.blueprint.capabilities.map((c) => c.id),
       warnings: result.warnings,
     }) + '\n',
   );

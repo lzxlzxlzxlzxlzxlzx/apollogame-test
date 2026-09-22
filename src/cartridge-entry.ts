@@ -1,8 +1,11 @@
 import { createPlatformPort, firstBootAchievement } from './services/platform/index.js';
 
-interface GameModule { mount: (el: HTMLElement) => () => void }
+// mount 可同步（工程游戏）或异步（内联数据卡带：能力按需 import·P2e）。
+interface GameModule { mount: (el: HTMLElement) => (() => void) | Promise<() => void> }
 
 const GAMES: Record<string, { title: string; subtitle: string }> = {
+  'game-dice': { title: '轻掷 Dice Overlay', subtitle: '透明叠层 · d4 / d6 / d8 / d20' },
+  'game-loot-chest': { title: '开启宝箱 Loot Chest', subtitle: '概率掉落 · 多物品 · 数量奖励' },
   'game-e': { title: 'Game E: Balatro-like',         subtitle: '小丑牌 · 卡牌构建' },
   'game-f': { title: 'Game F: Pixel Three Kingdoms', subtitle: '像素三分天下 · 自走棋' },
   'game-g': { title: 'Game G: Fateflip Poker',       subtitle: '翻命扑克 · 3D 掷命骨架' },
@@ -15,6 +18,8 @@ const GAMES: Record<string, { title: string; subtitle: string }> = {
 //   （scripts/package-web.mjs 打包库卡带走此分支；工程游戏各自静态 import 不受牵连、不进数据运行时）。
 function startLoad(id: string): Promise<GameModule> {
   if (id === '__inline__') return import('./cartridge-inline-run.js') as Promise<GameModule>;
+  if (id === 'game-dice') return import('@games/game-dice/game-dice.js') as Promise<GameModule>;
+  if (id === 'game-loot-chest') return import('@games/game-loot-chest/game-loot-chest.js') as Promise<GameModule>;
   if (id === 'game-e') return import('@games/game-e/game-e.js') as Promise<GameModule>;
   if (id === 'game-f') return import('@games/game-f/game-f.js') as Promise<GameModule>;
   if (id === 'game-g') return import('@games/game-g/game-g.js') as Promise<GameModule>;
@@ -112,7 +117,12 @@ async function main() {
   // Mount game behind shell, then crossfade
   const gameRoot = el('game-root');
   gameRoot.style.transition = 'opacity 0.55s ease';
-  mod.mount(gameRoot);
+  try {
+    await mod.mount(gameRoot);
+  } catch (e) {
+    log(`MOUNT FAILED: ${String(e)}`, 'warn');
+    return;
+  }
 
   await sleep(80);
   gameRoot.style.opacity = '1';

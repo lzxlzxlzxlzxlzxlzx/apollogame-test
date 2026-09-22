@@ -2,6 +2,7 @@ import { defineCapability } from '@engine/core/define-capability.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Timeline, TimelineCue, TimelinePlayback, Signal, SpawnRequest } from '@engine/protocol/components.js';
 import { buildConditionLookup, type ConditionLookup } from '@skills/tier2/condition.js';
+import { applyWrite, ctxOf } from '@engine/logic/index.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  timeline —— 演出时间线（REQ-CAP 下沉）。sim 侧**确定性 tick 调度器**：把「回合开场三连 cue」「转场时序」
@@ -28,17 +29,13 @@ function fireCue(world: IWorld, cue: TimelineCue, owner: string, tlId: string, p
       pb.emitted.push(id);
       break;
     }
+    // flag / resource 走规则内核 applyWrite（P2a）：按 id 全局路由·目标不存在则不动·唯一的一份 clamp。
     case 'flag': {
-      const f = lookup.flag(d.flagId); // 按 id 全局路由（同 effect-apply/group-count：目标不存在则不动）
-      if (f) f.active = d.value;
+      applyWrite(ctxOf(world, lookup), { to: { flag: d.flagId }, value: d.value });
       break;
     }
     case 'resource': {
-      const r = lookup.resource(d.resourceId);
-      if (r) {
-        const v = d.op === 'set' ? d.amount : r.current + d.amount; // 缺省 add
-        r.current = v < r.min ? r.min : v > r.max ? r.max : v; // 钳 [min,max]
-      }
+      applyWrite(ctxOf(world, lookup), { to: { res: d.resourceId }, op: d.op, value: d.amount });
       break;
     }
     case 'spawn': {
@@ -102,7 +99,7 @@ export const timelineCapability = defineCapability({
         },
       },
     },
-    reads: ['Timeline', 'TimelinePlayback', 'Signal', 'Flag', 'Resource'],
+    reads: ['Timeline', 'TimelinePlayback', 'Signal', 'Flag', 'Resource', 'Cooldowns', 'Timer', 'StringVar'], // Timer/StringVar：条件树 kind:'timer'/'string' 经 engine/logic 读（P1a 严格模式漏报·game-f 慢车道 2026-09-10 抓出）
     writes: ['TimelinePlayback', 'Signal', 'SpawnRequest', 'Flag', 'Resource'],
     consumes: [],
   },
@@ -114,7 +111,7 @@ export const timelineCapability = defineCapability({
       id: 'timeline',
       // 在信号产出者之后跑：① 看得见本 tick 的 playOnSignal/skipOnSignal；② 自己发的 Signal 不被 event-when 的全局清扫误删（同 keybind/caster 纪律）。
       runsAfter: ['event-when', 'keybind', 'clickable'],
-      reads: ['Timeline', 'TimelinePlayback', 'Signal', 'Flag', 'Resource'],
+      reads: ['Timeline', 'TimelinePlayback', 'Signal', 'Flag', 'Resource', 'Cooldowns', 'Timer', 'StringVar'], // Timer/StringVar：条件树 kind:'timer'/'string' 经 engine/logic 读（P1a 严格模式漏报·game-f 慢车道 2026-09-10 抓出）
       writes: ['TimelinePlayback', 'Signal', 'SpawnRequest', 'Flag', 'Resource'],
       consumes: [],
       execute(world: IWorld) {

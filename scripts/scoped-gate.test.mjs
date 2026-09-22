@@ -100,10 +100,11 @@ describe('scoped-gate × game-skill-audit（audit 进推送门·只扫改动游�
   });
 });
 
-// ── 面触发守卫接线（REQ-GUARDGATE 守卫接线批·2026-08-16）──
-// 语义钉死：① 引擎面非测试源文件 → engine-random-guard 步（红=拦）；② src 测试文件 →
-// test-hygiene-check 步（红=拦）；③ 美术面（scripts/art-replace*/main_entry/art_*）→
-// art-replace-smoke.py 步（红=拦）；未触发的面绝不进计划（不给无关改动加时长）。
+// ── 面触发守卫接线（REQ-GUARDGATE 守卫接线批·2026-08-16 · P0 治理围栏 2026-09-03 改造）──
+// 语义钉死：① 引擎面随机/超越函数/墙钟 + 测试三禁 → 常驻 `eslint` 步（game/full 恒跑·红=拦），取代原
+// engine-random / test-hygiene 两个按面点名的 regex 步；② games/src 边界 + 层向 → 常驻 `depcruise` 步；
+// ③ 美术面（scripts/art-replace*/main_entry/art_*）→ art-replace-smoke.py 步（红=拦）；
+// 未触发的面绝不进计划（不给无关改动加时长）。
 describe('scoped-gate × REQ-GUARDGATE（面触发守卫按改动面点名进门）', () => {
   it('facesOf：dokiworld/<app>/** 非 .md → dokiApps 命中·纯 .md 与游戏目录不触发·去重排序（DOKI-APPS 后续①）', () => {
     expect(facesOf(['dokiworld/game108/src/main.ts', 'dokiworld/game108/tests/x.test.mjs', 'dokiworld/shared/src/a.mjs']).dokiApps).toEqual(['game108', 'shared']);
@@ -116,28 +117,26 @@ describe('scoped-gate × REQ-GUARDGATE（面触发守卫按改动面点名进门
     expect(plan.some((s) => s.name === 'doki-test:shared')).toBe(true);
     expect(planFor({ scope: 'full' }, [], {}).some((s) => s.name.startsWith('doki-test:'))).toBe(false); // 缺省 faces 不炸不加步
   });
-  it('facesOf：引擎面非测试源文件 → engineRandom（五目录都认）', () => {
-    expect(facesOf(['src/engine/core/world.ts']).engineRandom).toBe(true);
-    expect(facesOf(['src/skills/tier2/matrix-duel.ts']).engineRandom).toBe(true);
-    expect(facesOf(['src/assembly/loader.ts']).engineRandom).toBe(true);
-    expect(facesOf(['src/net/mp-client.ts']).engineRandom).toBe(true);
-    expect(facesOf(['src/services/save/save-port.ts']).engineRandom).toBe(true);
+  it('代码围栏常驻：game 与 full 两档计划都含 eslint + depcruise 步·红=拦·放 tsc 前（P0 治理围栏）', () => {
+    for (const files of [['src/engine/core/world.ts'], ['games/game-a/rules.ts'], ['src/debug/debug.test.ts']]) {
+      const plan = planFor(classify(files), auditGamesOf(files), facesOf(files));
+      const names = plan.map((s) => s.name);
+      expect(names.indexOf('eslint'), files.join()).toBeGreaterThanOrEqual(0);
+      expect(names.indexOf('depcruise'), files.join()).toBeGreaterThanOrEqual(0);
+      expect(names.indexOf('eslint')).toBeLessThan(names.indexOf('tsc'));
+      expect(names.indexOf('depcruise')).toBeLessThan(names.indexOf('tsc'));
+      expect(plan.find((s) => s.name === 'eslint').cmd).toEqual(['npx', ['eslint', 'src', 'games', '--max-warnings', '0']]);
+      expect(plan.find((s) => s.name === 'depcruise').cmd).toEqual(['npx', ['depcruise', '--config', '.dependency-cruiser.cjs', 'src', 'games']]);
+      expect(plan.find((s) => s.name === 'eslint').allowExit).toBeUndefined();
+    }
+    // docs-only 无代码改动 → 不跑围栏（省 20 秒·不给纯文档改动加时长）
+    expect(planFor({ scope: 'docs-only' }, [], {}).some((s) => s.name === 'eslint' || s.name === 'depcruise')).toBe(false);
   });
 
-  it('facesOf：引擎面测试文件不触发 engineRandom（归 hygiene）·renderer/ui/runtime 不在守卫面', () => {
-    const f = facesOf(['src/skills/tier2/matrix-duel.test.ts']);
-    expect(f.engineRandom).toBe(false);
-    expect(f.testHygiene).toBe(true);
-    expect(facesOf(['src/renderer/three-scene.ts']).engineRandom).toBe(false);
-    expect(facesOf(['src/ui/components/types.ts']).engineRandom).toBe(false);
-    expect(facesOf(['src/runtime/engine.ts']).engineRandom).toBe(false);
-  });
-
-  it('facesOf：src/**/*.test.ts → testHygiene；games 下测试/非测试都不触发', () => {
-    expect(facesOf(['src/runtime/engine.loop-stop.test.ts']).testHygiene).toBe(true);
-    expect(facesOf(['src/debug/debug.test.ts']).testHygiene).toBe(true);
-    expect(facesOf(['games/game-a/rules.test.ts']).testHygiene).toBe(false);
-    expect(facesOf(['src/engine/core/world.ts']).testHygiene).toBe(false);
+  it('围栏配置文件（eslint.config.mjs / .dependency-cruiser.cjs）被改 = 共享面 → full', () => {
+    expect(classify(['eslint.config.mjs']).scope).toBe('full');
+    expect(classify(['.dependency-cruiser.cjs']).scope).toBe('full');
+    expect(classify(['tools/eslint/zerocraft-rules.mjs']).scope).toBe('full');
   });
 
   it('facesOf：美术面 scripts/art-replace* / main_entry/art_* → artSmoke', () => {
@@ -150,27 +149,27 @@ describe('scoped-gate × REQ-GUARDGATE（面触发守卫按改动面点名进门
   });
 
   it('facesOf：守卫脚本自身被改也触发各自守卫（改守卫先自证跑绿）', () => {
-    expect(facesOf(['scripts/engine-random-guard.mjs']).engineRandom).toBe(true);
-    expect(facesOf(['scripts/test-hygiene-check.mjs']).testHygiene).toBe(true);
-    expect(facesOf(['games/game-a/rules.ts', 'docs/workflow/requests.md'])).toEqual({ engineRandom: false, testHygiene: false, artSmoke: false, syncSmoke: false, backupSmoke: false, dokiApps: [], slowLane: [] });
-  });
-
-  it('引擎面改动（full）：计划含 engine-random 步·红=拦（无 allowExit）·放 tsc 前', () => {
-    const files = ['src/engine/core/world.ts'];
-    const plan = planFor(classify(files), auditGamesOf(files), facesOf(files));
-    const i = plan.findIndex((s) => s.name === 'engine-random');
-    expect(i).toBeGreaterThanOrEqual(0);
-    expect(plan[i].cmd).toEqual(['node', ['scripts/engine-random-guard.mjs']]);
-    expect(plan[i].allowExit).toBeUndefined();
-    expect(i).toBeLessThan(plan.findIndex((s) => s.name === 'tsc'));
-  });
-
-  it('src 测试文件改动（full）：计划含 test-hygiene 步·红=拦', () => {
-    const files = ['src/runtime/engine.loop-stop.test.ts'];
-    const step = planFor(classify(files), auditGamesOf(files), facesOf(files)).find((s) => s.name === 'test-hygiene');
-    expect(step).toBeDefined();
-    expect(step.cmd).toEqual(['node', ['scripts/test-hygiene-check.mjs']]);
-    expect(step.allowExit).toBeUndefined();
+    expect(facesOf(['games/game-a/rules.ts', 'docs/workflow/requests.md'])).toEqual({ artSmoke: false, syncSmoke: false, backupSmoke: false, platformStatic: false, workshopProvider: false, distStale: false, skillShape: false, creationLoop: false, simDom: false, dokiApps: [], slowLane: [] });
+    expect(facesOf(['main_entry/server.py']).platformStatic).toBe(true); // 蓝屏面（2026-08-25）：server.py 不带 art_ 前缀·此前零旗命中
+    // 假产物面（2026-08-26）：工作台选供应商那段与 generate_api 此前同样零旗命中——
+    // 改一行「兜底可以落 mock」就能让全站生成变成同一份固定样例，而没有任何门在验。
+    expect(facesOf(['workshop/index.dc.html']).workshopProvider).toBe(true);
+    expect(facesOf(['main_entry/generate_api.py']).workshopProvider).toBe(true);
+    expect(facesOf(['scripts/workshop-provider-guard.mjs']).workshopProvider).toBe(true);
+    // 过期产物面（2026-08-26）：dist 是 gitignore 的，旧 bundle 被端出去时 URL/API/卡带全对，
+    // 只有界面是旧的 —— 人眼查不出来，判据必须有门守着。
+    expect(facesOf(['main_entry/dist_check.py']).distStale).toBe(true);
+    expect(facesOf(['scripts/dist-staleness-guard.py']).distStale).toBe(true);
+    expect(facesOf(['main_entry/server.py']).distStale).toBe(true);   // 告警就接在这里
+    // 能力形状面（2026-09-05）：改任何能力壳都要过棘轮，新长出来的超大件当场拦。
+    expect(facesOf(['src/skills/tier2/steering.ts']).skillShape).toBe(true);
+    expect(facesOf(['scripts/skill-shape-baseline.json']).skillShape).toBe(true);
+    // 创作闭环面（2026-09-12）：建库/编号/版本保存/生成告警这条链此前零旗命中。
+    expect(facesOf(['main_entry/library.py']).creationLoop).toBe(true);
+    expect(facesOf(['src/studio/CreationWizard.tsx']).creationLoop).toBe(true);
+    // sim DOM 围栏面（2026-09-12·P3a）：改 sim 三面或围栏本身都要重跑。
+    expect(facesOf(['src/engine/core/types.ts']).simDom).toBe(true);
+    expect(facesOf(['tsconfig.sim.json']).simDom).toBe(true);
   });
 
   it('美术面改动（full）：计划含 art-smoke 步（python3 点名）·红=拦', () => {
@@ -224,14 +223,13 @@ describe('scoped-gate × REQ-GUARDGATE（面触发守卫按改动面点名进门
     expect(names.indexOf('auto-sync-smoke')).toBeLessThan(names.indexOf('tsc'));
   });
 
-  it('未触发的面不进计划：游戏单改无三步·引擎单改无 art-smoke/test-hygiene', () => {
+  it('未触发的面不进计划：游戏单改无 art-smoke·引擎单改无 art-smoke/同步冒烟', () => {
     const game = ['games/game-a/rules.ts'];
     const gamePlan = planFor(classify(game), auditGamesOf(game), facesOf(game));
-    expect(gamePlan.some((s) => ['engine-random', 'test-hygiene', 'art-smoke'].includes(s.name))).toBe(false);
+    expect(gamePlan.some((s) => ['art-smoke'].includes(s.name))).toBe(false);
     const engine = ['src/engine/core/world.ts'];
     const enginePlan = planFor(classify(engine), auditGamesOf(engine), facesOf(engine));
     expect(enginePlan.some((s) => s.name === 'art-smoke')).toBe(false);
-    expect(enginePlan.some((s) => s.name === 'test-hygiene')).toBe(false);
     expect(enginePlan.some((s) => s.name.endsWith('sync-smoke'))).toBe(false);
     expect(enginePlan.some((s) => s.name === 'art-backup-smoke')).toBe(false);
   });
@@ -255,29 +253,32 @@ describe('scoped-gate 接线补牙（slowLane 正向 · docs-only 全量对账 �
     expect(step.allowExit).toBeUndefined(); // 红=拦（guard 内部对基线棘轮判红/警·门禁只认退出码）
   });
 
-  it('docs-only 计划全量对账：常驻守卫序列 docs-ref → context-budget → decouple-check → art-ledger-guard 逐步钉死（含 allowExit 精确值）', () => {
+  it('docs-only 计划全量对账：常驻守卫序列 docs-ref → context-budget → art-ledger-guard 逐步钉死（含 allowExit 精确值·decouple-check 已并入 game/full 的 depcruise 步）', () => {
     const plan = planFor({ scope: 'docs-only' }, [], {});
     expect(plan.map((s) => ({ name: s.name, cmd: s.cmd, allowExit: s.allowExit }))).toEqual([
       { name: 'docs-ref', cmd: ['node', ['scripts/docs-ref-guard.mjs']], allowExit: undefined },
       { name: 'context-budget', cmd: ['node', ['scripts/context-budget-guard.mjs']], allowExit: undefined },
-      { name: 'decouple-check', cmd: ['node', ['scripts/decouple-check.mjs']], allowExit: undefined },
       // art-ledger-guard 是常驻守卫里唯一带放行档的：0=全净·2=存量挂账警告态放行·1=新黑户硬拦。
       { name: 'art-ledger-guard', cmd: ['node', ['scripts/art-ledger-guard.mjs']], allowExit: [0, 2] },
     ]);
   });
 
-  it('面旗↔步总对账（表驱动·七旗全盖）：每旗置位时 planFor 必产对应步——加旗忘接步即红', () => {
+  it('面旗↔步总对账（表驱动·八旗全盖）：每旗置位时 planFor 必产对应步——加旗忘接步即红', () => {
     // 旗名 → 该旗单独置位时计划里必须出现的步名。数组旗（dokiApps/slowLane）用代表值。
     const FLAG_TO_STEPS = {
-      engineRandom: { value: true, steps: ['engine-random'] },
-      testHygiene: { value: true, steps: ['test-hygiene'] },
       artSmoke: { value: true, steps: ['art-smoke'] },
       syncSmoke: { value: true, steps: ['art-sync-smoke', 'auto-sync-smoke'] },
       backupSmoke: { value: true, steps: ['art-backup-smoke'] },
+      platformStatic: { value: true, steps: ['platform-static-smoke'] },
+      workshopProvider: { value: true, steps: ['workshop-provider-guard'] },
+      distStale: { value: true, steps: ['dist-staleness-guard'] },
+      skillShape: { value: true, steps: ['skill-shape-guard'] },
+      creationLoop: { value: true, steps: ['creation-loop-guard'] },
+      simDom: { value: true, steps: ['sim-dom-fence'] },
       dokiApps: { value: ['game108'], steps: ['doki-test:game108'] },
       slowLane: { value: ['acceptance'], steps: ['slow-lane:acceptance'] },
     };
-    // 总对账下限：facesOf 产出的旗集合 = 本表键集合。往 facesOf 加第 8 旗而不进此表 → 这里先红，
+    // 总对账下限：facesOf 产出的旗集合 = 本表键集合。往 facesOf 加第 13 旗而不进此表 → 这里先红，
     // 逼施工者同时补 planFor 接线断言（防「加旗忘接步」静默失效——旗亮了计划却没步）。
     expect(Object.keys(facesOf([])).sort()).toEqual(Object.keys(FLAG_TO_STEPS).sort());
     for (const [flag, { value, steps }] of Object.entries(FLAG_TO_STEPS)) {

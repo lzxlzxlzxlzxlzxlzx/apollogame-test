@@ -1,0 +1,11 @@
+[
+  {
+    "id": "CAPGAP-RHETORIC-001",
+    "title": "声明式身份卡牌效果解释",
+    "priority": "P0",
+    "state": "open",
+    "blocks": ["S2", "S3", "S4"],
+    "decision": "owner selected route A on 2026-09-22; generic engine capability pending shared request registration and implementation",
+    "evidence": "docs/design/game-rhetoric-duel/capability-plan.md"
+  }
+]

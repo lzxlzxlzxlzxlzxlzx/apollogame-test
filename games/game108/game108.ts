@@ -6,7 +6,7 @@ import type { MountHandle, LayoutNode, UIDataSource } from '@zerocraft/engine/ui
 import { mountHost } from '@zerocraft/engine/engine/host/mount-host.js';
 import { loadGameArtOverrides } from '@zerocraft/engine/assets/index.js';
 import { Engine } from '@zerocraft/engine/runtime/engine.js';
-import { QueuedInputSource } from '@zerocraft/engine/net/index.js';
+import { QueuedInputSource } from '@zerocraft/engine/net/host/index.js';
 import type { Resource, GameFlow, StringVar } from '@zerocraft/engine/engine/protocol/components.js';
 import type { WorldSnapshot, EntityId } from '@zerocraft/engine/engine/core/types.js';
 import { buildBlueprint } from './blueprint.js';

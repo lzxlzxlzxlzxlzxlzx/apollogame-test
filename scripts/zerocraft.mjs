@@ -28,7 +28,7 @@
 import { existsSync, readFileSync, writeFileSync, mkdirSync, rmSync, realpathSync, readdirSync } from 'node:fs';
 import { join, resolve, dirname, basename, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
 import { mkdtempSync } from 'node:fs';
@@ -72,7 +72,12 @@ try {
 const enginePkg = JSON.parse(readFileSync(join(engineRoot, 'package.json'), 'utf8'));
 if (enginePkg.name !== '@zerocraft/engine') fail(`${engineRoot} 不是 @zerocraft/engine（package.json name=${enginePkg.name}）`);
 
-const bin = (name) => join(engineRoot, 'node_modules', '.bin', name);
+// Start tool JS entrypoints through this Node process. This is platform-neutral: spawning an
+// npm `.cmd` shim directly fails on Windows, while `shell:true` emits a security warning.
+const toolEntry = (name) => name === 'tsc'
+  ? join(engineRoot, 'node_modules', 'typescript', 'bin', 'tsc')
+  : join(engineRoot, 'node_modules', 'vitest', 'vitest.mjs');
+const spawnTool = (name, args, options) => spawnSync(process.execPath, [toolEntry(name), ...args], options);
 
 // ── 别名表：引擎十子路径（图纸①）+ react/react-dom/three/cannon-es 取引擎自己的 node_modules ──
 function resolveAliases() {
@@ -135,10 +140,10 @@ function writeHarness() {
 // 都走本脚本自身（活在引擎仓 scripts/ 下）的 ESM 包解析（import.meta.resolve 走「import」
 // condition，不像 createRequire().resolve 那样落到 vite 的过时 CJS 兼容层触发弃用告警），
 // 跟着引擎自身升级 vite/@vitejs/plugin-react/vitest 版本自动对齐，不用本文件跟着改。
-const resolveModuleAbs = (specifier) => fileURLToPath(import.meta.resolve(specifier));
-async function loadVite() { return import(resolveModuleAbs('vite')); }
-async function loadReactPlugin() { return (await import(resolveModuleAbs('@vitejs/plugin-react'))).default; }
-const resolveVitestConfigEntry = () => resolveModuleAbs('vitest/config');
+const resolveModuleUrl = (specifier) => pathToFileURL(fileURLToPath(import.meta.resolve(specifier))).href;
+async function loadVite() { return import(resolveModuleUrl('vite')); }
+async function loadReactPlugin() { return (await import(resolveModuleUrl('@vitejs/plugin-react'))).default; }
+const resolveVitestConfigEntry = () => resolveModuleUrl('vitest/config');
 
 async function cmdRun() {
   const harnessDir = writeHarness();
@@ -210,7 +215,7 @@ async function cmdBuild() {
   const buildTsconfigPath = writeBuildTsconfig(tsconfigPath);
   let tsc;
   try {
-    tsc = spawnSync(bin('tsc'), ['--noEmit', '-p', buildTsconfigPath], { stdio: 'inherit', cwd: gameDir });
+    tsc = spawnTool('tsc', ['--noEmit', '-p', buildTsconfigPath], { stdio: 'inherit', cwd: gameDir });
   } finally {
     rmSync(buildTsconfigPath, { force: true });
   }
@@ -240,7 +245,7 @@ async function cmdTest() {
   const alias = resolveAliases();
   const configSrc =
     `import { defineConfig } from ${JSON.stringify(resolveVitestConfigEntry())};\n` +
-    `import react from ${JSON.stringify(resolveModuleAbs('@vitejs/plugin-react'))};\n` +
+    `import react from ${JSON.stringify(resolveModuleUrl('@vitejs/plugin-react'))};\n` +
     `export default defineConfig({\n` +
     `  plugins: [react()],\n` +
     `  resolve: { alias: ${JSON.stringify(alias)} },\n` +
@@ -252,7 +257,7 @@ async function cmdTest() {
     `});\n`;
   writeFileSync(configPath, configSrc);
   try {
-    const r = spawnSync(bin('vitest'), ['run', '--config', configPath, ...rest], { stdio: 'inherit', cwd: gameDir });
+    const r = spawnTool('vitest', ['run', '--config', configPath, ...rest], { stdio: 'inherit', cwd: gameDir });
     if (r.status !== 0) fail(`vitest 失败（退出码 ${r.status}）`);
     console.log('✓ vitest 通过');
   } finally {

@@ -1,7 +1,9 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Bounce, Hitbox, Tag, Transform, Trigger, Velocity } from '@engine/protocol/components.js';
 import { nearestByTag } from '@skills/atoms/spatial-query/index.js';
+import { len } from '@engine/math/vec2.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  bounce-relay —— 跳弹的命中重定向段（REQ-SURVIVOR武器缺口 W7）。配对 t2-launch 的 Launch.bounce：
@@ -84,7 +86,7 @@ export const bounceRelayCapability = defineCapability({
       writes: ['Velocity', 'Bounce'],
       consumes: [],
       execute(world: IWorld) {
-        const triggerIds = world.query('Trigger').map(([id]) => id).sort();
+        const triggerIds = sortedIds(world, 'Trigger');
         const bounced = new Set<string>(); // 一 zone 一 tick 最多消耗一次弹射（确定性：只认 id 最小的 Trigger）
         for (const tid of triggerIds) {
           const trig = world.getComponent<Trigger>(tid, 'Trigger')!;
@@ -108,7 +110,7 @@ export const bounceRelayCapability = defineCapability({
 
           const dx = nt.x - t.x;
           const dy = nt.y - t.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const dist = len(dx, dy);
           if (dist === 0) continue; // 与新目标完全重合：本 tick 不改向（防除零），下 tick 再判
 
           let v = world.getComponent<Velocity>(trig.zone, 'Velocity');

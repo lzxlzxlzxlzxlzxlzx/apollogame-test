@@ -1,5 +1,6 @@
 """设计先行创作流四模式处理核（讨论/分解/对齐/原型）。"""
 import json
+import re
 
 from .design_prompts import DESIGN_BREAKDOWN_SYSTEM, DESIGN_CHAT_SYSTEM, DESIGN_REVISE_SYSTEM, PROTOTYPE_TASK
 from .generation import _generate_with_autofix
@@ -123,8 +124,49 @@ def _handle_design_revise(provider: str, api_key: str, model: str, body: dict) -
     return {'success': True, 'file_path': file_path, 'content': _strip_fence(r['text'])}
 
 
+_CAP_ID_RE = re.compile(r'\b((?:a\d|b\d|c\d|d\d|e\d|f\d|g\d|k\d|l\d|m\d|t1|t2|t3)-[a-z0-9][a-z0-9-]*)\b')
+
+
+def _known_capability_ids() -> set:
+    """引擎真实存在的 capability id 集合（走与 /api/catalog 同一条服务端 parity·失败回空集=不误判）。"""
+    from .games_list import handle_catalog
+    r = handle_catalog()
+    if not r.get('success') or not r.get('catalog'):
+        return set()
+    return set(_CAP_ID_RE.findall(r['catalog']))
+
+
+def check_plan(files: dict) -> dict:
+    """**原型生成前的计划体检**（独立审查 2026-09-12 打回的 P0：原型绕过缺口裁决）。
+
+    审查方原话：`manifest-check` 只能证明卡带**能加载**，不能证明游戏**忠实实现了设计**。
+    这里补上三条能机器判的（判**不**了"忠实"，就别假装判了——那需要验收剧本，见 S5）：
+      ① 计划里点名的 capability id 是否真实存在（编造 id = 计划从一开始就落不了地）
+      ② 计划里有没有仍打着「⏳ / 待裁 / 未裁决」的缺口（缺口裁决协议没走完就生成 = 白生成）
+      ③ 有没有 capability-plan.md（没有 = 根本没做能力总览）
+    **本函数只报不拦**：是否把它变成硬闸属于流程策略，由 owner 判（见返回里的 `strictable`）。
+    """
+    plan = files.get('capability-plan.md') or ''
+    out = {'hasPlan': bool(plan.strip()), 'unknownIds': [], 'pendingGaps': [], 'strictable': True}
+    if not plan.strip():
+        return out
+    known = _known_capability_ids()
+    if known:
+        cited = [i for i in dict.fromkeys(_CAP_ID_RE.findall(plan))]
+        out['unknownIds'] = [i for i in cited if i not in known]
+    for ln in plan.splitlines():
+        if ('⏳' in ln or '待裁' in ln or '未裁决' in ln) and ln.strip():
+            out['pendingGaps'].append(ln.strip()[:120])
+    return out
+
+
 def _handle_prototype(provider: str, api_key: str, model: str, body: dict, system: str) -> dict:
-    """design 全文（服务端从磁盘读该 slug 的 design/）→ manifest，走既有 _generate_with_autofix 硬校验回路。"""
+    """design 全文（服务端从磁盘读该 slug 的 design/）→ manifest，走既有 _generate_with_autofix 硬校验回路。
+
+    ⚠ 生成前先跑 `check_plan` 体检，结果**原样带回**（`planCheck`）。不拦是有意的：
+    创作台里大量项目根本没走流水线，硬拦会把它们全堵死；但**不许静默**——
+    编造的能力 id、没裁的缺口必须在界面上看得见（日志基准守则：凡"什么都没发生"的分支必须记）。
+    """
     slug = str(body.get('slug') or '').strip()
     if not _valid_slug(slug):
         return {'success': False, 'error': 'prototype 需要合法 slug'}
@@ -134,9 +176,22 @@ def _handle_prototype(provider: str, api_key: str, model: str, body: dict, syste
     files = _read_design(game_dir)
     if not files:
         return {'success': False, 'error': '该游戏还没有 design 文档，先分解设计稿再生成原型'}
+    plan_check = check_plan(files)
     gdd = '\n\n'.join(f'### {rel}\n{content}' for rel, content in files.items())
     user_msg = PROTOTYPE_TASK + '\n\n## Game Design Document\n' + gdd
-    return _generate_with_autofix(provider, api_key, model, system, user_msg, autofix=True, log_mode='prototype')
+    res = _generate_with_autofix(provider, api_key, model, system, user_msg, autofix=True, log_mode='prototype')
+    if isinstance(res, dict):
+        res['planCheck'] = plan_check
+        notes = []
+        if not plan_check['hasPlan']:
+            notes.append('设计里没有 capability-plan.md —— 没做能力总览就生成，等于跳过 S2')
+        if plan_check['unknownIds']:
+            notes.append('计划点名了引擎里**不存在**的能力：' + '、'.join(plan_check['unknownIds'][:6]))
+        if plan_check['pendingGaps']:
+            notes.append(f'计划里还有 {len(plan_check["pendingGaps"])} 条缺口未裁决（⏳/待裁）——先走缺口裁决协议')
+        if notes:
+            res['warnings'] = list(res.get('warnings') or []) + [f'计划体检：{n}' for n in notes]
+    return res
 
 
 def _strip_fence(text: str) -> str:

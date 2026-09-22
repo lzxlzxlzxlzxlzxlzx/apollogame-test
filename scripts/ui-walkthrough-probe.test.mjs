@@ -158,8 +158,19 @@ describe('interpretUiWalkthrough（S4 门怎么读 UI 走查探针退出码）',
   it('探针非常规退出码（如 137·被 kill）同样门红（非白名单一律红）', () => {
     expect(interpretUiWalkthrough('base', 137, '').exit).toBe(1);
   });
-  it('低 UI 可驱动率不是这里的判红依据——签名只吃退出码不吃 rate（防手滑拿百分比当阈值）', () => {
-    expect(interpretUiWalkthrough.length).toBe(3); // (baseSummary, probeExit, probeTail)
+  // 2026-09-17 换机制不换意图。原钉法是 `interpretUiWalkthrough.length === 3`——拿**参数个数**
+  // 当「低可驱动率不判红」的证据。意图完全正确且保留，但参数个数不是那条不变量本身：
+  // 判词现在要把率显示出来（此前 game108 板上挂 ✓、产物里躺着 0/74·量了不用还显绿），
+  // 因此多收一个 rate 参数，数参数个数当场误报。改成**直接断言那条不变量**：不论率是多少，
+  // 只要探针退出码是 0，门就绿——比数参数严（数参数拦不住「收了 rate 又拿它判红」）。
+  it('低 UI 可驱动率不是这里的判红依据——任何率下 exit 恒随探针退出码（防手滑拿百分比当阈值）', () => {
+    for (const rate of [0, 0.01, 0.5, 1, undefined, Number.NaN]) {
+      expect(interpretUiWalkthrough('base', 0, '', rate).exit).toBe(0);   // 率再低也不在这里判红
+      expect(interpretUiWalkthrough('base', 1, 'boom', rate).exit).toBe(1); // 红只由探针退出码来
+    }
+    // 率要显示出来（不许再退回一个干净的 ✓·那正是 game108 挂着绿灯的原因）
+    expect(interpretUiWalkthrough('base', 0, '', 0).summary).toContain('0%');
+    expect(interpretUiWalkthrough('base', 0, '', 0).summary).toContain('零可驱动');
   });
 });
 

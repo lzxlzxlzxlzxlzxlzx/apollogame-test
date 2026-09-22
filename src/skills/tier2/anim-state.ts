@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { AnimState, AnimClip, Frame, Velocity, State, Sprite, Relation } from '@engine/protocol/components.js';
@@ -68,7 +69,7 @@ export const animStateCapability = defineCapability({
       writes: ['AnimState', 'Frame', 'Sprite'],
       consumes: [],
       execute(world: IWorld) {
-        const ids = world.query('AnimState', 'Frame').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'AnimState', 'Frame');
         for (const id of ids) {
           const as = world.getComponent<AnimState>(id, 'AnimState')!;
           const frame = world.getComponent<Frame>(id, 'Frame')!;

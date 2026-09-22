@@ -62,18 +62,8 @@ export const textBindingCapability = defineCapability({
       writes: ['Text'],
       consumes: [],
       execute(world: IWorld) {
-        let globalRes: Map<string, Resource> | null = null;
-        const globalLookup = (): Map<string, Resource> => {
-          if (!globalRes) {
-            globalRes = new Map();
-            for (const [rid] of world.query('Resource')) {
-              const r = world.getComponent<Resource>(rid, 'Resource')!;
-              if (!globalRes.has(r.id)) globalRes.set(r.id, r);
-            }
-          }
-          return globalRes;
-        };
-
+        // 全局 id → Resource 首个匹配：走 World.byId 索引（B-3·创建序首个·与旧懒建 Map 同义）。
+        const globalRes = (id: string): Resource | undefined => { const e = world.byId('Resource', 'id', id); return e === undefined ? undefined : world.getComponent<Resource>(e, 'Resource'); };
         for (const [eid] of world.query('TextBinding')) {
           const b = world.getComponent<TextBinding>(eid, 'TextBinding')!;
           const text = world.getComponent<Text>(eid, 'Text');
@@ -85,7 +75,7 @@ export const textBindingCapability = defineCapability({
             res = h?.parentId ? world.getComponent<Resource>(h.parentId, 'Resource') : undefined;
           } else {
             res = world.getComponent<Resource>(eid, 'Resource');
-            if (!res || res.id !== b.resourceId) res = globalLookup().get(b.resourceId);
+            if (!res || res.id !== b.resourceId) res = globalRes(b.resourceId);
           }
           if (!res || res.id !== b.resourceId) continue; // 资源缺失/对不上：保留原文案
 

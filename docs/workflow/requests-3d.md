@@ -6,6 +6,16 @@
 
 ---
 
+## REQ-3D-POLY-DIE · 通用多面骰（d4 / d6 / d8 / d20）几何、面标签与目标面落定 · [2026-09-21] · owner 选择路线 A · **施工主体 = P3D（待认领）** · status: accepted · P1 · 类型: 3D render-only 能力
+
+**问题**：`Mesh3D.shape` 当前只含 box/plane/sphere/cylinder/cone/capsule/torus。`RigidBody3D{shape:'convex', hull}` 已可模拟凸包碰撞，却没有与之对应的可渲染多面几何、各面标签或「把确定结果展示为朝上面」的闭集数据接口。游戏层手写 Three.js 或从物理姿态反推点数均违反 3D/确定性边界。
+
+**裁决（owner A）**：下沉 `PolyDie3D{kind:'d4'|'d6'|'d8'|'d20', faces?, targetValue?, skin?, settle?}`。它只属 render-only：`targetValue` 决定结尾可见的朝上面，物理只负责中段演出，不回流 sim。与 `RigidBody3D{shape:'convex',hull}` 和 `Impulse3D` 组合；默认几何与凸包、每个合法面的默认标签、目标面朝上旋转全部在渲染器固定解释。d6 必须兼容既有 `Mesh3D.dieFaces`；透明 canvas 和无 WebGL 回退同现有 3D 口径。
+
+**验收**：① d4/d6/d8/d20 均能渲染、可落地且目标面读数正确；② 相同 targetValue 在不同帧率下视觉最终面一致；③ 模拟物理结果不会改写权威骰值；④ 无 WebGL 降级为可访问的 2D 标签，仍能完成会话；⑤ `game-dice` 与另一消费样例共享该能力。
+
+**影响**：阻塞 game-dice S2-S6；不改游戏层 ThreeRenderer。
+
 ## REQ-3D-TESTGAPS · P3D 测试面五项（测试大扫除 F 路评审转单） · [2026-08-22] · Lead 立 → **P3D** · status: open · 优先级: P2 · 类型: 测试护栏/治理
 > ① **dispose 面零覆盖**：移除测试只验场景图摘除，无一 spy geometry/material/texture.dispose()——trail:54、billboard:53、uv-anim:52、reflector:68（还持 render target）；vfx.test 无任何清理用例（vfx.ts 5 处 dispose）；models.test 仅 2 例、ModelPool 全无。长局泄漏面与 RENDERHYG 同族。② **melee 物理写回闸口无 hash 流断言**：game211 melee-demo.ts:279「读牌面→判生死→写回战役状态」是 cannon-es 非确定面进 sim 的唯一闸口，补「三跑逐拍 hash 相同」隔离（先例 game108.test.ts:1405）。③ slg-scale.bench.test.ts 墙钟绝对阈值跑在常规 vitest——CI 负载波动假红，隔离 bench 档或去绝对阈值。④ turn-combat.test.ts:66「swapsUsed 重置」断言套在 if 内可静默跳过——前置断真后无条件 expect。⑤ **game211↔game-g fork 重复面登记**：22/40 测试文件与 game-g 逐字节同（其中 clash-resolve/disha/level/sfx 连源文件也同）——双份漂移风险；game-g 战斗线已废（owner 2026-08-22），P3D 裁哪份是权威、另份清或登记 fork 基线。
 
@@ -35,6 +45,7 @@
 
 ## REQ-3D-PLANAR-REFLECT · 平面反射镜面（Reflector3D·镜面地板/水面/冰面）· [2026-08-10] · owner 从现代渲染路线图圈定「做平面反射」→ P3D · status: **✅ done（P3D 2026-08-10·已推·见回执）** · 优先级: P2（owner 明示·华丽反射·casino 镜面大堂/水面） · 类型: 渲染能力补全（平面反射·render-only·新组件）
 > **★ P3D 回执（2026-08-10·three.Reflector RTT·比 SSR 干净）**：新增 **`Reflector3D`** 组件（render-only·NON_DETERMINISTIC·进 component-map 蓝图闭集·manifest 144→145）——挂 `Reflector3D{width,height,color?,opacity?,orientation?,quality?}` + `Transform3D` 即成镜面平面（不需 Mesh3D）。渲染器 `ReflectorSystem`（`three/reflector.ts`·同 Vfx/Dissolve 等 render 子系统先例）每帧建/更新/移除 three.Reflector：每帧把场景从**镜像相机**渲进一张 RTT → 平面照出**真倒影**（无 SSR 屏幕空间噪声/掠射漏光）。`floor`=水平镜（缺省·翻 -90°X·法线+Y）·`wall`=竖直镜。**`opacity<1`**：patch three.Reflector 片元把硬 alpha=1 换成 `uReflOpacity` uniform → 倒影混下方底色＝半反射湿地板。脏帧：镜面不自播（反射随场景/相机变→那些变化本就脏 renderSig）·`contentSig` 让加/删/移/改参数也脏帧。RTT 随实体删除 `dispose`（防显存泄漏·RENDERHYG 纪律）。测试 `reflector.test` 7 例（建/摆位·floor/wall 朝向·color uniform·opacity 片元 patch·纯镜不 patch·删除移除·contentSig）。真浏览器目击 game-z Platform Three `p3-refl`（镜面地板 + 上方红清漆球/青自发光珠/金环三物 → 镜中真倒影·`planar-reflect.png`·render-probe 零 console error=RTT+shader 编译无误）。tsc0/vitest/build0/manifest（+1 组件·已 --update）。**路线图后手待拉动**：局部光阴影、体积雾 + 神光。
+> **★ 增补（2026-09-14·运行效率评审·owner 令修）**：three.Reflector 不自剔除 RTT——只要主场景渲染就触发 onBeforeRender 把**整场景**渲进 RTT，故常驻蓝图的镜面即使**看不见也每个非跳渲帧白付一次全场景渲染**（game-z 竞技场每帧 2× 场景渲染为一块 Platform Three 看不见的镜子）。修：`ReflectorSystem.cull(camera)`（相机定位后·主渲染前调）按**视锥相交**（PlaneGeometry 包围球·保守留边）gate `mesh.visible`——不在视锥 → `visible=false` → onBeforeRender 不触发 → **零 RTT 成本**。真机目击：竞技场（镜在 −190 看不见）render-probe 零 error·剔除生效；Platform Three（镜在视锥）倒影照常显（`refl-cull.png`·未误剔）。测试 `reflector.test` +2 例（视锥内可见/相机后方剔除·空集早退）。tsc0/vitest/build0。
 
 ## REQ-3D-PBR-LOBES · 进阶物理材质波瓣（clearcoat/sheen/iridescence/anisotropy）· [2026-08-09] · owner 从 P3D「现代渲染路线图」圈定「先做 PBR·成本极低」→ P3D · status: **✅ done（P3D 2026-08-09·已推·见回执）** · 优先级: P2（owner 明示·华丽材质·casino 系受益） · 类型: 渲染能力补全（PBR 波瓣·render-only）
 > **★ P3D 回执（2026-08-09·three-native 波瓣·纯数据 plumb）**：`Material3D` + PBR 预设加四组进阶波瓣——**clearcoat**(车漆/糖衣/上釉·清漆镜面层) + **sheen**(天鹅绒/绸缎·边缘绒光) + **iridescence**(肥皂泡/珠光/油膜·薄膜干涉随视角变彩) + **anisotropy**(拉丝金属/唱片·高光拉长)。全 three 原生：任一波瓣在场 → `buildPbrMaterial` 从 MeshStandard 升 **MeshPhysicalMaterial**（`hasPbrLobes` 判）并把参数落到对应通道（iridescence 厚度映射 `[100,厚度nm]`）。数据两层：**PBR 预设**加现成 `carpaint/pearl/soap/velvet/brushed`（华丽起手直接选）+ **Material3D per-object 覆盖**（同 color/roughness 覆盖语义·`resolvePbr` 合并·覆盖赢预设）。`pbrSig` 纳入波瓣（变则重建·不同波瓣不误并批）；**不透明波瓣仍可实例化**（只透射/软混合走单 mesh·soap 带透射除外）。需 `Sky3D.env` IBL 环境才显反射/彩虹。测试 `material.test` +4 例（升 MeshPhysical·参数落位·预设带出·覆盖赢+sig）。真浏览器目击 game-z 材质陈列台（车漆/珠光/肥皂泡/天鹅绒/拉丝五球·`pbr-lobes.png`·IBL 下渲染正确零 console error）。tsc0/vitest/build0/manifest（Material3D 加可选字段·无新组件）。**后续路线图待拉动**：平面反射 + 局部光阴影、体积雾 + 神光（owner 排后手）。

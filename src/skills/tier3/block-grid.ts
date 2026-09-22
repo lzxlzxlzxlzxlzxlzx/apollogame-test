@@ -4,6 +4,7 @@ import type { IWorld } from '@engine/core/types.js';
 import type { BlockGrid, BlockShapeDef, PlaceBlockIntent, BoardCell, Color, Flag, ResourceModify, RandomSeed } from '@engine/protocol/components.js';
 import { findByComponentId } from '@engine/core/query.js';
 import { randomInt } from '@atom-skills/index.js';
+import { index } from '@engine/math/grid.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  block-grid —— 方块网格棋盘机制（REQ-CAP-block-grid；Tier 3「算法/解释器型机制」大类）。
@@ -32,7 +33,7 @@ import { randomInt } from '@atom-skills/index.js';
 
 /** cells 扁平下标。 */
 export function bgIndex(c: number, r: number, cols: number): number {
-  return r * cols + c;
+  return index(c, r, cols);
 }
 
 /** 遍历形状的每个 (dc,dr) 偏移对，回调绝对格 (c+dc, r+dr)。cells 为扁平 [dc,dr,…]，奇数长度末位忽略。 */
@@ -187,12 +188,12 @@ export const blockGridCapability = defineCapability({
       phase: SystemPhase.Update,
       runsAfter: ['resource-apply'],
       reads: ['BlockGrid', 'PlaceBlockIntent', 'RandomSeed', 'Resource', 'Flag'],
-      writes: ['BlockGrid', 'ResourceModify', 'Flag'],
+      writes: ['BlockGrid', 'ResourceModify', 'Flag', 'RandomSeed'], // RandomSeed：nextRandom 推进 seed（P1a 严格模式补齐·此前漏报）
       consumes: ['PlaceBlockIntent'],
       execute(world: IWorld) {
         let board: BlockGrid | undefined;
         let boardId = '';
-        for (const [bid] of world.query('BlockGrid')) { board = world.getComponent<BlockGrid>(bid, 'BlockGrid'); boardId = bid; break; }
+        { const bid = world.singleton('BlockGrid'); if (bid !== undefined) { board = world.getComponent<BlockGrid>(bid, 'BlockGrid'); boardId = bid; } } // 黑板单例（P1b）：严格模式多份即抛·生产按创建序取首个（= 旧 for…break 语义）
         if (!board) return;
 
         // 取本拍首条放置意图（按实体 id 升序，确定），处理后清除全部意图。
@@ -253,7 +254,7 @@ export const blockGridCapability = defineCapability({
       execute(world: IWorld) {
         let board: BlockGrid | undefined;
         let boardId = '';
-        for (const [bid] of world.query('BlockGrid')) { board = world.getComponent<BlockGrid>(bid, 'BlockGrid'); boardId = bid; break; }
+        { const bid = world.singleton('BlockGrid'); if (bid !== undefined) { board = world.getComponent<BlockGrid>(bid, 'BlockGrid'); boardId = bid; } } // 黑板单例（P1b）：严格模式多份即抛·生产按创建序取首个（= 旧 for…break 语义）
         if (!board) return;
         for (const [eid] of world.query('BoardCell')) {
           const bc = world.getComponent<BoardCell>(eid, 'BoardCell')!;

@@ -6,7 +6,7 @@ import { SHELL } from './ui/shell-theme.js';
 import { resolveArtRefs } from './assembly/resolve-art-refs.js';
 import { artlibRecords, type LibraryRecord } from '@assets/index.js';
 import type { ArtLibIndex } from '@assets/artlib.js';
-import { buildCapabilityCatalog } from './assembly/capability-catalog.js';
+import { buildCapabilityCatalog, buildCapabilityIndex } from './assembly/capability-catalog.js';
 import { ALL_CAPABILITIES } from './assembly/capability-registry.js';
 import {
   metaToGameEntry, libSlug, providerStatus, LIB_ID_PREFIX,
@@ -44,6 +44,26 @@ const GAMES_ALLOWLIST: Set<string> | null = (() => {
 
 // GAMES 不拆走：main_entry/games_list.py 以正则从 src/launcher.tsx 解析本表（内置卡片元信息单一真相·只读）。
 export const GAMES: GameEntry[] = [
+  {
+    id: 'game-dice',
+    title: '轻掷 Dice Overlay',
+    subtitle: '透明叠层 · d4 / d6 / d8 / d20',
+    description: '一个可嵌入其他应用的掷骰子卡带。点击或拖动骰子即可投掷；调用方可传入骰池、预定点数或 seed。没有预定结果时由宿主安全地产生一次 seed，结算后按统一消息合同回传每颗骰面和总点数。',
+    color: '#21164a',
+    accentColor: '#b9a1ff',
+    icon: '🎲',
+    status: 'playable',
+  },
+  {
+    id: 'game-loot-chest',
+    title: '开启宝箱 Loot Chest',
+    subtitle: '概率掉落 · 多物品 · 数量奖励',
+    description: '独立 DokiWorld SDK App 的本地预览：点击宝箱开启，按固定种子从战利品表中抽取多件物品与数量奖励。正式 Host 可传入自己的掉落表与物品图片。',
+    color: '#291522',
+    accentColor: '#f5bd4f',
+    icon: '🧰',
+    status: 'playable',
+  },
   {
     id: 'game108',
     title: 'Game 108: 拳律 Rule of Three',
@@ -157,6 +177,17 @@ export const GAMES: GameEntry[] = [
     color: '#160e0a',
     accentColor: '#f0c96a',
     icon: '🃏',
+    status: 'playable',
+  },
+  {
+    id: 'game111',
+    title: 'Game 111:《小都会》',
+    subtitle: '没有剧本的小镇 · AI NPC 活世界',
+    description:
+      '一座回合推进的小镇：五个居民由大语言模型驱动，自己决定今天去哪、找谁说话、要不要歇一会儿。没有固定剧本——他们的动机来自各自的经历，经历会淡忘、会在彼此之间传开，于是事情一件牵着一件地发生。好感度攒够了，NPC 会给你一个只属于你们俩的称号；他们也会拿和你相处的记忆去小星书发帖。架构基石=「LLM 不是解释器，LLM 是输入源」：模型只能吐闭集意图，经 intent-barrier 收齐排序后走和人类玩家完全相同的输入路径进世界，所以录放 bit 一致、断网自动降级照样转。当前=框架层：回合/需求衰减/记忆流转/意图闭集/称号/看板 UI 已通，接 DeepSeek 走 scripts/game111-deepseek-proxy.mjs；无端点则走确定性桩。玩家↔NPC 对话入口=下一阶段。',
+    color: '#070e17',
+    accentColor: '#ff5d2e',
+    icon: '🏘️',
     status: 'playable',
   },
   {
@@ -274,7 +305,11 @@ export function Launcher() {
   // 保存新卡带后请求轮播选中它（`lib:<slug>`）。
   const [selectSlug, setSelectSlug] = useState<string | null>(null);
   // 能力目录（从引擎 ALL_CAPABILITIES 自动派生）：向导生成请求随之送出，注入系统词。派生一次即可。
+  // **两份**（独立审查 2026-09-12 第二轮）：全量目录近 7 万字符，整份塞进每一次请求会吃光弱模型的上下文。
+  // 索引面（id + 一句话·约 7.8k·省 88.7%）给「讨论/分解」这类只需按名字挑件的调用；
+  // 全量留给「出 manifest」那一步——那里真要逐字段的形状，省不得。
   const catalog = React.useMemo(() => buildCapabilityCatalog(ALL_CAPABILITIES), []);
+  const catalogIndex = React.useMemo(() => buildCapabilityIndex(ALL_CAPABILITIES), []);
 
   useEffect(() => {
     apiCall('/api/generate/providers')
@@ -342,12 +377,14 @@ export function Launcher() {
   }, []);
 
   // 向导 / 设计工作台保存成功 → 关面板、刷卡带架、请求选中新卡带 + 「下一步 → 🏭」引导条（REQ-WORKSHOP C1 导流）。
-  const [savedNext, setSavedNext] = useState<{ slug: string } | null>(null);
-  const onWizardSaved = useCallback((slug: string) => {
+  const [savedNext, setSavedNext] = useState<{ slug: string; warnings?: string[] } | null>(null);
+  const onWizardSaved = useCallback((slug: string, warnings?: string[]) => {
     setWizard(null);
     setDesignStudio(null);
     setSelectSlug(`${LIB_ID_PREFIX}${slug}`);
-    setSavedNext({ slug });
+    // 告警随「已入库」条一起显示（独立审查 2026-09-12：软环/降级/兼容性告警此前在成功路径被整段吞掉，
+    // 作者只看到「创建成功」）。告警不阻断入库，但必须看得见。
+    setSavedNext({ slug, warnings: (warnings || []).filter(Boolean) });
     setLibRefresh((k) => k + 1);
   }, []);
   // 轮播跳转完成 → 清 selectSlug（一次性，之后刷架不再强跳）。
@@ -689,7 +726,17 @@ export function Launcher() {
           background: SHELL.jadeWash, border: `1px solid ${SHELL.jadeLine}`,
           color: SHELL.jade, fontSize: 13, fontFamily: SHELL.fontUi,
         }}>
-          <span>✓ 已入库 <b>{libGameEntries.find((g) => libSlug(g.id) === savedNext.slug)?.title ?? savedNext.slug}</b></span>
+          <span>
+            {(savedNext.warnings?.length ?? 0) > 0 ? '⚠' : '✓'} 已入库{' '}
+            <b>{libGameEntries.find((g) => libSlug(g.id) === savedNext.slug)?.title ?? savedNext.slug}</b>
+            {(savedNext.warnings?.length ?? 0) > 0 && (
+              <span style={{ display: 'block', marginTop: 4, color: SHELL.warn, fontSize: 11, lineHeight: 1.6, maxWidth: 520 }}>
+                {savedNext.warnings!.length} 条引擎告警（已入库·但请看一眼）：
+                {savedNext.warnings!.slice(0, 4).map((w, i) => <span key={i} style={{ display: 'block' }}>· {w}</span>)}
+                {savedNext.warnings!.length > 4 && <span style={{ display: 'block' }}>· …还有 {savedNext.warnings!.length - 4} 条</span>}
+              </span>
+            )}
+          </span>
           <button
             onClick={() => {
               const title = libGameEntries.find((g) => libSlug(g.id) === savedNext.slug)?.title ?? savedNext.slug;
@@ -773,6 +820,7 @@ export function Launcher() {
           api={API}
           providers={providers ?? []}
           catalog={catalog}
+          catalogIndex={catalogIndex}
           resolveArt={resolveArt}
           initialSlug={designStudio.slug}
           initialName={designStudio.name}

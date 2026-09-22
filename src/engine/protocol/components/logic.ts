@@ -86,7 +86,8 @@ export type ConditionExpr =
   | { readonly kind: 'flag'; readonly id: string; readonly equals?: boolean }
   | { readonly kind: 'state'; readonly fsmId: string; readonly equals: string }
   | { readonly kind: 'timer'; readonly id: string; readonly cmp: CmpOp; readonly value: number }
-  | { readonly kind: 'string'; readonly id: string; readonly equals: string };
+  | { readonly kind: 'string'; readonly id: string; readonly equals: string }
+  | { readonly kind: 'cooldown'; readonly id: string; readonly ready?: boolean }; // t2-cooldown 槽就绪（缺省判 ready=true·无此槽视为就绪）
 
 // ── event-when ── 条件成立时发信号。逻辑核心层，不直接产生效果(Effect 后置)。
 export interface EventWhen extends Component {

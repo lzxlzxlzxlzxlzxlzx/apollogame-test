@@ -4,6 +4,7 @@ import type { IWorld } from '@engine/core/types.js';
 import type { CardPile, PlayedHand, Flag, InputQueue, Card, Resource, Signal } from '@engine/protocol/components.js';
 import { decodeCard } from './card-play.js';
 import { findByComponentId } from '@engine/core/query.js';
+import { clamp } from '@engine/math/scalar.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  card-pile —— 牌库/手牌的 sim 内确定性管理（REQ-017 真引擎缺口；卡牌品类 staple）。
@@ -171,7 +172,7 @@ export const cardPileCapability = defineCapability({
                 const cr = resBy(pile.playedCodeResource);
                 if (cr) {
                   const v = taken[0];
-                  cr.current = v < cr.min ? cr.min : v > cr.max ? cr.max : v; // 数据侧把 max 设大于最大牌码
+                  cr.current = clamp(v, cr.min, cr.max); // 数据侧把 max 设大于最大牌码
                 }
               }
             }
@@ -205,7 +206,7 @@ export const cardPileCapability = defineCapability({
               const r = resBy(pile.handCodeResources[i]);
               if (r) {
                 const v = i < pile.hand.length ? pile.hand[i] : 0;
-                r.current = v < r.min ? r.min : v > r.max ? r.max : v;
+                r.current = clamp(v, r.min, r.max);
               }
             }
           }

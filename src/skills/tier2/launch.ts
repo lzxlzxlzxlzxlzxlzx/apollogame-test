@@ -1,7 +1,9 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Bounce, Launch, Transform, Velocity } from '@engine/protocol/components.js';
 import { nearestByTag } from '@skills/atoms/spatial-query/index.js';
+import { len } from '@engine/math/vec2.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  launch —— 直线弹/抛射（②，ARPG 能力簇）。发射瞬间定一次方向 → 写一次 Velocity → 自删 Launch，
@@ -73,7 +75,7 @@ export const launchCapability = defineCapability({
       writes: ['Velocity', 'Launch', 'Bounce'],
       consumes: [],
       execute(world: IWorld) {
-        const ids = world.query('Launch', 'Transform').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'Launch', 'Transform');
         for (const id of ids) {
           const l = world.getComponent<Launch>(id, 'Launch')!;
           const t = world.getComponent<Transform>(id, 'Transform')!;
@@ -97,12 +99,12 @@ export const launchCapability = defineCapability({
             world.addComponent(id, { type: 'Velocity', vx: 0, vy: 0, angular: 0 } as Velocity);
             v = world.getComponent<Velocity>(id, 'Velocity')!;
           }
-          let dist = Math.sqrt(dx * dx + dy * dy);
+          let dist = len(dx, dy);
           if (dist === 0 && l.fallbackDir) {
             // 索敌落空但声明了兜底方向 → 改沿它发射（不冻结原地）。零回归：无 fallbackDir 时行为不变。
             dx = l.fallbackDir.x;
             dy = l.fallbackDir.y;
-            dist = Math.sqrt(dx * dx + dy * dy);
+            dist = len(dx, dy);
           }
           if (dist > 0) {
             v.vx = (dx / dist) * l.speed;

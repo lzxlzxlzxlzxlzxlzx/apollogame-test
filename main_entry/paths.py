@@ -37,14 +37,29 @@ def _slugify(name: str) -> str:
     s = re.sub(r'[^a-z0-9]+', '-', s).strip('-')
     return s or _next_game_no()
 
+#: 编号占用的四个落点 —— 少扫一个就会发出已被占用的号（见 _next_game_no 的事故说明）。
+_GAME_NO_BASES = ('library', 'public/games', 'games', 'docs/design')
+#: `game-104` 与 `game104` 是**同一个编号的两种写法**，都算占用。
+_GAME_NO_RE = re.compile(r'game-?(\d{2,})')
+
+
 def _next_game_no() -> str:
-    """下一个空闲编号 slug：扫 library/ 与 public/games/ 的 game-NNN（含裸 game 视为占用），取 max+1。"""
+    """下一个空闲编号 slug（`game-NNN`）。
+
+    WARN **必须四处全扫、且两种写法都认**（独立审查 2026-09-12 的 P0 症状，复跑挖到的真根因）：
+    首版只扫 `library/` 与 `public/games/`，且正则只认带连字符的 `game-(\d{3,})`。
+    而本仓**手写**的游戏叫 `game101 / game104 / game211`（不带连字符），住在 `games/` 与 `docs/design/`。
+    于是给一个中文名项目建库时，计数器看不见 `docs/design/game104`，转头发出 `game-104` ——
+    两个肉眼几乎一样的 slug 同时存在，正是审查方报的「同时出现 game104 和 game-104」。
+    （复现：干净库上 `library_create({'name': '测试小游戏'})` 直接吐 `game-104`。）
+    """
     top = 0
-    for base in (LIBRARY_DIR, ROOT / 'public' / 'games'):
+    for rel in _GAME_NO_BASES:
+        base = LIBRARY_DIR if rel == 'library' else ROOT.joinpath(*rel.split('/'))
         if not base.is_dir():
             continue
         for d in base.iterdir():
-            m = re.fullmatch(r'game-(\d{3,})', d.name)
+            m = _GAME_NO_RE.fullmatch(d.name)
             if m:
                 top = max(top, int(m.group(1)))
     return f'game-{top + 1:03d}'

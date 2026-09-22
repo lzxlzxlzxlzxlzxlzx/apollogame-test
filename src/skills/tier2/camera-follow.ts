@@ -1,6 +1,7 @@
 import { defineCapability } from '@engine/core/define-capability.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Transform, Camera, Bounds } from '@engine/protocol/components.js';
+import { clamp } from '@engine/math/scalar.js';
 
 // camera-follow —— 合作跟随相机（涌现系统：读组件→写组件，产出纯数据，不碰像素）。
 //
@@ -38,10 +39,6 @@ function targetsAABB(world: IWorld): AABB | null {
     found = true;
   }
   return found ? { minX, minY, maxX, maxY } : null;
-}
-
-function clamp(v: number, lo: number, hi: number): number {
-  return v < lo ? lo : v > hi ? hi : v;
 }
 
 export const cameraFollowCapability = defineCapability({

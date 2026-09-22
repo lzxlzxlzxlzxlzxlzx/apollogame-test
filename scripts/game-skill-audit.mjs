@@ -57,7 +57,7 @@ function audit(game) {
 
   let loc = 0;
   const capImports = new Set(); // 引擎能力/原子导入源
-  const flags = { mathRandom: [], innerHTML: [], createElement: [], nakedFill: [], reactScreen: [], domEscape: [], wallClock: [], zeroCap: false };
+  const flags = { mathRandom: [], innerHTML: [], createElement: [], nakedFill: [], reactScreen: [], domEscape: [], wallClock: [], engineTwin: [], zeroCap: false };
   let usesWorldOrManifest = 0;
 
   for (const f of src) {
@@ -84,6 +84,10 @@ function audit(game) {
       if (!isTsx && /\bfrom\s+['"]react[^'"]*['"]/.test(ln)) flags.reactScreen.push(`${f}:${i + 1}`);
       // 🔴 DOM 逃生：innerHTML 同级的手写 DOM 旁路
       if (/\binsertAdjacentHTML\b|\bdocument\.write/.test(ln)) flags.domEscape.push(`${f}:${i + 1}`);
+      // 🔴 引擎同形手写（engine-base-tier-review-2026-09-06 §3.3·C 治理）：引擎已下沉的件在游戏里再写一份——
+      //   localStorage 直读写（应走 services/persist/local-store）· class GameLog/EventLog（应走 tier1/event-log）·
+      //   recordScore（应走 services/persist/leaderboard.insertRanked）· Math.imul（私藏 PRNG 副本，应走 atoms/random）。
+      if (/\blocalStorage\.|\bclass\s+(?:GameLog|EventLog)\b|\brecordScore\b|\bMath\.imul\(/.test(ln)) flags.engineTwin.push(`${f}:${i + 1}`);
       // ⚠ 墙钟（非确定性·先建议档不阻断·评审 E3）
       if (/\bDate\.now\b|\bperformance\.now\b/.test(ln)) flags.wallClock.push(`${f}:${i + 1}`);
       // ⚠ 色库化建议（非红线·phase-1）：bg 裸 hex/gradient/url 串 → 应迁 SurfaceToken/FillPreset/{custom}（owner 2026-07-04）
@@ -115,6 +119,7 @@ function redBits(r) {
   if (r.flags.createElement.length) bits.push(`createElement×${r.flags.createElement.length}`);
   if (r.flags.reactScreen.length) bits.push(`React屏×${r.flags.reactScreen.length}`);
   if (r.flags.domEscape.length) bits.push(`DOM逃生×${r.flags.domEscape.length}`);
+  if (r.flags.engineTwin.length) bits.push(`引擎同形手写×${r.flags.engineTwin.length}`);
   return bits;
 }
 /** 黄旗（缺失防线·进判词）文字列表 */
@@ -144,6 +149,7 @@ const RATCHET_METRICS = [
   ['createElement', 'createElement', 'document.createElement'],
   ['reactScreen', 'reactScreen', 'React屏(.tsx/from-react)'],
   ['domEscape', 'domEscape', 'DOM逃生(insertAdjacentHTML/document.write)'],
+  ['engineTwin', 'engineTwin', '引擎同形手写(localStorage/GameLog/recordScore/Math.imul)'],
 ];
 /** 读基线 games 表（失败=null·棘轮段判 FAIL）。 */
 const baseline = (() => {
@@ -199,13 +205,14 @@ for (const r of rows) {
 
 // ── 明细（有任一旗标的游戏） ──
 for (const r of rows) {
-  const { mathRandom, innerHTML, createElement, nakedFill, reactScreen, domEscape, wallClock } = r.flags;
+  const { mathRandom, innerHTML, createElement, nakedFill, reactScreen, domEscape, wallClock, engineTwin } = r.flags;
   const redDetails = [
     ['🔴 裸 Math.random（应用引擎种子 PRNG）', mathRandom],
     ['🔴 innerHTML（应走 LayoutNode/mountUI）', innerHTML],
     ['🔴 document.createElement（手写 DOM，应走 LayoutNode）', createElement],
     ['🔴 React 屏逃逸（.tsx / from react·应走 LayoutNode 纯数据）', reactScreen],
     ['🔴 DOM 逃生（insertAdjacentHTML/document.write·innerHTML 同级）', domEscape],
+    ['🔴 引擎同形手写（localStorage 直读写→persist/local-store · GameLog→tier1/event-log · recordScore→persist/leaderboard · Math.imul→atoms/random）', engineTwin],
   ].filter(([, v]) => v.length);
   const adviceDetails = [
     ['⚠ bg 裸色串（建议迁 SurfaceToken/FillPreset/{custom}·非红线）', nakedFill],

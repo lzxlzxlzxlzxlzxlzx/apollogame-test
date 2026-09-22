@@ -23,6 +23,26 @@ export interface Relation extends Component {
   targetId: EntityId;
 }
 
+// ── G3 owner ── 这个实体属于谁 / 站哪边（engine-base-tier-review-2026-09-06 A-1·owner 2026-09-08 判 A）。
+// 此前同一概念在 tier 里有 5 种互不相通的编码（CardPile.owner / Controllable.playerId / Tag 位 / Relation{kind:'owner'} /
+// PrefabOrigin.source），游戏侧 6 款各写一套；Relation 一实体一张且 target 槽已被五方争抢。本卡只回答归属与阵营；
+// 旧编码**不迁**（owner 令：现有游戏不重写）——新游戏/新能力读这张。
+export interface Owner extends Component {
+  readonly type: 'Owner';
+  ownerId: EntityId; // 主人实体（玩家/阵营根实体）；空串 = 无主
+  team: number; // 阵营号（0 = 中立/未分队）；同 team 即友方
+}
+
+// ── G4 group ── 这个实体装着哪些实体（有序·可限容）（A-2·owner 2026-09-08 判 A）。
+// 手牌/牌堆/背包/装备栏/队伍/座位圈的共同形。一实体一张（多个集合 = 多个实体，同 Timer 口径）；
+// id 走全局语义 id 路由（world.byId('Group','id',…)）。成员被销毁后由 t1-group-gc 每拍摘除（防悬空 id）。
+export interface Group extends Component {
+  readonly type: 'Group';
+  id: string; // 集合语义 id（如 "hand:p1" / "deck" / "party"）
+  members: EntityId[]; // 有序成员（插入序即语义序·手牌顺序有意义）
+  capacity?: number; // 上限（缺省无限）
+}
+
 // ── Hitbox ── 伤害源（攻击判定）。挂在被 ZONE_FLAG 标记的 Sensor+Shape+Transform 实体上：
 // trigger-zone 先产出 Trigger{zone:hitbox, other:目标}，hitbox 能力据此对每个进入的目标——
 // 若 Tag 匹配 targetMask（阵营过滤）且 Status 满足 requireMask（如碎冰要求 frozen）——
@@ -33,6 +53,7 @@ export interface Hitbox extends Component {
   resource: string; // 目标身上要改的 Resource id（如 'hp'）
   amount?: number; // 固定伤害（正数 = 伤害；内部按负向施加）
   fracOfMax?: number; // 计算伤害 = 目标该资源 max 的此分数（如 0.2 = 20% max）
+  damageType?: string; // 伤害类型（可选）：目标 Armor.kind × 世界 DamageTable → 倍率（t2-damage-table·缺任一 ×1）
   targetMask?: number; // 仅作用于 Tag.flags 含此位的目标（阵营过滤；缺省/0 = 不限）
   requireMask?: number; // 仅作用于 Status.flags 含齐此位的目标（如碎冰要求 frozen）
   setMask?: number; // 命中后给目标 Status 置这些位（如 frozen）

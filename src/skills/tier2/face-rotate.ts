@@ -1,7 +1,9 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { FaceDir, FaceRotate, Transform, Velocity, Relation } from '@engine/protocol/components.js';
+import { len2 } from '@engine/math/vec2.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  face-rotate —— 俯视有向物按方向旋转贴图（REQ-FACE-ROTATE）。仿 t2-facing 取方向的口径
@@ -74,7 +76,7 @@ export const faceRotateCapability = defineCapability({
       writes: ['FaceDir'],
       consumes: [],
       execute(world: IWorld) {
-        const ids = world.query('FaceRotate', 'Transform').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'FaceRotate', 'Transform');
         for (const id of ids) {
           const cfg = world.getComponent<FaceRotate>(id, 'FaceRotate')!;
           const t = world.getComponent<Transform>(id, 'Transform')!;
@@ -96,7 +98,7 @@ export const faceRotateCapability = defineCapability({
             }
           }
 
-          const distSq = dx * dx + dy * dy;
+          const distSq = len2(dx, dy);
           const fd = world.getComponent<FaceDir>(id, 'FaceDir');
           if (distSq > FACE_ROTATE_EPS_SQ) {
             const dist = Math.sqrt(distSq); // 唯一非 +-*/ 运算：sqrt，与 steering/collision-resolve 同属确定性类，零 trig

@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { advanceTimer } from '@engine/math/tick.js';
 import type { Timer, TimerDone } from '@engine/protocol/components.js';
 
 export const timerCapability = defineCapability({
@@ -82,12 +83,10 @@ export const timerCapability = defineCapability({
         for (const [entityId] of world.query('Timer')) {
           const timer = world.getComponent<Timer>(entityId, 'Timer');
           if (!timer) continue;
-          if (!timer.loop && timer.elapsed >= timer.duration) continue;
-          timer.elapsed += 1;
-          if (timer.elapsed >= timer.duration) {
+          // 步进本体 = engine/math/tick.advanceTimer（唯一的一份·逐字同语义：停表 / 到点 / loop 归零）。
+          if (advanceTimer(timer)) {
             const done: TimerDone = { type: 'TimerDone', timerId: timer.id };
             world.addComponent(entityId, done);
-            if (timer.loop) timer.elapsed = 0;
           }
         }
       },

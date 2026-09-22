@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Perception, Transform, Relation } from '@engine/protocol/components.js';
 import { nearestByTag } from '@skills/atoms/spatial-query/index.js';
@@ -65,7 +66,7 @@ export const aggroCapability = defineCapability({
       writes: ['Relation'],
       consumes: [],
       execute(world: IWorld) {
-        const ids = world.query('Perception', 'Transform').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'Perception', 'Transform');
         for (const id of ids) {
           const p = world.getComponent<Perception>(id, 'Perception')!;
           const t = world.getComponent<Transform>(id, 'Transform')!;

@@ -32,7 +32,10 @@ export function hashWithOrder(snap: WorldSnapshot, order: readonly string[] | un
 // 对账，保证每一项都是真实组件名。
 // Mesh3D/Coachmark 的组件契约（render.ts）明写「绝不进 hash」，故必须在此排除——
 // 二者曾漏登记，是潜伏雷：任何人按契约在渲染侧改它们，lockstep 立刻误报 desync。
-export const NON_DETERMINISTIC = new Set<string>(['Camera','Camera3D', 'Mesh3D', 'Coachmark', 'Transform3D', 'Sky3D', 'Model3D', 'AnimState3D', 'Anim3D', 'Pivot3D', 'Light3D', 'Post3D', 'Fog3D', 'Material3D', 'Vfx3D', 'Trail3D', 'Line3D', 'Decal3D', 'Path3D', 'Billboard3D', 'WorldUI3D', 'Diegetic3D', 'RigidBody3D', 'Impulse3D', 'Joint3D', 'Glow3D', 'Pickable3D', 'ScoreTrace', 'DebugTrace', 'PhysicsWorld3D', 'Reflector3D']);
+// IntentInbox（t2-intent-barrier·REQ-111-AINPC）同理但理由更硬：它装的是「哪个 NPC 的异步回包先到」，
+// 即纯粹的**本地网络事实**。进 hash 等于把网络抖动焊进指纹，两端必然分叉；而门的确定性产出
+// （IntentBarrier.resolved·按 npcId 升序）照常进 hash，该被校验的一点没少。
+export const NON_DETERMINISTIC = new Set<string>(['Camera','Camera3D', 'Mesh3D', 'Coachmark', 'Transform3D', 'Sky3D', 'Model3D', 'AnimState3D', 'Anim3D', 'Pivot3D', 'Light3D', 'Post3D', 'Fog3D', 'Material3D', 'Vfx3D', 'Trail3D', 'Line3D', 'Decal3D', 'Path3D', 'Billboard3D', 'WorldUI3D', 'Diegetic3D', 'RigidBody3D', 'Impulse3D', 'Joint3D', 'Glow3D', 'Pickable3D', 'ScoreTrace', 'DebugTrace', 'PhysicsWorld3D', 'Reflector3D', 'Vfx2D', 'IntentInbox']);
 
 // 键位转义（2026-08-22 测试大扫除实证修复）：实体id/组件名/字段名/嵌套键此前裸拼进 canonical——
 // id 含分隔符即可伪造结构 → 两个不同状态同 hash（desync/存档篡改假绿·实证碰撞见 determinism.test.ts
@@ -48,18 +51,35 @@ const escNested = (s: string): string => (NESTED_KEY_UNSAFE.test(s) ? JSON.strin
 function canonical(snap: WorldSnapshot): string {
   const parts: string[] = [];
   for (const entityId of Object.keys(snap).sort()) {
-    const comps = snap[entityId];
-    for (const type of Object.keys(comps).sort()) {
-      if (NON_DETERMINISTIC.has(type)) continue; // 跳过纯表现组件
-      const comp = comps[type] as unknown as Record<string, unknown>;
-      const fields = Object.keys(comp)
-        .filter((k) => comp[k] !== undefined) // undefined 字段 ≡ 缺席：不进 hash，防「写 field=undefined」的 writer 跨端分裂
-        .sort()
-        .map((k) => `${escFlat(k)}=${stableValue(comp[k])}`);
-      parts.push(`${escFlat(entityId)}|${escFlat(type)}|${fields.join(',')}`);
-    }
+    const frag = canonicalEntity(entityId, Object.entries(snap[entityId]));
+    if (frag) parts.push(frag);
   }
   return parts.join(';');
+}
+
+/**
+ * 一个实体的规范片段（P2c 增量 hash 的缓存单元）：组件按类型名升序、字段升序、跳过 NON_DETERMINISTIC 与 undefined。
+ * 全世界的 canonical = 各实体片段按实体 id 升序用 ';' 相连（空片段跳过）——与旧全量实现**逐字节相同**。
+ * 接受 `[type, comp]` 迭代（快照对象或 World 活 Map 皆可·不克隆）。
+ */
+export function canonicalEntity(entityId: string, comps: Iterable<[string, unknown]>): string {
+  const types: Array<[string, Record<string, unknown>]> = [];
+  for (const [type, comp] of comps) if (!NON_DETERMINISTIC.has(type)) types.push([type, comp as Record<string, unknown>]);
+  types.sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
+  const parts: string[] = [];
+  for (const [type, comp] of types) {
+    const fields = Object.keys(comp)
+      .filter((k) => comp[k] !== undefined) // undefined 字段 ≡ 缺席：不进 hash，防「写 field=undefined」的 writer 跨端分裂
+      .sort()
+      .map((k) => `${escFlat(k)}=${stableValue(comp[k])}`);
+    parts.push(`${escFlat(entityId)}|${escFlat(type)}|${fields.join(',')}`);
+  }
+  return parts.join(';');
+}
+
+/** FNV-1a 32 位（导出给增量 hasher·同一实现）。 */
+export function fnv1aHex(str: string): string {
+  return fnv1a(str);
 }
 
 function stableValue(v: unknown): string {

@@ -18,8 +18,8 @@ import type { SpawnRequest, PrefabLibrary, PrefabTemplate, SpawnOverrides } from
 // ═══════════════════════════════════════════════════════════════
 
 function findLibrary(world: IWorld): PrefabLibrary | undefined {
-  for (const [e] of world.query('PrefabLibrary')) return world.getComponent<PrefabLibrary>(e, 'PrefabLibrary');
-  return undefined;
+  const e = world.singleton('PrefabLibrary'); // 黑板单例（P1b）：严格模式多份即抛·生产按创建序取首个（= 旧 for…break 语义）
+  return e === undefined ? undefined : world.getComponent<PrefabLibrary>(e, 'PrefabLibrary');
 }
 
 // ── REQ-F-033：模板内部实体引用重映射（Unity/Godot nested-prefab 标配语义）──
@@ -109,6 +109,17 @@ export const prefabCapability = defineCapability({
 
   components: {
     provides: {
+      // C 治理：PrefabOrigin 由本能力展开时写入（templateId/seq/localId/source），此前无 provider。
+      PrefabOrigin: {
+        category: 'marker',
+        describe: '展开出身标记：出自哪个模板/第几次展开/模板内 localId/发起者。resource-apply scope:source 与 hitbox per-caster 缩放据此寻址。',
+        fields: {
+          templateId: { type: 'string', describe: '出自哪个模板' },
+          seq: { type: 'number', describe: '第几次展开（全局单调=入场顺序）' },
+          localId: { type: 'string', describe: '模板内 localId' },
+          source: { type: 'EntityId', describe: '生成它的施法者/源实体（可选）' },
+        },
+      },
       PrefabLibrary: {
         category: 'config',
         describe: '预制模板库（数据，单例）。templates: id→模板（实体/组件蓝图）。seq: 实例计数器（确定性唯一 id）。',

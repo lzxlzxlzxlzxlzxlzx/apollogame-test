@@ -4,6 +4,7 @@ import type { IWorld } from '@engine/core/types.js';
 import type { Card, PlayedHand, PokerHand, Resource, StringVar, Flag } from '@engine/protocol/components.js';
 import { findByComponentId } from '@engine/core/query.js';
 import { clearScoreTrace, appendScoreEvent } from '../score-trace.js';
+import { clamp } from '@engine/math/scalar.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  poker-hand —— 「一手牌 → 牌型 + 基础分」确定性评估器（REQ-011；Tier3「算法/解释器型机制」大类）。
@@ -223,7 +224,7 @@ function setResourceBase(world: IWorld, resourceId: string, value: number): numb
   if (!e) return value;
   const r = world.getComponent<Resource>(e, 'Resource');
   if (!r) return value;
-  r.current = value < r.min ? r.min : value > r.max ? r.max : value;
+  r.current = clamp(value, r.min, r.max);
   return r.current; // 返回钳后真值（供 REQ-019 trace 的 after）
 }
 function setHandTypeVar(world: IWorld, varId: string, value: string): void {

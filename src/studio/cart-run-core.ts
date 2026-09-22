@@ -1,6 +1,8 @@
 import { Engine } from '../runtime/engine.js';
 import { CanvasRenderer } from '@renderer/canvas-renderer.js';
-import { KeyboardInputSource, MultiInputSource, DEFAULT_KEYMAP, type InputSource, type KeyMap } from '@net/index.js';
+// 直指本体模块（不走 @net/index 桶·理由见 runtime/engine.ts 头注：桶会把 mp-world/playground 的原子能力拖进卡带外壳）。
+import { MultiInputSource, type InputSource } from '@net/commands.js';
+import { KeyboardInputSource, DEFAULT_KEYMAP, type KeyMap } from '@net/host/local-input.js';
 import type { WorldBlueprint } from '../assembly/demo.assembly.js';
 
 // ═══════════════════════════════════════════════════════════════

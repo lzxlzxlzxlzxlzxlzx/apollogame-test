@@ -4,6 +4,7 @@ import type { IWorld } from '@engine/core/types.js';
 import type { Draggable, InputQueue, Transform, Shape, HexBoard, HexPos, Tag, Flag, Resource, Tween, Clickable, DropZone, Signal } from '@engine/protocol/components.js';
 import { hexCellToPoint, hexPointToCell } from './grid-move.js';
 import { findByComponentId } from '@engine/core/query.js';
+import { inCircle } from '@engine/math/vec2.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  drag-place —— 拖拽摆放（REQ-F-045；备战上场/调位/回席的输入桥，战棋/卡牌摆子通用）。
@@ -56,8 +57,7 @@ function hitDraggable(world: IWorld, x: number, y: number): string | null {
     if (!t || !sh) continue;
     if (sh.kind === 'circle') {
       const rr = sh.radius ?? 8;
-      const dx = x - t.x, dy = y - t.y;
-      if (dx * dx + dy * dy <= rr * rr) return eid;
+      if (inCircle(x, y, t.x, t.y, rr)) return eid;
     } else {
       const w = (sh.width ?? 16) / 2, h = (sh.height ?? 16) / 2;
       if (Math.abs(x - t.x) <= w && Math.abs(y - t.y) <= h) return eid;
@@ -155,7 +155,7 @@ export const dragPlaceCapability = defineCapability({
 
         // 棋盘单例（snap 用；无板=自由落点）。
         let board: HexBoard | undefined;
-        for (const [bid] of world.query('HexBoard')) { board = world.getComponent<HexBoard>(bid, 'HexBoard'); break; }
+        { const bid = world.singleton('HexBoard'); if (bid !== undefined) board = world.getComponent<HexBoard>(bid, 'HexBoard'); } // 黑板单例（P1b）：严格模式多份即抛·生产按创建序取首个（= 旧 for…break 语义）
 
         const t = world.getComponent<Transform>(eid, 'Transform');
         if (!t) return;

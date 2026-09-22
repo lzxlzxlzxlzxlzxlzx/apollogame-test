@@ -180,10 +180,12 @@ describe('T3 dialogue — check 结算 / 分支 / effects', () => {
 });
 
 describe('T3 dialogue — check 确定性 / RandomSeed', () => {
-  it('真骰子（dice:20）同 seed → 同结果（snapshot 重放一致）', () => {
+  it('真骰子（dice:20）同 seed → 同结果（snapshot 重放一致）；钉 golden + 存在翻转 seed', () => {
     const node: DialogueCheck = { ...baseCheck, difficulty: 11, dice: 20 }; // 结果取决于 roll
     const runOnce = (seed: number): string => cur(advanceReturn(loadCheck(node, { attr: 0, seed })));
     expect(runOnce(12345)).toBe(runOnce(12345)); // 确定性
+    expect(runOnce(12345)).toBe('win'); // golden（实跑取值）：seed 12345 掷出 ≥11
+    expect(runOnce(7)).toBe('lose');    // 分支可翻转（实跑取值）：seed 7 掷出 <11——恒 win/恒 lose 的假骰子在此转红
   });
 
   it('掷骰推进 RandomSeed.sequence（取数留痕）', () => {

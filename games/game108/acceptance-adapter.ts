@@ -8,7 +8,8 @@
 // 与屏上按钮的 `action`、DOM 的 `data-action` **同一串字符**（`theme.ts` 的 `ACT` 是唯一真相）。
 // 本文件**零规则判断**：谁克谁、打多少、什么时候清零，全在 blueprint 数据 + 引擎能力里。
 import { Engine } from '@zerocraft/engine/runtime/engine.js';
-import { applyCommands, QueuedInputSource } from '@zerocraft/engine/net/index.js';
+import { applyCommands } from '@zerocraft/engine/net/index.js';
+import { QueuedInputSource } from '@zerocraft/engine/net/host/index.js';
 import type { IWorld } from '@zerocraft/engine/engine/core/types.js';
 import type { Resource, GameFlow, StringVar } from '@zerocraft/engine/engine/protocol/components.js';
 import { buildBlueprint, throwSignal, aiChargeSignal } from './blueprint.js';

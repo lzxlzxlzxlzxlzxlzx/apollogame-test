@@ -84,3 +84,25 @@ describe('ReflectorSystem：增删 + 内容签名', () => {
     expect(sys.contentSig(w)).not.toBe(s0);
   });
 });
+
+describe('ReflectorSystem.cull：视锥剔除（不可见镜子零 RTT）', () => {
+  it('视锥内镜面 visible=true·视锥外(相机后方) visible=false', () => {
+    const { sys, scn, w } = scene();
+    addRefl(w, 'front', { width: 20, height: 20 }, { x: 0, y: 0, z: 0 });
+    addRefl(w, 'behind', { width: 20, height: 20 }, { x: 0, y: 0, z: -100 }); // 相机后方
+    sys.sync(scn, w, 1);
+    const cam = new THREE.PerspectiveCamera(50, 1, 0.1, 200);
+    cam.position.set(0, 5, -30); cam.lookAt(0, 0, 0); cam.updateMatrixWorld(); cam.updateProjectionMatrix();
+    sys.cull(cam);
+    const meshes = scn.children.filter((c) => (c as THREE.Mesh).isMesh) as THREE.Mesh[];
+    const front = meshes.find((m) => m.position.z === 0)!;
+    const behind = meshes.find((m) => m.position.z === -100)!;
+    expect(front.visible).toBe(true);   // 视锥内 → 画倒影
+    expect(behind.visible).toBe(false); // 相机后方 → 剔除·零 RTT
+  });
+  it('空镜面集 → cull 早退不炸', () => {
+    const { sys } = scene();
+    const cam = new THREE.PerspectiveCamera();
+    expect(() => sys.cull(cam)).not.toThrow();
+  });
+});

@@ -13,6 +13,8 @@
 //  open 选取按 (fScore 升, cellKey 升) tie-break → 路径唯一确定，不依赖 Map/插入序。
 // ═══════════════════════════════════════════════════════════════
 
+import { index } from '@engine/math/grid.js';
+
 export interface Hex {
   readonly q: number;
   readonly r: number;
@@ -48,7 +50,7 @@ export function hexDistance(a: Hex, b: Hex): number {
 // odd-r 下 axial q 可为负：以 offset col（板内恒 0..cols-1）为键列，杜绝跨行撞键（REQ-F-037）。
 export function hexCellKey(q: number, r: number, cols: number, layout?: HexLayout): number {
   const col = layout === 'odd-r' ? q + (r >> 1) : q;
-  return r * cols + col;
+  return index(col, r, cols);
 }
 
 /**

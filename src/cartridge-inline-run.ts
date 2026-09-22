@@ -1,4 +1,4 @@
-import { parseManifest } from './assembly/manifest.js';
+import { parseManifestAsync } from './assembly/manifest-async.js';
 import { runBlueprintInto } from './studio/cart-run-core.js';
 
 // ═══════════════════════════════════════════════════════════════
@@ -12,6 +12,10 @@ import { runBlueprintInto } from './studio/cart-run-core.js';
 //
 //  与在线路径共用同一 runBlueprintInto（cart-run-core）——同一装载探针/输入/生命周期，
 //  绝不出现「在线能跑、打成包跑不了」的两套语义漂移。
+//
+//  P2e：走 manifest-async（懒注册表·`await import()`）而不是同步 parseManifest——同步门面静态 import
+//  全部能力，谁 import 它谁就把整个引擎打进包；异步门面只认 manifest 点名的能力，打包时
+//  vite.config.cartridge.ts 再把注册表裁成该 manifest 的子集，rollup 据此摇树。
 // ═══════════════════════════════════════════════════════════════
 
 /** 读注入的内联 manifest 对象；未注入=明确报错（不静默白屏）。导出供单测。 */
@@ -26,10 +30,10 @@ export function readInlineCart(win: Window = window): unknown {
   return cart;
 }
 
-/** GameModule.mount 契约：挂载即跑内联 manifest，返回清理函数。 */
-export function mount(el: HTMLElement): () => void {
+/** GameModule.mount 契约：挂载即跑内联 manifest，resolve 清理函数；坏 manifest → reject（引导层转错误态·不白屏）。 */
+export async function mount(el: HTMLElement): Promise<() => void> {
   const raw = readInlineCart();
-  const blueprint = parseManifest(raw);
+  const blueprint = await parseManifestAsync(raw);
   // 单文件全屏：视口取容器实测尺寸（回退到卡带默认 960×600）。
   const w = el.clientWidth || 960;
   const h = el.clientHeight || 600;

@@ -1746,10 +1746,14 @@ class Component extends DCLogic {
     const provs = (st && st.providers) || [];
     const byId = (id) => provs.find(p => p.id === id);
     const d = st && st.default;
-    if (d && byId(d) && byId(d).keyAvailable) return d;
+    if (d && byId(d) && byId(d).keyAvailable) return d;   // 明确指定的照办（含 mock——但下面会显式提示）
     const cc = byId('claude-code');
     if (cc && cc.keyAvailable) return 'claude-code';
-    const first = provs.find(p => p.keyAvailable);
+    // ⚠ **兜底绝不落到 mock**（owner 2026-08-26 实证事故）：mock 对任何 prompt 都回同一份内置
+    // manifest（一个可控方块 + 地面 + 三个平台方块），而它此前既能被 find 选中、又被下面的
+    // providerChips 从界面上过滤掉 ⇒ 作者看到「每个游戏生成出来都一样」却在界面上找不到原因。
+    // 兜底只在真供应商里挑；一个都没有就回 claude-code（会给出「未配置」的明确报错，而不是假产物）。
+    const first = provs.find(p => p.keyAvailable && p.id !== 'mock');
     return first ? first.id : 'claude-code';
   }
   // 能力目录（/api/catalog·进程内缓存·pe 对话与生成共用）。
@@ -3051,9 +3055,14 @@ class Component extends DCLogic {
       }));
     const mgDefs = cartList.map((cc, i) => {
       const name = (cc.meta && cc.meta.name) || cc.slug;
-      const desc = (cc.meta && cc.meta.description) || '';
+      const desc0 = (cc.meta && cc.meta.description) || '';
+      // ⚠ mock 供应商造的卡带**必须自报家门**：它对任何 prompt 都回同一份内置样例
+      // （一个可控方块 + 地面 + 三个平台方块），一屋子卡带会长得一模一样。
+      // meta.provider 建库时就落盘了，这里只是把它显出来，不新增任何字段。
+      const isMock = !!(cc.meta && cc.meta.provider === 'mock');
+      const desc = isMock ? ('⚠ Mock 测试样例（非真生成）· ' + desc0) : desc0;
       return { k: coverKeys[i % coverKeys.length], cn: name, tag: '卡带', sc: coverGrads[i % coverGrads.length], icon: '', coverUrl: cc.coverUrl || '', desc: desc || (name + '（还没写简介）'),
-        status: !cc.valid ? '损坏' : (cc.empty ? '空卡带' : '可编辑'), meta: desc ? desc.slice(0, 24) : cc.slug, prog: cc.empty ? 15 : 100, done: !!cc.valid && !cc.empty,
+        status: !cc.valid ? '损坏' : (cc.empty ? '空卡带' : (isMock ? 'Mock 样例' : '可编辑')), meta: desc ? desc.slice(0, 24) : cc.slug, prog: cc.empty ? 15 : 100, done: !!cc.valid && !cc.empty,
         run: () => !cc.valid ? this.showToast('卡带 manifest 损坏，先修再玩')
           : cc.empty ? this.showToast('⚠ 这盘还没生成玩法内容——点「编辑」，用设计先行出原型或快速直出')
           : window.open('/bench?to=' + encodeURIComponent('/?game=lib:' + cc.slug + '&from=workshop&bare=1'), '_blank'),
@@ -3068,12 +3077,13 @@ class Component extends DCLogic {
       edit: () => this.showToast('引擎内置游戏在旧工作台（源码）开发')
     })));
     const statusColor = { '可编辑': ['#7ecb45', '#fff5db', '#4e8a24'], '损坏': ['#ef5138', '#fff5db', '#a03222'], '空卡带': ['#ffd257', '#3a2312', '#c98a1e'],
+      'Mock 样例': ['#ef8b38', '#fff5db', '#a35a12'],
       '有美术': ['#7ecb45', '#fff5db', '#4e8a24'], '待接美术': ['#ffd257', '#3a2312', '#c98a1e'] };
     // 视图切换 chip（图标/列表）——来源筛选=上方 gameFilters·此处不重复（owner spec Part A）。
     const gameViewChips = [{ k: 'grid', label: '▦ 图标' }, { k: 'list', label: '≣ 列表' }].map(v => ({
       label: v.label, style: chipStyle(s.gameView === v.k), pick: () => this.setState({ gameView: v.k }) }));
     // 状态 chip 只列 mgDefs（已过来源筛选）里真实存在的状态，固定顺序。
-    const STATUS_ORDER = ['可编辑', '损坏', '有美术', '待接美术'];
+    const STATUS_ORDER = ['可编辑', 'Mock 样例', '损坏', '有美术', '待接美术'];
     const presentStatuses = STATUS_ORDER.filter(st3 => mgDefs.some(g => g.status === st3));
     const gameStatusChips = [{ k: 'all', label: '全部' }].concat(presentStatuses.map(st3 => ({ k: st3, label: st3 }))).map(c => ({
       label: c.label, style: chipStyle(s.gameStatus === c.k), pick: () => this.setState({ gameStatus: c.k }) }));
@@ -3642,8 +3652,11 @@ class Component extends DCLogic {
     const provs = (s.settings && s.settings.providers) || [];
     const ccProv = provs.find(p => p.id === 'claude-code');
     const ccStatus = ccProv ? (ccProv.hasConfigKey ? ('token 已配 ' + ccProv.apiKeyMasked) : (ccProv.keyAvailable ? 'CLI 已登录 / env 已配（免填）' : '未配置——跑 claude setup-token')) : '…';
-    const providerChips = provs.filter(p => p.id !== 'mock').map(p => ({
-      label: p.name + (p.keyAvailable ? ' ●' : ' ○'),
+    // mock 平时不摆上货架（它是测试基建），但**只要它正是当前默认，就必须显形**——
+    // 否则「所有游戏生成出来一模一样」的原因在界面上完全不可见（owner 2026-08-26 实证事故）。
+    const curProv = s.defaultProv || (s.settings && s.settings.default) || 'claude-code';
+    const providerChips = provs.filter(p => p.id !== 'mock' || curProv === 'mock').map(p => ({
+      label: (p.id === 'mock' ? '⚠ ' + p.name + '（固定样例·非真生成）' : p.name) + (p.keyAvailable ? ' ●' : ' ○'),
       style: { border: '3px solid #3a2312', borderRadius: '11px', padding: '7px 13px', cursor: 'pointer', fontFamily: "'Noto Sans SC',sans-serif", fontWeight: 700, fontSize: '12px',
         background: (s.defaultProv || 'claude-code') === p.id ? 'linear-gradient(180deg,#8fe05a,#6cbf37)' : 'linear-gradient(180deg,#fffdf5,#fff0cf)',
         color: (s.defaultProv || 'claude-code') === p.id ? '#fff5db' : '#3a2312',

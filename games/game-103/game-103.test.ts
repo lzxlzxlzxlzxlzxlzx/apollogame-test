@@ -3,7 +3,7 @@ import { Engine } from '@zerocraft/engine/runtime/engine.js';
 import { applyCommands } from '@zerocraft/engine/net/index.js';
 import type { Command } from '@zerocraft/engine/net/index.js';
 import type { Resource, Tag, GameFlow, Transform } from '@zerocraft/engine/engine/protocol/components.js';
-import { QueuedInputSource } from '@zerocraft/engine/net/index.js';
+import { QueuedInputSource } from '@zerocraft/engine/net/host/index.js';
 import { rollOffer } from '@zerocraft/engine/skills/tier2/index.js';
 import type { DraftCandidate } from '@zerocraft/engine/skills/tier2/index.js';
 import { validateLayoutNode } from '@zerocraft/engine/ui/components/index.js';

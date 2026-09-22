@@ -2,6 +2,7 @@ import { defineCapability } from '@engine/core/define-capability.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { InputQueue, Transform, Shape, Sprite, Clickable, BoardCell, Signal } from '@engine/protocol/components.js';
+import { sign } from '@engine/math/scalar.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  match3-drag-swap —— 三消拖拽滑动手势输入桥（REQ-INPUT-拖拽交换；竖屏触屏主输入）。
@@ -43,18 +44,18 @@ export interface NeighborCandidate {
 export function pickSwapTarget(dx: number, dy: number, candidates: readonly NeighborCandidate[], thresholdFrac: number): { eid: string; span: number } | null {
   if (dx === 0 && dy === 0) return null;
   const horizontal = Math.abs(dx) >= Math.abs(dy);
-  const dir = horizontal ? Math.sign(dx) : Math.sign(dy);
+  const dir = horizontal ? sign(dx) : sign(dy);
 
   let best: NeighborCandidate | null = null;
   let bestSpan = Infinity;
   for (const c of candidates) {
     let span: number;
     if (horizontal) {
-      if (Math.sign(c.ox) !== dir) continue; // 不在拖拽横向那侧
+      if (sign(c.ox) !== dir) continue; // 不在拖拽横向那侧
       if (Math.abs(c.oy) >= Math.abs(c.ox)) continue; // 偏纵向=非同行邻格（排除斜格）
       span = Math.abs(c.ox);
     } else {
-      if (Math.sign(c.oy) !== dir) continue;
+      if (sign(c.oy) !== dir) continue;
       if (Math.abs(c.ox) >= Math.abs(c.oy)) continue;
       span = Math.abs(c.oy);
     }

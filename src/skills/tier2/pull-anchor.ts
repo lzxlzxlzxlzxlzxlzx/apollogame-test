@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { PullAnchor, Relation, Steering, Tag, Transform } from '@engine/protocol/components.js';
 import { queryRange } from '@skills/atoms/spatial-query/index.js';
@@ -79,7 +80,7 @@ export const pullAnchorCapability = defineCapability({
       writes: ['Relation'],
       consumes: [],
       execute(world: IWorld) {
-        const anchors = world.query('PullAnchor', 'Transform').map(([id]) => id).sort();
+        const anchors = sortedIds(world, 'PullAnchor', 'Transform');
         for (const aid of anchors) {
           const pa = world.getComponent<PullAnchor>(aid, 'PullAnchor')!;
           if (!(pa.radius > 0)) continue;

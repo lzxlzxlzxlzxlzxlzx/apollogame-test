@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Caster, Signal, InputQueue, Transform, SpawnRequest, Relation, HexPos } from '@engine/protocol/components.js';
 import { nearestByTag } from '@skills/atoms/spatial-query/index.js';
@@ -98,7 +99,7 @@ export const casterCapability = defineCapability({
         let pointer: { x: number; y: number } | undefined;
         let pointerResolved = false;
 
-        const casterIds = world.query('Caster').map(([id]) => id).sort();
+        const casterIds = sortedIds(world, 'Caster');
         for (const id of casterIds) {
           const c = world.getComponent<Caster>(id, 'Caster');
           if (!c || !signals.has(c.onSignal)) continue;

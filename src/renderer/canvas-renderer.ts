@@ -5,6 +5,7 @@ import { isImageHandle } from '@assets/index.js';
 import { collectRenderables, getCameraView, chooseRenderMode, resolveRotation2D, spriteAnchorOffset } from './renderable.js';
 import { wrapLines } from './text-layout.js';
 import { deviceBase, entityMatrix } from './canvas-transform.js';
+import { Vfx2DLayer } from './vfx2d.js';
 
 export interface CanvasRendererOptions {
   width?: number;
@@ -27,6 +28,9 @@ export class CanvasRenderer implements RendererBackend {
   // 文本布局缓存（渲染器侧，不进 sim）：measureText/wrapLines 极贵，只在 content/font/maxWidth
   // 变化时重算，否则复用上次的行数组，避免每帧对每个文本实体重跑布局（Gemini 代码级 #3）。
   private readonly textCache = new Map<string, { sig: string; lines: string[] }>();
+  // 2D 粒子层（l7-vfx2d·纯表现）：渲染器私有粒子池，帧间隔按墙钟（渲染面·非 sim），封顶 0.1s 防切页回来一跳。
+  private readonly vfx = new Vfx2DLayer();
+  private lastFrameMs = 0;
 
   constructor(private readonly opts: CanvasRendererOptions = {}) {
     this.assets = opts.assets;
@@ -124,6 +128,15 @@ export class CanvasRenderer implements RendererBackend {
       } else if (mode === 'placeholder') {
         ctx.fillRect(-8, -8, 16, 16); // 有 Sprite 但资产未就绪 → 占位方块
       }
+    }
+
+    // 2D 粒子层：实体之上、HUD 之下；世界坐标（相机随动）。无 Vfx2D 且无活粒子 = 一次空查询即返回。
+    const nowMs = typeof performance !== 'undefined' ? performance.now() : 0;
+    const dt = this.lastFrameMs > 0 && nowMs > this.lastFrameMs ? Math.min(0.1, (nowMs - this.lastFrameMs) / 1000) : 1 / 60;
+    this.lastFrameMs = nowMs;
+    if (this.vfx.step(world, dt)) {
+      ctx.setTransform(base.s, 0, 0, base.s, base.e, base.f);
+      this.vfx.draw(ctx, world);
     }
 
     // textCache 反向清理：剔除本帧未渲染为文本（已销毁/转其它模式）的实体缓存，杜绝无界增长（Gemini code review）。

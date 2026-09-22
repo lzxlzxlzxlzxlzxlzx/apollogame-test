@@ -174,18 +174,21 @@ export function ContinueChoice({ name, onEditDesign, onQuickRevise, onClose }: {
 type Phase = 'chat' | 'design' | 'preview';
 
 export function DesignStudio({
-  api, providers, catalog, resolveArt, initialSlug, initialName, onClose, onSaved, onDirty,
+  api, providers, catalog, catalogIndex, resolveArt, initialSlug, initialName, onClose, onSaved, onDirty,
 }: {
   api: string;
   providers: ProviderInfo[];
   catalog: string;
+  /** 能力**索引面**（id + 一句话·约 7.8k vs 全量近 7 万）。用于只需「按名字挑件」的调用；
+   *  缺省回落全量（老调用方零回归）。省上下文这件事此前只有命令行享受得到，产品路径一个字节没省。 */
+  catalogIndex?: string;
   resolveArt?: (raw: unknown) => unknown;
   /** 继续创作已有 design → 直接进目录浏览（跳过讨论）。 */
   initialSlug?: string;
   initialName?: string;
   onClose: () => void;
   /** 原型保存入库成功 → 刷架 + 选中该 slug。 */
-  onSaved: (slug: string) => void;
+  onSaved: (slug: string, warnings?: string[]) => void;
   /** 分解已建库 / 落盘改动 → 通知上层刷架（卡带此刻已存在）。 */
   onDirty?: () => void;
 }) {
@@ -212,6 +215,11 @@ export function DesignStudio({
   // 分解 / 原型 / 保存
   const [busy, setBusy] = useState(false);
   const [previewManifest, setPreviewManifest] = useState<unknown>(null);
+  // 生成期告警（计划体检 + 引擎告警）。**不拦，但必须看得见**：服务端早就把 planCheck/warnings
+  // 原样带回来了，可界面一直没画——独立审查第二轮把这点判成「假覆盖」（字段在、渲染没有，
+  // 等于守卫守了个空气）。这两份 state 就是那块缺掉的渲染面。
+  const [genWarnings, setGenWarnings] = useState<string[]>([]);
+  const [planCheck, setPlanCheck] = useState<{ hasPlan?: boolean; unknownIds?: string[]; pendingGaps?: string[] } | null>(null);
   const [err, setErr] = useState<{ message: string; raw?: string } | null>(null);
 
   // 草稿持久化 + 相变后对话回看
@@ -286,7 +294,9 @@ export function DesignStudio({
         s = cd.slug;
         setSlug(s);
       }
-      const d = await post({ mode: 'design-breakdown', slug: s, messages, catalog, provider: provider.id });
+      // 分解阶段产出的是**设计稿**（按名字点名要用哪些能力），不出 manifest ⇒ 索引面够用。
+      // 全量目录留给 prototype 那一步（真要逐字段形状）。实测省 88.7% 上下文。
+      const d = await post({ mode: 'design-breakdown', slug: s, messages, catalog: catalogIndex ?? catalog, provider: provider.id });
       if (!d?.success) throw new Error(d?.error ?? '分解失败');
       const f = (d.files ?? {}) as Record<string, string>;
       setFiles(f);
@@ -297,7 +307,7 @@ export function DesignStudio({
       showErr(e instanceof Error ? e.message : String(e), e instanceof Error ? e.stack : undefined);
     }
     setBusy(false);
-  }, [name, ready, busy, provider, slug, api, messages, catalog, post, onDirty, showErr]);
+  }, [name, ready, busy, provider, slug, api, messages, catalog, catalogIndex, post, onDirty, showErr]);
 
   const reviseFile = useCallback(async () => {
     if (!selected || !reviseInput.trim() || revising || !provider || !slug || !files) return;
@@ -333,6 +343,8 @@ export function DesignStudio({
       const d = await post({ mode: 'prototype', slug, catalog, provider: provider.id });
       if (!d?.success) throw new Error(d?.error ?? '原型生成失败');
       setPreviewManifest(d.manifest ?? d.blueprint);
+      setGenWarnings(Array.isArray(d.warnings) ? d.warnings.map(String) : []);
+      setPlanCheck((d.planCheck as { hasPlan?: boolean; unknownIds?: string[]; pendingGaps?: string[] } | undefined) ?? null);
       setPhase('preview');
     } catch (e: unknown) {
       showErr(e instanceof Error ? e.message : String(e), e instanceof Error ? e.stack : undefined);
@@ -354,12 +366,12 @@ export function DesignStudio({
       // 入库成功=创作完成 → 弃置草稿（fire-and-forget）+ 禁后续 flush 复活。
       discardedRef.current = true;
       fetch(`${api}/api/design-drafts/${draftIdRef.current}`, { method: 'DELETE' }).catch(() => {});
-      onSaved(slug);
+      onSaved(slug, genWarnings.length > 0 ? genWarnings : (Array.isArray(pd.warnings) ? pd.warnings.map(String) : undefined));
     } catch (e: unknown) {
       showErr(e instanceof Error ? e.message : String(e), e instanceof Error ? e.stack : undefined);
       setBusy(false);
     }
-  }, [slug, previewManifest, busy, api, onSaved, showErr]);
+  }, [slug, previewManifest, busy, api, onSaved, showErr, genWarnings]);
 
   // ── 草稿持久化：每轮 chat 往返 / 相变 / 改稿后自动落盘（防抖 400ms）——刷新/相变/换页永不丢 ──
   // 只在有值得留存的中间态（有对话 或 有设计稿）时落盘，避免开台即空写污染草稿区。
@@ -683,6 +695,25 @@ export function DesignStudio({
       {phase === 'preview' && (
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, padding: '18px 22px', gap: 14, overflowY: 'auto' }}>
           <div style={{ fontSize: 14, color: SHELL.sub }}>原型预览 · <b style={{ color: SHELL.text }}>{name || slug}</b>（由设计稿生成）</div>
+          {(genWarnings.length > 0 || planCheck?.hasPlan === false) && (
+            <div style={{ background: 'rgba(255,176,32,0.08)', border: '1px solid rgba(255,176,32,0.45)', borderRadius: 10, padding: '10px 14px', fontSize: 12.5, lineHeight: 1.7 }}>
+              <div style={{ fontWeight: 600, color: '#ffb020', marginBottom: 4 }}>
+                生成期告警 {genWarnings.length > 0 ? `· ${genWarnings.length} 条` : ''}（不拦，但别当没看见）
+              </div>
+              {genWarnings.map((w, i) => (
+                <div key={i} style={{ color: SHELL.text }}>· {w}</div>
+              ))}
+              {planCheck?.hasPlan === false && genWarnings.length === 0 && (
+                <div style={{ color: SHELL.text }}>· 设计里没有 capability-plan.md —— 没做能力总览就生成，等于跳过 S2</div>
+              )}
+              {(planCheck?.unknownIds?.length ?? 0) > 0 && (
+                <div style={{ color: SHELL.sub, marginTop: 4 }}>编造的能力 id：{planCheck!.unknownIds!.join('、')}</div>
+              )}
+              {(planCheck?.pendingGaps?.length ?? 0) > 0 && (
+                <div style={{ color: SHELL.sub }}>未裁决缺口 {planCheck!.pendingGaps!.length} 条 —— 先走缺口裁决协议（先查 → 摆 A/B → owner 判）</div>
+              )}
+            </div>
+          )}
           <div style={{ background: SHELL.bg1, borderRadius: 10, border: `1px solid ${SHELL.line}`, padding: 8, alignSelf: 'center' }}>
             <ManifestPreview manifest={previewManifest} resolveArt={resolveArt} />
           </div>

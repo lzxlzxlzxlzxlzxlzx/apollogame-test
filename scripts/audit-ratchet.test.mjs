@@ -33,7 +33,7 @@ function runAudit(games = [], env = {}) {
 
 const BASELINE = JSON.parse(readFileSync(join(ROOT, 'scripts/audit-baseline.json'), 'utf8')).games;
 const BASELINE_GAMES = Object.keys(BASELINE);
-const METRIC_KEYS = ['nakedRandom', 'innerHTML', 'createElement', 'reactScreen', 'domEscape']; // Q1 批 2026-08-10 增后两指标
+const METRIC_KEYS = ['nakedRandom', 'innerHTML', 'createElement', 'reactScreen', 'domEscape', 'engineTwin']; // Q1 批 2026-08-10 增 reactScreen/domEscape；2026-09-07 增 engineTwin（底层评审 C 治理）
 
 // 对抗测试用临时固定基线（ZEROCRAFT_AUDIT_BASELINE 覆盖·不碰真基线·mkdtemp 并行安全）。
 const TMP = mkdtempSync(join(tmpdir(), 'audit-ratchet-'));
@@ -54,9 +54,9 @@ describe('红旗棘轮（audit-baseline.json）', () => {
     expect(stderr).not.toContain('超基线');
   }, 60000);
 
-  it('基线覆盖 d/e/f/g/i/z + 102/211 全部在册（h/j/k/m 等已删·见历史；102/211 = Lead 2026-08-18 亲批 HARDLINE 裁决入册·REQ-G102/G211-HARDLINE 两单结案）', () => {
+  it('基线覆盖 d/e/f/g/i/z + 102/211 + a/b/c/103/108 全部在册（h/j/k/m 等已删·见历史；102/211 = Lead 2026-08-18 亲批 HARDLINE 裁决入册；a/b/c/103/108 = engineTwin 新指标灌入时存量实测入册·Lead 2026-09-07·底层评审 C 治理）', () => {
     expect([...BASELINE_GAMES].sort()).toEqual(
-      ['game-d', 'game-e', 'game-f', 'game-g', 'game-i', 'game-z', 'game102', 'game211'],
+      ['game-103', 'game-a', 'game-b', 'game-c', 'game-d', 'game-e', 'game-f', 'game-g', 'game-i', 'game-z', 'game102', 'game108', 'game211'],
     );
   });
 

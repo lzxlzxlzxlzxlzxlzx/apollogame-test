@@ -51,12 +51,27 @@ const writeJson = (f, v) => { mkdirSync(dirname(f), { recursive: true }); writeF
 export const pipelineFile = (root, slug) => join(root, 'public', 'games', slug, 'pipeline.json');
 
 // 游戏形态：cart=创作台卡带（library/）· builtin=内置纯数据（public/games/<slug>/manifest.json tracked）· compiled=编译期（games/）。
+/**
+ * 游戏形态。四种，**`design` 是 2026-09-12 补的第四种**（独立审查打回的鸡生蛋）：
+ * S1/S2 是**设计阶段**，按流程它们必须先过，实现体才被允许出现；可此前 detectForm 只认
+ * 「library / public/games / games 三处之一有实现体」，于是新立项的游戏（只有 `docs/design/<slug>/`）
+ * 一上板就 `未知游戏, exit 1` —— **要过 S2 得先有实现体，要有实现体得先过 S2**。实撞：game110 / game111。
+ * 补 `design` 形态后：S1/S2 照常跑（它们的门本来就是纯 fs），S3+ 明说「还没有实现体」而不是「不认识你」。
+ * 顺序要紧：实现体优先——设计档一直在，它只能当**最后的兜底**，否则已实现的游戏会被误判成设计态。
+ */
 export function detectForm(root, slug) {
   if (existsSync(join(root, 'library', slug, 'manifest.json'))) return 'cart';
   if (existsSync(join(root, 'public', 'games', slug, 'manifest.json'))) return 'builtin';
   if (existsSync(join(root, 'games', slug))) return 'compiled';
+  if (existsSync(join(root, 'docs', 'design', slug))) return 'design';
   return null;
 }
+
+/** 还没有实现体（只有设计档）——S3 及以后的关无从谈起。 */
+export const isDesignOnly = (form) => form === 'design';
+/** 设计态在 S3+ 的统一说法（板上/门上同一只嘴，免得两处各说各话）。 */
+const DESIGN_ONLY_NOTE = (slug) =>
+  `设计态（只有 docs/design/${slug}/·还没有实现体）：先把 manifest 或 games/${slug}/ 源码落地，本关才有东西可跑`;
 
 const manifestPath = (root, slug, form) =>
   form === 'cart' ? join(root, 'library', slug, 'manifest.json')
@@ -322,8 +337,10 @@ export function artSubState(root, slug) {
 export const REVIEW_STAGES = ['S2', 'S3', 'S4', 'S5', 'S8'];
 export const REVIEW_CHECKLISTS = {
   S2: ['能力清单逐条对 registry 实名核真（无幻觉能力）', '规则面全有现成解释器（无「数据表+待写解释器」虚胖）', '游戏层代码例外逐条有 Lead 裁决', '§4.5 美术接入已答（纯程序化须申请例外）'],
-  S3: ['manifest 纯 JSON（无代码走私）', '实体/组件用途与 plan 一致（无 plan 外私加系统性机制）', '落盘门真跑过（load+2tick 证据新鲜）', '组件字段无「填了但没人解释」的死数据'],
-  S4: ['走查测试断言的是行为而非常量（假信心自查：故意改坏被测逻辑应变红）', '核心循环闭环：开局→行动→反馈→终局→可重开', '失败路径有测试（非法输入被拒/终局判定不误报）', '确定性：同 seed 同结果有断言', '验收剧本作者=GD 非 PE：每本剧本首注释行 `// author: <角色>`（REQ-C-108④ Lead 2026-08-18 裁——全 session 同 git 署名下 blame 分不出角色，author 行=归属唯一凭据；新写/改动的剧本缺行=打回·存量随下次改动补齐；PE 自写剧本=FAIL·REQ-ACCEPT 循环律）', '附真浏览器试玩截图序列（开局→N 步→终局→重开·非仅 CLI 绿）', '自证对齐单抽样重走 ≥3 条（含 ⚠降格行的裁决去向核对）+ 好玩三问已作答非敷衍（docs/playbooks/self-check.md）', '**玩家视角复核八问**已逐条作答（含第 8 问归属+时效：屏上每样东西玩家知道是谁的、哪一刻的·docs/playbooks/self-check.md）', '**递归复核**跑过且零裸奔（逐条款打坏实现→必须有剧本转红·无人红的条款=剧本是摆设·docs/playbooks/testing.md）', 'UI 货架**选型**逛过（house 主题 / @ui/starters / 按品类挑成熟件）——选型定信息层级属结构归 S4，观感精修归 S5（owner 2026-08-07·两层 1:1 律）', '有对手/敌人 AI 的游戏：**AI 设定在档**（capability-plan §4.65 摘要 + docs/design/<slug>/ 详设·初版可基本·迭代同步更新·owner 2026-08-10「有 AI 必须有 AI 设定」）+ AI 行为有点名测试（手册 docs/playbooks/opponent-ai.md）'],
+  S3: ['manifest 纯 JSON（无代码走私）',
+    '参考样例只用来学结构：说得出读了**哪几个文件、为什么读**（学蓝图组织/数据形状/测试写法），且蓝图里**没有从样例继承来的玩法**——抄结构可以、抄玩法不行；「没有同品类样例」不是缺件也不是缩减需求的理由（index.md 使用铁律 5）', '实体/组件用途与 plan 一致（无 plan 外私加系统性机制）', '落盘门真跑过（load+2tick 证据新鲜）', '组件字段无「填了但没人解释」的死数据'],
+  S4: ['走查测试断言的是行为而非常量（假信心自查：故意改坏被测逻辑应变红）',
+    '玩法来自本作需求而非样例：说得出参考过哪几个文件、为什么读；核心循环里没有「因为样例这么做」才存在的机制（index.md 使用铁律 5）', '核心循环闭环：开局→行动→反馈→终局→可重开', '失败路径有测试（非法输入被拒/终局判定不误报）', '确定性：同 seed 同结果有断言', '验收剧本作者=GD 非 PE：每本剧本首注释行 `// author: <角色>`（REQ-C-108④ Lead 2026-08-18 裁——全 session 同 git 署名下 blame 分不出角色，author 行=归属唯一凭据；新写/改动的剧本缺行=打回·存量随下次改动补齐；PE 自写剧本=FAIL·REQ-ACCEPT 循环律）', '附真浏览器试玩截图序列（开局→N 步→终局→重开·非仅 CLI 绿）', '自证对齐单抽样重走 ≥3 条（含 ⚠降格行的裁决去向核对）+ 好玩三问已作答非敷衍（docs/playbooks/self-check.md）', '**玩家视角复核八问**已逐条作答（含第 8 问归属+时效：屏上每样东西玩家知道是谁的、哪一刻的·docs/playbooks/self-check.md）', '**递归复核**跑过且零裸奔（逐条款打坏实现→必须有剧本转红·无人红的条款=剧本是摆设·docs/playbooks/testing.md）', 'UI 货架**选型**逛过（house 主题 / @ui/starters / 按品类挑成熟件）——选型定信息层级属结构归 S4，观感精修归 S5（owner 2026-08-07·两层 1:1 律）', '有对手/敌人 AI 的游戏：**AI 设定在档**（capability-plan §4.65 摘要 + docs/design/<slug>/ 详设·初版可基本·迭代同步更新·owner 2026-08-10「有 AI 必须有 AI 设定」）+ AI 行为有点名测试（手册 docs/playbooks/opponent-ai.md）'],
   S5: ['UI 全走 LayoutNode/引擎渲染（无手写 DOM 逃生）', 'audit 零新增红旗（棘轮绿）', '/check-ui 四关过（重叠/对比度/透明度/布局）', '交互可发现（按钮可见可点·不靠猜）', '**只换皮不动布局**——布局在 S4 已冻结；S5 动布局=返工（owner 2026-08-07·两层 1:1 律）', '自证对齐单抽样重走 ≥3 条（含 ⚠降格行的裁决去向核对）+ 好玩三问已作答非敷衍（docs/playbooks/self-check.md）'],
   S8: ['三绿证据绑当前 HEAD 且净树', '本游戏走查在全量并发下仍绿（非单跑侥幸）', '复盘：本次撞到的手册缺口已回填或提单'],
 };
@@ -372,7 +389,7 @@ function evalEvidence(ev, freshHash, headNow) {
 /** 看板推导（读盘+轻推导·不跑重活）。绿=机器 ok/免 + 人门 ok；任何一边欠=黄；机器 fail=红。 */
 export function boardFor(root, slug) {
   const form = detectForm(root, slug);
-  if (!form) return { ok: false, error: `未知游戏: ${slug}（library/public/src 三处均无）` };
+  if (!form) return { ok: false, error: `未知游戏: ${slug}（library/ · public/games/ · games/ · docs/design/ 四处均无）` };
   const pf = readJson(pipelineFile(root, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
   const hashNow = gameHash(root, slug);
   const head = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).stdout?.trim() || '';
@@ -380,6 +397,12 @@ export function boardFor(root, slug) {
   const hasTests = form !== 'cart' && existsSync(join(root, 'games', slug))
     && readdirSync(join(root, 'games', slug)).some((f) => f.endsWith('.test.ts'));
   const planFile = join(root, 'docs', 'design', slug, 'capability-plan.md');
+  // ⚠ **设计文档有两个落点**（独立审查 2026-09-12 打回的 P0）：创作台的 DesignStudio 把设计稿写进
+  // `library/<slug>/design/`（`design_flow.py` → `_game_dir`），而本流水线只读 `docs/design/<slug>/`。
+  // 后果是作者在创作台把设计做完了，S2 这边照样报「无能力计划」——**而且报得像是他没做**。
+  // 统一存储是迁移级决定（owner 判），但**沉默是不可接受的**：这里先把"另一处有"这件事说出来。
+  const studioPlanFile = join(root, 'library', slug, 'design', 'capability-plan.md');
+  const planSplit = !existsSync(planFile) && existsSync(studioPlanFile);
   // 缺口台账（REQ-S18PANEL②③）：**板上现算**（不读证据）——缺口台账已被排除出 gameHash，
   // 若改走证据就再没有东西替它标过期；现算则「把缺口标 delivered」下一次 board 立刻反映。
   const gapsRes = readCapabilityGaps(root, slug);
@@ -400,7 +423,11 @@ export function boardFor(root, slug) {
         const planDetail = existsSync(planFile) ? 'capability-plan.md 在档'
           : c.planWaiver ? `纯数据卡带免正式 plan（裁决在案：${String(c.planWaiver).slice(0, 40)}）` : null;
         machine = planDetail === null
-          ? { state: 'dim', detail: '无能力计划也无免 plan 裁决（模板见手册列）' }
+          ? (planSplit
+            // 两套事实源撞上了：别报「没做」，报「做在另一处」并给出搬运命令——这是作者能自救的唯一信息。
+            ? { state: 'warn', detail: `能力计划在 **library/${slug}/design/**（创作台落点），而流水线只读 docs/design/${slug}/`
+                + ` —— 两套事实源（P0·待 owner 判统一方向）。暂行：cp -r library/${slug}/design/* docs/design/${slug}/` }
+            : { state: 'dim', detail: '无能力计划也无免 plan 裁决（模板见手册列）' })
           : { state: gapEval.state, detail: `${planDetail} · ${gapEval.detail}` };
         break;
       }
@@ -408,7 +435,8 @@ export function boardFor(root, slug) {
         // R1（REQ-RENDERCHECK）：编译期游戏免 manifest 校验，但 gate 现在追加跑渲染探针——
         // 有证据（跑过）就照实证据走（ok/fail/stale）；从未跑过才显示「免」的旧提示（未跑≠免责）。
         machine = evalEvidence(pf.evidence?.S3, hashNow, head);
-        if (machine.state === 'dim' && !manifestPath(root, slug, form)) {
+        if (machine.state === 'dim' && isDesignOnly(form)) machine.detail = DESIGN_ONLY_NOTE(slug);
+        else if (machine.state === 'dim' && !manifestPath(root, slug, form)) {
           machine.detail = '编译期游戏免 manifest 校验·渲染探针未跑（gate 跑一次落证据）';
         }
         break;
@@ -416,17 +444,20 @@ export function boardFor(root, slug) {
         machine = evalEvidence(pf.evidence?.S4, hashNow, head);
         const nScen = acceptanceScenarioCount(root, slug);
         const scenNote = `验收剧本 ${nScen}/${MIN_ACCEPTANCE_SCENARIOS}${nScen < MIN_ACCEPTANCE_SCENARIOS ? '（GD 补）' : ' ✓'}`;
-        if (machine.state === 'dim') machine.detail = form === 'cart' ? `未跑（gate=bench 五轴 + ${scenNote}）` : hasTests ? `未跑（gate=该游戏 vitest + ${scenNote}）` : `✗ 无 walkthrough 测试（testing.md：先补测试再谈玩法完成）· ${scenNote}`;
-        if (machine.state === 'dim' && form !== 'cart' && !hasTests) machine.state = 'fail';
-        machine.detail += ` · ${selfCheckNote(root, slug, 'S4', pf.selfCheck?.S4, hashNow)}`;
+        if (machine.state === 'dim') machine.detail = isDesignOnly(form) ? `${DESIGN_ONLY_NOTE(slug)} · ${scenNote}`
+          : form === 'cart' ? `未跑（gate=bench 五轴 + ${scenNote}）` : hasTests ? `未跑（gate=该游戏 vitest + ${scenNote}）` : `✗ 无 walkthrough 测试（testing.md：先补测试再谈玩法完成）· ${scenNote}`;
+        // 设计态不判红：「还没写测试」对一个还没有实现体的立项不是缺陷，是进度。红只留给真有实现体却无测试的。
+        if (machine.state === 'dim' && form !== 'cart' && !isDesignOnly(form) && !hasTests) machine.state = 'fail';
+        if (!isDesignOnly(form)) machine.detail += ` · ${selfCheckNote(root, slug, 'S4', pf.selfCheck?.S4, hashNow)}`;
         break;
       }
       case 'S5':
         machine = form === 'cart'
           ? { state: 'ok', detail: '纯数据卡带无游戏层代码（LayoutNode 纪律天然满足）' }
           : evalEvidence(pf.evidence?.S5, hashNow, head);
+        if (isDesignOnly(form) && machine.state === 'dim') machine.detail = DESIGN_ONLY_NOTE(slug);
         // 卡带 S5 本就免审计（无游戏层代码）→ 不加自证前置；其余形态板上常显自证态（缺=✗·陈旧=⚠）。
-        if (form !== 'cart') machine.detail += ` · ${selfCheckNote(root, slug, 'S5', pf.selfCheck?.S5, hashNow)}`;
+        if (form !== 'cart' && !isDesignOnly(form)) machine.detail += ` · ${selfCheckNote(root, slug, 'S5', pf.selfCheck?.S5, hashNow)}`;
         break;
       case 'S6':
         machine = artSubState(root, slug);
@@ -436,7 +467,8 @@ export function boardFor(root, slug) {
         break;
       case 'S8':
         machine = evalEvidence(pf.evidence?.S8, hashNow, head);
-        if (machine.state === 'dim') machine.detail = form === 'cart' ? '未跑（gate=manifest-check+bench+MOCK 清账·卡带轻量终检）' : '未跑（gate=tsc+vitest+build 三绿）';
+        if (machine.state === 'dim') machine.detail = isDesignOnly(form) ? DESIGN_ONLY_NOTE(slug)
+          : form === 'cart' ? '未跑（gate=manifest-check+bench+MOCK 清账·卡带轻量终检）' : '未跑（gate=tsc+vitest+build 三绿）';
         break;
       default:
         machine = { state: 'dim', detail: '' };
@@ -560,10 +592,33 @@ export function interpretGoldenCompare(baseSummary, compareExit, compareTail) {
  *  纯函数（不碰盘/不 spawn）——导出供单测直接灌各退出码。判红只认「真出错」（装载失败/驱动点击后
  *  控制台 error/未捕获异常/零验收剧本）——UI 可驱动率低是诚实发现（剧本 signal 词表与 UI 词表本就
  *  不同源），不拿它当红线（同 spec-trace-guard.mjs「human 型占比」先例：报告不设阈值门）。 */
-export function interpretUiWalkthrough(baseSummary, probeExit, probeTail) {
+/**
+ * UI 走查结果 → 门判词。
+ *
+ * ⚠ **可驱动率目前只报不拦，而且这件事必须写在脸上**（2026-09-17 实证）：此前判词只写
+ * 「✓ UI 走查过（可驱动率见 …json）」，于是 game108 的板上挂着一个 ✓，而那份 json 里
+ * 躺着 **0/74**——74 个剧本动作没有一个能在真界面上点出来。量到了、落盘了、然后不用它判，
+ * 板上还显绿：这正是本仓最警惕的「写了不查」，只不过这次是我们自己犯的。
+ * 治本（把低可驱动率判红、阈值定多少、存量游戏怎么办）是有代价的口径改动 → 等 owner 裁。
+ * 在那之前至少**把数字摆到判词里**，别让人以为绿灯等于「真玩得动」。
+ * @param rate 可驱动率（0-1）；探针没给就 undefined，判词退回旧措辞。
+ */
+export function interpretUiWalkthrough(baseSummary, probeExit, probeTail, rate) {
   if (probeExit === 3) return { exit: 0, summary: `${baseSummary} · ⚠ UI 走查未跑·环境无浏览器（权威判定以有浏览器环境为准）` };
-  if (probeExit === 0) return { exit: 0, summary: `${baseSummary} · ✓ UI 走查过（可驱动率见 public/games/<slug>/probe/S4-uiwalk.json）` };
+  if (probeExit === 0) {
+    const pct = typeof rate === 'number' && Number.isFinite(rate) ? `${Math.round(rate * 100)}%` : '见 probe/S4-uiwalk.json';
+    const flag = typeof rate === 'number' && rate === 0 ? '（⚠ 零可驱动：剧本动作一个都点不出来·当前只报不拦）' : '';
+    return { exit: 0, summary: `${baseSummary} · ✓ UI 走查过·可驱动率 ${pct}${flag}` };
+  }
   return { exit: 1, summary: `${baseSummary} · ✗ UI 走查未过${probeTail ? ' · ' + probeTail : ''}` };
+}
+
+/** 读探针落盘的可驱动率（读不到 → undefined·判词自动退回旧措辞·零回归）。导出供接线测试。 */
+export function uiWalkRate(root, slug) {
+  const f = join(root, 'public', 'games', slug, 'probe', 'S4-uiwalk.json');
+  const r = readJson(f, null);
+  const v = r && r.uiDrivableRate;
+  return typeof v === 'number' && Number.isFinite(v) ? v : undefined;
 }
 
 /** S4 门收尾（REQ-RENDERCHECK R2b）：conformance（+ bench/walkthrough）已绿才追加真界面走查——
@@ -574,7 +629,7 @@ function withUiWalkthroughGate(slug, base) {
   const script = join(dirname(fileURLToPath(import.meta.url)), 'ui-walkthrough-probe.mjs');
   const probe = run('node', [script, '--game', slug]);
   const tail = (probe.stdout || probe.stderr || '').trim().split('\n').slice(-2).join(' / ').slice(0, 200);
-  return interpretUiWalkthrough(base.summary, probe.status ?? 1, tail);
+  return interpretUiWalkthrough(base.summary, probe.status ?? 1, tail, uiWalkRate(ROOT, slug));
 }
 
 /** S5/S8 门收尾（REQ-RENDERCHECK R3）：base 门（audit/三绿等）已过才追加标准照比对——base 已红
@@ -719,7 +774,7 @@ if (isMain) {
   const opt = (name) => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 1] : undefined; };
   if (!cmd || !slug) { console.error('用法: game-pipeline.mjs <board|gate|checklist|review|scorecard|signoff|concept> <slug> …（头注有全表）'); process.exit(1); }
   const form = detectForm(ROOT, slug);
-  if (!form) { console.error(`未知游戏: ${slug}`); process.exit(1); }
+  if (!form) { console.error(`未知游戏: ${slug}（library/ · public/games/ · games/ · docs/design/ 四处均无）`); process.exit(1); }
 
   if (cmd === 'board') {
     const b = boardFor(ROOT, slug);
@@ -809,6 +864,16 @@ if (isMain) {
   if (cmd === 'gate') {
     const stage = a3;
     if (!GATE_STAGES.includes(stage)) { console.error(`gate 只认 ${GATE_STAGES.join('/')}（其余阶段是纯推导或纯人门）`); process.exit(1); }
+    // 设计态（只有 docs/design/<slug>/·没有实现体）跑 S3+ 的门：**当场拒绝，不落证据，排在顺序闸之前**。
+    // · 排在顺序闸之前：「你还没有实现体」比「前面几关没绿」更根本，先说那句才有用——
+    //   否则作者看到的是一串顺序闸欠项，照着去补，补完再撞这道，白跑一趟。
+    // · 不落证据：落一条红证据等于说「这关跑过而且没过」，可它根本无从跑起；那条红还会一直挂在板上逼人日后手动清。
+    // · exit 2（用法错）与真·门失败（exit 1）区分开，编排器据此不把它当「门红」重派会话。
+    if (isDesignOnly(form) && stage !== 'S2') {
+      console.error(`✗ ${DESIGN_ONLY_NOTE(slug)}`);
+      console.error(`  → 现在能跑的是 S1（立项卡 concept）与 S2（能力计划 gap-check）；实现体落地后本关自然可跑。`);
+      process.exit(2);
+    }
     // F·阶段顺序闸：前置阶段（S1..S(N-1)）非全绿则拒跑，除非带 --out-of-order "<理由>" 记账放行。
     const oooReason = opt('--out-of-order');
     // **S2 不过顺序闸**（独立复查 2026-08-16 P0：接上顺序闸后 game-d/game102 的 `verifyStage('S2')`

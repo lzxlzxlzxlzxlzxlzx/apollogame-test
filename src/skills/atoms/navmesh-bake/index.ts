@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Transform, Collider3D, NavMesh, NavGraph, NavAgent, Velocity } from '@engine/protocol/components.js';
@@ -31,8 +32,25 @@ export const navmeshBakeCapability = defineCapability({
 
   config: {},
 
-  // NavGraph 由主程 pathfind 定义/provides；本能力只是另一个 writer（自动烘焙写入），故 provides 留空。
-  components: { provides: {}, reads: ['NavMesh', 'Collider3D', 'Transform', 'NavAgent'], writes: ['NavGraph'], consumes: [] },
+  // NavGraph 由主程 pathfind 定义/provides；本能力只是另一个 writer（自动烘焙写入）。
+  // NavMesh（烘焙范围声明）此前无 provider（C 治理）——它只被本能力读 → 在此登记契约。
+  components: {
+    provides: {
+      NavMesh: {
+        category: 'config',
+        describe: '导航烘焙范围（世界 XZ 矩形 + 栅格边长 + 智能体半径）。挂在世界单例；有它才烘焙 NavGraph，无则走手摆 NavGraph。',
+        fields: {
+          minX: { type: 'number', describe: '烘焙范围 minX' },
+          minZ: { type: 'number', describe: '烘焙范围 minZ' },
+          maxX: { type: 'number', describe: '烘焙范围 maxX' },
+          maxZ: { type: 'number', describe: '烘焙范围 maxZ' },
+          cellSize: { type: 'number', describe: '栅格边长（越小越精细越慢）' },
+          agentRadius: { type: 'number', describe: '障碍按此膨胀（Minkowski·缺省 0）' },
+        },
+      },
+    },
+    reads: ['NavMesh', 'Collider3D', 'Transform', 'NavAgent'], writes: ['NavGraph'], consumes: [],
+  },
 
   systems: [
     {
@@ -45,7 +63,7 @@ export const navmeshBakeCapability = defineCapability({
       writes: ['NavGraph'],
       consumes: [],
       execute(world: IWorld) {
-        const meshIds = world.query('NavMesh').map(([id]) => id).sort();
+        const meshIds = sortedIds(world, 'NavMesh');
         if (meshIds.length === 0) return; // 无 NavMesh → 不烘（手摆 NavGraph 模式）
         const meshId = meshIds[0]!;
         const nm = world.getComponent<NavMesh>(meshId, 'NavMesh')!;

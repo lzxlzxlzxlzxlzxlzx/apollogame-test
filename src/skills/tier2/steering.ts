@@ -1,7 +1,9 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Steering, Transform, Velocity, Relation, Status, Tag } from '@engine/protocol/components.js';
 import { queryRange } from '@atom-skills/index.js';
+import { len } from '@engine/math/vec2.js';
 
 // 群体分离（REQ-SURVIVOR群体①·seek 专属）：在 separation.radius 内被同群邻居线性衰减斥力推开，
 // 叠加到基础转向后连同 clamp 回 speed。同群=给 tagMask 按 Tag.flags 位筛，否则只认带 Steering 的邻居
@@ -25,7 +27,7 @@ function applySeparation(world: IWorld, id: string, t: Transform, s: Steering, v
     if (!nt) continue;
     const dx = t.x - nt.x;
     const dy = t.y - nt.y;
-    const d = Math.sqrt(dx * dx + dy * dy);
+    const d = len(dx, dy);
     if (d === 0) continue; // 完全重合：本 tick 不加（避免除零/无定向）
     const falloff = 1 - d / sep.radius; // 线性衰减：越近越强（(0,1]）
     if (falloff <= 0) continue;
@@ -36,7 +38,7 @@ function applySeparation(world: IWorld, id: string, t: Transform, s: Steering, v
   v.vx += sep.weight * rx;
   v.vy += sep.weight * ry;
   // clamp 到 speed（分离不让整体超过设定速度）。
-  const m = Math.sqrt(v.vx * v.vx + v.vy * v.vy);
+  const m = len(v.vx, v.vy);
   if (m > s.speed) {
     v.vx = (v.vx / m) * s.speed;
     v.vy = (v.vy / m) * s.speed;
@@ -108,7 +110,7 @@ export const steeringCapability = defineCapability({
       writes: ['Velocity'],
       consumes: [],
       execute(world: IWorld) {
-        const ids = world.query('Steering', 'Transform').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'Steering', 'Transform');
         for (const id of ids) {
           const s = world.getComponent<Steering>(id, 'Steering')!;
           const t = world.getComponent<Transform>(id, 'Transform')!;
@@ -140,7 +142,7 @@ export const steeringCapability = defineCapability({
 
           const dx = tt.x - t.x;
           const dy = tt.y - t.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const dist = len(dx, dy);
           if (dist === 0) {
             v.vx = 0;
             v.vy = 0;

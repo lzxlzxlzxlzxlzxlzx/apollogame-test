@@ -126,6 +126,9 @@ export default defineConfig({
     ],
   },
   test: {
+    // P1a 严格模式缺省开（system-view.ts）：系统对未申报组件的访问一跑就炸·只读组件深冻结。
+    // 生产（浏览器）无 process.env → off；这里只影响 vitest。要盘点全库改 ZEROCRAFT_STRICT=report。
+    env: { ZEROCRAFT_STRICT: process.env.ZEROCRAFT_STRICT ?? '1' },
     // 排除并行 Programmer 的 worktree 副本（.claude/worktrees）——否则 vitest 会把副本里的
     // 测试也扫进来、测试数虚高（曾出现 1515 假象）。保留默认的 node_modules/dist 排除。
     //
@@ -142,6 +145,9 @@ export default defineConfig({
       ...((process.env.ZEROCRAFT_DEEP ?? process.env.APOLLO_DEEP) === '1' ? [] : [
         'games/game-f/**', // 冻结游戏（owner 勿删勿迁·2026-08-03 owner 改判「不删了要还原·上架但代码纪律仍冻结」）·26s/133 测·没人开发→只慢车道跑
         'games/game-g/flow-walk.test.ts', // 整局通关走查 8.4s/1 测·33 个单元文件已覆盖各片段
+        'games/game211/flow-walk.test.ts', // 整局通关走查 10s/1 测（同 game-g 判据·2026-09-10 测试体检）
+        'games/game211/pathfind-scale.bench.test.ts', // 寻路选型压测 25s·量数不判语义（选型已定=流场·REQ-FLOWFIELD）·发版前/改寻路时慢车道跑
+        'games/game211/slg-scale.bench.test.ts', // 规模压测 4.6s·阈值宽松只防退化·同上慢车道
         'scripts/manifest-check.test.mjs', // 起进程跑 CLI 7.3s·库 manifest 校验（发版前跑够）
         'scripts/acceptance.test.mjs', // 起进程 3.1s·验收剧本harness
         'scripts/game-pipeline.test.mjs', // 起进程 2.4s·流程板 CLI（人用工具·不常改）

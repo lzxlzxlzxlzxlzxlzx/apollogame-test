@@ -81,3 +81,65 @@ describe('UI Components · visibleWhen 条件显隐（数据替代代码重建�
     expect(tree.children!.length).toBe(1); // 原树仍含被隐节点（只是过滤出了新 children 数组）
   });
 });
+
+// ── P2b · repeat 集合迭代原语（engine-architecture-review-2026-09-02 D8 · §1.4「UI 是 TS builder」的数据形态）──
+describe('UI Components · repeat：列表 → 模板克隆（数据替代 TS builder 整树重建）', () => {
+  const hand: UIDataSource = {
+    ...ds,
+    flag: (id) => ({ 'sel:c1': false, 'sel:c2': true }[id]),
+    list: (id) => (id === 'hand' ? [
+      { id: 'c1', rank: 'A', suit: '♠', power: 14, playable: true },
+      { id: 'c2', rank: '7', suit: '♥', power: 7, playable: false },
+      { id: 'c3', rank: 'K', suit: '♦', power: 13, playable: true },
+    ] : undefined),
+  };
+  const tree: LayoutNode = {
+    type: 'Panel', id: 'hand', props: {},
+    children: [{ type: 'Label', id: 'title', props: { text: '手牌' } }],
+    repeat: {
+      source: 'hand', key: 'id',
+      template: {
+        type: 'Button', id: 'card', props: { label: '{{item.rank}}{{item.suit}}', action: 'play', actionArg: '{{item.id}}', disabled: '{{item.playable}}' } as never,
+        children: [{ type: 'Label', id: 'pw', props: { text: '力 {{item.power}} · 第 {{index}}/{{count}} 张' } }],
+      },
+    },
+  };
+
+  it('静态 children 在前·每项克隆一份模板·id 带 #key 后缀·输出树不再带 repeat', () => {
+    const out = resolveBindings(tree, hand);
+    expect(out.repeat).toBeUndefined();
+    expect(out.children!.map((c) => c.id)).toEqual(['title', 'card#c1', 'card#c2', 'card#c3']);
+    expect(out.children![1].children![0].id).toBe('pw#c1');
+    expect(tree.children!.length).toBe(1); // 原树不变
+  });
+
+  it('占位符：整串占位 → 原类型（布尔/数值不变字符串）；文本内占位 → 拼接；index/count 可用', () => {
+    const out = resolveBindings(tree, hand);
+    const c2 = out.children![2].props as { label: string; actionArg: string; disabled: unknown };
+    expect(c2.label).toBe('7♥');
+    expect(c2.actionArg).toBe('c2');
+    expect(c2.disabled).toBe(false); // 布尔原样
+    expect((out.children![3].children![0].props as { text: string }).text).toBe('力 13 · 第 2/3 张');
+  });
+
+  it("模板里的 visibleWhen / bind 代入后照常生效（逐项条件显隐·逐项资源绑定纯数据可表达）", () => {
+    const t2: LayoutNode = {
+      type: 'Panel', id: 'p', props: {},
+      repeat: { source: 'hand', key: 'id', template: { type: 'Label', id: 'x', props: { text: '' }, visibleWhen: 'sel:{{item.id}}' } },
+    };
+    expect(resolveBindings(t2, hand).children!.map((c) => c.id)).toEqual(['x#c2']); // 只有 sel:c2 为真
+  });
+
+  it('列表缺席 → 无克隆；空列表 → empty 占位；limit 截断；无 key → 下标后缀', () => {
+    const base: LayoutNode = { type: 'Panel', id: 'p', props: {}, repeat: { source: 'hand', template: { type: 'Label', id: 'x', props: { text: '{{item.rank}}' } }, empty: { type: 'Label', id: 'none', props: { text: '空' } }, limit: 2 } };
+    expect(resolveBindings(base, { list: () => undefined }).children).toEqual([]);
+    expect(resolveBindings(base, { list: () => [] }).children!.map((c) => c.id)).toEqual(['none']);
+    expect(resolveBindings(base, hand).children!.map((c) => c.id)).toEqual(['x#0', 'x#1']);
+  });
+
+  it('展开后的树能被 renderNode 渲染（克隆节点是普通字面节点）', () => {
+    const html = renderNode(resolveBindings(tree, hand), {} as never);
+    expect(html).toContain('A♠');
+    expect(html).toContain('K♦');
+  });
+});

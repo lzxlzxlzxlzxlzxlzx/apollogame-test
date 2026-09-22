@@ -23,14 +23,17 @@
 // 游戏，绝不把全库扫描塞进每次门禁（全库兜底=S5 流程门 + 主程每日巡检）。此前 audit 只挂 S5 门——
 // 游戏带 audit 实况 FAIL 也能照常推（评审 E6 实证），本步收口。
 //
+// 代码围栏常驻（P0 治理围栏·2026-09-03·docs/design/engine-architecture-review-2026-09-02.md §5 P0）：
+//   game/full 两档恒跑 `eslint`（tools/eslint/zerocraft-rules.mjs：sim 面禁裸随机/超越函数/墙钟/定时器·测试三禁·
+//   src 禁 HTML 注入）+ `depcruise`（.dependency-cruiser.cjs：games/src 边界 + 层向 + 解析不到即红）。
+//   它们取代了此前按面点名的 regex 守卫 engine-random-guard / test-hygiene-check / decouple-check
+//   （三者现为同一围栏的薄包装入口·供单独点名跑）——regex 被 `Math['random']()`/解构/假注释绕过，AST/真实解析不会。
 // 面触发守卫（REQ-GUARDGATE 守卫接线批·2026-08-16）——按改动面点名跑、红=拦（无放行档）：
-//   ① 引擎面非测试源文件（src/{engine,skills,assembly,net,services}）→ engine-random-guard
-//      （深审 A1 探针2：引擎层插裸 Math.random 此前零守卫，被咬全靠碰巧的精确数值断言）；
-//   ② src/**/*.test.ts → test-hygiene-check（三禁：墙钟/外部 IO/裸随机——HEAD 曾红着也拦不了推送）；
 //   ③ 美术面（scripts/art-replace* / main_entry/art_*）→ art-replace-smoke.py
 //      （ARTPAR 复查裁定：该冒烟不在门禁内曾让三处假红漏检一整天）。
 //   守卫脚本自身被改也触发各自守卫（改守卫先自证仍能跑绿）。
 import { execSync, spawnSync } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
 import { SLOW_TARGETS } from './slow-lane-guard.mjs';
 
 // ── 引擎/共享面前缀（碰到=full·与 CLAUDE.md 引擎域界一致）───────────────────────
@@ -42,6 +45,7 @@ const ENGINE_PREFIXES = [
 const ENGINE_FILES = new Set([
   'src/launcher.tsx', 'vite.config.ts', 'package.json', 'package-lock.json',
   'tsconfig.json', 'index.html',
+  'eslint.config.mjs', '.dependency-cruiser.cjs', // 围栏配置（P0）：改围栏 = 改共享面 → full
 ]);
 const gameOf = (f) => {
   const m = f.match(/^games\/([a-z0-9-]+)\//) || f.match(/^public\/games\/([a-z0-9-]+)\//) || f.match(/^docs\/design\/([a-z0-9-]+)\//);
@@ -97,19 +101,14 @@ export function auditGamesOf(files) {
 }
 
 /**
- * 纯提取（可单测·REQ-GUARDGATE）：改动文件列表 → 面触发守卫开关三旗。
- * · engineRandom：引擎面（五目录）非测试源文件被改，或 engine-random-guard 自身被改。
- *   测试文件不触发它——*.test.* 的三禁归 test-hygiene-check，不重叠不漏管。
- * · testHygiene：src/**\/*.test.ts 被改（hygiene 只扫这一面），或 hygiene 脚本自身被改。
+ * 纯提取（可单测·REQ-GUARDGATE）：改动文件列表 → 面触发守卫开关旗。
+ * （engineRandom / testHygiene 两旗已随 P0 治理围栏退役——eslint 步常驻 game/full 两档，不再按面点名。）
  * · artSmoke：scripts/art-replace* 或 main_entry/art_* 被改（含冒烟脚本自身=scripts/art-replace-smoke.py）。
  * · backupSmoke：原图备份面（main_entry/t2_replace.py · scripts/art-replace.mjs）——见下方注释。
  */
 export function facesOf(files) {
   const list = files.filter(Boolean);
-  const ENGINE_SRC = /^src\/(engine|skills|assembly|net|services)\/.*\.(ts|tsx|js|mjs)$/;
   return {
-    engineRandom: list.some((f) => (ENGINE_SRC.test(f) && !/\.test\./.test(f)) || f === 'scripts/engine-random-guard.mjs'),
-    testHygiene: list.some((f) => /^src\/.*\.test\.ts$/.test(f) || f === 'scripts/test-hygiene-check.mjs'),
     artSmoke: list.some((f) => f.startsWith('scripts/art-replace') || /^main_entry\/art_/.test(f)),
     // syncSmoke：git 同步面（art_sync=一键提交推送 · artifacts=任务收工自动存档）。单列不并进 artSmoke——
     // art-replace-smoke 一条也没覆盖 git 侧；这两个模块动的是**提交/推送顺序**，错了就是「产物丢了」
@@ -122,6 +121,38 @@ export function facesOf(files) {
     // 最该机器守的那类。
     backupSmoke: list.some((f) => f === 'main_entry/t2_replace.py' || f === 'scripts/art-replace.mjs'
       || f === 'scripts/art-backup-smoke.py'),
+    // platformStatic：平台同源静态伺服面（owner 2026-08-25 蓝屏实证）。server.py 是 dist 同源伺服 +
+    // /assets 素材库路由的主处理器，却不带 art_ 前缀 → 此前任何面旗都不命中，改它一行没门在验；
+    // 坏了的形状是「首屏 bundle 404 永不挂载 = 蓝屏」——门禁 build 天天产日常 dist，必须机器守。
+    platformStatic: list.some((f) => f === 'main_entry/server.py' || f === 'scripts/platform-static-smoke.py'),
+    // workshopProvider：创作台「用哪个供应商生成」面（owner 2026-08-26 实证事故）。
+    // 坏了的形状是**假产物**：mock 对任何 prompt 都回同一份内置 manifest，而它此前既能被
+    // `provider()` 的兜底选中、又被 `providerChips` 从界面上过滤掉 ⇒「所有游戏生成出来一模一样」
+    // 且界面上找不到任何原因。index.dc.html 与 generate_api.py 此前都不带任何面旗。
+    workshopProvider: list.some((f) => f === 'workshop/index.dc.html' || f === 'main_entry/generate_api.py'
+      || f === 'main_entry/mock.py' || f === 'scripts/workshop-provider-guard.mjs'),
+    // distStale：「过期构建产物」判据面（owner 2026-08-26 实证事故）。dist 是 gitignore 的，
+    // git pull 不更新它 ⇒ 旧 bundle 一直被端出去，症状是「点任何游戏都打开同一个旧演示场」，
+    // 而 URL/API/卡带内容全对——人眼几乎查不出来，必须机器守。
+    distStale: list.some((f) => f === 'main_entry/dist_check.py' || f === 'main_entry/cli.py'
+      || f === 'main_entry/server.py' || f === 'scripts/dist-staleness-guard.py'),
+    // skillShape：能力「形状」面（owner 2026-09-05 令「避免超大 skill·底层要沉淀」）。
+    // 改任何 src/skills/** 的能力壳都要过形状棘轮——**新长出来的超大件当场拦**，
+    // 而不是等下一次 review 才发现（实测立门当天中位壳 98 行、最大 654 行 = 6.7×）。
+    skillShape: list.some((f) => f.startsWith('src/skills/') && f.endsWith('.ts') && !f.includes('.test.'))
+      || list.some((f) => f === 'scripts/skill-shape-guard.mjs' || f === 'scripts/skill-shape-baseline.json'),
+    // creationLoop：创作闭环面（独立审查 2026-09-12 打回六条·owner 令「该补足的补足」）。
+    // 病灶一句话：**能生成、能运行，却没有证据证明生成的是设计要求的那个游戏**。
+    // 这条链（建库 → 编号 → 版本保存 → 生成告警 → 原型前计划体检 → catalog）此前**零面旗命中**。
+    creationLoop: list.some((f) => f.startsWith('main_entry/') || f.startsWith('src/studio/')
+      || f === 'src/launcher.tsx' || f === 'scripts/dump-capability-catalog.mjs'
+      || f === 'scripts/creation-loop-guard.py'),
+    // simDom：sim 面 DOM 围栏（P3a·REQ-P3TAIL M1）。碰 engine/skills/net 或围栏本身就跑——
+    // 它是 P3a 的验收判据本身（「sim 在 Node/Worker 里不带 dom lib 也过 tsc」），
+    // 此前这句话只住在文档里，主 tsconfig 带 dom，sim 面偷用 window 也照样编译过。
+    simDom: list.some((f) => (f.startsWith('src/engine/') || f.startsWith('src/skills/') || f.startsWith('src/net/'))
+      && f.endsWith('.ts') && !f.includes('.test.'))
+      || list.some((f) => f === 'tsconfig.sim.json' || f === 'types/sim-env.d.ts' || f === 'scripts/sim-dom-fence.mjs'),
     // dokiworld/** 的 node --test 没有别的门在验（DOKI-APPS 后续①·「写了测试没人跑」与 game108 恒石同形）：
     // 改动命中哪个 app 目录就跑哪个（.md 不算——纯文档改不了测试结果）。
     dokiApps: [...new Set(list.map((f) => { const m = f.match(/^dokiworld\/([a-z0-9-]+)\//); return m && !f.endsWith('.md') ? m[1] : null; }).filter(Boolean))].sort(),
@@ -150,15 +181,19 @@ function changedFiles(base) {
 
 // 门禁计划（scope + 改动游戏 + 面触发旗 → 要跑哪些步）。每步 {name, cmd}。导出供行为契约测试。
 export function planFor(c, auditGames = [], faces = {}) {
-  // 常驻守卫（任何 scope 都跑·纯 fs 扫描+regex·秒级）：文档引用 + token 预算 + 引擎/内容边界
-  // （decouple-check·REQ-SPLIT-引擎内容分离图纸②·跟双守卫并列，防 games/src 边界回潮）。
+  // 常驻守卫（任何 scope 都跑·纯 fs 扫描+regex·秒级）：文档引用 + token 预算 + 美术台账。
   const GUARDS = [
     { name: 'docs-ref', cmd: ['node', ['scripts/docs-ref-guard.mjs']] },
     { name: 'context-budget', cmd: ['node', ['scripts/context-budget-guard.mjs']] },
-    { name: 'decouple-check', cmd: ['node', ['scripts/decouple-check.mjs']] },
     // REQ-ARTPIPE2 A1②：台账强制守卫。退出码 0=全净·1=棘轮违规（新黑户）硬拦·2=有存量挂账/死账/
     // 缺来源但无新增——警告态，allowExit 放行（已知债务开工单追，不该拦无关改动的推送）。
     { name: 'art-ledger-guard', cmd: ['node', ['scripts/art-ledger-guard.mjs']], allowExit: [0, 2] },
+  ];
+  // 代码围栏（P0 治理围栏·见文件头）：game/full 恒跑·红=拦·放 tsc 前（≈15s+7s·秒级先咬省大头）。
+  // eslint 面 = src+games（规则按面分配见 eslint.config.mjs）；depcruise 面 = src+games（含 games/src 边界·原 decouple-check）。
+  const CODE_FENCES = [
+    { name: 'eslint', cmd: ['npx', ['eslint', 'src', 'games', '--max-warnings', '0']] },
+    { name: 'depcruise', cmd: ['npx', ['depcruise', '--config', '.dependency-cruiser.cjs', 'src', 'games']] },
   ];
   const TSC = { name: 'tsc', cmd: ['npx', ['tsc', '--noEmit']] };
   const BUILD = { name: 'build', cmd: ['npm', ['run', 'build']] };
@@ -173,10 +208,14 @@ export function planFor(c, auditGames = [], faces = {}) {
   //（漏检一整天的病根就是它不在门前）。docs-only/none 时面文件（scripts//src//main_entry/）
   // 必已把 scope 推成 full，三旗恒灭，不额外加门。
   const FACE_GUARDS = [
-    ...(faces.engineRandom ? [{ name: 'engine-random', cmd: ['node', ['scripts/engine-random-guard.mjs']] }] : []),
-    ...(faces.testHygiene ? [{ name: 'test-hygiene', cmd: ['node', ['scripts/test-hygiene-check.mjs']] }] : []),
     ...(faces.artSmoke ? [{ name: 'art-smoke', cmd: ['python3', ['scripts/art-replace-smoke.py']] }] : []),
     ...(faces.backupSmoke ? [{ name: 'art-backup-smoke', cmd: ['python3', ['scripts/art-backup-smoke.py']] }] : []),
+    ...(faces.platformStatic ? [{ name: 'platform-static-smoke', cmd: ['python3', ['scripts/platform-static-smoke.py']] }] : []),
+    ...(faces.workshopProvider ? [{ name: 'workshop-provider-guard', cmd: ['node', ['scripts/workshop-provider-guard.mjs']] }] : []),
+    ...(faces.distStale ? [{ name: 'dist-staleness-guard', cmd: ['python3', ['scripts/dist-staleness-guard.py']] }] : []),
+    ...(faces.skillShape ? [{ name: 'skill-shape-guard', cmd: ['node', ['scripts/skill-shape-guard.mjs']] }] : []),
+    ...(faces.creationLoop ? [{ name: 'creation-loop-guard', cmd: ['python3', ['scripts/creation-loop-guard.py']] }] : []),
+    ...(faces.simDom ? [{ name: 'sim-dom-fence', cmd: ['node', ['scripts/sim-dom-fence.mjs']] }] : []),
     ...(faces.syncSmoke ? [
       { name: 'art-sync-smoke', cmd: ['python3', ['scripts/art-sync-smoke.py']] },
       { name: 'auto-sync-smoke', cmd: ['python3', ['scripts/auto-sync-smoke.py']] },
@@ -189,10 +228,10 @@ export function planFor(c, auditGames = [], faces = {}) {
   if (c.scope === 'none') return [];
   if (c.scope === 'docs-only') return GUARDS;
   if (c.scope === 'game') {
-    return [...AUDIT, ...FACE_GUARDS, TSC, { name: `vitest:${c.game}`, cmd: ['npx', ['vitest', 'run', `games/${c.game}`]] }, BUILD, ...GUARDS];
+    return [...AUDIT, ...CODE_FENCES, ...FACE_GUARDS, TSC, { name: `vitest:${c.game}`, cmd: ['npx', ['vitest', 'run', `games/${c.game}`]] }, BUILD, ...GUARDS];
   }
   // full
-  return [...AUDIT, ...FACE_GUARDS, TSC, { name: 'vitest:full', cmd: ['npx', ['vitest', 'run']] }, BUILD, ...GUARDS];
+  return [...AUDIT, ...CODE_FENCES, ...FACE_GUARDS, TSC, { name: 'vitest:full', cmd: ['npx', ['vitest', 'run']] }, BUILD, ...GUARDS];
 }
 
 function main() {
@@ -229,4 +268,4 @@ function main() {
   console.log(`\n✅ 门禁全绿（scope=${c.scope}${c.game ? ':' + c.game : ''}）`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

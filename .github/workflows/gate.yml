@@ -1,0 +1,92 @@
+name: Gate
+
+# P0 治理围栏（docs/design/engine-architecture-review-2026-09-02.md §5 P0 · D13）：
+# 此前门禁 `scripts/scoped-gate.mjs --run` 只在 LLM session 本地自觉跑——任何一次绕过都无人知晓。
+# 本 workflow 让同一门禁在每次 push 到 claude/mainbranch 与每个 PR 上真跑（status check），
+# 并每夜跑慢车道全量（ZEROCRAFT_DEEP=1）+ 全部 on-demand 守卫。
+# 分支保护（要求本 check 通过才能合并/推送）须 owner 在 GitHub 仓库设置里开启，workflow 文件本身开不了。
+
+on:
+  push:
+    branches: [claude/mainbranch]
+  pull_request:
+    branches: [claude/mainbranch]
+  schedule:
+    - cron: '0 18 * * *' # 每日 02:00 北京时间
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scoped-gate:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # scoped-gate 用 `git diff <base>...HEAD` 分类改动面
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install
+        run: npm ci --ignore-scripts
+
+      - name: Resolve base
+        id: base
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "ref=origin/${{ github.base_ref }}" >> "$GITHUB_OUTPUT"
+          elif [ -n "${{ github.event.before }}" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ] && git cat-file -e "${{ github.event.before }}" 2>/dev/null; then
+            echo "ref=${{ github.event.before }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=HEAD~1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: scoped-gate --run
+        run: node scripts/scoped-gate.mjs --run --base "${{ steps.base.outputs.ref }}"
+
+  nightly-deep:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: npm ci --ignore-scripts
+      - name: tsc
+        run: npx tsc --noEmit
+      - name: lint fences
+        run: npm run lint && npm run depcruise
+      - name: vitest deep lane
+        run: ZEROCRAFT_DEEP=1 npx vitest run
+      - name: build
+        run: npm run build
+      - name: on-demand guards
+        run: |
+          node scripts/build-component-map.mjs --check
+          node scripts/component-manifest-guard.mjs
+          npx vite-node scripts/system-graph-audit.mjs
+          node scripts/docs-ref-guard.mjs
+          node scripts/context-budget-guard.mjs
+          node scripts/game-skill-audit.mjs

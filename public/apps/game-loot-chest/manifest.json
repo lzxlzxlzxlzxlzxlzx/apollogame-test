@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "game-loot-chest",
+  "kind": "game",
+  "version": "0.1.0",
+  "entry": "index.html",
+  "protocol": { "name": "dokiworld.app", "version": 2 },
+  "inputs": [{ "contract": "doki.game.chest-input", "version": 2 }],
+  "outputs": [{ "contract": "doki.game.chest-result", "version": 2 }]
+}

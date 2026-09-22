@@ -2,7 +2,11 @@
 // 每帧驱动 UI/渲染的"软逻辑"组件：可见性、精灵图层、颜色、帧、血条、动画状态机、朝向、声音、相机、文字、Tween。
 // 红线：表现层只表现，**绝不驱动逻辑、绝不被 Condition 读**（Tween 浮点插值不喂逻辑数值，防跨端 1-ULP 漂移）。
 import type { Component } from '../../core/types.js';
-import type { LayoutNode } from '@ui/components/index.js'; // 仅类型（erased·无运行时环）：WorldUI3D 富内容 = LayoutNode（UI 铁律）
+// 仅类型（erased·无运行时环）：WorldUI3D / Diegetic3D 的富内容 = LayoutNode（UI 铁律）。
+// ⚠ **直接取 types.js，不走桶文件 index.js**（P3a 机器围栏逼出来的）：桶文件会把重度依赖 DOM 的
+// `server.ts` 一起拖进类型图，于是 protocol 这一层在「无 DOM」的 tsconfig 下编译不过——
+// 而 protocol 是 sim 的契约层，本就不该认识浏览器。types.ts 自身只依赖 ./emoji.js，是干净的。
+import type { LayoutNode } from '@ui/components/types.js';
 
 // ── H1 visibility ── 是否可见 / 是否参与系统运算
 export interface Visibility extends Component {

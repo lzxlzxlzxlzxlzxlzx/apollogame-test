@@ -8,6 +8,21 @@ from .llm_transport import GAME_GEN_SYSTEM_PROMPT, LLM_PROVIDERS, _FALLBACK_CATA
 from .lowmodel import _handle_template_edit
 
 def handle_generate(body: dict) -> dict:
+    """POST /api/generate 的对外壳：分派给 `_handle_generate`，并给 **mock 产物盖章**。
+
+    ⚠ 盖章不是装饰（owner 2026-08-26 实证事故）：mock provider 对**任何** prompt 都回同一份内置
+    manifest（`_mock_manifest()` = platformer 预设：一个可控方块 + 地面 + 三个平台方块）。
+    它一旦被选中，作者会看到「每个游戏生成出来都一模一样」，而此前响应里**没有任何字样**说明
+    这是测试样例——静默失效正是本仓最难查的那类。现在凡走 mock，响应恒带 `mock: true`，
+    调用方（工作台）据此明示，别让人以为是真生成。
+    """
+    res = _handle_generate(body)
+    if isinstance(res, dict) and body.get('provider') == 'mock':
+        res['mock'] = True
+    return res
+
+
+def _handle_generate(body: dict) -> dict:
     """POST /api/generate 的处理核。mode='create'（默认）从 prompt 生成；mode='revise' 从
     current_manifest + instruction 生成完整修订版；设计先行流四模式 design-chat/design-breakdown/
     design-revise/prototype 见各 _handle_* 。autofix=True 开服务端校验重试回路。"""

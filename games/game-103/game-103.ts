@@ -5,7 +5,8 @@
 import { Engine } from '@zerocraft/engine/runtime/engine.js';
 import { CanvasRenderer } from '@zerocraft/engine/renderer/index.js';
 import { AssetManager, ImageAssetLoader, parseAssetIndex, registerAssetIndex } from '@zerocraft/engine/assets/index.js';
-import { KeyboardInputSource, QueuedInputSource, MultiInputSource } from '@zerocraft/engine/net/index.js';
+import { MultiInputSource } from '@zerocraft/engine/net/index.js';
+import { KeyboardInputSource, QueuedInputSource } from '@zerocraft/engine/net/host/index.js';
 import { mountUI } from '@zerocraft/engine/ui/components/index.js';
 import type { MountHandle, HandlerMap } from '@zerocraft/engine/ui/components/index.js';
 import type { Resource, GameFlow } from '@zerocraft/engine/engine/protocol/components.js';

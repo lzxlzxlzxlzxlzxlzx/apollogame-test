@@ -83,3 +83,151 @@ export function opposedRoll(rng: RandomSeed, pA: number, pB: number, tiePolicy: 
     if (rerolls > OPPOSED_MAX_REROLL) return { winner: 'A', rollA, rollB, rerolls }; // 安全阀：终结于掷者胜
   }
 }
+
+// ── 改掷层（game-g `clash-resolve.ts` 的 RollMods/rollWithMods/rollDist/rollWinProbMods 下沉通用化）──
+// 「改掷修饰 = 数据（RollMods）；实掷/精确分布/胜率 = 引擎确定性算法」。全部纯函数、只消费 `nextRandom`。
+//
+// 语义（单颗 `sides` 面骰·S = max(1,round(sides))）：
+//   · floor       —— 掷值下界抬 N：单次抽样落在 [lo,S]，lo = min(S, 1+floor)（越过 S 则退化恒 S）。
+//   · rerollBelow —— 首抽 < rerollBelow 时**重抽一次并采用新值**（只作用于每个样本的首抽·爆骰续抽不重抽）。
+//   · explodeOn   —— 抽值 ≥ explodeOn 时再抽一次（同区间 [lo,S]）累加，续抽仍 ≥ explodeOn 则继续，
+//                    **最多 EXPLODE_CAP=8 次爆骰**（第 8 次爆骰的抽值照加、但不再触发第 9 次）。
+//                    explodeOn=S 即「掷出最大面爆骰」；≤0/undefined = 关闭。
+//   · twice / advantage —— 多抽样本取最高；disadvantage —— 多抽样本取最低。三者合成
+//                    extra = twice + advantage − disadvantage：extra>0 → 1+extra 个样本取最高；
+//                    extra<0 → 1+|extra| 个样本取最低；=0 → 单样本（优/劣势对消·D&D 惯例）。
+//   · bonus       —— 最后加到选中样本上（允许负=减值）。
+//
+// ⚖ 确定性 / rng 消费规则（lockstep·录放安全）：
+//   样本数 = 1+|extra|，**纯由 mods 决定**；每个样本消费 nextRandom：
+//     1（首抽）+ [1 当且仅当 rerollBelow>0 且首抽 < rerollBelow] + e（爆骰次数·e ≤ 8·每次 1 抽）。
+//   除 rerollBelow/explodeOn 这两项**固有**的数据依赖外，消费次数是 mods 的纯函数（无数据相关早退）。
+//   mods 全零（NO_ROLL_MODS）时严格等于 `1 + floor(nextRandom(rng) * S)`（与 opposedRoll 每方一掷逐字节一致）。
+//   无 Math.pow/随机/超越函数：整数幂用 ipow 循环（zerocraft/no-transcendental 围栏）。
+export interface RollMods {
+  bonus: number; // 掷后加值（可负）
+  floor: number; // 下界抬升 N（掷 [1+N,S]）
+  twice: number; // 额外抽样本数·取最高（灌铅骰）
+  advantage?: number; // 额外抽样本数·取最高（与 twice 同向叠加）
+  disadvantage?: number; // 额外抽样本数·取最低（与 twice/advantage 对消）
+  rerollBelow?: number; // 首抽 < 此值 → 重抽一次采用新值（0/undefined 关）
+  explodeOn?: number; // 抽值 ≥ 此值 → 再抽累加（上限 EXPLODE_CAP 次；0/undefined 关）
+}
+export const NO_ROLL_MODS: RollMods = { bonus: 0, floor: 0, twice: 0 };
+export const EXPLODE_CAP = 8;
+
+interface RollPlan { S: number; lo: number; n: number; samples: number; pickMin: boolean; reroll: number; explode: number; bonus: number }
+const nz = (x: number | undefined): number => Math.max(0, Math.trunc(x ?? 0)); // 非负整数化（NaN→NaN 由调用方保证不传）
+
+function planRoll(sides: number, m: RollMods): RollPlan {
+  const S = Math.max(1, Math.round(sides));
+  const lo = Math.min(S, 1 + nz(m.floor));
+  const extra = nz(m.twice) + nz(m.advantage) - nz(m.disadvantage);
+  return {
+    S, lo, n: S - lo + 1,
+    samples: 1 + (extra < 0 ? -extra : extra), pickMin: extra < 0,
+    reroll: nz(m.rerollBelow), explode: nz(m.explodeOn),
+    bonus: Math.trunc(m.bonus),
+  };
+}
+
+// 整数幂（循环乘·不用 Math.pow）：k≥0。
+function ipow(x: number, k: number): number {
+  let r = 1;
+  for (let i = 0; i < k; i++) r *= x;
+  return r;
+}
+
+// 单个样本：首抽 → [重抽] → [爆骰链]。消费次数见文件头规则。
+function drawSample(rng: RandomSeed, p: RollPlan): number {
+  let v = p.lo + Math.floor(nextRandom(rng) * p.n);
+  if (p.reroll > 0 && v < p.reroll) v = p.lo + Math.floor(nextRandom(rng) * p.n); // 重抽一次·采用新值
+  let total = v;
+  if (p.explode > 0) {
+    let last = v;
+    for (let e = 0; e < EXPLODE_CAP && last >= p.explode; e++) {
+      last = p.lo + Math.floor(nextRandom(rng) * p.n);
+      total += last;
+    }
+  }
+  return total;
+}
+
+// 改掷实掷：1+|extra| 个样本取最高/最低 + bonus。同 rng 状态 + 同 mods → 同结果。
+export function rollWithMods(sides: number, rng: RandomSeed, mods: RollMods): number {
+  const p = planRoll(sides, mods);
+  let best = 0;
+  for (let i = 0; i < p.samples; i++) {
+    const v = drawSample(rng, p);
+    if (i === 0 || (p.pickMin ? v < best : v > best)) best = v;
+  }
+  return best + p.bonus;
+}
+
+const addMass = (map: Map<number, number>, k: number, p: number): void => { map.set(k, (map.get(k) ?? 0) + p); };
+const sortedKeys = (map: ReadonlyMap<number, number>): number[] => [...map.keys()].sort((a, b) => a - b);
+
+// 改掷后掷值的**精确**概率分布（key=掷值·value=概率）——精确对象是 rollWithMods 实际实现的过程：
+//   bonus/floor/twice/advantage/disadvantage/rerollBelow 均为闭式精确；explodeOn 按 EXPLODE_CAP=8 截断
+//   （与实掷同一上限 → 对实掷过程精确；相对「无限爆骰」的理论分布则截断于第 8 层）。
+// 零 mods → 每面恰 1/S（不经 CDF 变换·无浮点误差）。求和/遍历一律按 key 升序 → 浮点结果确定。
+export function rollDist(sides: number, mods: RollMods): Map<number, number> {
+  const p = planRoll(sides, mods);
+  // 1) 首抽 + 重抽：P(v) = (1[v≥R] + q)/n，q = P(首抽<R) = #{u∈[lo,S]: u<R}/n。
+  let q = 0;
+  if (p.reroll > 0) { let c = 0; for (let u = p.lo; u <= p.S; u++) if (u < p.reroll) c++; q = c / p.n; }
+  const baseP = (u: number): number => (p.reroll > 0 ? ((u >= p.reroll ? 1 : 0) + q) / p.n : 1 / p.n);
+  // 2) 爆骰链 DP：pending = 「和为 s 且仍在爆」的质量；每层对 [lo,S] 续抽一次，第 EXPLODE_CAP 层后全部落定。
+  const single = new Map<number, number>();
+  let pending = new Map<number, number>();
+  for (let u = p.lo; u <= p.S; u++) {
+    const pu = baseP(u);
+    if (p.explode > 0 && u >= p.explode) addMass(pending, u, pu); else addMass(single, u, pu);
+  }
+  for (let level = 1; level <= EXPLODE_CAP && pending.size > 0; level++) {
+    const next = new Map<number, number>();
+    for (const s of sortedKeys(pending)) {
+      const m = (pending.get(s) ?? 0) / p.n;
+      for (let u = p.lo; u <= p.S; u++) {
+        if (level < EXPLODE_CAP && u >= p.explode) addMass(next, s + u, m); else addMass(single, s + u, m);
+      }
+    }
+    pending = next;
+  }
+  // 3) 多样本取最高/最低：P(max=v) = F(v)^k − F(v−1)^k；P(min=v) = (1−F(v−1))^k − (1−F(v))^k。
+  const out = new Map<number, number>();
+  const keys = sortedKeys(single);
+  if (p.samples === 1) {
+    for (const v of keys) out.set(v + p.bonus, single.get(v) ?? 0);
+    return out;
+  }
+  let F = 0; // 累积分布 F(v−1)
+  for (const v of keys) {
+    const Fv = F + (single.get(v) ?? 0);
+    const pv = p.pickMin ? ipow(1 - F, p.samples) - ipow(1 - Fv, p.samples) : ipow(Fv, p.samples) - ipow(F, p.samples);
+    out.set(v + p.bonus, pv < 0 ? 0 : pv); // 浮点负零保护
+    F = Fv;
+  }
+  return out;
+}
+
+// 两分布独立对掷 → P(a>b) / P(a==b)（离散精确·供预报/EV·非 100/0）。按 key 升序双重求和 → 结果确定。
+export function winProb(distA: ReadonlyMap<number, number>, distB: ReadonlyMap<number, number>): { pGreater: number; pEqual: number } {
+  let g = 0, e = 0;
+  const kb = sortedKeys(distB);
+  for (const av of sortedKeys(distA)) {
+    const pa = distA.get(av) ?? 0;
+    for (const bv of kb) {
+      const pb = distB.get(bv) ?? 0;
+      if (av > bv) g += pa * pb; else if (av === bv) e += pa * pb;
+    }
+  }
+  return { pGreater: g, pEqual: e };
+}
+
+// 分布期望 Σ v·p（按 key 升序求和 → 确定）。
+export function expectedValue(dist: ReadonlyMap<number, number>): number {
+  let ev = 0;
+  for (const v of sortedKeys(dist)) ev += v * (dist.get(v) ?? 0);
+  return ev;
+}

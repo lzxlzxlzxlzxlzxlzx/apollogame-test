@@ -123,6 +123,17 @@ function buildPhaseGraph(refs: SysRef[]): PhaseGraph {
       for (const w of writers) if (w !== i) { componentEdges[w].add(i); noteComp(w, i, dep); }
     }
   }
+  // 事件推断边（P1b 总线·与 topological-sort 1b 逐条对齐）：emitter(E) → listener(E)，点名时标 `event:E`。
+  const emittersOf = new Map<string, number[]>();
+  for (let i = 0; i < n; i++) for (const e of refs[i].sys.emits ?? []) {
+    if (!emittersOf.has(e)) emittersOf.set(e, []);
+    emittersOf.get(e)!.push(i);
+  }
+  for (let i = 0; i < n; i++) for (const e of refs[i].sys.listens ?? []) {
+    const ems = emittersOf.get(e);
+    if (!ems) continue;
+    for (const w of ems) if (w !== i) { componentEdges[w].add(i); noteComp(w, i, `event:${e}`); }
+  }
 
   const explicitEdges: Array<[number, number]> = [];
   for (let i = 0; i < n; i++) {

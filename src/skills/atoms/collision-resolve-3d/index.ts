@@ -3,6 +3,8 @@ import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Velocity, Transform, Collider3D, Mass, Overlap3D } from '@engine/protocol/components.js';
 import { contact3d } from '@engine/spatial/contact3d.js';
+import { cmpStr } from '@engine/math/scalar.js';
+import { len } from '@engine/math/vec2.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  collision-resolve-3d（REQ-3D-Collision · P2 响应·确定性 sim·进 hash·rollback 安全）。
@@ -67,7 +69,7 @@ export const collisionResolve3dCapability = defineCapability({
           const o = world.getComponent<Overlap3D>(oid, 'Overlap3D')!;
           pairs.push(o.entityA < o.entityB ? [o.entityA, o.entityB] : [o.entityB, o.entityA]);
         }
-        pairs.sort((p, q) => (p[0] < q[0] ? -1 : p[0] > q[0] ? 1 : p[1] < q[1] ? -1 : p[1] > q[1] ? 1 : 0));
+        pairs.sort((p, q) => cmpStr(p[0], q[0]) || cmpStr(p[1], q[1]));
 
         // 窄相位一次 → 接触流形（固定水平法线/逆质量）。
         const manifolds: Manifold3[] = [];
@@ -81,7 +83,7 @@ export const collisionResolve3dCapability = defineCapability({
           if (!aT || !bT) continue;
           const c = contact3d(aT, ac, bT, bc); // 法线 a→b
           if (!c) continue;
-          const hlen = Math.sqrt(c.nx * c.nx + c.nz * c.nz);
+          const hlen = len(c.nx, c.nz);
           if (hlen < EPS) continue; // 纯竖直接触 → 地面锁(baseY)负责·水平无从推
           const invA = inverseMass(world, a), invB = inverseMass(world, b);
           if (invA + invB === 0) continue; // 双静态
@@ -104,7 +106,7 @@ export const collisionResolve3dCapability = defineCapability({
           for (const m of manifolds) {
             const c = contact3d(m.aT, m.ac, m.bT, m.bc);
             if (!c) continue;
-            const hlen = Math.sqrt(c.nx * c.nx + c.nz * c.nz);
+            const hlen = len(c.nx, c.nz);
             if (hlen < EPS) continue;
             const hx = c.nx / hlen, hz = c.nz / hlen;
             const corr = c.depth / (m.invA + m.invB);

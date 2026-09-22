@@ -1,5 +1,5 @@
 {
-  "_doc": "红旗棘轮基线（REQ-QA-红旗棘轮·owner 2026-07-04；防自基线加固·REQ-AUDIT-守门·owner 2026-07-16；8/4 大评审 Q1 批 2026-08-10 增 reactScreen[.tsx/from-react]/domEscape[insertAdjacentHTML/document.write] 两指标·新增指标灌入=存量实测计数既往不咎·豁免可见·新增拦截·不动游戏代码）。每游戏红旗计数只许降不许升：game-skill-audit.mjs 实测任一计数高于基线 → RATCHET: FAIL + 退出码 1；低于 → 提示同提交降基线；等于 → 静默。**豁免须 Lead 亲批**：任一红旗计数>0 的条目必须带 approvedBy:\"LEAD\" + date + reason 三字段，缺失 → RATCHET FAIL（违规者不得自写豁免·历史事故=PE-T 6142237d 自写 createElement:5）。新游戏（无条目）带红旗即 FAIL——豁免走 docs/workflow/requests.md 找 Lead 裁决，绝不自加条目。被 Lead 批注覆盖的红旗仍在 audit 显示但不红判（AUDIT/RATCHET 皆不 FAIL）。降基线是还债仪式，必须与消灭红旗的提交同提交改本文件。",
+  "_doc": "红旗棘轮基线（REQ-QA-红旗棘轮·owner 2026-07-04；防自基线加固·REQ-AUDIT-守门·owner 2026-07-16；8/4 大评审 Q1 批 2026-08-10 增 reactScreen[.tsx/from-react]/domEscape[insertAdjacentHTML/document.write] 两指标·新增指标灌入=存量实测计数既往不咎·豁免可见·新增拦截·不动游戏代码）。每游戏红旗计数只许降不许升：game-skill-audit.mjs 实测任一计数高于基线 → RATCHET: FAIL + 退出码 1；低于 → 提示同提交降基线；等于 → 静默。**豁免须 Lead 亲批**：任一红旗计数>0 的条目必须带 approvedBy:\"LEAD\" + date + reason 三字段，缺失 → RATCHET FAIL（违规者不得自写豁免·历史事故=PE-T 6142237d 自写 createElement:5）。新游戏（无条目）带红旗即 FAIL——豁免走 docs/workflow/requests.md 找 Lead 裁决，绝不自加条目。被 Lead 批注覆盖的红旗仍在 audit 显示但不红判（AUDIT/RATCHET 皆不 FAIL）。降基线是还债仪式，必须与消灭红旗的提交同提交改本文件。 2026-09-07 增 engineTwin[localStorage./class GameLog|EventLog/recordScore/Math.imul(]指标（引擎同形手写·底层评审 C 治理）·同律灌入存量。",
   "games": {
     "game-d": {
       "nakedRandom": 0,
@@ -16,7 +16,8 @@
       "reactScreen": 1,
       "approvedBy": "LEAD",
       "date": "2026-07-04",
-      "reason": "存量既往不咎（REQ-QA-红旗棘轮灌入时 HEAD 实测·owner 2026-07-04 拍板）；reactScreen=1（game-e.tsx·评审点名反面教材）新指标灌入实测（8/4 评审 Q1 批·2026-08-10）"
+      "reason": "存量既往不咎（REQ-QA-红旗棘轮灌入时 HEAD 实测·owner 2026-07-04 拍板）；reactScreen=1（game-e.tsx·评审点名反面教材）新指标灌入实测（8/4 评审 Q1 批·2026-08-10）；engineTwin 新指标灌入=HEAD 实测计数既往不咎（engine-base-tier-review-2026-09-06 §3.3 C 治理·Lead 2026-09-07）：引擎已下沉件（persist/local-store · tier1/event-log · persist/leaderboard · atoms/random）游戏侧仍手写；只许降不许升，消费迁移工单（壳件迁移 / B-013 / REQ-C-115）落一处降一处",
+      "engineTwin": 2
     },
     "game-f": {
       "nakedRandom": 0,
@@ -34,7 +35,8 @@
       "reactScreen": 1,
       "approvedBy": "LEAD",
       "date": "2026-07-04",
-      "reason": "存量既往不咎（REQ-QA-红旗棘轮灌入时 HEAD 实测·owner 2026-07-04 拍板）；reactScreen=1（game-g.tsx）新指标灌入实测（8/4 评审 Q1 批·2026-08-10）"
+      "reason": "存量既往不咎（REQ-QA-红旗棘轮灌入时 HEAD 实测·owner 2026-07-04 拍板）；reactScreen=1（game-g.tsx）新指标灌入实测（8/4 评审 Q1 批·2026-08-10）；engineTwin 新指标灌入=HEAD 实测计数既往不咎（engine-base-tier-review-2026-09-06 §3.3 C 治理·Lead 2026-09-07）：引擎已下沉件（persist/local-store · tier1/event-log · persist/leaderboard · atoms/random）游戏侧仍手写；只许降不许升，消费迁移工单（壳件迁移 / B-013 / REQ-C-115）落一处降一处",
+      "engineTwin": 8
     },
     "game-i": {
       "nakedRandom": 0,
@@ -58,7 +60,8 @@
       "createElement": 4,
       "approvedBy": "LEAD",
       "date": "2026-08-18",
-      "reason": "Lead 亲批（REQ-G102-HARDLINE 裁决·全库 todo 总回顾）：6 处全在 voxel-proto.ts 原型件——REQ-G102-CORE-V2（P0·环形轨道重做）在册将整体重写该面，重构临终件不划算；⚠ 消亡条款：CORE-V2 落地删 voxel-proto 时**必须同提交把本条目清零**（棘轮只紧不松）。新增逃生仍被本基线拦（计数只许降）。"
+      "reason": "Lead 亲批（REQ-G102-HARDLINE 裁决·全库 todo 总回顾）：6 处全在 voxel-proto.ts 原型件——REQ-G102-CORE-V2（P0·环形轨道重做）在册将整体重写该面，重构临终件不划算；⚠ 消亡条款：CORE-V2 落地删 voxel-proto 时**必须同提交把本条目清零**（棘轮只紧不松）。新增逃生仍被本基线拦（计数只许降）。；engineTwin 新指标灌入=HEAD 实测计数既往不咎（engine-base-tier-review-2026-09-06 §3.3 C 治理·Lead 2026-09-07）：引擎已下沉件（persist/local-store · tier1/event-log · persist/leaderboard · atoms/random）游戏侧仍手写；只许降不许升，消费迁移工单（壳件迁移 / B-013 / REQ-C-115）落一处降一处",
+      "engineTwin": 1
     },
     "game211": {
       "nakedRandom": 8,
@@ -67,7 +70,38 @@
       "reactScreen": 1,
       "approvedBy": "LEAD",
       "date": "2026-08-18",
-      "reason": "Lead 亲批（REQ-G211-HARDLINE 裁 A·全库 todo 总回顾·两段分写）：段一=31 处 createElement + 29 innerHTML + 8 裸随机 + 1 React屏 继承自 game-g fork（game-g 基线在册同款存量·既往不咎口径一致）；段二=3 处 createElement 新写（duel-spike.ts:224/226/229·3D 物理试验台挂载脚手架·与 Lead 已批 game-z×4 同形同域）。game211 是 P3D 物理试验线非出口游戏；REQ-3D-G211-HARDLINE ② 同步结案。新增逃生仍被拦。"
+      "reason": "Lead 亲批（REQ-G211-HARDLINE 裁 A·全库 todo 总回顾·两段分写）：段一=31 处 createElement + 29 innerHTML + 8 裸随机 + 1 React屏 继承自 game-g fork（game-g 基线在册同款存量·既往不咎口径一致）；段二=3 处 createElement 新写（duel-spike.ts:224/226/229·3D 物理试验台挂载脚手架·与 Lead 已批 game-z×4 同形同域）。game211 是 P3D 物理试验线非出口游戏；REQ-3D-G211-HARDLINE ② 同步结案。新增逃生仍被拦。；engineTwin 新指标灌入=HEAD 实测计数既往不咎（engine-base-tier-review-2026-09-06 §3.3 C 治理·Lead 2026-09-07）：引擎已下沉件（persist/local-store · tier1/event-log · persist/leaderboard · atoms/random）游戏侧仍手写；只许降不许升，消费迁移工单（壳件迁移 / B-013 / REQ-C-115）落一处降一处",
+      "engineTwin": 8
+    },
+    "game-a": {
+      "engineTwin": 2,
+      "approvedBy": "LEAD",
+      "date": "2026-09-07",
+      "reason": "engineTwin 新指标灌入=HEAD 实测计数既往不咎（engine-base-tier-review-2026-09-06 §3.3 C 治理·Lead 2026-09-07）：引擎已下沉件（persist/local-store · tier1/event-log · persist/leaderboard · atoms/random）游戏侧仍手写；只许降不许升，消费迁移工单（壳件迁移 / B-013 / REQ-C-115）落一处降一处"
+    },
+    "game-b": {
+      "engineTwin": 1,
+      "approvedBy": "LEAD",
+      "date": "2026-09-07",
+      "reason": "engineTwin 新指标灌入=HEAD 实测计数既往不咎（engine-base-tier-review-2026-09-06 §3.3 C 治理·Lead 2026-09-07）：引擎已下沉件（persist/local-store · tier1/event-log · persist/leaderboard · atoms/random）游戏侧仍手写；只许降不许升，消费迁移工单（壳件迁移 / B-013 / REQ-C-115）落一处降一处"
+    },
+    "game-c": {
+      "engineTwin": 4,
+      "approvedBy": "LEAD",
+      "date": "2026-09-07",
+      "reason": "engineTwin 新指标灌入=HEAD 实测计数既往不咎（engine-base-tier-review-2026-09-06 §3.3 C 治理·Lead 2026-09-07）：引擎已下沉件（persist/local-store · tier1/event-log · persist/leaderboard · atoms/random）游戏侧仍手写；只许降不许升，消费迁移工单（壳件迁移 / B-013 / REQ-C-115）落一处降一处"
+    },
+    "game-103": {
+      "engineTwin": 7,
+      "approvedBy": "LEAD",
+      "date": "2026-09-07",
+      "reason": "engineTwin 新指标灌入=HEAD 实测计数既往不咎（engine-base-tier-review-2026-09-06 §3.3 C 治理·Lead 2026-09-07）：引擎已下沉件（persist/local-store · tier1/event-log · persist/leaderboard · atoms/random）游戏侧仍手写；只许降不许升，消费迁移工单（壳件迁移 / B-013 / REQ-C-115）落一处降一处"
+    },
+    "game108": {
+      "engineTwin": 9,
+      "approvedBy": "LEAD",
+      "date": "2026-09-07",
+      "reason": "engineTwin 新指标灌入=HEAD 实测计数既往不咎（engine-base-tier-review-2026-09-06 §3.3 C 治理·Lead 2026-09-07）：引擎已下沉件（persist/local-store · tier1/event-log · persist/leaderboard · atoms/random）游戏侧仍手写；只许降不许升，消费迁移工单（壳件迁移 / B-013 / REQ-C-115）落一处降一处"
     }
   }
 }

@@ -11,7 +11,7 @@ export interface UiIssue {
   path: string;   // 节点路径（如 root/children[2]/bubble），定位用
   type: string;   // 组件 type
   kind: 'unknown-type' | 'missing-required' | 'bad-enum' | 'children-rule' | 'missing-id'
-    | 'naked-fill' | 'bad-layout-placement' | 'flatten-3d'; // ↑硬错 · ↓软建议（lintLayoutNode 专属·非阻塞）
+    | 'naked-fill' | 'unsafe-style' | 'bad-repeat' | 'bad-layout-placement' | 'flatten-3d'; // ↑硬错 · ↓软建议（lintLayoutNode 专属·非阻塞）
   detail: string;
   severity?: 'error' | 'warn'; // 缺省=error（validateLayoutNode 全是硬错）；lint 的建议=warn（不进零 issue 门）
 }
@@ -29,6 +29,24 @@ export function validateLayoutNode(node: LayoutNode, path = 'root'): UiIssue[] {
   }
   const t = node.type as string;
   if (!node.id) issues.push({ path, type: t, kind: 'missing-id', detail: '缺 id（mountUI diff / 引导锚点都需要每节点有 id）' });
+  // P2b：样式逃生口 `{custom}` / 裸色串只许 CSS 色与渐变/url 字符，出现 ; " < > \\ 或 expression( / javascript: 即硬错
+  //（render 侧另有 safeFill 兜底净化；这里在数据层就拒收，让弱模型的坏数据在校验环被点名而不是被静默改写）。
+  for (const [k, v] of Object.entries((node.props ?? {}) as Record<string, unknown>)) {
+    const raw = v && typeof v === 'object' && !Array.isArray(v) && typeof (v as { custom?: unknown }).custom === 'string'
+      ? (v as { custom: string }).custom
+      : (k === 'bg' || k === 'color' || k === 'fillColor') && typeof v === 'string' ? v : undefined;
+    if (raw !== undefined && /[;<>"\\]|expression\s*\(|javascript:/i.test(raw.replace(/url\(\s*'[^']*'\s*\)/g, ''))) {
+      issues.push({ path, type: t, kind: 'unsafe-style', detail: `props.${k} 含可逃出 style 的字符（; < > " \\ expression( javascript:）：只许 CSS 色/渐变/url('…')` });
+    }
+  }
+  // P2b：repeat 容器——source 必填、template 本身须是合法节点（递归验·路径标 repeat.template）。
+  if (node.repeat) {
+    const rp = node.repeat as { source?: unknown; template?: LayoutNode; empty?: LayoutNode };
+    if (typeof rp.source !== 'string' || !rp.source) issues.push({ path, type: t, kind: 'bad-repeat', detail: 'repeat.source 须是列表 id 字符串' });
+    if (!rp.template || typeof rp.template !== 'object') issues.push({ path, type: t, kind: 'bad-repeat', detail: 'repeat.template 须是 LayoutNode' });
+    else issues.push(...validateLayoutNode(rp.template, `${path}/repeat.template`));
+    if (rp.empty) issues.push(...validateLayoutNode(rp.empty, `${path}/repeat.empty`));
+  }
 
   const spec = catalogSpec(t);
   if (!spec) {

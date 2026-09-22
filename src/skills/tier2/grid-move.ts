@@ -3,6 +3,7 @@ import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { HexBoard, HexPos, GridMover, Relation, Transform, Status } from '@engine/protocol/components.js';
 import { hexNextStep, hexCellKey, hexDistance, type Hex } from './hex.js';
+import { len } from '@engine/math/vec2.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  grid-move —— 六边形网格逐格移动（REQ-024；金铲铲/TFT 式自动战斗移动）。
@@ -56,7 +57,7 @@ function syncTransform(world: IWorld, eid: string, board: HexBoard, hp: HexPos, 
   if (!glideSpeed || glideSpeed <= 0) { t.x = p.x; t.y = p.y; return; } // 缺省：瞬移（保全部既有回归）
   const dx = p.x - t.x;
   const dy = p.y - t.y;
-  const d = Math.sqrt(dx * dx + dy * dy);
+  const d = len(dx, dy);
   if (d <= glideSpeed) { t.x = p.x; t.y = p.y; return; } // 到点贴齐（精确，不渐近）
   t.x += (dx / d) * glideSpeed;
   t.y += (dy / d) * glideSpeed;
@@ -132,7 +133,7 @@ export const gridMoveCapability = defineCapability({
       execute(world: IWorld) {
         // 棋盘单例。
         let board: HexBoard | undefined;
-        for (const [bid] of world.query('HexBoard')) { board = world.getComponent<HexBoard>(bid, 'HexBoard'); break; }
+        { const bid = world.singleton('HexBoard'); if (bid !== undefined) board = world.getComponent<HexBoard>(bid, 'HexBoard'); } // 黑板单例（P1b）：严格模式多份即抛·生产按创建序取首个（= 旧 for…break 语义）
         if (!board) return;
 
         // 占位集 vs 位置表（REQ-F-051 收窄，评审修正版）：两种用途分开——

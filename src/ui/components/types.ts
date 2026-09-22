@@ -717,6 +717,29 @@ export interface LayoutNode {
    * 注：**树根**的 visibleWhen 不被求值（根恒渲染）——把条件内容放进某个子节点；若确需按根判可见用 isVisible()。
    */
   visibleWhen?: string;
+  /**
+   * 集合迭代（P2b · engine-architecture-review-2026-09-02 D8）：数据替代「TS builder 每帧整树重建」。
+   * 本节点成为容器：children = 静态 children ++ 按 UIDataSource.list(source) 的每一项克隆一份 template。
+   * 模板里任何字符串属性可写 `{{item.字段}}` / `{{index}}` / `{{count}}`（整串恰为一个占位符 → 按原类型代入，
+   * 数值/布尔不变成字符串；含在文本里 → 拼接）；id 自动带 `#key` 后缀保唯一（key 缺省 index）。
+   * `visibleWhen` / `bind` / `action` / `actionArg` 里也可用占位符 → 逐项条件显隐与逐项动作参数纯数据可表达。
+   * 红线同 bind：source 只是一个 **列表 id 字符串**，列表内容由引擎/游戏注入（世界侧 createWorldDataSource 按纯数据
+   * UIListSpec 从 ECS 投影），UI 不碰 ECS；占位符只做标量代入，不收表达式。
+   */
+  repeat?: RepeatSpec;
+}
+
+export interface RepeatSpec {
+  /** 列表 id（UIDataSource.list 的键）。 */
+  source: string;
+  /** 每一项克隆的节点模板（其 id 会带 `#<key>` 后缀）。 */
+  template: LayoutNode;
+  /** 用哪个 item 字段做唯一键后缀（缺省下标）。 */
+  key?: string;
+  /** 列表为空时放一个占位节点（可选）。 */
+  empty?: LayoutNode;
+  /** 最多展开多少项（可选·防超长列表）。 */
+  limit?: number;
 }
 
 export type Handler = (arg?: string) => void;

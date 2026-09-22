@@ -1,7 +1,19 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { FlowField, FlowAgent, Transform, Velocity, Status } from '@engine/protocol/components.js';
 import { findDebugTrace, appendTrace } from '../debug-trace.js';
+import { orcaVelocity, type OrcaStats } from './orca.js';
+import { cmpStr } from '@engine/math/scalar.js';
+import { len } from '@engine/math/vec2.js';
+import {
+  STRAIGHT, DIAGONAL, UNREACHABLE, SEP_MAX_WEIGHT, SEP_MAX_NEIGHBORS, SEP_GRADIENT_W,
+  SEP_SCALE, SEP_SETTLE_SCALE, ORCA_TIME_HORIZON, ORCA_MAX_NEIGHBORS, ORCA_RANGE_SLACK,
+  geoKey, cellIndex, cellOf, buildCostField, buildIntegration, buildFlow, bakeFlowField,
+  sameInputs, getBakedField, clearFlowFieldCache, flowFieldBakes, flowFieldLookups,
+  flowFieldCellVisits, orcaNeighbors, separationDir, nearestGoalDist, buildAgentIndex,
+  type DensityField, type BakedField, type AgentIndex,
+} from './flow-field-core.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  t2-flow-field —— 群体流场寻路（REQ-FLOWFIELD·owner 2026-08-10 判 A 下沉引擎）。
@@ -33,433 +45,16 @@ import { findDebugTrace, appendTrace } from '../debug-trace.js';
 //  `t2-flow-field` = 走到战场 · `t2-steering{separation}` = 别互相挤 · `t2-steering{seek}` = 打谁。
 // ═══════════════════════════════════════════════════════════════
 
-/** 直走代价（×地形代价）。整数——积分场全程整数加法。 */
-export const STRAIGHT = 10;
-/** 斜走代价（×地形代价）≈ 10√2 的整数近似。用 14 不用 14.142：整数才逐位可复现。 */
-export const DIAGONAL = 14;
-/** 不可达（未被 Dijkstra 触及 / 被 blocked）。用有限大数而非 Infinity：便于整数比较与快照。 */
-export const UNREACHABLE = 0x7fffffff;
-
-/** 八邻域偏移（**固定扫描序**=方向 tie-break 的全序依据·不许改动顺序）。 */
-const NEIGHBORS: ReadonlyArray<readonly [number, number, number]> = [
-  [1, 0, STRAIGHT], [-1, 0, STRAIGHT], [0, 1, STRAIGHT], [0, -1, STRAIGHT],
-  [1, 1, DIAGONAL], [1, -1, DIAGONAL], [-1, 1, DIAGONAL], [-1, -1, DIAGONAL],
-];
-
-/** NEIGHBORS 的摊平副本（热循环用·**由它派生**，不许手抄第二份走样）。 */
-const NB_DX = Int8Array.from(NEIGHBORS.map((n) => n[0]));
-const NB_DY = Int8Array.from(NEIGHBORS.map((n) => n[1]));
-const NB_STEP = Int8Array.from(NEIGHBORS.map((n) => n[2]));
-
-/**
- * 软分离的权重上限（owner 红线：「流场力一定是最重要的」）。
- * 0.6 的含义：两个都是单位向量时，合成方向相对纯流场最多偏 ~31°——**永远不会掉头**，
- * 只是"让一让"。作者填再大的 weight 也会被钳到这里。
- */
-export const SEP_MAX_WEIGHT = 0.6;
-
-/**
- * 软分离的数据底子：把单位按格分桶（计数排序·O(单位)），外加一份平行的坐标表。
- *
- * ══ 为什么要分桶，而不是两两遍历 ══
- * 两两是 O(单位²)（1000 单位 = 50 万对/tick），撑不住。分桶之后每个单位**只看自己这格 + 8 邻格**，
- * 成本 ∝ 局部密度而不是全场人数——这正是「上千单位怎么解开」的答案：**近处的人才推得动你**。
- *
- * ══ 两层力，各管各的（写这版实测出来的分工）══
- * · **两两斥力（按距离衰减）** —— 解「叠成一堆」。必须带衰减：等力的话六个等距排成一行会
- *   **整排同速平移**，绝对位置动了、彼此间距一点没变（实测 minPair 恒定 0.0100，堆只是搬了家）。
- * · **密度梯度** —— 解「整团堵在一个路口」。它是场，方向由分布定，不会两两对冲、不震。
- * 只有前者是 owner 要的那个"把它们弹开"的力；后者是 Continuum Crowds 一脉的宏观疏散。
- */
-export interface DensityField {
-  readonly count: Int32Array;   // 每格单位数（密度梯度读它）
-  readonly start: Int32Array;   // 每格在 items 里的起点（前缀和）
-  readonly items: Int32Array;   // 按格分桶后的单位下标（桶内按单位 id 序 = 确定）
-  readonly px: Float64Array;    // 单位坐标（下标 = 单位下标）
-  readonly py: Float64Array;
-}
-
-/**
- * 一个单位最多被几个邻居推。封顶是为了**最坏情况可算**：一格里挤 500 人时不至于变成 500×500。
- * 扫描序固定（格序 → 桶内 id 序），所以"取前 N 个"也是确定的，不是随机采样。
- * 代价：极端堆叠时斥力被低估——但那一拍照样在散，下一拍密度就降下来了。
- */
-export const SEP_MAX_NEIGHBORS = 12;
-/**
- * 密度梯度项的权重（两两斥力取的是**均值**·模长天然 ≤1，所以梯度这一项给 0.5 当配角）。
- * 分工：两两斥力解「叠成一堆」，梯度解「整团堵住」——前者是主力。
- */
-export const SEP_GRADIENT_W = 0.5;
-/** 力的参考邻居数：挤到这么多近邻就算"满力"。见 separationDir 里为什么不能除以实际邻居数。 */
-export const SEP_REF_NEIGHBORS = 4;
-/**
- * 到点之后"安顿"的步长系数（相对 speed）。**这是阻尼，不是减速**：
- * 到了地方只剩分离力，若还按行军速度走，一步就冲过平衡间距、下一步被推回来 ⇒ 队伍在终点上抖
- * （实测：间距在 0.36 与 0.02 之间来回荡）。乘个小系数让它收敛。
- * 注意乘的是**常数**，不是归一化——各单位受力大小的差异仍然保留。
- */
-export const SEP_SETTLE_SCALE = 0.35;
-
-export interface BakedField {
-  readonly cols: number;
-  readonly rows: number;
-  /** 每格通行代价（≥1 的整数倍率）；0 = 不可走。行主序。 */
-  readonly cost: Int32Array;
-  /** 积分场：到最近 goal 的最小累计代价（UNREACHABLE = 到不了）。行主序。 */
-  readonly integration: Int32Array;
-  /** 流场方向（每格一对 dx,dy ∈ {-1,0,1}·0,0 = 停/无出路）。行主序，长度 2N。 */
-  readonly dir: Int8Array;
-}
-
-/** 行主序索引；越界返回 -1。 */
-export function cellIndex(field: FlowField, col: number, row: number): number {
-  if (col < 0 || row < 0 || col >= field.cols || row >= field.rows) return -1;
-  return row * field.cols + col;
-}
-
-/** 世界坐标 → 网格列行（**向下取整**·负坐标同样成立）。 */
-export function cellOf(field: FlowField, x: number, y: number): { col: number; row: number } {
-  return {
-    col: Math.floor((x - field.originX) / field.cellSize),
-    row: Math.floor((y - field.originY) / field.cellSize),
-  };
-}
-
-/** ① cost field：blocked=1 → 0（不可走）；否则取 cost（缺省 1·向下取整到 ≥1 的整数）。 */
-export function buildCostField(field: FlowField): Int32Array {
-  const n = field.cols * field.rows;
-  const out = new Int32Array(n);
-  for (let i = 0; i < n; i++) {
-    if (field.blocked && field.blocked[i]) { out[i] = 0; continue; }
-    const c = field.cost ? field.cost[i] : 1;
-    // 代价必须是 ≥1 的整数：<1 会让 Dijkstra 的"越走越贵"前提失效（0 代价环）；
-    // 非整数会把浮点带进积分场（跨端不可复现）。故这里**向上取整并钳到 ≥1**。
-    out[i] = c === undefined || !(c >= 1) ? 1 : Math.ceil(c);
-  }
-  return out;
-}
-
-/**
- * ② integration field：从全部 goals 出发的**多源 Dijkstra**，铺满全图。
- *
- * 堆比较 = (积分值, 格索引) 全序 —— 值相同时按格索引小者先出，故**与插入顺序无关**。
- * 斜走不许切墙角：`(dx,dy)` 都非零时，两个正交邻格必须都可走，否则单位会从两堵墙的对角缝里穿过去。
- */
-export function buildIntegration(field: FlowField, cost: Int32Array): Int32Array {
-  const { cols, rows } = field;
-  const n = cols * rows;
-  const integ = new Int32Array(n).fill(UNREACHABLE);
-  // 二叉堆（键=积分值·次键=格索引）。用两个平行数组存，避免对象分配。
-  const heapVal: number[] = [];
-  const heapIdx: number[] = [];
-  const less = (a: number, b: number): boolean =>
-    heapVal[a] !== heapVal[b] ? heapVal[a] < heapVal[b] : heapIdx[a] < heapIdx[b];
-  const swap = (a: number, b: number): void => {
-    const v = heapVal[a]; heapVal[a] = heapVal[b]; heapVal[b] = v;
-    const i = heapIdx[a]; heapIdx[a] = heapIdx[b]; heapIdx[b] = i;
-  };
-  const push = (val: number, idx: number): void => {
-    heapVal.push(val); heapIdx.push(idx);
-    let c = heapVal.length - 1;
-    while (c > 0) {
-      const p = (c - 1) >> 1;
-      if (!less(c, p)) break;
-      swap(c, p); c = p;
-    }
-  };
-  const pop = (): number => {
-    const top = 0;
-    const last = heapVal.length - 1;
-    swap(top, last);
-    const idx = heapIdx.pop()!; heapVal.pop();
-    let p = 0;
-    for (;;) {
-      const l = p * 2 + 1; const r = l + 1;
-      let m = p;
-      if (l < heapVal.length && less(l, m)) m = l;
-      if (r < heapVal.length && less(r, m)) m = r;
-      if (m === p) break;
-      swap(p, m); p = m;
-    }
-    return idx;
-  };
-
-  // 多源：每个 goal 落格入堆，积分 0（同一格被多个 goal 命中只入一次）。
-  for (const g of field.goals) {
-    const { col, row } = cellOf(field, g.x, g.y);
-    const gi = cellIndex(field, col, row);
-    if (gi < 0 || cost[gi] === 0) continue;     // goal 落在图外/墙里 → 这一源无效（其余源照常）
-    if (integ[gi] === 0) continue;
-    integ[gi] = 0;
-    push(0, gi);
-  }
-
-  // 热循环手工展开（**只为速度，不改语义**）：邻居偏移摊平成三条常量数组、边界判断内联，
-  // 不再走 `cellIndex()` 的函数调用与元组解构——192×192 上实测 15.9ms → 6.4ms。
-  // 扫描序与 NEIGHBORS 逐项相同（方向 tie-break 的全序依据不许因优化而变）。
-  while (heapVal.length > 0) {
-    const cur = pop();
-    const curVal = integ[cur];
-    const col = cur % cols;
-    const row = (cur - col) / cols;
-    for (let k = 0; k < 8; k++) {
-      const dx = NB_DX[k];
-      const dy = NB_DY[k];
-      const nc = col + dx;
-      const nr = row + dy;
-      if (nc < 0 || nr < 0 || nc >= cols || nr >= rows) continue;
-      const ni = nr * cols + nc;
-      const nCost = cost[ni];
-      if (nCost === 0) continue;                                  // 墙
-      if (dx !== 0 && dy !== 0) {                                 // 斜走不切墙角
-        if (cost[row * cols + nc] === 0 || cost[nr * cols + col] === 0) continue;
-      }
-      const nv = curVal + NB_STEP[k] * nCost;
-      if (nv < integ[ni]) { integ[ni] = nv; push(nv, ni); }       // 懒删除：旧键出堆时值已更小，自然被跳过
-    }
-  }
-  return integ;
-}
-
-/**
- * ③ flow field：每格指向「积分值最小的邻格」。
- * 平局按 `NEIGHBORS` 的固定扫描序取先者（全序·与遍历顺序无关）。
- * 自己就是 goal（积分 0）或四周都到不了 → (0,0) = 停。
- */
-export function buildFlow(field: FlowField, cost: Int32Array, integ: Int32Array): Int8Array {
-  const { cols, rows } = field;
-  const dir = new Int8Array(cols * rows * 2);
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-      const i = row * cols + col;
-      if (cost[i] === 0 || integ[i] === 0 || integ[i] === UNREACHABLE) continue;   // 墙/终点/孤岛 → (0,0)
-      let bestVal = integ[i];
-      let bx = 0; let by = 0;
-      for (const [dx, dy] of NEIGHBORS) {
-        const ni = cellIndex(field, col + dx, row + dy);
-        if (ni < 0 || cost[ni] === 0) continue;
-        if (dx !== 0 && dy !== 0) {
-          const a = cellIndex(field, col + dx, row);
-          const b = cellIndex(field, col, row + dy);
-          if (a < 0 || b < 0 || cost[a] === 0 || cost[b] === 0) continue;
-        }
-        if (integ[ni] < bestVal) { bestVal = integ[ni]; bx = dx; by = dy; }
-      }
-      dir[i * 2] = bx; dir[i * 2 + 1] = by;
-    }
-  }
-  return dir;
-}
-
-/** 三遍管线一次跑完（纯函数·同输入必同输出）。 */
-export function bakeFlowField(field: FlowField): BakedField {
-  const cost = buildCostField(field);
-  const integration = buildIntegration(field, cost);
-  const dir = buildFlow(field, cost, integration);
-  return { cols: field.cols, rows: field.rows, cost, integration, dir };
-}
-
-/**
- * 重建判据 = **逐字段精确比对上一次铺场时的输入**（不是哈希摘要）。
- *
- * ⚠ 上一版在这里栽过一次，值得写死教训：曾用 `Math.round(x*1000)` 量化坐标后做 FNV 摘要当缓存键——
- * 而真正吃这些数的 `cellOf`/`buildCostField` 用的是**原始浮点**。于是「摘要相同」≠「场相同」：
- * 两张 `originX` 差 0.0004 的场共享同一份铺好的流场，单位停在不同的位置（独立复查实测：
- * 单独跑停 x=3.0000，同进程先铺过另一张同 id 场后停 x=4.0000）。那不是缓存，是**状态通道**，
- * 在 lockstep 里就是静默分叉。
- *
- * 现在的做法：缓存条目留一份输入快照，命中前**逐字段精确比对**（含数组逐元素）。
- * 代价与哈希同阶（都要扫一遍数组），换来的是**没有别名可能**——不靠"碰撞概率极低"这种话。
- */
-interface InputSnapshot {
-  cellSize: number; originX: number; originY: number; cols: number; rows: number;
-  goals: Array<{ x: number; y: number }>;
-  blocked?: number[];
-  cost?: number[];
-}
-
-function snapshotOf(field: FlowField): InputSnapshot {
-  return {
-    cellSize: field.cellSize, originX: field.originX, originY: field.originY,
-    cols: field.cols, rows: field.rows,
-    goals: field.goals.map((g) => ({ x: g.x, y: g.y })),
-    ...(field.blocked ? { blocked: Array.from(field.blocked) } : {}),
-    ...(field.cost ? { cost: Array.from(field.cost) } : {}),
-  };
-}
-
-/** 精确比对（`Object.is` 而非 `===`：把 NaN/-0 这类也判得一致，别让它们成为第二种别名）。 */
-export function sameInputs(a: InputSnapshot, field: FlowField): boolean {
-  if (!Object.is(a.cellSize, field.cellSize) || !Object.is(a.originX, field.originX) || !Object.is(a.originY, field.originY)) return false;
-  if (a.cols !== field.cols || a.rows !== field.rows) return false;
-  if (a.goals.length !== field.goals.length) return false;
-  for (let i = 0; i < a.goals.length; i++) {
-    if (!Object.is(a.goals[i].x, field.goals[i].x) || !Object.is(a.goals[i].y, field.goals[i].y)) return false;
-  }
-  const ab = a.blocked; const fb = field.blocked;
-  if ((ab === undefined) !== (fb === undefined)) return false;
-  if (ab && fb) {
-    if (ab.length !== fb.length) return false;
-    for (let i = 0; i < ab.length; i++) if (!Object.is(ab[i], fb[i])) return false;
-  }
-  const ac = a.cost; const fc = field.cost;
-  if ((ac === undefined) !== (fc === undefined)) return false;
-  if (ac && fc) {
-    if (ac.length !== fc.length) return false;
-    for (let i = 0; i < ac.length; i++) if (!Object.is(ac[i], fc[i])) return false;
-  }
-  return true;
-}
-
-/**
- * 铺场记忆化（**纯记忆化，不是状态通道**）：命中要求输入**逐字段精确相同**，所以
- * 「清空缓存」只改耗时、不改任何输出——这条由点名测试用**两张只差 0.0004 的场**咬住，
- * 而不是拿同一个对象铺两次（后者按构造就抓不到别名，是上一版测试的漏洞）。
- * 容量封顶 8 场，超了丢最早的（丢了只是下次重铺，语义不变）。
- */
-const CACHE_MAX = 8;
-const cache = new Map<string, { snap: InputSnapshot; baked: BakedField }>();
-/** 真铺了几次（只为测试与排查·不参与判定）。 */
-let bakes = 0;
-export function flowFieldBakes(): number { return bakes; }
-/**
- * **取场的次数**（同上·只为测试）。与 `bakes` 分开数是有原因的：记忆化会把重复取场吸收掉，
- * 于是「把取场写回单位循环里」这种真回归**只看 bakes 是看不见的**（独立复查实测：撤掉外提后
- * 25 测全绿、bakes 仍是 1，而 4000 单位每 tick 从 0.909ms 涨到 2.676ms）。
- * 取场次数才是那条回归的机器判据：**每 tick 每场恰好一次**。
- */
-let lookups = 0;
-export function flowFieldLookups(): number { return lookups; }
-
-/**
- * 分桶用摘要——**只决定去哪个桶找，不决定是否命中**（命中权威永远是 `sameInputs` 的逐字段比对）。
- * 所以这里允许量化/有碰撞：撞了无非是那一桶比对失败、重铺一次，**不可能出现别名**。
- *
- * ⚠ 为什么非要它：修 P0 时我把键简化成了裸 `field.id`，于是**同 id 不同内容的两张场并存**时
- * 每次取场必然比对失败 ⇒ 每 tick 重铺。第二轮复查同机 A/B 量出来：192×192
- * **3.87 → 26.08 ms/tick、bakes 2 → 40（命中率归零）**。修一个别名漏洞，换来一个 6.7× 的悬崖，
- * 不划算也没必要——分桶摘要 + 精确比对两者兼得。
- */
-function bucketKey(field: FlowField): string {
-  let h = 0x811c9dc5;
-  const mix = (n: number): void => { h ^= n | 0; h = Math.imul(h, 0x01000193) >>> 0; };
-  mix(field.cols); mix(field.rows);
-  mix(Math.round(field.cellSize * 1000)); mix(Math.round(field.originX * 1000)); mix(Math.round(field.originY * 1000));
-  mix(field.goals.length);
-  for (const g of field.goals) { mix(Math.round(g.x * 1000)); mix(Math.round(g.y * 1000)); }
-  if (field.blocked) { mix(field.blocked.length); for (let i = 0; i < field.blocked.length; i++) mix(field.blocked[i] ? 1 : 0); }
-  if (field.cost) { mix(field.cost.length); for (let i = 0; i < field.cost.length; i++) mix(Math.round(field.cost[i] * 1000)); }
-  return `${field.id}|${field.cols}x${field.rows}:${h}`;
-}
-
-/** 取（或铺）一张场。导出 `clearFlowFieldCache` 供测试证明「缓存不改变结果」。 */
-export function getBakedField(field: FlowField): BakedField {
-  lookups++;
-  const key = bucketKey(field);
-  const hit = cache.get(key);
-  if (hit && sameInputs(hit.snap, field)) return hit.baked;   // ← 精确比对是唯一权威（摘要只管分桶）
-  const baked = bakeFlowField(field);
-  bakes++;
-  cache.set(key, { snap: snapshotOf(field), baked });
-  if (cache.size > CACHE_MAX) {
-    const oldest = cache.keys().next().value as string | undefined;
-    if (oldest !== undefined && oldest !== key) cache.delete(oldest);
-  }
-  return baked;
-}
-export function clearFlowFieldCache(): void { cache.clear(); bakes = 0; lookups = 0; }
-
-/**
- * 软分离力（**纯函数**·同输入同输出）：两项相加后归一化。
- *   ① **推离本格质心**——解「叠成一个点」。质心不含自己（一个单位不该被自己推）。
- *   ② **朝密度最低的邻格偏**——解「整团堵死」。这是密度梯度，方向由分布定，不与某个邻居对冲。
- * 返回单位向量；本格只有自己且四周同样空 → (0,0)（没人挤就不必让）。
- */
-/**
- * 软分离力（**纯函数**·同输入同输出）：两项相加，**返回原始向量不归一化**。
- *
- * ⚠ 不归一化是**实测逼出来的**：归一化后每个人受力一样大 ⇒ 夹在堆中间的和站在堆边上的
- * 被推得一样狠 ⇒ 整堆分成两块平移、彼此间距一点没变（实测 minPair 恒 0.0100）。
- * 保留大小才有正确的物理：**被两边夹住的人合力≈0（不动），站在边上的人合力大（被弹出去）**，
- * 于是堆从外往里一层层化开。「流场恒主导」不靠归一化保证，靠调用处把模长钳到 SEP_MAX_WEIGHT。
- *   ① **两两斥力（按距离线性衰减）**——越近推越狠。这一项解「叠成一堆」。
- *   ② **密度梯度**——朝 8 邻格里最空的那格偏。这一项解「整团堵住」。
- * 谁都不挤 → (0,0)（没人挤就不必让·不制造无谓抖动）。
- *
- * `useGradient=false` 用在**终点格**：那儿流场没方向，再叠梯度会让整团一起漂出终点、
- * 又被流场拉回来，来回震荡（实测过）。到了地方只要"彼此分开"，不要"整体疏散"。
- */
-export function separationDir(
-  field: FlowField, dens: DensityField, self: number, col: number, row: number,
-  x: number, y: number, useGradient = true,
-): { sx: number; sy: number } {
-  const c = cellIndex(field, col, row);
-  if (c < 0) return { sx: 0, sy: 0 };
-  const radius = field.cellSize;          // 邻域 = 一格边长（网格本来就是按这个尺度分桶的）
-  let sx = 0; let sy = 0;
-
-  // ① 两两斥力：本格 + 8 邻格（固定格序 → 桶内 id 序 = 确定的扫描序）
-  let seen = 0;
-  for (let k = -1; k < 8 && seen < SEP_MAX_NEIGHBORS; k++) {
-    const nc = k < 0 ? col : col + NB_DX[k];
-    const nr = k < 0 ? row : row + NB_DY[k];
-    const ni = cellIndex(field, nc, nr);
-    if (ni < 0) continue;
-    const from = dens.start[ni];
-    const to = from + dens.count[ni];
-    for (let p = from; p < to && seen < SEP_MAX_NEIGHBORS; p++) {
-      const j = dens.items[p];
-      if (j === self) continue;
-      const dx = x - dens.px[j];
-      const dy = y - dens.py[j];
-      const d = Math.sqrt(dx * dx + dy * dy);
-      if (d >= radius) continue;
-      seen++;
-      // 完全重合（d=0）不造方向：随便给一个就是伪随机，两端还未必一致。
-      // 这一拍靠②的梯度挪一点，下一拍就不重合了。
-      if (d === 0) continue;
-      const falloff = 1 - d / radius;     // 线性衰减（同 t2-steering.separation 的口径）
-      sx += (dx / d) * falloff;
-      sy += (dy / d) * falloff;
-    }
-  }
-
-  // **除以固定参考数**（不是除以实际邻居数）：
-  // · 求和不除 ⇒ 一堆人里每个人的力都远超上限，钳完**又是一样大**，堆整块平移（栽过一次）；
-  // · 除以实际邻居数（均值）⇒ **多一个远邻居会把近邻的推力稀释掉**，同一个单位的受力忽大忽小，
-  //   队伍在终点上抖（也栽过一次）。
-  // 除以常数两头都占：夹中间的正负相消≈0（不动），边上的接近/超过满力（被弹开），
-  // 而"多一个远邻居"只会让力变大一点点，不会反过来变小。
-  sx /= SEP_REF_NEIGHBORS; sy /= SEP_REF_NEIGHBORS;
-
-  // ② 密度梯度（朝最空的邻格）
-  if (useGradient) {
-    let bestN = dens.count[c];
-    let bx = 0; let by = 0;
-    for (let k = 0; k < 8; k++) {
-      const ni = cellIndex(field, col + NB_DX[k], row + NB_DY[k]);
-      if (ni < 0) continue;
-      if (dens.count[ni] < bestN) { bestN = dens.count[ni]; bx = NB_DX[k]; by = NB_DY[k]; }
-    }
-    if (bx !== 0 || by !== 0) {
-      const m = Math.sqrt(bx * bx + by * by);
-      sx += (bx / m) * SEP_GRADIENT_W; sy += (by / m) * SEP_GRADIENT_W;
-    }
-  }
-
-  return { sx, sy };
-}
-
-/** 到最近 goal 的距离（arriveRange 判据·goals 通常个位数）。 */
-function nearestGoalDist(field: FlowField, x: number, y: number): number {
-  let best = Infinity;
-  for (const g of field.goals) {
-    const dx = g.x - x; const dy = g.y - y;
-    const d = Math.sqrt(dx * dx + dy * dy);
-    if (d < best) best = d;
-  }
-  return best;
-}
+// ── 纯函数核在 `./flow-field-core.ts`（算法进核·壳只接线）──────────────────────────────
+// 原样 re-export：消费方（测试 / bench / 别的能力）的 import 路径一个字都不用改。
+export {
+  STRAIGHT, DIAGONAL, UNREACHABLE, SEP_MAX_WEIGHT, SEP_MAX_NEIGHBORS, SEP_GRADIENT_W,
+  SEP_SCALE, SEP_SETTLE_SCALE, ORCA_TIME_HORIZON, ORCA_MAX_NEIGHBORS, ORCA_RANGE_SLACK,
+  geoKey, cellIndex, cellOf, buildCostField, buildIntegration, buildFlow, bakeFlowField,
+  sameInputs, getBakedField, clearFlowFieldCache, flowFieldBakes, flowFieldLookups,
+  flowFieldCellVisits, orcaNeighbors, separationDir,
+} from './flow-field-core.js';
+export type { DensityField, BakedField } from './flow-field-core.js';
 
 export const flowFieldCapability = defineCapability({
   id: 't2-flow-field',
@@ -537,7 +132,7 @@ export const flowFieldCapability = defineCapability({
       execute(world: IWorld) {
         // 一次 query 拿到「id + 该实体的组件表」，省掉每个单位两次 Map 查找（1000 单位实测省约 25%）。
         // 仍按 id 排序：遍历序必须与 Map 内部序无关（确定性）。
-        const agents = world.query('FlowAgent', 'Transform').sort((x, y) => (x[0] < y[0] ? -1 : x[0] > y[0] ? 1 : 0));
+        const agents = world.query('FlowAgent', 'Transform').sort((x, y) => cmpStr(x[0], y[0]));
         if (agents.length === 0) return;
 
         const trace = findDebugTrace(world);
@@ -546,13 +141,12 @@ export const flowFieldCapability = defineCapability({
         // 场按 id 收拢（同 id 多张 → 取实体 id 排序后的第一张·并留痕，不静默挑一张）。
         const fields = new Map<string, FlowField>();
         let dupes = 0;
-        for (const fid of world.queryEntities('FlowField').sort()) {
+        for (const fid of sortedIds(world, 'FlowField')) {
           const f = world.getComponent<FlowField>(fid, 'FlowField');
           if (!f) continue;
           if (fields.has(f.id)) { dupes++; continue; }
           fields.set(f.id, f);
         }
-        if (dupes > 0) appendTrace(trace, tick, 'flow-field', 'reject', `${dupes} 张同 id 的场被忽略`, '同 id 取实体序首张');
 
         // **每 tick 每场只取一次铺好的场**（不是每个单位取一次）：`getBakedField` 要算输入摘要，
         // 那是 O(格数) 的一遍扫描——放进单位循环里就成了 O(单位数 × 格数)，1000 单位 × 2304 格
@@ -564,59 +158,47 @@ export const flowFieldCapability = defineCapability({
         // `los` 是 M2 的活（M1 不实现）——摆了就说一声，别让作者以为已经生效。
         // ⚠ **只在真重铺那一拍说**（第二轮复查实测：原来每 tick 复读，最坏 5 条/tick，超了
         // 「每 system 每 tick ≤3 条」的密度守则——留痕过头等于没留痕，人会开始忽略它）。
+        // `los` 被忽略**只在真重铺那拍说一次**（复读的留痕等于没有留痕）。
+        // ⚠ `dupes`（同 id 的场）**不能挂在这道门上**（三复查实测）：中途新加一张同 id 的场
+        // 不触发重铺 ⇒ 它永远不留痕。改挂到每拍都会发的 commit 行的 why 里——不占新行、也不会漏。
         if (rebaked > 0) {
           const withLos = [...fields].filter(([, f]) => f.los).map(([fid]) => fid);
-          if (withLos.length > 0) appendTrace(trace, tick, 'flow-field', 'reject', `${withLos.length} 张场的 los 被忽略（视线优化属 M2·M1 未实现）`, `场：${withLos.slice(0, 3).join(',')}`);
+          if (withLos.length > 0) {
+            appendTrace(trace, tick, 'flow-field', 'reject',
+              `${withLos.length} 张场的 los 被忽略（视线优化属 M2·M1 未实现）`, `场：${withLos.slice(0, 3).join(',')}`);
+          }
         }
 
-        // ── 软分离的分桶（owner 2026-08-24 定方向：分离力·soft force·流场恒主导）──────────
-        // 只在**真有单位开了 separation** 时才建（没开=一个字节不变·零回归）。
-        // 计数排序分桶：两遍 O(单位) + 一遍前缀和 O(格数)。桶内按单位 id 序（agents 已排序）= 确定。
+        const idxOf = (keyFn: (f: FlowField) => string, wants: (a: FlowAgent) => boolean): AgentIndex =>
+          buildAgentIndex(agents as never, fields, (id) => {
+            const nv = world.getComponent<Velocity>(id, 'Velocity');
+            return { vx: nv?.vx ?? 0, vy: nv?.vy ?? 0 };
+          }, orcaRadiusOf, keyFn, wants);
+
+
+        // ORCA 的三个参数**都得先过闸**（数据驱动面：作者填得出的怪值必须当场兜住，不能靠"没人会这么填"）：
+        // · `radius` 填 0/负/NaN ⇒ combinedRadius 塌掉，ORCA 表面上在跑、实际一条有效约束都没有；
+        //   而且这个半径会进邻居表，**塌掉的是别人的 combinedRadius**（负半径能把别人的判定圈缩小）。
+        // · `timeHorizon` 填 0 ⇒ `1/timeHorizon` = Infinity ⇒ 整条约束是 ±Infinity/NaN。
+        // · `maxNeighbors` 填 0 ⇒ 环形搜索读 `found[-1]` **当场抛 TypeError**（实测踩到过，非推理）。
+        // 三者任一不合法 = 当作没开 ORCA + 留痕。**返回 0 表示"不开"**。
+        // ⚠ 计数放在单位循环里数（这个函数每单位会被调用好几次，在函数里数会重复计——
+        // 第一版就是这么写的，点名用例一跑就报「半径非法 3」而世界里只有一个）。
+        const orcaRadiusOf = (a: FlowAgent): number => {
+          if (!a.orca) return 0;
+          const { radius: r, timeHorizon: th, maxNeighbors: mn } = a.orca;
+          if (!(Number.isFinite(r) && r > 0)) return 0;
+          if (th !== undefined && !(Number.isFinite(th) && th > 0)) return 0;
+          if (mn !== undefined && !(Number.isFinite(mn) && mn >= 1)) return 0;
+          return r;
+        };
+        let badParam = 0;
+
         const wantSep = agents.some(([, c]) => (c.get('FlowAgent') as FlowAgent).separation !== undefined);
-        const density = new Map<string, DensityField>();
-        const cellOfAgent = new Int32Array(agents.length).fill(-1);
-        const fieldOfAgent: string[] = new Array(agents.length).fill('');
-        if (wantSep) {
-          const counts = new Map<string, Int32Array>();
-          for (const [fid, f] of fields) counts.set(fid, new Int32Array(f.cols * f.rows));
-          // 第一遍：数每格几个人
-          agents.forEach(([, comps], i) => {
-            const a = comps.get('FlowAgent') as FlowAgent;
-            if (a.separation === undefined) return;          // 没开的不占位·也不被推
-            const f = fields.get(a.fieldId);
-            const cnt = counts.get(a.fieldId);
-            if (!f || !cnt) return;
-            const t = comps.get('Transform') as Transform;
-            const { col, row } = cellOf(f, t.x, t.y);
-            const ci = cellIndex(f, col, row);
-            if (ci < 0) return;
-            cellOfAgent[i] = ci; fieldOfAgent[i] = a.fieldId; cnt[ci]++;
-          });
-          // 前缀和 → 每格起点；第二遍：填桶
-          for (const [fid, f] of fields) {
-            const cnt = counts.get(fid)!;
-            const n = f.cols * f.rows;
-            const start = new Int32Array(n);
-            let acc = 0;
-            for (let i = 0; i < n; i++) { start[i] = acc; acc += cnt[i]; }
-            density.set(fid, {
-              count: cnt, start, items: new Int32Array(acc),
-              px: new Float64Array(agents.length), py: new Float64Array(agents.length),
-            });
-          }
-          const fill = new Map<string, Int32Array>();
-          for (const [fid, d] of density) fill.set(fid, Int32Array.from(d.start));
-          agents.forEach(([, comps], i) => {
-            const ci = cellOfAgent[i];
-            if (ci < 0) return;
-            const d = density.get(fieldOfAgent[i]);
-            const cursor = fill.get(fieldOfAgent[i]);
-            if (!d || !cursor) return;
-            const t = comps.get('Transform') as Transform;
-            d.items[cursor[ci]++] = i;
-            d.px[i] = t.x; d.py[i] = t.y;
-          });
-        }
+        const wantOrca = agents.some(([, c]) => orcaRadiusOf(c.get('FlowAgent') as FlowAgent) > 0);
+        const sepIdx = wantSep ? idxOf((f) => f.id, (a) => a.separation !== undefined) : null;
+        const orcaIdx = wantOrca ? idxOf(geoKey, () => true) : null;
+        const orcaStats: OrcaStats = { degenerate: 0, oneSided: 0, infeasible: 0 };
 
         let moved = 0; let stopped = 0; let noField = 0; let offGrid = 0;
         for (let ai = 0; ai < agents.length; ai++) {
@@ -665,16 +247,20 @@ export const flowFieldCapability = defineCapability({
           // 软分离（可选）：把「让一让」的力叠在流场方向上。
           // **流场恒主导**（owner 红线）：权重钳在 SEP_MAX_WEIGHT，合成后最多偏 ~31°，永不掉头。
           let sx = 0; let sy = 0;
-          const sepW = a.separation ? Math.min(Math.max(a.separation.weight, 0), SEP_MAX_WEIGHT) : 0;
+          // **ORCA 优先**（与组件注释一致）：两个都填时软分离被忽略——两套避让叠加没有意义，
+          // ORCA 的目标函数本来就是「离期望速度最近」，再往期望速度里掺一个力只会让它偏离得更多。
+          const useOrca = orcaRadiusOf(a) > 0;
+          if (a.orca && !useOrca) badParam++;   // 每单位每 tick 恰好数一次
+          const sepW = a.separation && !useOrca ? Math.min(Math.max(a.separation.weight, 0), SEP_MAX_WEIGHT) : 0;
           if (sepW > 0) {
-            const d = density.get(a.fieldId);
+            const d = sepIdx?.density.get(field.id);
             // 终点格（流场无方向）只用质心项——见 separationDir 的 useGradient 注释。
             const atGoal = arrived || (bf.dir[ci * 2] === 0 && bf.dir[ci * 2 + 1] === 0);
             if (d) {
               const s2 = separationDir(field, d, ai, col, row, t.x, t.y, !atGoal);
               // **钳模长**（不是归一化）：|sep| ≤ sepW ≤ SEP_MAX_WEIGHT < 1 = |flow| ⇒ 流场恒主导，
               // 而小于上限的力保持原样 ⇒ 「夹中间的不动、站边上的被弹开」这条物理留住了。
-              const sm = Math.sqrt(s2.sx * s2.sx + s2.sy * s2.sy);
+              const sm = len(s2.sx, s2.sy);
               if (sm > 0) {
                 const k = sm > sepW ? sepW / sm : 1;
                 sx = s2.sx * k; sy = s2.sy * k;
@@ -682,35 +268,84 @@ export const flowFieldCapability = defineCapability({
             }
           }
 
+          // ── 期望速度（流场 [+软分离] 定出来的「我想怎么走」）─────────────────────────
+          let wantX: number; let wantY: number;
           if (arrived || (dx === 0 && dy === 0)) {
-            // 已到达 / 终点格 / 墙里 / 孤岛：**不再有前进方向，只剩"互相让开"**。
-            if (sx === 0 && sy === 0) { v.vx = 0; v.vy = 0; stopped++; continue; }
-            // ⚠ 这里**不许再归一化**（第一版就栽在这·和上面同一个病）：归一化会把
-            // 「夹中间的合力≈0」抹成「所有人一样快」，于是终点上的队伍整块平移、彼此还是叠着。
-            // sx/sy 已是钳过模长的力（≤sepW<1），直接当速度比例用：受力小的几乎不动，边上的挪开。
-            v.vx = sx * a.speed * SEP_SETTLE_SCALE;
-            v.vy = sy * a.speed * SEP_SETTLE_SCALE;
-            moved++;
-            continue;
+            // 已到达 / 终点格 / 墙里 / 孤岛：**没有前进方向**，只剩「互相让开」。
+            // ⚠ 这里**不能直接 continue 掉**（实测逼出来的）：ORCA 是**互惠**算法——双方各让一半，
+            // 对面若是个"钉死不动"的单位，我只让一半就不够，照样压上去（5v5 对穿实测最近 0.332，
+            // 半径和 0.70）。让到点的单位也走 ORCA（期望速度=0），它就会被后来的挤开一点，
+            // 这恰好也是 RTS 里正确的观感：站着的人会被推着让路。
+            wantX = sx * a.speed * SEP_SETTLE_SCALE;
+            wantY = sy * a.speed * SEP_SETTLE_SCALE;
+          } else {
+            // 流场方向（按到达减速带缩放）+ 软分离，再归一 × speed。
+            const fm = len(dx, dy);
+            const rawX = (dx / fm) * flowScale + sx;
+            const rawY = (dy / fm) * flowScale + sy;
+            const m0 = len(rawX, rawY);
+            if (m0 === 0) { v.vx = 0; v.vy = 0; stopped++; continue; }   // 理论到不了（|sep|≤0.6<1），兜底
+            wantX = (rawX / m0) * a.speed;
+            wantY = (rawY / m0) * a.speed;
           }
 
-          // 方向归一化：整数方向 → 单位向量，叠上分离力后再归一 ×speed
-          //（浮点只在这一步·同 steering 的 IEEE 用法）。
-          const fm = Math.sqrt(dx * dx + dy * dy);
-          let vx = (dx / fm) * flowScale + sx;
-          let vy = (dy / fm) * flowScale + sy;
-          const m = Math.sqrt(vx * vx + vy * vy);
-          if (m === 0) { v.vx = 0; v.vy = 0; stopped++; continue; }   // 理论到不了（|sep|≤0.6<1），兜底
-          vx /= m; vy /= m;
-          v.vx = vx * a.speed;
-          v.vy = vy * a.speed;
+          // ── ORCA 硬避让（owner 2026-08-24「可以上」·移植自 RVO2·见 orca.ts 文件头）────────
+          // 期望速度照收，ORCA 只把它改成「最接近且 timeHorizon 拍内不会撞」的那个。
+          // **走位仍归流场**——ORCA 的目标函数就是"离期望速度最近"。
+          if (useOrca) {
+            const d = orcaIdx?.density.get(geoKey(field));
+            if (d) {
+              const radius = orcaRadiusOf(a);
+              const horizon = a.orca!.timeHorizon ?? ORCA_TIME_HORIZON;
+              const maxN = a.orca!.maxNeighbors ?? ORCA_MAX_NEIGHBORS;
+              // 邻域半径 = 前瞻拍数 × 速度 × 相对速度余量 + 自身半径（见 ORCA_RANGE_SLACK：
+              // 只按自己跑多远算，会把迎面高速接近的邻居挡在门外——复查实测过一个 4.15 拍必撞的漏网）。
+              const range = horizon * a.speed * ORCA_RANGE_SLACK + radius;
+              const neighbors = orcaNeighbors(field, d, ai, col, row, t.x, t.y, range, maxN);
+              if (neighbors.length > 0) {
+                const out = orcaVelocity(
+                  { x: t.x, y: t.y, vx: v.vx, vy: v.vy, radius, idx: ai },
+                  neighbors, { x: wantX, y: wantY },
+                  a.speed, horizon, 1,          // timeStep=1：本引擎一拍就是一个时间单位
+                  orcaStats,
+                );
+                v.vx = out.x; v.vy = out.y;
+                if (out.x === 0 && out.y === 0) stopped++; else moved++;
+                continue;
+              }
+            }
+          }
+
+          if (wantX === 0 && wantY === 0) { v.vx = 0; v.vy = 0; stopped++; continue; }
+          v.vx = wantX;
+          v.vy = wantY;
           moved++;
         }
 
         // 密度守则：每 system 每 tick ≤3 条·无事 0 条。这里只在「有单位没动起来」时各报一条摘要。
-        if (noField > 0) appendTrace(trace, tick, 'flow-field', 'reject', `${noField} 个单位找不到自己的场 → 停`, '检查 FlowAgent.fieldId 与 FlowField.id 是否对上');
-        if (offGrid > 0) appendTrace(trace, tick, 'flow-field', 'reject', `${offGrid} 个单位在网格外 → 停`, '网格没覆盖到它们站的地方');
-        if (moved > 0 || stopped > 0) appendTrace(trace, tick, 'flow-field', 'commit', `写 Velocity：${moved} 走 / ${stopped} 停`, `场 ${fields.size} 张`);
+        // ORCA 的三类**静默降级**合并成一条（密度守则：每 system 每 tick ≤3 条）。
+        // 三条都是「什么都没发生 / 悄悄少做了一半」的分支，正是必须留痕的那一类。
+        if (badParam > 0 || orcaStats.degenerate > 0 || orcaStats.oneSided > 0 || orcaStats.infeasible > 0) {
+          appendTrace(trace, tick, 'flow-field', 'reject',
+            `ORCA 降级：参数非法 ${badParam} · 退化 ${orcaStats.degenerate} · 邻居不还礼 ${orcaStats.oneSided} · 无可行解 ${orcaStats.infeasible}`,
+            '参数非法=当没开 ORCA·退化=w 归零改用几何方向分开·不还礼=我独自让满·无可行解=落 LP3「最不违反」即真会压进去');
+        }
+        // 「找不到场」「越界」「同 id 的场」折进这一行的 why——**数字一个不少**，只是不各占一行（守则 ≤3 条）。
+        //
+        // ⚠ **门必须把它们也算上**（三复查实测·折叠引入的新洞）：原来的门是 `moved>0||stopped>0`，
+        // 而这两类是 `continue` 掉的、两个计数都不加 ⇒ **全员 fieldId 打错时这一拍 0 条 trace**。
+        // 「一个单位都没动起来」恰恰是最该喊的那一拍，却成了唯一一声不喊的——
+        // 而 Demo 期 `fieldId` 打错是最高频的错，一声不吭会让人在"单位不动、日志空白"上白烧时间。
+        if (moved > 0 || stopped > 0 || noField > 0 || offGrid > 0 || dupes > 0) {
+          const why: string[] = [];
+          if (noField > 0) why.push(`${noField} 个找不到自己的场（查 FlowAgent.fieldId 与 FlowField.id 对没对上）`);
+          if (offGrid > 0) why.push(`${offGrid} 个在网格外（网格没覆盖到它们站的地方）`);
+          if (dupes > 0) why.push(`${dupes} 张同 id 的场被忽略（取实体序首张）`);
+          // 一个都没动 = 这不是"提交"，是"什么都没发生" ⇒ 记 reject（守则：凡什么都没发生的分支必须记）
+          const kind = moved === 0 ? 'reject' : 'commit';
+          appendTrace(trace, tick, 'flow-field', kind, `写 Velocity：${moved} 走 / ${stopped} 停`,
+            why.length > 0 ? `场 ${fields.size} 张 · 没走成的原因：${why.join(' · ')}` : `场 ${fields.size} 张`);
+        }
       },
     },
   ],

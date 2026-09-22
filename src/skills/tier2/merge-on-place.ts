@@ -33,6 +33,15 @@ export const mergeOnPlaceCapability = defineCapability({
 
   components: {
     provides: {
+      // C 治理：MergeEvent 由本能力在合并落点产出（瞬时载体实体），此前无 provider。
+      MergeEvent: {
+        category: 'event',
+        describe: '一次合并发生的事实（落点世界坐标）。merge-proximity-clear 等消费。',
+        fields: {
+          x: { type: 'number', describe: '合并落点 X' },
+          y: { type: 'number', describe: '合并落点 Y' },
+        },
+      },
       MergeDrop: {
         category: 'intent',
         describe: '拖放合并意图（宿主合成·消费即清）。from=被拖实例·to=落格占用实例(可空)·x/y=落点世界坐标。',

@@ -129,13 +129,20 @@ describe('T3 block-grid — 放置 / 消除 / 计分', () => {
 });
 
 describe('T3 block-grid — 托盘补形（确定性）/ 判负', () => {
-  it('托盘用完 → 按 RandomSeed 确定性补 traySize 个（同种子同结果）', () => {
-    const mk = () => { const w = loadBG(new Array(9).fill(-1), { tray: [0, -1, -1] }); placeIntent(w, 0, 0, 0); w.tick(); return bg(w).tray; };
+  it('托盘用完 → 按 RandomSeed 确定性补 traySize 个（同种子同结果·异种子分化）', () => {
+    const mk = (seed?: number) => {
+      const w = loadBG(new Array(9).fill(-1), { tray: [0, -1, -1] });
+      if (seed !== undefined) w.getComponent<RandomSeed>('board', 'RandomSeed')!.seed = seed;
+      placeIntent(w, 0, 0, 0); w.tick(); return bg(w).tray;
+    };
     const t1 = mk();
     const t2 = mk();
     expect(t1.length).toBe(3);            // 补满 traySize
     expect(t1.every((s) => s >= 0)).toBe(true);
     expect(t1).toEqual(t2);               // 确定性：同种子 → 同托盘
+    expect(t1).toEqual([3, 2, 1]);        // golden（缺省 seed 999·实跑取值）
+    expect(mk(1)).toEqual([2, 0, 2]);     // 换 seed → 托盘不同（实跑取值）——无视种子恒填同值的实现在此转红
+    expect(mk(1)).not.toEqual(t1);
   });
 
   it('托盘所有形状全盘无处可落 → 置 gameOverFlag', () => {

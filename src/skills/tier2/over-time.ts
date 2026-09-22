@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { OverTime, TimedEffect, Status } from '@engine/protocol/components.js';
@@ -79,7 +80,7 @@ export const overTimeCapability = defineCapability({
       writes: ['ResourceModify', 'Status', 'OverTime'],
       consumes: [],
       execute(world: IWorld) {
-        const ids = world.query('OverTime').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'OverTime');
         for (const id of ids) {
           const ot = world.getComponent<OverTime>(id, 'OverTime');
           if (!ot) continue;

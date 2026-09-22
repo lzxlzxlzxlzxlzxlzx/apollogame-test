@@ -1,0 +1,20 @@
+[
+  {
+    "id": "REQ-HOST-GAME-SESSION",
+    "title": "外部游戏会话：请求、随机 seed 与结构化结果回传",
+    "priority": "P1",
+    "route": "engine",
+    "state": "in-progress",
+    "ticket": "docs/workflow/requests.md#req-host-game-session",
+    "blocks": ["S2", "S3", "S4"]
+  },
+  {
+    "id": "REQ-3D-POLY-DIE",
+    "title": "多面骰几何与目标面落定表现",
+    "priority": "P1",
+    "route": "requests-3d",
+    "state": "deferred",
+    "ticket": "docs/workflow/requests-3d.md#req-3d-poly-die",
+    "blocks": ["S6"]
+  }
+]

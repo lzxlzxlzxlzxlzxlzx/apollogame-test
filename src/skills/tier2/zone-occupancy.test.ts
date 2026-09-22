@@ -91,3 +91,29 @@ describe('T2 zone-occupancy — 边界 / 缺省阈值', () => {
     expect(flagOn(w, 'occupied')).toBe(true); // 1 个即满足
   });
 });
+
+// ── A2 遗留缺口腿：两个 Zone 镜像同一 outFlag、判定一真一假 ──
+// 实测（钉现状·非期望背书）：系统按 query 序（=创建序）逐 Zone 覆写 flag.active → **创建序末位 Zone 胜**。
+// 创建序是世界数据的一部分（World.snapshotOrder 唯一真相），同数据双端仍逐字节一致 → lockstep 不破；
+// 但「镜像双 Zone 共享一个 outFlag」的数据写法拿不到或/与语义，反序创建即翻终值——真语义是 last-wins。
+// 想表达「任一/全部区域满足」：各 Zone 用独立 outFlag，再经 condition/event-when 组合。上报见评审报告。
+describe('T2 zone-occupancy — 同 outFlag 双 Zone 冲突（last-wins·实测钉现状）', () => {
+  const build = (reversed: boolean): World => {
+    const w = worldWithZone();
+    flag(w, 'out');
+    at(w, 'hero', 150, 150);
+    const zTrue = { outFlag: 'out', ...RECT, requiredEntities: ['hero'] };                    // hero 在内 → true
+    const zFalse = { outFlag: 'out', minX: 0, minY: 0, maxX: 50, maxY: 50, requiredEntities: ['hero'] }; // hero 在外 → false
+    const [first, second] = reversed ? [zFalse, zTrue] : [zTrue, zFalse];
+    zone(w, 'zA', first);
+    zone(w, 'zB', second);
+    w.tick();
+    return w;
+  };
+  it('真区先建·假区后建 → 末位（假）胜 → false（实测）', () => {
+    expect(flagOn(build(false), 'out')).toBe(false);
+  });
+  it('反序创建（假先真后）→ 末位（真）胜 → true：终值确随创建序翻转（实测钉死 last-wins）', () => {
+    expect(flagOn(build(true), 'out')).toBe(true);
+  });
+});

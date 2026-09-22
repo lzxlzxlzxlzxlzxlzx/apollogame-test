@@ -39,6 +39,7 @@ export const stringVariableCapability = defineCapability({
         fields: {
           id: { type: 'string', describe: '目标 StringVar 的 id' },
           value: { type: 'string', describe: '要写入的新值' },
+          scope: { type: 'string', describe: "寻址作用域：'local'=只改本实体 / 'global'=按 id 全局；缺省本地优先再全局" },
         },
       },
     },

@@ -1,0 +1,34 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'C:\\Users\\24652\\Desktop\\projects\\games\\ApolloGame-complete\\ApolloGame-claude-mainbranch\\.codex\\hooks\\session-start.sh'"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[规则] 需求先评判：能组合/已覆盖→回驳；真缺口→能力下沉。[手册] 生产任务先查 docs/playbooks/index.md——查得到必用基座件，查不到提 requests.md 绝不自造。[收工] 只有 A/B 裁决点与复查门可中途交回；其余做完再停（清单空·门禁绿·已推送）。详见CLAUDE.md'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'C:\\Users\\24652\\Desktop\\projects\\games\\ApolloGame-complete\\ApolloGame-claude-mainbranch\\.codex\\hooks\\stop-completion-check.sh'"
+          }
+        ]
+      }
+    ]
+  }
+}

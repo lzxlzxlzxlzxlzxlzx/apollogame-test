@@ -16,6 +16,16 @@
 //     这不是本探针的 bug——两套词表本就服务不同目的（adapter=喂纯仿真验证規则；UI=人手点的交互面）。
 //     故「剧本 signal 字面量能在真 UI 里点出来」天然只是**部分**重合，本探针如实测量这个重合度
 //     （=UI 可驱动率），不强行「翻译」两套词表（那会是猜测式伪造，比诚实的低比率更危险）。
+//  1b) ⚠ **2026-09-17 实证订正：上面那条只说对了一半，别再拿它当唯一解释。**
+//     实测 game108 可驱动率 0/74，可剧本里的 `duel.next` **就在** UI 词表里（duel-screen.ts 的终局键）
+//     ——词表不同源解释不了它。真正的第二个原因是**本探针没有「入场」能力**：它从开机画面起步，
+//     而 game108 开机是 启动屏 → PRESS ANY KEY → 玩法说明 → 才进对局；第一步 `charge.rock` 当场落空，
+//     之后每一步照样落空，`duel.next` 所在的结算屏永远到不了。
+//     对照：外部实践 GameFactory-3A 的录制器把这件事显式建模成 `warmup`（开拍前先空跑几秒）/
+//     `hold`（全程按住什么）/`look`（要不要扫镜头），并写明理由「游戏开场有倒计时或出生动画，
+//     格斗游戏在回合到 FIGHT 之前根本不出招」。我们这条缺口同形。
+//     **两种原因修法不同**（词表→对齐命名；入场→给探针预热/入场序列），所以逐步结果现在多记一个
+//     `liveActions`（当时屏上有哪些动作），让读的人自己分辨，不由探针替他归因。
 //  2) `args` 若是多字段对象或含数组值（如 play 的 args.cards=[...]，多选合成操作）——`mountUI`
 //     的 dispatch() 只认单个 string 参（data-arg），这类 signal 结构性不是「一次点击」能表达的
 //     （需要多次选中+一次确认的复合操作），同样标记「非原子点击」而非报错。
@@ -150,9 +160,17 @@ async function walkScenario(page, scenario) {
     }
     const matches = findMatchingAction(liveActions, cls.signal, argRes.arg);
     if (matches.length === 0) {
+      // **落空的原因有两种，此前一律记成「词表不同源」——那只说对了一半**（2026-09-17 实证订正）。
+      // 实测 game108：可驱动率 0/74，而剧本里的 `duel.next` **恰恰就在** UI 的 action 词表里
+      // （games/game108/duel-screen.ts 的终局键），词表不同源解释不了它为什么也落空。
+      // 真原因是第二种：**本探针没有「入场」能力**——它从开机画面起步，第一步就点不动，
+      // 于是一路点不动，`duel.next` 所在的结算屏永远走不到。两种原因的修法完全不同
+      // （词表 → 对齐命名；入场 → 给探针一段预热/入场序列），所以这里不再替读者归因，
+      // 只如实记下「当时屏上有什么」，让人自己看得出是哪一种。
       stepResults.push({
         step: si, kind: 'signal', signal: cls.signal, arg: argRes.arg, driven: false,
-        note: '活体 DOM 无匹配 [data-action]（剧本 signal 词表与 UI 词表不同源·非驱动器 bug）',
+        liveActions: [...new Set(liveActions.map((a) => a.action))].sort().slice(0, 12),
+        note: '活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）',
       });
       continue;
     }

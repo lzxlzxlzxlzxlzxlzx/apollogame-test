@@ -21,6 +21,21 @@
 | 摩擦减速 / 不越界 | `t2-friction` / `t2-bounds-clamp` | 挂 `Bounds`+`Shape` 限界；friction 靠 Overlap 法线 |
 | 碰撞分层（跳过不该碰的组合，如 enemy-enemy） | `d1-overlap-detect` | `Shape.category/mask` 位掩码（Box2D 双向语义：`(catA&maskB)&&(catB&maskA)` 才碰）；缺省=全 1，两边不设=零回归 |
 | 导航网格烘焙 | `d2-navmesh-bake`（原子） | 静态几何烘焙成可走网格供寻路消费 |
+| **大规模同目标行军**（成百上千单位走向同一处） | `t2-flow-field` | 世界放 `FlowField{cellSize,cols,rows,goals[],blocked?,cost?}`（**多源** Dijkstra 铺满一次·无局部极小）；单位挂 `FlowAgent{fieldId,speed,arriveRange?}`。**一次铺场服务全部单位**——与 `t2-pathfind` 的「每单位各算一次」是**成本形状**之别，不是好坏之别 |
+| 大军别叠成一条线（软避让） | `t2-flow-field` + `FlowAgent.separation{weight}` | Reynolds 分离力（`offset/-d²`），**权重恒被钳在流场之下**（永不掉头）。**软承诺**：允许瞬时重叠、靠力弹开 |
+| 「不许穿模」的小队（硬避让） | `t2-flow-field` + `FlowAgent.orca{radius,timeHorizon?,maxNeighbors?}` | 移植自 RVO2（`src/skills/tier2/orca.ts`·Apache-2.0）。**与 separation 二选一**（同填 ORCA 优先）。⚠ 不是"保证不碰"——线性规划无可行解时落「最不违反」，实测把穿模从 ~90% 压到最坏 8%，不是 0 |
+
+### 走位四选一（成本形状分诊·别按"哪个高级"选）
+
+| 你的场景 | 用 | 为什么不是别的 |
+|---|---|---|
+| 固定轨/巡逻/传送带 | `t2-path-follow` | 不索敌不绕障，最便宜 |
+| 少量单位·各走各的目标·连续空间绕障 | `t2-pathfind`（NavGraph + A*） | 目标各不相同时流场没有共享收益；但**图一大就超线性**（实测 500 单位 / 2304 节点：首拍 534ms · 稳态 20.4ms/tick） |
+| 棋盘格逐格走（自走棋/战棋/塔防） | `t2-grid-move` | 六边格 A*，走位要"贴格" |
+| **大量单位·奔同一处**（RTS 行军/塔防怪潮） | `t2-flow-field` | 铺一次全场共享：2304 格铺场 ~0.9ms，之后每单位 O(1) 查表。**同规模比 A*-per-agent 每 tick 快两个数量级** |
+
+避让分三档（都不改走位·流场恒主导）：**不设**（会叠）→ **`separation`**（软·涌流观感·1000 单位 ~1.0ms/tick）→ **`orca`**（强·1000 单位 ~8.6ms/tick·**4000 单位超一帧预算**）。
+调参与实测全表见 `docs/design/game211/crowd-pathfinding-research.md` §10；**`timeHorizon` 非单调**（为中场调大会把终点段调塌），改它必须中场/终点一起量。
 
 ## ② 样例指针
 

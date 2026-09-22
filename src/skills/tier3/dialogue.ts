@@ -1,7 +1,7 @@
 import { defineCapability } from '@engine/core/define-capability.js';
 import type { Component, IWorld } from '@engine/core/types.js';
 import type { ConditionExpr, State, Text, Flag, Resource, ResourceModify, RandomSeed, InputQueue } from '@engine/protocol/components.js';
-import { findByComponentId, getComponentById } from '@engine/core/query.js';
+import { findByComponentId, getComponentById, worldSeed } from '@engine/core/query.js';
 import { evaluateCondition } from '@skills/tier2/index.js';
 import { randomInt } from '@skills/atoms/random/index.js';
 
@@ -118,8 +118,7 @@ function applyEffects(world: IWorld, effects: DialogueEffect[] | undefined): voi
 
 // 取世界里的 RandomSeed（约定单例，挂在 world 实体）。无则 check 退化为无方差（roll=0）。
 function findSeed(world: IWorld): RandomSeed | undefined {
-  for (const [eid] of world.query('RandomSeed')) return world.getComponent<RandomSeed>(eid, 'RandomSeed');
-  return undefined;
+  return worldSeed(world); // 统一取法（B-3）
 }
 
 // 从单例 InputQueue 读本 tick 的对话输入动作（R3 接缝；UI 经 enqueueAction 注入，applyRawActions 落进队列）。

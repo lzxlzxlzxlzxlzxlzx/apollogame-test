@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { KeyBinding, InputQueue, Signal } from '@engine/protocol/components.js';
 
@@ -81,7 +82,7 @@ export const keybindCapability = defineCapability({
         if (!queue || queue.actions.length === 0) return;
 
         // ③ 逐绑定（按 id 升序，确定性）匹配本帧输入事件。
-        const ids = world.query('KeyBinding').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'KeyBinding');
         for (const id of ids) {
           const kb = world.getComponent<KeyBinding>(id, 'KeyBinding')!;
           // 代发落盘门：`source` 填了空串 = 永不自愈的数据错（发出去的信号没有主体，下游按 source

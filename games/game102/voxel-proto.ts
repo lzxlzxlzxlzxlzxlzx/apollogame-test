@@ -6,7 +6,7 @@
 //
 // ⚠ 一次性手感原型（宿主胶水·render-only·非数据驱动正式版）。物理/运动全**自管每帧积分**(非 cannon-es)→ 零冻结。
 import { Engine } from '@zerocraft/engine/runtime/engine.js';
-import { QueuedInputSource } from '@zerocraft/engine/net/index.js';
+import { QueuedInputSource } from '@zerocraft/engine/net/host/index.js';
 import { ThreeRenderer } from '@zerocraft/engine/renderer/three-renderer.js';
 import type { WorldBlueprint, EntityBlueprint } from '@zerocraft/engine/assembly/demo.assembly.js';
 import type { Transform3D, Pivot3D } from '@zerocraft/engine/engine/protocol/components.js';

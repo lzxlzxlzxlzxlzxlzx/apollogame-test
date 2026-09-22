@@ -17,6 +17,7 @@ function make(cardId = 'advance', focus = 3): World {
 const pile = (w: World) => w.getComponent<any>('pile', 'IdentityCardPile')!;
 const res = (w: World, eid: string) => w.getComponent<any>(eid, 'Resource')!.current;
 function play(w: World, cardId: string) { w.createEntity(`cmd-${cardId}`); w.addComponent(`cmd-${cardId}`, { type: 'IdentityCardCommand', cardId } as any); }
+function draw(w: World, count: number) { const id = `draw-${[...w.query('IdentityCardDrawCommand')].length}`; w.createEntity(id); w.addComponent(id, { type: 'IdentityCardDrawCommand', count } as any); }
 
 describe('identity-card-play', () => {
   it('在 Intent 相位只排入 ResourceModify，交 Update 的 resource-apply 应用', () => {
@@ -57,8 +58,14 @@ describe('identity-card-play', () => {
     const tooMany = make(); tooMany.getComponent<any>('pile', 'IdentityCardPile')!.deck.push('advance', 'advance'); tooMany.tick(); expect(pile(tooMany).hand).toEqual([]);
     const duplicate = make(); duplicate.getComponent<any>('catalog', 'CardCatalog')!.cards.push({ ...duplicate.getComponent<any>('catalog', 'CardCatalog')!.cards[0] }); duplicate.tick(); expect(pile(duplicate).hand).toEqual([]);
   });
-  it('牌库耗尽时确定性洗回弃牌再抽取', () => {
-    const w = make(); w.tick(); play(w, 'advance'); w.tick(); w.tick(); expect(pile(w).hand).toEqual(['advance']); expect(pile(w).discard).toEqual([]);
+  it('受控抽牌在牌库耗尽时确定性洗回弃牌再抽取', () => {
+    const w = make(); w.tick(); play(w, 'advance'); w.tick(); draw(w, 1); w.tick(); expect(pile(w).hand).toEqual(['advance']); expect(pile(w).discard).toEqual([]);
+  });
+  it('开局抽牌数与抽牌命令都受手牌上限和合法参数约束', () => {
+    const w = make(); pile(w).openingHand = 0; w.tick(); expect(pile(w).hand).toEqual([]);
+    draw(w, 1); w.tick(); expect(pile(w).hand).toEqual(['advance']);
+    const invalid = make(); invalid.createEntity('trace'); invalid.addComponent('trace', { type: 'DebugTrace', events: [], tick: 1, max: 20 } as any); invalid.tick(); draw(invalid, 0); invalid.tick();
+    expect(invalid.getComponent<any>('trace', 'DebugTrace')!.events.at(-1)).toMatchObject({ kind: 'reject', what: '抽牌张数非法' });
   });
   it('同 catalog、seed 与命令双跑一致', () => {
     const run = () => { const w = make(); w.tick(); play(w, 'advance'); w.tick(); return [pile(w), res(w, 'focus-res'), res(w, 'progress-res')]; };

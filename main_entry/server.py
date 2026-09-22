@@ -40,6 +40,7 @@ from .projects import handle_project_save
 from .protocols import handle_capgaps_list
 from .settings_api import handle_settings_get, handle_settings_put, handle_settings_test
 from .sysutil import ROOT, VITE_PORT, c, env, get_project_status, handle_version, is_port_in_use, run_command
+from .dist_check import dist_status
 from .t2_replace import handle_art_approve, handle_art_regenerate, handle_art_reskin, handle_art_restore, handle_art_style, handle_art_swap, handle_art_upload
 from .ts_carts import handle_library_doctor, library_put_logic, library_set_flags
 from .workshop_state import handle_agent_chats_get, handle_agent_chats_put, handle_agent_session_reset, handle_ws_draft_get, handle_ws_draft_put
@@ -194,6 +195,20 @@ class APIHandler(BaseHTTPRequestHandler):
         except ValueError:
             self.send_response(403); self.end_headers(); return
         if not target.is_file():
+            # 蓝屏修复（owner 2026-08-25 实证）：vite **日常 build** 把应用 bundle 放 dist/assets/*，
+            # 与本素材库路由同前缀——python 同源伺服日常 dist 时（zerocraft.py 默认态 vite 不在 +
+            # dist 在场即走此路），bundle 被这里 404 → 首屏永不挂载 = 深蓝空屏。
+            # PLATFORM_BUILD 的 assetsDir='app' 只救打包态、救不了门禁每次 build 出的日常 dist。
+            # 修 = 素材库查不到就落到已构建前端的 assets（穿越防护同上·仍查不到才 404）。
+            dist_base = STATIC_DIST_DIR.resolve()
+            alt = (dist_base / 'assets' / path[len('/assets/'):]).resolve()
+            try:
+                alt.relative_to(dist_base)
+            except ValueError:
+                self.send_response(403); self.end_headers(); return
+            if alt.is_file():
+                self._send_file(alt, self._STATIC_CT.get(alt.suffix.lower(), 'application/octet-stream'))
+                return
             self.send_response(404); self.end_headers(); return
         ctype = {'.json': 'application/json; charset=utf-8', '.png': 'image/png', '.webp': 'image/webp',
                  '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.svg': 'image/svg+xml',
@@ -891,6 +906,16 @@ def start_api_server():
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     print(c("  [API]", 'g'), f"Dev tools API on http://localhost:{API_PORT}")
+    # 过期构建产物**必须在每个入口都吼**（owner 2026-08-26 实证事故）：本进程在 `/` 上同源伺服
+    # STATIC_DIST_DIR，而 dist 是 gitignore 的、`git pull` 不更新它。只在 cmd_platform 里提醒不够——
+    # launcher/player/workshop 起的也是这个服务器，直接开 :4000 拿到的同样是那份旧 bundle。
+    # 旧 bundle 的症状是「点任何游戏都打开同一个旧演示场」，URL/API/卡带内容全对，人眼查不出来。
+    _st = dist_status(ROOT, STATIC_DIST_DIR)
+    if _st['state'] == 'stale':
+        print(c("  [!! 过期产物 !!]", 'r'), _st['detail'])
+        print(c("  [!! 过期产物 !!]", 'r'), "在没重建之前，浏览器里看到的**不是当前代码**（vite 开着时 :5173 不受影响）。")
+    elif _st['state'] == 'missing':
+        print(c("  [API]", 'y'), _st['detail'])
     # 预热能力目录（07-15 启动提速·诊断根因#2）：/api/catalog 首调冷起 vite-node（本机 3s·owner 机 10-20s），
     # 串在工坊开屏路径上——启动即后台预热，开屏拿热缓存。失败无害（handle_catalog 失败不落缓存·下次调用重试）。
     def _prewarm_catalog():

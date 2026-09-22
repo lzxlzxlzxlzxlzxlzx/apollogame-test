@@ -30,20 +30,33 @@ describe('内联 manifest 空跑 2 tick（离线包核心契约）', () => {
     expect(() => { engine.world.tick(); engine.world.tick(); }).not.toThrow();
   });
 
-  it('mount(el)：注入空 manifest → 挂载即跑出 canvas，cleanup 卸载', () => {
+  it('mount(el)：注入空 manifest → 挂载即跑出 canvas，cleanup 卸载', async () => {
     (window as { __APOLLO_INLINE_CART__?: unknown }).__APOLLO_INLINE_CART__ = { capabilities: [], entities: {} };
     const el = document.createElement('div');
     document.body.appendChild(el);
-    const cleanup = mount(el);
+    const cleanup = await mount(el);
     expect(el.querySelector('canvas')).toBeTruthy();
     cleanup();
     expect(el.querySelector('canvas')).toBeNull();
     el.remove();
   });
 
-  it('mount(el)：坏 manifest（未知 capability）→ 同步抛错（供引导层转错误态·不白屏）', () => {
+  it('mount(el)：坏 manifest（未知 capability）→ reject（供引导层转错误态·不白屏）', async () => {
     (window as { __APOLLO_INLINE_CART__?: unknown }).__APOLLO_INLINE_CART__ = { capabilities: ['zz-no-such'], entities: {} };
     const el = document.createElement('div');
-    expect(() => mount(el)).toThrow();
+    await expect(mount(el)).rejects.toThrow(/zz-no-such/);
+  });
+
+  it('mount(el)：真能力 manifest（弹球 10 能力）经懒注册表 await import 装载 → 跑出 canvas', async () => {
+    (window as { __APOLLO_INLINE_CART__?: unknown }).__APOLLO_INLINE_CART__ = {
+      capabilities: ['a1-transform', 'b1-velocity', 'c1-shape', 'l2-color', 't1-motion-apply'],
+      entities: { ball: { Transform: { x: 1, y: 2, rotation: 0, scaleX: 1, scaleY: 1 }, Velocity: { vx: 1, vy: 0, angular: 0 }, Shape: { kind: 'circle', radius: 3 }, Color: { tint: 1, alpha: 1 } } },
+    };
+    const el = document.createElement('div');
+    document.body.appendChild(el);
+    const cleanup = await mount(el);
+    expect(el.querySelector('canvas')).toBeTruthy();
+    cleanup();
+    el.remove();
   });
 });

@@ -1,7 +1,9 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Orbit, Transform } from '@engine/protocol/components.js';
+import { len } from '@engine/math/vec2.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  orbit-motion —— 圆周运动能力（REQ-SURVIVOR护盾绕转·VBUG-02）。绕 centerId（缺省世界原点）
@@ -26,10 +28,12 @@ export function orbitAt(radius: number, startAngle: number, angularStep: number,
   return {
     ...(centerId !== undefined ? { centerId } : {}),
     radius,
+    /* eslint-disable zerocraft/no-transcendental -- authoring-only：蓝图装配期一次性算 rotor 初值存进数据，运行时零 trig（本文件头注） */
     dirX: Math.cos(startAngle),
     dirY: Math.sin(startAngle),
     cosStep: Math.cos(angularStep),
     sinStep: Math.sin(angularStep),
+    /* eslint-enable zerocraft/no-transcendental */
   };
 }
 
@@ -67,7 +71,7 @@ export const orbitMotionCapability = defineCapability({
       },
     },
     reads: ['Orbit', 'Transform'],
-    writes: ['Transform'],
+    writes: ['Transform', 'Orbit'], // Orbit：rotor 状态 dirX/dirY 每拍推进（P1a 严格模式补齐·此前漏报）
     consumes: [],
   },
 
@@ -84,17 +88,17 @@ export const orbitMotionCapability = defineCapability({
       phase: SystemPhase.PostResolve,
       runsAfter: ['motion-apply', 'hierarchy-resolve'],
       reads: ['Orbit', 'Transform'],
-      writes: ['Transform'],
+      writes: ['Transform', 'Orbit'], // Orbit：rotor 状态 dirX/dirY 每拍推进（P1a 严格模式补齐·此前漏报）
       consumes: [],
       execute(world: IWorld) {
-        const ids = world.query('Orbit', 'Transform').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'Orbit', 'Transform');
         for (const id of ids) {
           const o = world.getComponent<Orbit>(id, 'Orbit')!;
           // rotor 步进：把单位方向绕原点转一个常量步（无 sin/cos）。
           const ndx = o.dirX * o.cosStep - o.dirY * o.sinStep;
           const ndy = o.dirX * o.sinStep + o.dirY * o.cosStep;
           // sqrt 归一（防旋量长期累积漂移·量级回到 1）。退化零向量 → 不推进（保持）。
-          const m = Math.sqrt(ndx * ndx + ndy * ndy);
+          const m = len(ndx, ndy);
           if (m > 0) {
             o.dirX = ndx / m;
             o.dirY = ndy / m;

@@ -92,7 +92,9 @@ export function CreationWizard({
   resolveArt?: (raw: unknown) => unknown;
   onClose: () => void;
   /** 保存成功 → 通知上层刷新卡带架并选中该 slug。 */
-  onSaved: (slug: string) => void;
+  /** 保存成功回调。第二参 = **引擎告警**（软环/降级/兼容性）——不是错误，但不许静默丢：
+   *  独立审查 2026-09-12 打回「作者只看到创建成功，警告在成功路径被吞」。 */
+  onSaved: (slug: string, warnings?: string[]) => void;
 }) {
   useEffect(ensureWizardKeyframes, []);
 
@@ -180,7 +182,8 @@ export function CreationWizard({
       });
       const pd = await pr.json();
       if (!pd?.success) throw new Error(pd?.error ?? '落盘校验失败');
-      onSaved(targetSlug);
+      const warns: string[] = Array.isArray(pd?.warnings) ? pd.warnings.filter((w: unknown) => typeof w === 'string') : [];
+      onSaved(targetSlug, warns);
     } catch (e: unknown) {
       setSaveErr(e instanceof Error ? e.message : String(e));
       // 回到预览态让用户可重试保存 / 弃掉。

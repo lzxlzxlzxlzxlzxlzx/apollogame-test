@@ -60,6 +60,8 @@ export const IDLE_TIMEOUT_MS = 600_000;
 /** 首派 + 自动重派**一次** = 2 次尝试封顶；再停 = failed「需人工」。 */
 export const MAX_ATTEMPTS = 2;
 /** SIGTERM 后给的收尸宽限，到点 SIGKILL。 */
+/** 启动宽限：第一口输出之前不按 idle 阈值判停滞（冷启动不是停滞·见 runSession 注释）。可注入。 */
+export const STARTUP_GRACE_MS = 20_000;
 export const KILL_GRACE_MS = 2_000;
 
 // ── 阶段档位与预算（图纸 §会话契约 3·CLAUDE.md effort 阶梯）───────────────
@@ -363,7 +365,8 @@ export function decideStatus(verify) {
  * 起一个会话进程，600s（可注入）无任何输出即 stalled → SIGTERM → 宽限后 SIGKILL。
  * 心跳=输出（非闹钟）：只要还在吐流就不杀。resolve 永不 reject（起不来也落结构化结果）。
  */
-export function runSession({ bin, args, prompt, cwd, idleTimeoutMs, killGraceMs = KILL_GRACE_MS, logFile, onOutput }) {
+export function runSession({ bin, args, prompt, cwd, idleTimeoutMs, killGraceMs = KILL_GRACE_MS,
+                            startupGraceMs = STARTUP_GRACE_MS, logFile, onOutput }) {
   return new Promise((resolve) => {
     let child;
     try {
@@ -374,13 +377,19 @@ export function runSession({ bin, args, prompt, cwd, idleTimeoutMs, killGraceMs 
     }
     let bytes = 0, settled = false, idleTimer = null, killTimer = null, outcome = 'exited', error = null;
     const done = (res) => { if (settled) return; settled = true; clearTimeout(idleTimer); clearTimeout(killTimer); resolve(res); };
+    // **第一口输出之前用启动宽限，之后才用 idle 阈值**（独立审查 2026-09-12 打回的确定性缺陷）：
+    // 心跳 = 输出，可是解释器冷启动那几百毫秒**一个字节都还没产生**——此时既没有"停滞"的证据，
+    // 也没有"活着"的证据。首版从 spawn 那一刻就按 idle 阈值计时，于是机器一慢/一忙，
+    // 正常会话会被误判成停滞杀掉（审查方在自己机器上就是这么红的：200ms 阈值 vs Node 冷启动）。
+    // 生产上这同样是真缺陷，不只是测试脆弱：慢机器上第一次派工会被无故杀两次判 failed。
     const armIdle = () => {
       clearTimeout(idleTimer);
+      const wait = bytes === 0 ? Math.max(idleTimeoutMs, startupGraceMs) : idleTimeoutMs;
       idleTimer = setTimeout(() => {
         outcome = 'stalled';
         try { child.kill('SIGTERM'); } catch { /* 已死 */ }
         killTimer = setTimeout(() => { try { child.kill('SIGKILL'); } catch { /* 已死 */ } }, killGraceMs);
-      }, idleTimeoutMs);
+      }, wait);
     };
     const feed = (buf) => {
       bytes += buf.length;
@@ -418,10 +427,19 @@ export async function dispatch(opts = {}) {
     idleTimeoutMs = Number(process.env.ZEROCRAFT_ORCH_IDLE_MS) || IDLE_TIMEOUT_MS,
     maxAttempts = MAX_ATTEMPTS,
     killGraceMs = KILL_GRACE_MS,
+    // 启动宽限可注入：测试注小值即可确定性地验"静默会话被杀"，不必靠"赌 Node 冷启动够快"
+    // （独立审查 2026-09-12 的建议：注入 clock，别加 sleep）。生产用 STARTUP_GRACE_MS 缺省。
+    startupGraceMs = Number(process.env.ZEROCRAFT_ORCH_STARTUP_MS) || STARTUP_GRACE_MS,
     claudeBin = process.env.ZEROCRAFT_ORCH_CLAUDE || 'claude',
     extraFlags = (process.env.ZEROCRAFT_ORCH_FLAGS || '').split(/\s+/).filter(Boolean),
     verifyCmd = null,   // 测试注入替身门（仅施工模式）；生产恒 null → 走 verifyStage 真门。
                         // 复查模式不接注入：重验=纯 fs+指纹核对（verifyReview），测试造真记录即可。
+    // 会话执行器可注入（独立复查 2026-09-12 的建议：**注 clock/runner，别加 sleep**）。
+    // 为什么非注不可：看门狗的「停滞→杀→重派一次→failed」这条编排逻辑，用真子进程验时
+    // 必然在赌「Node 冷启动比阈值快」——慢机器上替身还没启动完就被杀，标记文件都没写下，
+    // 断言当场失真（复查方在自己机器上就是这么红的，而我这儿是绿的：同一份代码两种结果 = 判据不可靠）。
+    // 注进来之后，编排逻辑的测试**零子进程、零计时**，完全确定；真子进程的杀进程机制另留一条测试覆盖。
+    runSessionImpl = runSession,
     pid = process.pid,
   } = opts;
 
@@ -461,8 +479,8 @@ export async function dispatch(opts = {}) {
     for (let attempt = 1; attempt <= attemptCap; attempt += 1) {
       attempts = attempt;
       touchLock(root, { attempt, lastOutputAt: new Date().toISOString() }, { pid, throttleMs: 0 });
-      session = await runSession({
-        bin: rt.bin, args, prompt, cwd: root, idleTimeoutMs: idleMs, killGraceMs, logFile,
+      session = await runSessionImpl({
+        bin: rt.bin, args, prompt, cwd: root, idleTimeoutMs: idleMs, killGraceMs, startupGraceMs, logFile,
         // 心跳落锁（P1b 横幅/status 读它判 running vs stalled）。内存节流：1s 一次，流式输出不刷爆 fs。
         onOutput: () => {
           const t = Date.now();
@@ -588,6 +606,7 @@ async function main() {
   if (cmd === 'dispatch') {
     const o = { root: REPO_ROOT, slug: a2, stage: a3, review: argv.includes('--review') };
     if (opt('--idle-ms')) o.idleTimeoutMs = Number(opt('--idle-ms'));
+    if (opt('--startup-ms')) o.startupGraceMs = Number(opt('--startup-ms'));
     if (opt('--max-attempts')) o.maxAttempts = Number(opt('--max-attempts'));
     if (!a2 || !a3 || a3.startsWith('--')) { console.error(USAGE); process.exit(EXIT.USAGE); }
     const r = await dispatch(o);

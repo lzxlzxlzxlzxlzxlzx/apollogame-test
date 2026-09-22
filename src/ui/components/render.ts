@@ -274,19 +274,30 @@ const PRESET_FILL: Record<string, string> = {
   'ember':      'linear-gradient(180deg,#4a2c14,#2a180c)',
   'void':       'linear-gradient(160deg,#2a1a3a,#170f28)',
 };
+// 填充串净化（P2b · 评审 D8：`{custom}` 与遗留裸串此前原样拼进 style="…"，`x"onmouseover=…` 可越出属性）。
+// 允许的语法：CSS 色 / 渐变函数 / `url('…')`（url 内容按 safeUrl 剥引号括号空白反斜杠·再统一加单引号）/ 位置尺寸关键字与 `/`。
+// url 之外剥掉一切能逃出声明或属性的字符（; " ' < > \\ 及冒号）。合法的 game-g/game211 `url('…') center/cover no-repeat`
+// 与各家 linear-gradient(…rgba()) 逐字保留；只有注入尝试被削。
+function safeFill(raw: string): string {
+  return raw
+    .replace(/url\(\s*(['"]?)([^'")]*)\1\s*\)/g, (_m, _q, u: string) => `\u0000${u.replace(/['"()\\\s]/g, '')}\u0000`)
+    .split('\u0000')
+    .map((seg, i) => (i % 2 === 1 ? `url('${seg}')` : seg.replace(/[^#a-zA-Z0-9(),.%\s\-/]/g, '')))
+    .join('');
+}
 function resolveFill(bg: unknown, t: UITheme): string | undefined {
   if (bg === undefined || bg === null) return undefined;
-  if (typeof bg === 'object') return (bg as { custom?: string }).custom; // 显式逃生（创作者特别指定色）
+  if (typeof bg === 'object') { const c = (bg as { custom?: unknown }).custom; return typeof c === 'string' ? safeFill(c) : undefined; } // 显式逃生（创作者特别指定色·净化后用）
   const s = String(bg);
   const tok = SURFACE_TOKEN[s]; if (tok) return tok(t); // 语义令牌·换皮自适应
   if (PRESET_FILL[s]) return PRESET_FILL[s];            // 预设配色·固定观感
-  return s; // 遗留裸串（back-compat·audit 标记建议迁令牌/preset/custom）
+  return safeFill(s); // 遗留裸串（back-compat·audit 标记建议迁令牌/preset/custom·净化后用）
 }
 // 平移投影的"3D 侧"实色（REQ-108-UI-03·Panel.shadow.color）：闭集 SurfaceToken → 主题色（换皮自适应），
 // 否则裸串原样（稿子精确墨色）。**只取实色**·不走 PRESET_FILL（那是渐变·硬边投影要单色）。缺省=深墨。
 function shadowColor(c: string | undefined, t: UITheme): string {
   if (!c) return t.ink ?? t.bg0;              // 缺省 3D 侧 = 最深墨（自然投影侧）
-  const tok = SURFACE_TOKEN[c]; return tok ? tok(t) : c;
+  const tok = SURFACE_TOKEN[c]; return tok ? tok(t) : safeColor(c); // 裸串净化（P2b）
 }
 
 // ── 原有 7 个控件 ───────────────────────────────────────────────
@@ -295,7 +306,10 @@ function renderButton(id: string, p: ButtonProps, ls: string, t: UITheme): strin
   const kindStyle: Record<string, string> = {
     primary: `background:${t.jadeWash};color:${t.jade};border:1px solid ${t.jadeLine};font-weight:600`,
     ghost:   `background:rgba(255,255,255,0.03);color:${t.sub};border:1px solid ${t.line}`,
-    quiet:   `background:transparent;color:${t.dim};border:1px solid transparent`,
+    // quiet=克制态，但它仍是**可点的按钮文字**：用 t.dim 实测 2.93 < 硬地板 3.0（暗主题下键面读不清·
+    // 波及 25 处含 @ui/starters 起手包的「重来/设置」）。降权用 t.sub（比 text 弱、仍过地板）——
+    // dim 留给真正的三级非必读文字。同 ProgressBar.showValue 的同类修（2026-09）。
+    quiet:   `background:transparent;color:${t.sub};border:1px solid transparent`,
   };
   const kind = p.kind ?? 'ghost';
   // 皮解析（批29 owner 07-15「按键也可换」）：node 级 skin 优先（含 skin:'' 显式关皮逃生）；未给则落主题级
@@ -545,7 +559,7 @@ function renderScreen(id: string, p: ScreenProps, children: LayoutNode[], t: UIT
   // 三路贴图并存：程序化(theme.texture) / cover 整图(下方 bgImg) / 平铺图片(bgTexture)。
   const bg     = [t.wash, texLayer(p.bgTexture, p.bgTextureSize), t.texture, baseBg].filter(Boolean).join(', ');
   const center = p.center ? 'align-items:center;justify-content:center;' : 'align-items:stretch;';
-  const bgImg  = p.image ? `background-image:url('${esc(p.image)}');background-size:cover;background-position:center;` : '';
+  const bgImg  = p.image ? `background-image:url('${safeUrl(p.image)}');background-size:cover;background-position:center;` : ''; // safeUrl：esc 不转单引号·`')` 可越出 url()（P2b）
   const blur   = p.blur ? `backdrop-filter:blur(${num(p.blur)}px);` : '';
   // 高度语义（REQ-SCREENFILL）：缺省 100vh（吃视口·直挂页面对）；fill=100%（吃父定尺盒·mountHost 信箱盒填满去底部空白）。
   const minH   = p.fill ? '100%' : '100vh';
@@ -667,7 +681,7 @@ function renderProgressBar(id: string, p: ProgressBarProps, ls: string, t: UIThe
       `</div></div>${center}</div>`;
   }
   const header = (p.label || p.showValue)
-    ? `<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">${p.label ? `<span style="font-size:11px;color:${t.sub};font-family:${t.fontUi}">${esc(p.label)}</span>` : '<span></span>'}${p.showValue ? `<span style="font-size:11px;color:${t.dim};font-family:${t.fontMono}">${esc(valTxt)}</span>` : ''}</div>`
+    ? `<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">${p.label ? `<span style="font-size:11px;color:${t.sub};font-family:${t.fontUi}">${esc(p.label)}</span>` : '<span></span>'}${p.showValue ? `<span style="font-size:11px;color:${t.sub};font-family:${t.fontMono}">${esc(valTxt)}</span>` : ''}</div>`
     : '';
   return `<div id="${esc(id)}" style="display:flex;flex-direction:column;${ls}">${header}<div style="height:8px;border-radius:5px;background:${t.bg3};overflow:hidden"><div style="width:${pct}%;height:100%;background:${fill};border-radius:5px;transition:width .2s"></div></div></div>`;
 }

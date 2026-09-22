@@ -21,7 +21,7 @@ import {
   lockPath, runsPath, pidAlive, readLock, acquireLock, releaseLock, touchLock, readRuns,
   budgetFor, STAGE_BUDGET, NO_SESSION_STAGES, detectRuntime, NO_RUNTIME_MSG,
   buildSessionPrompt, sessionFooter, sessionArgs, gameDirFor, decideStatus, verifyStage,
-  dispatch, statusFor, abort, IDLE_TIMEOUT_MS, MAX_ATTEMPTS,
+  dispatch, statusFor, abort, IDLE_TIMEOUT_MS, MAX_ATTEMPTS, STARTUP_GRACE_MS, runSession,
   reviewBudgetFor, REVIEW_BUDGET, NO_REVIEW_STAGES, REVIEW_BY_PREFIX,
   buildReviewSessionPrompt, reviewSessionFooter, checklistText, boardText, verifyReview,
 } from './pipeline-orchestrator.mjs';
@@ -132,49 +132,118 @@ describe('① 串行锁互斥', () => {
 });
 
 // ═══ ② 看门狗（图纸 §会话契约 4：600s 无输出=stalled → 杀 → 重派一次 → 再停=failed）═══
-describe('② 看门狗：停滞→杀→重派一次→failed', () => {
-  it('全程静默的慢会话：杀两次（首派+重派一次·不多不少）→ failed「需人工」', () => withRoot(async (root) => {
+// **为什么这组分两层**（独立复查 2026-09-12 打回「看门狗测试在别人机器上红」）：
+// 「停滞→重派一次→failed」是编排逻辑，「超时杀进程」是机制，混在一条真子进程测试里就只能
+// 赌「Node 冷启动比毫秒级阈值快」——快机器绿、慢机器红，同一份代码两种结果 = 判据不作数。
+// 所以 ② 编排逻辑注入假 runner（零子进程·零计时·完全确定）；②′ 机制真起进程但阈值给到
+// 秒级、且只验 runSession 自己，不掺编排。
+describe('② 看门狗编排：停滞→重派一次→failed（注入 runner·零计时）', () => {
+  /** 假会话执行器：按脚本逐次返回结果（用尽后重复最后一条），并记下每次收到的参数。 */
+  const fakeRunner = (results) => {
+    const calls = [];
+    const impl = async (o) => { calls.push(o); return results[Math.min(calls.length - 1, results.length - 1)]; };
+    impl.calls = calls;
+    return impl;
+  };
+  const STALLED = { outcome: 'stalled', code: null, signal: 'SIGTERM', bytes: 0, error: null };
+  const EXITED = (bytes = 42) => ({ outcome: 'exited', code: 0, signal: null, bytes, error: null });
+  const anyBin = (root) => stub(root, 'unused', 'process.exit(0);');   // 只为过运行时探测，注入后不真跑
+
+  it('全程静默的会话：起两次（首派+重派一次·不多不少）→ failed「需人工」', () => withRoot(async (root) => {
     const slug = fakeGame(root);
-    const marker = join(root, 'spawned.txt');
-    const bin = stub(root, 'silent-slow', [
-      `require('fs').appendFileSync(${JSON.stringify(marker)}, 'x\\n');`,
-      `setTimeout(() => process.exit(0), 30000);`,       // 一个字都不吐（心跳=输出 → 判停滞）
-    ].join('\n'));
-
-    const t0 = Date.now();
-    const r = await dispatch({ root, slug, stage: 'S3', claudeBin: bin, idleTimeoutMs: 200, killGraceMs: 150 });
-    const elapsed = Date.now() - t0;
-
+    const runner = fakeRunner([STALLED]);
+    const r = await dispatch({ root, slug, stage: 'S3', claudeBin: anyBin(root), idleTimeoutMs: 200, runSessionImpl: runner });
+    expect(runner.calls).toHaveLength(2);                // 首派 + 自动重派**一次**，不是三次
     expect(r.ok).toBe(false);
     expect(r.code).toBe('STALLED');
-    expect(r.attempts).toBe(2);                          // 首派 + 自动重派**一次**
-    expect(lines(marker)).toHaveLength(2);               // 真起了两次替身进程，不是三次
+    expect(r.attempts).toBe(2);
     expect(r.session.outcome).toBe('stalled');
     expect(r.entry.state).toBe('failed');
     expect(r.entry.needsHuman).toBe(true);
     expect(r.reason).toContain('停滞');
-    expect(elapsed).toBeLessThan(30000);                 // 是被看门狗杀的，不是等它自己跑完
     expect(readRuns(root)[slug].state).toBe('failed');   // 台账落红（status/板读得到）
     expect(existsSync(lockPath(root))).toBe(false);      // 失败也放锁（不留死锁堵后续）
-  }), 20000);
+  }));
 
-  it('有心跳就不杀：慢但持续吐流的会话跑到自然退出（心跳判据非闹钟）', () => withRoot(async (root) => {
+  it('首派停滞、重派那次正常退出 → 不再起第三次（重派名额只有一个）', () => withRoot(async (root) => {
     const slug = fakeGame(root);
-    const bin = stub(root, 'chatty-slow', [
-      `let n = 0;`,
-      `const t = setInterval(() => { console.log('{"type":"stream","n":' + (++n) + '}'); if (n >= 6) { clearInterval(t); process.exit(0); } }, 50);`,
-    ].join('\n'));
-    const r = await dispatch({ root, slug, stage: 'S3', claudeBin: bin, idleTimeoutMs: 200, killGraceMs: 150 });
-    expect(r.attempts).toBe(1);                          // 没重派
-    expect(r.session.outcome).toBe('exited');            // 自然退出（总时长 300ms > 200ms 空闲阈，但一直有心跳）
-    expect(r.session.code).toBe(0);
+    const runner = fakeRunner([STALLED, EXITED()]);
+    const r = await dispatch({ root, slug, stage: 'S3', claudeBin: anyBin(root), idleTimeoutMs: 200, runSessionImpl: runner });
+    expect(runner.calls).toHaveLength(2);
+    expect(r.attempts).toBe(2);
+    expect(r.session.outcome).toBe('exited');
     expect(r.code).toBe('GATE_FAIL');                    // 会话正常退出 ≠ 阶段绿：还得过独立重验（见 ③）
-  }), 20000);
+  }));
 
-  it('看门狗默认值照图纸：600s / 首派+重派一次', () => {
+  it('会话一次就正常退出 → 只起一次（不白烧第二个名额）', () => withRoot(async (root) => {
+    const slug = fakeGame(root);
+    const runner = fakeRunner([EXITED(7)]);
+    const r = await dispatch({ root, slug, stage: 'S3', claudeBin: anyBin(root), idleTimeoutMs: 200, runSessionImpl: runner });
+    expect(runner.calls).toHaveLength(1);
+    expect(r.attempts).toBe(1);
+    expect(r.code).toBe('GATE_FAIL');
+  }));
+
+  it('看门狗参数真传到会话执行器（空闲阈/启动宽限/杀宽限不是摆设·心跳回调已接线）', () => withRoot(async (root) => {
+    const slug = fakeGame(root);
+    const runner = fakeRunner([EXITED(1)]);
+    await dispatch({ root, slug, stage: 'S3', claudeBin: anyBin(root), idleTimeoutMs: 1234,
+                    killGraceMs: 77, startupGraceMs: 4321, runSessionImpl: runner });
+    expect(runner.calls[0].idleTimeoutMs).toBe(1234);
+    expect(runner.calls[0].killGraceMs).toBe(77);
+    expect(runner.calls[0].startupGraceMs).toBe(4321);
+    expect(typeof runner.calls[0].onOutput).toBe('function');   // 心跳落锁（status 靠它分 running/stalled）
+  }));
+
+  it('看门狗默认值照图纸：600s 空闲阈 / 首派+重派一次 / 启动宽限 20s', () => {
     expect(IDLE_TIMEOUT_MS).toBe(600_000);
     expect(MAX_ATTEMPTS).toBe(2);
+    expect(STARTUP_GRACE_MS).toBe(20_000);
   });
+});
+
+// ═══ ②′ 杀进程机制单测（真子进程·秒级阈值·不掺编排）═══════════════════════════
+describe('②′ runSession 机制：静默→杀 · 有心跳→不杀 · 冷启动宽限内不误杀', () => {
+  it('全程静默的慢进程 → 被杀并判 stalled（不等它自己跑完 30s）', () => withRoot(async (root) => {
+    const marker = join(root, 'spawned.txt');
+    const bin = stub(root, 'silent-slow', [
+      `require('fs').appendFileSync(${JSON.stringify(marker)}, 'x\\n');`,
+      `setTimeout(() => process.exit(0), 30000);`,        // 一个字都不吐（心跳=输出 → 判停滞）
+    ].join('\n'));
+    const t0 = Date.now();
+    const s = await runSession({ bin, args: [], prompt: '', cwd: root, idleTimeoutMs: 3000, killGraceMs: 500, startupGraceMs: 3000 });
+    expect(lines(marker)).toHaveLength(1);                // 真起来了（否则下面几条没意义）
+    expect(s.outcome).toBe('stalled');
+    expect(s.bytes).toBe(0);
+    expect(Date.now() - t0).toBeLessThan(25000);
+  }), 40000);
+
+  it('持续吐流的慢进程跑到自然退出（心跳判据非闹钟：总时长 > 空闲阈也不杀）', () => withRoot(async (root) => {
+    const bin = stub(root, 'chatty-slow', [
+      `let n = 0;`,
+      `const t = setInterval(() => { console.log('{"type":"stream","n":' + (++n) + '}'); if (n >= 8) { clearInterval(t); process.exit(0); } }, 120);`,
+    ].join('\n'));
+    const s = await runSession({ bin, args: [], prompt: '', cwd: root, idleTimeoutMs: 900, killGraceMs: 300, startupGraceMs: 5000 });
+    expect(s.outcome).toBe('exited');                     // 总时长 ~1s > 900ms 空闲阈，但每 120ms 一次心跳
+    expect(s.code).toBe(0);
+    expect(s.bytes).toBeGreaterThan(0);
+  }), 40000);
+
+  it('冷启动宽限：第一口输出之前按宽限计时，不按空闲阈（慢机器不误杀）', () => withRoot(async (root) => {
+    // 进程憋 600ms 才吐第一口。空闲阈 200ms：没有宽限必被误杀；宽限 10s → 必须活到吐出来。
+    const bin = stub(root, 'slow-boot', `setTimeout(() => { console.log('{"type":"stream"}'); process.exit(0); }, 600);`);
+    const s = await runSession({ bin, args: [], prompt: '', cwd: root, idleTimeoutMs: 200, killGraceMs: 300, startupGraceMs: 10000 });
+    expect(s.outcome).toBe('exited');
+    expect(s.code).toBe(0);
+    expect(s.bytes).toBeGreaterThan(0);
+  }), 40000);
+
+  it('起不来的 bin → spawn-error（不抛·落结构化结果）', () => withRoot(async (root) => {
+    const s = await runSession({ bin: join(root, 'nope-does-not-exist'), args: [], prompt: '', cwd: root,
+                                idleTimeoutMs: 1000, killGraceMs: 200, startupGraceMs: 1000 });
+    expect(s.outcome).toBe('spawn-error');
+    expect(s.bytes).toBe(0);
+  }), 40000);
 });
 
 // ═══ ③ 独立重验（图纸 §会话契约 5「绿不靠嘴」）· 假信心自查点 ═════════════════

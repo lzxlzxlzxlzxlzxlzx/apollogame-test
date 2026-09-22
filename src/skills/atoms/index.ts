@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════
-//  Atom Skills — 核心原子统一导出（30 核心 + 1 扩展；唯一真相=本文件导出表）
+//  Atom Skills — 核心原子统一导出（33 核心 + 1 扩展；唯一真相=本文件导出表）
 //  参见 wiki/atom-skill-periodic-table.md
 // ═══════════════════════════════════════════════════════════════
 import type { CapabilityDefinition } from '@engine/core/define-capability.js';
@@ -19,6 +19,8 @@ import { resourceCapability } from './resource/index.js';
 import { flagCapability } from './flag/index.js';
 import { tagCapability } from './tag/index.js';
 import { relationCapability } from './relation/index.js';
+import { ownerCapability } from './owner/index.js';
+import { groupCapability } from './group/index.js';
 import { visibilityCapability } from './visibility/index.js';
 import { inputCaptureCapability } from './input-capture/index.js';
 import { actionMapCapability } from './action-map/index.js';
@@ -34,6 +36,7 @@ import { cameraCapability } from './camera/index.js';
 import { textCapability } from './text/index.js';
 import { randomCapability } from './random/index.js';
 import { spatialQueryCapability } from './spatial-query/index.js';
+import { vfx2dCapability } from './vfx2d/index.js';
 
 // 扩展原子（周期表 Extension，非核心原子）
 import { stringVariableCapability } from './string-variable/index.js';
@@ -54,6 +57,8 @@ export {
   flagCapability,
   tagCapability,
   relationCapability,
+  ownerCapability,
+  groupCapability,
   visibilityCapability,
   inputCaptureCapability,
   actionMapCapability,
@@ -69,14 +74,18 @@ export {
   textCapability,
   randomCapability,
   spatialQueryCapability,
+  vfx2dCapability,
   stringVariableCapability,
 };
 
 // 世界级服务的纯函数助手
-export { nextRandom, randomInt, chancePass, mulberry32, seededShuffle } from './random/index.js';
+export { nextRandom, randomInt, chancePass, mulberry32, seededShuffle, deriveSeed, createShuffleBag, drawFromBag, gaussianApprox } from './random/index.js';
+export type { ShuffleBag } from './random/index.js';
 export { queryRange, queryNearest } from './spatial-query/index.js';
+export { ownerOf, teamOf, sameTeam, isOwnedBy } from './owner/index.js';
+export { groupAdd, groupInsertAt, groupRemove, groupMove, groupHas, groupIsFull, findGroup } from './group/index.js';
 
-// 全部核心原子（30 个；用于注册到 World 或 assembly 蓝图）
+// 全部核心原子（32 个；用于注册到 World 或 assembly 蓝图）
 export const allAtomCapabilities: CapabilityDefinition[] = [
   transformCapability,
   hierarchyCapability,
@@ -93,6 +102,8 @@ export const allAtomCapabilities: CapabilityDefinition[] = [
   flagCapability,
   tagCapability,
   relationCapability,
+  ownerCapability,
+  groupCapability,
   visibilityCapability,
   inputCaptureCapability,
   actionMapCapability,
@@ -108,6 +119,7 @@ export const allAtomCapabilities: CapabilityDefinition[] = [
   textCapability,
   randomCapability,
   spatialQueryCapability,
+  vfx2dCapability,
 ];
 
 // 扩展原子（按需引入，不计入核心原子）。

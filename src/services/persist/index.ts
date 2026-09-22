@@ -15,3 +15,6 @@ export {
   type LocalStore,
 } from './local-store.js';
 export { insertRanked } from './leaderboard.js';
+// 本地成就台账（阈值解锁·持久化）——game-103 手写原型的通用形（owner 2026-09-09 令补齐）。
+export { createAchievementLedger } from './achievements-ledger.js';
+export type { AchievementDef, AchievementLedger } from './achievements-ledger.js';

@@ -116,10 +116,17 @@ describe('prefab — 全数据链 money shot：SpawnRequest → 展开 nova → 
     // 几拍内：展开 nova → overlap-detect → trigger-zone → hitbox → resource-apply。
     for (let i = 0; i < 3; i++) w.tick();
 
+    // 精确终值（实跑取值·A1 遗留加强）：tick1 展开 nova（尚无 overlap），tick2/3 各结算一次 -7 → 86。
+    // 注意语义改判：模板**无 Timer/consumeOnHit** → 持续区**每拍结算**是 hitbox 钉死的设计语义
+    // （hitbox.ts「burst vs 持续：瞬时 nova 用短 Timer；持续火环靠长寿命每拍结算」），
+    // 故不是「打一次后不再变」，而是钉死精确的每拍 -7 斜率——重复/漏拍/翻倍的错实现都在此转红。
     const enemyHp = w.getComponent<Resource>('enemy', 'Resource')!.current;
     const enemyStatus = w.getComponent<Status>('enemy', 'Status')?.flags ?? 0;
-    expect(enemyHp).toBeLessThan(100); // 真受伤
+    expect(enemyHp).toBe(86); // 100 − 7×2（实跑 golden：每拍 -7，首拍仅展开）
     expect(enemyStatus & FROZEN).toBe(FROZEN); // 被冻结
+    // 再跑 3 拍：持续区照拍扣血（86 → 65），斜率恒 -7/拍。
+    for (let i = 0; i < 3; i++) w.tick();
+    expect(w.getComponent<Resource>('enemy', 'Resource')!.current).toBe(65);
   });
 });
 
@@ -143,5 +150,28 @@ describe('prefab — BUG-004 载体回收（不泄漏空实体 / 不误删持久
     expect(w.getAllEntities()).toContain('caster'); // 持久实体保留
     expect(w.getComponent('caster', 'SpawnRequest')).toBeUndefined(); // 仅其 SpawnRequest 被 consume
     expect(w.getComponent<Transform>('caster', 'Transform')).toBeTruthy();
+  });
+});
+
+// ── A2 遗留缺口腿：snapshot→restore→再 spawn 的实例 id 不与档内已 spawn 的撞 ──
+// seq 住在 PrefabLibrary 组件里（prefab.ts:117「进 snapshot 可重放」）→ 随档走。实测无撞（非 bug）。
+describe('prefab — snapshot/restore：seq 随档走（实例 id 不撞）', () => {
+  it('存档→岔路 spawn→读档→再 spawn：seq 从档内值续走，新实例不与档内实例撞 id', () => {
+    const w = prefabWorld(BOX);
+    request(w, 'box', 0, 0, 's1');
+    w.tick(); // box#0（lib.seq 0→1）
+    const snap = w.snapshot();
+    const order = w.snapshotOrder(); // 创建序=restore 后 query 序的唯一真相（REQ-SAVEORDER）
+    request(w, 'box', 0, 0, 's2');
+    w.tick(); // 岔路：box#1（读档将抹掉）
+    w.restore(snap, order);
+    expect(w.getComponent<PrefabLibrary>('lib', 'PrefabLibrary')!.seq).toBe(1); // seq 随档走（实测）
+    expect(w.getAllEntities()).not.toContain('box#1:body'); // 岔路实例已被读档抹掉
+    request(w, 'box', 7, 0, 's3');
+    w.tick();
+    // 读档后新 spawn = box#1（续档内 seq）——与档内 box#0 不撞；box#0 原封保留。
+    expect(w.getComponent<Transform>('box#1:body', 'Transform')!.x).toBe(12); // 5+7 → 新实例真展开
+    expect(w.getComponent<Transform>('box#0:body', 'Transform')!.x).toBe(5); // 档内实例不受影响
+    expect(w.getComponent<PrefabLibrary>('lib', 'PrefabLibrary')!.seq).toBe(2);
   });
 });

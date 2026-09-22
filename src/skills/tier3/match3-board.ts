@@ -4,6 +4,7 @@ import type { IWorld } from '@engine/core/types.js';
 import type { MatchBoard, BoardCell, Signal, Color, Text, ResourceModify, RandomSeed, Sprite } from '@engine/protocol/components.js';
 import { findByComponentId } from '@engine/core/query.js';
 import { randomInt } from '@atom-skills/index.js';
+import { index, rowOf, colOf, adjacent4 } from '@engine/math/grid.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  match3-board —— 三消棋盘机制（REQ-C-001 一期 + REQ-M3-三消二期；Tier 3「算法/解释器型机制」大类）。
@@ -63,16 +64,12 @@ function comboKey(special: number): number {
 
 // ── 纯算法 helper（导出供单测；无副作用，确定性）────────────────────────────
 export function cellIndex(c: number, r: number, cols: number): number {
-  return r * cols + c;
+  return index(c, r, cols);
 }
 
 // 两格是否四邻（同行相邻列 或 同列相邻行）。
 export function adjacent(a: number, b: number, cols: number): boolean {
-  const ra = Math.floor(a / cols);
-  const ca = a % cols;
-  const rb = Math.floor(b / cols);
-  const cb = b % cols;
-  return (ra === rb && Math.abs(ca - cb) === 1) || (ca === cb && Math.abs(ra - rb) === 1);
+  return adjacent4(a, b, cols);
 }
 
 // 某格「用于连线的色」：空格/彩球/被格层锁住（blockers≠0）→ -1（不参与连线）；否则=色。
@@ -94,16 +91,16 @@ function collectRuns(cells: readonly number[], cols: number, rows: number, block
   for (let r = 0; r < rows; r++) {
     let c = 0;
     while (c < cols) {
-      const col = matchColorAt(cells, r * cols + c, blockers);
+      const col = matchColorAt(cells, index(c, r, cols), blockers);
       if (col < 0) {
         c++;
         continue;
       }
       let c2 = c;
-      while (c2 < cols && matchColorAt(cells, r * cols + c2, blockers) === col) c2++;
+      while (c2 < cols && matchColorAt(cells, index(c2, r, cols), blockers) === col) c2++;
       if (c2 - c >= 3) {
         const cc: number[] = [];
-        for (let k = c; k < c2; k++) cc.push(r * cols + k);
+        for (let k = c; k < c2; k++) cc.push(index(k, r, cols));
         runs.push({ cells: cc, horizontal: true, color: col });
       }
       c = c2;
@@ -113,16 +110,16 @@ function collectRuns(cells: readonly number[], cols: number, rows: number, block
   for (let c = 0; c < cols; c++) {
     let r = 0;
     while (r < rows) {
-      const col = matchColorAt(cells, r * cols + c, blockers);
+      const col = matchColorAt(cells, index(c, r, cols), blockers);
       if (col < 0) {
         r++;
         continue;
       }
       let r2 = r;
-      while (r2 < rows && matchColorAt(cells, r2 * cols + c, blockers) === col) r2++;
+      while (r2 < rows && matchColorAt(cells, index(c, r2, cols), blockers) === col) r2++;
       if (r2 - r >= 3) {
         const cc: number[] = [];
-        for (let k = r; k < r2; k++) cc.push(k * cols + c);
+        for (let k = r; k < r2; k++) cc.push(index(c, k, cols));
         runs.push({ cells: cc, horizontal: false, color: col });
       }
       r = r2;
@@ -145,17 +142,17 @@ export function applyGravity(cells: number[], cols: number, rows: number, blocke
   const collapseSeg = (c: number, topR: number, botR: number): void => {
     const stack: number[] = [];
     for (let r = botR; r >= topR; r--) {
-      const v = cells[r * cols + c];
+      const v = cells[index(c, r, cols)];
       if (v !== EMPTY) stack.push(v); // 自底向上收集非空块
     }
     for (let r = botR, i = 0; r >= topR; r--, i++) {
-      cells[r * cols + c] = i < stack.length ? stack[i] : EMPTY; // 自底向下回填，其余置空
+      cells[index(c, r, cols)] = i < stack.length ? stack[i] : EMPTY; // 自底向下回填，其余置空
     }
   };
   for (let c = 0; c < cols; c++) {
     let start = 0;
     for (let r = 0; r < rows; r++) {
-      if (blockers && (blockers[r * cols + c] ?? 0) !== 0) {
+      if (blockers && (blockers[index(c, r, cols)] ?? 0) !== 0) {
         if (r - 1 >= start) collapseSeg(c, start, r - 1); // 结算障碍上方这一段
         start = r + 1; // 段在障碍之上继续
       }
@@ -181,46 +178,46 @@ function swapCells(cells: number[], a: number, b: number): void {
 
 // ── 几何：行/列/盒/同色 全格集（纯确定性·供触发效果与 combo）────────────────
 function rowCells(i: number, cols: number, rows: number): number[] {
-  const r = Math.floor(i / cols);
+  const r = rowOf(i, cols);
   const out: number[] = [];
-  for (let c = 0; c < cols; c++) out.push(r * cols + c);
+  for (let c = 0; c < cols; c++) out.push(index(c, r, cols));
   return out;
 }
 function colCells(i: number, cols: number, rows: number): number[] {
-  const c = i % cols;
+  const c = colOf(i, cols);
   const out: number[] = [];
-  for (let r = 0; r < rows; r++) out.push(r * cols + c);
+  for (let r = 0; r < rows; r++) out.push(index(c, r, cols));
   return out;
 }
 // 以 i 为心、半径 rad 的方块（rad=1 → 3×3；rad=2 → 5×5），越界裁掉。
 function boxCells(i: number, cols: number, rows: number, rad: number): number[] {
-  const r0 = Math.floor(i / cols);
-  const c0 = i % cols;
+  const r0 = rowOf(i, cols);
+  const c0 = colOf(i, cols);
   const out: number[] = [];
   for (let r = r0 - rad; r <= r0 + rad; r++) {
     if (r < 0 || r >= rows) continue;
     for (let c = c0 - rad; c <= c0 + rad; c++) {
       if (c < 0 || c >= cols) continue;
-      out.push(r * cols + c);
+      out.push(index(c, r, cols));
     }
   }
   return out;
 }
 function threeRows(i: number, cols: number, rows: number): number[] {
-  const r0 = Math.floor(i / cols);
+  const r0 = rowOf(i, cols);
   const out: number[] = [];
   for (let r = r0 - 1; r <= r0 + 1; r++) {
     if (r < 0 || r >= rows) continue;
-    for (let c = 0; c < cols; c++) out.push(r * cols + c);
+    for (let c = 0; c < cols; c++) out.push(index(c, r, cols));
   }
   return out;
 }
 function threeCols(i: number, cols: number, rows: number): number[] {
-  const c0 = i % cols;
+  const c0 = colOf(i, cols);
   const out: number[] = [];
   for (let c = c0 - 1; c <= c0 + 1; c++) {
     if (c < 0 || c >= cols) continue;
-    for (let r = 0; r < rows; r++) out.push(r * cols + c);
+    for (let r = 0; r < rows; r++) out.push(index(c, r, cols));
   }
   return out;
 }
@@ -248,8 +245,8 @@ function dominantColor(cells: readonly number[]): number {
   return best;
 }
 function neighbors4(i: number, cols: number, rows: number): number[] {
-  const r = Math.floor(i / cols);
-  const c = i % cols;
+  const r = rowOf(i, cols);
+  const c = colOf(i, cols);
   const out: number[] = [];
   if (r > 0) out.push(i - cols);
   if (r < rows - 1) out.push(i + cols);
@@ -634,7 +631,7 @@ export const match3BoardCapability = defineCapability({
       // 相位状态机：推进逻辑网格、产出 ResourceModify。Update 相位（晚于 clickable 产选中信号、早于 resource-apply 结算）。
       id: 'match-resolve',
       reads: ['MatchBoard', 'BoardCell', 'Signal', 'RandomSeed', 'Resource'],
-      writes: ['MatchBoard', 'ResourceModify'],
+      writes: ['MatchBoard', 'ResourceModify', 'RandomSeed'], // RandomSeed：补位随机 nextRandom 推进 seed（P1a 严格模式补齐·此前漏报）
       consumes: [],
       // 定序（R10 修订·game-j 撞出四系统环 resource-apply→event-when→clickable→match-resolve→resource-apply）：
       // 显式排在 resource-apply **之后**压制 writer→consumer 自动边——产料/扣步**下一拍**被结算

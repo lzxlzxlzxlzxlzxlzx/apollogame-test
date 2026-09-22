@@ -9,8 +9,8 @@
 
 | 要什么 | 去哪读 |
 |---|---|
-| capability 总数与清单 | `src/assembly/capability-registry.ts`（ALL_CAPABILITIES）；LLM 用 `buildCapabilityCatalog()` 自动导出（零 prompt 维护） |
-| 原子清单 | `src/skills/atoms/index.ts`（快照 2026-07-11：30 核心 + 1 扩展 string-variable；过期以代码为准） |
+| capability 总数与清单 | `src/assembly/capability-registry.ts`（ALL_CAPABILITIES）；LLM 用 `buildCapabilityCatalog()` 自动导出（零 prompt 维护）；登记后 `npm run gen:registry` |
+| 原子清单 | `src/skills/atoms/index.ts`（快照 2026-09-09：33 核心 + 1 扩展 string-variable；过期以代码为准） |
 | UI 控件闭集 | `src/ui/components/catalog.ts` UI_CATALOG（34 控件，与 ComponentType 等长，测试钉死） |
 | 游戏清单与状态 | `src/launcher.tsx` GAMES |
 | 某游戏能力接入体检 | `node scripts/game-skill-audit.mjs [game]`（红旗=裸随机/手写DOM/零能力/零测试） |

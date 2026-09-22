@@ -13,6 +13,10 @@
 //       外壳挂载即读它、走既有 parseManifest+引擎 load 路径直接跑，跳过在线 fetch；
 //    3. 覆盖 <title> 为游戏名。产物自包含体检（无 http(s) 外链）不过 → 明报退出码 1。
 //
+//    P2e：打包前先经 manifest-check（引擎真 parseManifest + 装载探针）取该卡带**真用到的能力 id**，
+//    以 VITE_CART_CAPABILITIES 喂给 cartridge 构建 → 懒注册表裁成子集、rollup 只打这些能力
+//    （10 能力弹球卡带：外壳 JS ~317 KB → <120 KB）。装不起来的 manifest 在这一步就拒绝打包。
+//
 //  注：manifest 里未解析的 "art:<query>" 引用在离线包里退化为占位（渲染层不炸加载）；
 //      art: 打包期解析 + FreeArtLib/资产 base64 内联=后续件（REQ-PKG 完工回执已登记）。
 // ═══════════════════════════════════════════════════════════════
@@ -105,9 +109,31 @@ export function scanSelfContainment(html) {
   return issues;
 }
 
-/** 构建通用「内联数据卡带」外壳（VITE_TARGET_GAME=__inline__·单文件）→ 返回 dist-cartridge/cartridge.html 内容。 */
-function buildInlineShell(root) {
+/**
+ * 该 manifest 真用到的能力 id：跑 manifest-check（引擎真 parseManifest·含推断 + 装载探针）读其机读回执。
+ * 校验/装载不过 → 抛（错误文本 = manifest-check 的 stderr·可回喂 LLM 修）。
+ */
+export function resolveCartCapabilities(root, cart) {
+  let out;
+  try {
+    out = execFileSync('npx', ['vite-node', 'scripts/manifest-check.mjs'], {
+      cwd: root, input: JSON.stringify(cart), encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'],
+    });
+  } catch (e) {
+    throw new Error(`manifest 未通过引擎校验/装载，拒绝打包：\n${(e.stderr || e.message || '').toString().trim()}`);
+  }
+  const line = out.trim().split('\n').pop();
+  const rep = JSON.parse(line);
+  if (!rep.ok || !Array.isArray(rep.capabilities)) throw new Error(`manifest-check 回执异常：${line}`);
+  return rep.capabilities;
+}
+
+/** 构建「内联数据卡带」外壳（VITE_TARGET_GAME=__inline__·单文件）→ 返回 dist-cartridge/cartridge.html 内容。
+ *  subset 给定 → 懒注册表裁成这些能力（VITE_CART_CAPABILITIES）；null → 全量通用外壳。 */
+function buildInlineShell(root, subset = null) {
   const env = { ...process.env, VITE_TARGET_GAME: '__inline__', VITE_SINGLEFILE: '1' };
+  if (subset) env.VITE_CART_CAPABILITIES = subset.join(',');
+  else delete env.VITE_CART_CAPABILITIES;
   execFileSync('npx', ['vite', 'build', '--config', 'vite.config.cartridge.ts'], {
     cwd: root, env, stdio: 'inherit',
   });
@@ -116,14 +142,18 @@ function buildInlineShell(root) {
   return readFileSync(shell, 'utf8');
 }
 
-export async function packageWeb(root, slug, outFile, { build = true, shellHtml } = {}) {
+export async function packageWeb(root, slug, outFile, { build = true, shellHtml, subset = true } = {}) {
   const cart = readCartManifest(root, slug);
   const meta = readCartMeta(root, slug);
   let shell = shellHtml;
   if (shell == null) {
     if (build) {
-      shell = buildInlineShell(root);
+      // subset=true（缺省）：按该卡带真用到的能力裁外壳；false：全量通用外壳（调试/对比用）。
+      const ids = subset ? resolveCartCapabilities(root, cart) : null;
+      if (ids) process.stdout.write(`[package-web] ${slug} 用到 ${ids.length} 个能力：${ids.join(', ')}\n`);
+      shell = buildInlineShell(root, ids);
     } else {
+      // --no-build 复用上次外壳：若它是按别的卡带裁的子集，本卡带点名的能力可能不在 → 运行期「未知 capability id」。
       const p = join(root, 'dist-cartridge', 'cartridge.html');
       if (!existsSync(p)) throw new Error('--no-build 但外壳不存在：先构建一次或去掉 --no-build');
       shell = readFileSync(p, 'utf8');
@@ -145,14 +175,15 @@ export async function packageWeb(root, slug, outFile, { build = true, shellHtml 
 
 async function main(argv) {
   const noBuild = argv.includes('--no-build');
-  const args = argv.filter((a) => a !== '--no-build');
+  const full = argv.includes('--full-shell');
+  const args = argv.filter((a) => a !== '--no-build' && a !== '--full-shell');
   const [slug, outFile] = args;
   if (!slug || !/^[a-z0-9][a-z0-9-]*$/.test(slug)) {
-    process.stderr.write(`用法：node scripts/package-web.mjs <slug> [outFile] [--no-build]\n非法或缺失 slug：${slug ?? '(缺)'}\n`);
+    process.stderr.write(`用法：node scripts/package-web.mjs <slug> [outFile] [--no-build] [--full-shell]\n非法或缺失 slug：${slug ?? '(缺)'}\n`);
     process.exit(2);
   }
   try {
-    const out = await packageWeb(ROOT, slug, outFile, { build: !noBuild });
+    const out = await packageWeb(ROOT, slug, outFile, { build: !noBuild, subset: !full });
     const kb = Math.round(readFileSync(out).length / 1024);
     process.stdout.write(`[package-web] ${slug} → ${out}（${kb} KB·自包含·双击即玩）\n`);
   } catch (e) {

@@ -37,6 +37,49 @@ export function mulberry32(seed: number): () => number {
   };
 }
 
+// 派生子种子（B-7 · engine-base-tier-review-2026-09-06 §3.2）：同一世界种子 + 一个标签 → 一条独立且可复现的随机流种子
+// （AI 性格流 / sim 外的 meta 流 / 每波刷怪流）。此前 game211 整个 meta-random.ts 只为包一层、game-a 按性格
+// 手派 mulberry32(种子)、spawn-director 自带 seedState。算法：FNV-1a(label) ⊕ seed 再过一轮 mulberry 搅拌 → int32。
+// 用法：`const ai: RandomSeed = { type: 'RandomSeed', seed: deriveSeed(world.seed, 'ai:p2'), sequence: 0 }`，之后照常 nextRandom。
+export function deriveSeed(seed: number, label: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < label.length; i++) {
+    h ^= label.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  let a = ((h ^ (seed | 0)) + 0x6d2b79f5) | 0;
+  let t = Math.imul(a ^ (a >>> 15), a | 1);
+  t = (t + Math.imul(t ^ (t >>> 7), t | 61)) ^ t;
+  a = (t ^ (t >>> 14)) | 0;
+  return a;
+}
+
+// 抽签袋（shuffle bag·B 补齐）：不放回抽取，抽空自动用同一 PRNG 重洗——「每种结果在一轮里恰出现一次」的
+// 伪随机（掉落保底/题库轮转/敌人出场序）。状态可序列化（bag + cursor + seed）；同 seed 同序列。
+export interface ShuffleBag<T> { items: T[]; cursor: number; readonly seed: RandomSeed }
+export function createShuffleBag<T>(items: readonly T[], seed: RandomSeed): ShuffleBag<T> {
+  return { items: [...items], cursor: items.length, seed };
+}
+export function drawFromBag<T>(bag: ShuffleBag<T>): T | undefined {
+  const n = bag.items.length;
+  if (n === 0) return undefined;
+  if (bag.cursor >= n) {
+    for (let i = n - 1; i > 0; i--) {
+      const j = Math.floor(nextRandom(bag.seed) * (i + 1));
+      const t = bag.items[i]; bag.items[i] = bag.items[j]; bag.items[j] = t;
+    }
+    bag.cursor = 0;
+  }
+  return bag.items[bag.cursor++];
+}
+
+// 正态近似（B 补齐）：12 个均匀和减 6 → 均值 0、方差 1（Irwin–Hall·无 log/cos·确定性）。伤害浮动/散布用。
+export function gaussianApprox(state: RandomSeed, mean = 0, stddev = 1): number {
+  let s = 0;
+  for (let i = 0; i < 12; i++) s += nextRandom(state);
+  return mean + (s - 6) * stddev;
+}
+
 // 确定性 Fisher-Yates 洗牌（不改原数组·同 seed 同结果）。卡牌/抽牌/随机排列的单一真相。
 export function seededShuffle<T>(items: readonly T[], seed: number): T[] {
   const out = [...items];

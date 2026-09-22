@@ -11,8 +11,12 @@ describe('hex · 距离 / 邻居', () => {
     expect(hexDistance({ q: 0, r: 0 }, { q: 2, r: 0 })).toBe(2);
     expect(hexDistance({ q: 0, r: 0 }, { q: 3, r: -1 })).toBe(hexDistance({ q: 3, r: -1 }, { q: 0, r: 0 }));
   });
-  it('6 个固定邻居方向（确定性序）', () => {
-    expect(HEX_DIRS).toHaveLength(6);
+  it('6 个固定邻居方向（确定性序·钉内容与顺序）', () => {
+    // golden（实跑取值）：axial 六向·从东起逆时针。寻路/邻居枚举的确定性序契约，动它=录放不兼容。
+    expect(HEX_DIRS).toEqual([
+      { q: 1, r: 0 }, { q: 1, r: -1 }, { q: 0, r: -1 },
+      { q: -1, r: 0 }, { q: -1, r: 1 }, { q: 0, r: 1 },
+    ]);
   });
 });
 

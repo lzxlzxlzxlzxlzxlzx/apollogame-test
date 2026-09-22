@@ -7,6 +7,8 @@ declare const __TARGET_GAME__: string;
 interface Window {
   __APOLLO_INLINE_CART__?: unknown;
   __APOLLO_INLINE_META__?: { title?: string; subtitle?: string };
+  /** 嵌入式骰子卡带的可选初始请求；形状见 engine/host/dice-overlay。 */
+  __APOLLO_DICE_REQUEST__?: unknown;
   // 只读调试口（REQ-RENDERCHECK R2b·dev 模式限定·launcher 域=Lead 自持）：给 UI 走查驱动器一个
   // 稳定读口——不必靠「猜选择器再重试」摸活体 DOM，直接问壳层「此刻挂载的游戏有哪些可点动作」。
   // 纯读 DOM 快照（data-action/data-arg/data-ui-id 三件已由 R2a 落）——不碰 sim、不碰确定性 hash。

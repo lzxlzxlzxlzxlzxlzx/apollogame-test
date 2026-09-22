@@ -81,7 +81,6 @@ describe('🔴 hash 排除登记（Mesh3D/Coachmark 漏登记的旧案·踩过�
 
 /** 读组件基线清单（守卫的冻结真相），避免本测试自己再抄一份组件名。 */
 function manifestBaseline(): string[] {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const j = JSON.parse(readFileSync(new URL('../../scripts/component-manifest-baseline.json', import.meta.url), 'utf8')) as { components: string[] };
   return j.components;
 }

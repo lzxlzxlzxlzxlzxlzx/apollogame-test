@@ -190,9 +190,12 @@ describe('hand-pattern — 合法应对枚举 legalResponses', () => {
     expect(legalResponses([c(S, 9), c(D, 9)], [c(S, 7), c(D, 8)], GUANDAN)).toEqual([]); // 目标非法
     expect(legalResponses([], [c(S, 7), c(D, 7)], GUANDAN)).toEqual([]);
   });
-  it('自由领出（target=null）→ 全部合法牌型·非空·升序', () => {
+  it('自由领出（target=null）→ 钉全集（实跑取值）：单8·对8·单9，tier 升序', () => {
     const rs = legalResponses([c(S, 8), c(D, 8), c(S, 9)], null, GUANDAN);
-    expect(rs.length).toBeGreaterThan(0);
+    // 全集 golden：这手 3 张只凑得出这三种领出（无三同张/顺子/炸弹），序=实现的确定性排序。
+    expect(rs.map((r) => `${r.family}:${r.rank}:${r.tier}:${r.wildsUsed}`)).toEqual([
+      'single:8:0:0', 'pair:8:0:0', 'single:9:0:0',
+    ]);
     for (let i = 1; i < rs.length; i++) expect(rs[i].tier).toBeGreaterThanOrEqual(rs[i - 1].tier);
   });
 });
