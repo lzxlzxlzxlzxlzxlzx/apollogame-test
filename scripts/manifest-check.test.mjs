@@ -9,7 +9,8 @@ import { dirname, resolve } from 'node:path';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 function runCheck(input) {
-  const r = spawnSync('npx', ['vite-node', 'scripts/manifest-check.mjs'], {
+  const viteNode = resolve(ROOT, 'node_modules/vite-node/vite-node.mjs');
+  const r = spawnSync(process.execPath, [viteNode, 'scripts/manifest-check.mjs'], {
     cwd: ROOT,
     input,
     encoding: 'utf8',

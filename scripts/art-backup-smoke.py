@@ -31,6 +31,7 @@
 """
 import base64
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -80,7 +81,7 @@ def backup_body():
 
 def reset_world(gen_served=f'{PREFIX}gen/{NO}.png', skin_path=None, with_orig=False):
     """重搭一个「槽已 filled·线上是 gen/art-59.png」的世界。"""
-    subprocess.run(['rm', '-rf', str(ART)], timeout=30)
+    shutil.rmtree(ART, ignore_errors=True)
     (ART / 'gen').mkdir(parents=True)
     if gen_served:
         f = ART / gen_served[len(PREFIX):]
@@ -190,9 +191,9 @@ try:
     (js_root / 'library' / 'g' / 'manifest.json').write_text('{}')
     (js_root / 'library' / 'g' / 'art' / 'gen' / f'{NO}.png').write_bytes(TRUE_ORIG)
     js = subprocess.run(['node', '--input-type=module', '-e', f'''
-      import {{ backupOrigFile }} from '{ROOT}/scripts/art-replace.mjs';
+      import {{ backupOrigFile }} from {json.dumps((ROOT / 'scripts' / 'art-replace.mjs').as_uri())};
       import {{ writeFileSync, readFileSync }} from 'node:fs';
-      const root = '{js_root}', pre = '/games/g/art/';
+      const root = {json.dumps(str(js_root))}, pre = '/games/g/art/';
       const a = backupOrigFile(root, 'g', '{NO}', pre + 'gen/{NO}.png');       // 首次 → 拷真原图
       writeFileSync(root + '/library/g/art/gen/{NO}-up.png', Buffer.from('REPL'));
       const b = backupOrigFile(root, 'g', '{NO}', pre + 'gen/{NO}-up.png');    // 闸①：已有备份 → 不重拷
@@ -208,7 +209,7 @@ try:
     check(out.get('c') == f'{PREFIX}orig/{NO}.png', '⑦ JS 源=备份自己 → 仍返回在案备份·不自拷', out.get('c'))
 finally:
     T.art_root, T.LIBRARY_DIR = _orig
-    subprocess.run(['rm', '-rf', str(TMP)], timeout=60)
+    shutil.rmtree(TMP, ignore_errors=True)
 
 print(f"\n原图备份冒烟：\033[32m{PASS} 通过\033[0m，" + (f"\033[31m{FAIL} 失败\033[0m" if FAIL else "0 失败"))
 sys.exit(1 if FAIL else 0)

@@ -378,4 +378,4 @@ async function run(argv) {
   console.log(`✓ 生成 ${res.id}${g.mock ? ' (mock)' : ''} → 待审区（人点「入库」才登记）· 预览 ${res.previewPath}`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) run(process.argv.slice(2));
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) run(process.argv.slice(2));

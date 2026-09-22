@@ -48,7 +48,8 @@ export function classify(results, baseline) {
 }
 
 function runTarget(t) {
-  const r = spawnSync('npx', ['vitest', 'run', t.test], {
+  const vitest = join(ROOT, 'node_modules/vitest/vitest.mjs');
+  const r = spawnSync(process.execPath, [vitest, 'run', t.test], {
     cwd: ROOT, encoding: 'utf8', env: { ...process.env, ZEROCRAFT_DEEP: '1' }, stdio: ['ignore', 'pipe', 'pipe'],
   });
   return { id: t.id, pass: r.status === 0, tail: (r.stdout || '').split('\n').filter((l) => /Tests|failed/.test(l)).slice(-2).join(' · ') };

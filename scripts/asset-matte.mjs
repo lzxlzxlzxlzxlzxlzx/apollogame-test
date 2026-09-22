@@ -128,4 +128,4 @@ function run(argv) {
   console.log(`✓ 抠图 ${inPath} → ${outPath}（${res.provenance.matte}${res.provenance.mock ? '·mock' : ''}${res.provenance.removedPx != null ? `·去背 ${res.provenance.removedPx}px` : ''}）`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) run(process.argv.slice(2));
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) run(process.argv.slice(2));

@@ -10,11 +10,13 @@
 // 保留本入口的理由：门禁/文档/习惯都引用它；门禁常驻步 `depcruise` 已覆盖同一面，本脚本供单独点名跑。
 // 用法：node scripts/decouple-check.mjs（退出码=结果；违规逐条打印）
 import { spawnSync } from 'node:child_process';
+import { resolve } from 'node:path';
 
-export const CRUISE_ARGS = ['depcruise', '--config', '.dependency-cruiser.cjs', 'src', 'games'];
+export const CRUISE_ARGS = ['--config', '.dependency-cruiser.cjs', 'src', 'games'];
 
 export function runCruise() {
-  const r = spawnSync('npx', CRUISE_ARGS, { encoding: 'utf8' });
+  const executable = resolve('node_modules/dependency-cruiser/bin/dependency-cruise.mjs');
+  const r = spawnSync(process.execPath, [executable, ...CRUISE_ARGS], { encoding: 'utf8' });
   return { ok: r.status === 0, out: `${r.stdout ?? ''}${r.stderr ?? ''}` };
 }
 
@@ -28,4 +30,4 @@ function main() {
   console.log('✓ decouple-check：引擎/内容边界零违规（dependency-cruiser）');
 }
 
-if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) main();
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) main();

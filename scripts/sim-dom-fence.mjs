@@ -69,4 +69,4 @@ function main() {
   process.exit(ok ? 0 : 1);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) main();

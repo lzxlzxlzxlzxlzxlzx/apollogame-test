@@ -62,7 +62,7 @@ export function scanSkills(root = ROOT) {
       const hasSystem = /systems:\s*\[\s*\{/.test(src);
       const adopted = /@engine\/logic/.test(src);
       const inlined = adopted ? [] : SEDIMENTED.filter((s) => s.probe.test(src)).map((s) => s.use);
-      out.push({ file: relative(root, path), code, fields, systems, hasSystem, adopted, inlined });
+      out.push({ file: relative(root, path).replaceAll('\\', '/'), code, fields, systems, hasSystem, adopted, inlined });
     }
   }
   return out.sort((a, b) => b.code - a.code);
@@ -116,4 +116,4 @@ function main() {
   process.exit(fail === 0 ? 0 : 1);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) main();

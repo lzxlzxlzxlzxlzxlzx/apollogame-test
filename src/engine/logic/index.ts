@@ -1,6 +1,17 @@
 import type { IWorld, EntityId, Component } from '@engine/core/types.js';
 import type { ConditionExpr, CmpOp, Resource, Flag, State, Timer, StringVar, Tag } from '@engine/protocol/components.js';
 
+/** 确定性 Mulberry32 取数器；底层与 capability 共同消费这一份实现。 */
+export function mulberry32(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), a | 1);
+    t = (t + Math.imul(t ^ (t >>> 7), t | 61)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 // ═══════════════════════════════════════════════════════════════
 //  engine/logic —— 规则内核（P2a · engine-architecture-review-2026-09-02 §5 P2a · D4）
 //

@@ -1,7 +1,9 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { mulberry32 } from '@engine/logic/index.js';
 import type { RandomSeed } from '@engine/protocol/components.js';
 
 export type { RandomSeed };
+export { mulberry32 };
 
 // 确定性 PRNG (mulberry32)。推进 state.seed/sequence，返回 [0, 1)。
 // 同一初始 seed 必产生同一序列 —— 确定性重放的基石。
@@ -27,16 +29,6 @@ export function chancePass(state: RandomSeed | undefined, num: number, den: numb
 
 // mulberry32 确定性 PRNG 工厂：seed → 每次返回 [0,1) 的取数器（与 nextRandom 同算法·但脱离 RandomSeed 运行态，
 // 供纯数据层的确定性洗牌/抽样用）。各游戏原本各自手搓此函数（game-e/deck·game-g/{build,level,sim}）→ 收敛于此单一真相。
-export function mulberry32(seed: number): () => number {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), a | 1);
-    t = (t + Math.imul(t ^ (t >>> 7), t | 61)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
 // 派生子种子（B-7 · engine-base-tier-review-2026-09-06 §3.2）：同一世界种子 + 一个标签 → 一条独立且可复现的随机流种子
 // （AI 性格流 / sim 外的 meta 流 / 每波刷怪流）。此前 game211 整个 meta-random.ts 只为包一层、game-a 按性格
 // 手派 mulberry32(种子)、spawn-director 自带 seedState。算法：FNV-1a(label) ⊕ seed 再过一轮 mulberry 搅拌 → int32。

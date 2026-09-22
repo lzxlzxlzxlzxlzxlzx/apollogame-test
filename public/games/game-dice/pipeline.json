@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "slug": "game-dice",
+  "concept": {
+    "name": "轻掷 Dice Overlay",
+    "pitch": "可嵌入 DokiWorld 的真实物理骰子覆盖层，接收骰池与确定性种子并按统一结果合同回传。"
+  },
+  "signoffs": {},
+  "evidence": {},
+  "history": [
+    { "action": "concept", "at": "2026-09-22T00:00:00.000Z" }
+  ]
+}

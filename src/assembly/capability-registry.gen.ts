@@ -77,7 +77,7 @@ export const CAPABILITY_LOADERS: readonly CapabilityLoader[] = [
   { id: 't2-card-play', provides: [], load: () => import('@skills/tier2/card-play.js').then((m) => m.cardPlayCapability) },
   { id: 't2-dice-roll', provides: ['DicePool', 'RolledDice'], load: () => import('@skills/tier2/dice-roll.js').then((m) => m.diceRollCapability) },
   { id: 't2-card-pile', provides: ['CardPile'], load: () => import('@skills/tier2/card-pile.js').then((m) => m.cardPileCapability) },
-  { id: 't2-identity-card-play', provides: ['CardCatalog', 'IdentityCardPile', 'IdentityCardCommand'], load: () => import('@skills/tier2/identity-card-play.js').then((m) => m.identityCardPlayCapability) },
+  { id: 't2-identity-card-play', provides: ['CardCatalog', 'IdentityCardPile', 'IdentityCardCommand', 'IdentityCardDrawCommand'], load: () => import('@skills/tier2/identity-card-play.js').then((m) => m.identityCardPlayCapability) },
   { id: 't2-self-rule', provides: ['SelfRule'], load: () => import('@skills/tier2/self-rule.js').then((m) => m.selfRuleCapability) },
   { id: 't2-group-count', provides: ['GroupCount'], load: () => import('@skills/tier2/group-count.js').then((m) => m.groupCountCapability) },
   { id: 't2-grid-move', provides: ['HexBoard', 'HexPos', 'GridMover'], load: () => import('@skills/tier2/grid-move.js').then((m) => m.gridMoveCapability) },

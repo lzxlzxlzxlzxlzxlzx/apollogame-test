@@ -334,7 +334,7 @@ async function main(argv) {
   log(`完成 → ${PYBUNDLE_DIR}`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) {
   main(process.argv.slice(2)).catch((e) => {
     process.stderr.write(`[bundle-python-mac] 失败：${e instanceof Error ? e.message : String(e)}\n`);
     process.exit(1);

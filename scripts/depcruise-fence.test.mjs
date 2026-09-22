@@ -9,7 +9,7 @@ import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 
 const ROOT = process.cwd();
-const BIN = resolve(ROOT, 'node_modules/.bin/depcruise');
+const BIN = resolve(ROOT, 'node_modules/dependency-cruiser/bin/dependency-cruise.mjs');
 const CONFIG = resolve(ROOT, '.dependency-cruiser.cjs');
 
 function put(root, rel, text) {
@@ -26,7 +26,10 @@ describe('dependency-cruiser 围栏', () => {
       put(root, 'games/game-a/index.ts', "import { x } from '../game-b/x.js';\nimport { y } from './own.js';\nexport const a = x + y;\n");
       put(root, 'games/game-a/own.ts', 'export const y = 2;');
       put(root, 'src/studio/Foo.ts', "import { a } from '../../games/game-a/index.js';\nimport { gone } from './does-not-exist.js';\nexport const f = a + gone;\n");
-      const r = spawnSync(BIN, ['--config', CONFIG, 'src', 'games'], { cwd: root, encoding: 'utf8' });
+      const r = spawnSync(process.execPath, [BIN, '--config', CONFIG, 'src', 'games'], {
+        cwd: root,
+        encoding: 'utf8',
+      });
       const out = r.stdout + r.stderr;
       expect(r.status, out).toBe(3); // dependency-cruiser 退出码 = 违规条数（非 0 即红·门禁只认非 0）
       expect(out).toMatch(/games-no-relative-escape: games\/game-a\/index\.ts → games\/game-b\/x\.ts/);

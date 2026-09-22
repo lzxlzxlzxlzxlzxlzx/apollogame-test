@@ -39,6 +39,7 @@ def check(ok, name, detail=''):
 
 # ── ① 编号不撞手写游戏 ────────────────────────────────────────────────
 from main_entry import paths  # noqa: E402
+from main_entry.sysutil import _spawn  # noqa: E402
 
 # WARN 判据必须在**合成树**上跑，不能在活仓上跑（撤修验红两次抓到）：
 #   · 首版拿 `paths._GAME_NO_BASES` 算「已占用」→ 撤掉扫描面时判据跟着缩，自指恒绿；
@@ -201,7 +202,7 @@ check('catalog: catalogIndex ?? catalog' in ds_src,
 
 # ── ⑥ catalog 两阶段 ──────────────────────────────────────────────────
 def dump(*args):
-    p = subprocess.run(['npx', 'vite-node', 'scripts/dump-capability-catalog.mjs', *args],
+    p = subprocess.run(**_spawn(['npx', 'vite-node', 'scripts/dump-capability-catalog.mjs', *args]),
                        cwd=ROOT, capture_output=True, encoding='utf-8', timeout=300)
     return p.stdout or ''
 

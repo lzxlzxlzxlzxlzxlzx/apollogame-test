@@ -39,7 +39,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { readFileSync, writeFileSync, existsSync, mkdirSync, rmSync, openSync, writeSync, closeSync, appendFileSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn, spawnSync } from 'node:child_process';
 import { STAGES, GATE_STAGES, REVIEW_STAGES, detectForm, gameHash, pipelineFile } from './game-pipeline.mjs';
@@ -120,6 +120,7 @@ export const NO_RUNTIME_MSG = (bin) =>
 
 /** which 探测（绝对路径亦可探）。返回 {ok,bin,path} 或 {ok:false,code:'NO_RUNTIME',reason}。 */
 export function detectRuntime({ bin = process.env.ZEROCRAFT_ORCH_CLAUDE || 'claude' } = {}) {
+  if (existsSync(bin)) return { ok: true, bin, path: bin };
   const probe = spawnSync(process.platform === 'win32' ? 'where' : 'which', [bin], { encoding: 'utf8' });
   const path = (probe.stdout || '').trim().split('\n')[0] || '';
   if (probe.status === 0 && path) return { ok: true, bin, path };
@@ -370,7 +371,11 @@ export function runSession({ bin, args, prompt, cwd, idleTimeoutMs, killGraceMs 
   return new Promise((resolve) => {
     let child;
     try {
-      child = spawn(bin, args, { cwd, stdio: ['pipe', 'pipe', 'pipe'] });
+      const nodeScript = process.platform === 'win32' && existsSync(bin)
+        && ['', '.js', '.mjs', '.cjs'].includes(extname(bin).toLowerCase());
+      child = nodeScript
+        ? spawn(process.execPath, [bin, ...args], { cwd, stdio: ['pipe', 'pipe', 'pipe'] })
+        : spawn(bin, args, { cwd, stdio: ['pipe', 'pipe', 'pipe'] });
     } catch (e) {
       resolve({ outcome: 'spawn-error', code: null, signal: null, bytes: 0, error: String(e && e.message || e) });
       return;

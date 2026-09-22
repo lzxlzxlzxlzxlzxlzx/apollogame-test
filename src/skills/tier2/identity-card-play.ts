@@ -55,7 +55,8 @@ function catalogProblem(catalog: CardCatalog): string | undefined {
 function pileProblem(pile: IdentityCardPile): string | undefined {
   if (!Array.isArray(pile?.deck) || !Array.isArray(pile.hand) || !Array.isArray(pile.discard)) return '牌区结构非法';
   if (![...pile.deck, ...pile.hand, ...pile.discard].every((id) => typeof id === 'string' && id.length > 0)) return '牌区 cardId 非法';
-  if (!Number.isInteger(pile.handLimit) || pile.handLimit < 0 || (pile.openingHand !== undefined && (!Number.isInteger(pile.openingHand) || pile.openingHand < 0 || pile.openingHand > pile.handLimit))) return '手牌上限或开局抽牌数非法';
+  if (!Number.isInteger(pile.handLimit) || pile.handLimit < 0) return '手牌上限非法';
+  if (pile.openingHand !== undefined && (!Number.isInteger(pile.openingHand) || pile.openingHand < 0 || pile.openingHand > pile.handLimit)) return '开局抽牌数非法';
   if (typeof pile.phase !== 'string' || !pile.phase || typeof pile.playPhase !== 'string' || !pile.playPhase) return '出牌时序非法';
   if (pile.shuffled !== undefined && typeof pile.shuffled !== 'boolean') return '洗牌标记非法';
   return undefined;

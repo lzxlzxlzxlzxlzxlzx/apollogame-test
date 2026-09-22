@@ -16,11 +16,22 @@ import zlib from 'node:zlib';
 // 环境变量沿用 RENDER_PROBE_CHROMIUM 这个名字（R1 先起的名·R3 复用同一变量，非另造一个）——
 // 两处探针共用同一份「覆盖到哪个 Chromium」的旋钮，测试里的 PATH 遮蔽手法对两者同样有效。
 export const DEFAULT_CHROMIUM = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-const FALLBACK_BIN_NAMES = ['chromium', 'chromium-browser', 'google-chrome', 'google-chrome-stable'];
+const FALLBACK_BIN_NAMES = process.platform === 'win32'
+  ? ['msedge', 'chrome', 'chromium']
+  : ['chromium', 'chromium-browser', 'google-chrome', 'google-chrome-stable'];
+const WINDOWS_BROWSER_PATHS = [
+  'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+  'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+  'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+];
 
 export function detectBrowserRuntime(env = process.env) {
   const explicit = env.RENDER_PROBE_CHROMIUM || DEFAULT_CHROMIUM;
   if (existsSync(explicit)) return { ok: true, execPath: explicit, via: 'explicit' };
+  if (!env.RENDER_PROBE_CHROMIUM && process.platform === 'win32') {
+    const installed = WINDOWS_BROWSER_PATHS.find((path) => existsSync(path));
+    if (installed) return { ok: true, execPath: installed, via: 'installed' };
+  }
   for (const bin of FALLBACK_BIN_NAMES) {
     const r = spawnSync(process.platform === 'win32' ? 'where' : 'which', [bin], { encoding: 'utf8', env });
     const p = (r.stdout || '').trim().split('\n')[0];
@@ -108,8 +119,8 @@ const VITE_BASE_PORT = 5700;
 
 export function startDevServer(root, { port = VITE_BASE_PORT } = {}) {
   return new Promise((resolve, reject) => {
-    const bin = join(root, 'node_modules', '.bin', 'vite');
-    const proc = spawn(bin, ['--port', String(port)], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'], detached: true });
+    const bin = join(root, 'node_modules', 'vite', 'bin', 'vite.js');
+    const proc = spawn(process.execPath, [bin, '--port', String(port)], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'], detached: true });
     let buf = '';
     let settled = false;
     const to = setTimeout(() => {

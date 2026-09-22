@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 // mount-host 宿主骨架 helper 的契约测试（REQ-AUDIT-守门 C 件）：容器结构 / 定尺缩放 / teardown。
 import { describe, it, expect, beforeEach } from 'vitest';
-import { mountHost, resolveSceneBg } from './mount-host.js';
+import { mountExternalAppFrame, mountHost, resolveSceneBg } from './mount-host.js';
 
 function makeContainer(w?: number, h?: number): HTMLElement {
   const c = document.createElement('div');
@@ -167,5 +167,32 @@ describe('mountHost（引擎公用宿主骨架）', () => {
     Object.defineProperty(container, 'clientHeight', { value: 150, configurable: true });
     window.dispatchEvent(new Event('resize'));
     expect(h.scene.style.transform).toBe('scale(1)');
+  });
+});
+
+describe('mountExternalAppFrame（外部 Web App 预览宿主）', () => {
+  beforeEach(() => { document.body.innerHTML = ''; });
+
+  it('由引擎宿主创建 iframe，游戏层只提供声明式 URL 与标题', () => {
+    const container = makeContainer();
+    const teardown = mountExternalAppFrame(container, {
+      src: '/apps/game-loot-chest/index.html',
+      title: '开启宝箱 · Loot Chest',
+    });
+    const frame = container.querySelector('iframe');
+    expect(frame?.title).toBe('开启宝箱 · Loot Chest');
+    expect(frame?.getAttribute('src')).toBe('/apps/game-loot-chest/index.html');
+    expect(frame?.allow).toBe('fullscreen');
+    teardown();
+    expect(container.children).toHaveLength(0);
+  });
+
+  it('拒绝脚本/data 等非可信 URL，并允许显式 sandbox', () => {
+    const container = makeContainer();
+    expect(() => mountExternalAppFrame(container, { src: 'javascript:alert(1)', title: 'bad' })).toThrow(/root-relative or HTTPS/);
+    mountExternalAppFrame(container, {
+      src: 'https://example.com/app', title: 'Hosted App', sandbox: 'allow-scripts allow-same-origin',
+    });
+    expect(container.querySelector('iframe')?.getAttribute('sandbox')).toBe('allow-scripts allow-same-origin');
   });
 });

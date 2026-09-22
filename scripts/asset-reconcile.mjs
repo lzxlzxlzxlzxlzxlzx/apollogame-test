@@ -155,4 +155,4 @@ function run(argv) {
   process.exit(r.fails > 0 ? 1 : 0);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) run(process.argv.slice(2));
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) run(process.argv.slice(2));

@@ -115,4 +115,4 @@ function main(argv) {
   return r.converged ? 0 : 1;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) process.exit(main(process.argv.slice(2)));
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) process.exit(main(process.argv.slice(2)));

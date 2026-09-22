@@ -164,7 +164,8 @@ describe('game111 确定性', () => {
   it('游戏层零裸 Math.random / 零墙钟（红线·结构测试）', async () => {
     const fs = await import('node:fs');
     const path = await import('node:path');
-    const dir = path.dirname(new URL(import.meta.url).pathname);
+    const { fileURLToPath } = await import('node:url');
+    const dir = path.dirname(fileURLToPath(import.meta.url));
     // 只看**代码**：注释里写「禁裸 Math.random」是纪律说明，不是违规（首版没剥注释，自己把自己判红了）。
     const stripComments = (src: string): string =>
       src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');

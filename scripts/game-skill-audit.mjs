@@ -38,7 +38,7 @@ function collect(dir, out = []) {
       if (['doc', 'docs', 'refcode', 'assets'].includes(name)) continue;
       collect(p, out);
     } else if (/\.(ts|tsx)$/.test(name)) {
-      out.push(p);
+      out.push(p.replaceAll('\\', '/'));
     }
   }
   return out;

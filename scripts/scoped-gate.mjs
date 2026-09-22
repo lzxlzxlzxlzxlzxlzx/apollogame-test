@@ -34,7 +34,30 @@
 //   守卫脚本自身被改也触发各自守卫（改守卫先自证仍能跑绿）。
 import { execSync, spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
 import { SLOW_TARGETS } from './slow-lane-guard.mjs';
+
+const LOCAL_CLI = {
+  eslint: 'node_modules/eslint/bin/eslint.js',
+  depcruise: 'node_modules/dependency-cruiser/bin/dependency-cruise.mjs',
+  tsc: 'node_modules/typescript/bin/tsc',
+  vitest: 'node_modules/vitest/vitest.mjs',
+};
+
+/** 在 Windows 绕开无扩展 npx/npm shell shim；门禁参数与计划本身保持原样。 */
+function runStep(step) {
+  const [command, args] = step.cmd;
+  const env = command === 'python3'
+    ? { ...process.env, PYTHONIOENCODING: 'utf-8', PYTHONUTF8: '1' }
+    : process.env;
+  if (command === 'npx' && LOCAL_CLI[args[0]]) {
+    return spawnSync(process.execPath, [resolve(LOCAL_CLI[args[0]]), ...args.slice(1)], { stdio: 'inherit', env });
+  }
+  if (command === 'npm' && process.platform === 'win32') {
+    return spawnSync(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', 'npm.cmd', ...args], { stdio: 'inherit', env });
+  }
+  return spawnSync(command, args, { stdio: 'inherit', env });
+}
 
 // ── 引擎/共享面前缀（碰到=full·与 CLAUDE.md 引擎域界一致）───────────────────────
 const ENGINE_PREFIXES = [
@@ -261,7 +284,7 @@ function main() {
   }
   for (const step of plan) {
     console.log(`\n── ${step.name} ──`);
-    const r = spawnSync(step.cmd[0], step.cmd[1], { stdio: 'inherit' });
+    const r = runStep(step);
     const ok = step.allowExit ? step.allowExit.includes(r.status) : r.status === 0;
     if (!ok) { console.error(`\n❌ 门禁失败于 ${step.name}（退出码 ${r.status}）`); process.exit(r.status || 1); }
   }

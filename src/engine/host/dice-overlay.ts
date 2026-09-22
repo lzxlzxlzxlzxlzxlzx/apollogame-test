@@ -1,4 +1,4 @@
-import { mulberry32 } from '@skills/atoms/random/index.js';
+import { mulberry32 } from '@engine/logic/index.js';
 import {
   EXTERNAL_GAME_SESSION_VERSION,
   startExternalGameSession,

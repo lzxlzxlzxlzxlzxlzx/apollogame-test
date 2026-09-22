@@ -84,6 +84,38 @@ export interface HostSkeleton {
   teardown: () => void;
 }
 
+export interface ExternalAppFrameOptions {
+  /** Root-relative local app URL or an explicitly hosted HTTPS app URL. */
+  src: string;
+  title: string;
+  allow?: string;
+  sandbox?: string;
+}
+
+function safeExternalAppSrc(src: string): boolean {
+  return src.startsWith('/') || src.startsWith('https://');
+}
+
+/**
+ * Generic render-only adapter for previewing an independently built web app.
+ * Game modules provide declarative frame data; DOM ownership stays in the engine host layer.
+ */
+export function mountExternalAppFrame(container: HTMLElement, opts: ExternalAppFrameOptions): () => void {
+  if (!safeExternalAppSrc(opts.src)) throw new Error('external app src must be root-relative or HTTPS');
+  if (!opts.title.trim()) throw new Error('external app title is required');
+  const frame = document.createElement('iframe');
+  frame.title = opts.title;
+  frame.src = opts.src;
+  frame.style.cssText = 'display:block;width:100%;height:100%;border:0;background:transparent';
+  frame.allow = opts.allow ?? 'fullscreen';
+  if (opts.sandbox) frame.setAttribute('sandbox', opts.sandbox);
+  container.replaceChildren(frame);
+  return () => {
+    if (frame.parentElement === container) container.replaceChildren();
+    else frame.remove();
+  };
+}
+
 /**
  * 建卡带宿主 DOM 骨架并挂进 container，返回容器句柄 + 缩放/卸载钩子。
  * render-only：不含任何 sim 逻辑，跳过/复用不影响回放/hash/lockstep。

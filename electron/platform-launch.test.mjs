@@ -13,12 +13,12 @@ import {
 } from './platform-launch.cjs';
 
 describe('resolvePythonBin · 内置 python 路径解析', () => {
-  it('未打包（resourcesPath=null）→ 回退系统 python3', () => {
-    expect(resolvePythonBin(null)).toBe('python3');
+  it('未打包（resourcesPath=null）→ 非 Windows 回退系统 python3', () => {
+    expect(resolvePythonBin(null, 'linux')).toBe('python3');
   });
 
-  it('打包但 pybundle/bin/python3 不存在（占位阶段）→ 回退系统 python3', () => {
-    expect(resolvePythonBin('/nonexistent/resources/path')).toBe('python3');
+  it('打包但 pybundle/bin/python3 不存在（占位阶段）→ 非 Windows 回退系统 python3', () => {
+    expect(resolvePythonBin('/nonexistent/resources/path', 'linux')).toBe('python3');
   });
 
   it('打包且 pybundle/bin/python3 真实存在 → 用内置那份（不回退）', () => {
@@ -27,7 +27,7 @@ describe('resolvePythonBin · 内置 python 路径解析', () => {
       mkdirSync(join(dir, 'pybundle', 'bin'), { recursive: true });
       const bin = join(dir, 'pybundle', 'bin', 'python3');
       writeFileSync(bin, '#!/bin/sh\n');
-      expect(resolvePythonBin(dir)).toBe(bin);
+      expect(resolvePythonBin(dir, 'linux')).toBe(bin);
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }

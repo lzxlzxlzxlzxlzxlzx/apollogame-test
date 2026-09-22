@@ -1,8 +1,7 @@
 /** WebGL + Cannon 的通用物理骰子覆盖层（render-only）。 */
 import * as THREE from 'three';
 import * as CANNON from 'cannon-es';
-import { STLLoader } from 'three/addons/loaders/STLLoader.js';
-import { mulberry32 } from '@skills/atoms/random/index.js';
+import { mulberry32 } from '@engine/logic/index.js';
 import { EXTERNAL_GAME_SESSION_VERSION, startExternalGameSession, type ExternalGameOutput, type ExternalGameSession } from './external-game-session.js';
 import { DICE_BRIDGE_RESULT, DICE_BRIDGE_ROLL, normalizeDiceInput, type DiceRollInput, type DiceSides } from './dice-overlay.js';
 
@@ -24,31 +23,8 @@ const MIN_THROW_UP_SPEED = 9;
 const MIN_THROW_ANGULAR_SPEED = 42;
 const MIN_LAUNCH_HEIGHT = 1.65;
 const MAX_PLANAR_SPEED = 0.85;
-const LOCAL_D6_PROTOTYPE = '/games/game-dice/art/d6-prototype.stl';
-// Dicehw1.stl 的本地轴向校准：Cannon 立方体的 [z-, z+, y-, x+, y+, x-] 面序 → 模型真实点数。
-// 实测默认位姿顶面为 1、朝相机面为 2；这张表保证物理朝上面和肉眼所见 pip 一致。
+// Cannon 立方体的 [z-, z+, y-, x+, y+, x-] 面序对应标准骰点。
 const LOCAL_D6_FACE_VALUES = [3, 2, 6, 4, 1, 5] as const;
-let prototypeD6: THREE.BufferGeometry | undefined;
-
-function loadLocalD6Prototype(): Promise<THREE.BufferGeometry | undefined> {
-  if (prototypeD6) return Promise.resolve(prototypeD6);
-  return new Promise((resolve) => new STLLoader().load(LOCAL_D6_PROTOTYPE, (geometry) => {
-    geometry.computeBoundingBox(); geometry.center();
-    const size = new THREE.Vector3(); geometry.boundingBox?.getSize(size);
-    const scale = 2 / Math.max(size.x, size.y, size.z, 1); geometry.scale(scale, scale, scale); geometry.computeVertexNormals();
-    // STL 没有材质槽。将凹入骰孔的三角面染红，保留外壳为白色；转非索引避免同一顶点被相邻白/红面抢色。
-    const painted = geometry.toNonIndexed(); const positions = painted.getAttribute('position'); const colors = new Float32Array(positions.count * 3);
-    for (let i = 0; i < positions.count; i += 3) {
-      const x = (positions.getX(i) + positions.getX(i + 1) + positions.getX(i + 2)) / 3;
-      const y = (positions.getY(i) + positions.getY(i + 1) + positions.getY(i + 2)) / 3;
-      const z = (positions.getZ(i) + positions.getZ(i + 1) + positions.getZ(i + 2)) / 3;
-      const insidePip = Math.max(Math.abs(x), Math.abs(y), Math.abs(z)) < 0.93;
-      const color = insidePip ? [0.72, 0.035, 0.045] : [0.98, 0.98, 0.95];
-      for (let v = 0; v < 3; v += 1) { colors[(i + v) * 3] = color[0]; colors[(i + v) * 3 + 1] = color[1]; colors[(i + v) * 3 + 2] = color[2]; }
-    }
-    painted.setAttribute('color', new THREE.BufferAttribute(colors, 3)); geometry.dispose(); prototypeD6 = painted; resolve(painted);
-  }, undefined, () => resolve(undefined)));
-}
 
 function poly(sides: DiceSides): Poly {
   if (sides === 4) return { vertices: [[1, 1, 1], [-1, -1, 1], [-1, 1, -1], [1, -1, -1]], faces: [[0, 2, 1], [0, 1, 3], [0, 3, 2], [1, 2, 3]] };
@@ -141,14 +117,6 @@ export function mountThreeDiceOverlay(container: HTMLElement): () => void {
   const emit = (output: ExternalGameOutput<PhysicalDiceResult>, target?: Window, origin?: string): void => { window.dispatchEvent(new CustomEvent(DICE_BRIDGE_RESULT, { detail: output })); if (target && target !== window) target.postMessage({ type: DICE_BRIDGE_RESULT, output }, origin ?? '*'); };
   const reject = (raw: unknown, target?: Window, origin?: string): void => { const requestId = record(raw) && typeof raw.requestId === 'string' ? raw.requestId : ''; emit({ version: EXTERNAL_GAME_SESSION_VERSION, requestId, status: 'rejected', reason: 'invalid-request' }, target, origin); };
   const clearDice = (): void => { active?.dice.forEach((die) => { world.removeBody(die.body); scene.remove(die.mesh); die.mesh.traverse((node) => { const mesh = node as THREE.Mesh; mesh.geometry?.dispose(); const mat = mesh.material; if (Array.isArray(mat)) mat.forEach((item) => item.dispose()); else mat?.dispose(); }); }); };
-  const applyD6Prototype = (geometry: THREE.BufferGeometry): void => {
-    active?.dice.filter((die) => die.sides === 6).forEach((die) => {
-      die.solid.geometry.dispose(); die.solid.geometry = geometry.clone();
-      // 原模型带有自身骰面细节；隐藏程序数字及立方体辅助边线，最终物理点数仍由大号结算字清晰展示。
-      die.wire.visible = false;
-      die.labels.forEach((item) => { item.visible = false; });
-    });
-  };
   const open = (raw: unknown, target?: Window, origin?: string): void => {
     const request = parseRequest(raw); if (!request || request.version !== EXTERNAL_GAME_SESSION_VERSION) { reject(raw, target, origin); return; }
     const started = startExternalGameSession<DiceRollInput, PhysicalDiceResult>({ version: request.version, requestId: request.requestId, input: request.input }, () => {
@@ -158,7 +126,6 @@ export function mountThreeDiceOverlay(container: HTMLElement): () => void {
     if (!started.ok) { emit(started.output, target, origin); return; }
     clearDice(); active = { request, session: started.session, target, origin, dice: request.input.dice.map((die, index) => createDie(die.sides, index - (request.input.dice.length - 1) / 2)), started: 0, settled: false };
     active.dice.forEach((die) => { world.addBody(die.body); scene.add(die.mesh); }); flash.style.opacity = '0';
-    void loadLocalD6Prototype().then((geometry) => { if (geometry) applyD6Prototype(geometry); });
   };
   const roll = (throwVelocity = new THREE.Vector3()): void => {
     if (!active || (active.started > 0 && !active.settled)) return;

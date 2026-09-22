@@ -64,7 +64,7 @@
       "engineTwin": 1
     },
     "game211": {
-      "nakedRandom": 8,
+      "nakedRandom": 0,
       "innerHTML": 29,
       "createElement": 34,
       "reactScreen": 1,

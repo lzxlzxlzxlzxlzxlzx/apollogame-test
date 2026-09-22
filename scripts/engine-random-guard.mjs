@@ -13,11 +13,13 @@
 //  收口：末行判词 `ENGINE-RANDOM: PASS|FAIL`；退出码 硬违规=1、其余=0。
 // ═══════════════════════════════════════════════════════════════
 import { spawnSync } from 'node:child_process';
+import { resolve } from 'node:path';
 
 export const SCAN_ROOTS = ['src/engine', 'src/skills', 'src/assembly', 'src/net', 'src/services'];
 
 export function runScan(roots = SCAN_ROOTS) {
-  const r = spawnSync('npx', ['eslint', ...roots, '--max-warnings', '0'], { encoding: 'utf8' });
+  const eslint = resolve('node_modules/eslint/bin/eslint.js');
+  const r = spawnSync(process.execPath, [eslint, ...roots, '--max-warnings', '0'], { encoding: 'utf8' });
   const out = `${r.stdout ?? ''}${r.stderr ?? ''}`;
   return { ok: r.status === 0, out };
 }
@@ -30,4 +32,4 @@ function main() {
   process.exit(ok ? 0 : 1);
 }
 
-if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) main();
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) main();

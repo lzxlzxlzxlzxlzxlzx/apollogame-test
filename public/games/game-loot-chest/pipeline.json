@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "slug": "game-loot-chest",
+  "concept": {
+    "name": "开启宝箱 Loot Chest",
+    "pitch": "独立 DokiWorld SDK 小游戏：按宿主掉落表和固定种子结算多件战利品，并在 ApolloGame 中通过通用外部 App 宿主预览。"
+  },
+  "signoffs": {},
+  "evidence": {},
+  "history": [
+    { "action": "concept", "at": "2026-09-22T00:00:00.000Z" }
+  ]
+}

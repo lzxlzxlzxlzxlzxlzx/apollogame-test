@@ -557,7 +557,17 @@ export function orderGate(board, stage, reason) {
 }
 
 // ── 机器门执行（gate 子命令·真跑·记证据）──────────────────────────────
-const run = (cmd, args, opts = {}) => spawnSync(cmd, args, { cwd: ROOT, encoding: 'utf8', timeout: 900_000, ...opts });
+const LOCAL_CLI = {
+  'vite-node': 'node_modules/vite-node/vite-node.mjs',
+  vitest: 'node_modules/vitest/vitest.mjs',
+  tsc: 'node_modules/typescript/bin/tsc',
+};
+const run = (cmd, args, opts = {}) => {
+  const local = cmd === 'npx' ? LOCAL_CLI[args[0]] : undefined;
+  return local
+    ? spawnSync(process.execPath, [join(REAL_ROOT, local), ...args.slice(1)], { cwd: ROOT, encoding: 'utf8', timeout: 900_000, ...opts })
+    : spawnSync(cmd, args, { cwd: ROOT, encoding: 'utf8', timeout: 900_000, ...opts });
+};
 
 /** R1 探针门读码（REQ-RENDERCHECK）：探针 exit 0=过·3=环境无浏览器（不算红·权威判定以有浏览器
  *  环境为准）·其余（1/2/…）=红。纯函数（不碰盘/不 spawn）——导出供单测直接灌各退出码，
