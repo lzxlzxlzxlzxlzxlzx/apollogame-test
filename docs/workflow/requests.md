@@ -8,154 +8,114 @@
 
 ## 待处理 / 进行中
 
+### CAPGAP-RHETORIC-001 · 版本化身份卡牌目录与闭集资源效果 · [2026-09-22] · owner 已裁决路线 A · **施工主体 = Codex（2026-09-22 抢锁）** · 复查 = 独立复查人（待指派） · status: in-progress · P1 · 类型: 跨游戏引擎能力下沉
+
+**问题与实查**：`t2-card-pile` / `t2-card-play` 的单位是 `suit * 100 + rank` 数值牌码与 `PlayedHand`，不能从任意版本化 `cardId` 目录查出声明式效果；`f1-resource`、`t2-effect-apply`、`t2-event-when`、`t3-flow` 与 `w1-random` 只能提供资源写入、条件/流程和确定性随机基础，不能表达「牌身份 → 已批准闭集效果」的映射。游戏层以 `if/switch(cardId)` 补映射会复制解释器，违反数据驱动边界。
+
+**批准范围（路线 A）**：新增加法型 capability，消费版本化 `CardCatalog`（`cardId`、费用、目录副本上限、闭集效果列表）及身份牌 `deck / hand / discard`。它以既有种子随机确定性洗牌、抽牌、出牌，并在明确时序验证 cardId、在手牌、费用与合法效果后，按声明序执行仅能写入批准资源的闭集效果。未知 cardId / effect、手牌外或重复出牌、专注不足、非法参数一律 fail-closed 并记 `DebugTrace.reject`。不接收 JS、表达式、回调、自由文本、宿主 URL 或视觉数据；不改既有数值牌能力。
+
+**验收与边界**：同 catalog、牌组、命令、seed 双跑逐拍一致；覆盖洗牌/抽牌/弃牌/费用/效果顺序/胜负前置检查与全部拒绝路径；开启 trace 能重建生效或拒绝原因。施工须独立复查与撤修验红，再过共享面 scoped gate。`REQ-HOST-GAME-SESSION` 仍归原施工主体，本单及后续游戏只消费其公开会话能力，绝不修改或抢占该单。
+
+### REQ-HOST-GAME-SESSION · 外部游戏会话（请求 / 初始随机 seed / 结构化结果回传）· [2026-09-21] · owner 选择路线 A · **施工主体 = Codex（2026-09-21 抢锁）** · status: in-progress · P1 · 类型: 跨游戏宿主能力
+
+**问题**：现有卡带 `mount(container, host)` 只有可选退出钩子。外部平台无法以统一、可校验的方式传入一次游戏请求，调用方未预定结果时也没有合法的初始熵入口；游戏层若自行写 `postMessage` / `crypto` / 回调协议，将为每个小游戏复制一份跨平台和随机语义，违反数据驱动边界。
+
+**现有能力核查**：`t2-dice-roll` 已能消费 `DicePool + RandomSeed` 产出确定性骰池；`RandomSeed` 只解决「已有 seed 后」的序列推进；标准 `HostHooks`（game111）仅含 `exit()`。三者均不能表达 requestId、预定值、宿主熵、结果去重与输出合同。
+
+**裁决（owner A）**：下沉 `external-game-session`，作为任意可嵌入小游戏的通用能力。固定输入合同：`{version, requestId, input, seed?, preset?}`；固定输出合同：`{version, requestId, status, result}`。若未给 seed/preset，仅会话创建期向宿主熵端口索取一次 seed，写入世界 `RandomSeed` 并随结果回传；之后一律消费现有确定性 PRNG。协议适配（iframe / 直接挂载 / SDK）放宿主实现，游戏只通过该能力读写闭集会话组件。
+
+**验收**：① 同 seed / 同 input 双跑结果逐字节相同；② preset 不消费 RNG；③ 缺 requestId / 重复 result / 越界输入 fail-closed；④ 无宿主熵时可明确拒绝，不退回 `Math.random`；⑤ 至少两个独立小游戏能消费同一 capability。
+
+**影响**：阻塞 game-dice S2-S4；不改 Doki Design Base。
+
 <!-- REQ-MOBILE-SHELL（手机客户端=WebView 壳·Capacitor 路线）owner 2026-08-22 令**暂停出池**——架构定性/四步分解/红线全文查 git 历史（git log -S REQ-MOBILE-SHELL）·重启时恢复原文 -->
 
-### REQ-FLOWFIELD · 群体流场寻路能力 `t2-flow-field`（大规模 RTS 的寻路地基）· [2026-08-10] · **owner 拍板要做**（原话「我建议写流场寻路，我想做大规模 rts」「这个需求提给主程序来写，我们给一些最新技术的调研」）· **施工主体 = 主程 = 本 session（2026-08-24 抢锁·owner 当面指派「你就是主程」·本行即锁）** · 复查 = 另派独立 agent（复查人≠施工人红线·Lead 身份已因施工作废） · status: **in-progress（M1 施工中）** · 优先级: **P1（大规模 RTS 的前置地基·现有寻路实测撞墙）** · 类型: 引擎能力下沉（运动/寻路线）
+### REQ-FLOWFIELD · 群体流场寻路 `t2-flow-field` · [2026-08-10] · **owner 拍板**（「我想做大规模 rts」）· **施工主体 = 主程 = 本 session（2026-08-24 抢锁·owner 当面指派「你就是主程」·本行即锁）** · 复查 = 独立 agent（三轮毕） · status: **M1 + 软分离 + ORCA 全交·三轮复查毕（FAIL→CONCERNS→CONCERNS「可交 Demo」）·13 条实伤全修 → 等 game211 Demo 反馈；M2/M3/M4 未做** · P1 · 类型: 引擎能力下沉
 
-> **调研全文**：`docs/design/game211/crowd-pathfinding-research.md`（含算法谱系三层拆解 + 最新技术 §8 + 引用）。
-> **压测可复跑**：`games/game211/pathfind-scale.bench.test.ts`。
+**为什么做**：`t2-pathfind`（A*-per-agent）在 RTS 规模撞墙——500 单位 / 2304 节点首拍 **534ms**、稳态 20.4ms/tick，
+且对图规模超线性。流场**铺一次服务全部单位**（2304 格 0.9ms，之后每单位 O(1) 查表），每 tick 差两个数量级。
 
-**为什么必须做（实测·非估算）**
+**三档开销**（同机 bench·1000/4000 单位 ms/tick）：纯流场 0.39/2.51 · 软分离 1.01/4.08 · ORCA **8.64/35.77**
+⇒ 4000 单位开 ORCA 超一帧预算；默认软分离，ORCA 留给「不许穿模」的小队面。
 
-现有 `t2-pathfind`（NavGraph + A*）在大规模 RTS 的规模下撞墙：
+**⚠ 对外口径已两次改口（都是复查打掉我把话说大）**
+- ~~「timeHorizon 拍内保证互不碰撞」~~ → 前提是线性规划有可行解，迎面对撞时经常没有。同场景扫一族排布（中场段）：
+  纯流场 0.047~0.100 · 软分离 0.061~0.128 · **ORCA 0.644~0.701**（半径和 0.70）⇒ **把穿模从 ~90% 压到最坏 8%，不是 0**。
+- ~~「不还礼的邻居仍有 0.603 的底」~~ → **没有下界**（2v2 0.505 · 3v3 0.187）。混装要干净 = 双方都开 ORCA。
 
-| 单位 / 图规模 | 首拍（全体同时求路） | 稳态 |
-|---|---|---|
-| 1000 / 576 节点 | 200.8ms | 9.12ms/tick 🟡 |
-| **500 / 2304 节点** | **534.1ms** ❌ | **20.36ms/tick** ❌ |
+**全文别在池子里重抄**：三轮判词与 13+21+15 刀 sabotage → `docs/design/game211/orca-review{,2,3}-2026-08-25.md`；
+病根与修法 → 调研 `crowd-pathfinding-research.md` §10.5/§10.6/§10.7；消费方交接单 → `docs/design/game211/requests.md` REQ-G211-CROWDDEMO。
 
-两条要命处：① **首拍 100~534ms = 6~32 帧画面停住**，且 RTS 里目标一直在动、会反复发生；
-② **对图规模超线性**——单位数不变、图 4×，稳态 4.8×。根因：`src/engine/spatial/astar.ts:30-50`
-的 open 表是**线性扫描取 min + `open.find()` 做 decrease-key**（源码自注「小图用数组」），单次 ~O(V²)。
-**这不是 A* 写错了**，小图上它更快也更确定；是「每单位各算一次」这个**成本形状**与本场景不匹配。
+**沉淀成全库纪律的四条**（比单子本身值钱）：
+· 「告警没出现」≠「没有告警」——可能只是没人组装到那个配置。
+· 新增的回归测试必须在被修的那一版上跑一遍确认它真会红。
+· **承重用例只钉一个初始条件本身就是缺陷形状**——尤其被测指标对初始条件混沌时（挪 0.25 就翻盘）。
+· **修 A 时新增的机制 B，B 自己也要配一刀**——三轮的新伤全是这个形态。
 
-流场参考实现（同机对照）：
+### REQ-P3TAIL · 架构路线图 P3 收尾（宿主拆分 / 持久化收编 / 输入与 Replay / 引擎成包）· [2026-09-12] · **owner 令「第三阶段后面请你都做完」**（承独立审查 2026-09-12 的引擎演进建议） · **施工主体 = 主程 = 本 session（抢锁·本行即锁）** · 复查 = 另派独立 agent（复查人≠施工人） · status: **in-progress（M1 施工中）** · P1 · 类型: 引擎结构收尾
 
-| 图规模 | 铺场（**一次·服务全部单位**） |
-|---|---|
-| 2304 节点 | 1.01ms |
-| 9216 节点 | 1.57ms |
-| 36864 节点（192×192） | 6.11ms |
+> **spec 不在池子里重抄**：四项的「做什么 / 为什么先 / 迁移 / 风险 / 验收」全文在
+> `docs/design/engine-architecture-review-2026-09-02.md` §5（P3a / P3b / P3c / P3e），照它做。
+> 前置 P0·P1a·P1b·P1c·P2a·P2c·P2d·P2e **均已落地**（实查 git 历史），本单只做 P3 这四项。
 
-查表：**1000 单位 0.0745ms/tick** · 4000 单位 0.1016ms/tick。
-⇒ **每 tick 差 130~290 倍，且 500ms 首拍卡死整个消失。**
+**⛔ 不在本单（域红线·CLAUDE.md 专职域例外）**：`P2b` UI repeat 原语归 **PUI**；`P3d` 渲染提取层 FrameDesc 归 **P3D**。
+别的 session 勿擅改这两片——要做走各自的池子派工，本单不碰。
 
-**先查结论（缺口裁决协议第①步·实查留痕）**：本仓无流场（精确 grep `flowField/FlowField/流场/velocityObstacle/ORCA/boid` 零命中）；
-且 `steering` / `pathfind` / `path-follow` **重组不出**流场——三者都是「每个单位自己算」的数据流，
-而流场的本质是「算一次全场共享」，不是同一个形状。**owner 已判 A（下沉引擎）。**
+**分期（按「风险 × 依赖」排，不按路线图字母序）**
 
----
+| 期 | 内容 | 为什么排这个位置 | 验收 |
+|---|---|---|---|
+| **M1** | **P3a 的机器围栏**：`core + skills + net` 单独 tsconfig（`lib: es2022`·**无 dom**） | 这正是 P3a 的验收判据本身，且**零语义改动**——它会把"sim 里到底还有多少 DOM 依赖"一次性暴露出来，没有这份真实清单，后面的拆分只能靠猜 | sim 面不带 dom lib 过 tsc（存量违规入基线棘轮·新增即红） |
+| M2 | P3e 引擎成包（API 面棘轮先行·再收 exports） | 纯治理面·零 sim 风险；`engine.api.md` 进仓当棘轮后，后面三项的公共面漂移才有东西咬 | 仓外 `npm i` 能构建 game101 |
+| M3 | P3b 持久化收编（三套端口 → 一套 Envelope + FileBridge） | 依赖 P1c（已落）；碰存档=数据风险，放在 API 棘轮之后做 | 改组件字段名后旧档读入 hash 与续跑同轨 |
+| M4 | P3c 输入单一真相 + NetSession + Replay | 最大一项·🔴 碰 lockstep/确定性；依赖 P1a/P2c（已落），且应在存档收编后做（keyframe 复用 Envelope） | 卡牌类双端 lockstep 跑通·导出的 replay 在 vitest 里复现到拍 |
 
-**spec（写死·主程按此施工；有异议先回驳再改，别默默偏移）**
+**红线**：四项都**不得改变既有 golden hash**（除非同提交给出逐条理由与新基线）；碰确定性面的改动按 🔴 主程口径走。
 
-**组件（纯摆放数据·最弱 LLM 能填）**
+### REQ-111-AINPC · LLM NPC 三件套下沉（`NpcAgentPort` + `t2-intent-barrier`）· [2026-09-12] · **owner 判 A×2**（game111 `framework.md` §6 缺口②③）+ owner 令「game111 的需求你也做一下」 · **施工主体 = 主程 = 本 session（2026-09-12 抢锁·本行即锁）** · 复查 = 另派独立 agent（复查人≠施工人·**待派**） · status: **✅ 已交（2026-09-12·门禁全绿·已推送）·等复查** · P1 · 类型: 引擎能力下沉
 
-```ts
-FlowField {
-  type: 'FlowField';
-  id: string;                     // 多场共存（每个目标/阵营一个场）
-  cellSize: number;               // 格边长（世界单位）
-  originX: number; originY: number;  // 网格左下角世界坐标
-  cols: number; rows: number;     // 网格尺寸
-  blocked?: readonly number[];    // 行主序 0/1·1=不可走（缺省全可走）
-  cost?: readonly number[];       // 行主序 ≥1 的地形代价（缺省全 1·公路 1/沼泽 3）
-  goals: ReadonlyArray<{ x: number; y: number }>;  // **多源**（多个占领点一次铺完）
-  los?: boolean;                  // 视线直指优化（见 M2·缺省 false = 零回归）
-}
-FlowAgent {
-  type: 'FlowAgent';
-  fieldId: string;
-  speed: number;                  // 单位/tick（与 Steering.speed 同口径·**不是每秒**）
-  arriveRange?: number;           // 到目标此距离内停
-  haltStatusMask?: number;        // CC 定身（同 Steering/NavAgent 口径）
-}
-```
+**捆绑不拆**（owner 判词原文「只做端口不做 barrier = 最坏组合」）：有了调模型的能力却没有把结果确定性落地的能力，
+不确定性直漏 sim。症状是「偶发 desync / 存档读出来不一样」——本仓最难查的 bug 形状。
 
-**系统**：`flow-field`，`runsBefore: ['motion-apply']`（与 `steering`/`path-follow` **同一条链**——
-读 Transform / 写 Velocity 与 motion 互为前驱=环，靠这条打破）。读 `FlowField/FlowAgent/Transform/Status`，写 `Velocity`。
+**一句话**：外部 AI 当**输入源**（不当解释器）。端口只产 `Intent[]` 不写世界；barrier 把乱序/迟到/失败的异步回包
+**收成一个确定性结果**：按 npcId 排序注入 · 超期按**整数回合数**（禁墙钟）补默认动词 · 闭集外动词当场拒收并记 `reject`。
 
-**三遍管线（业界标准形态）**：
-1. **cost field** —— 由 `blocked` + `cost` 得每格通行代价
-2. **integration field** —— 从 `goals` 做**多源 Dijkstra**铺满全图（**不是**势场法：Dijkstra 铺满**没有局部极小**，凹形障碍不会卡死单位）
-3. **flow field** —— 每格取「积分值最小的邻格」方向
+**全文别在池子里重抄**：裁决原文（实查留痕 · A/B 两路代价 · 红线）+ 交付细节 + 撤修验红记录
+→ `docs/design/game111/requests.md` REQ-111-ENG-01 / REQ-111-ENG-02；架构依据 → `framework.md` §1.2 · §2 · §6②③。
 
-**🔴 确定性红线（这是本条归主程的原因·新增 system + 进 hash）**
-- 整数网格索引；Dijkstra 的 tie-break 用 **(积分值, 格索引) 全序** —— 不依赖堆的插入序/Map 序
-- 禁 `Math.random`、禁壁钟；同输入必得逐位同输出（lockstep / 录放安全）
-- **重建时机必须确定**：不能「等空闲再重建」。建议 `blocked/cost/goals` 任一变 → 下一 tick 重建；
-  或显式 `rebuildEvery` tick 数。**别引入依赖真实耗时的调度**。
+**落地**：契约 `src/engine/protocol/agent.ts`（`Intent`/`AgentContext`/`NpcAgentPort`）· 端口 `src/services/npc-agent/`
+（Null 确定性桩 + Http 骨架·**绝不抛**）· 门 `src/skills/tier2/intent-barrier{,-core}.ts` = `t2-intent-barrier`（registry 已登记）。
 
-**分期**
+**施工中真撞出来的两条**（spec 只预警了第一条的存在，没预警它会「恰好排对」）：
+① 首版让门读 `TurnOrder.round` 当回合号 → 与 `turn-order` 组件推断边双向成立 → 真 2-环。软环**只告警不抛**，
+   平局裁决按系统 id 字典序，那次排出来**恰好是对的**——纯属碰巧，改个系统名就反过来且全绿。
+   先用显式 `runsBefore` 压住（单文件测试全绿），**但全库 SCC 棘轮照样红** → 治本是去掉那条读边：
+   回合号改由 `setBarrierTurn` 推。另：我曾误判「去掉读边就脱离了全库软环 blob」——实测没有，
+   它与 turn-order/keybind/clickable 同款（runsAfter event-when + writes Signal 必然入环），已按棘轮纪律更新基线留理由。
+② lockstep 缺一条 spec 没写的：非权威端必须 `authority:false` 永不自结算。否则权威端收真意图、对端全部超期补默认
+   → 第一回合就分叉，**而两端各自全绿**。
 
-| 期 | 内容 | 验收 |
-|---|---|---|
-| **M1** | 单场 · 多源目标 · 静态障碍 · 三遍管线 | 1000 单位铺场 ≤2ms、查表 ≤0.1ms/tick；同种子逐位可复现；凹形障碍不卡死（点名用例） |
-| M2 | **LOS pass**（Emerson/SupCom2）：先做一遍视线波，开阔地直指目标 | 开阔地不再出现网格锯齿走位（截图 + 路径长度对比） |
-| M3 | **flow-tile 分块 + 增量重建** | 动态障碍只重铺受影响块；超大图（≥192×192）重建 ≤2ms |
-| M4 | 地形代价接 `t2-tilemap` | 公路/沼泽真影响路径 |
+**复查门按这几条核**：① 端口不碰 world/snapshot/hash ② `NullNpcAgentPort` 无网可跑（**全库 AI 游戏的 CI 基建**）
+③ barrier 产出与回包到达次序**无关**（乱序投递测试必须同 hash）④ 超期判据零墙钟、零浮点
+⑤ 异步暂存组件登记 `NON_DETERMINISTIC`（漏登记 = 开日志就改 hash，lockstep 当场误报）
+⑥ 定序测试断言 `topological-sort` **warn 数为零**（它成环只告警不抛 → 绿灯不等于没话说）。
 
-**⛔ 明确不做：GPU compute 流场。** 业界有（Unity DOTS 的 `NativeFlowField` 等），但本仓 sim **要进 hash / lockstep**，
-而 GPU 浮点跨设备一致性是真风险；渲染面才是 render-only 自由区。**流场属 sim，留在 CPU。**
+### REQ-111-MEMORY · 记忆能力 `t2-memory`（衰减 · 确定性 top-K 检索 · 跨实体流转）· [2026-09-12] · **owner 判 A**（game111 `framework.md` §6 缺口①） · **施工主体 = 主程 = 本 session（2026-09-12 抢锁·本行即锁）** · 复查 = 另派独立 agent（**待派**） · status: **✅ 已交（2026-09-12·门禁全绿·已推送）·等复查** · P1 · 类型: 引擎能力下沉
 
-**⛔ 明确不做：MAPF（CBS/LaCAM 那一族）。** 那是「为每个 agent 规划互不冲突的完整路径」（仓储机器人），
-与 RTS 要的「涌流 + 局部避让」不是同一个问题，引进来是过度设计。见调研 §8。
+**为什么是引擎面不是 game111 面**：「谁在何时对谁做了什么，且这件事会淡忘、会被传开」是 RPG/模拟/社交的通用原语。
+通用性证据已在库里——`docs/design/game101/`（海港绯闻）整作以「绯闻传播」为名，与记忆流转同构。判 B 则 101/108/111
+各写一套，正是 `modifier-stack` 下沉前的原样。**实查**：registry 零记忆能力；`t1-event-log` 只是平铺流水
+（无衰减/无检索/无归属，且未注册为 capability）。
 
-**分工线（三层正交·互不替代·别混）**
-`t2-flow-field` = 走到战场 · `t2-steering{separation}` = 别互相挤 · `t2-steering{seek}` = 打谁（索敌）。
+**红线**：检索打分**全整数**（强度/时近/标签命中均整数权重）——浮点跨端 JIT/FMA 可能 1 ULP 漂移，纳入排序即误报
+desync（`determinism.ts` 对 Camera 的同款理由）。条目进 hash → 注意快照体积与**存档兼容**，新组件要给迁移口径。
 
-**消费方**：`games/game211/rts-demo.ts`（现用「集结点 + steering seek」占位，能力落地后替换）。
+**落地**：`src/skills/tier2/memory{,-core}.ts` = `t2-memory`（registry 已登记）。衰减触发二选一（具名信号 / 拍周期）·
+检索整数打分 top-K 同分按 id 兜底 · `shareMemory` 打折转述且副本 `source` 记 `share:<from>`。
+**多做一条**：`entries` 恒按 id 升序存——数组序会进 canonical 即进 hash，按插入序存等于把「谁先被记」焊进指纹。
+**存档口径**：新组件旧档缺席 → 旧档 hash 语义原样不变；加记忆属新世代存档，不做旧档原地迁移。
 
----
-
-**✅ M1 已交 → 两轮独立复查（FAIL → CONCERNS）→ 全部修完**
-`bb507744` M1 · `c3cd18f5` 修第一轮三条 · `05c8b11e` 修第二轮两条。
-**复查报告全文（判词/实证/复现步骤都在里面，别在池子里重抄）**：
-`docs/design/game211/flowfield-m1-review-2026-08-24.md` + `…-review2-2026-08-24.md`。
-
-第一轮 FAIL 打回的**不是算法**，是我提交信息里三条头号声明经实证全为假，且都落在「归主程的原因」那栏：
-① 缓存是**状态通道**（量化摘要做键、消费端吃原始浮点 ⇒ 差 0.0004 的两张场共用一份，lockstep 静默分叉）
-→ 改逐字段精确比对；② 「与单位数无关」**零判据**（记忆化把重复取场吸收，撤修全绿）→ 改数**取场次数**；
-③ **新增了定序环**（`topological-sort` 遇环只告警不抛 ⇒ 全库测试一条不红）→ 补 `runsAfter`，并把
-steering/path-follow/flow-field/motion-apply 四件**装进同一个世界**当永久测试。
-第二轮 CONCERNS 又查出：④ 我修 ① 时把键简化成裸 id ⇒ **6.7× 性能悬崖**（192×192 3.87→26.08ms/tick）
-→ 键回到 `id|分桶摘要`、命中权威仍是精确比对；⑤ 我把一条测试的功劳说大了（它对 ① 零判别力）→ 改口。
-
-**沉淀成全库纪律的两条**：
-· 「告警没出现」≠「没有告警」——可能只是**没人组装到那个配置**。碰新 system + 共享写面，必须手动组装真实世界打执行序。
-· 新增的回归测试，**必须在被修的那一版上跑一遍**确认它真会红，否则又是一条守不住的测试。
-
-**须记未治**：装上 hitbox/accel-apply/over-time 任一件仍回到**存量** RMW 环（既有问题·本单没加重也没治好）。
-**同挂 Steering 会被整段覆盖**（含其 separation）——`spatial.ts` 注释已按实况改口；软分离改走本能力自带的那层（见下）。
-M2(LOS)/M3(分块增量)/M4(接 tilemap) 未做；`los` 摆了会在 trace 留痕说明未生效。
-
-**🧪 软分离原型已交（2026-08-24·owner 定方向「用分离力·soft force·流场力一定是最重要的」·待 game211 做 Demo 验证）**
-
-**做法（查了业界再动手）**：[Emerson 的 flow-tile](https://www.gameaipro.com/GameAIPro/GameAIPro_Chapter23_Crowd_Pathfinding_and_Steering_Using_Flow_Field_Tiles.pdf) 与
-[Continuum Crowds 一脉](https://yearlyboar.wordpress.com/2015/03/30/implementation-of-continuum-crowds-physically-based-crowd-simulation/)
-的共识是「流场管走位 + 局部避让单独一层」，且**上千单位时两两遍历撑不住**（O(单位²)）。
-故用流场**本来就有的网格**分桶（计数排序 O(单位)），每个单位只看**自己这格 + 8 邻格**：
-· **两两斥力（线性衰减）** = 解「叠成一堆」（主力）· **密度梯度** = 解「整团堵路口」（配角 0.5 权）
-· 力**钳在 `SEP_MAX_WEIGHT=0.6`** ⇒ 合成方向相对纯流场最多偏 ~31°，**永不掉头**（owner 红线）
-· 允许瞬时重叠——硬不重叠仍归 `collision-resolve`（移动之后介入·两者不冲突）
-接口：`FlowAgent.separation?: { weight }`，**不设 = 一个字节不变**。
-
-**开销**（bench 新增 [pf/flow-sep] 段·同机对照）：1000 单位 0.51 → **2.16ms/tick**、4000 单位 2.24 → **3.18ms/tick**。
-即软分离本身约 +1.0~1.6ms；4000 单位仍在一帧预算内。
-
-**四次栽在同一个地方，教训写死在代码注释里**（都是实测逼出来的，不是设计出来的）：
-① **力不许归一化** —— 归一化后每个人受力一样大 ⇒ 夹中间的和站边上的一样被推 ⇒ 整堆平移、间距纹丝不动（实测 minPair 恒 0.0100）。
-② **不许除以实际邻居数** —— 均值会让「多一个远邻居」把近邻的推力稀释掉 ⇒ 受力忽大忽小 ⇒ 抖。改除固定参考数 4。
-③ **钳位只当天花板** —— 原始力普遍超上限时，钳完又是一样大（同 ① 的病，换个位置）。
-④ **越过到达线要减速** —— 否则被挤出线外的单位以满速冲回、把刚散开的堆压实，队伍以约 40 拍为周期反复聚散
-（间距在 0.41 与 0.0007 之间荡）。补 arrival 减速带后单调收敛（0.567 → 0.738 → 0.763 → 0.767 稳住）。
-⑤ **到点不许硬停** —— 停了就不再互推 ⇒ 全叠在一个点（RTS 里最显眼的假）。改成「停掉流场力、软分离照旧」。
-
-**并且：撤修验红第一轮四刀里有两刀没红** —— 说明我最费劲的两处（① 不归一化、④ 减速带）当时**零覆盖**。
-已补三条承重测试（夹中间的 vs 站边上的速度差 ≥3×／安顿后 140 拍最近间距恒 >0.2／人越挤推得越狠），
-四刀现在刀刀见红。**这一条与第二轮复查记的流程账同形：自己觉得最难的地方，恰恰最容易没测试。**
-
-**下一步 = owner 已定**：交 game211 做 Demo 真机验证观感（大军推进是否自然、终点是否摊开、有没有抖）。
-Demo 反馈回来再定要不要调 `SEP_MAX_WEIGHT` / `SEP_REF_NEIGHBORS` 这两个手感旋钮。
+**全文 + 撤修验红记录**：`docs/design/game111/requests.md` REQ-111-ENG-03。
 
 ### REQ-UPBACKUP · 原图备份被替换图盖掉（「一键还原」的底牌丢了）· [2026-08-19] · Lead 巡检 owner 直传批带出（实证：game101 art-59 backupPath 文件与 gen/art-59-up.png 逐字节同） · **施工主体 = PST（已交·本行即锁）** · 复查 = Lead（2026-08-22·owner 点名） · status: **done·⚖ Lead 复查 PASS·余 F3 一腿归 PST（清完即出池）** · P3 · 类型: 创作台 bug（上传/替换/还原线）
 > **实证复现**（非按报告推断·样本已随 affbcd96 删除，故在临时目录上重建）：备份步骤**时序是对的**
@@ -212,8 +172,7 @@ Demo 反馈回来再定要不要调 `SEP_MAX_WEIGHT` / `SEP_REF_NEIGHBORS` 这�
 <!-- REQ-ARTGUARD-黑户判据认索引记账（P2·PST 提）已完结：判据②落地——art/index.json path 命中且有来源登记（provenance 对象 或 license+source 双齐）即免黑户·原判据①/死账/SKIP 前缀不动。黑户 65→5（非预期 3：施工方逐条实查证明「62 有登记」是算术不是核实，真有登记 60；差的 2 张 game-a 程序化桌面 SVG 真无账——施工方拒绝代写游戏账本凑数=正确，Lead 认可基线留 2 并开 A-028 归 game-a PE 清账）。Lead 终审 PASS：20 测独立复跑绿·施工方双验红（撤并集行→55 张扑克回黑+FAIL 退 1·撤登记检查→3 例红）·Lead 第三轮破坏（双齐弱化为只查 license→恰边界测红）。尾巴：gen/mock 入 SKIP 前缀未裁——唯一现行例证 game-a art-03 死账已在 A-026,随那单处理,守卫不预扩。全文查 git 历史。 -->
 
 
-### REQ-NETGAPS · lockstep 三处确保性缺口（测试大扫除 B 路实证·代码无 bug·护栏缺） · [2026-08-22] · Lead 立（引擎核测试评审带出） · **指派：主程** · status: open · 优先级: P2 · 类型: 测试护栏（净测试·不改行为）
-> ① LockstepClient 无乱序/延迟信道测试——inputs 按 tick 键控设计上耐乱序，但零测试钉住（改成「按到达序追加」的实现照样全绿）；补洗牌/随机延迟 Channel 下双端收敛+逐 tick 同 hash（时间驱动 harness·写差即 flaky·须 xhigh）。② lockstep-tab 输入桶淘汰 `MAX_INPUT_EPOCHS=4` 零测试——成员抖动产 5+ epoch 时误淘汰当前桶=永久卡死，现测试最多经历 2 epoch。③ 记档性 canary：lockstep 纯 hashSnapshot 对「组件同、创建序异」的两端永远 inSync（world-restore-order 注释点名的坑·存档线已 hashWithOrder fail-closed·lockstep 未并入）——先钉 canary 测试声明盲区，并 order 属设计变更另议。
+<!-- REQ-NETGAPS（P2·测试护栏·指派主程）已完结（2026-08-27·施工=Lead 本 session·owner 2026-08-26「约束和补全所有用例」令下并批·净测试零行为变）：① AdversarialBus（批内倒序+每 3 条压后一轮）40 轮 → 双端零 desync·synced·tick>20·逐端同 tick 同 hash（lockstep-tab.test.ts）；② C1-C4 成员抖动产 5 桶 > MAX_INPUT_EPOCHS=4 + 离场超时（PEER_TIMEOUT 拍数推满）→ 幸存端仍推进仍 synced，epoch 序列锚点数组钉死；③ 盲区 canary（net.test.ts）：同内容异创建序双世界 snapshotOrder 不等而 hashSnapshot 相等——钉死声明 lockstep 对 order 盲，并 order 属设计变更另议（未立单·真要并入时对 hashWithOrder 先例）。两处撤修验红均锚点命中（①改推进断言红「expected 3 to be greater than 20」·②锚点数组红）。全文查 git 历史。 -->
 
 ### REQ-GATESMOKE · 14/18 产品线冒烟不在任何门内 + python 冒烟 harness 无自证 · [2026-08-22] · Lead 立（scripts 守卫评审 D 路实证） · **指派：主程（scoped-gate 面）** · status: open · 优先级: P2 · 类型: 门禁接线
 > ① facesOf 对 main_entry/ 只认 art_*/artifacts.py/t2_replace.py——改 projects.py/design_ingest.py/packaging.py/workshop_*.py/apollo.py 判 full 但 full 不含对应冒烟（projects/pipeline/studio-*/library-api/art-review/cartridge-art/dokiworld-pack 全不跑·与 ARTPAR「冒烟不在门曾漏检一整天」同形）。修=py 面旗扩到对应 handler + 「每 *-smoke.py 都有触发面」对账测试。② 18 份手抄 check() 计数器无一自证「假失败→exit1」——任一份被误改即恒绿；抽公共 harness 或每份加演练腿。③ dokiworld host-witness 不在 npm test（build 产物对账只活在发包路径）——挂进 dokiworldPack 面或加 build 冒烟。④ **存量 bug（X 路施工对照实证·两版同红 7过/2败）**：pipeline-smoke.py L121 硬编码 `public/games/<slug>/art/art-ledger.json`——REQ-CARTART（2026-08-06）已把卡带台账挪 `library/<slug>/art/`，该 smoke 自 8-03 未再动过·一直红着没人看见（正是①的活例证）。

@@ -1,4 +1,5 @@
 import type { CapabilityDefinition } from '@engine/core/define-capability.js';
+import { buildCapabilityIndex, inferCapabilityIdsWith, metaOf, unknownCapabilityError } from './capability-index.js';
 import { allAtomCapabilities, extensionAtomCapabilities } from '@atom-skills/index.js';
 import {
   motionApplyCapability,
@@ -9,6 +10,7 @@ import {
   hierarchyResolveCapability,
   hierarchyCascadeCapability,
   tweenCapability,
+  groupGcCapability,
 } from '@skills/tier1/index.js';
 import {
   collisionResolveCapability,
@@ -40,6 +42,7 @@ import {
   cardPlayCapability,
   diceRollCapability,
   cardPileCapability,
+  identityCardPlayCapability,
   selfRuleCapability,
   groupCountCapability,
   gridMoveCapability,
@@ -61,6 +64,13 @@ import {
   pullAnchorCapability,
   weightedSpawnCapability,
   matrixDuelCapability,
+  turnOrderCapability,
+  cooldownCapability,
+  damageTableCapability,
+  inventoryCapability,
+  conveyorQueueCapability,
+  memoryCapability,
+  intentBarrierCapability,
 } from '@skills/tier2/index.js';
 import { dialogueCapability, match3BoardCapability, prefabCapability, casterCapability, aggroCapability, pokerHandCapability, cardScoringCapability, flowCapability, mergeRuleCapability, timelineCapability, slotPayoutCapability, blockGridCapability, handPatternCapability } from '@skills/tier3/index.js';
 
@@ -85,6 +95,7 @@ export const ALL_CAPABILITIES: readonly CapabilityDefinition[] = [
   hierarchyResolveCapability,
   hierarchyCascadeCapability,
   tweenCapability,
+  groupGcCapability,
   // tier2
   collisionResolveCapability,
   groundSenseCapability,
@@ -117,6 +128,7 @@ export const ALL_CAPABILITIES: readonly CapabilityDefinition[] = [
   cardPlayCapability,
   diceRollCapability,
   cardPileCapability,
+  identityCardPlayCapability,
   selfRuleCapability,
   groupCountCapability,
   gridMoveCapability,
@@ -167,6 +179,20 @@ export const ALL_CAPABILITIES: readonly CapabilityDefinition[] = [
   // 齐备即查 DuelMatrix 定胜负 → 写 ResourceModify + 发具名 Signal → 清双方 intent。判定表 + 三闭集补丁
   // （改克制/改收益/增设新手）全是数据，坏补丁装载期拒收；猜拳全变体/田忌赛马/兵种相克通吃。
   matrixDuelCapability,
+  // owner 2026-09-09「都实现·预建高频件」（engine-base-tier-review §7）：回合轮转 / 多冷却 / 克制表 / 背包堆叠。
+  turnOrderCapability,
+  cooldownCapability,
+  damageTableCapability,
+  inventoryCapability,
+  conveyorQueueCapability,
+  // t2-memory（REQ-111-MEMORY·owner 2026-09-12 判 A）：记忆原语——条目(主体/客体/回合/强度/标签/来源) +
+  // 逐标签衰减与遗忘 + **整数** top-K 检索（标签命中/强度/时近·禁浮点排序）+ 跨实体转述打折强度。
+  // 「谁在何时对谁做了什么，且这件事会淡忘、会被传开」：绯闻/仇怨/好感来源/证词链通用（game101 同构）。
+  memoryCapability,
+  // t2-intent-barrier（REQ-111-AINPC·owner 2026-09-12 判 A·与 services/npc-agent 的 NpcAgentPort 捆绑）：
+  // 异步意图收齐门——登记本回合待决实体 → 乱序回包进暂存（IntentInbox·不进 hash）→ 收齐或按**整数回合数**
+  // 超期 → 按 id 升序一次性产出意图流，没着落的补默认动词。外部 AI 当输入源而非解释器的那块接缝。
+  intentBarrierCapability,
   // tier3
   dialogueCapability,
   match3BoardCapability,
@@ -204,33 +230,21 @@ export function resolveCapabilities(ids: readonly string[]): CapabilityDefinitio
     if (cap) out.push(cap);
     else unknown.push(id);
   }
-  if (unknown.length) {
-    throw new Error(`manifest: 未知 capability id: ${unknown.join(', ')}（不在能力注册表内）`);
-  }
+  if (unknown.length) throw unknownCapabilityError(unknown);
   return out;
 }
+
+// ── 组件 → 能力 索引（P2e 起由 capability-index 的纯函数算·懒注册表同一份算法·两边对拍见 capability-registry.gen.test）──
+export const CAPABILITY_INDEX = buildCapabilityIndex(ALL_CAPABILITIES.map(metaOf));
+const INDEX = CAPABILITY_INDEX;
 
 /** 组件类型 → **全部**声明提供它的 capability id（登记序）。多于 1 个 = 该组件被多个能力共用。
  *  共用本身可以是刻意的（如 `BoardCell` 被 match3-board / block-grid 共用同一视图格接口，
  *  两边字段完全相同），但它让「从组件反推能力」这件事**在语义上就无解**——见下方 AMBIGUOUS。 */
-export const COMPONENT_PROVIDERS_ALL: ReadonlyMap<string, readonly string[]> = (() => {
-  const m = new Map<string, string[]>();
-  for (const cap of ALL_CAPABILITIES) {
-    for (const type of Object.keys(cap.components?.provides ?? {})) {
-      const list = m.get(type);
-      if (list) list.push(cap.id);
-      else m.set(type, [cap.id]);
-    }
-  }
-  return m;
-})();
+export const COMPONENT_PROVIDERS_ALL: ReadonlyMap<string, readonly string[]> = INDEX.providersAll;
 
 /** 被多个能力共同提供的组件 → 提供者清单。推断**刻意不碰**这些（不猜），由 manifest 显式声明。 */
-export const AMBIGUOUS_COMPONENTS: ReadonlyMap<string, readonly string[]> = (() => {
-  const m = new Map<string, readonly string[]>();
-  for (const [type, ids] of COMPONENT_PROVIDERS_ALL) if (ids.length > 1) m.set(type, ids);
-  return m;
-})();
+export const AMBIGUOUS_COMPONENTS: ReadonlyMap<string, readonly string[]> = INDEX.ambiguous;
 
 /** 组件类型 → 提供它的 capability id。**只收唯一提供者**；多提供者组件不入表（见 AMBIGUOUS_COMPONENTS）。
  *
@@ -242,11 +256,7 @@ export const AMBIGUOUS_COMPONENTS: ReadonlyMap<string, readonly string[]> = (() 
  *  「按 A 的规格校验字段、却把 B 的解释器装给你」。
  *  共用组件的正确姿势是**承认推不出来**：不猜、由 parseManifest 发告警要求显式声明能力，
  *  fail-loud 取代 fail-silent。单一提供者的组件（绝大多数）推断行为完全不变。 */
-export const COMPONENT_PROVIDERS: ReadonlyMap<string, string> = (() => {
-  const m = new Map<string, string>();
-  for (const [type, ids] of COMPONENT_PROVIDERS_ALL) if (ids.length === 1) m.set(type, ids[0]!);
-  return m;
-})();
+export const COMPONENT_PROVIDERS: ReadonlyMap<string, string> = INDEX.providers;
 
 /**
  * 从 entities 用到的组件类型，反推"提供这些组件"的能力 id 集合。
@@ -254,12 +264,5 @@ export const COMPONENT_PROVIDERS: ReadonlyMap<string, string> = (() => {
  * 不提供组件、推不出来——所以 manifest 最好显式带 capabilities，inference 仅作兜底/提示。
  */
 export function inferCapabilityIds(entities: Record<string, Record<string, unknown>>): string[] {
-  const ids = new Set<string>();
-  for (const comps of Object.values(entities)) {
-    for (const type of Object.keys(comps)) {
-      const capId = COMPONENT_PROVIDERS.get(type);
-      if (capId) ids.add(capId);
-    }
-  }
-  return [...ids];
+  return inferCapabilityIdsWith(INDEX, entities);
 }

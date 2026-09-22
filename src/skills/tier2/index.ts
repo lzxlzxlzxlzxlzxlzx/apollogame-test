@@ -38,8 +38,8 @@ export { cardPlayCapability, decodeCard, encodeCard } from './card-play.js';
 // dice-roll（REQ-GAMED #1）：掷一份声明好的骰池——rollOnSignal 触发→消费 RandomSeed 确定性掷 DicePool→写 RolledDice。
 // 锁定重掷（只重掷未锁骰）+ 结算前禁骰（#4 并入）。骰能力族：对掷 opposedRoll 为同族纯函数（dice.ts，非 capability）。
 export { diceRollCapability } from './dice-roll.js';
-export { rollDicePool, applyBanFilter, opposedRoll, OPPOSED_MAX_REROLL } from './dice.js';
-export type { TiePolicy, OpposedResult } from './dice.js';
+export { rollDicePool, applyBanFilter, opposedRoll, OPPOSED_MAX_REROLL, rollWithMods, rollDist, winProb, expectedValue, NO_ROLL_MODS, EXPLODE_CAP } from './dice.js';
+export type { TiePolicy, OpposedResult, RollMods } from './dice.js';
 // draft-offer（REQ-SURVIVOR编排 E1）：Roguelite 升级三选一抽选纯函数核（非 capability·先例见 dice.ts）——
 // 按已持有/槽位满否过滤候选池 → 加权抽 N 个不重复 offer → applyPick 回填。种子化确定性。
 export { rollOffer, applyPick, isEligible } from './draft-offer.js';
@@ -53,6 +53,7 @@ export type { DirectorWave, Director, SpawnRing, TickOpts } from './spawn-direct
 export { orbitMotionCapability, orbitAt } from './orbit-motion.js';
 // card-pile（REQ-017）：牌库/手牌 sim 内确定性管理（发牌/选牌下标/补牌/弃牌）——回合流程数据化 + lockstep 共同前置。
 export { cardPileCapability } from './card-pile.js';
+export { identityCardPlayCapability } from './identity-card-play.js';
 // self-rule（REQ-021）：逻辑链实体本地(self)作用域——对每个实体读自身条件→对自身施效。补动态多实体自治缺口。
 export { selfRuleCapability, evaluateSelfCondition } from './self-rule.js';
 // group-count（REQ-022）：集合读——按 Tag 掩码数全场实体→写数值 Resource（羁绊/波次/人口）。阈值信号=event-when(edge) 重组。
@@ -142,3 +143,27 @@ export type {
   DuelIntent,
   DuelOutcome,
 } from './matrix-duel.js';
+// 牌码编解码 + 建牌堆（纯函数·非 capability·B-6）。
+export { cardCode, codeSuit, codeRank, isJoker, buildDeck, SUIT_SPADE, SUIT_HEART, SUIT_DIAMOND, SUIT_CLUB, RANK_JACK, RANK_QUEEN, RANK_KING, RANK_ACE, RANK_SMALL_JOKER, RANK_BIG_JOKER } from './cardboard-codec.js';
+export type { DeckSpec } from './cardboard-codec.js';
+// owner 2026-09-09「都实现·预建高频件」：回合轮转 / 多冷却 / 克制表 / 背包堆叠 / 限流调度（纯函数）。
+export { turnOrderCapability, currentSeat, nextIndex } from './turn-order.js';
+export type { TurnOrder } from './turn-order.js';
+export { cooldownCapability, cooldownReady, cooldownStart, cooldownProgress, cooldownSlot, findCooldownHolder } from './cooldown.js';
+export type { Cooldowns, CooldownSlot } from './cooldown.js';
+export { damageTableCapability, damageMultiplier, multiplierAgainst, findDamageTable } from './damage-table.js';
+export type { DamageTable, Armor } from './damage-table.js';
+export { inventoryCapability, invAdd, invRemove, invCount, invHas, invCanAdd, invFreeSlots, invSplit, invMerge, invMove, invSort, findInventory } from './inventory.js';
+export type { Inventory, InventoryStack } from './inventory.js';
+export { planStarts, pairKey, pairMembers } from './rate-limit.js';
+export type { RateLimitConfig, RateLimitState, Candidate } from './rate-limit.js';
+export { conveyorQueueCapability, effectiveCapacity } from './conveyor-queue.js';
+export type { ConveyorQueue } from './conveyor-queue.js';
+// REQ-111-MEMORY（owner 2026-09-12 判 A）：记忆原语——条目/衰减遗忘/整数 top-K 检索/跨实体转述。
+export { memoryCapability, remember, recall, recallFrom, scoreEntry, shareMemory, findMemoryRules, decayAmount, DEFAULT_WEIGHTS } from './memory.js';
+export type { Memory, MemoryEntry, MemoryRules, RecallQuery, RecallWeights } from './memory.js';
+// REQ-111-AINPC（owner 2026-09-12 判 A·与 NpcAgentPort 捆绑）：异步意图收齐门——乱序回包 → 确定性产出。
+export { intentBarrierCapability, openBarrier, deliverIntents, failIntents, applySettled, setBarrierTurn, findBarrier, checkIntent, draftSettle, allAccountedFor, barrierNow, normalizePending, orderIntents } from './intent-barrier.js';
+export type { IntentBarrier, IntentInbox, OpenBarrierSpec, IntentCheck, SettleDraft } from './intent-barrier.js';
+// 上两件的纯函数核（零 World·打分/排序/衰减/淘汰 与 闭集校验/结算产物 都在核里可直接喂数据断言）。
+export { normalizeEntry, evictWeakest, sortById } from './memory-core.js';

@@ -149,10 +149,13 @@ describe('相位落桶棘轮 — 非缺省相位成员点名（根因①·A1 探
 
 /** 相位基线（2026-08-16 实测灌入）。改动纪律同 SCC 基线：挪相位 = 同提交带理由更新本表。 */
 const PHASE_BASELINE: string[] = [
+  // CAPGAP-RHETORIC-001：身份牌命令属于 Intent；只产 ResourceModify，交后续 Update 的 resource-apply 提交，避开资源 RMW SCC。
+  'p-10:identity-card-play',
   'p4:rotation-apply',
   'p10:collision-resolve,collision-resolve-3d,tile-collision',
-  'p14:friction,gauge,hierarchy-resolve,orbit-motion,text-binding',
-  'p20:anim-state,block-view-sync,bounds-clamp,craft-recipe,effect-apply,face-rotate,facing,jump,match-view-sync,matrix-duel-announce,matrix-duel-intent,stat-bind,weighted-spawn',
+  'p14:conveyor-queue,friction,gauge,hierarchy-resolve,orbit-motion,text-binding',
+  'p20:anim-state,block-view-sync,bounds-clamp,cooldown,craft-recipe,effect-apply,face-rotate,facing,jump,match-view-sync,matrix-duel-announce,matrix-duel-intent,stat-bind,weighted-spawn',
+  'p30:group-gc', // 2026-09-08 G4 group 配套：Cleanup 相位（destroy-apply 之后摘除已销毁成员）
 ];
 
 // ── 全库软环棘轮 ─────────────────────────────────────────────────
@@ -181,10 +184,19 @@ describe('系统图软环棘轮 — 全库 SCC 点名基线（根因①·告警�
  * 变更纪律：新增 = 先按根因① matrix-duel 先例尝试显式边/数据路由消解，消不动才带理由改行；
  * 减少 = 同提交更新（记下是谁破的环）。禁静默改基线换绿。
  */
+// 2026-09-03 P1a 严格模式补申报：match-resolve 补报 writes RandomSeed（nextRandom 推进 seed·此前漏报）→ 与其它
+// RandomSeed RMW 系统在全库超集图里显影为同一 SCC（真实世界从不同时装载·全库测试 tick 零成环告警）。基线随之 +1 成员。
 const SCC_BASELINE: string[] = [
-  // p0 大环 45 系统：prefab-spawn「展开殿后」十连钉边后 caster/merge-rule/mortal/prefab-spawn 已脱环
+  // p0 大环：prefab-spawn「展开殿后」十连钉边后 caster/merge-rule/mortal/prefab-spawn 已脱环
   // （PrefabOrigin/SpawnRequest 不再是闭环组件）——本行若再变大，先查是谁的新申报/新读面把它拉回来的。
-  'p0:accel-apply+aggro+block-place+bounce-relay+card-pile+card-play-input+card-score-pass+clickable+dialogue+dice-roll+drag-place+drop-zone+event-when+flow+flow-field+grid-drag-square+grid-move+group-count+hitbox+keybind+launch+match3-drag-swap+matrix-duel+merge-on-place+merge-proximity-clear+motion-apply+nav-follow+navmesh-bake+order-fulfill+over-time+overlap-detect+path-follow+poker-eval+pull-anchor+queue-slots+resource-apply+self-rule+state-sync+steering+string-apply+t3-slot-payout+timeline+tray+trigger-zone+tween+zone-occupancy|via:Bounce,Clickable,Flag,HexPos,MergeEvent,NavGraph,OverTime,Overlap,PlaceBlockIntent,PlayedHand,RandomSeed,Relation,Resource,ResourceModify,RolledDice,Signal,State,Status,StringVar,Transform,Trigger,Tween,Velocity',
+  // 2026-09-12 +intent-barrier（REQ-111-AINPC）：**有意识的基线更新**，不是放过一个新环。
+  // 查过了——它入环的形状与 turn-order / keybind / clickable **完全同款**：`runsAfter event-when`
+  // 给它一条从环内来的显式入边，而它 `writes:['Signal']` 又给环内所有读 Signal 的系统去一条出边。
+  // 任何「排在事件清扫之后、且发信号」的系统都必然落进这个 blob，这是 CYCLEHAZ 的类问题（方案 C 相位化才是正解），
+  // 不是本件的申报缺陷。**本件真有过的那个缺陷已另行治本**：首版它还 `reads:['TurnOrder']`，
+  // 与 turn-order 构成真 2-环（strict 模式当场抛）；改成由 `setBarrierTurn` 推回合号后那条读边消失，
+  // 2-环随之消失（`intent-barrier.test.ts` ⑦ 断言 strict 不抛 + warn 数为零 + 系统不读 TurnOrder）。
+  'p0:accel-apply+aggro+block-place+bounce-relay+card-pile+card-play-input+card-score-pass+clickable+dialogue+dice-roll+drag-place+drop-zone+event-when+flow+flow-field+grid-drag-square+grid-move+group-count+hitbox+intent-barrier+keybind+launch+match-resolve+match3-drag-swap+matrix-duel+merge-on-place+merge-proximity-clear+motion-apply+nav-follow+navmesh-bake+order-fulfill+over-time+overlap-detect+path-follow+poker-eval+pull-anchor+queue-slots+resource-apply+self-rule+state-sync+steering+string-apply+t3-slot-payout+timeline+tray+trigger-zone+turn-order+tween+zone-occupancy|via:Bounce,Clickable,Flag,HexPos,MergeEvent,NavGraph,OverTime,Overlap,PlaceBlockIntent,PlayedHand,RandomSeed,Relation,Resource,ResourceModify,RolledDice,Signal,State,Status,StringVar,Transform,Trigger,Tween,Velocity',
   'p10:collision-resolve+collision-resolve-3d+tile-collision|via:Transform,Velocity',
   'p20:anim-state+match-view-sync|via:Sprite',
   'p20:bounds-clamp+facing|via:Transform',
