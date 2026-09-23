@@ -2,16 +2,18 @@ import { defineCapability } from '@engine/core/define-capability.js';
 import { defineComponent } from '@engine/core/define-component.js';
 import { t } from '@engine/core/schema.js';
 import { SystemPhase } from '@engine/core/types.js';
-import type { InputQueue, RandomSeed, Resource } from '@engine/protocol/components.js';
+import type { ConditionExpr, InputQueue, RandomSeed, Resource } from '@engine/protocol/components.js';
+import { ConditionExprSchema } from '@engine/protocol/schemas/logic.js';
 import { nextRandom } from '@atom-skills/random/index.js';
 import { queueResourceMod } from '@atom-skills/resource/index.js';
 import { appendTrace, findDebugTrace } from '@skills/debug-trace.js';
+import { buildConditionLookup, evaluateCondition } from './condition.js';
 
 /** Closed v1 resource mutation; intentionally does not admit callbacks or expressions. */
 type ClosedResourceEffect = { kind: 'modify-resource'; targetId: string; op: 'add' | 'set'; value: number };
 type CatalogCard = { cardId: string; focusCost: number; maxCopies: number; effects: ClosedResourceEffect[] };
 type CardCatalog = { type: 'CardCatalog'; version: number; cards: CatalogCard[]; allowedResources: string[] };
-type IdentityCardPile = { type: 'IdentityCardPile'; deck: string[]; hand: string[]; discard: string[]; handLimit: number; openingHand?: number; phase: string; playPhase: string; shuffled?: boolean };
+type IdentityCardPile = { type: 'IdentityCardPile'; deck: string[]; hand: string[]; discard: string[]; handLimit: number; openingHand?: number; phase: string; playPhase: string; playWhen?: ConditionExpr; shuffled?: boolean };
 type IdentityCardCommand = { type: 'IdentityCardCommand'; cardId: string; consumed?: boolean };
 type IdentityCardDrawCommand = { type: 'IdentityCardDrawCommand'; count: number; consumed?: boolean };
 type IdentityCardInput = { type: 'IdentityCardInput'; action: string; phase?: string; source?: string; sequence?: number };
@@ -87,17 +89,17 @@ function drawTo(pile: IdentityCardPile, rng: RandomSeed | undefined, target: num
  * cards remain owned by t2-card-pile/t2-card-play.
  */
 export const identityCardPlayCapability = defineCapability({
-  id: 't2-identity-card-play', version: '1.0.0',
+  id: 't2-identity-card-play', version: '1.1.0',
   describe: { name: 'identity-card-play', summary: '版本化 cardId 目录、身份牌区与闭集资源效果。', semantic: ['tier2', 'card', 'deterministic'], whenToUse: '非扑克的目录化卡牌：CardCatalog + IdentityCardPile + IdentityCardCommand。', examples: ['CardCatalog{version:1,cards:[{cardId:"advance",focusCost:1,maxCopies:2,effects:[{kind:"modify-resource",targetId:"progress",op:"add",value:2}]}]}'] },
   components: {
     provides: {
       CardCatalog: defineComponent('CardCatalog', { version: t.num('目录版本'), cards: t.arr(catalogCardSchema, '卡定义'), allowedResources: t.arr(t.str('批准资源 id'), 'v1 可写资源闭集') }, { category: 'config', describe: '版本化身份牌目录；无可执行字段。' }),
-      IdentityCardPile: defineComponent('IdentityCardPile', { deck: t.arr(t.str('cardId'), '牌库'), hand: t.arr(t.str('cardId'), '手牌'), discard: t.arr(t.str('cardId'), '弃牌'), handLimit: t.num('手牌上限'), openingHand: t.opt(t.num('初始洗牌后抽取张数；缺省=handLimit')), phase: t.str('当前时序'), playPhase: t.str('允许出牌的时序'), shuffled: t.opt(t.bool('内部洗牌标记')) }, { category: 'config', describe: '身份牌 deck/hand/discard；后续抽牌只由 IdentityCardDrawCommand 请求。' }),
+      IdentityCardPile: defineComponent('IdentityCardPile', { deck: t.arr(t.str('cardId'), '牌库'), hand: t.arr(t.str('cardId'), '手牌'), discard: t.arr(t.str('cardId'), '弃牌'), handLimit: t.num('手牌上限'), openingHand: t.opt(t.num('初始洗牌后抽取张数；缺省=handLimit')), phase: t.str('当前时序'), playPhase: t.str('允许出牌的时序'), playWhen: t.opt(ConditionExprSchema), shuffled: t.opt(t.bool('内部洗牌标记')) }, { category: 'config', describe: '身份牌 deck/hand/discard；playWhen 可用既有条件树声明输入门；后续抽牌只由 IdentityCardDrawCommand 请求。' }),
       IdentityCardCommand: defineComponent('IdentityCardCommand', { cardId: t.str('请求出牌的 cardId'), consumed: t.opt(t.bool('内部消费标记')) }, { category: 'event', describe: '出牌命令；非法命令 fail-closed。' }),
       IdentityCardDrawCommand: defineComponent('IdentityCardDrawCommand', { count: t.num('本次请求抽牌张数'), consumed: t.opt(t.bool('内部消费标记')) }, { category: 'event', describe: '受控抽牌命令；超手牌上限时仅抽至上限，非法参数 fail-closed。' }),
       IdentityCardInput: defineComponent('IdentityCardInput', { action: t.str('命中 InputQueue.action.key 的具名输入'), phase: t.opt(t.str('可选输入 phase 过滤')), source: t.opt(t.str('可选输入 source 过滤')), sequence: t.opt(t.num('内部命令序号')) }, { category: 'config', describe: '把受控 InputQueue action 的非空 arg 映射为 IdentityCardCommand.cardId；不解释 cardId。' }),
     },
-    reads: ['CardCatalog', 'IdentityCardPile', 'IdentityCardInput', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'InputQueue', 'RandomSeed', 'Resource', 'DebugTrace'], writes: ['IdentityCardInput', 'IdentityCardPile', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'RandomSeed', 'ResourceModify'], consumes: [],
+    reads: ['CardCatalog', 'IdentityCardPile', 'IdentityCardInput', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'InputQueue', 'RandomSeed', 'Resource', 'Flag', 'State', 'Cooldowns', 'Timer', 'StringVar', 'DebugTrace'], writes: ['IdentityCardInput', 'IdentityCardPile', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'RandomSeed', 'ResourceModify'], consumes: [],
   }, config: {},
   systems: [
     {
@@ -129,7 +131,7 @@ export const identityCardPlayCapability = defineCapability({
         if (rejected.length) reject(world, rejected.join('；'));
       },
     },
-    { id: 'identity-card-play', phase: SystemPhase.Intent, reads: ['CardCatalog', 'IdentityCardPile', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'RandomSeed', 'Resource', 'DebugTrace'], writes: ['IdentityCardPile', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'RandomSeed', 'ResourceModify'], consumes: [],
+    { id: 'identity-card-play', phase: SystemPhase.Intent, reads: ['CardCatalog', 'IdentityCardPile', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'RandomSeed', 'Resource', 'Flag', 'State', 'Cooldowns', 'Timer', 'StringVar', 'DebugTrace'], writes: ['IdentityCardPile', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'RandomSeed', 'ResourceModify'], consumes: [],
     execute(world) {
       const catalogs = [...world.query('CardCatalog')]; const piles = [...world.query('IdentityCardPile')];
       if (catalogs.length !== 1 || piles.length !== 1) { reject(world, `CardCatalog=${catalogs.length}，IdentityCardPile=${piles.length}；要求各一份`); return; }
@@ -154,10 +156,12 @@ export const identityCardPlayCapability = defineCapability({
       }
       let reservedFocus = 0;
       const accepted: Array<{ cardId: string; focusCost: number; effects: number }> = [];
+      const playGateOpen = !pile.playWhen || evaluateCondition(world, pile.playWhen, buildConditionLookup(world));
       for (const [eid] of world.query('IdentityCardCommand')) {
         const command = world.getComponent<IdentityCardCommand>(eid, 'IdentityCardCommand')!; if (command.consumed) continue; command.consumed = true;
         const card = catalog.cards.find((c) => c.cardId === command.cardId);
         if (!card) { rejected.push(`未知 cardId ${command.cardId}`); continue; }
+        if (!playGateOpen) { rejected.push(`${command.cardId} 条件门关闭`); continue; }
         if (pile.phase !== pile.playPhase) { rejected.push(`${command.cardId} 时序非法`); continue; }
         const handIndex = pile.hand.indexOf(command.cardId); if (handIndex < 0) { rejected.push(`${command.cardId} 不在手牌`); continue; }
         const focus = resourceEntryOf(world, 'focus'); if (!focus || focus[1].current - reservedFocus < card.focusCost) { rejected.push(`${command.cardId} 专注不足`); continue; }

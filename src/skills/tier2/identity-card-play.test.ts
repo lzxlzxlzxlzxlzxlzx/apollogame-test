@@ -59,6 +59,18 @@ describe('identity-card-play', () => {
     const poor = make('advance', 1); poor.tick(); play(poor, 'advance'); poor.tick(); expect(pile(poor).hand).toEqual(['advance']); expect(res(poor, 'progress-res')).toBe(0);
     const bad = make(); bad.getComponent<any>('catalog', 'CardCatalog')!.cards[0].effects[0].targetId = 'not-allowed'; bad.tick(); play(bad, 'advance'); bad.tick(); expect(pile(bad).hand).toEqual([]); expect(pile(bad).deck).toEqual(['advance']);
   });
+  it('playWhen 门关时直接命令 fail-closed 并写 reject；门开后同命令形状可结算', () => {
+    const w = make();
+    w.createEntity('gate'); w.addComponent('gate', { type: 'Flag', id: 'can-play', active: false } as any);
+    w.createEntity('trace'); w.addComponent('trace', { type: 'DebugTrace', events: [] } as any);
+    pile(w).playWhen = { kind: 'flag', id: 'can-play', equals: true };
+    w.tick(); play(w, 'advance'); w.tick();
+    expect(pile(w).hand).toEqual(['advance']); expect(res(w, 'progress-res')).toBe(0);
+    expect(w.getComponent<any>('trace', 'DebugTrace').events).toEqual(expect.arrayContaining([expect.objectContaining({ system: 'identity-card-play', kind: 'reject', what: expect.stringContaining('条件门关闭') })]));
+    w.getComponent<any>('gate', 'Flag').active = true;
+    w.createEntity('cmd-advance-open'); w.addComponent('cmd-advance-open', { type: 'IdentityCardCommand', cardId: 'advance' } as any); w.tick();
+    expect(pile(w).discard).toEqual(['advance']); expect(res(w, 'progress-res')).toBe(3);
+  });
   it('目录副本上限与重复 cardId 都在抽牌前拒绝', () => {
     const tooMany = make(); tooMany.getComponent<any>('pile', 'IdentityCardPile')!.deck.push('advance', 'advance'); tooMany.tick(); expect(pile(tooMany).hand).toEqual([]);
     const duplicate = make(); duplicate.getComponent<any>('catalog', 'CardCatalog')!.cards.push({ ...duplicate.getComponent<any>('catalog', 'CardCatalog')!.cards[0] }); duplicate.tick(); expect(pile(duplicate).hand).toEqual([]);

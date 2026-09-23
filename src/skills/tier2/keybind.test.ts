@@ -132,3 +132,22 @@ describe('keybind — 代发 Signal.source（REQ-108-ENG-04）', () => {
     expect(() => w.tick()).toThrow(/KeyBinding\.source 是空串/);
   });
 });
+
+describe('keybind — 声明式条件门（CAPGAP-RHETORIC-003）', () => {
+  it('门开产 Signal；门关 fail-closed 并写聚合 reject trace；缺省 when 保持旧行为', () => {
+    const w = world();
+    w.createEntity('gate'); w.addComponent('gate', { type: 'Flag', id: 'can-play', active: false } as any);
+    w.createEntity('trace'); w.addComponent('trace', { type: 'DebugTrace', events: [] } as any);
+    bind(w, 'guarded', { key: 'end-turn', signal: 'end-turn', when: { kind: 'flag', id: 'can-play', equals: true } });
+    bind(w, 'legacy', { key: 'inspect', signal: 'inspect' });
+    input(w, [{ source: 'ui', key: 'end-turn', phase: 'action' }, { source: 'ui', key: 'inspect', phase: 'action' }]);
+    w.tick();
+    expect(sig(w, 'guarded')).toBeUndefined();
+    expect(sig(w, 'legacy')?.name).toBe('inspect');
+    expect(w.getComponent<any>('trace', 'DebugTrace').events).toEqual(expect.arrayContaining([expect.objectContaining({ system: 'keybind', kind: 'reject', what: expect.stringContaining('条件门关闭') })]));
+    w.getComponent<any>('gate', 'Flag').active = true;
+    w.getComponent<any>('global-input', 'InputQueue').actions = [{ source: 'ui', key: 'end-turn', phase: 'action' }];
+    w.tick();
+    expect(sig(w, 'guarded')?.name).toBe('end-turn');
+  });
+});

@@ -2,6 +2,7 @@
 // 外部原始信号 → 语义动作 → 单例输入队列 → 具名键位/点击/操控。命中测试/语义解析归游戏层数据，
 // 富输入（牌码、菜单多选）经确定性命令流注入 → lockstep 安全。
 import type { Component } from '../../core/types.js';
+import type { ConditionExpr } from './logic.js';
 
 // ── I1 input-capture ── 这帧的外部原始信号（由 runtime 注入）
 export interface RawInput extends Component {
@@ -51,6 +52,7 @@ export interface KeyBinding extends Component {
   key: string; // 匹配 InputQueue 事件的 key（物理键如 '1'/'q'，或语义动作名如 'cast_nova'）
   signal: string; // 命中时产出的 Signal.name
   phase?: string; // 仅匹配此相位（如 'down'|'action'）；缺省=任意相位
+  when?: ConditionExpr; // 可选声明式条件门；不成立时命中的输入 fail-closed，不产 Signal
   // 代发（REQ-108-ENG-04·owner 2026-08-07 判 A）：产出的 Signal.source 填这个实体，而不是挂本组件的实体。
   // 治的病：房屋 UI 接线范式是「一动作一个专属 kb-* 实体」，于是 Signal.source 永远是那个 kb 实体；
   // 而**按 source 认人**的消费方（如 t2-matrix-duel 的出招接缝按侧认人）就永远认不到真正的行为主体。
