@@ -6,6 +6,7 @@ import type { DebugTrace, Flag, Resource, GameFlow } from '@zerocraft/engine/eng
 import { appendTrace, bumpTraceTick, findDebugTrace } from '@zerocraft/engine/skills/debug-trace.js';
 import { buildBlueprint, END_TURN_ACTION, PLAY_CARD_ACTION } from './blueprint.js';
 import { DEFAULT_RHETORIC_CONFIG, validateRhetoricGameConfig, type RhetoricGameConfig } from './config.js';
+import { cardPlayedTransition, enemyTurnTransition, enterTransition, terminalTransition, type RhetoricPresentationTransition } from './presentation.js';
 
 export type RhetoricSnapshot = Readonly<{
   progress: number;
@@ -49,21 +50,64 @@ function addedCards(before: readonly string[], after: readonly string[]): string
   return added;
 }
 
+function isTerminal(state: RhetoricSnapshot): boolean {
+  return state.phase === 'victory' || state.phase.startsWith('defeat-');
+}
+
 /** 可被 LayoutNode ActionSink 调用的内部会话，不解释任何卡牌文本。 */
 export class RhetoricDuelSession {
   readonly engine: Engine;
   readonly input = new QueuedInputSource('rhetoric-ui');
   readonly config: RhetoricGameConfig;
+  private readonly transitions: RhetoricPresentationTransition[] = [];
 
   constructor(source: RhetoricGameConfig = DEFAULT_RHETORIC_CONFIG) {
     this.config = validateRhetoricGameConfig(source);
     this.engine = new Engine({ input: this.input });
     this.engine.load(buildBlueprint(this.config));
+    const before = this.snapshot();
     this.tick(); // 初始化洗牌及开局抽牌。
+    this.transitions.push(enterTransition(before, this.snapshot()));
   }
 
-  play(cardId: string): void { this.input.enqueueAction(PLAY_CARD_ACTION, { arg: cardId }); this.tick(); }
-  endTurn(): void { this.input.enqueueAction(END_TURN_ACTION); this.tick(); }
+  play(cardId: string): readonly RhetoricPresentationTransition[] {
+    const before = this.snapshot();
+    this.input.enqueueAction(PLAY_CARD_ACTION, { arg: cardId });
+    this.tick();
+    const committed = this.snapshot();
+    const beforeCount = before.hand.filter((id) => id === cardId).length;
+    const afterCount = committed.hand.filter((id) => id === cardId).length;
+    if (afterCount >= beforeCount) return [];
+    const created = [cardPlayedTransition(before, committed, cardId)];
+    this.tick();
+    const settled = this.snapshot();
+    if (!isTerminal(before) && isTerminal(settled)) created.push(terminalTransition(committed, settled));
+    this.transitions.push(...created);
+    return created;
+  }
+
+  endTurn(): readonly RhetoricPresentationTransition[] {
+    const before = this.snapshot();
+    this.input.enqueueAction(END_TURN_ACTION);
+    this.tick();
+    if (isTerminal(before)) return [];
+    let prior = this.snapshot();
+    let after = prior;
+    for (let i = 0; i < 10; i += 1) {
+      if (isTerminal(after) || (after.turns > before.turns && after.phase.startsWith('player-') && after.canPlay)) break;
+      prior = after;
+      this.tick();
+      after = this.snapshot();
+    }
+    if (after.turns === before.turns) return [];
+    const enemyAfter = isTerminal(after) ? prior : after;
+    const created = [enemyTurnTransition(before, enemyAfter, before.intentId)];
+    if (isTerminal(after)) created.push(terminalTransition(enemyAfter, after));
+    this.transitions.push(...created);
+    return created;
+  }
+
+  takeTransitions(): RhetoricPresentationTransition[] { return this.transitions.splice(0); }
   tick(): void {
     const before = this.snapshot();
     applyCommands(this.engine.world, this.input.commandsForTick(this.engine.world.getVersion() + 1));
