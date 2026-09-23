@@ -7,6 +7,7 @@
 | [brief.md](brief.md) | 立项边界、体验与冻结结论 | S1 草案 |
 | [gdd.md](gdd.md) | 首局规则骨架与内容边界 | S1 草案 |
 | [content-v0.md](content-v0.md) | 基础言弹、起始牌组与首发敌人 | 可供程序接线 |
+| [demo-reference-bible.md](demo-reference-bible.md) | demo 画面、卡牌、动画、素材与像素验收的第一交付基准 | 已完成实查拆解 |
 | [presentation-spec-v0.md](presentation-spec-v0.md) | 出牌、抽牌、敌人行动与终局的演出规格 | 程序/美术共同基线 |
 | [program-work-order-s4-s5.md](program-work-order-s4-s5.md) | S2 收尾至 DokiWorlds 发布的完整程序施工单 | 待程序执行 |
 | [integration-contract-v1.md](integration-contract-v1.md) | DokiWorlds 调用与返回契约 | 待宿主确认 |
