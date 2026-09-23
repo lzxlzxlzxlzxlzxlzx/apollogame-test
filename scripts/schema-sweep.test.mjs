@@ -28,7 +28,7 @@ describe('P1c schema sweep · 真实蓝图零 error', () => {
       const rep = validateComponentData(bp.capabilities ?? ALL_CAPABILITIES, bp.entities);
       const errs = rep.errors.map((e) => `${e.entity}.${e.component}: ${e.message}`);
       expect(errs, errs.join('\n')).toEqual([]);
-    });
+    }, 15_000); // Windows 全量并发下 game-f 模块冷载可超过 Vitest 缺省 5s；语义断言不变。
   }
 });
 
