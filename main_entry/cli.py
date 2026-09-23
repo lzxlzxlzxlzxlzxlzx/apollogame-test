@@ -17,7 +17,12 @@ from . import server
 def start_vite():
     # 启动提速（07-15 诊断根因#3）：npx 壳税 0.4s(Linux 热)~2s(Windows)——bin 在则直连，不在才回退 npx。
     vite_bin = ROOT / 'node_modules' / '.bin' / ('vite.cmd' if os.name == 'nt' else 'vite')
-    cmd = ([str(vite_bin)] if vite_bin.exists() else ['npx', 'vite']) + ['--port', str(VITE_PORT)]
+    # Bind IPv4 explicitly: the documented/user-facing preview URL is
+    # 127.0.0.1, while recent Node/Vite versions may resolve localhost to ::1
+    # only and leave that URL refusing connections.
+    cmd = ([str(vite_bin)] if vite_bin.exists() else ['npx', 'vite']) + [
+        '--host', '127.0.0.1', '--port', str(VITE_PORT),
+    ]
     proc = subprocess.Popen(
         **_spawn(cmd),
         cwd=ROOT,

@@ -24,6 +24,14 @@
 - **守卫**：`_spawn` 两分支产物已核对；`python3 zerocraft.py typecheck` 经壳跑通真实 `npx tsc`。（真·Windows CI 是待办。）
 - **通用教训**：任何 `subprocess` 调 node 工具链要考虑 Windows 的 `.cmd` 外壳；不要假设 POSIX。
 
+## FIX-003 · 生产流程板报“解析失败”并显示 `node` 乱码
+
+- **症状**：生产流程板整页报 `解析失败: 'node' �����ڲ����ⲿ���...`；Vite 前端仍可运行。
+- **根因**：API 与 Vite 可由不同进程、不同时间启动；长驻 Python API 的继承 PATH 不一定包含后来可用的 Node.js。流程板用 Windows shell 执行裸 `node`，命令不存在时 `cmd.exe` 输出本地代码页文本，接口又按 UTF-8 解码，遂同时出现“找不到 node”和乱码。Vite 默认解析 `localhost` 到 `::1` 时还会让文档中的 `127.0.0.1:5173` 拒绝连接。
+- **修复**：新增 `_node_spawn`，按 `ZEROCRAFT_NODE` → PATH → Windows 标准安装目录解析真实 `node.exe`，并用 `shell=False` 启动；流程板将启动失败与 JSON 解析失败分开。Vite 显式绑定 `127.0.0.1`。
+- **守卫**：`py_compile` 通过；测试进程清空 PATH 后 `_pipeline_cli(['board','game-dice','--json'])` 仍返回 `ok:true`；重启后 `/api/pipeline` 返回成功，真实浏览器可从 `127.0.0.1:5173` 打开生产流程板。
+- **通用教训**：长驻后端不得假设与前端共享 PATH；真实 `.exe` 应解析绝对路径直接执行，只有 `.cmd` 才需要 shell。工具启动失败必须单独分类，不能伪装成输出解析错误。
+
 ---
 
 ## FIX-NNN · （模板）
