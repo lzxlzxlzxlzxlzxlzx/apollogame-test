@@ -8,16 +8,6 @@
 
 ## 待处理 / 进行中
 
-### CAPGAP-RHETORIC-001 · 版本化身份卡牌目录与闭集资源效果 · [2026-09-22] · owner 已裁决路线 A · **施工主体 = Codex（2026-09-22 抢锁）** · 复查 = 独立复查人（待指派） · status: in-progress · P1 · 类型: 跨游戏引擎能力下沉
-
-**问题与实查**：`t2-card-pile` / `t2-card-play` 的单位是 `suit * 100 + rank` 数值牌码与 `PlayedHand`，不能从任意版本化 `cardId` 目录查出声明式效果；`f1-resource`、`t2-effect-apply`、`t2-event-when`、`t3-flow` 与 `w1-random` 只能提供资源写入、条件/流程和确定性随机基础，不能表达「牌身份 → 已批准闭集效果」的映射。游戏层以 `if/switch(cardId)` 补映射会复制解释器，违反数据驱动边界。
-
-**批准范围（路线 A）**：新增加法型 capability，消费版本化 `CardCatalog`（`cardId`、费用、目录副本上限、闭集效果列表）及身份牌 `deck / hand / discard`。它以既有种子随机确定性洗牌、抽牌、出牌，并在明确时序验证 cardId、在手牌、费用与合法效果后，按声明序执行仅能写入批准资源的闭集效果。未知 cardId / effect、手牌外或重复出牌、专注不足、非法参数一律 fail-closed 并记 `DebugTrace.reject`。不接收 JS、表达式、回调、自由文本、宿主 URL 或视觉数据；不改既有数值牌能力。
-
-**补充裁决（owner 2026-09-23，A）**：`IdentityCardInput` 将匹配的 `InputQueue.arg` 原样变为命令 cardId；无回调/规则/资源流程写入，坏参或未知卡 reject trace。
-
-**验收与边界**：同 catalog、牌组、命令、seed 双跑逐拍一致；覆盖洗牌/抽牌/弃牌/费用/效果顺序/胜负前置检查与全部拒绝路径；覆盖 action→命令的合法与 reject 路径；开启 trace 能重建生效或拒绝原因。施工须独立复查与撤修验红，再过共享面 scoped gate。`REQ-HOST-GAME-SESSION` 仍归原施工主体，本单及后续游戏只消费其公开会话能力，绝不修改或抢占该单。
-
 ### CAPGAP-RHETORIC-002 · 已提交转场的 render-only 编排观察 · [2026-09-23] · owner 已裁决路线 A · **施工主体 = Codex（2026-09-23 抢锁）** · 复查 = 独立复查人（待指派） · status: in-progress · P1 · 类型: 跨游戏引擎能力下沉
 
 **实查**：`t3-timeline` 只在 ECS tick 写 `Signal/Flag/Resource/SpawnRequest`，不能观察已提交的会话转场而保持模拟/hash 不变。补通用只读观察/闭集 phase 编排：输入 `{before,after,kind,delta}`，支持 skip/reduced-motion，绝不重算规则、写世界或含 URL/视觉字节。验收：普通/skip/reduced-motion 终态同一；未知 kind fail-closed+trace reject；双跑阶段序列相同；独立撤修验红。不得改写或抢占 `REQ-HOST-GAME-SESSION`。
