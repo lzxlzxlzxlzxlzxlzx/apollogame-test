@@ -1,6 +1,6 @@
 # game-rhetoric-duel｜能力计划
 
-- 状态：**CAPGAP-RHETORIC-001、002 均已完成并独立复查；内部游戏迁移按 W0–W8 施工单推进。**
+- 状态：**CAPGAP-RHETORIC-001、002、003 均已完成并独立复查；内部游戏迁移按 W0–W8 施工单推进。**
 - 结论：身份牌目录、输入映射和已提交转场均已有通用能力；游戏层只提供配置与消费接线。
 
 ## 1. 规则数据与解释责任
@@ -13,6 +13,7 @@
 | 洗牌、抽牌及任何随机选择 | 种子随机服务 | `w1-random` 可消费；禁止 `Math.random()` |
 | 牌堆/手牌移动 | 通用牌区能力 | `t2-card-pile`、`t2-card-play` **仅部分相关，不能直接采用为言弹效果解释器** |
 | UI action 到身份牌命令 | 通用输入映射 | `t2-identity-card-input`；闭集 `InputQueue` 路由，不含游戏专属解释器 |
+| 玩家态/终局输入冻结 | 通用条件门 | `KeyBinding.when`、`IdentityCardPile.playWhen` 复用 `ConditionExpr`，由 flow 维护 Flag |
 | 已提交状态到 render-only 转场 | 通用演出投影 | `committed-transition`；不写世界、不参与 hash |
 | 宿主 input / SDK 结果 | 未来 DokiWorlds 薄适配层 | 内部游戏不依赖 SDK；适配层只做验证、映射与结果返回 |
 
@@ -52,6 +53,10 @@ owner 已选择 **A**。`t2-identity-card-play` 现消费版本化目录、身�
 
 `committed-transition` 将已提交的 `{ before, after, kind, delta }` 映射为 render-only 闭集阶段；跳过和 reduced-motion 直接对齐已提交后的状态，既不重算规则也不写入模拟。施工与独立撤修复查见 [CAPGAP-RHETORIC-002 review](review/CAPGAP-RHETORIC-002.md)。
 
+### CAPGAP-RHETORIC-003：玩法输入声明式条件门（**已完成**）
+
+`KeyBinding.when` 与 `IdentityCardPile.playWhen` 统一消费递归 `ConditionExpr`；游戏可由 `t3-flow` 维护 `can-play` Flag，同时冻结 UI Signal 与直接身份牌命令。非法条件在 manifest 落盘门拒绝，运行期门关写 `DebugTrace.reject`。独立复查与三锚点撤修验红见 [CAPGAP-RHETORIC-003 review](review/CAPGAP-RHETORIC-003.md)。
+
 ## 4. 非缺口设计约束
 
 - 对手意图 v1 是宿主提供的有序脚本，`intentions.length >= turnLimit`，不构成 AI；若改为按状态/权重选择，先补 AI 设定并使用行为树/状态机等现有能力。
@@ -64,6 +69,7 @@ owner 已选择 **A**。`t2-identity-card-play` 现消费版本化目录、身�
 - [x] owner 已选择 `CAPGAP-RHETORIC-001` 的 A（2026-09-22）。
 - [x] 身份牌目录、闭集效果、闭集输入映射及独立复查已闭合。
 - [x] 已提交转场投影及独立复查已闭合。
-- [ ] 言弹目录、闭集效果词表、三份遭遇数据表已按 W1 严格验证。
+- [x] 玩法输入条件门及独立复查已闭合。
+- [x] 言弹目录、闭集效果词表、三份遭遇数据表已按 W1 严格验证。
 - [ ] DokiWorlds input/output 契约获宿主确认。
 - [ ] 程序 agent 开工前按相应生产线阅读 UI、卡牌、随机、事件、资源、资产手册，并建立测试与对齐验收。

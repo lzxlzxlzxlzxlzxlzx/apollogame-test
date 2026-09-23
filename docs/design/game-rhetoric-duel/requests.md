@@ -1,6 +1,8 @@
 # game-rhetoric-duel｜游戏级需求与裁决
 
-## CAPGAP-RHETORIC-003 · 玩法输入的声明式条件门 · 2026-09-23 · owner 已选 A · status: in-progress
+## CAPGAP-RHETORIC-003 · 玩法输入的声明式条件门 · 2026-09-23 · owner 已选 A · status: done
+
+交付：`3fc05a59`（运行期门控）+ `4938f11d`（递归 schema 返修）；独立复查最终 **PASS**，见 [review/CAPGAP-RHETORIC-003.md](review/CAPGAP-RHETORIC-003.md)。共享需求池条目已按完结纪律删除。
 
 ### 实查原文
 
