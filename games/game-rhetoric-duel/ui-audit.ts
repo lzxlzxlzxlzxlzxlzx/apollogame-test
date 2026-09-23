@@ -1,4 +1,4 @@
-import { mountUI } from '../../src/ui/components/index.js';
+import { mountUI } from '@zerocraft/engine/ui/components/index.js';
 import { DEFAULT_RHETORIC_CONFIG } from './config.js';
 import { RhetoricPresentationController } from './presentation-controller.js';
 import { RhetoricDuelSession } from './session.js';
