@@ -9,12 +9,36 @@ describe('game-rhetoric-duel · W1 internal configuration', () => {
     expect(new Set(RHETORIC_CATALOG.map((card) => card.cardId)).size).toBe(10);
     expect(new Set(RHETORIC_CATALOG.map((card) => card.skinKey)).size).toBe(10);
     expect(STARTER_CALM_REASON.reduce((sum, entry) => sum + entry.copies, 0)).toBe(15);
+    for (const card of RHETORIC_CATALOG) {
+      expect(card).toMatchObject({
+        cardId: expect.any(String), displayName: expect.any(String), flavorText: expect.any(String),
+        focusCost: expect.any(Number), maxCopies: expect.any(Number), skinKey: `skin.card.${card.cardId}`,
+      });
+      expect(card.effects.length).toBeGreaterThan(0);
+      for (const effect of card.effects) {
+        expect(effect.kind).toBe('modify-resource');
+        expect(['progress', 'pressure', 'focus']).toContain(effect.targetId);
+        expect(['add', 'set']).toContain(effect.op);
+      }
+    }
+    for (const entry of STARTER_CALM_REASON) {
+      const card = RHETORIC_CATALOG.find((candidate) => candidate.cardId === entry.cardId);
+      expect(card).toBeDefined();
+      expect(entry.copies).toBeLessThanOrEqual(card!.maxCopies);
+    }
   });
 
   it('validates all three internal encounter fixtures through the same strict boundary', () => {
     expect(RHETORIC_ENCOUNTERS).toHaveLength(3);
-    expect(RHETORIC_FIXTURES.map((fixture) => validateRhetoricGameConfig(fixture).encounter.id))
+    expect(RHETORIC_FIXTURES.map((fixture) => validateRhetoricGameConfig(fixture).encounter.encounterId))
       .toEqual(['gatekeeper-shi', 'merchant-luo', 'instructor-jiang']);
+    for (const fixture of RHETORIC_FIXTURES) {
+      const { encounter } = validateRhetoricGameConfig(fixture);
+      expect(encounter.intentions.length).toBeGreaterThanOrEqual(encounter.turnLimit);
+      expect(new Set(encounter.intentions.map((intent) => intent.id)).size).toBe(encounter.intentions.length);
+      expect(JSON.stringify(fixture)).not.toMatch(/https?:\/\//);
+      expect(JSON.stringify(fixture)).not.toMatch(/function|=>/);
+    }
   });
 
   it('rejects unknown cards, repeated deck rows, over-limit copies, illegal effects and insufficient intentions', () => {
@@ -28,5 +52,17 @@ describe('game-rhetoric-duel · W1 internal configuration', () => {
     expect(() => validateRhetoricGameConfig(illegalEffect)).toThrow('is not approved');
     const shortScript = copy(DEFAULT_RHETORIC_CONFIG) as any; shortScript.encounter.intentions.pop();
     expect(() => validateRhetoricGameConfig(shortScript)).toThrow('must cover turnLimit');
+    const wrongVersion = copy(DEFAULT_RHETORIC_CONFIG) as any; wrongVersion.catalogVersion = 2;
+    expect(() => validateRhetoricGameConfig(wrongVersion)).toThrow('config.catalogVersion');
+    const duplicateIntent = copy(DEFAULT_RHETORIC_CONFIG) as any; duplicateIntent.encounter.intentions[1].id = duplicateIntent.encounter.intentions[0].id;
+    expect(() => validateRhetoricGameConfig(duplicateIntent)).toThrow('must be unique');
+  });
+
+  it('host attempts to override catalog-owned name, cost, effects or art never enter normalized simulation config', () => {
+    const hostile = copy(DEFAULT_RHETORIC_CONFIG) as any;
+    hostile.catalog = [{ cardId: 'probe-question', displayName: '伪造', focusCost: 0, effects: [], skinKey: 'https://evil.invalid/x.png' }];
+    const normalized = validateRhetoricGameConfig(hostile) as unknown as Record<string, unknown>;
+    expect(normalized.catalog).toBeUndefined();
+    expect(RHETORIC_CATALOG.find((card) => card.cardId === 'probe-question')).toMatchObject({ displayName: '试探提问', focusCost: 1, skinKey: 'skin.card.probe-question' });
   });
 });

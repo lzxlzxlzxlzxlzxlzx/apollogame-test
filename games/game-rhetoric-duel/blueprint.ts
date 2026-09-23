@@ -1,8 +1,8 @@
 // 《言弹交锋》内部可运行核。所有规则为组件数据，由共享 capability 消费。
 import type { EntityBlueprint, WorldBlueprint } from '@zerocraft/engine/assembly/demo.assembly.js';
-import { inputCaptureCapability, randomCapability, resourceCapability } from '@zerocraft/engine/atom-skills/index.js';
+import { flagCapability, inputCaptureCapability, randomCapability, resourceCapability, transformCapability } from '@zerocraft/engine/atom-skills/index.js';
 import { effectApplyCapability, eventWhenCapability, identityCardPlayCapability, keybindCapability } from '@zerocraft/engine/skills/tier2/index.js';
-import { flowCapability } from '@zerocraft/engine/skills/tier3/index.js';
+import { casterCapability, flowCapability, prefabCapability } from '@zerocraft/engine/skills/tier3/index.js';
 import { DEFAULT_RHETORIC_CONFIG, RHETORIC_CATALOG, validateRhetoricGameConfig, type RhetoricGameConfig } from './config.js';
 
 export const PLAY_CARD_ACTION = 'rhetoric.play-card';
@@ -18,6 +18,56 @@ export function buildBlueprint(
 ): WorldBlueprint {
   const config = validateRhetoricGameConfig(source);
   const { encounter } = config;
+  const gameplayOpen = {
+    kind: 'and',
+    of: [
+      { kind: 'flag', id: 'can-play', equals: true },
+      { kind: 'resource', id: 'progress', cmp: 'lt', value: encounter.target },
+      { kind: 'resource', id: 'pressure', cmp: 'lt', value: encounter.pressureLimit },
+      { kind: 'resource', id: 'turns', cmp: 'lt', value: encounter.turnLimit },
+    ],
+  } as const;
+  const terminal = () => [{ kind: 'set-flag', targetId: 'can-play', value: false }, { kind: 'set-flag', targetId: 'draw-requested', value: false }].map((action) => ({ ...action }));
+  const states: Record<string, unknown>[] = [];
+  for (let index = 0; index < encounter.turnLimit; index += 1) {
+    const round = index + 1;
+    const intent = encounter.intentions[index]!;
+    states.push({
+      id: `player-${round}`,
+      onEnter: [
+        { kind: 'set-flag', targetId: 'can-play', value: true },
+        { kind: 'set-flag', targetId: 'draw-requested', value: false },
+      ],
+      transitions: [
+        { when: { kind: 'resource', id: 'progress', cmp: 'gte', value: encounter.target }, to: 'victory', do: terminal() },
+        { when: { kind: 'resource', id: 'pressure', cmp: 'gte', value: encounter.pressureLimit }, to: 'defeat-pressure', do: terminal() },
+        { when: { kind: 'flag', id: 'end-turn-requested', equals: true }, to: `intent-${round}`, do: [
+          { kind: 'set-flag', targetId: 'can-play', value: false },
+          { kind: 'set-flag', targetId: 'end-turn-requested', value: false },
+          { kind: 'modify-resource', targetId: 'turns', op: 'add', value: 1 },
+        ] },
+      ],
+    });
+    const intentActions = intent.effects.map((entry) => ({ kind: 'modify-resource', targetId: entry.targetId, op: entry.op, value: entry.value }));
+    const next = index + 1 < encounter.turnLimit ? `player-${round + 1}` : 'defeat-turns';
+    states.push({
+      id: `intent-${round}`,
+      onEnter: [{ kind: 'set-flag', targetId: 'can-play', value: false }, ...intentActions],
+      transitions: [
+        { after: 1, when: { kind: 'resource', id: 'pressure', cmp: 'gte', value: encounter.pressureLimit }, to: 'defeat-pressure', do: terminal() },
+        { after: 1, when: { kind: 'resource', id: 'turns', cmp: 'gte', value: encounter.turnLimit }, to: 'defeat-turns', do: terminal() },
+        { after: 1, to: next, do: index + 1 < encounter.turnLimit ? [
+          { kind: 'modify-resource', targetId: 'focus', op: 'set', value: encounter.focusPerTurn },
+          { kind: 'set-flag', targetId: 'draw-requested', value: true },
+        ] : terminal() },
+      ],
+    });
+  }
+  states.push(
+    { id: 'victory', onEnter: terminal() },
+    { id: 'defeat-pressure', onEnter: terminal() },
+    { id: 'defeat-turns', onEnter: terminal() },
+  );
   // 新 capability 的组件在生成型 ComponentDataMap 更新前，蓝图保持开放 authoring
   // record；交给 capability 自身 schema 审核，装配出口再收窄为 WorldBlueprint。
   const entities: Record<string, Record<string, unknown>> = {
@@ -33,50 +83,41 @@ export function buildBlueprint(
       IdentityCardPile: {
         deck: deckFrom(config.deck), hand: [], discard: [],
         handLimit: encounter.handLimit, openingHand: encounter.openingHand,
-        phase: 'duel', playPhase: 'duel',
+        phase: 'duel', playPhase: 'duel', playWhen: gameplayOpen,
       },
     },
     'identity-input': {
       IdentityCardInput: { action: PLAY_CARD_ACTION, phase: 'action', source: 'rhetoric-ui', sequence: 0 },
     },
-    progress: { Resource: { id: 'progress', current: 0, min: 0, max: encounter.progressTarget } },
+    progress: { Resource: { id: 'progress', current: 0, min: 0, max: encounter.target } },
     pressure: { Resource: { id: 'pressure', current: 0, min: 0, max: encounter.pressureLimit } },
     focus: { Resource: { id: 'focus', current: encounter.focusPerTurn, min: 0, max: encounter.focusPerTurn } },
     turns: { Resource: { id: 'turns', current: 0, min: 0, max: encounter.turnLimit } },
-    'end-turn-binding': { KeyBinding: { key: END_TURN_ACTION, signal: END_TURN_ACTION, phase: 'action' } },
-    'end-turn-count': { Effect: { onSignal: END_TURN_ACTION, kind: 'modify-resource', targetId: 'turns', op: 'add', value: 1 } },
-    'end-turn-focus': { Effect: { onSignal: END_TURN_ACTION, kind: 'modify-resource', targetId: 'focus', op: 'set', value: encounter.focusPerTurn } },
+    'can-play': { Flag: { id: 'can-play', active: false } },
+    'end-turn-requested': { Flag: { id: 'end-turn-requested', active: false } },
+    'draw-requested': { Flag: { id: 'draw-requested', active: false } },
+    trace: { DebugTrace: { events: [], tick: 0, max: 400 } },
+    'end-turn-binding': { KeyBinding: { key: END_TURN_ACTION, signal: END_TURN_ACTION, phase: 'action', when: gameplayOpen } },
+    'end-turn-request': { Effect: { onSignal: END_TURN_ACTION, kind: 'set-flag', targetId: 'end-turn-requested', value: true } },
+    'draw-event': { EventWhen: { signal: 'rhetoric.draw-next', when: { kind: 'flag', id: 'draw-requested', equals: true }, mode: 'edge', armed: false } },
+    'draw-caster': {
+      Transform: { x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1 },
+      Caster: { onSignal: 'rhetoric.draw-next', template: 'rhetoric-draw-command', at: 'self' },
+    },
+    'prefab-library': { PrefabLibrary: { seq: 0, templates: { 'rhetoric-draw-command': { entities: { command: { IdentityCardDrawCommand: { count: encounter.drawPerTurn } } } } } } },
     flow: {
       GameFlow: {
-        id: 'rhetoric-duel', current: 'duel',
-        states: [
-          { id: 'duel', transitions: [
-            { when: { kind: 'resource', id: 'progress', cmp: 'gte', value: encounter.progressTarget }, to: 'victory' },
-            { when: { kind: 'resource', id: 'pressure', cmp: 'gte', value: encounter.pressureLimit }, to: 'defeat-pressure' },
-            { when: { kind: 'resource', id: 'turns', cmp: 'gte', value: encounter.turnLimit }, to: 'defeat-turns' },
-          ] },
-          { id: 'victory' }, { id: 'defeat-pressure' }, { id: 'defeat-turns' },
-        ],
+        id: 'rhetoric-duel', current: 'player-1', states,
       },
     },
   };
 
-  // 固定有序脚本：每条意图由 event-when + effect-apply 消费，无自适应 AI。
-  for (const [index, intent] of encounter.intentions.entries()) {
-    const signal = `rhetoric.intent.${intent.id}`;
-    entities[`intent-gate-${index}`] = {
-      EventWhen: { signal, when: { kind: 'resource', id: 'turns', cmp: 'gte', value: index + 1 }, mode: 'edge', armed: false },
-    };
-    entities[`intent-effect-${index}`] = {
-      Effect: intent.effects[0] ? { onSignal: signal, ...intent.effects[0] } : { onSignal: signal, kind: 'modify-resource', targetId: 'pressure', op: 'add', value: 0 },
-    };
-  }
-
   return {
     meta: { tickRate: 60 },
     capabilities: [
-      inputCaptureCapability, randomCapability, resourceCapability,
-      identityCardPlayCapability, keybindCapability, eventWhenCapability, effectApplyCapability, flowCapability,
+      inputCaptureCapability, randomCapability, resourceCapability, flagCapability, transformCapability,
+      identityCardPlayCapability, keybindCapability, eventWhenCapability, effectApplyCapability,
+      flowCapability, casterCapability, prefabCapability,
     ],
     entities: entities as Record<string, EntityBlueprint>,
   };
