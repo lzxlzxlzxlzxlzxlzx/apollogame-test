@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "game-dice/mesh/d6-prototype",
+      "type": "mesh",
+      "status": "filled",
+      "path": "/games/game-dice/art/d6-prototype.stl",
+      "description": "真实六面骰原型网格；仅用于 game-dice 的 render-only 外观。",
+      "spec": {
+        "scale": 1,
+        "genCollision": "none"
+      },
+      "category": "mesh.dice",
+      "tags": [
+        "game-dice",
+        "dice",
+        "d6",
+        "stl",
+        "3d"
+      ],
+      "source": "DokiWorld game-physics-dice authorized backup",
+      "license": "proprietary-authorized",
+      "provenance": {
+        "originalPath": "apps/game-physics-dice/public/art/d6-prototype.stl",
+        "authorization": "project-owner-confirmed",
+        "sha256": "092eaf9b212e73085c2ec705982b624b9706f58e5039b7396eb24e84181f9b45",
+        "restoredFrom": "C:/Users/24652/Desktop/projects/games/dokiworlds-apps"
+      }
+    }
+  ]
+}

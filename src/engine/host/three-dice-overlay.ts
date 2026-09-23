@@ -1,6 +1,7 @@
 /** WebGL + Cannon 的通用物理骰子覆盖层（render-only）。 */
 import * as THREE from 'three';
 import * as CANNON from 'cannon-es';
+import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 import { mulberry32 } from '@engine/logic/index.js';
 import { EXTERNAL_GAME_SESSION_VERSION, startExternalGameSession, type ExternalGameOutput, type ExternalGameSession } from './external-game-session.js';
 import { DICE_BRIDGE_RESULT, DICE_BRIDGE_ROLL, normalizeDiceInput, type DiceRollInput, type DiceSides } from './dice-overlay.js';
@@ -23,8 +24,31 @@ const MIN_THROW_UP_SPEED = 9;
 const MIN_THROW_ANGULAR_SPEED = 42;
 const MIN_LAUNCH_HEIGHT = 1.65;
 const MAX_PLANAR_SPEED = 0.85;
-// Cannon 立方体的 [z-, z+, y-, x+, y+, x-] 面序对应标准骰点。
+const LOCAL_D6_PROTOTYPE = '/games/game-dice/art/d6-prototype.stl';
+// 授权 d6 模型的本地轴向校准：Cannon 立方体的 [z-, z+, y-, x+, y+, x-] 面序 → 模型真实点数。
 const LOCAL_D6_FACE_VALUES = [3, 2, 6, 4, 1, 5] as const;
+let prototypeD6: THREE.BufferGeometry | undefined;
+
+function loadLocalD6Prototype(): Promise<THREE.BufferGeometry | undefined> {
+  if (prototypeD6) return Promise.resolve(prototypeD6);
+  return new Promise((resolve) => new STLLoader().load(LOCAL_D6_PROTOTYPE, (geometry) => {
+    geometry.computeBoundingBox(); geometry.center();
+    const size = new THREE.Vector3(); geometry.boundingBox?.getSize(size);
+    const scale = 2 / Math.max(size.x, size.y, size.z, 1); geometry.scale(scale, scale, scale); geometry.computeVertexNormals();
+    // STL 无材质槽：按凹入表面识别骰孔并赋红色顶点色，外壳保持象牙白。
+    const painted = geometry.index ? geometry.toNonIndexed() : geometry.clone();
+    const positions = painted.getAttribute('position'); const colors = new Float32Array(positions.count * 3);
+    for (let i = 0; i < positions.count; i += 3) {
+      const x = (positions.getX(i) + positions.getX(i + 1) + positions.getX(i + 2)) / 3;
+      const y = (positions.getY(i) + positions.getY(i + 1) + positions.getY(i + 2)) / 3;
+      const z = (positions.getZ(i) + positions.getZ(i + 1) + positions.getZ(i + 2)) / 3;
+      const insidePip = Math.max(Math.abs(x), Math.abs(y), Math.abs(z)) < 0.93;
+      const color = insidePip ? [0.72, 0.035, 0.045] : [0.98, 0.98, 0.95];
+      for (let v = 0; v < 3; v += 1) { colors[(i + v) * 3] = color[0]; colors[(i + v) * 3 + 1] = color[1]; colors[(i + v) * 3 + 2] = color[2]; }
+    }
+    painted.setAttribute('color', new THREE.BufferAttribute(colors, 3)); geometry.dispose(); prototypeD6 = painted; resolve(painted);
+  }, undefined, () => resolve(undefined)));
+}
 
 function poly(sides: DiceSides): Poly {
   if (sides === 4) return { vertices: [[1, 1, 1], [-1, -1, 1], [-1, 1, -1], [1, -1, -1]], faces: [[0, 2, 1], [0, 1, 3], [0, 3, 2], [1, 2, 3]] };
@@ -62,7 +86,8 @@ function createDie(sides: DiceSides, index: number): Die {
   const positions: number[] = [];
   for (const face of data.faces) for (let i = 1; i < face.length - 1; i += 1) for (const point of [face[0]!, face[i]!, face[i + 1]!]) positions.push(...data.vertices[point]!);
   const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3)); geometry.computeVertexNormals();
-  const material = new THREE.MeshPhysicalMaterial({ color: 0xfafaf5, metalness: 0.02, roughness: 0.3, clearcoat: 0.32, clearcoatRoughness: 0.18, flatShading: true, vertexColors: true });
+  // 程序化后备几何没有 color attribute；提前开启 vertexColors 会把白色外壳乘成黑色。
+  const material = new THREE.MeshPhysicalMaterial({ color: 0xfafaf5, metalness: 0.02, roughness: 0.3, clearcoat: 0.32, clearcoatRoughness: 0.18, flatShading: true, vertexColors: false });
   const mesh = new THREE.Group();
   mesh.scale.setScalar(DIE_SCALE);
   const solid = new THREE.Mesh(geometry, material); solid.castShadow = true; solid.receiveShadow = true; mesh.add(solid);
@@ -117,6 +142,15 @@ export function mountThreeDiceOverlay(container: HTMLElement): () => void {
   const emit = (output: ExternalGameOutput<PhysicalDiceResult>, target?: Window, origin?: string): void => { window.dispatchEvent(new CustomEvent(DICE_BRIDGE_RESULT, { detail: output })); if (target && target !== window) target.postMessage({ type: DICE_BRIDGE_RESULT, output }, origin ?? '*'); };
   const reject = (raw: unknown, target?: Window, origin?: string): void => { const requestId = record(raw) && typeof raw.requestId === 'string' ? raw.requestId : ''; emit({ version: EXTERNAL_GAME_SESSION_VERSION, requestId, status: 'rejected', reason: 'invalid-request' }, target, origin); };
   const clearDice = (): void => { active?.dice.forEach((die) => { world.removeBody(die.body); scene.remove(die.mesh); die.mesh.traverse((node) => { const mesh = node as THREE.Mesh; mesh.geometry?.dispose(); const mat = mesh.material; if (Array.isArray(mat)) mat.forEach((item) => item.dispose()); else mat?.dispose(); }); }); };
+  const applyD6Prototype = (geometry: THREE.BufferGeometry): void => {
+    active?.dice.filter((die) => die.sides === 6).forEach((die) => {
+      die.solid.geometry.dispose(); die.solid.geometry = geometry.clone();
+      const material = die.solid.material as THREE.MeshPhysicalMaterial; material.vertexColors = true; material.needsUpdate = true;
+      // 授权模型自带凹入骰孔；隐藏程序数字和立方体辅助边线。
+      die.wire.visible = false;
+      die.labels.forEach((item) => { item.visible = false; });
+    });
+  };
   const open = (raw: unknown, target?: Window, origin?: string): void => {
     const request = parseRequest(raw); if (!request || request.version !== EXTERNAL_GAME_SESSION_VERSION) { reject(raw, target, origin); return; }
     const started = startExternalGameSession<DiceRollInput, PhysicalDiceResult>({ version: request.version, requestId: request.requestId, input: request.input }, () => {
@@ -126,6 +160,7 @@ export function mountThreeDiceOverlay(container: HTMLElement): () => void {
     if (!started.ok) { emit(started.output, target, origin); return; }
     clearDice(); active = { request, session: started.session, target, origin, dice: request.input.dice.map((die, index) => createDie(die.sides, index - (request.input.dice.length - 1) / 2)), started: 0, settled: false };
     active.dice.forEach((die) => { world.addBody(die.body); scene.add(die.mesh); }); flash.style.opacity = '0';
+    void loadLocalD6Prototype().then((geometry) => { if (geometry) applyD6Prototype(geometry); });
   };
   const roll = (throwVelocity = new THREE.Vector3()): void => {
     if (!active || (active.started > 0 && !active.settled)) return;
