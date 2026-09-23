@@ -4,7 +4,7 @@ import { applyCommands } from '@zerocraft/engine/net/commands.js';
 import { QueuedInputSource } from '@zerocraft/engine/net/host/index.js';
 import type { Resource, GameFlow } from '@zerocraft/engine/engine/protocol/components.js';
 import { buildBlueprint, END_TURN_ACTION, PLAY_CARD_ACTION } from './blueprint.js';
-import { DEFAULT_RHETORIC_ENCOUNTER, type RhetoricEncounter } from './encounters.js';
+import { DEFAULT_RHETORIC_CONFIG, validateRhetoricGameConfig, type RhetoricGameConfig } from './config.js';
 
 export type RhetoricSnapshot = Readonly<{
   progress: number;
@@ -31,10 +31,12 @@ function resource(world: Engine['world'], id: string): number {
 export class RhetoricDuelSession {
   readonly engine: Engine;
   readonly input = new QueuedInputSource('rhetoric-ui');
+  readonly config: RhetoricGameConfig;
 
-  constructor(encounter: RhetoricEncounter = DEFAULT_RHETORIC_ENCOUNTER, seed = 7) {
+  constructor(source: RhetoricGameConfig = DEFAULT_RHETORIC_CONFIG) {
+    this.config = validateRhetoricGameConfig(source);
     this.engine = new Engine({ input: this.input });
-    this.engine.load(buildBlueprint(encounter, seed));
+    this.engine.load(buildBlueprint(this.config));
     this.tick(); // 初始化洗牌及开局抽牌。
   }
 

@@ -3,8 +3,7 @@ import type { EntityBlueprint, WorldBlueprint } from '@zerocraft/engine/assembly
 import { inputCaptureCapability, randomCapability, resourceCapability } from '@zerocraft/engine/atom-skills/index.js';
 import { effectApplyCapability, eventWhenCapability, identityCardPlayCapability, keybindCapability } from '@zerocraft/engine/skills/tier2/index.js';
 import { flowCapability } from '@zerocraft/engine/skills/tier3/index.js';
-import { RHETORIC_CATALOG, RHETORIC_CATALOG_VERSION, STARTER_CALM_REASON } from './catalog.js';
-import { DEFAULT_RHETORIC_ENCOUNTER, type RhetoricEncounter } from './encounters.js';
+import { DEFAULT_RHETORIC_CONFIG, RHETORIC_CATALOG, validateRhetoricGameConfig, type RhetoricGameConfig } from './config.js';
 
 export const PLAY_CARD_ACTION = 'rhetoric.play-card';
 export const END_TURN_ACTION = 'rhetoric.end-turn';
@@ -15,23 +14,24 @@ function deckFrom(entries: readonly Readonly<{ cardId: string; copies: number }>
 
 /** 仅装配数据；没有言弹专属 system 或 cardId 条件分支。 */
 export function buildBlueprint(
-  encounter: RhetoricEncounter = DEFAULT_RHETORIC_ENCOUNTER,
-  seed = 7,
+  source: RhetoricGameConfig = DEFAULT_RHETORIC_CONFIG,
 ): WorldBlueprint {
+  const config = validateRhetoricGameConfig(source);
+  const { encounter } = config;
   // 新 capability 的组件在生成型 ComponentDataMap 更新前，蓝图保持开放 authoring
   // record；交给 capability 自身 schema 审核，装配出口再收窄为 WorldBlueprint。
   const entities: Record<string, Record<string, unknown>> = {
-    rng: { RandomSeed: { seed, sequence: 0 } },
+    rng: { RandomSeed: { seed: config.seed, sequence: 0 } },
     catalog: {
       CardCatalog: {
-        version: RHETORIC_CATALOG_VERSION,
-        cards: RHETORIC_CATALOG,
+        version: config.catalogVersion,
+        cards: RHETORIC_CATALOG.map(({ cardId, focusCost, maxCopies, effects }) => ({ cardId, focusCost, maxCopies, effects })),
         allowedResources: ['progress', 'pressure', 'focus'],
       },
     },
     pile: {
       IdentityCardPile: {
-        deck: deckFrom(STARTER_CALM_REASON), hand: [], discard: [],
+        deck: deckFrom(config.deck), hand: [], discard: [],
         handLimit: encounter.handLimit, openingHand: encounter.openingHand,
         phase: 'duel', playPhase: 'duel',
       },
@@ -68,7 +68,7 @@ export function buildBlueprint(
       EventWhen: { signal, when: { kind: 'resource', id: 'turns', cmp: 'gte', value: index + 1 }, mode: 'edge', armed: false },
     };
     entities[`intent-effect-${index}`] = {
-      Effect: { onSignal: signal, kind: 'modify-resource', targetId: 'pressure', op: 'add', value: intent.pressure },
+      Effect: intent.effects[0] ? { onSignal: signal, ...intent.effects[0] } : { onSignal: signal, kind: 'modify-resource', targetId: 'pressure', op: 'add', value: 0 },
     };
   }
 
