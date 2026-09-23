@@ -1,7 +1,10 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { defineComponent } from '@engine/core/define-component.js';
 import { sortedIds } from '@engine/core/query.js';
+import { t } from '@engine/core/schema.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { KeyBinding, InputQueue, Signal } from '@engine/protocol/components.js';
+import { ConditionExprSchema } from '@engine/protocol/schemas/logic.js';
 import { evaluateCondition, buildConditionLookup } from './condition.js';
 import { appendTrace, findDebugTrace } from '@skills/debug-trace.js';
 
@@ -41,22 +44,18 @@ export const keybindCapability = defineCapability({
 
   components: {
     provides: {
-      KeyBinding: {
+      KeyBinding: defineComponent('KeyBinding', {
+        key: t.str('匹配 InputQueue 事件的 key（物理键 "1"/"q" 或语义动作名）'),
+        signal: t.str('命中时产出的 Signal.name'),
+        phase: t.opt(t.str("仅匹配此相位（如 'down'|'action'）；缺省=任意")),
+        when: t.opt(ConditionExprSchema, '可选 ConditionExpr 条件门；不成立则命中的输入 fail-closed，不产 Signal'),
+        source: t.opt(t.entity(
+          '代发：产出的 Signal.source 填这个实体而非本实体。给按 source 认人的消费方使用；缺省=本实体。',
+        )),
+      }, {
         category: 'config',
         describe: '声明「InputQueue 动作事件 key 命中此 key（相位匹配）时产出 Signal{name:signal}」。键位映射=数据。',
-        fields: {
-          key: { type: 'string', describe: '匹配 InputQueue 事件的 key（物理键 "1"/"q" 或语义动作名）' },
-          signal: { type: 'string', describe: '命中时产出的 Signal.name' },
-          phase: { type: 'string', describe: "仅匹配此相位（如 'down'|'action'）；缺省=任意" },
-          when: { type: 'string', describe: '可选 ConditionExpr 条件门；不成立则命中的输入 fail-closed，不产 Signal' },
-          source: {
-            type: 'EntityId',
-            describe:
-              '代发：产出的 Signal.source 填这个实体而非本实体。给**按 source 认人**的消费方用（如 matrix-duel 出招接缝按侧认人）——'
-              + '房屋范式「一动作一个 kb-* 实体」会让 source 永远是 kb 实体，而一实体一组件又不许把多份绑定挤到主体上。缺省=本实体（零回归）；空串硬抛。',
-          },
-        },
-      },
+      }),
     },
     reads: ['KeyBinding', 'InputQueue', 'Resource', 'Flag', 'State', 'Cooldowns', 'Timer', 'StringVar', 'DebugTrace'],
     writes: ['Signal'],

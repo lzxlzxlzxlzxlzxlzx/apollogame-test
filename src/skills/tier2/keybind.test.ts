@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { World } from '@engine/core/world.js';
 import type { KeyBinding, InputQueue, Signal, RawInputData } from '@engine/protocol/components.js';
+import { validateComponentData } from '../../assembly/validate-manifest.js';
+import type { EntityBlueprint } from '../../assembly/demo.assembly.js';
 import { keybindCapability } from './keybind.js';
 
 const sig = (w: World, e: string): Signal | undefined => w.getComponent<Signal>(e, 'Signal');
@@ -134,6 +136,26 @@ describe('keybind — 代发 Signal.source（REQ-108-ENG-04）', () => {
 });
 
 describe('keybind — 声明式条件门（CAPGAP-RHETORIC-003）', () => {
+  const validateWhen = (when: unknown) => validateComponentData(
+    [keybindCapability],
+    { binding: { KeyBinding: { key: 'end-turn', signal: 'end-turn', when } } } as unknown as Record<string, EntityBlueprint>,
+  );
+
+  it('manifest 落盘门接受合法嵌套条件，拒绝未知 kind、缺字段与非法比较符', () => {
+    expect(validateWhen({ kind: 'and', of: [
+      { kind: 'flag', id: 'can-play', equals: true },
+      { kind: 'resource', id: 'focus', cmp: 'gte', value: 1 },
+    ] }).errors).toHaveLength(0);
+
+    for (const invalid of [
+      { kind: 'not-a-condition' },
+      { kind: 'flag', equals: true },
+      { kind: 'resource', id: 'focus', cmp: 'approximately', value: 1 },
+    ]) {
+      expect(validateWhen(invalid).errors, JSON.stringify(invalid)).not.toHaveLength(0);
+    }
+  });
+
   it('门开产 Signal；门关 fail-closed 并写聚合 reject trace；缺省 when 保持旧行为', () => {
     const w = world();
     w.createEntity('gate'); w.addComponent('gate', { type: 'Flag', id: 'can-play', active: false } as any);
