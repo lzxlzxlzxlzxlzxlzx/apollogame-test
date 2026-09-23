@@ -2,7 +2,9 @@
 
 ## 0. 工单目标与当前基线
 
-目标：在不复制 demo 程序、不引入游戏层规则解释器的前提下，完成 S2 引擎交付闭环、S4 完整演出、S5 正式视觉与审计、DokiWorlds 真宿主联调，使 `game-rhetoric-duel` 达到可发布状态。
+> **迁移裁决（owner，2026-09-23）**：本施工单中的主实现位置改为 `games/game-rhetoric-duel/`。外部 App 仅保留为迁移比对原型；DokiWorlds 联调移至引擎导出后的薄适配阶段，不得反向承载玩法实现。详见 [internal-game-migration.md](./internal-game-migration.md)。
+
+目标：在不复制 demo 程序、不引入游戏层规则解释器的前提下，完成 S2 引擎交付闭环、S4 完整演出、S5 正式视觉与审计，使 `game-rhetoric-duel` 成为可独立导出的内部游戏。
 
 当前已知基线：
 

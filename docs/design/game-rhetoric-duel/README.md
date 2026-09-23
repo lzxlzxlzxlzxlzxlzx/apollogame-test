@@ -1,6 +1,6 @@
 # game-rhetoric-duel｜立项档
 
-暂定中文名：《言弹交锋》。这是一个由 DokiWorlds 调用、单局结束即返回结果的卡组式言语对抗小游戏。
+暂定中文名：《言弹交锋》。这是一个由 ApolloGame 内部启动、可经引擎独立导出的卡组式言语对抗游戏。
 
 | 文档 | 用途 | 状态 |
 | --- | --- | --- |
@@ -12,7 +12,8 @@
 | [integration-contract-v1.md](integration-contract-v1.md) | DokiWorlds 调用与返回契约 | 待宿主确认 |
 | [capability-plan.md](capability-plan.md) | 引擎能力核查与实现准入 | owner 已选 A，待登记/施工 |
 | [capability-gaps.json](capability-gaps.json) | 未闭合能力缺口的机器可读台账 | open |
+| [internal-game-migration.md](internal-game-migration.md) | owner 对内部游戏唯一实现的迁移裁决 | 生效 |
 
 ## 当前闸门
 
-已完成的是策划立项，不含任何游戏程序或宿主接线。owner 已选择 `CAPGAP-RHETORIC-001` 的路径 A；下一步是按共享引擎需求池登记、抢锁、施工和独立复查。能力未落地前，不可开始战斗规则、抽牌或结算的程序实现。
+owner 已裁定以 `games/game-rhetoric-duel/` 作为唯一玩法实现；外部 App 原型只保留比对，不再是主线。能力未落地前，不可开始战斗规则、抽牌或结算的程序实现。

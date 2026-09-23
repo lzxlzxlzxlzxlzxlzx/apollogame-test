@@ -16,6 +16,10 @@
 
 **验收与边界**：同 catalog、牌组、命令、seed 双跑逐拍一致；覆盖洗牌/抽牌/弃牌/费用/效果顺序/胜负前置检查与全部拒绝路径；开启 trace 能重建生效或拒绝原因。施工须独立复查与撤修验红，再过共享面 scoped gate。`REQ-HOST-GAME-SESSION` 仍归原施工主体，本单及后续游戏只消费其公开会话能力，绝不修改或抢占该单。
 
+### CAPGAP-RHETORIC-002 · 已提交转场的 render-only 编排观察 · [2026-09-23] · owner 已裁决路线 A · **施工主体 = Codex（2026-09-23 抢锁）** · 复查 = 独立复查人（待指派） · status: in-progress · P1 · 类型: 跨游戏引擎能力下沉
+
+**实查**：`t3-timeline` 只在 ECS tick 写 `Signal/Flag/Resource/SpawnRequest`，不能观察已提交的会话转场而保持模拟/hash 不变。补通用只读观察/闭集 phase 编排：输入 `{before,after,kind,delta}`，支持 skip/reduced-motion，绝不重算规则、写世界或含 URL/视觉字节。验收：普通/skip/reduced-motion 终态同一；未知 kind fail-closed+trace reject；双跑阶段序列相同；独立撤修验红。不得改写或抢占 `REQ-HOST-GAME-SESSION`。
+
 ### REQ-HOST-GAME-SESSION · 外部游戏会话（请求 / 初始随机 seed / 结构化结果回传）· [2026-09-21] · owner 选择路线 A · **施工主体 = Codex（2026-09-21 抢锁）** · status: in-progress · P1 · 类型: 跨游戏宿主能力
 
 **问题**：现有卡带 `mount(container, host)` 只有可选退出钩子。外部平台无法以统一、可校验的方式传入一次游戏请求，调用方未预定结果时也没有合法的初始熵入口；游戏层若自行写 `postMessage` / `crypto` / 回调协议，将为每个小游戏复制一份跨平台和随机语义，违反数据驱动边界。
