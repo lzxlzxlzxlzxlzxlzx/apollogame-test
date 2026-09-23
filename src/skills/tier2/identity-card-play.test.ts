@@ -3,6 +3,7 @@ import { World } from '@engine/core/world.js';
 import { SystemPhase } from '@engine/core/types.js';
 import { identityCardPlayCapability } from './identity-card-play.js';
 import { resourceCapability } from '@atom-skills/resource/index.js';
+import { applyCommands } from '@net/commands.js';
 
 function make(cardId = 'advance', focus = 3): World {
   const w = new World();
@@ -18,10 +19,14 @@ const pile = (w: World) => w.getComponent<any>('pile', 'IdentityCardPile')!;
 const res = (w: World, eid: string) => w.getComponent<any>(eid, 'Resource')!.current;
 function play(w: World, cardId: string) { w.createEntity(`cmd-${cardId}`); w.addComponent(`cmd-${cardId}`, { type: 'IdentityCardCommand', cardId } as any); }
 function draw(w: World, count: number) { const id = `draw-${[...w.query('IdentityCardDrawCommand')].length}`; w.createEntity(id); w.addComponent(id, { type: 'IdentityCardDrawCommand', count } as any); }
+function input(w: World, arg: string | undefined, source = 'hud') {
+  applyCommands(w, [{ playerId: source, tick: 1, move: { dx: 0, dy: 0 }, actions: [{ source, key: 'play-identity-card', phase: 'action', ...(arg === undefined ? {} : { arg }) }] }]);
+}
+function installInput(w: World, source = 'hud') { w.createEntity('identity-input'); w.addComponent('identity-input', { type: 'IdentityCardInput', action: 'play-identity-card', phase: 'action', source } as any); }
 
 describe('identity-card-play', () => {
   it('在 Intent 相位只排入 ResourceModify，交 Update 的 resource-apply 应用', () => {
-    const system = identityCardPlayCapability.systems[0];
+    const system = identityCardPlayCapability.systems.find((entry) => entry.id === 'identity-card-play')!;
     expect(system.phase).toBe(SystemPhase.Intent);
     expect(system.writes).toContain('ResourceModify');
     expect(system.writes).not.toContain('Resource');
@@ -69,6 +74,26 @@ describe('identity-card-play', () => {
   });
   it('同 catalog、seed 与命令双跑一致', () => {
     const run = () => { const w = make(); w.tick(); play(w, 'advance'); w.tick(); return [pile(w), res(w, 'focus-res'), res(w, 'progress-res')]; };
+    expect(run()).toEqual(run());
+  });
+  it('受控 InputQueue action 的 arg 经闭集映射提交身份牌，不解释 cardId', () => {
+    const w = make(); installInput(w); w.tick();
+    input(w, 'advance'); w.tick();
+    expect(res(w, 'focus-res')).toBe(1); expect(res(w, 'progress-res')).toBe(3); expect(pile(w).discard).toEqual(['advance']);
+  });
+  it('缺 cardId 参数、未知 cardId 与非法 input mapping 都 fail-closed 并写 reject', () => {
+    const missing = make(); installInput(missing); missing.createEntity('trace'); missing.addComponent('trace', { type: 'DebugTrace', events: [], tick: 3, max: 20 } as any); missing.tick();
+    input(missing, undefined); missing.tick();
+    expect(missing.getComponent<any>('trace', 'DebugTrace')!.events.at(-1)).toMatchObject({ kind: 'reject', what: 'play-identity-card 缺 cardId 参数' });
+    expect(res(missing, 'focus-res')).toBe(3);
+    const unknown = make(); installInput(unknown); unknown.createEntity('trace'); unknown.addComponent('trace', { type: 'DebugTrace', events: [], tick: 4, max: 20 } as any); unknown.tick();
+    input(unknown, 'forged'); unknown.tick();
+    expect(unknown.getComponent<any>('trace', 'DebugTrace')!.events.at(-1)).toMatchObject({ kind: 'reject', what: '未知 cardId forged' });
+    const malformed = make(); malformed.createEntity('identity-input'); malformed.addComponent('identity-input', { type: 'IdentityCardInput', action: '' } as any); malformed.createEntity('trace'); malformed.addComponent('trace', { type: 'DebugTrace', events: [], tick: 5, max: 20 } as any); malformed.tick();
+    expect(malformed.getComponent<any>('trace', 'DebugTrace')!.events.at(-1)).toMatchObject({ kind: 'reject', what: '身份牌输入 action 非法' });
+  });
+  it('相同输入动作、目录和 seed 的 action 路由逐拍一致', () => {
+    const run = () => { const w = make(); installInput(w); w.tick(); input(w, 'advance'); w.tick(); return [pile(w), res(w, 'focus-res'), res(w, 'progress-res')]; };
     expect(run()).toEqual(run());
   });
   it('效果严格按目录数组顺序执行，trace 可还原生效与拒绝原因', () => {

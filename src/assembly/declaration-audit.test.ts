@@ -149,6 +149,8 @@ describe('相位落桶棘轮 — 非缺省相位成员点名（根因①·A1 探
 
 /** 相位基线（2026-08-16 实测灌入）。改动纪律同 SCC 基线：挪相位 = 同提交带理由更新本表。 */
 const PHASE_BASELINE: string[] = [
+  // CAPGAP-RHETORIC-001 补充 A：把受控 InputQueue action.arg 路由成身份牌命令，必须早于 Intent 的解释器。
+  'p-20:identity-card-input',
   // CAPGAP-RHETORIC-001：身份牌命令属于 Intent；只产 ResourceModify，交后续 Update 的 resource-apply 提交，避开资源 RMW SCC。
   'p-10:identity-card-play',
   'p4:rotation-apply',

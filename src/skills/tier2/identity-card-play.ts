@@ -2,7 +2,7 @@ import { defineCapability } from '@engine/core/define-capability.js';
 import { defineComponent } from '@engine/core/define-component.js';
 import { t } from '@engine/core/schema.js';
 import { SystemPhase } from '@engine/core/types.js';
-import type { RandomSeed, Resource } from '@engine/protocol/components.js';
+import type { InputQueue, RandomSeed, Resource } from '@engine/protocol/components.js';
 import { nextRandom } from '@atom-skills/random/index.js';
 import { queueResourceMod } from '@atom-skills/resource/index.js';
 import { appendTrace, findDebugTrace } from '@skills/debug-trace.js';
@@ -14,6 +14,7 @@ type CardCatalog = { type: 'CardCatalog'; version: number; cards: CatalogCard[];
 type IdentityCardPile = { type: 'IdentityCardPile'; deck: string[]; hand: string[]; discard: string[]; handLimit: number; openingHand?: number; phase: string; playPhase: string; shuffled?: boolean };
 type IdentityCardCommand = { type: 'IdentityCardCommand'; cardId: string; consumed?: boolean };
 type IdentityCardDrawCommand = { type: 'IdentityCardDrawCommand'; count: number; consumed?: boolean };
+type IdentityCardInput = { type: 'IdentityCardInput'; action: string; phase?: string; source?: string; sequence?: number };
 
 // Keep the manifest representation closed as well as the runtime interpreter.  `refine`
 // below owns numeric-domain checks that the structural schema intentionally cannot express.
@@ -40,6 +41,13 @@ function resourceEntryOf(world: Parameters<typeof findDebugTrace>[0], id: string
 }
 function reject(world: Parameters<typeof findDebugTrace>[0], why: string): void {
   const trace = findDebugTrace(world); if (trace) appendTrace(trace, trace.tick ?? 0, 'identity-card-play', 'reject', why);
+}
+function inputProblem(input: IdentityCardInput): string | undefined {
+  if (!input || typeof input.action !== 'string' || !input.action) return '身份牌输入 action 非法';
+  if (input.phase !== undefined && (typeof input.phase !== 'string' || !input.phase)) return '身份牌输入 phase 非法';
+  if (input.source !== undefined && (typeof input.source !== 'string' || !input.source)) return '身份牌输入 source 非法';
+  if (input.sequence !== undefined && (!Number.isInteger(input.sequence) || input.sequence < 0)) return '身份牌输入序号非法';
+  return undefined;
 }
 function catalogProblem(catalog: CardCatalog): string | undefined {
   if (!Number.isInteger(catalog?.version) || catalog.version < 1 || !Array.isArray(catalog.cards) || !Array.isArray(catalog.allowedResources) || !catalog.allowedResources.every((id) => typeof id === 'string' && id.length > 0)) return '目录版本或结构非法';
@@ -87,10 +95,41 @@ export const identityCardPlayCapability = defineCapability({
       IdentityCardPile: defineComponent('IdentityCardPile', { deck: t.arr(t.str('cardId'), '牌库'), hand: t.arr(t.str('cardId'), '手牌'), discard: t.arr(t.str('cardId'), '弃牌'), handLimit: t.num('手牌上限'), openingHand: t.opt(t.num('初始洗牌后抽取张数；缺省=handLimit')), phase: t.str('当前时序'), playPhase: t.str('允许出牌的时序'), shuffled: t.opt(t.bool('内部洗牌标记')) }, { category: 'config', describe: '身份牌 deck/hand/discard；后续抽牌只由 IdentityCardDrawCommand 请求。' }),
       IdentityCardCommand: defineComponent('IdentityCardCommand', { cardId: t.str('请求出牌的 cardId'), consumed: t.opt(t.bool('内部消费标记')) }, { category: 'event', describe: '出牌命令；非法命令 fail-closed。' }),
       IdentityCardDrawCommand: defineComponent('IdentityCardDrawCommand', { count: t.num('本次请求抽牌张数'), consumed: t.opt(t.bool('内部消费标记')) }, { category: 'event', describe: '受控抽牌命令；超手牌上限时仅抽至上限，非法参数 fail-closed。' }),
+      IdentityCardInput: defineComponent('IdentityCardInput', { action: t.str('命中 InputQueue.action.key 的具名输入'), phase: t.opt(t.str('可选输入 phase 过滤')), source: t.opt(t.str('可选输入 source 过滤')), sequence: t.opt(t.num('内部命令序号')) }, { category: 'config', describe: '把受控 InputQueue action 的非空 arg 映射为 IdentityCardCommand.cardId；不解释 cardId。' }),
     },
-    reads: ['CardCatalog', 'IdentityCardPile', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'RandomSeed', 'Resource', 'DebugTrace'], writes: ['IdentityCardPile', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'RandomSeed', 'ResourceModify'], consumes: [],
+    reads: ['CardCatalog', 'IdentityCardPile', 'IdentityCardInput', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'InputQueue', 'RandomSeed', 'Resource', 'DebugTrace'], writes: ['IdentityCardInput', 'IdentityCardPile', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'RandomSeed', 'ResourceModify'], consumes: [],
   }, config: {},
-  systems: [{ id: 'identity-card-play', phase: SystemPhase.Intent, reads: ['CardCatalog', 'IdentityCardPile', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'RandomSeed', 'Resource', 'DebugTrace'], writes: ['IdentityCardPile', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'RandomSeed', 'ResourceModify'], consumes: [],
+  systems: [
+    {
+      id: 'identity-card-input', phase: SystemPhase.Input, runsBefore: ['identity-card-play'],
+      reads: ['IdentityCardInput', 'InputQueue', 'DebugTrace'], writes: ['IdentityCardInput', 'IdentityCardCommand'], consumes: [],
+      execute(world) {
+        const entries = [...world.query('IdentityCardInput')];
+        if (entries.length === 0) return;
+        if (entries.length !== 1) { reject(world, `IdentityCardInput=${entries.length}；要求至多一份`); return; }
+        const [inputId] = entries[0]!;
+        const input = world.getComponent<IdentityCardInput>(inputId, 'IdentityCardInput')!;
+        const problem = inputProblem(input);
+        if (problem) { reject(world, problem); return; }
+        const queues = [...world.query('InputQueue')];
+        if (queues.length > 1) { reject(world, `InputQueue=${queues.length}；要求至多一份`); return; }
+        const queue = queues.length === 1 ? world.getComponent<InputQueue>(queues[0]![0], 'InputQueue') : undefined;
+        if (!queue) return;
+        const rejected: string[] = [];
+        for (const event of queue.actions) {
+          if (event.key !== input.action || (input.phase !== undefined && event.phase !== input.phase) || (input.source !== undefined && event.source !== input.source)) continue;
+          if (typeof event.arg !== 'string' || !event.arg) { rejected.push(`${input.action} 缺 cardId 参数`); continue; }
+          const sequence = input.sequence ?? 0;
+          const commandId = `${inputId}:identity-card-command:${sequence}`;
+          if (world.getAllEntities().includes(commandId)) { rejected.push(`${input.action} 命令序号冲突`); continue; }
+          world.createEntity(commandId);
+          world.addComponent(commandId, { type: 'IdentityCardCommand', cardId: event.arg } as IdentityCardCommand);
+          input.sequence = sequence + 1;
+        }
+        if (rejected.length) reject(world, rejected.join('；'));
+      },
+    },
+    { id: 'identity-card-play', phase: SystemPhase.Intent, reads: ['CardCatalog', 'IdentityCardPile', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'RandomSeed', 'Resource', 'DebugTrace'], writes: ['IdentityCardPile', 'IdentityCardCommand', 'IdentityCardDrawCommand', 'RandomSeed', 'ResourceModify'], consumes: [],
     execute(world) {
       const catalogs = [...world.query('CardCatalog')]; const piles = [...world.query('IdentityCardPile')];
       if (catalogs.length !== 1 || piles.length !== 1) { reject(world, `CardCatalog=${catalogs.length}，IdentityCardPile=${piles.length}；要求各一份`); return; }
@@ -138,5 +177,6 @@ export const identityCardPlayCapability = defineCapability({
       }
       if (rejected.length) reject(world, rejected.join('；'));
     },
-  }],
+    },
+  ],
 });

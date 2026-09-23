@@ -14,7 +14,7 @@
 
 **批准范围（路线 A）**：新增加法型 capability，消费版本化 `CardCatalog`（`cardId`、费用、目录副本上限、闭集效果列表）及身份牌 `deck / hand / discard`。它以既有种子随机确定性洗牌、抽牌、出牌，并在明确时序验证 cardId、在手牌、费用与合法效果后，按声明序执行仅能写入批准资源的闭集效果。未知 cardId / effect、手牌外或重复出牌、专注不足、非法参数一律 fail-closed 并记 `DebugTrace.reject`。不接收 JS、表达式、回调、自由文本、宿主 URL 或视觉数据；不改既有数值牌能力。
 
-**补充裁决（owner 2026-09-23，路线 A）**：把受控输入下沉为该 capability 的闭集 `IdentityCardInput` 映射：经既有 `InputQueue` 注入的具名 action，仅可把非空 `arg` 映射为 `IdentityCardCommand.cardId`；action 名、可选相位、可选 source 都是数据。路由器不得解释 cardId、不得调用游戏回调、不得写资源/流程；缺 arg、非法 mapping 或未知 cardId 必须 fail-closed 并留下 reject trace。这样 UI 只发 action/signal，目录化身份牌游戏复用同一确定性命令入口。
+**补充裁决（owner 2026-09-23，A）**：`IdentityCardInput` 将匹配的 `InputQueue.arg` 原样变为命令 cardId；无回调/规则/资源流程写入，坏参或未知卡 reject trace。
 
 **验收与边界**：同 catalog、牌组、命令、seed 双跑逐拍一致；覆盖洗牌/抽牌/弃牌/费用/效果顺序/胜负前置检查与全部拒绝路径；覆盖 action→命令的合法与 reject 路径；开启 trace 能重建生效或拒绝原因。施工须独立复查与撤修验红，再过共享面 scoped gate。`REQ-HOST-GAME-SESSION` 仍归原施工主体，本单及后续游戏只消费其公开会话能力，绝不修改或抢占该单。
 

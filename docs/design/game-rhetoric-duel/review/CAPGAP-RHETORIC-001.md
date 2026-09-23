@@ -46,3 +46,9 @@
 **PASS。** 复查人独立复跑身份卡 11/11；身份卡、资源链、声明审计、registry 与系统图同轮 62/62 通过。`system-graph` stderr 只有测试自身 L/P 的预期造环，身份牌没有新增 topo 告警。
 
 复查人还在临时副本完成四项带锚点撤修验红：撤 `pileProblem` 后非法 `handLimit` 的 reject 断言转红；撤聚合 reject 落盘后未知卡和四命令 trace 断言转红；费用 `ResourceModify` 改为 0 后费用及 observer 双断言转红；撤重复 cardId 拒绝后抽牌前拒绝断言转红。临时操作未改共享工作树。
+
+## 补充 A · 受控输入映射（2026-09-23）
+
+owner 选择路线 A 后，`IdentityCardInput` 进入同一 capability：它只按闭集的 `InputQueue.actions` 的 `key / phase / source / arg` 匹配，把非空 `arg` 原样映射为 `IdentityCardCommand.cardId`。它不解释 cardId、不含回调或游戏规则；缺参/非法 mapping/未知卡均 fail-closed 并写 `identity-card-play` 的 reject trace。系统落在 Input 相位，早于 Intent 的 `identity-card-play`，相位棘轮显式登记 `p-20:identity-card-input`。
+
+独立复查 PASS：身份牌、registry、declaration-audit、system-graph 合计 38/38 通过，`tsc --noEmit` 退出 0，能力子集图无环。复查人在临时副本将 `event.key !== input.action` 撤成反向匹配，合法 action 的 focus 锚点由 1 回退为 3、退出 1；证明路由测试真实覆盖输入到命令的接缝。
