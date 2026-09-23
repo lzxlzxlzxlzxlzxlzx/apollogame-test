@@ -8,6 +8,10 @@
 
 ## 待处理 / 进行中
 
+### CAPGAP-RHETORIC-003 · 玩法输入的声明式条件门 · [2026-09-23] · owner 已裁决路线 A · **施工主体 = Codex（2026-09-23 抢锁）** · 复查 = 独立复查人（待指派） · status: in-progress · P1 · 类型: 跨游戏引擎能力下沉
+
+**实查与边界**：`t3-flow` 可写 `Flag/State/Resource`，但 `t2-keybind` 无条件门；`t2-identity-card-play` 的静态 `phase/playPhase` 无公开能力跟随 flow，导致终局输入不能声明式 fail-closed。路线 A：给 `KeyBinding` 与身份牌出牌结算各增加可选 `ConditionExpr` 门，直接复用既有求值器与 `DebugTrace`，字段缺省保持旧行为；不得读取游戏专属 id、不得按 `cardId` 分支。验收：门开生效、门关拒绝、reject trace、缺省零回归、同 seed/hash 一致、独立复跑与撤修验红。详见 `docs/design/game-rhetoric-duel/requests.md`。
+
 ### REQ-HOST-GAME-SESSION · 外部游戏会话（请求 / 初始随机 seed / 结构化结果回传）· [2026-09-21] · owner 选择路线 A · **施工主体 = Codex（2026-09-21 抢锁）** · status: in-progress · P1 · 类型: 跨游戏宿主能力
 
 **问题**：现有卡带 `mount(container, host)` 只有可选退出钩子。外部平台无法以统一、可校验的方式传入一次游戏请求，调用方未预定结果时也没有合法的初始熵入口；游戏层若自行写 `postMessage` / `crypto` / 回调协议，将为每个小游戏复制一份跨平台和随机语义，违反数据驱动边界。

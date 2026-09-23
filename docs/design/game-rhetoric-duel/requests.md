@@ -1,6 +1,6 @@
 # game-rhetoric-duel｜游戏级需求与裁决
 
-## CAPGAP-RHETORIC-003 · 玩法输入的声明式条件门 · 2026-09-23 · status: awaiting-owner
+## CAPGAP-RHETORIC-003 · 玩法输入的声明式条件门 · 2026-09-23 · owner 已选 A · status: in-progress
 
 ### 实查原文
 
