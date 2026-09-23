@@ -1,5 +1,5 @@
 /** Render-only projection for a state change that has already committed in a simulation. */
-export type CommittedTransition<Snapshot> = Readonly<{ kind: string; before: Snapshot; after: Snapshot }>;
+export type CommittedTransition<Snapshot, Delta = unknown> = Readonly<{ kind: string; before: Snapshot; after: Snapshot; delta?: Delta }>;
 /** A per-game closed vocabulary: every referenced phase must be declared here. */
 export type PresentationCatalog = Readonly<{ phases: readonly string[]; sequences: Readonly<Record<string, readonly string[]>>; settledPhases: readonly string[] }>;
 export type PresentationReject = Readonly<{ accepted: false; reason: string }>;
@@ -7,13 +7,18 @@ export type PresentationAccepted<Snapshot> = Readonly<{ accepted: true; controll
 export type PresentationProjection<Snapshot> = PresentationReject | PresentationAccepted<Snapshot>;
 
 function catalogProblem(catalog: PresentationCatalog): string | undefined {
-  const phases = new Set(catalog.phases);
+  const raw = catalog as unknown as { phases?: unknown; sequences?: unknown; settledPhases?: unknown };
+  if (!raw || !Array.isArray(raw.phases) || !raw.phases.every((phase) => typeof phase === 'string')) return 'phase vocabulary is malformed';
+  if (!raw.sequences || typeof raw.sequences !== 'object' || Array.isArray(raw.sequences)) return 'sequence table is malformed';
+  if (!Array.isArray(raw.settledPhases) || !raw.settledPhases.every((phase) => typeof phase === 'string')) return 'settled phase table is malformed';
+  const phases = new Set(raw.phases);
   if (phases.size === 0) return 'phase vocabulary is empty';
-  if (catalog.settledPhases.length === 0 || catalog.settledPhases.some((phase) => !phases.has(phase))) return 'settled phase is outside vocabulary';
-  for (const [kind, sequence] of Object.entries(catalog.sequences)) {
+  if (raw.settledPhases.length === 0 || raw.settledPhases.some((phase) => !phases.has(phase))) return 'settled phase is outside vocabulary';
+  for (const [kind, sequence] of Object.entries(raw.sequences)) {
+    if (!Array.isArray(sequence) || !sequence.every((phase) => typeof phase === 'string')) return `sequence ${kind || '(empty kind)'} is malformed`;
     if (!kind || sequence.length === 0) return `invalid sequence for ${kind || '(empty kind)'}`;
     if (sequence.some((phase) => !phases.has(phase))) return `sequence ${kind} references an unknown phase`;
-    if (!catalog.settledPhases.includes(sequence[sequence.length - 1]!)) return `sequence ${kind} does not end in a settled phase`;
+    if (!raw.settledPhases.includes(sequence[sequence.length - 1]!)) return `sequence ${kind} does not end in a settled phase`;
   }
   return undefined;
 }
@@ -34,6 +39,7 @@ export class CommittedTransitionController<Snapshot> {
 export function projectCommittedTransition<Snapshot>(catalog: PresentationCatalog, transition: CommittedTransition<Snapshot>, reducedMotion = false): PresentationProjection<Snapshot> {
   const problem = catalogProblem(catalog);
   if (problem) return { accepted: false, reason: problem };
+  if (typeof transition.kind !== 'string') return { accepted: false, reason: 'committed transition kind is malformed' };
   if (!Object.prototype.hasOwnProperty.call(catalog.sequences, transition.kind)) return { accepted: false, reason: `unknown committed transition kind: ${transition.kind}` };
   return { accepted: true, controller: new CommittedTransitionController(catalog, transition, reducedMotion) };
 }

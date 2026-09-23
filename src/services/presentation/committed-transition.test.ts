@@ -8,18 +8,20 @@ const catalog: PresentationCatalog = { phases: ['lift', 'impact', 'ready', 'resu
 describe('committed render-only transition projection', () => {
   it('advances or skips without mutating the committed post-state', () => {
     const after = Object.freeze({ progress: 3, focus: 1 });
-    const projected = projectCommittedTransition(catalog, { kind: 'played', before: { progress: 0, focus: 2 }, after });
+    const projected = projectCommittedTransition(catalog, { kind: 'played', before: { progress: 0, focus: 2 }, after, delta: [{ resourceId: 'progress', value: 3 }] });
     expect(projected.accepted).toBe(true);
     if (!projected.accepted) return;
     expect(projected.controller.phase).toBe('lift');
     expect(projected.controller.advance()).toBe('impact');
     expect(projected.controller.skip()).toBe('ready');
     expect(projected.controller.after).toBe(after);
+    expect(projected.controller.transition.delta).toEqual([{ resourceId: 'progress', value: 3 }]);
   });
 
   it('rejects unknown kinds and malformed closed phase tables', () => {
     expect(projectCommittedTransition(catalog, { kind: 'forged', before: 0, after: 1 })).toEqual({ accepted: false, reason: 'unknown committed transition kind: forged' });
     expect(projectCommittedTransition({ ...catalog, sequences: { broken: ['lift'] } }, { kind: 'broken', before: 0, after: 1 })).toEqual({ accepted: false, reason: 'sequence broken does not end in a settled phase' });
+    expect(projectCommittedTransition({ phases: null, sequences: {}, settledPhases: [] } as any, { kind: 'broken', before: 0, after: 1 })).toEqual({ accepted: false, reason: 'phase vocabulary is malformed' });
   });
 
   it('keeps reduced-motion on the same committed result', () => {
