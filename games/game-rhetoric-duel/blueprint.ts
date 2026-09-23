@@ -5,7 +5,7 @@ import { effectApplyCapability, eventWhenCapability, identityCardPlayCapability,
 import { casterCapability, flowCapability, prefabCapability } from '@zerocraft/engine/skills/tier3/index.js';
 import { DEFAULT_RHETORIC_CONFIG, RHETORIC_CATALOG, validateRhetoricGameConfig, type RhetoricGameConfig } from './config.js';
 
-export const PLAY_CARD_ACTION = 'rhetoric.play-card';
+export const PLAY_CARD_ACTION = 'rhetoric.play';
 export const END_TURN_ACTION = 'rhetoric.end-turn';
 
 function deckFrom(entries: readonly Readonly<{ cardId: string; copies: number }>[]): string[] {

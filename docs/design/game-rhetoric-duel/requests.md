@@ -1,5 +1,29 @@
 # game-rhetoric-duel｜游戏级需求与裁决
 
+## W4-UI-ARIA-001 · LayoutNode 语义播报槽 · 2026-09-23 · owner 已选 A · status: pending PUI
+
+### 实查原文
+
+- 已查 `src/ui/components/types.ts` 的 `LabelProps`、`ComponentProps`，以及 `src/ui/components/render.ts` 的 `renderLabel`；当前公开字段没有 `aria-live`、`role=status` 或同义闭集槽。
+- 已查全库 `aria-live` / `liveRegion`；没有可由游戏数据重组消费的现有控件。
+- 当前游戏已把语义结果收敛到唯一可见节点 `rhetoric-semantic-live`，但可见文字不能等价为读屏器 live region。
+
+### 路线 A · 扩写共享 Label 可访问性字段（owner 已选）
+
+由 PUI 为 `LabelProps` 增加可选闭集字段（建议 `live?: 'polite' | 'assertive'`），渲染器只映射受控 `aria-live`，校验器拒绝未知值，并补渲染/校验/零回归测试。所有需要播报确定性语义结果的游戏均可复用。
+
+- 代价：触及 `src/ui/**` 专职域，须由 PUI 施工和独立复查。
+- 影响面：字段可选，既有 LayoutNode 输出保持不变。
+- 选错代价：若改成任意 aria 属性透传，会形成自由 DOM 逃生口，因此只接受闭集枚举。
+
+### 路线 B · 只保留可见语义文字（未选）
+
+不改共享 UI，继续显示 `rhetoric-semantic-live` 的文字，但读屏器不保证按变化主动播报。代价是 W4 无障碍条款不能完整验收。
+
+### W4 处置
+
+本项不影响规则、输入、结果幂等或普通浏览器可玩性；在 S4 对齐单中保留为有去向的 `⚠`，进入独立复查门时由 PUI 接单。PUI 能力合入并由游戏消费前，不宣称无障碍验收完成。
+
 ## CAPGAP-RHETORIC-003 · 玩法输入的声明式条件门 · 2026-09-23 · owner 已选 A · status: done
 
 交付：`3fc05a59`（运行期门控）+ `4938f11d`（递归 schema 返修）；独立复查最终 **PASS**，见 [review/CAPGAP-RHETORIC-003.md](review/CAPGAP-RHETORIC-003.md)。共享需求池条目已按完结纪律删除。

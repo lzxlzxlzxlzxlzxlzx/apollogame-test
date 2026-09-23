@@ -1,47 +1,103 @@
 import { mountUI } from '@zerocraft/engine/ui/components/index.js';
-import type { LayoutNode } from '@zerocraft/engine/ui/components/index.js';
-import { apolloBrocade } from '@zerocraft/engine/ui/components/apollo-kit.js';
-import { END_TURN_ACTION, PLAY_CARD_ACTION } from './blueprint.js';
-import { RhetoricDuelSession, type RhetoricSnapshot } from './session.js';
+import { mountHost } from '@zerocraft/engine/engine/host/mount-host.js';
+import { RHETORIC_FIXTURES, validateRhetoricGameConfig } from './config.js';
+import { RhetoricDuelSession } from './session.js';
+import { RhetoricPresentationController, type RhetoricGameResult } from './presentation-controller.js';
+import { buildRhetoricDuelUI } from './ui.js';
+import { RHETORIC_THEME } from './theme.js';
+import { mountRhetoricPlayField, RHETORIC_FIELD_H, RHETORIC_FIELD_W } from './play-field.js';
 
-function duelScreen(state: RhetoricSnapshot): LayoutNode {
-  const result = state.phase === 'victory' ? '论证成立' : state.phase.startsWith('defeat') ? '交锋失利' : undefined;
-  return {
-    type: 'Screen', id: 'rhetoric-duel', props: { fill: true },
-    layout: { direction: 'column', gap: 14, padding: 24 },
-    children: [
-      { type: 'Particles', id: 'rhetoric-ambience', props: { kind: 'sparkle', count: 14, loop: true } },
-      { type: 'Panel', id: 'rhetoric-title', props: { edge: 'gold', bg: 'raised', shadow: { y: 4, color: 'ink' } }, layout: { direction: 'column', gap: 4, padding: 16 }, children: [
-        { type: 'Label', id: 'rhetoric-name', props: { text: '言弹交锋', font: 'serif', size: 'xxxl', bold: true, color: 'gold' } },
-        { type: 'Label', id: 'rhetoric-phase', props: { text: result ?? '旧巷之门 · 以论证打开巷门', size: 'md', color: result ? 'danger' : 'sub' } },
-      ] },
-      { type: 'Panel', id: 'rhetoric-stats', props: { bare: true }, layout: { direction: 'row', gap: 12 }, children: [
-        { type: 'ProgressBar', id: 'rhetoric-progress', props: { label: '论证进度', value: state.progress, max: 10, tone: 'jade' } },
-        { type: 'ProgressBar', id: 'rhetoric-pressure', props: { label: '压力', value: state.pressure, max: 10, tone: 'danger' } },
-        { type: 'Badge', id: 'rhetoric-focus', props: { text: `专注 ${state.focus}` as string, tone: 'gold' } },
-        { type: 'Badge', id: 'rhetoric-turns', props: { text: `回合 ${state.turns + 1}/4` as string, tone: 'jade' } },
-      ] },
-      { type: 'Panel', id: 'rhetoric-hand', props: { title: '手牌', edge: 'jade', bg: 'raised' }, layout: { direction: 'row', gap: 10, padding: 14 }, children: state.hand.map((cardId, index) => ({
-        type: 'Button' as const, id: `rhetoric-card-${index}-${cardId}`,
-        props: { label: cardId, kind: 'primary' as const, action: PLAY_CARD_ACTION, actionArg: cardId },
-        layout: { fx: [{ kind: 'sheen-hover' as const }], press3d: true },
-      })) },
-      { type: 'Button', id: 'rhetoric-end-turn', props: { label: '结束回合', kind: 'hero', action: END_TURN_ACTION }, layout: { fx: [{ kind: 'sheen-hover' }], press3d: true } },
-    ],
-  };
+type RhetoricHost = Readonly<{ exit: () => void; result?: (result: RhetoricGameResult) => void }>;
+const PHASE_FRAMES: Readonly<Record<string, number>> = {
+  camera: 42, 'reveal-intent': 20, 'deal-opening-hand': 42,
+  'card-lift': 8, 'card-flight': 11, impact: 23, 'opponent-response': 22,
+  'round-end': 23, 'enemy-intent': 30, 'enemy-impact': 20, 'focus-refresh': 20, 'deal-new-cards': 42,
+  'victory-impact': 23, 'portrait-resolve': 22, 'failure-impact': 23, 'portrait-dominates': 22,
+};
+const framesFor = (phase: string, reducedMotion: boolean): number => reducedMotion ? 1 : PHASE_FRAMES[phase] ?? 1;
+
+function previewConfig(): ReturnType<typeof validateRhetoricGameConfig> {
+  const fixture = typeof window === 'undefined' ? '' : new URLSearchParams(window.location.search).get('fixture');
+  const selected = fixture === 'luo-zhanggui' ? RHETORIC_FIXTURES[1]
+    : fixture === 'jiang-jiaoxi' ? RHETORIC_FIXTURES[2]
+      : RHETORIC_FIXTURES[0];
+  return validateRhetoricGameConfig(selected);
 }
 
-/** Internal launcher entry. UI only queues actions; identity-card-play owns card resolution. */
-export function mount(container: HTMLElement): () => void {
-  const session = new RhetoricDuelSession();
-  const ui = mountUI(container, duelScreen(session.snapshot()), {}, apolloBrocade, session.input);
+/** Internal launcher entry. LayoutNode emits named actions; the controller is the sole command adapter. */
+export function mount(container: HTMLElement, host?: RhetoricHost): () => void {
+  const config = previewConfig();
+  const reducedMotion = typeof window !== 'undefined' && (
+    new URLSearchParams(window.location.search).get('reducedMotion') === '1'
+    || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true
+  );
+  const manualPresentation = import.meta.env.DEV && typeof window !== 'undefined'
+    && new URLSearchParams(window.location.search).get('manualPresentation') === '1';
+  let lastResult: RhetoricGameResult | undefined;
+  const controller = new RhetoricPresentationController(new RhetoricDuelSession(config), {
+    reducedMotion,
+    onResult: (result) => { lastResult = result; host?.result?.(result); },
+    onExit: () => host?.exit(),
+  });
+  const shell = mountHost(container, {
+    fieldW: RHETORIC_FIELD_W,
+    fieldH: RHETORIC_FIELD_H,
+    wrapperBackground: '#030507',
+    sceneBackground: 'radial-gradient(circle at 61% 43%,rgba(111,72,34,.34),transparent 31%),linear-gradient(90deg,rgba(3,5,8,.94),rgba(3,5,8,.48) 52%,rgba(3,5,8,.82)),repeating-linear-gradient(135deg,#111115 0,#111115 9px,#0b0d12 9px,#0b0d12 18px)',
+    sceneBgSkin: { skinKey: config.encounter.backgroundSkinKey, fit: 'cover' },
+  });
+  shell.overlayHost.style.pointerEvents = 'auto';
+  const playField = mountRhetoricPlayField(shell.scene, config);
+  const ui = mountUI(shell.overlayHost, buildRhetoricDuelUI(controller.view, config, true), {}, RHETORIC_THEME, controller);
   let active = true;
-  const update = (): void => {
-    if (!active) return;
-    session.tick();
-    ui.update(duelScreen(session.snapshot()));
-    requestAnimationFrame(update);
+  let raf = 0;
+  let frames = 0;
+  let signature = '';
+
+  const render = (): void => {
+    const next = JSON.stringify(controller.view);
+    if (next === signature) return;
+    signature = next;
+    playField.update(controller.view);
+    ui.update(buildRhetoricDuelUI(controller.view, config, true), RHETORIC_THEME);
   };
-  requestAnimationFrame(update);
-  return () => { active = false; ui(); };
+  const frame = (): void => {
+    if (!active) return;
+    if (!manualPresentation && controller.busy && ++frames >= framesFor(controller.view.phase, reducedMotion)) {
+      frames = 0;
+      controller.advance();
+    }
+    render();
+    raf = requestAnimationFrame(frame);
+  };
+  const onKey = (event: KeyboardEvent): void => {
+    if (event.key >= '1' && event.key <= '6') controller.playVisibleCard(Number(event.key) - 1);
+    else if (event.key === ' ') controller.enqueueAction('rhetoric.skip-presentation');
+    render();
+  };
+  const onBlur = (): void => { controller.recoverAfterBlur(); frames = 0; render(); };
+  window.addEventListener('keydown', onKey);
+  window.addEventListener('blur', onBlur);
+  if (import.meta.env.DEV) {
+    (window as unknown as { __rhetoricDuel?: unknown }).__rhetoricDuel = {
+      snapshot: () => controller.session.snapshot(),
+      view: () => controller.view,
+      advance: () => { controller.advance(); render(); },
+      skip: () => { controller.skip(); render(); },
+      action: (name: string, arg?: string) => { controller.enqueueAction(name, arg ? { arg } : undefined); render(); },
+      result: () => lastResult,
+    };
+  }
+  render();
+  raf = requestAnimationFrame(frame);
+  return () => {
+    active = false;
+    cancelAnimationFrame(raf);
+    window.removeEventListener('keydown', onKey);
+    window.removeEventListener('blur', onBlur);
+    delete (window as unknown as { __rhetoricDuel?: unknown }).__rhetoricDuel;
+    ui();
+    playField.destroy();
+    shell.teardown();
+  };
 }
