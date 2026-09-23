@@ -45,6 +45,16 @@ const GAMES_ALLOWLIST: Set<string> | null = (() => {
 // GAMES 不拆走：main_entry/games_list.py 以正则从 src/launcher.tsx 解析本表（内置卡片元信息单一真相·只读）。
 export const GAMES: GameEntry[] = [
   {
+    id: 'game-rhetoric-duel',
+    title: '《言弹交锋》',
+    subtitle: '身份牌辩论 · 确定性对决',
+    description: '以声明式身份牌组织论点、顶住对手施压的回合制辩论。牌组、对手意图、资源和终局全部由通用引擎能力解释。',
+    color: '#3b1827',
+    accentColor: '#d8607b',
+    icon: '🗣️',
+    status: 'playable',
+  },
+  {
     id: 'game-dice',
     title: '轻掷 Dice Overlay',
     subtitle: '透明叠层 · d4 / d6 / d8 / d20',

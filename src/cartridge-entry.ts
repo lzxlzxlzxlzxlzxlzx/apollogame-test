@@ -4,6 +4,7 @@ import { createPlatformPort, firstBootAchievement } from './services/platform/in
 interface GameModule { mount: (el: HTMLElement) => (() => void) | Promise<() => void> }
 
 const GAMES: Record<string, { title: string; subtitle: string }> = {
+  'game-rhetoric-duel': { title: '《言弹交锋》', subtitle: '身份牌辩论 · 确定性对决' },
   'game-dice': { title: '轻掷 Dice Overlay', subtitle: '透明叠层 · d4 / d6 / d8 / d20' },
   'game-loot-chest': { title: '开启宝箱 Loot Chest', subtitle: '概率掉落 · 多物品 · 数量奖励' },
   'game-e': { title: 'Game E: Balatro-like',         subtitle: '小丑牌 · 卡牌构建' },
@@ -18,6 +19,7 @@ const GAMES: Record<string, { title: string; subtitle: string }> = {
 //   （scripts/package-web.mjs 打包库卡带走此分支；工程游戏各自静态 import 不受牵连、不进数据运行时）。
 function startLoad(id: string): Promise<GameModule> {
   if (id === '__inline__') return import('./cartridge-inline-run.js') as Promise<GameModule>;
+  if (id === 'game-rhetoric-duel') return import('@games/game-rhetoric-duel/game-rhetoric-duel.js') as Promise<GameModule>;
   if (id === 'game-dice') return import('@games/game-dice/game-dice.js') as Promise<GameModule>;
   if (id === 'game-loot-chest') return import('@games/game-loot-chest/game-loot-chest.js') as Promise<GameModule>;
   if (id === 'game-e') return import('@games/game-e/game-e.js') as Promise<GameModule>;
