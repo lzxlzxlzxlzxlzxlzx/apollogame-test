@@ -10,10 +10,10 @@
 | [presentation-spec-v0.md](presentation-spec-v0.md) | 出牌、抽牌、敌人行动与终局的演出规格 | 程序/美术共同基线 |
 | [program-work-order-s4-s5.md](program-work-order-s4-s5.md) | S2 收尾至 DokiWorlds 发布的完整程序施工单 | 待程序执行 |
 | [integration-contract-v1.md](integration-contract-v1.md) | DokiWorlds 调用与返回契约 | 待宿主确认 |
-| [capability-plan.md](capability-plan.md) | 引擎能力核查与实现准入 | owner 已选 A，待登记/施工 |
-| [capability-gaps.json](capability-gaps.json) | 未闭合能力缺口的机器可读台账 | open |
+| [capability-plan.md](capability-plan.md) | 引擎能力核查与实现准入 | CAPGAP-001/002 已完成并复查；W1 配置施工中 |
+| [capability-gaps.json](capability-gaps.json) | 未闭合能力缺口的机器可读台账 | 无未闭合共享缺口 |
 | [internal-game-migration.md](internal-game-migration.md) | owner 对内部游戏唯一实现的迁移裁决 | 生效 |
 
 ## 当前闸门
 
-owner 已裁定以 `games/game-rhetoric-duel/` 作为唯一玩法实现；外部 App 原型只保留比对，不再是主线。能力未落地前，不可开始战斗规则、抽牌或结算的程序实现。
+owner 已裁定以 `games/game-rhetoric-duel/` 作为唯一玩法实现；外部 App 原型只保留比对，不再是主线。身份牌与已提交转场能力均已落地并复查；后续按 [内部迁移施工单](internal-game-migration.md) 的 W0–W8 阶段出口推进。
