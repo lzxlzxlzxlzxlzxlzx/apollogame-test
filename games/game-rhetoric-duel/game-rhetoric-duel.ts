@@ -1,20 +1,24 @@
 import { mountUI } from '@zerocraft/engine/ui/components/index.js';
-import { mountHost } from '@zerocraft/engine/engine/host/mount-host.js';
+import { createArtAssets, loadGameArtInto, loadGameArtOverrides } from '@zerocraft/engine/assets/index.js';
+import { mountHost, resolveSceneBg } from '@zerocraft/engine/engine/host/mount-host.js';
 import { RHETORIC_FIXTURES, validateRhetoricGameConfig } from './config.js';
 import { RhetoricDuelSession } from './session.js';
 import { RhetoricPresentationController, type RhetoricGameResult } from './presentation-controller.js';
-import { buildRhetoricDuelUI } from './ui.js';
+import { buildRhetoricDuelUI, selectLoadedRhetoricSkins } from './ui.js';
 import { RHETORIC_THEME } from './theme.js';
 import { mountRhetoricPlayField, RHETORIC_FIELD_H, RHETORIC_FIELD_W } from './play-field.js';
+import type { RhetoricSkinMap } from './ui.js';
+import { RHETORIC_CARD_FLIGHT_FRAMES, RHETORIC_DEAL_PHASE_FRAMES } from './card-presentation.js';
 
 type RhetoricHost = Readonly<{ exit: () => void; result?: (result: RhetoricGameResult) => void }>;
-const PHASE_FRAMES: Readonly<Record<string, number>> = {
-  camera: 42, 'reveal-intent': 20, 'deal-opening-hand': 42,
-  'card-lift': 8, 'card-flight': 11, impact: 23, 'opponent-response': 22,
-  'round-end': 23, 'enemy-intent': 30, 'enemy-impact': 20, 'focus-refresh': 20, 'deal-new-cards': 42,
+export const RHETORIC_PHASE_FRAMES: Readonly<Record<string, number>> = {
+  camera: 42, 'reveal-intent': 20, 'deal-opening-hand': RHETORIC_DEAL_PHASE_FRAMES,
+  'card-flight': RHETORIC_CARD_FLIGHT_FRAMES, impact: 23, 'opponent-response': 22,
+  'round-end': 23, 'enemy-intent': 30, 'enemy-impact': 20, 'focus-refresh': 20, 'deal-new-cards': RHETORIC_DEAL_PHASE_FRAMES,
   'victory-impact': 23, 'portrait-resolve': 22, 'failure-impact': 23, 'portrait-dominates': 22,
 };
-const framesFor = (phase: string, reducedMotion: boolean): number => reducedMotion ? 1 : PHASE_FRAMES[phase] ?? 1;
+export const rhetoricFramesFor = (phase: string, reducedMotion: boolean): number => reducedMotion ? 1 : RHETORIC_PHASE_FRAMES[phase] ?? 1;
+const FALLBACK_SCENE = 'radial-gradient(circle at 58% 42%,rgba(92,65,38,.18),transparent 28%),linear-gradient(90deg,rgba(3,5,8,.95),rgba(3,5,8,.38) 52%,rgba(3,5,8,.84)),repeating-linear-gradient(135deg,#111115 0,#111115 9px,#0b0d12 9px,#0b0d12 18px)';
 
 function previewConfig(): ReturnType<typeof validateRhetoricGameConfig> {
   const fixture = typeof window === 'undefined' ? '' : new URLSearchParams(window.location.search).get('fixture');
@@ -33,37 +37,56 @@ export function mount(container: HTMLElement, host?: RhetoricHost): () => void {
   );
   const manualPresentation = import.meta.env.DEV && typeof window !== 'undefined'
     && new URLSearchParams(window.location.search).get('manualPresentation') === '1';
+  const debug = import.meta.env.DEV && typeof window !== 'undefined'
+    && new URLSearchParams(window.location.search).get('debug') === '1';
   let lastResult: RhetoricGameResult | undefined;
   const controller = new RhetoricPresentationController(new RhetoricDuelSession(config), {
     reducedMotion,
     onResult: (result) => { lastResult = result; host?.result?.(result); },
     onExit: () => host?.exit(),
   });
+  const artAssets = createArtAssets();
+  let skins: RhetoricSkinMap = {};
+  let skinRevision = 0;
   const shell = mountHost(container, {
     fieldW: RHETORIC_FIELD_W,
     fieldH: RHETORIC_FIELD_H,
     wrapperBackground: '#030507',
-    sceneBackground: 'radial-gradient(circle at 61% 43%,rgba(111,72,34,.34),transparent 31%),linear-gradient(90deg,rgba(3,5,8,.94),rgba(3,5,8,.48) 52%,rgba(3,5,8,.82)),repeating-linear-gradient(135deg,#111115 0,#111115 9px,#0b0d12 9px,#0b0d12 18px)',
+    sceneBackground: FALLBACK_SCENE,
     sceneBgSkin: { skinKey: config.encounter.backgroundSkinKey, fit: 'cover' },
   });
   shell.overlayHost.style.pointerEvents = 'auto';
-  const playField = mountRhetoricPlayField(shell.scene, config);
-  const ui = mountUI(shell.overlayHost, buildRhetoricDuelUI(controller.view, config, true), {}, RHETORIC_THEME, controller);
+  const playField = mountRhetoricPlayField(shell.scene, config, artAssets);
+  const ui = mountUI(shell.overlayHost, buildRhetoricDuelUI(controller.view, config, skins, debug), {}, RHETORIC_THEME, controller);
   let active = true;
   let raf = 0;
   let frames = 0;
   let signature = '';
 
   const render = (): void => {
-    const next = JSON.stringify(controller.view);
+    const next = `${skinRevision}|${JSON.stringify(controller.view)}`;
     if (next === signature) return;
     signature = next;
     playField.update(controller.view);
-    ui.update(buildRhetoricDuelUI(controller.view, config, true), RHETORIC_THEME);
+    ui.update(buildRhetoricDuelUI(controller.view, config, skins, debug), RHETORIC_THEME);
   };
+  void Promise.all([
+    loadGameArtInto(artAssets, 'game-rhetoric-duel'),
+    loadGameArtOverrides('game-rhetoric-duel'),
+  ]).then(([, nextSkins]) => {
+    if (!active) return;
+    skins = selectLoadedRhetoricSkins(nextSkins, (key) => artAssets.isLoaded(key));
+    skinRevision += 1;
+    shell.scene.style.background = resolveSceneBg(FALLBACK_SCENE, {
+      skinKey: config.encounter.backgroundSkinKey,
+      imageUrl: skins[config.encounter.backgroundSkinKey],
+      fit: 'cover',
+    }) ?? FALLBACK_SCENE;
+    render();
+  });
   const frame = (): void => {
     if (!active) return;
-    if (!manualPresentation && controller.busy && ++frames >= framesFor(controller.view.phase, reducedMotion)) {
+    if (!manualPresentation && controller.busy && ++frames >= rhetoricFramesFor(controller.view.phase, reducedMotion)) {
       frames = 0;
       controller.advance();
     }

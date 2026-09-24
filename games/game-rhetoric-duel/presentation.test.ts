@@ -42,7 +42,7 @@ describe('game-rhetoric-duel · W3 committed presentation transitions', () => {
     const accepted = duel.play('probe-question');
     expect(accepted).toHaveLength(1);
     expect(accepted[0]).toMatchObject({ kind: 'card-played', cardId: 'probe-question' });
-    expect(projectedPhases(accepted[0]!)).toEqual(['card-lift', 'card-flight', 'impact', 'opponent-response', 'ready']);
+    expect(projectedPhases(accepted[0]!)).toEqual(['card-flight', 'impact', 'opponent-response', 'ready']);
     expect(duel.play('unknown-card')).toEqual([]);
 
     const noFocus = new RhetoricDuelSession(oneCardConfig('press-the-point', { focusPerTurn: 2, target: 99 }));

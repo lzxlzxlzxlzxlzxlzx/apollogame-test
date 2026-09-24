@@ -10,6 +10,7 @@
 | [demo-reference-bible.md](demo-reference-bible.md) | demo 画面、卡牌、动画、素材与像素验收的第一交付基准 | 已完成实查拆解 |
 | [presentation-spec-v0.md](presentation-spec-v0.md) | 出牌、抽牌、敌人行动与终局的演出规格 | 程序/美术共同基线 |
 | [program-work-order-s4-s5.md](program-work-order-s4-s5.md) | S2 收尾至 DokiWorlds 发布的完整程序施工单 | 待程序执行 |
+| [program-work-order-w5-demo-parity.md](program-work-order-w5-demo-parity.md) | W4 复查通过后的 demo 视觉对齐、正式资产与 W5 出口 | 当前下一施工单 |
 | [integration-contract-v1.md](integration-contract-v1.md) | DokiWorlds 调用与返回契约 | 待宿主确认 |
 | [capability-plan.md](capability-plan.md) | 引擎能力核查与实现准入 | CAPGAP-001/002 已完成并复查；W1 配置施工中 |
 | [capability-gaps.json](capability-gaps.json) | 未闭合能力缺口的机器可读台账 | 无未闭合共享缺口 |

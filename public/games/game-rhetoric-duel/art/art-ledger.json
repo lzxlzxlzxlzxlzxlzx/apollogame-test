@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "game": "game-rhetoric-duel",
+  "mode": "approved-inventory",
+  "count": 17,
+  "artStyle": {
+    "packId": "ink-bronze-rhetoric",
+    "stylePrompt": "restrained Chinese historical painterly scene art, deep ink and weathered umber, muted bronze accents; card icons use transparent single-color bronze linework",
+    "note": "W5 demo-parity uses original assets matching composition and value structure only; no demo source file was copied."
+  },
+  "rows": [
+    {
+      "no": "art-01", "skinKey": "game-rhetoric-duel/background/old-alley", "desc": "雨后旧巷 16:9 背景", "kind": "background", "status": "filled",
+      "slot": { "entity": "rhetoric-duel:scene-background", "component": "HostSceneBackground", "field": "imageUrl" },
+      "spec": { "w": 1672, "h": 941, "transparent": false },
+      "gen": { "source": "openai-imagegen", "servedPath": "/games/game-rhetoric-duel/art/background-old-alley.png", "localId": "game-rhetoric-duel/background/old-alley" },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "w5-old-alley-v1", "date": "2026-09-23", "license": "project-original", "sha256": "aae49790c872331f4d393d8228d50689fce2b40502816e31108ee6454eed9be1", "note": "Original composition; demo source files were not used or copied." }
+    },
+    {
+      "no": "art-02", "skinKey": "game-rhetoric-duel/opponent/shi", "desc": "石七透明全身立绘", "kind": "sprite", "status": "filled",
+      "slot": { "entity": "rhetoric-duel:opponent-art", "component": "Sprite", "field": "key" },
+      "spec": { "w": 941, "h": 1672, "transparent": true },
+      "gen": { "source": "openai-imagegen", "servedPath": "/games/game-rhetoric-duel/art/opponent-shi.png", "localId": "game-rhetoric-duel/opponent/shi" },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "w5-opponent-shi-v1", "date": "2026-09-23", "license": "project-original", "sha256": "24439c9a6a5c09634b941af1a2d0ffe4c51a7a43aafec6156eb3d05be69a406b", "note": "Original Shi Qi character; not derived from the demo opponent." }
+    },
+    {
+      "no": "art-03", "skinKey": "game-rhetoric-duel/card/probe-question", "desc": "试探提问：观察与探查", "kind": "ui-icon", "status": "filled",
+      "slot": { "entity": "rhetoric-card:probe-question", "component": "Image", "field": "src" },
+      "spec": { "w": 160, "h": 160, "transparent": true },
+      "gen": { "source": "procedural", "servedPath": "/games/game-rhetoric-duel/art/card/probe-question.svg", "localId": "game-rhetoric-duel/card/probe-question" },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "date": "2026-09-23", "license": "project-original", "sha256": "53c1d4eafa12e84b20405804425cceca70928869787c7bfecb1bf33f603db0a3" }
+    },
+    {
+      "no": "art-04", "skinKey": "game-rhetoric-duel/card/pin-down-detail", "desc": "钉住细节：论点被笔锋钉住", "kind": "ui-icon", "status": "filled",
+      "slot": { "entity": "rhetoric-card:pin-down-detail", "component": "Image", "field": "src" },
+      "spec": { "w": 160, "h": 160, "transparent": true },
+      "gen": { "source": "procedural", "servedPath": "/games/game-rhetoric-duel/art/card/pin-down-detail.svg", "localId": "game-rhetoric-duel/card/pin-down-detail" },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "date": "2026-09-23", "license": "project-original", "sha256": "00392e15778425af1e62e03378b8e55b425ce1da3371ff37507c06c85f39d549" }
+    },
+    {
+      "no": "art-05", "skinKey": "game-rhetoric-duel/card/steady-breath", "desc": "稳住呼吸：回旋气流与平缓呼气", "kind": "ui-icon", "status": "filled",
+      "slot": { "entity": "rhetoric-card:steady-breath", "component": "Image", "field": "src" },
+      "spec": { "w": 160, "h": 160, "transparent": true },
+      "gen": { "source": "procedural", "servedPath": "/games/game-rhetoric-duel/art/card/steady-breath.svg", "localId": "game-rhetoric-duel/card/steady-breath" },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "date": "2026-09-23", "license": "project-original", "sha256": "06f7acc62b765fac2529ad8d0d762e0d41dbe4d0d5d3d582fcbe5681a45bf298" }
+    },
+    {
+      "no": "art-06", "skinKey": "game-rhetoric-duel/card/catch-the-thread", "desc": "接住话头：盾形承接与话线", "kind": "ui-icon", "status": "filled",
+      "slot": { "entity": "rhetoric-card:catch-the-thread", "component": "Image", "field": "src" },
+      "spec": { "w": 160, "h": 160, "transparent": true },
+      "gen": { "source": "procedural", "servedPath": "/games/game-rhetoric-duel/art/card/catch-the-thread.svg", "localId": "game-rhetoric-duel/card/catch-the-thread" },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "date": "2026-09-23", "license": "project-original", "sha256": "b6f68a5f421807a597d751f8d23b70e326a66099946d5bfed801279cdd3cda07" }
+    },
+    {
+      "no": "art-07", "skinKey": "game-rhetoric-duel/card/press-the-point", "desc": "连环诘问：连续语言冲击", "kind": "ui-icon", "status": "filled",
+      "slot": { "entity": "rhetoric-card:press-the-point", "component": "Image", "field": "src" },
+      "spec": { "w": 160, "h": 160, "transparent": true },
+      "gen": { "source": "procedural", "servedPath": "/games/game-rhetoric-duel/art/card/press-the-point.svg", "localId": "game-rhetoric-duel/card/press-the-point" },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "date": "2026-09-23", "license": "project-original", "sha256": "06dc99f3076b4fef46bd8c07ba2eaba43d8d4729a59b498af2b28379da2ca0b7" }
+    },
+    {
+      "no": "art-08", "skinKey": "game-rhetoric-duel/card/reframe-the-case", "desc": "换位陈述：转向与重构", "kind": "ui-icon", "status": "filled",
+      "slot": { "entity": "rhetoric-card:reframe-the-case", "component": "Image", "field": "src" },
+      "spec": { "w": 160, "h": 160, "transparent": true },
+      "gen": { "source": "procedural", "servedPath": "/games/game-rhetoric-duel/art/card/reframe-the-case.svg", "localId": "game-rhetoric-duel/card/reframe-the-case" },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "date": "2026-09-23", "license": "project-original", "sha256": "225632fa3dc02e860ab77b43b52e1529bdf79e713f16713436dbf0b22adb14a3" }
+    },
+    {
+      "no": "art-09", "skinKey": "game-rhetoric-duel/card/state-the-line", "desc": "直陈底线：坚硬边界", "kind": "ui-icon", "status": "filled",
+      "slot": { "entity": "rhetoric-card:state-the-line", "component": "Image", "field": "src" },
+      "spec": { "w": 160, "h": 160, "transparent": true },
+      "gen": { "source": "procedural", "servedPath": "/games/game-rhetoric-duel/art/card/state-the-line.svg", "localId": "game-rhetoric-duel/card/state-the-line" },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "date": "2026-09-23", "license": "project-original", "sha256": "90202529770c9300e2a829dd78e2918d91ebd92cdb7e00f93cf5af83fca19260" }
+    },
+    {
+      "no": "art-10", "skinKey": "game-rhetoric-duel/card/hold-the-answer", "desc": "暂缓回应：封住的回应", "kind": "ui-icon", "status": "filled",
+      "slot": { "entity": "rhetoric-card:hold-the-answer", "component": "Image", "field": "src" },
+      "spec": { "w": 160, "h": 160, "transparent": true },
+      "gen": { "source": "procedural", "servedPath": "/games/game-rhetoric-duel/art/card/hold-the-answer.svg", "localId": "game-rhetoric-duel/card/hold-the-answer" },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "date": "2026-09-23", "license": "project-original", "sha256": "6115dd12288d05595ebe4db18c6a5910ee575fe4fc7f13482f39149d1ccb90d3" }
+    },
+    {
+      "no": "art-11", "skinKey": "game-rhetoric-duel/card/gather-your-thoughts", "desc": "整理思路：线索汇聚", "kind": "ui-icon", "status": "filled",
+      "slot": { "entity": "rhetoric-card:gather-your-thoughts", "component": "Image", "field": "src" },
+      "spec": { "w": 160, "h": 160, "transparent": true },
+      "gen": { "source": "procedural", "servedPath": "/games/game-rhetoric-duel/art/card/gather-your-thoughts.svg", "localId": "game-rhetoric-duel/card/gather-your-thoughts" },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "date": "2026-09-23", "license": "project-original", "sha256": "857083ef131c092b3c5a6bceb9cc5c9413a7ae02d08c34b64e32978215d82a06" }
+    },
+    {
+      "no": "art-12", "skinKey": "game-rhetoric-duel/card/close-the-argument", "desc": "收束论点：印章定论", "kind": "ui-icon", "status": "filled",
+      "slot": { "entity": "rhetoric-card:close-the-argument", "component": "Image", "field": "src" },
+      "spec": { "w": 160, "h": 160, "transparent": true },
+      "gen": { "source": "procedural", "servedPath": "/games/game-rhetoric-duel/art/card/close-the-argument.svg", "localId": "game-rhetoric-duel/card/close-the-argument" },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "date": "2026-09-23", "license": "project-original", "sha256": "4edae552d726541a3208c2c3922f8b31f9d8254f7a99e4fccf1fea7338f539ff" }
+    },
+    {
+      "no": "art-13", "skinKey": "game-rhetoric-duel/card/back", "desc": "深墨斜纹双金线通用牌背", "kind": "sprite", "status": "filled",
+      "slot": { "entity": "rhetoric-duel:deck-back", "component": "Image", "field": "src" },
+      "spec": { "w": 240, "h": 360, "transparent": false },
+      "gen": { "source": "procedural", "servedPath": "/games/game-rhetoric-duel/art/card/back.svg", "localId": "game-rhetoric-duel/card/back" },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "date": "2026-09-23", "license": "project-original", "sha256": "f291d1d5e011d327130890a5506d2b927d235123b248e432f8fdd09598e77bc7" }
+    },
+    {
+      "no": "art-14", "skinKey": "game-rhetoric-duel/background/apothecary", "desc": "雨夜旧药铺 16:9 背景", "kind": "background", "status": "filled",
+      "slot": { "entity": "rhetoric-duel:scene-background", "component": "HostSceneBackground", "field": "imageUrl" },
+      "spec": { "w": 1672, "h": 941, "transparent": false },
+      "gen": { "source": "openai-imagegen", "servedPath": "/games/game-rhetoric-duel/art/background-apothecary.png", "localId": "game-rhetoric-duel/background/apothecary" },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "w5-apothecary-v1", "date": "2026-09-23", "license": "project-original", "sha256": "6068ece72e81718e84e1aab0ddbfbc7099739d6ca25a9403de4e4eba3d535b7c", "note": "Original composition; no demo source file was copied." }
+    },
+    {
+      "no": "art-15", "skinKey": "game-rhetoric-duel/opponent/luo", "desc": "罗掌柜透明全身立绘", "kind": "sprite", "status": "filled",
+      "slot": { "entity": "rhetoric-duel:opponent-art", "component": "Sprite", "field": "key" },
+      "spec": { "w": 941, "h": 1672, "transparent": true },
+      "gen": { "source": "openai-imagegen", "servedPath": "/games/game-rhetoric-duel/art/opponent-luo.png", "localId": "game-rhetoric-duel/opponent/luo" },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "w5-opponent-luo-v1", "date": "2026-09-23", "license": "project-original", "sha256": "da27251f43a5e1e0998a9a8b8ca7b91c7e1a53a37da54b4885b9927df2c7f6a6", "note": "Original Shopkeeper Luo character; no demo source was used." }
+    },
+    {
+      "no": "art-16", "skinKey": "game-rhetoric-duel/background/lecture-hall", "desc": "风雨讲堂 16:9 背景", "kind": "background", "status": "filled",
+      "slot": { "entity": "rhetoric-duel:scene-background", "component": "HostSceneBackground", "field": "imageUrl" },
+      "spec": { "w": 1672, "h": 941, "transparent": false },
+      "gen": { "source": "openai-imagegen", "servedPath": "/games/game-rhetoric-duel/art/background-lecture-hall.png", "localId": "game-rhetoric-duel/background/lecture-hall" },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "w5-lecture-hall-v1", "date": "2026-09-23", "license": "project-original", "sha256": "7152ff8e6adb633acd53ba2d39761ad97d7f02c9dc75a861540a7f92ee4b6cd8", "note": "Original composition; no demo source file was copied." }
+    },
+    {
+      "no": "art-17", "skinKey": "game-rhetoric-duel/opponent/jiang", "desc": "姜教习透明全身立绘", "kind": "sprite", "status": "filled",
+      "slot": { "entity": "rhetoric-duel:opponent-art", "component": "Sprite", "field": "key" },
+      "spec": { "w": 941, "h": 1672, "transparent": true },
+      "gen": { "source": "openai-imagegen", "servedPath": "/games/game-rhetoric-duel/art/opponent-jiang.png", "localId": "game-rhetoric-duel/opponent/jiang" },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "w5-opponent-jiang-v1", "date": "2026-09-23", "license": "project-original", "sha256": "754b95e4cadda50cfb24bfa163b752699c0e869b5b72db03be4e73af73170de9", "note": "Original Instructor Jiang character; no demo source was used." }
+    }
+  ]
+}

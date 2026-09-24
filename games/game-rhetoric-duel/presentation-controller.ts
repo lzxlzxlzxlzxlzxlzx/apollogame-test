@@ -3,6 +3,7 @@ import { RHETORIC_CATALOG, type RhetoricCard } from './config.js';
 import { END_TURN_ACTION, PLAY_CARD_ACTION } from './blueprint.js';
 import { projectRhetoricTransition, type RhetoricPresentationTransition } from './presentation.js';
 import { RhetoricDuelSession, type RhetoricSnapshot } from './session.js';
+import { decodeVisualCardAction, projectHandVisuals, type RhetoricHandVisual } from './card-presentation.js';
 
 export const SKIP_PRESENTATION_ACTION = 'rhetoric.skip-presentation';
 export const EXIT_ACTION = 'rhetoric.exit';
@@ -16,6 +17,8 @@ export type RhetoricPresentationView = Readonly<{
   transition?: RhetoricPresentationTransition;
   announcement: string;
   result?: 'win' | 'loss';
+  handVisuals: readonly RhetoricHandVisual[];
+  playedIndex?: number;
 }>;
 
 type ControllerOptions = Readonly<{
@@ -29,7 +32,7 @@ const isTerminal = (snapshot: RhetoricSnapshot): boolean => snapshot.phase === '
 
 function phaseSnapshot(transition: RhetoricPresentationTransition, phase: string): RhetoricSnapshot {
   if (transition.kind === 'enter') return phase === 'camera' || phase === 'reveal-intent' ? transition.before : transition.after;
-  if (transition.kind === 'card-played') return phase === 'card-lift' || phase === 'card-flight' ? transition.before : transition.after;
+  if (transition.kind === 'card-played') return phase === 'card-flight' ? transition.before : transition.after;
   if (transition.kind === 'enemy-turn') {
     if (phase === 'round-end' || phase === 'enemy-intent') return transition.before;
     if (phase === 'enemy-impact') return { ...transition.before, pressure: transition.after.pressure };
@@ -76,6 +79,7 @@ export class RhetoricPresentationController implements ActionSink {
   private spoken = '';
   private submitted?: RhetoricGameResult;
   private closed = false;
+  private readonly playedIndexes = new WeakMap<RhetoricPresentationTransition, number>();
 
   constructor(readonly session: RhetoricDuelSession, private readonly options: ControllerOptions = {}) {
     this.shown = session.snapshot();
@@ -84,6 +88,10 @@ export class RhetoricPresentationController implements ActionSink {
   }
 
   get view(): RhetoricPresentationView {
+    const handVisuals = this.active
+      ? projectHandVisuals(this.active.before.hand, this.active.after.hand)
+      : projectHandVisuals(this.shown.hand, this.shown.hand);
+    const playedIndex = this.active?.kind === 'card-played' ? this.playedIndexes.get(this.active) : undefined;
     return {
       snapshot: this.shown,
       phase: this.phaseName,
@@ -92,6 +100,8 @@ export class RhetoricPresentationController implements ActionSink {
       ...(this.active ? { transition: this.active } : {}),
       announcement: this.spoken,
       ...(isTerminal(this.shown) ? { result: this.shown.phase === 'victory' ? 'win' : 'loss' } : {}),
+      handVisuals,
+      ...(playedIndex === undefined ? {} : { playedIndex }),
     };
   }
 
@@ -108,8 +118,11 @@ export class RhetoricPresentationController implements ActionSink {
     }
     if (this.busy || isTerminal(this.session.snapshot())) return;
     if (name === PLAY_CARD_ACTION && value?.arg) {
-      this.session.play(value.arg);
-      this.queueCommitted(this.session.takeTransitions());
+      const request = decodeVisualCardAction(value.arg);
+      const before = this.session.snapshot();
+      const playedIndex = request.index ?? before.hand.indexOf(request.cardId);
+      this.session.play(request.cardId);
+      this.queueCommitted(this.session.takeTransitions(), playedIndex >= 0 ? playedIndex : undefined);
     } else if (name === END_TURN_ACTION) {
       this.session.endTurn();
       this.queueCommitted(this.session.takeTransitions());
@@ -118,7 +131,7 @@ export class RhetoricPresentationController implements ActionSink {
 
   playVisibleCard(index: number): void {
     const cardId = this.session.snapshot().hand[index];
-    if (cardId) this.enqueueAction(PLAY_CARD_ACTION, { arg: cardId });
+    if (cardId) this.enqueueAction(PLAY_CARD_ACTION, { arg: `@visual:${index}:${cardId}` });
   }
 
   advance(): string {
@@ -153,8 +166,12 @@ export class RhetoricPresentationController implements ActionSink {
 
   recoverAfterBlur(): void { if (this.busy) this.skip(); }
 
-  private queueCommitted(transitions: readonly RhetoricPresentationTransition[]): void {
+  private queueCommitted(transitions: readonly RhetoricPresentationTransition[], playedIndex?: number): void {
     if (transitions.length === 0) return;
+    if (playedIndex !== undefined) {
+      const played = transitions.find((transition) => transition.kind === 'card-played');
+      if (played) this.playedIndexes.set(played, playedIndex);
+    }
     this.pending.push(...transitions);
     if (!this.active) this.startNext();
   }

@@ -1,0 +1,153 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "game-rhetoric-duel/background/old-alley",
+      "type": "texture",
+      "description": "雨后旧巷桌面对局背景；左侧文字区、中央偏右人物锚位、右上指标负空间",
+      "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/background-old-alley.png",
+      "category": "background",
+      "tags": ["skin", "rhetoric-duel", "background", "old-alley"],
+      "source": "OpenAI image generation; original project prompt; 2026-09-23",
+      "license": "project-original",
+      "style": "ink-bronze.painterly",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1672, "height": 941, "transparent": false },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "w5-old-alley-v1", "generatedAt": "2026-09-23", "sha256": "aae49790c872331f4d393d8228d50689fce2b40502816e31108ee6454eed9be1", "note": "Original composition; demo source files were not used or copied." }
+    },
+    {
+      "id": "game-rhetoric-duel/opponent/shi",
+      "type": "texture",
+      "description": "石七原创透明全身立绘；守门姿态、肩臂轮廓清楚",
+      "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/opponent-shi.png",
+      "category": "sprite.character",
+      "tags": ["skin", "rhetoric-duel", "opponent", "shi", "transparent"],
+      "source": "OpenAI image generation; original project prompt; 2026-09-23",
+      "license": "project-original",
+      "style": "ink-bronze.painterly",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 941, "height": 1672, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "w5-opponent-shi-v1", "generatedAt": "2026-09-23", "sha256": "24439c9a6a5c09634b941af1a2d0ffe4c51a7a43aafec6156eb3d05be69a406b", "note": "Original Shi Qi character; not a renamed or edited demo character; real alpha retained." }
+    },
+    {
+      "id": "game-rhetoric-duel/card/probe-question",
+      "type": "texture", "description": "试探提问卡图：观察眼与探查线索", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/card/probe-question.svg", "category": "icon.card", "tags": ["skin", "rhetoric-duel", "card", "bronze-line"],
+      "source": "original procedural SVG authored for game-rhetoric-duel", "license": "project-original", "style": "bronze-line",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 160, "height": 160, "transparent": true },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "semantic": "observation and probing", "generatedAt": "2026-09-23", "sha256": "53c1d4eafa12e84b20405804425cceca70928869787c7bfecb1bf33f603db0a3" }
+    },
+    {
+      "id": "game-rhetoric-duel/card/pin-down-detail",
+      "type": "texture", "description": "钉住细节卡图：被笔锋钉住的论点框", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/card/pin-down-detail.svg", "category": "icon.card", "tags": ["skin", "rhetoric-duel", "card", "bronze-line"],
+      "source": "original procedural SVG authored for game-rhetoric-duel", "license": "project-original", "style": "bronze-line",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 160, "height": 160, "transparent": true },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "semantic": "pin down a spoken detail", "generatedAt": "2026-09-23", "sha256": "00392e15778425af1e62e03378b8e55b425ce1da3371ff37507c06c85f39d549" }
+    },
+    {
+      "id": "game-rhetoric-duel/card/steady-breath",
+      "type": "texture", "description": "稳住呼吸卡图：回旋气流与平缓呼气", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/card/steady-breath.svg", "category": "icon.card", "tags": ["skin", "rhetoric-duel", "card", "bronze-line"],
+      "source": "original procedural SVG authored for game-rhetoric-duel", "license": "project-original", "style": "bronze-line",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 160, "height": 160, "transparent": true },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "semantic": "calm breathing and pressure relief", "generatedAt": "2026-09-23", "sha256": "06f7acc62b765fac2529ad8d0d762e0d41dbe4d0d5d3d582fcbe5681a45bf298" }
+    },
+    {
+      "id": "game-rhetoric-duel/card/catch-the-thread",
+      "type": "texture", "description": "接住话头卡图：盾形承接与相连话线", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/card/catch-the-thread.svg", "category": "icon.card", "tags": ["skin", "rhetoric-duel", "card", "bronze-line"],
+      "source": "original procedural SVG authored for game-rhetoric-duel", "license": "project-original", "style": "bronze-line",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 160, "height": 160, "transparent": true },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "semantic": "receive and redirect an argument", "generatedAt": "2026-09-23", "sha256": "b6f68a5f421807a597d751f8d23b70e326a66099946d5bfed801279cdd3cda07" }
+    },
+    {
+      "id": "game-rhetoric-duel/card/press-the-point",
+      "type": "texture", "description": "连环诘问卡图：连续对话冲击", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/card/press-the-point.svg", "category": "icon.card", "tags": ["skin", "rhetoric-duel", "card", "bronze-line"],
+      "source": "original procedural SVG authored for game-rhetoric-duel", "license": "project-original", "style": "bronze-line",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 160, "height": 160, "transparent": true },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "semantic": "successive verbal impact", "generatedAt": "2026-09-23", "sha256": "06dc99f3076b4fef46bd8c07ba2eaba43d8d4729a59b498af2b28379da2ca0b7" }
+    },
+    {
+      "id": "game-rhetoric-duel/card/reframe-the-case",
+      "type": "texture", "description": "换位陈述卡图：双向转位与重构", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/card/reframe-the-case.svg", "category": "icon.card", "tags": ["skin", "rhetoric-duel", "card", "bronze-line"],
+      "source": "original procedural SVG authored for game-rhetoric-duel", "license": "project-original", "style": "bronze-line",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 160, "height": 160, "transparent": true },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "semantic": "reframe and change perspective", "generatedAt": "2026-09-23", "sha256": "225632fa3dc02e860ab77b43b52e1529bdf79e713f16713436dbf0b22adb14a3" }
+    },
+    {
+      "id": "game-rhetoric-duel/card/state-the-line",
+      "type": "texture", "description": "直陈底线卡图：坚硬竖线与明确边界", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/card/state-the-line.svg", "category": "icon.card", "tags": ["skin", "rhetoric-duel", "card", "bronze-line"],
+      "source": "original procedural SVG authored for game-rhetoric-duel", "license": "project-original", "style": "bronze-line",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 160, "height": 160, "transparent": true },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "semantic": "firm boundary and strong stance", "generatedAt": "2026-09-23", "sha256": "90202529770c9300e2a829dd78e2918d91ebd92cdb7e00f93cf5af83fca19260" }
+    },
+    {
+      "id": "game-rhetoric-duel/card/hold-the-answer",
+      "type": "texture", "description": "暂缓回应卡图：封住的回应与省略点", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/card/hold-the-answer.svg", "category": "icon.card", "tags": ["skin", "rhetoric-duel", "card", "bronze-line"],
+      "source": "original procedural SVG authored for game-rhetoric-duel", "license": "project-original", "style": "bronze-line",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 160, "height": 160, "transparent": true },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "semantic": "withhold a response defensively", "generatedAt": "2026-09-23", "sha256": "6115dd12288d05595ebe4db18c6a5910ee575fe4fc7f13482f39149d1ccb90d3" }
+    },
+    {
+      "id": "game-rhetoric-duel/card/gather-your-thoughts",
+      "type": "texture", "description": "整理思路卡图：线索汇聚成灯意", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/card/gather-your-thoughts.svg", "category": "icon.card", "tags": ["skin", "rhetoric-duel", "card", "bronze-line"],
+      "source": "original procedural SVG authored for game-rhetoric-duel", "license": "project-original", "style": "bronze-line",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 160, "height": 160, "transparent": true },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "semantic": "gather thoughts into insight", "generatedAt": "2026-09-23", "sha256": "857083ef131c092b3c5a6bceb9cc5c9413a7ae02d08c34b64e32978215d82a06" }
+    },
+    {
+      "id": "game-rhetoric-duel/card/close-the-argument",
+      "type": "texture", "description": "收束论点卡图：双环印章与定论卷线", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/card/close-the-argument.svg", "category": "icon.card", "tags": ["skin", "rhetoric-duel", "card", "bronze-line"],
+      "source": "original procedural SVG authored for game-rhetoric-duel", "license": "project-original", "style": "bronze-line",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 160, "height": 160, "transparent": true },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "semantic": "seal and conclude an argument", "generatedAt": "2026-09-23", "sha256": "4edae552d726541a3208c2c3922f8b31f9d8254f7a99e4fccf1fea7338f539ff" }
+    },
+    {
+      "id": "game-rhetoric-duel/card/back",
+      "type": "texture", "description": "深墨斜纹双金线无文字通用牌背", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/card/back.svg", "category": "card.back", "tags": ["skin", "rhetoric-duel", "card", "back"],
+      "source": "original procedural SVG authored for game-rhetoric-duel", "license": "project-original", "style": "ink-bronze",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 240, "height": 360, "transparent": false },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "semantic": "dark diagonal hatch with double bronze-gold rule", "generatedAt": "2026-09-23", "sha256": "f291d1d5e011d327130890a5506d2b927d235123b248e432f8fdd09598e77bc7" }
+    },
+    {
+      "id": "game-rhetoric-duel/background/apothecary",
+      "type": "texture", "description": "雨夜旧药铺对局背景；左侧文字区、中央偏右人物锚位、右上指标负空间", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/background-apothecary.png", "category": "background", "tags": ["skin", "rhetoric-duel", "background", "apothecary"],
+      "source": "OpenAI image generation; original project prompt; 2026-09-23", "license": "project-original", "style": "ink-bronze.painterly",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1672, "height": 941, "transparent": false },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "w5-apothecary-v1", "generatedAt": "2026-09-23", "sha256": "6068ece72e81718e84e1aab0ddbfbc7099739d6ca25a9403de4e4eba3d535b7c", "note": "Original composition; demo source files were not used or copied." }
+    },
+    {
+      "id": "game-rhetoric-duel/opponent/luo",
+      "type": "texture", "description": "罗掌柜原创透明全身立绘；持算盘的盘算姿态", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/opponent-luo.png", "category": "sprite.character", "tags": ["skin", "rhetoric-duel", "opponent", "luo", "transparent"],
+      "source": "OpenAI image generation; original project prompt; 2026-09-23", "license": "project-original", "style": "ink-bronze.painterly",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 941, "height": 1672, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "w5-opponent-luo-v1", "generatedAt": "2026-09-23", "sha256": "da27251f43a5e1e0998a9a8b8ca7b91c7e1a53a37da54b4885b9927df2c7f6a6", "note": "Original Shopkeeper Luo character; no demo character source was used." }
+    },
+    {
+      "id": "game-rhetoric-duel/background/lecture-hall",
+      "type": "texture", "description": "风雨讲堂对局背景；左侧文字区、中央偏右人物锚位、右上指标负空间", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/background-lecture-hall.png", "category": "background", "tags": ["skin", "rhetoric-duel", "background", "lecture-hall"],
+      "source": "OpenAI image generation; original project prompt; 2026-09-23", "license": "project-original", "style": "ink-bronze.painterly",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1672, "height": 941, "transparent": false },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "w5-lecture-hall-v1", "generatedAt": "2026-09-23", "sha256": "7152ff8e6adb633acd53ba2d39761ad97d7f02c9dc75a861540a7f92ee4b6cd8", "note": "Original composition; demo source files were not used or copied." }
+    },
+    {
+      "id": "game-rhetoric-duel/opponent/jiang",
+      "type": "texture", "description": "姜教习原创透明全身立绘；持竹教鞭的严正姿态", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/opponent-jiang.png", "category": "sprite.character", "tags": ["skin", "rhetoric-duel", "opponent", "jiang", "transparent"],
+      "source": "OpenAI image generation; original project prompt; 2026-09-23", "license": "project-original", "style": "ink-bronze.painterly",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 941, "height": 1672, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "w5-opponent-jiang-v1", "generatedAt": "2026-09-23", "sha256": "754b95e4cadda50cfb24bfa163b752699c0e869b5b72db03be4e73af73170de9", "note": "Original Instructor Jiang character; no demo character source was used." }
+    }
+  ]
+}

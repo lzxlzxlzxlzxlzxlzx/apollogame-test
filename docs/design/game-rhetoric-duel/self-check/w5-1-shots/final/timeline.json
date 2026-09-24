@@ -1,0 +1,270 @@
+{
+  "mode": "final",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "deal": [
+    {
+      "file": "deal-opening-000ms.png",
+      "requestedMs": 0,
+      "phase": "deal-opening-hand",
+      "animationCount": 15
+    },
+    {
+      "file": "deal-opening-150ms.png",
+      "requestedMs": 150,
+      "phase": "deal-opening-hand",
+      "animationCount": 15
+    },
+    {
+      "file": "deal-opening-300ms.png",
+      "requestedMs": 300,
+      "phase": "deal-opening-hand",
+      "animationCount": 15
+    },
+    {
+      "file": "deal-opening-450ms.png",
+      "requestedMs": 450,
+      "phase": "deal-opening-hand",
+      "animationCount": 15
+    },
+    {
+      "file": "deal-opening-690ms.png",
+      "requestedMs": 690,
+      "phase": "deal-opening-hand",
+      "animationCount": 15
+    }
+  ],
+  "plays": [
+    {
+      "index": 0,
+      "start": {
+        "arg": "@visual:0:catch-the-thread",
+        "x": 329,
+        "y": 642,
+        "width": 138,
+        "height": 244,
+        "cx": 398,
+        "cy": 764
+      },
+      "initialPhase": "card-flight",
+      "flightPhase": "card-flight",
+      "frames": [
+        {
+          "file": "play-slot-1-000ms.png",
+          "requestedMs": 0,
+          "phase": "card-flight",
+          "animationCount": 2
+        },
+        {
+          "file": "play-slot-1-080ms.png",
+          "requestedMs": 80,
+          "phase": "card-flight",
+          "animationCount": 2
+        },
+        {
+          "file": "play-slot-1-160ms.png",
+          "requestedMs": 160,
+          "phase": "card-flight",
+          "animationCount": 2
+        },
+        {
+          "file": "play-slot-1-240ms.png",
+          "requestedMs": 240,
+          "phase": "card-flight",
+          "animationCount": 2
+        },
+        {
+          "file": "play-slot-1-320ms.png",
+          "requestedMs": 320,
+          "phase": "card-flight",
+          "animationCount": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "start": {
+        "arg": "@visual:2:pin-down-detail",
+        "x": 625,
+        "y": 642,
+        "width": 138,
+        "height": 244,
+        "cx": 694,
+        "cy": 764
+      },
+      "initialPhase": "card-flight",
+      "flightPhase": "card-flight",
+      "frames": [
+        {
+          "file": "play-slot-3-000ms.png",
+          "requestedMs": 0,
+          "phase": "card-flight",
+          "animationCount": 2
+        },
+        {
+          "file": "play-slot-3-080ms.png",
+          "requestedMs": 80,
+          "phase": "card-flight",
+          "animationCount": 2
+        },
+        {
+          "file": "play-slot-3-160ms.png",
+          "requestedMs": 160,
+          "phase": "card-flight",
+          "animationCount": 2
+        },
+        {
+          "file": "play-slot-3-240ms.png",
+          "requestedMs": 240,
+          "phase": "card-flight",
+          "animationCount": 2
+        },
+        {
+          "file": "play-slot-3-320ms.png",
+          "requestedMs": 320,
+          "phase": "card-flight",
+          "animationCount": 2
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "start": {
+        "arg": "@visual:4:catch-the-thread",
+        "x": 921,
+        "y": 642,
+        "width": 138,
+        "height": 244,
+        "cx": 990,
+        "cy": 764
+      },
+      "initialPhase": "card-flight",
+      "flightPhase": "card-flight",
+      "frames": [
+        {
+          "file": "play-slot-5-000ms.png",
+          "requestedMs": 0,
+          "phase": "card-flight",
+          "animationCount": 2
+        },
+        {
+          "file": "play-slot-5-080ms.png",
+          "requestedMs": 80,
+          "phase": "card-flight",
+          "animationCount": 2
+        },
+        {
+          "file": "play-slot-5-160ms.png",
+          "requestedMs": 160,
+          "phase": "card-flight",
+          "animationCount": 2
+        },
+        {
+          "file": "play-slot-5-240ms.png",
+          "requestedMs": 240,
+          "phase": "card-flight",
+          "animationCount": 2
+        },
+        {
+          "file": "play-slot-5-320ms.png",
+          "requestedMs": 320,
+          "phase": "card-flight",
+          "animationCount": 2
+        }
+      ]
+    }
+  ],
+  "states": [
+    {
+      "name": "ready",
+      "phase": "ready",
+      "cards": [
+        {
+          "id": "rhetoric-card-catch-the-thread--0",
+          "arg": "@visual:0:catch-the-thread",
+          "x": 329,
+          "y": 642,
+          "width": 138,
+          "height": 244,
+          "cx": 398,
+          "cy": 764
+        },
+        {
+          "id": "rhetoric-card-reframe-the-case--0",
+          "arg": "@visual:1:reframe-the-case",
+          "x": 477,
+          "y": 642,
+          "width": 138,
+          "height": 244,
+          "cx": 546,
+          "cy": 764
+        },
+        {
+          "id": "rhetoric-card-pin-down-detail--0",
+          "arg": "@visual:2:pin-down-detail",
+          "x": 625,
+          "y": 642,
+          "width": 138,
+          "height": 244,
+          "cx": 694,
+          "cy": 764
+        },
+        {
+          "id": "rhetoric-card-gather-your-thoughts--0",
+          "arg": "@visual:3:gather-your-thoughts",
+          "x": 773,
+          "y": 642,
+          "width": 138,
+          "height": 244,
+          "cx": 842,
+          "cy": 764
+        },
+        {
+          "id": "rhetoric-card-catch-the-thread--1",
+          "arg": "@visual:4:catch-the-thread",
+          "x": 921,
+          "y": 642,
+          "width": 138,
+          "height": 244,
+          "cx": 990,
+          "cy": 764
+        }
+      ],
+      "deck": {
+        "x": 1168,
+        "y": 654,
+        "width": 55,
+        "height": 78,
+        "cx": 1195.5,
+        "cy": 693
+      }
+    },
+    {
+      "name": "deal-new-cards",
+      "frames": [
+        {
+          "file": "deal-refill-000ms.png",
+          "requestedMs": 0,
+          "phase": "deal-new-cards",
+          "animationCount": 6
+        },
+        {
+          "file": "deal-refill-690ms.png",
+          "requestedMs": 690,
+          "phase": "deal-new-cards",
+          "animationCount": 6
+        }
+      ]
+    },
+    {
+      "name": "disabled-busy",
+      "phase": "card-flight"
+    },
+    {
+      "name": "reduced-motion",
+      "phase": "card-flight"
+    }
+  ]
+}

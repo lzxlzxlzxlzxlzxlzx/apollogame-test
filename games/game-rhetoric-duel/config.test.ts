@@ -12,7 +12,7 @@ describe('game-rhetoric-duel · W1 internal configuration', () => {
     for (const card of RHETORIC_CATALOG) {
       expect(card).toMatchObject({
         cardId: expect.any(String), displayName: expect.any(String), flavorText: expect.any(String),
-        focusCost: expect.any(Number), maxCopies: expect.any(Number), skinKey: `skin.card.${card.cardId}`,
+        focusCost: expect.any(Number), maxCopies: expect.any(Number), skinKey: `game-rhetoric-duel/card/${card.cardId}`,
       });
       expect(card.effects.length).toBeGreaterThan(0);
       for (const effect of card.effects) {
@@ -34,6 +34,9 @@ describe('game-rhetoric-duel · W1 internal configuration', () => {
       .toEqual(['gatekeeper-shi', 'merchant-luo', 'instructor-jiang']);
     for (const fixture of RHETORIC_FIXTURES) {
       const { encounter } = validateRhetoricGameConfig(fixture);
+      expect(encounter.backgroundSkinKey).toMatch(/^game-rhetoric-duel\/background\//);
+      expect(encounter.portraitSkinKey).toMatch(/^game-rhetoric-duel\/opponent\//);
+      expect(fixture.renderSkin.cardSkinPrefix).toBe('game-rhetoric-duel/card/');
       expect(encounter.intentions.length).toBeGreaterThanOrEqual(encounter.turnLimit);
       expect(new Set(encounter.intentions.map((intent) => intent.id)).size).toBe(encounter.intentions.length);
       expect(JSON.stringify(fixture)).not.toMatch(/https?:\/\//);
@@ -63,6 +66,6 @@ describe('game-rhetoric-duel · W1 internal configuration', () => {
     hostile.catalog = [{ cardId: 'probe-question', displayName: '伪造', focusCost: 0, effects: [], skinKey: 'https://evil.invalid/x.png' }];
     const normalized = validateRhetoricGameConfig(hostile) as unknown as Record<string, unknown>;
     expect(normalized.catalog).toBeUndefined();
-    expect(RHETORIC_CATALOG.find((card) => card.cardId === 'probe-question')).toMatchObject({ displayName: '试探提问', focusCost: 1, skinKey: 'skin.card.probe-question' });
+    expect(RHETORIC_CATALOG.find((card) => card.cardId === 'probe-question')).toMatchObject({ displayName: '试探提问', focusCost: 1, skinKey: 'game-rhetoric-duel/card/probe-question' });
   });
 });

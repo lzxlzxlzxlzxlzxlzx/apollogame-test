@@ -19,7 +19,7 @@ export type RhetoricPresentationTransition = Readonly<{
 
 export const RHETORIC_PRESENTATION_PHASES = [
   'camera', 'reveal-intent', 'deal-opening-hand', 'ready',
-  'card-lift', 'card-flight', 'impact', 'opponent-response',
+  'card-flight', 'impact', 'opponent-response',
   'round-end', 'enemy-intent', 'enemy-impact', 'focus-refresh', 'deal-new-cards',
   'victory-impact', 'portrait-resolve', 'failure-impact', 'portrait-dominates', 'result-panel',
 ] as const;
@@ -29,7 +29,7 @@ const catalog = (terminal: readonly string[]): PresentationCatalog => ({
   settledPhases: ['ready', 'result-panel'],
   sequences: {
     enter: ['camera', 'reveal-intent', 'deal-opening-hand', 'ready'],
-    'card-played': ['card-lift', 'card-flight', 'impact', 'opponent-response', 'ready'],
+    'card-played': ['card-flight', 'impact', 'opponent-response', 'ready'],
     'enemy-turn': ['round-end', 'enemy-intent', 'enemy-impact', 'focus-refresh', 'deal-new-cards', 'ready'],
     terminal,
   },

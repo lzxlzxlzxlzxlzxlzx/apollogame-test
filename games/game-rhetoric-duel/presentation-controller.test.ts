@@ -29,7 +29,7 @@ describe('game-rhetoric-duel · W4 presentation controller', () => {
     expect(settle(controller)).toEqual(['camera', 'reveal-intent', 'deal-opening-hand', 'ready']);
     const cardId = controller.session.snapshot().hand[0]!;
     controller.enqueueAction(PLAY_CARD_ACTION, { arg: cardId });
-    expect(settle(controller)).toEqual(['card-lift', 'card-flight', 'impact', 'opponent-response', 'ready']);
+    expect(settle(controller)).toEqual(['card-flight', 'impact', 'opponent-response', 'ready']);
     controller.enqueueAction(END_TURN_ACTION);
     expect(settle(controller)).toEqual(['round-end', 'enemy-intent', 'enemy-impact', 'focus-refresh', 'deal-new-cards', 'ready']);
   });
@@ -43,7 +43,22 @@ describe('game-rhetoric-duel · W4 presentation controller', () => {
     controller.enqueueAction(PLAY_CARD_ACTION, { arg: cardId });
     controller.playVisibleCard(0);
     expect(controller.session.snapshot().hand.length).toBe(before.hand.length - 1);
-    expect(controller.view.phase).toBe('card-lift');
+    expect(controller.view.phase).toBe('card-flight');
+  });
+
+  it('点击第 5 卡位从真实槽位飞行，impact 前保留其余槽位、impact 后才收拢', () => {
+    const controller = new RhetoricPresentationController(new RhetoricDuelSession());
+    settle(controller);
+    const before = controller.view.snapshot;
+    controller.playVisibleCard(4);
+    expect(controller.view.phase).toBe('card-flight');
+    expect(controller.view.playedIndex).toBe(4);
+    expect(controller.view.snapshot.hand).toEqual(before.hand);
+    expect(controller.view.handVisuals.find((visual) => visual.previousIndex === 4)?.status).toBe('played');
+    controller.advance();
+    expect(controller.view.phase).toBe('impact');
+    expect(controller.view.snapshot.hand).toEqual(controller.session.snapshot().hand);
+    expect(controller.view.snapshot.hand).toHaveLength(before.hand.length - 1);
   });
 
   it('即时胜利先播资源冲击，再播终局且绝不插入 enemy-turn', () => {
@@ -52,7 +67,7 @@ describe('game-rhetoric-duel · W4 presentation controller', () => {
     settle(controller);
     controller.enqueueAction(PLAY_CARD_ACTION, { arg: 'probe-question' });
     expect(settle(controller)).toEqual([
-      'card-lift', 'card-flight', 'impact', 'opponent-response', 'ready',
+      'card-flight', 'impact', 'opponent-response', 'ready',
       'victory-impact', 'portrait-resolve', 'result-panel',
     ]);
     expect(results).toEqual(['win']);
