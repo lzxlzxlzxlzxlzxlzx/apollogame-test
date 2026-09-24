@@ -61,5 +61,5 @@
 | UI audit（ready + busy） | 0 / 0 | 两态均为 overlap 0、contrast hard/warn 0、border-image 0。审计器未从展开对象识别 house 主题并在 busy 态提示华丽件偏少；实查 `theme.ts` 明确 `...apolloBrocade` 且复用 `STARTER_THEME.buttonSkins`，D01–D14 真图/卡面/演出已目击，判为启发式非阻断提示。 |
 | asset index / ledger strict | 0 / 0 | art guard：black households/dead accounts/missing provenance 均 0；ledger：17/17 可消费、orphans 0。 |
 | game-skill-audit | 0 | 未覆盖红旗 0、缺失防线 0、ratchet PASS。 |
-| scoped-gate | 待 owner 回传 | `scoped-gate` 会读取 Git；受 Owner 本机操作禁令约束，必须由 owner 亲自运行并回传真实退出码。 |
+| scoped-gate | 0 | owner 在提交后的干净 worktree 以 `a7f28048f5f3921ce18e28230557cd0e3b12dfa7` 为基线复跑；判定 `GAME:game-rhetoric-duel`，116 文件，audit、eslint、depcruise、tsc、53 项游戏测试、build、docs-ref、context-budget 与 art-ledger-guard 全部通过。art guard 仅报告 game-a/game-c 既有基线债务；本游戏黑户/死账/缺来源均 0。 |
 | align-count S5 | 0 | `✅ 6 / ⚠ 1 / ❌ 0`；唯一 ⚠ 已写明 owner 裁决去向。 |
