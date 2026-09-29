@@ -118,6 +118,14 @@
       "provenance": { "method": "procedural-svg", "generator": "asset-manager", "semantic": "dark diagonal hatch with double bronze-gold rule", "generatedAt": "2026-09-23", "sha256": "f291d1d5e011d327130890a5506d2b927d235123b248e432f8fdd09598e77bc7" }
     },
     {
+      "id": "game-rhetoric-duel/card/frame",
+      "type": "texture", "description": "言弹卡通用羊皮纸卡框：双铜线、径向纸色、内外阴影与图像分隔线", "status": "filled",
+      "path": "/games/game-rhetoric-duel/art/card/frame.svg", "category": "ui.frame", "tags": ["skin", "rhetoric-duel", "card", "frame", "parchment"],
+      "source": "original procedural SVG authored from approved visual measurements", "license": "project-original", "style": "ink-bronze.parchment",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 150, "height": 218, "transparent": true },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "semantic": "reusable rhetoric card chrome with 5px shadow bleed", "generatedAt": "2026-09-24", "sha256": "266189739734f312ac8eedf3085cf45b3e2489921e6ce20eaaba15b50fc891c9" }
+    },
+    {
       "id": "game-rhetoric-duel/background/apothecary",
       "type": "texture", "description": "雨夜旧药铺对局背景；左侧文字区、中央偏右人物锚位、右上指标负空间", "status": "filled",
       "path": "/games/game-rhetoric-duel/art/background-apothecary.png", "category": "background", "tags": ["skin", "rhetoric-duel", "background", "apothecary"],

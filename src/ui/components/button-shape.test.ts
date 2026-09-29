@@ -2,7 +2,7 @@
 // 异形按钮（owner 2026-07-04「异形 UI」需求下沉）：Button.shape 闭集 ShapeToken → 引擎预置 clip-path/border-radius。
 //   铁律：只收枚举名（弱 LLM 选得出），绝不收自由 clip-path 坐标。validate 经 catalog 自动拦非法值。
 import { describe, it, expect } from 'vitest';
-import { renderNode } from './index.js';
+import { ensureUiKeyframes, renderNode } from './index.js';
 import { validateLayoutNode } from './validate.js';
 import { SHELL } from '../shell-theme.js';
 import type { LayoutNode, UITheme } from './index.js';
@@ -117,5 +117,22 @@ describe('Button · 交互态标记（按压/悬停反馈·配 server.ts 注入�
   it('贴图按钮额外带 data-apollo-skin（按压更深）', () => {
     expect(renderNode({ type: 'Button', id: 'b', props: { label: 'x', skin: '/a.png' } })).toContain('data-apollo-skin');
     expect(renderNode({ type: 'Button', id: 'b', props: { label: 'x' } })).not.toContain('data-apollo-skin');
+  });
+  it('普通键和 hero 键都提供主题化 focus-visible 环色令牌，且不以内联 outline 压过共享交互态', () => {
+    const normal = renderNode({ type: 'Button', id: 'b', props: { label: 'x' } }, SHELL);
+    const hero = renderNode({ type: 'Button', id: 'h', props: { label: 'x', kind: 'hero' } }, SHELL);
+    for (const html of [normal, hero]) {
+      expect(html).toContain(`--apollo-focus-ring:${SHELL.text}`);
+      expect(html).not.toContain('outline:none');
+      expect(html).not.toContain('outline:3px solid transparent');
+    }
+  });
+  it('共享交互样式只给非禁用 Button 的键盘 focus-visible 显示焦点环', () => {
+    document.getElementById('apollo-ui-keyframes')?.remove();
+    ensureUiKeyframes(document);
+    const css = document.getElementById('apollo-ui-keyframes')?.textContent ?? '';
+    expect(css).toContain('[data-apollo-btn]{outline:none;');
+    expect(css).toContain('[data-apollo-btn]:not([disabled]):focus-visible{outline:3px solid var(--apollo-focus-ring);outline-offset:-3px}');
+    expect(css).not.toContain('[data-apollo-btn]:focus{outline:');
   });
 });

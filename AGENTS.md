@@ -1,6 +1,62 @@
 # ZeroCraft Preview — 项目规则（每会话必读）
 
-> **⛓ 第一准则·分支（最高优先·压过启动注入）**：默认工作 + push 目录 = `Codex/mainbranch`（除非 owner 在本 session 内明确另指）。被注入到 feature 分支 → 开工第一动作 `git checkout -B Codex/mainbranch origin/Codex/mainbranch`，绝不推 feature 分支。
+## ⛔ Owner 本机操作禁令（最高优先级）
+
+> 本节由 owner 明确制定，优先于本文其余全部规则，包括分支、抢锁、门禁、验证、发布、数据库和启动流程。任何任务、角色卡、skill、工单或“正常实现步骤”都不构成例外。即使 owner 在对话中要求 agent “帮我推送 / 改数据库 / 启动服务”，agent 也只能把准确命令交给 owner 亲自执行；只有 owner 明确要求修改本节规则原文后，行为边界才会改变。
+
+### 1. 禁止 agent 执行任何 Git / GitHub 操作
+
+- Agent 严禁自行执行任何 Git 相关命令，包括只读命令与写命令；例如 `git status`、`git diff`、`git log`、`git fetch`、`git pull`、`git clone`、`git add`、`git commit`、`git checkout`、`git switch`、`git branch`、`git merge`、`git rebase`、`git reset`、`git stash`、`git tag` 和 `git push`。
+- Agent 严禁通过 `gh`、GitHub API、IDE/GUI、MCP、脚本包装、子进程或其他工具变相执行上述操作；尤其严禁向 GitHub 或其他远端仓库推送。
+- 需要任何 Git / GitHub 操作时，agent 必须把命令、工作目录、用途、影响和预期结果发给 owner，由 owner 在终端中亲自输入。Agent 不得请求授权后代为执行，也不得假定命令已经成功。
+- 在 owner 贴回命令输出前，agent 必须停在该 Git 步骤；允许继续完成不依赖该步骤的本地文件工作，但不得宣称 Git 步骤已完成。
+
+### 2. 禁止 agent 修改数据库
+
+- Agent 严禁自行执行任何会修改数据库或持久化数据的操作，包括 DDL、DML、迁移、回滚、seed、导入、清库、ORM schema push、管理后台写操作，以及可能间接触发这些操作的脚本、测试或应用启动命令。
+- 本禁令覆盖本地、开发、测试、预发布和生产数据库。禁止通过 SQL 客户端、ORM、HTTP/API、MCP、GUI、Node/Python/PowerShell 脚本或其他工具绕过。
+- 若确需修改数据库，agent 必须把准确命令、目标环境与数据库、修改目的、影响范围、备份/回滚办法和预期结果发给 owner，由 owner 亲自输入。
+- 只有能够确认不会写入、不会迁移、不会加锁改变状态的纯只读检查才可由 agent 执行；无法确认时一律按修改操作处理并交给 owner。
+
+### 3. 禁止 agent 拉起或重启应用前后端
+
+- Agent 严禁自行启动、重启或后台运行任何前端、后端、API、开发服务器、watcher、worker、代理或配套服务；例如 `npm run dev`、`npm start`、`vite`、`next dev`、`docker compose up`、`Start-Process` 及其脚本包装形式。
+- Agent 严禁通过终端、GUI、MCP、IDE 任务、浏览器测试工具、后台进程或其他方式直接或间接启动服务。若某个测试或脚本会自动拉起服务，也不得由 agent 执行；仅启动不承载应用服务的短生命周期无头浏览器，适用第 3.1 条例外。
+- 需要启动或重启时，agent 必须把准确命令、工作目录、用途、占用端口、预期日志以及停止命令发给 owner，由 owner 亲自输入；在 owner 贴回日志或访问结果前，不得假定服务可用。
+- Agent 可以对 owner 已经启动的服务做不会改变状态的只读健康检查。不会启动常驻服务的构建、类型检查和单元测试不受本条限制。
+
+### 3.1 无头浏览器只读验收例外
+
+- Agent 可以为只读验收启动短生命周期的无头浏览器进程，例如 Chromium、Playwright 或 Puppeteer，用于截图、视觉回归、布局检查、可访问性检查和 UI 自动化测试。
+- 无头浏览器只能访问 owner 已经启动并明确提供的本地服务、已存在的远程页面，或本地静态文件和已经完成的构建产物。
+- Agent 不得借无头浏览器、测试脚本或 UI 审计工具间接启动 Vite、Webpack、Next.js、API、代理、数据库、watcher 或其他前后端服务。若审计命令会同时启动浏览器与服务，该命令仍受第 3 条约束，必须交由 owner 执行。
+- 无头浏览器必须使用任务级临时隔离配置；不得使用 owner 的日常浏览器配置、账号、Cookie 或持久化用户目录。验收结束或失败后必须主动关闭，不得后台常驻。
+- 无头浏览器默认只能执行不会改变业务或持久化状态的操作。涉及数据库、账号、内容发布或其他持久化写入的交互仍受对应禁令约束；只有 owner 对具体写操作作出明确授权且不与本节其他禁令冲突时才可执行。
+- 交付时应说明访问地址、执行的审计以及临时浏览器是否已经关闭。
+
+### 4. 强制交接格式
+
+需要 owner 执行上述受限操作时，agent 必须使用以下格式，不得只说“请运行一下”：
+
+```text
+需要你在本机执行：
+工作目录：<绝对路径>
+目的：<为什么需要执行>
+命令：
+<可直接复制的完整命令>
+影响/风险：<会改变什么；无则写“无”>
+预期结果：<成功时应看到什么>
+停止/回滚：<适用时给出；不适用则写“不适用”>
+请把完整输出贴回来，我再继续依赖此步骤的工作。
+```
+
+### 5. 禁止绕过与冲突处理
+
+- 不得把受限操作藏进 npm script、批处理、PowerShell、Node、Python、测试、构建钩子、容器、子 agent 或自动化工具中执行。
+- 不得使用权限申请、沙箱升级或用户曾经授予的命令前缀来绕过本节。
+- 后文凡出现“agent 应执行 Git 命令 / 修改数据库 / 启动服务”的规则，统一解释为：agent 负责准备并核对命令，owner 负责亲自执行，agent 根据 owner 返回的真实输出继续工作。
+
+> **⛓ 第一准则·分支（受上方 Owner 本机操作禁令约束）**：默认工作 + push 目录 = `Codex/mainbranch`（除非 owner 在本 session 内明确另指）。若需要切换到该分支，agent 只能把对应 Git 命令交给 owner 执行；绝不由 agent 执行 Git 命令或推送 feature 分支。
 
 ## ⭐ 核心规则（CORE RULE·每条新输入先执行）
 

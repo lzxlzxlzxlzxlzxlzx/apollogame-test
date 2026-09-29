@@ -14,9 +14,10 @@ import { tweenCapability } from '@zerocraft/engine/skills/tier1/index.js';
 import type { Color, Text, Transform, Tween, Visibility } from '@zerocraft/engine/engine/protocol/components.js';
 import type { RhetoricGameConfig } from './config.js';
 import { visibleDelta, type RhetoricPresentationView } from './presentation-controller.js';
+import { RHETORIC_VIEWPORT_SPEC } from './card-presentation.js';
 
-export const RHETORIC_FIELD_W = 1440;
-export const RHETORIC_FIELD_H = 900;
+export const RHETORIC_FIELD_W = RHETORIC_VIEWPORT_SPEC.width;
+export const RHETORIC_FIELD_H = RHETORIC_VIEWPORT_SPEC.height;
 
 const visible = (isVisible = true): Record<string, unknown> => ({ type: 'Visibility', visible: isVisible, active: isVisible });
 
@@ -24,49 +25,85 @@ export function rhetoricOpponentVisibility(portraitReady: boolean): Readonly<{ a
   return { art: portraitReady, fallback: !portraitReady };
 }
 
+export type RhetoricOpponentPose = Readonly<{
+  x: number;
+  yShift: number;
+  rotation: number;
+  scale: number;
+  durationTicks: number;
+}>;
+
+const NEUTRAL_POSE: RhetoricOpponentPose = Object.freeze({ x: 885, yShift: 0, rotation: 0, scale: 1, durationTicks: 24 });
+
+/** Demo-derived render-only poses, amplified for the 1440×900 logical stage. */
+export function rhetoricOpponentPose(phase: string): RhetoricOpponentPose {
+  if (phase === 'enemy-intent') {
+    return { x: 835, yShift: 0, rotation: -0.025, scale: 1, durationTicks: 8 };
+  }
+  if (phase === 'failure-impact' || phase === 'portrait-dominates') {
+    return { x: 825, yShift: 0, rotation: -0.032, scale: 1, durationTicks: 20 };
+  }
+  if (phase === 'card-flight' || phase === 'victory-impact') {
+    return { x: 920, yShift: 0, rotation: 0.028, scale: 1, durationTicks: 8 };
+  }
+  if (phase === 'impact' || phase === 'enemy-impact' || phase === 'opponent-response' || phase === 'portrait-resolve') {
+    return { ...NEUTRAL_POSE, durationTicks: 8 };
+  }
+  return NEUTRAL_POSE;
+}
+
+const OPPONENT_PARTS = Object.freeze({
+  'opponent-art': { y: 465, scaleX: 0.51, scaleY: 0.51, rotation: 0 },
+  'opponent-shadow': { y: 822, scaleX: 1, scaleY: 1, rotation: 0 },
+  'opponent-body': { y: 514.5, scaleX: 1.08, scaleY: 1.08, rotation: 0 },
+  'opponent-sash': { y: 561, scaleX: 1.08, scaleY: 1.08, rotation: -0.08 },
+  'opponent-head': { y: 231, scaleX: 1.08, scaleY: 1.08, rotation: 0 },
+  'opponent-mark': { y: 246, scaleX: 1, scaleY: 1, rotation: 0 },
+});
+
 /** Render-only projection. Asset readiness never enters World state or the session hash. */
 export function rhetoricPlayFieldBlueprint(config: RhetoricGameConfig): WorldBlueprint {
   return {
     capabilities: [transformCapability, shapeCapability, spriteCapability, colorCapability, textCapability, visibilityCapability, tweenCapability],
     entities: {
       'field-ground': {
-        Transform: { x: 720, y: 620, rotation: 0, scaleX: 1, scaleY: 1 },
-        Shape: { kind: 'box', width: 1440, height: 3 }, Color: { tint: 0xc69a58, alpha: 0.18 },
+        Transform: { x: 720, y: 621, rotation: 0, scaleX: 1, scaleY: 1 },
+        Shape: { kind: 'box', width: 1440, height: 4.5 }, Color: { tint: 0xc69a58, alpha: 0.18 },
       },
       'opponent-shadow': {
-        Transform: { x: 824, y: 822, rotation: 0, scaleX: 1, scaleY: 1 },
-        Shape: { kind: 'box', width: 360, height: 22 }, Color: { tint: 0x020305, alpha: 0.48 }, Visibility: visible(),
+        Transform: { x: 885, y: 822, rotation: 0, scaleX: 1, scaleY: 1 },
+        Shape: { kind: 'box', width: 390, height: 27 }, Color: { tint: 0x020305, alpha: 0.48 }, Visibility: visible(),
       },
       'opponent-art': {
-        Transform: { x: 824, y: 462, rotation: 0, scaleX: 0.5, scaleY: 0.5 },
+        Transform: { x: 885, y: 465, rotation: 0, scaleX: 0.51, scaleY: 0.51 },
         Sprite: { textureKey: config.encounter.portraitSkinKey, anchorX: 0.5, anchorY: 0.5, zOrder: 4 },
         Color: { tint: 0xffffff, alpha: 1 }, Visibility: visible(false),
       },
       'opponent-body': {
-        Transform: { x: 824, y: 514, rotation: 0, scaleX: 1, scaleY: 1 },
+        Transform: { x: 885, y: 514.5, rotation: 0, scaleX: 1.08, scaleY: 1.08 },
         Shape: { kind: 'polygon', vertices: [-126, 286, -104, -164, -48, -236, 48, -236, 104, -164, 126, 286] },
         Color: { tint: 0x2d2929, alpha: 1 }, Visibility: visible(),
       },
       'opponent-sash': {
-        Transform: { x: 824, y: 560, rotation: -0.08, scaleX: 1, scaleY: 1 },
+        Transform: { x: 885, y: 561, rotation: -0.08, scaleX: 1.08, scaleY: 1.08 },
         Shape: { kind: 'box', width: 218, height: 20 }, Color: { tint: 0xa47b3e, alpha: 0.68 }, Visibility: visible(),
       },
       'opponent-head': {
-        Transform: { x: 824, y: 230, rotation: 0, scaleX: 1, scaleY: 1 },
+        Transform: { x: 885, y: 231, rotation: 0, scaleX: 1.08, scaleY: 1.08 },
         Shape: { kind: 'circle', radius: 66 }, Color: { tint: 0x554540, alpha: 1 }, Visibility: visible(),
       },
       'opponent-mark': {
-        Transform: { x: 824, y: 244, rotation: 0, scaleX: 1, scaleY: 1 },
-        Text: { content: config.encounter.displayName.slice(0, 1), fontSize: 52, fontFamily: 'Georgia, serif', anchor: 'center', lineSpacing: 0 },
+        Transform: { x: 885, y: 246, rotation: 0, scaleX: 1, scaleY: 1 },
+        Text: { content: config.encounter.displayName.slice(0, 1), fontSize: 38, fontFamily: 'Georgia, serif', anchor: 'center', lineSpacing: 0 },
         Color: { tint: 0xe0bd76, alpha: 0.82 }, Visibility: visible(),
       },
       'impact-ring': {
-        Transform: { x: 824, y: 356, rotation: 0, scaleX: 1, scaleY: 1 },
-        Shape: { kind: 'circle', radius: 94 }, Color: { tint: 0xd6af69, alpha: 0 }, Visibility: visible(false),
+        Transform: { x: 885, y: 357, rotation: 0, scaleX: 1, scaleY: 1 },
+        Shape: { kind: 'circle', radius: 105 }, Color: { tint: 0xd6af69, alpha: 0 }, Visibility: visible(false),
       },
       'impact-copy': {
-        Transform: { x: 824, y: 116, rotation: 0, scaleX: 1, scaleY: 1 },
-        Text: { content: '', fontSize: 34, fontFamily: 'Georgia, serif', anchor: 'center', lineSpacing: 0 },
+        Transform: { x: 326, y: 352, rotation: 0, scaleX: 1, scaleY: 1 },
+        Text: { content: '', fontSize: 28, fontFamily: 'Georgia, serif', anchor: 'center', lineSpacing: 0 },
         Sprite: { textureKey: 'render-order.text', anchorX: 0.5, anchorY: 0.5, zOrder: 15 },
         Color: { tint: 0xf1d49a, alpha: 0 }, Visibility: visible(false),
       },
@@ -113,18 +150,24 @@ export function mountRhetoricPlayField(container: HTMLElement, config: RhetoricG
       setVisible(engine, id, opponentVisible && visibility.fallback);
     }
 
-    const pressurePose = view.phase === 'enemy-intent' || view.phase === 'enemy-impact' || view.phase === 'portrait-dominates';
-    const responsePose = view.phase === 'opponent-response' || view.phase === 'portrait-resolve';
-    const x = pressurePose ? 808 : responsePose ? 833 : 824;
-    const yShift = responsePose ? -3 : 0;
-    for (const id of ['opponent-art', 'opponent-shadow', 'opponent-body', 'opponent-sash', 'opponent-head', 'opponent-mark']) {
+    const pose = rhetoricOpponentPose(view.phase);
+    for (const [id, base] of Object.entries(OPPONENT_PARTS)) {
       const transform = engine.world.getComponent<Transform>(id, 'Transform');
-      if (transform) transform.x = x;
+      if (!transform) continue;
+      const fromX = transform.x;
+      transform.y = base.y + pose.yShift;
+      transform.rotation = base.rotation + pose.rotation;
+      transform.scaleX = base.scaleX * pose.scale;
+      transform.scaleY = base.scaleY * pose.scale;
+      if (Math.abs(fromX - pose.x) < 0.5 || view.reducedMotion) {
+        transform.x = pose.x;
+        if (engine.world.hasComponent(id, 'Tween')) engine.world.removeComponent(id, 'Tween');
+      } else {
+        resetTween(engine, id, { target: 'Transform.x', from: fromX, to: pose.x, elapsed: 0, duration: pose.durationTicks, easing: 'easeOut', done: false });
+      }
     }
-    const art = engine.world.getComponent<Transform>('opponent-art', 'Transform')!;
-    art.y = 462 + yShift; art.rotation = responsePose ? 0.018 : pressurePose ? -0.012 : 0;
 
-    const impact = ['impact', 'enemy-impact', 'victory-impact', 'failure-impact'].includes(view.phase);
+    const impact = ['card-flight', 'impact', 'enemy-impact', 'victory-impact', 'failure-impact'].includes(view.phase);
     setVisible(engine, 'impact-ring', impact); setVisible(engine, 'impact-copy', impact);
     const ring = engine.world.getComponent<Color>('impact-ring', 'Color')!;
     const copy = engine.world.getComponent<Color>('impact-copy', 'Color')!;
@@ -134,9 +177,10 @@ export function mountRhetoricPlayField(container: HTMLElement, config: RhetoricG
     ring.tint = danger ? 0xc86a5a : 0xd6af69; copy.tint = danger ? 0xec9d87 : 0xf1d49a;
     ring.alpha = impact ? 0.18 : 0; copy.alpha = impact ? 1 : 0;
     text.content = delta || (view.phase === 'failure-impact' ? '交锋失势' : view.phase === 'victory-impact' ? '论证成立' : '');
-    if (impact && !view.reducedMotion) {
-      resetTween(engine, 'impact-ring', { target: 'Transform.scaleX', from: 0.55, to: 1.18, elapsed: 0, duration: 20, easing: 'easeOut', done: false });
-      resetTween(engine, 'impact-copy', { target: 'Transform.y', from: 148, to: 116, elapsed: 0, duration: 22, easing: 'easeOut', done: false });
+    const beginsImpact = view.phase !== 'impact';
+    if (impact && beginsImpact && !view.reducedMotion) {
+      resetTween(engine, 'impact-ring', { target: 'Transform.scaleX', from: 0.55, to: 1.18, elapsed: 0, duration: 50, easing: 'easeOut', done: false });
+      resetTween(engine, 'impact-copy', { target: 'Transform.y', from: 382, to: 352, elapsed: 0, duration: 36, easing: 'easeOut', done: false });
     }
   };
 

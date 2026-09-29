@@ -23,7 +23,11 @@ export const RHETORIC_THEME: UITheme = {
   warn: '#e0b66d',
   warnWash: 'rgba(224,182,109,.16)',
   danger: '#ec9d87',
-  ink: '#05070a',
+  ink: '#2d231a',
   inputBg: 'rgba(5,7,10,.82)',
-  buttonSkins: STARTER_THEME.buttonSkins,
+  buttonSkins: {
+    ...STARTER_THEME.buttonSkins,
+    // Hero keeps the mature dark-teal skin and desktop-scale CTA typography.
+    hero: STARTER_THEME.buttonSkins?.primary,
+  },
 };

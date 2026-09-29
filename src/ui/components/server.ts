@@ -236,7 +236,8 @@ const APOLLO_KEYFRAMES = `
 @keyframes apollo-fx-flash{0%{opacity:0}25%{opacity:.7}100%{opacity:0}}
 @keyframes apollo-fx-fade{from{opacity:1}to{opacity:0}}
 [data-fx~="flash"]::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:var(--fx-flash,#d3897a);mix-blend-mode:screen;animation:apollo-fx-flash var(--fx-flash-ms,420ms) ease-out both}
-[data-apollo-btn]{transition:transform .07s ease,filter .12s ease,box-shadow .12s ease}
+[data-apollo-btn]{outline:none;transition:transform .07s ease,filter .12s ease,box-shadow .12s ease}
+[data-apollo-btn]:not([disabled]):focus-visible{outline:3px solid var(--apollo-focus-ring);outline-offset:-3px}
 [data-apollo-btn]:not([disabled]):hover{filter:brightness(1.07)}
 [data-apollo-btn]:not([disabled]):active{transform:translateY(1px);filter:brightness(.9)}
 [data-apollo-skin]:not([disabled]):hover{filter:brightness(1.08)}

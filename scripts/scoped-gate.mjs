@@ -207,6 +207,7 @@ export function planFor(c, auditGames = [], faces = {}) {
   // 常驻守卫（任何 scope 都跑·纯 fs 扫描+regex·秒级）：文档引用 + token 预算 + 美术台账。
   const GUARDS = [
     { name: 'docs-ref', cmd: ['node', ['scripts/docs-ref-guard.mjs']] },
+    { name: 'dokiworld-docs', cmd: ['node', ['scripts/dokiworld-docs-guard.mjs']] },
     { name: 'context-budget', cmd: ['node', ['scripts/context-budget-guard.mjs']] },
     // REQ-ARTPIPE2 A1②：台账强制守卫。退出码 0=全净·1=棘轮违规（新黑户）硬拦·2=有存量挂账/死账/
     // 缺来源但无新增——警告态，allowExit 放行（已知债务开工单追，不该拦无关改动的推送）。

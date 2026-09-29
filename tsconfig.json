@@ -23,6 +23,7 @@
       "@runtime/*": ["./src/runtime/*"],
       "@assembly/*": ["./src/assembly/*"],
       "@games/*": ["./games/*"],
+      "dokiworlds-app-sdk": ["./vendor/dokiworlds-app-sdk/src/index.d.ts"],
       // REQ-PKG-位置无关与正名：games/** 消费面走包名（self-reference·外部内容用真 npm 解析，
       // 这里是仓内 tsc 的 paths 兜底）。src/ 内部相互引用不改，仍用上面的旧别名。
       "@zerocraft/engine/engine/*": ["./src/engine/*"],

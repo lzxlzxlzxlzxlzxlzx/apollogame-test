@@ -1,5 +1,45 @@
 # game-rhetoric-duel｜游戏级需求与裁决
 
+## W5.2-UI-FOCUS-001 · LayoutNode Button 键盘焦点可见态 · 2026-09-24 · owner 已选 A · status: independently reviewed; awaiting owner scoped gate
+
+### 实查原文
+
+- 已查 `src/ui/components/types.ts` 的 `ButtonProps`、`src/ui/components/catalog.ts` 的 Button schema、`src/ui/components/render.ts` 的 Button 渲染，以及 `src/ui/components/server.ts` 的共享交互样式；公开数据契约没有焦点皮肤或焦点环闭集字段。
+- `render.ts` 当前对 Button 写入 `outline: none`；`server.ts` 只提供 hover/active 交互样式，没有 `:focus-visible` 对应视觉。因此键盘聚焦虽可发生，W5.2 的 focus-visible 截图无法出现可观察状态变化。
+- 已查机读 capability catalog 与 `docs/playbooks/ui.md`；模拟 capability 不承载 UI 焦点表现，现有 LayoutNode/Button 也没有可以重组出焦点可见态的公开能力。
+- 游戏侧补 DOM、CSS、canvas 或焦点事件逻辑均违反“UI 只用 LayoutNode、不得手写 DOM/CSS/canvas 逃生”；把焦点表现写进本游戏也无法复用。
+
+结论：W5.2 的 hover、pressed、disabled 均已有真渲染证据；focus-visible 是共享 UI Button 的真实表达缺口，须由 owner 裁决路线后才能关闭 W5.2。本项不涉及玩法规则、SDK、卡牌数值或敌人逻辑。
+
+### 路线 A · 补共享 Button 的闭集 focus-visible 表现（推荐）
+
+由 PUI 在共享 Button 渲染面增加通用、确定性的 `:focus-visible` 可见环；优先使用现有主题色/受控默认样式，不开放任意 CSS 字符串。补渲染测试、真浏览器截图、UI audit，以及独立复查和带锚点 sabotage。
+
+- 代价：触及 `src/ui/**` 专职域，须由 PUI 施工；W5.2 要等待该能力通过并由游戏真渲染复验。
+- 影响面：所有 LayoutNode Button 的键盘可访问性统一改善；鼠标 hover/pressed、按钮动作与模拟状态不变。
+- 通用性：所有键盘可操作菜单和游戏 UI 均可复用，不含言弹交锋专属判断。
+- 选错代价：若开放自由 CSS/任意样式透传，会形成 UI 逃生口；若只改本游戏，会留下共享控件无焦点反馈的系统性缺陷。
+
+### 路线 B · 游戏层焦点视觉例外
+
+允许本游戏用专属 DOM/CSS 或事件逻辑绘制焦点态。
+
+- 代价：只改本游戏，短期较快，但需要登记游戏层例外债务。
+- 影响面：焦点表现与共享 Button 分裂，后续游戏重复实现。
+- 通用性：无。
+- 选错代价：直接违反本项目 LayoutNode 闭集和禁止手写 DOM/CSS 的红线，且 W5.2 工作单明确要求成熟共享件；不推荐。
+
+### 推荐与验收
+
+推荐路线 A。验收必须包括：键盘 Tab 聚焦出现清晰且不依赖 hover 的视觉环；失焦后消失；disabled 不可获得交互焦点反馈；既有 click/Signal 行为不变；UI audit 与共享 UI 测试全绿；真渲染截图覆盖 focus-visible；独立复查撤掉焦点修复后必须验红。
+
+### 施工实证
+
+- 共享 Button 输出主题 `text` 焦点令牌；共享交互样式只在 `:not([disabled]):focus-visible` 时绘制 3px 内缩实线环，未增加自由字段或游戏专属逻辑。
+- 810×506 真浏览器机器探针：`activeId=rhetoric-end-turn`、`focusVisible=true`、`outlineWidth=3px`、`outlineStyle=solid`、`outlineColor=rgb(238,232,220)`、`outlineOffset=-3px`。
+- `button-focus.png` 已刷新；共享 UI 468/468、本游戏 54/54、TypeScript、production build、UI audit、game-skill-audit 均退出 0。
+- 独立复查已 PASS：撤掉唯一 focus-visible 规则后，静态测试与真浏览器 probe 均退出 1；逐字恢复后全绿。证据见 `review/W5.2-real-embed-readability.md` 的“路线 A 追加复查”。仅待 owner 亲自运行 scoped gate 后关闭本项。
+
 ## W4-UI-ARIA-001 · LayoutNode 语义播报槽 · 2026-09-23 · owner 已选 A · status: pending PUI
 
 ### 实查原文

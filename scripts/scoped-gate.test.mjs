@@ -253,10 +253,11 @@ describe('scoped-gate 接线补牙（slowLane 正向 · docs-only 全量对账 �
     expect(step.allowExit).toBeUndefined(); // 红=拦（guard 内部对基线棘轮判红/警·门禁只认退出码）
   });
 
-  it('docs-only 计划全量对账：常驻守卫序列 docs-ref → context-budget → art-ledger-guard 逐步钉死（含 allowExit 精确值·decouple-check 已并入 game/full 的 depcruise 步）', () => {
+  it('docs-only 计划全量对账：常驻守卫序列含调用文档闭包（含 allowExit 精确值·decouple-check 已并入 game/full 的 depcruise 步）', () => {
     const plan = planFor({ scope: 'docs-only' }, [], {});
     expect(plan.map((s) => ({ name: s.name, cmd: s.cmd, allowExit: s.allowExit }))).toEqual([
       { name: 'docs-ref', cmd: ['node', ['scripts/docs-ref-guard.mjs']], allowExit: undefined },
+      { name: 'dokiworld-docs', cmd: ['node', ['scripts/dokiworld-docs-guard.mjs']], allowExit: undefined },
       { name: 'context-budget', cmd: ['node', ['scripts/context-budget-guard.mjs']], allowExit: undefined },
       // art-ledger-guard 是常驻守卫里唯一带放行档的：0=全净·2=存量挂账警告态放行·1=新黑户硬拦。
       { name: 'art-ledger-guard', cmd: ['node', ['scripts/art-ledger-guard.mjs']], allowExit: [0, 2] },

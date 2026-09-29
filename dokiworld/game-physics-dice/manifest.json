@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 3,
+  "id": "game-physics-dice",
+  "version": "1.0.6",
+  "entry": "index.html",
+  "context": {
+    "requiredScopes": [],
+    "optionalScopes": []
+  },
+  "locales": {
+    "en": {
+      "name": "Physics Dice",
+      "description": "A physics-based dice game."
+    },
+    "zh-cn": {
+      "name": "物理骰子",
+      "description": "一款物理骰子游戏。"
+    }
+  },
+  "documentation": {
+    "zh-cn": {
+      "title": "物理骰子调用文档",
+      "path": "docs/integration.zh-CN.md"
+    }
+  },
+  "runtime": {
+    "protocol": "dokiworld.app",
+    "protocolVersion": 2,
+    "input": {
+      "contract": "doki.game.dice-input",
+      "version": 1
+    },
+    "outputs": [
+      {
+        "contract": "doki.game.result",
+        "version": 1
+      }
+    ],
+    "modules": []
+  }
+}

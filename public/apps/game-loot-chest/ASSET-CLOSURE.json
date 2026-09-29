@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "assetEntries": 4,
+  "assetFiles": 4,
+  "extraFiles": 0,
+  "portableIndex": "assets/index.json",
+  "files": [
+    {
+      "kind": "asset",
+      "id": "game-loot-chest/texture/qte-dial-face",
+      "path": "assets/ai/openai/qte-dial-face.png"
+    },
+    {
+      "kind": "asset",
+      "id": "game-loot-chest/texture/qte-needle",
+      "path": "assets/ai/openai/qte-needle.png"
+    },
+    {
+      "kind": "asset",
+      "id": "game-loot-chest/texture/chest-open",
+      "path": "assets/treasure-chest-open.png"
+    },
+    {
+      "kind": "asset",
+      "id": "game-loot-chest/texture/chest-closed",
+      "path": "assets/treasure-chest.png"
+    }
+  ]
+}

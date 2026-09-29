@@ -97,6 +97,9 @@ export default defineConfig({
     alias: {
       ...engineAliases(__dirname),
       '@games': resolve(__dirname, 'games'),
+      // DokiWorld App boundary is vendored so tests/builds remain reproducible and
+      // never follow a machine-specific junction outside this checkout.
+      'dokiworlds-app-sdk': resolve(__dirname, 'vendor/dokiworlds-app-sdk/src/index.js'),
     },
   },
   // 3D 渲染线的重依赖藏在**动态 import 的 3D 游戏**背后。Vite 冷启动扫描会跟进动态 import 把 three

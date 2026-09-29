@@ -10,23 +10,53 @@ import {
 /** 外部嵌入式骰子允许的标准面数。 */
 export type DiceSides = 4 | 6 | 8 | 20;
 export type DiceSpec = Readonly<{ sides: DiceSides }>;
-export type DiceRollInput = Readonly<{ dice: readonly DiceSpec[] }>;
+/** 可由调用方选择的悬浮骰窗皮肤；它只影响 DokiWorld 上层的 UI 外观，不影响规则。 */
+export type DiceBackdrop = 'arcane-vault' | 'royal-velvet' | 'moonlit-ruins' | 'infernal-forge';
+/** 一段闭区间对应一个调用方定义的结果标签。区间命中的是修正后的总点数。 */
+export type DiceOutcomeBand = Readonly<{ min: number; max: number; outcome: string }>;
+export type DiceJudgement = Readonly<{ bands: readonly DiceOutcomeBand[] }>;
+export type DiceRollInput = Readonly<{
+  dice: readonly DiceSpec[];
+  modifier?: number;
+  judgement?: DiceJudgement;
+  backdrop?: DiceBackdrop;
+  /** 悬浮窗上方的本次检定名称，例如“智力检定”。 */
+  title?: string;
+  /** 标准阈值模式的难度；未传 judgement.bands 时，finalTotal >= difficulty 即成功。 */
+  difficulty?: number;
+  /** 修正值的来源，例如“智力”或“装备”。 */
+  modifierSource?: string;
+}>;
 export type DicePreset = Readonly<{ values: readonly number[] }>;
+export type DiceJudgementResult = Readonly<{
+  modifier: number;
+  finalTotal: number;
+  outcome?: string;
+  difficulty?: number;
+  passed?: boolean;
+}>;
 export type DiceRollResult = Readonly<{
   dice: readonly Readonly<{ sides: DiceSides; value: number }>[];
   total: number;
   randomSource: 'preset' | 'seed';
-}>;
+} & Partial<DiceJudgementResult>>;
 export type DiceRollRequest = ExternalGameRequest<DiceRollInput, DicePreset>;
 
 export const DICE_BRIDGE_ROLL = 'apollo:dice:roll';
 export const DICE_BRIDGE_RESULT = 'apollo:dice:result';
 
 const SUPPORTED_SIDES = new Set<number>([4, 6, 8, 20]);
+const SUPPORTED_BACKDROPS = new Set<DiceBackdrop>(['arcane-vault', 'royal-velvet', 'moonlit-ruins', 'infernal-forge']);
 const MAX_DICE = 3;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
+}
+
+function normalizedText(value: unknown, maxLength: number): string | undefined {
+  if (typeof value !== 'string') return undefined;
+  const text = value.trim();
+  return text.length > 0 && text.length <= maxLength ? text : undefined;
 }
 
 /** 将 JSON 输入收束为可用骰池；不接受未知面数、空骰池或超过三颗骰子。 */
@@ -38,7 +68,75 @@ export function normalizeDiceInput(value: unknown): DiceRollInput | undefined {
     if (typeof sides !== 'number' || !SUPPORTED_SIDES.has(sides)) return undefined;
     dice.push({ sides: sides as DiceSides });
   }
-  return { dice };
+  const backdrop = value.backdrop;
+  if (backdrop !== undefined && (typeof backdrop !== 'string' || !SUPPORTED_BACKDROPS.has(backdrop as DiceBackdrop))) return undefined;
+  const modifier = value.modifier === undefined ? undefined : value.modifier;
+  if (modifier !== undefined && (typeof modifier !== 'number' || !Number.isSafeInteger(modifier))) return undefined;
+  const title = value.title === undefined ? undefined : normalizedText(value.title, 48);
+  if (value.title !== undefined && !title) return undefined;
+  const modifierSource = value.modifierSource === undefined ? undefined : normalizedText(value.modifierSource, 24);
+  if (value.modifierSource !== undefined && !modifierSource) return undefined;
+  const difficulty = value.difficulty === undefined ? undefined : value.difficulty;
+  if (difficulty !== undefined && (typeof difficulty !== 'number' || !Number.isSafeInteger(difficulty) || difficulty < 0 || difficulty > 9999)) return undefined;
+  const judgement = normalizeDiceJudgement(value.judgement, dice, modifier ?? 0);
+  if (value.judgement !== undefined && !judgement) return undefined;
+  return {
+    dice,
+    ...(modifier === undefined ? {} : { modifier }),
+    ...(judgement ? { judgement } : {}),
+    ...(backdrop === undefined ? {} : { backdrop: backdrop as DiceBackdrop }),
+    ...(title ? { title } : {}),
+    ...(difficulty === undefined ? {} : { difficulty }),
+    ...(modifierSource ? { modifierSource } : {}),
+  };
+}
+
+/**
+ * 骰子判定只解释数据：所有区域由调用方声明，不内置天然 1/20 或任何 RPG 特权规则。
+ * 为了让每次合法掷骰一定有结果，区间须覆盖本骰池加修正值后的所有整数总点数。
+ */
+export function normalizeDiceJudgement(value: unknown, dice: readonly DiceSpec[], modifier: number): DiceJudgement | undefined {
+  if (!isRecord(value) || !Array.isArray(value.bands) || value.bands.length === 0) return undefined;
+  const bands: DiceOutcomeBand[] = [];
+  for (const entry of value.bands) {
+    const outcome = isRecord(entry) ? normalizedText(entry.outcome, 48) : undefined;
+    if (!isRecord(entry) || typeof entry.min !== 'number' || typeof entry.max !== 'number'
+      || !Number.isSafeInteger(entry.min) || !Number.isSafeInteger(entry.max)
+      || entry.min > entry.max || !outcome) return undefined;
+    bands.push({ min: entry.min, max: entry.max, outcome });
+  }
+  const sorted = [...bands].sort((left, right) => left.min - right.min || left.max - right.max);
+  for (let index = 1; index < sorted.length; index += 1) if (sorted[index - 1]!.max >= sorted[index]!.min) return undefined;
+  const minimum = dice.length + modifier;
+  const maximum = dice.reduce((sum, die) => sum + die.sides, 0) + modifier;
+  let next = minimum;
+  for (const band of sorted) {
+    if (band.max < next) continue;
+    if (band.min > next) return undefined;
+    if (band.max >= maximum) return { bands: sorted };
+    next = band.max + 1;
+  }
+  return undefined;
+}
+
+/**
+ * 对原始总点数应用修正。自定义区间优先；未传区间时，difficulty 启用标准成功/失败阈值。
+ * 仅传 modifier 也会返回 finalTotal，供结果动画展示算式。
+ */
+export function judgeDiceTotal(input: DiceRollInput, total: number): DiceJudgementResult | undefined {
+  const judgement = input.judgement;
+  const modifier = input.modifier ?? 0;
+  const finalTotal = total + modifier;
+  if (judgement) {
+    const band = judgement.bands.find((candidate) => finalTotal >= candidate.min && finalTotal <= candidate.max);
+    if (!band) throw new Error('合法骰子判定必须覆盖本次修正后的总点数');
+    return { modifier, finalTotal, outcome: band.outcome };
+  }
+  if (input.difficulty !== undefined) {
+    const passed = finalTotal >= input.difficulty;
+    return { modifier, finalTotal, difficulty: input.difficulty, passed, outcome: passed ? 'success' : 'failure' };
+  }
+  return input.modifier === undefined ? undefined : { modifier, finalTotal };
 }
 
 /** 对预定骰面严格验界；非法预设不偷偷改成随机。 */
@@ -82,7 +180,9 @@ export function resolveDiceResult(input: DiceRollInput, seed: number | undefined
       return input.dice.map((die) => Math.floor(random() * die.sides) + 1);
     })();
   const dice = input.dice.map((die, index) => ({ sides: die.sides, value: values[index]! }));
-  return { dice, total: values.reduce((sum, value) => sum + value, 0), randomSource: preset ? 'preset' : 'seed' };
+  const total = values.reduce((sum, value) => sum + value, 0);
+  const judgement = judgeDiceTotal(input, total);
+  return { dice, total, randomSource: preset ? 'preset' : 'seed', ...(judgement ?? {}) };
 }
 
 /** 仅由宿主调用 Web Crypto，游戏层永远没有熵 API。 */

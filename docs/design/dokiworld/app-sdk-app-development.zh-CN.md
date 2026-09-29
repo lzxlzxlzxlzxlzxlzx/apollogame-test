@@ -1,5 +1,9 @@
 > 归档件·DokiWorld 官方规范原文（owner 2026-08-12 交付·来源 https://github.com/raptoravis/dokiworld/blob/dev/docs/app-sdk-app-development.zh-CN.md·样例仓 https://github.com/raptoravis/dokiworld-apps）。
 > 本文=对方接口的事实来源快照,**不改写**;我们自己的出包做法见 docs/playbooks/dokiworld-pack.md。
+> **2026-09-24 状态：历史规范快照。** 当前本机 `public/apps` 测试接入已切到
+> `dokiworlds-app-sdk@0.1.0`；API 和本地 manifest 读取面不同。新工作先读
+> [`../../sdk/dokiworlds-app-sdk-0.1.0.md`](../../sdk/dokiworlds-app-sdk-0.1.0.md)，
+> 不得把本文的 `onInit`、子路径 capability 或完整 manifest 当成新 SDK 已具备能力。
 
 # DokiWorld App SDK：Game / World 开发、协议与交付指南
 

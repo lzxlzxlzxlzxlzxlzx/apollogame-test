@@ -2,7 +2,7 @@
   "version": 1,
   "game": "game-rhetoric-duel",
   "mode": "approved-inventory",
-  "count": 17,
+  "count": 18,
   "artStyle": {
     "packId": "ink-bronze-rhetoric",
     "stylePrompt": "restrained Chinese historical painterly scene art, deep ink and weathered umber, muted bronze accents; card icons use transparent single-color bronze linework",
@@ -127,6 +127,13 @@
       "spec": { "w": 941, "h": 1672, "transparent": true },
       "gen": { "source": "openai-imagegen", "servedPath": "/games/game-rhetoric-duel/art/opponent-jiang.png", "localId": "game-rhetoric-duel/opponent/jiang" },
       "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "w5-opponent-jiang-v1", "date": "2026-09-23", "license": "project-original", "sha256": "754b95e4cadda50cfb24bfa163b752699c0e869b5b72db03be4e73af73170de9", "note": "Original Instructor Jiang character; no demo source was used." }
+    },
+    {
+      "no": "art-18", "skinKey": "game-rhetoric-duel/card/frame", "desc": "言弹卡通用羊皮纸双铜线卡框", "kind": "ui-frame", "status": "filled",
+      "slot": { "entity": "rhetoric-card:*", "component": "Panel", "field": "skin" },
+      "spec": { "w": 150, "h": 218, "transparent": true },
+      "gen": { "source": "procedural", "servedPath": "/games/game-rhetoric-duel/art/card/frame.svg", "localId": "game-rhetoric-duel/card/frame" },
+      "provenance": { "method": "procedural-svg", "generator": "asset-manager", "date": "2026-09-24", "license": "project-original", "sha256": "266189739734f312ac8eedf3085cf45b3e2489921e6ce20eaaba15b50fc891c9", "note": "Re-authored procedural frame from approved visual measurements; no demo asset file copied." }
     }
   ]
 }

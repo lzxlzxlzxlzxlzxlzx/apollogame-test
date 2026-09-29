@@ -14,6 +14,7 @@
 | 抠图/去背 → 真 alpha PNG | `scripts/asset-matte.mjs` + `POST /api/assets/matte` | 二档：`flood`=确定性边缘 flood-fill（主体内同色不误删·可测）+ despill/多种子；`rembg`=AI 兜底（无 rembg→mock）。`node scripts/asset-matte.mjs <in> <out> [--mode flood\|rembg] [--tol N] [--despill]`。产物走 M2.5 pending 人审·provenance 记方式 |
 | 透明底精灵 → 不透明 3D albedo（压底） | `scripts/asset-flatten.mjs` | `asset-matte` 的**反操作**：透明底字形/精灵直贴 `Material3D.map` 会渲黑（不透明材质无 alpha 路）→ 压纯色/base 底成不透明 albedo。纯 Node 确定性。单张 `<in> [--base b.png] [--bg #hex]`；批目录 `--batch-dir <d> --base <b> [--keep a,b] [--reindex assets/index.json]`（幂等·只压透明图·回填 provenance.flattened） |
 | 从共享库导入一个资源 | `resource-manager` 技能 | vendor（copy）进游戏本地美术目录 + 登记本地索引 |
+| DokiWorld App 独立资产闭包 | `scripts/app-asset-closure.mjs` | 以游戏本地 AssetIndex 为真相复制 filled 文件、生成 portable index、清本机路径并产 `ASSET-CLOSURE.json`；额外字体等必须显式列 `extraTrees` |
 | 运行期装载本游戏美术索引（真图就绪即换装） | `loadGameArtInto` / `loadGameArtOverrides`（`src/assets/game-art-load.ts`·REQ-SHELL ②） | 两形态同一条链：注册进 AssetManager（渲染器按 **key** 取图）或取 `{skinKey:url}` 覆盖表（DOM/UI 按 **URL** 取）；**失败静默回退**（无索引/非 200/headless=观感零变化·美术是增量非依赖）。**别在游戏层再写 fetch `/games/<g>/art/index.json`** |
 | 逐游戏美术需求/生成/替换/换皮 | **美术平台**（ArtLedgerPanel·主屏 🎨 / 卡带「美术台账」入口）+ 大脑 `scripts/art-replace.mjs` + 风格包 `scripts/style-packs.json` | 台账 art-NN 编号 append-only·写回=manifest 重钉或 skinKey 别名·**全员必读终态档 `docs/design/art-platform-2026-07-09.md`** |
 | 加贴图/模型/图集/精灵表 | `asset-manager` agent | 维护 `assets/index.json` 单一真相 + 按类型填 spec |

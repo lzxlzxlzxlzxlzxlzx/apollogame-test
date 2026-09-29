@@ -1,11 +1,31 @@
 # DokiWorld 出包线手册（ZeroCraft 产物 → DokiWorld iframe App）
 
+> **2026-09-28 当前本机接入订正：** DokiWorlds 当前本地包为
+> `dokiworlds-app-sdk@0.2.0`，测试 App 放在
+> `C:\Users\24652\Desktop\projects\dokiworlds\frontend\public\apps\<app-id>\`。
+> 新包提供最小 v2 生命周期、`complete`、`requestExit`、`apps.launch`，并通过
+> `await whenReady()` / `client.input` 公开宿主初始化输入；旧 `AppInitPayload`、
+> `connect({onInit})`、`initialized`、`getInit()` 已删除；详见
+> [`docs/sdk/dokiworlds-app-sdk-0.2.0.md`](../sdk/dokiworlds-app-sdk-0.2.0.md)。
+> 本册下方关于 `@dokiworld/app-sdk` 2.x/3.x、完整 catalog schema、capability profile 和旧发布仓的内容是
+> **历史发布路线**，不得直接用于当前 `public/apps` 本地测试。
+
 > **owner 2026-08-12 立线：以后 ZeroCraft 做出来的东西都要能往 DokiWorld 打包**。
 > 事实来源=官方规范快照 `docs/design/dokiworld/app-sdk-app-development.zh-CN.md`（对方接口一切以它为准·本册只讲我们怎么接）；
 > 可跑样例 https://github.com/raptoravis/dokiworld-apps（读法：`add_repo` 匿名克隆）。**2026-08-18 那仓升到 SDK 3.0**，四个样例：
 > `game-match3`=Game·零 capability；**`tower-confessions`=Game·真用 capability（我们的对照组，照它抄）**；`storyteller`/`banquet-contract`=World。
 
 ## 一句话
+
+当前本地测试形态 = 自包含静态目录 + 最小 `manifest.json` + `dokiworlds-app-sdk` 打入 bundle；
+APPS 面板直接启动仍只会提供 manifest 的 contract/version 和空 `data:{}`，嵌套调用则可通过 0.2.0 的 init API
+读取真实 `input.data`。完整业务输入输出测试不能用预览默认值冒充。
+
+资产出包统一调用 `scripts/app-asset-closure.mjs`：输入游戏本地 AssetIndex、art 根和 dist，输出 portable index、复制后的真实字节与 `ASSET-CLOSURE.json`。禁止后续 App 再手写一套资产遍历/复制；字体等非游戏 art 依赖用 `extraTrees` 显式登记，缺文件、路径逃逸、远端资产或 material 悬空 key 直接失败。
+
+调用说明出包统一调用 `scripts/app-documentation-closure.mjs`：`manifest.documentation` 是唯一清单，构建时校验 locale、标题、安全相对 `.md` 路径和源文件，并把每种语言的说明原样复制进 dist。发布屏在 App 自身 build 后还会统一执行 `scripts/dokiworld-docs-export.mjs <app-id>`，保证新建/更新 App 不会因遗漏私有复制代码而带出旧文档。`scripts/dokiworld-docs-guard.mjs` 已进常驻门禁；新增或更新 App 若漏声明、文件缺失、路径逃逸或使用 DokiWorlds 不支持的语言键，构建/门禁必须失败，禁止每个 App 手写 `copyFile` 绕过。
+
+以下原有一句话描述的是旧发布路线：
 
 App = **独立构建的自包含浏览器静态包**（`dist/` 里 manifest+html+js+全部资产·相对路径），经 `@dokiworld/app-sdk` 与宿主 iframe 通信。我们的游戏 = 引擎+游戏打成一个 bundle + 一层薄 SDK 接线（生命周期与结果上报），**不改玩法代码**。
 
@@ -14,11 +34,12 @@ App = **独立构建的自包含浏览器静态包**（`dist/` 里 manifest+html
 | 任务 | 用什么 | 要点 |
 |---|---|---|
 | 建 App 目录 | 本仓 `dokiworld/<app-id>/`（package.json+scripts+tests·照 match3 结构） | `id`=目录名=`createAppClient({appId})`·只准小写/数字/连字符 |
-| 装 SDK | `npm i @dokiworld/app-sdk@^2.1.0`（registry.npmjs.org 直连白名单） | SDK 打进 bundle·部署端零依赖 |
-| Game manifest | App 目录内的 generate-manifest 生成器（读 package.json version → 写 src → build 复制进 dist·**不手编 dist**） | `schemaVersion:2`·`status`/`capability`/双语 `selection.promptHint` 必填·`avoidHint` 防误拉起 |
+| 装 SDK | 本仓依赖 `file:../../vendor/dokiworlds-app-sdk`；vendor 与 DokiWorlds 工作区包逐文件同步 | SDK 打进 bundle·部署端零依赖；包版本仍为 0.2.0，必须以 API/测试而非版本号判断新旧 |
+| 当前本地 App manifest | App 源目录维护 `manifest.json`，build 校验后复制进 dist | `schemaVersion:3`、`id`、`version`、`entry`、context、双语 locales、runtime input/outputs/modules；包根只叫 `manifest.json` |
+| 调用说明文档 | `manifest.documentation.<locale> = {title,path}` + `docs/integration.<locale>.md`；build 调 `exportAppDocumentation(...)` | 当前 locale 闭集为 `en` / `zh-cn`；至少一份。文档须写清 App/协议身份、`apps.launch()`、input/output envelope、字段约束、完成/取消语义、权威结算与可粘贴示例；玩法表现改动不擅自改调用契约 |
 | World manifest | 同上·`schemaVersion:1` | **禁 `selection` 字段**·`episodeRenderer` 按需·不内嵌角色副本 |
-| 生命周期 | `createAppClient` → `connect({onInit,onPrepareExit,onExitDecision})` | `onInit` 拿 locale/context/input 再开局；不手写 postMessage |
-| 结果上报 | `app.complete(createGameResult({normalizedScore,outcome,metrics}))` | `normalizedScore`=0..100 整数·outcome=`win\|loss\|draw\|completed`；中途退出走 `onPrepareExit` 报 `exited`+当时分 |
+| 当前 0.2.0 生命周期 | `createAppClient` → `connect()` → `await whenReady()` | `whenReady` 只返回版本化 input；初始化后可读 `client.input` 副本；不手写 postMessage |
+| 当前 0.2.0 退出/结果 | 主动退出 `requestExit()`；完成 `complete(versionedOutput)` 并等待 accepted/rejected | 业务 output 由各游戏契约定义；不能套用不存在的 onPrepareExit/onExitDecision |
 | 引擎游戏独立打包 | 借 `vite.config.cartridge.ts` 先例（`build:cartridge:single` 单文件形态）或 esbuild 自包含 | `base:'./'`·字体/图/音全进 dist·不漏动态分包 |
 | 结果映射 | **从世界机读态取**（终局 Flag/StringVar/Resource——与验收剧本同一套判读·不另造口径） | 每游戏一个纯函数 `toGameResult(world)` + 点名测试 |
 | cover 真图 | 假宿主装 dist 截**真对局屏** → 页内 canvas 转 WebP → 存进 app 源资产目录（先例 `dokiworld/game108/scripts/capture-cover.mjs`·产物 `dokiworld/game108/src/assets/cover.webp`） | manifest `cover` §5 点名校验（生成器查真图在包内·**禁灰块占位**）；build 显式复制进 dist（vite 不带未引用资产） |
@@ -40,6 +61,7 @@ App = **独立构建的自包含浏览器静态包**（`dist/` 里 manifest+html
 - **打包住 `dokiworld/<app-id>/`**；`dist/` 是构建产物**不入本仓 git**（.gitignore 挡）——出包交付=构建后把整个 app 目录（或 dist）复制/PR 到 dokiworld-apps 仓（owner 侧动作·本仓 session 无那边推送权）。
 - **薄接线零规则**：SDK 层只做「启动参数→config、终局态→GameResult」两个投影，禁在接线层写玩法逻辑（同 acceptance-adapter 纯接线铁律）。
 - **双语文案**：name/description/promptHint/avoidHint/aliases 中英齐备（规范硬性）；游戏内文案沿用游戏自己的。
+- **调用文档跟随 manifest 自动闭包**：新增 App 时先建 `docs/integration.zh-CN.md` 并在 `manifest.documentation` 登记；更新契约时同一次改文档，纯玩法/UI/美术更新保持原文。禁止只在 DokiWorlds 发布目录手改而不回收到本仓源码，否则下次构建会覆盖。
 - **版本四维不联动**：App version（package.json）/manifest schema/runtime protocol/业务 contract 各自独立升。
 - **跨 app 共享件住 `dokiworld/shared/`**（判据：「第二个 app 出包会不会把它抄一遍」）——首件=`apps-gateway`。
   单个 app 专属的接线（结果映射 / 卡片降级 / checkpoint 编解码）仍留在 `dokiworld/<app-id>/` 自己目录。

@@ -8,16 +8,10 @@ import { buildRhetoricDuelUI, selectLoadedRhetoricSkins } from './ui.js';
 import { RHETORIC_THEME } from './theme.js';
 import { mountRhetoricPlayField, RHETORIC_FIELD_H, RHETORIC_FIELD_W } from './play-field.js';
 import type { RhetoricSkinMap } from './ui.js';
-import { RHETORIC_CARD_FLIGHT_FRAMES, RHETORIC_DEAL_PHASE_FRAMES } from './card-presentation.js';
+import { RHETORIC_PHASE_DURATION_MS, RHETORIC_PRESENTATION_TIMING_MS, rhetoricDurationFor } from './card-presentation.js';
 
 type RhetoricHost = Readonly<{ exit: () => void; result?: (result: RhetoricGameResult) => void }>;
-export const RHETORIC_PHASE_FRAMES: Readonly<Record<string, number>> = {
-  camera: 42, 'reveal-intent': 20, 'deal-opening-hand': RHETORIC_DEAL_PHASE_FRAMES,
-  'card-flight': RHETORIC_CARD_FLIGHT_FRAMES, impact: 23, 'opponent-response': 22,
-  'round-end': 23, 'enemy-intent': 30, 'enemy-impact': 20, 'focus-refresh': 20, 'deal-new-cards': RHETORIC_DEAL_PHASE_FRAMES,
-  'victory-impact': 23, 'portrait-resolve': 22, 'failure-impact': 23, 'portrait-dominates': 22,
-};
-export const rhetoricFramesFor = (phase: string, reducedMotion: boolean): number => reducedMotion ? 1 : RHETORIC_PHASE_FRAMES[phase] ?? 1;
+export { RHETORIC_PHASE_DURATION_MS, rhetoricDurationFor };
 const FALLBACK_SCENE = 'radial-gradient(circle at 58% 42%,rgba(92,65,38,.18),transparent 28%),linear-gradient(90deg,rgba(3,5,8,.95),rgba(3,5,8,.38) 52%,rgba(3,5,8,.84)),repeating-linear-gradient(135deg,#111115 0,#111115 9px,#0b0d12 9px,#0b0d12 18px)';
 
 function previewConfig(): ReturnType<typeof validateRhetoricGameConfig> {
@@ -60,7 +54,8 @@ export function mount(container: HTMLElement, host?: RhetoricHost): () => void {
   const ui = mountUI(shell.overlayHost, buildRhetoricDuelUI(controller.view, config, skins, debug), {}, RHETORIC_THEME, controller);
   let active = true;
   let raf = 0;
-  let frames = 0;
+  let timedPhase = controller.view.phase;
+  let phaseStartedAt: number | undefined;
   let signature = '';
 
   const render = (): void => {
@@ -84,11 +79,15 @@ export function mount(container: HTMLElement, host?: RhetoricHost): () => void {
     }) ?? FALLBACK_SCENE;
     render();
   });
-  const frame = (): void => {
+  const frame = (now: number): void => {
     if (!active) return;
-    if (!manualPresentation && controller.busy && ++frames >= rhetoricFramesFor(controller.view.phase, reducedMotion)) {
-      frames = 0;
+    const phase = controller.view.phase;
+    if (phase !== timedPhase) { timedPhase = phase; phaseStartedAt = now; }
+    if (phaseStartedAt === undefined) phaseStartedAt = now;
+    if (!manualPresentation && controller.busy && now - phaseStartedAt >= rhetoricDurationFor(phase, reducedMotion)) {
       controller.advance();
+      timedPhase = controller.view.phase;
+      phaseStartedAt = now;
     }
     render();
     raf = requestAnimationFrame(frame);
@@ -98,7 +97,7 @@ export function mount(container: HTMLElement, host?: RhetoricHost): () => void {
     else if (event.key === ' ') controller.enqueueAction('rhetoric.skip-presentation');
     render();
   };
-  const onBlur = (): void => { controller.recoverAfterBlur(); frames = 0; render(); };
+  const onBlur = (): void => { controller.recoverAfterBlur(); timedPhase = controller.view.phase; phaseStartedAt = undefined; render(); };
   window.addEventListener('keydown', onKey);
   window.addEventListener('blur', onBlur);
   if (import.meta.env.DEV) {
@@ -109,6 +108,7 @@ export function mount(container: HTMLElement, host?: RhetoricHost): () => void {
       skip: () => { controller.skip(); render(); },
       action: (name: string, arg?: string) => { controller.enqueueAction(name, arg ? { arg } : undefined); render(); },
       result: () => lastResult,
+      timing: () => RHETORIC_PRESENTATION_TIMING_MS,
     };
   }
   render();

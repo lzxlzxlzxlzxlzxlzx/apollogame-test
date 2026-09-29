@@ -1,23 +1,92 @@
 export const RHETORIC_FRAME_MS = 1000 / 60;
-export const RHETORIC_DEAL_PHASE_FRAMES = 43;
-export const RHETORIC_CARD_FLIGHT_FRAMES = 19;
+export const RHETORIC_VIEWPORT_SPEC = Object.freeze({
+  width: 1440,
+  height: 900,
+  acceptanceWidth: 1440,
+  acceptanceHeight: 900,
+});
+export type RhetoricViewportSpec = typeof RHETORIC_VIEWPORT_SPEC;
+
+export const RHETORIC_CARD_LIFT_FRAMES = 9;
+export const RHETORIC_DEAL_PHASE_FRAMES = 108;
+export const RHETORIC_CARD_FLIGHT_FRAMES = 22;
 
 export const RHETORIC_CARD_VISUAL_SPEC = Object.freeze({
-  width: 138,
-  minWidth: 124,
-  height: 244,
+  // Demo desktop clamp at 1440×900: 9.75vw × 22.5vh.
+  width: 140,
+  minWidth: 140,
+  height: 203,
   gap: 10,
-  imageHeight: 92,
-  costSize: 26,
-  hotkeySize: 20,
-  hand: Object.freeze({ x: 244, y: 640, width: 900, height: 248 }),
-  deckAnchor: Object.freeze({ x: 1195.5, y: 693 }),
-  targetAnchor: Object.freeze({ x: 547, y: 279 }),
-  dealDurationMs: 450,
-  preferredDealStaggerMs: 60,
-  minimumDealStaggerMs: 40,
+  imageHeight: 61,
+  costSize: 23,
+  hotkeySize: 9,
+  frameBleed: 5,
+  frameWidth: 150,
+  frameHeight: 218,
+  hand: Object.freeze({ x: 228, y: 540, width: 942, height: 354 }),
+  deckAnchor: Object.freeze({ x: 1311, y: 603 }),
+  targetAnchor: Object.freeze({ x: 786, y: 390 }),
+  liftDurationMs: 100,
+  dealDurationMs: 900,
+  preferredDealStaggerMs: 180,
+  minimumDealStaggerMs: 150,
   flightDurationMs: 300,
+  discardDurationMs: 420,
+  discardSpinDurationMs: 420,
+  handReflowDurationMs: 260,
+  drawReflowDurationMs: 360,
+  impactHoldMs: 1200,
+  responseDurationMs: 240,
 });
+
+export const RHETORIC_PHASE_DURATION_MS: Readonly<Record<string, number>> = Object.freeze({
+  camera: 900,
+  'reveal-intent': 1500,
+  'deal-opening-hand': 1800,
+  'card-lift': 140,
+  'card-flight': 360,
+  impact: 1200,
+  'opponent-response': 240,
+  'round-end': 1200,
+  'enemy-intent': 260,
+  'enemy-impact': 1500,
+  'focus-refresh': 1200,
+  'deal-new-cards': 1800,
+  'victory-impact': 1500,
+  'portrait-resolve': 1200,
+  'failure-impact': 1500,
+  'portrait-dominates': 1200,
+});
+
+const REDUCED_MOTION_HOLDS = new Set([
+  'reveal-intent', 'impact', 'round-end',
+  'enemy-impact', 'focus-refresh', 'victory-impact', 'portrait-resolve',
+  'failure-impact', 'portrait-dominates',
+]);
+
+/** Render-only clock budget. Reduced motion removes travel, never the readable text hold. */
+export function rhetoricDurationFor(phase: string, reducedMotion: boolean): number {
+  const duration = RHETORIC_PHASE_DURATION_MS[phase] ?? 1000;
+  if (!reducedMotion || REDUCED_MOTION_HOLDS.has(phase)) return duration;
+  return phase === 'camera' ? 1 : 120;
+}
+
+export const RHETORIC_PRESENTATION_TIMING_MS = Object.freeze({
+  lift: RHETORIC_CARD_VISUAL_SPEC.liftDurationMs,
+  liftPhase: RHETORIC_CARD_LIFT_FRAMES * RHETORIC_FRAME_MS,
+  dealSingle: RHETORIC_CARD_VISUAL_SPEC.dealDurationMs,
+  dealStagger: RHETORIC_CARD_VISUAL_SPEC.preferredDealStaggerMs,
+  dealFiveTotal: RHETORIC_CARD_VISUAL_SPEC.dealDurationMs + 4 * RHETORIC_CARD_VISUAL_SPEC.preferredDealStaggerMs,
+  dealPhase: RHETORIC_DEAL_PHASE_FRAMES * RHETORIC_FRAME_MS,
+  flight: RHETORIC_CARD_VISUAL_SPEC.flightDurationMs,
+  flightPhase: RHETORIC_CARD_FLIGHT_FRAMES * RHETORIC_FRAME_MS,
+  impactHold: RHETORIC_CARD_VISUAL_SPEC.impactHoldMs,
+  response: RHETORIC_CARD_VISUAL_SPEC.responseDurationMs,
+});
+
+export function rhetoricViewportScale(width: number, height: number): number {
+  return Math.min(width / RHETORIC_VIEWPORT_SPEC.width, height / RHETORIC_VIEWPORT_SPEC.height);
+}
 
 export type RhetoricHandVisualStatus = 'kept' | 'drawn' | 'played';
 export type RhetoricHandVisual = Readonly<{

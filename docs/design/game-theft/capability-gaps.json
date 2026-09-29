@@ -1,0 +1,11 @@
+[
+  {
+    "id": "GAP-THEFT-01",
+    "title": "渐进风险会话：固定 tick 持续风险、循环 QTE、动态递增概率、运行时多目标逐件取得、操作日志与确定性回执。实查现有 effect chance 为静态 num/den，flow 只写 flag/state/resource，无法数据化解释任意宿主物品目录。Owner 2026-09-28 已选 A：下沉通用 t3-progressive-risk-session；禁止游戏层专属解释器。详见 capability-plan.md §4.8。",
+    "priority": "P1",
+    "route": "engine",
+    "state": "accepted",
+    "ticket": "docs/workflow/requests.md#req-theft-progressive--渐进风险会话-t3-progressive-risk-session--2026-09-29--owner-已选-a-game-theft-设计会话--施工主体--ops本地已认领待-owner-推送本行完成抢锁--status-accepted--p1--类型-引擎能力下沉",
+    "blocks": ["S3", "S4"]
+  }
+]

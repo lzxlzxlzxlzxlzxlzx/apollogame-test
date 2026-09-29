@@ -32,7 +32,7 @@ const isTerminal = (snapshot: RhetoricSnapshot): boolean => snapshot.phase === '
 
 function phaseSnapshot(transition: RhetoricPresentationTransition, phase: string): RhetoricSnapshot {
   if (transition.kind === 'enter') return phase === 'camera' || phase === 'reveal-intent' ? transition.before : transition.after;
-  if (transition.kind === 'card-played') return phase === 'card-flight' ? transition.before : transition.after;
+  if (transition.kind === 'card-played') return phase === 'card-lift' ? transition.before : transition.after;
   if (transition.kind === 'enemy-turn') {
     if (phase === 'round-end' || phase === 'enemy-intent') return transition.before;
     if (phase === 'enemy-impact') return { ...transition.before, pressure: transition.after.pressure };
@@ -46,7 +46,7 @@ function deltaText(transition: RhetoricPresentationTransition, phase: string): s
   const names = { progress: '论证', pressure: '压力', focus: '专注' } as const;
   const allowed = transition.kind === 'enemy-turn'
     ? phase === 'enemy-impact' ? ['pressure'] : phase === 'focus-refresh' ? ['focus'] : []
-    : phase === 'impact' ? ['progress', 'pressure', 'focus'] : [];
+    : phase === 'card-flight' || phase === 'impact' ? ['progress', 'pressure', 'focus'] : [];
   return (transition.resourceDelta ?? [])
     .filter((delta) => allowed.includes(delta.resourceId))
     .map((delta) => `${names[delta.resourceId]}${delta.value > 0 ? '+' : ''}${delta.value}`)
@@ -55,7 +55,7 @@ function deltaText(transition: RhetoricPresentationTransition, phase: string): s
 
 function announcementFor(transition: RhetoricPresentationTransition, phase: string): string {
   if (transition.kind === 'enter' && phase === 'reveal-intent') return `对手意图：${transition.intentId ?? '未知'}`;
-  if (transition.kind === 'card-played' && phase === 'impact') {
+  if (transition.kind === 'card-played' && (phase === 'card-flight' || phase === 'impact')) {
     const card = transition.cardId ? cardById.get(transition.cardId) : undefined;
     const delta = deltaText(transition, phase);
     return `打出言弹：${card?.displayName ?? transition.cardId ?? '未知'}${delta ? `；${delta}` : ''}`;

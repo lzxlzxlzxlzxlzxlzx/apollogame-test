@@ -2,6 +2,239 @@
   "version": 1,
   "assets": [
     {
+      "id": "game-dice/texture/arcane-judgement-frame-v2",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-dice/art/arcane-judgement-frame-v2.png",
+      "description": "带真实透明外缘的不规则奥术判定画框；仅用于 game-dice 的 render-only UI 皮肤。",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "category": "ui.window-skin",
+      "tags": [
+        "game-dice",
+        "dice",
+        "ui",
+        "window-skin",
+        "transparent",
+        "irregular-frame",
+        "dark-fantasy",
+        "ai-generated"
+      ],
+      "source": "OpenAI image generation, project-directed prompt",
+      "license": "project-generated",
+      "provenance": {
+        "generator": "OpenAI image generation",
+        "promptIntent": "transparent irregular dark-fantasy judgement picture frame, no text or dice",
+        "sha256": "1d2e6b62bdfeffb58d2a7345513751f95fd92cdfef99bcbb1cb63496c77b88c3"
+      }
+    },
+    {
+      "id": "game-dice/texture/arcane-modifier-card-v1",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-dice/art/arcane-modifier-card-v1.png",
+      "description": "带真实透明外缘的独立修正来源卡；承载动态修正值与来源文字。",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "category": "ui.window-skin",
+      "tags": [
+        "game-dice",
+        "dice",
+        "ui",
+        "modifier-card",
+        "transparent",
+        "dark-fantasy",
+        "ai-generated"
+      ],
+      "source": "OpenAI image generation, project-directed prompt",
+      "license": "project-generated",
+      "provenance": {
+        "generator": "OpenAI image generation",
+        "promptIntent": "transparent small modifier plaque matching the judgement frame, no text or symbols",
+        "sha256": "af0b8d07a6bc6adfb05ab5ae47f0491c6df1de9968965d13dc4ffbe0e5353bba"
+      }
+    },
+    {
+      "id": "game-dice/texture/royal-velvet-judgement-frame-v1",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-dice/art/royal-velvet-judgement-frame-v1.png",
+      "description": "带真实透明外缘的皇家绒幕判定画框；与其他骰子画框共享内容安全区。",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "category": "ui.window-skin",
+      "tags": [
+        "game-dice",
+        "dice",
+        "ui",
+        "window-skin",
+        "transparent",
+        "irregular-frame",
+        "royal-velvet",
+        "ai-generated"
+      ],
+      "source": "OpenAI image generation, project-directed prompt",
+      "license": "project-generated",
+      "provenance": {
+        "generator": "OpenAI image generation",
+        "promptIntent": "transparent royal velvet judgement frame preserving the arcane frame layout, no text or dice",
+        "sha256": "90016e1411a496805c1a0782715d64054da23066aac795dc2e12ef76de2a53dd"
+      }
+    },
+    {
+      "id": "game-dice/texture/royal-velvet-modifier-card-v1",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-dice/art/royal-velvet-modifier-card-v1.png",
+      "description": "皇家绒幕背景专用的透明修正来源卡，与对应判定画框共享材质与纹样。",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "category": "ui.window-skin",
+      "tags": ["game-dice", "dice", "ui", "modifier-card", "transparent", "royal-velvet", "ai-generated"],
+      "source": "OpenAI image generation, project-directed prompt",
+      "license": "project-generated",
+      "provenance": {
+        "generator": "OpenAI image generation",
+        "promptIntent": "transparent royal velvet modifier plaque matching the judgement frame, no text or symbols",
+        "sha256": "186c7b9c8ba4b674184019345df11806b29e958d126d0e6576ce2211befa9686"
+      }
+    },
+    {
+      "id": "game-dice/texture/moonlit-ruins-judgement-frame-v1",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-dice/art/moonlit-ruins-judgement-frame-v1.png",
+      "description": "带真实透明外缘的月夜遗迹判定画框；与其他骰子画框共享内容安全区。",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "category": "ui.window-skin",
+      "tags": [
+        "game-dice",
+        "dice",
+        "ui",
+        "window-skin",
+        "transparent",
+        "irregular-frame",
+        "moonlit-ruins",
+        "ai-generated"
+      ],
+      "source": "OpenAI image generation, project-directed prompt",
+      "license": "project-generated",
+      "provenance": {
+        "generator": "OpenAI image generation",
+        "promptIntent": "transparent moonlit ruins judgement frame preserving the arcane frame layout, no text or dice",
+        "sha256": "d4809c6d3e0e21f7baf5cac33d1b128357a0c200906d4c124789eb111f5dab70"
+      }
+    },
+    {
+      "id": "game-dice/texture/moonlit-ruins-modifier-card-v1",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-dice/art/moonlit-ruins-modifier-card-v1.png",
+      "description": "月夜遗迹背景专用的透明修正来源卡，与对应判定画框共享材质与纹样。",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "category": "ui.window-skin",
+      "tags": ["game-dice", "dice", "ui", "modifier-card", "transparent", "moonlit-ruins", "ai-generated"],
+      "source": "OpenAI image generation, project-directed prompt",
+      "license": "project-generated",
+      "provenance": {
+        "generator": "OpenAI image generation",
+        "promptIntent": "transparent moonlit ruins modifier plaque matching the judgement frame, no text or symbols",
+        "sha256": "c7a26ab2192c59889fd2a28959d8496548dab49493303c42e0ebb83ced995bae"
+      }
+    },
+    {
+      "id": "game-dice/texture/infernal-forge-judgement-frame-v1",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-dice/art/infernal-forge-judgement-frame-v1.png",
+      "description": "带真实透明外缘的炼狱熔炉判定画框；与其他骰子画框共享内容安全区。",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "category": "ui.window-skin",
+      "tags": [
+        "game-dice",
+        "dice",
+        "ui",
+        "window-skin",
+        "transparent",
+        "irregular-frame",
+        "infernal-forge",
+        "ai-generated"
+      ],
+      "source": "OpenAI image generation, project-directed prompt",
+      "license": "project-generated",
+      "provenance": {
+        "generator": "OpenAI image generation",
+        "promptIntent": "transparent infernal forge judgement frame preserving the arcane frame layout, no text or dice",
+        "sha256": "d915f538d23aae0cd551095a754385a89699cb5c4921e0785f40031d8cc4401b"
+      }
+    },
+    {
+      "id": "game-dice/texture/infernal-forge-modifier-card-v1",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-dice/art/infernal-forge-modifier-card-v1.png",
+      "description": "炼狱熔炉背景专用的透明修正来源卡，与对应判定画框共享材质与纹样。",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "category": "ui.window-skin",
+      "tags": ["game-dice", "dice", "ui", "modifier-card", "transparent", "infernal-forge", "ai-generated"],
+      "source": "OpenAI image generation, project-directed prompt",
+      "license": "project-generated",
+      "provenance": {
+        "generator": "OpenAI image generation",
+        "promptIntent": "transparent infernal forge modifier plaque matching the judgement frame, no text or symbols",
+        "sha256": "626903c2a5ce02719af97a217d9c00ab4c7235f09a0659784e043adc11395325"
+      }
+    },
+    {
+      "id": "game-dice/mesh/d20-numbered-v1",
+      "type": "mesh",
+      "status": "filled",
+      "path": "/games/game-dice/art/d20-numbered-v1.stl",
+      "description": "带 1–20 全部真实凹刻数字的二十面骰网格；逐面核对后用于 game-dice 的 render-only 外观。",
+      "spec": {
+        "scale": 1,
+        "genCollision": "none"
+      },
+      "category": "mesh.dice",
+      "tags": ["game-dice", "dice", "d20", "numbered", "engraved", "stl", "3d"],
+      "source": "Project owner supplied STL",
+      "license": "user-provided",
+      "provenance": {
+        "originalPath": "C:/Users/24652/Downloads/De-20.stl",
+        "authorization": "project-owner-provided",
+        "faceAudit": "1 through 20 each present exactly once; 6088 triangles",
+        "sha256": "a12ce1a853d6ec8f537894edd929e3f977f34213fcb0cf1c8338e9fd0df2c232"
+      }
+    },
+    {
       "id": "game-dice/mesh/d6-prototype",
       "type": "mesh",
       "status": "filled",

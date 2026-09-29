@@ -1,0 +1,15 @@
+{
+  "name": "dokiworld-game-loot-chest",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "DokiWorld packaging for the deterministic loot chest app",
+  "scripts": {
+    "test": "node ../../node_modules/vitest/vitest.mjs run --config vitest.config.ts && node --test tests/*.test.mjs",
+    "typecheck": "node ../../node_modules/typescript/bin/tsc --noEmit -p tsconfig.json",
+    "build": "node scripts/build.mjs"
+  },
+  "dependencies": {
+    "dokiworlds-app-sdk": "file:../../vendor/dokiworlds-app-sdk"
+  }
+}

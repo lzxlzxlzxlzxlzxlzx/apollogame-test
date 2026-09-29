@@ -8,6 +8,23 @@
 
 ## 待处理 / 进行中
 
+### REQ-THEFT-PROGRESSIVE · 渐进风险会话 `t3-progressive-risk-session` · [2026-09-29] · **owner 已选 A**（game-theft 设计会话）· **施工主体 = OPS（本地已认领，待 owner 推送本行完成抢锁）** · status: accepted · P1 · 类型: 引擎能力下沉
+
+**缺口实查/裁决**：静态 `t2-effect-apply` 概率门与 `t3-flow` 无法表达“持续风险 + 循环检定 + 有序多目标 + 确定性回执”；游戏层自写会成为专属 system。A/B 原文见 `docs/design/game-theft/capability-plan.md §4.8`，owner 已选 A。
+
+**施工 spec（写死边界）**：
+
+1. 新增通用 `t3-progressive-risk-session`，只解释声明式会话数据，禁业务词。组件表达 phase、固定 tick 风险与余数、有序目录/索引、逐目标失败数、取得清单、QTE 统计和终局。
+2. 输入动作闭集：`start | qte | continue | withdraw`；目标只能按输入数组顺序推进，解释器不排序、不允许 select/skip/reorder。每 tick 顺序固定为：被动风险 → 满值终局 → 消费输入 → QTE 结果 → 必要时消费 `RandomSeed` 抽取 → 状态/具名 Signal。
+3. 概率为整数基点：`min(maxRollChanceBp, floor(initialChanceBp * (10000 + failedRolls * growthFactorBp) / 10000))`。无 `RandomSeed` fail-closed；禁裸随机、墙钟和浮点排序。
+4. QTE 命中才进行概率抽取；抽取未中只增加该目标失败次数；QTE 失误只增加固定风险惩罚；取得后该目标失败次数清零但风险不清零。终局闭集：`withdrew | exposed | cleared | aborted`，已经取得的目标在 exposed 时仍保留于回执。
+5. 接 debug trace：选择=`decision`、相位=`transition`、拒收=`reject`、取得/终局=`commit`；无事零条，每 system/tick ≤3。
+6. 注册进 capability registry、组件映射、确定性/快照声明与系统定序；不得修改 `src/ui/**`、游戏目录或 DokiWorld 协议。消费方 game-theft 的 DC→初始概率查表仍是游戏纯数据，不进入通用 capability。
+
+**点名验收**：① 同 seed+同配置+同 tick 输入逐字段同回执；② 快照恢复后下一拍与不中断运行同轨；③ 无输入有限拍进入 exposed；④ 命中未中后概率按整数公式成长；⑤ miss 不消费 RNG，loot roll 才消费；⑥ 两目标严格按数组顺序且第一件成功后风险不清零；⑦ 同拍风险满优先于 withdraw；⑧ 非法 select/skip/倒序 seq/终局后输入 fail-closed 并留 reject trace；⑨ 无 seed 不发奖；⑩ registry guard、system graph 零新增告警、`game-skill-audit` 无新增红旗。
+
+**范围**：所需协议组件、component-map、`src/skills/tier3/progressive-risk-session*`、registry/导出/测试、手册一行；施工与复查人不同。
+
 ### REQ-HOST-GAME-SESSION · 外部游戏会话（请求 / 初始随机 seed / 结构化结果回传）· [2026-09-21] · owner 选择路线 A · **施工主体 = Codex（2026-09-21 抢锁）** · status: in-progress · P1 · 类型: 跨游戏宿主能力
 
 **问题**：现有卡带 `mount(container, host)` 只有可选退出钩子。外部平台无法以统一、可校验的方式传入一次游戏请求，调用方未预定结果时也没有合法的初始熵入口；游戏层若自行写 `postMessage` / `crypto` / 回调协议，将为每个小游戏复制一份跨平台和随机语义，违反数据驱动边界。
