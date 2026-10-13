@@ -4,7 +4,7 @@
 //  vite 开发服 → 真 Chromium 装载游戏 → 走玩家同款深链」——这套机制抽成本模块，两处 import 同一份，
 //  不各自维护一份浏览器探测/起服/深链/PNG 解码代码（R3 施工令明文：复用 R1 模块·别复制代码）。
 //  render-probe.mjs 已同步改为从本模块 import（其对外导出签名不变，见该文件尾部 re-export）。
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { spawn, spawnSync } from 'node:child_process';
 import { join } from 'node:path';
 import zlib from 'node:zlib';
@@ -112,6 +112,15 @@ export function decodePNG(buf) {
 // ── 深链构造（跟玩家点开启动器走同一条路由·非测试专用路径）──────────────────
 export function deepLinkQuery(form, slug) {
   return form === 'cart' ? `game=lib:${slug}` : `game=${slug}`;
+}
+
+/** 卡带探针只模拟创作服的只读库路由；数据仍取本仓真实文件。 */
+export function cartProbeFixture(root, slug) {
+  if (!/^[a-z0-9][a-z0-9-]*$/.test(slug)) throw new Error(`非法卡带 slug: ${slug}`);
+  const dir = join(root, 'library', slug);
+  const meta = JSON.parse(readFileSync(join(dir, 'meta.json'), 'utf8'));
+  const manifest = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8'));
+  return { entries: [{ slug, meta, valid: true, hasLogic: existsSync(join(dir, 'logic.ts')), allowTs: meta.allowTs === true }], manifest };
 }
 
 // ── vite dev 起服（非 build+preview——冷启动快、天然读当前源码）─────────────

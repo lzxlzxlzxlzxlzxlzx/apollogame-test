@@ -43,6 +43,12 @@ describe('game-dice 悬浮判定窗', () => {
     expect(html).not.toContain('rgba(0,0,0,0.9)');
   });
 
+  it('正式宿主会话提示自动掷骰，本地预览仍保留手动提示', () => {
+    const input = { dice: [{ sides: 6 as const }], backdrop: 'arcane-vault' };
+    expect(renderNode(buildDiceWindow(input, { autoRoll: true }), DICE_WINDOW_THEME)).toContain('骰子即将掷出');
+    expect(renderNode(buildDiceWindow(input), DICE_WINDOW_THEME)).toContain('点击骰子');
+  });
+
   it('自定义 judgement.bands 隐藏没有业务含义的难度等级与数字', () => {
     const tree = buildDiceWindow({
       dice: [{ sides: 20 }], modifier: 1, difficulty: 10,

@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>星辉启封 · S1-P 纸片卡包演出原型</title>
+  <!-- 仅为设计原型，禁止复制进生产游戏。所有图片均为离线原创占位图。 -->
+  <style>
+    :root { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; color: #24213e; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-width: 100%; min-height: 100%; background: transparent; }
+    body { min-height: 100vh; display: grid; place-items: center; }
+    #stage { position: relative; width: min(100vw, calc(100vh * 1.6)); aspect-ratio: 16 / 10; background: transparent; }
+    canvas { display: block; width: 100%; height: 100%; background: transparent; }
+    #controls { position: absolute; left: 2.5%; bottom: 3.1%; width: 30%; max-width: 430px; max-height: 230px; display: flex; flex-wrap: wrap; align-content: start; gap: 6px; overflow-y: auto; scrollbar-width: thin; }
+    button { appearance: none; border: 1px solid #887dab; border-radius: 999px; padding: 8px 10px; background: rgba(255,255,255,.91); color: #272441; font: 600 13px/1.2 inherit; cursor: pointer; box-shadow: 0 2px 9px rgba(36,28,70,.15); }
+    button:hover { background: #f1eafa; border-color: #675395; }
+    button:active { transform: translateY(1px); }
+    button[aria-pressed="true"] { background: #493778; color: white; border-color: #493778; }
+    button[data-action^="count-"], button[data-action^="p5-"] { order: -1; }
+    button[data-action^="full-"] { order: -2; }
+    #readout { position: absolute; right: 3.1%; bottom: 4.3%; padding: 8px 10px; background: rgba(255,255,255,.86); border-radius: 8px; text-align: right; font-size: 13px; line-height: 1.5; }
+    #readout b { display: block; font-size: 16px; letter-spacing: .08em; }
+    @media (prefers-reduced-motion: reduce) { #motion-note { display: block; } }
+    #motion-note { display: none; position: absolute; right: 3.1%; top: 3.1%; padding: 5px 8px; background: rgba(255,255,255,.86); font-size: 12px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <main id="stage" aria-label="星辉启封 S1-P 双面纸片卡包原型">
+    <canvas id="art" width="1440" height="900" aria-label="透明舞台上的双面卡包"></canvas>
+    <section id="controls" aria-label="原型控制">
+      <button type="button" data-action="show-front" aria-pressed="true">显示正面</button>
+      <button type="button" data-action="show-back" aria-pressed="false">显示背面</button>
+      <button type="button" data-action="flip">Flip Preview</button>
+      <button type="button" data-action="checker" aria-pressed="false">透明棋盘格 关</button>
+      <button type="button" data-action="ring-static">圆环静态</button>
+      <button type="button" data-action="p2-play">播放 P2</button>
+      <button type="button" data-action="p2-pause">暂停/继续</button>
+      <button type="button" data-action="p2-replay">重新播放</button>
+      <button type="button" data-action="p3-start">P3-R2 起点</button>
+      <button type="button" data-action="p3-play">播放 P3-R2</button>
+      <button type="button" data-action="p3-pause">暂停/继续 P3-R2</button>
+      <button type="button" data-action="p3-replay">重播 P3-R2</button>
+      <button type="button" data-action="p3-relay">P4 卡组接力帧</button>
+      <button type="button" data-action="p4-start">P4 起点</button>
+      <button type="button" data-action="p4-play">播放 P4</button>
+      <button type="button" data-action="p4-pause">暂停/继续 P4</button>
+      <button type="button" data-action="p4-replay">重播 P4</button>
+      <button type="button" data-action="p4-queue">P5 画外队列帧</button>
+      <button type="button" data-action="count-1">1 张</button>
+      <button type="button" data-action="count-2">2 张</button>
+      <button type="button" data-action="count-3">3 张</button>
+      <button type="button" data-action="count-4">4 张</button>
+      <button type="button" data-action="count-5">5 张</button>
+      <button type="button" data-action="p5-start">P5 起点</button>
+      <button type="button" data-action="p5-play">播放 P5</button>
+      <button type="button" data-action="p5-pause">暂停/继续 P5</button>
+      <button type="button" data-action="p5-replay">重播 P5</button>
+      <button type="button" data-action="p5-final">最终阵列</button>
+      <button type="button" data-action="full-start">完整演示起点</button>
+      <button type="button" data-action="full-play">播放完整演示</button>
+      <button type="button" data-action="full-pause">暂停/继续完整演示</button>
+      <button type="button" data-action="full-replay">重播完整演示</button>
+      <button type="button" data-action="full-final">完整演示终态</button>
+    </section>
+    <div id="readout" aria-live="polite"><b id="segment">FRONT</b><span id="duration">静态 · 400 × 600 · 3:2</span></div>
+    <div id="motion-note">已启用减少动态效果</div>
+  </main>
+  <script>
+  (() => {
+    'use strict';
+    const W = 1440, H = 900, CENTER_X = 720, CENTER_Y = 410;
+    const CARD_W = 400, CARD_H = 600, EDGE_PX = 2, FLIP_MS = 2100;
+    const P2_MS = 2000, TARGET_ID = 3, PACK_COUNT = 8;
+    const P3_MS = 1050;
+    const P4_CARD_MS = 950;
+    const P5_CARD_MS = 700, P5_STAGGER_MS = 120;
+    const P5_LAYOUT = Object.freeze({
+      1:{w:300,h:450,x:[720]}, 2:{w:270,h:405,x:[550,890]},
+      3:{w:240,h:360,x:[430,720,1010]},
+      4:{w:220,h:330,x:[330,590,850,1110]},
+      5:{w:200,h:300,x:[260,490,720,950,1180]}
+    });
+    const TEAR_POINTS = Object.freeze([[0,57],[65,55],[135,58],[200,62],[265,59],[335,55],[400,57]]);
+    const PACK_RECTS = Object.freeze({ front:{x:105,y:26,w:573,h:1032}, back:{x:771,y:26,w:571,h:1032} });
+    const RING = Object.freeze({ cx: 720, cy: 400, rx: 330, ry: 135, w: 150, h: 225, baseDeg: 111 });
+    const canvas = document.getElementById('art');
+    const ctx = canvas.getContext('2d', { alpha: true });
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const P2_PLAY_MS = reduceMotion ? 800 : P2_MS;
+    const P3_PLAY_MS = reduceMotion ? 280 : P3_MS;
+    const P4_CARD_PLAY_MS = reduceMotion ? 300 : P4_CARD_MS;
+    const P5_CARD_PLAY_MS = reduceMotion ? 360 : P5_CARD_MS;
+    const P5_STAGGER_PLAY_MS = reduceMotion ? 70 : P5_STAGGER_MS;
+    const p4Duration = () => state.cardCount*P4_CARD_PLAY_MS;
+    const p5Duration = () => (reduceMotion ? 760 : 1200)+(state.cardCount-1)*P5_STAGGER_PLAY_MS;
+    const state = { face: 'front', checker: false, flipStart: null, cardCount: 5 };
+    const p2 = { mode: 'off', elapsed: 0, lastFrame: null };
+    const p3 = { mode: 'off', elapsed: 0, lastFrame: null };
+    const p4 = { mode: 'off', elapsed: 0, lastFrame: null };
+    const p5 = { mode: 'off', elapsed: 0, lastFrame: null };
+    const full = { mode: 'off', elapsed: 0, lastFrame: null };
+    const segment = document.getElementById('segment');
+    const duration = document.getElementById('duration');
+    const svg = body => '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600">' + body + '</svg>';
+    // One local package image sheet supplies the two sides of the same wrapper.
+    const IMAGE_SOURCES = {
+      Pack: 'ui-refs/pack-unified-ai-v1.png',
+      CardFront: svg('<rect x="3" y="3" width="394" height="594" rx="14" fill="#f3edd9" stroke="#eed6a0" stroke-width="5"/><rect x="20" y="20" width="360" height="560" rx="9" fill="#d7efe9" stroke="#6cb0b3" stroke-width="3"/><circle cx="200" cy="278" r="102" fill="#71b7c3"/><path d="M200 172L222 254L304 278L222 301L200 384L178 301L96 278L178 254Z" fill="#fff5cd"/><path d="M74 470Q200 505 326 470" fill="none" stroke="#78a2bb" stroke-width="8"/>'),
+      CardBack: svg('<rect x="3" y="3" width="394" height="594" rx="14" fill="#252654" stroke="#f7ddb1" stroke-width="5"/><rect x="20" y="20" width="360" height="560" rx="9" fill="#403b77" stroke="#b9a1d5" stroke-width="3"/><path d="M200 105L286 300L200 495L114 300Z" fill="none" stroke="#e5ce9e" stroke-width="8"/><circle cx="200" cy="300" r="54" fill="#9585ba" stroke="#fff0ca" stroke-width="5"/><path d="M200 264L209 290L236 300L209 310L200 336L191 310L164 300L191 290Z" fill="#fff1cc"/>')
+    };
+    // The old common face is a border template only. Unique art remains hidden under
+    // card-0 at P3's frozen handoff, while the exposed 5–6px edges stay identical.
+    const lowerCardArt = [
+      '<circle cx="200" cy="300" r="76" fill="#65a8bb"/><circle cx="229" cy="277" r="68" fill="#403b77"/><circle cx="162" cy="294" r="9" fill="#fff0ca"/>',
+      '<path d="M200 207L276 300L200 393L124 300Z" fill="#c9a5dd"/><path d="M200 230L250 300L200 370L150 300Z" fill="#fff0ca"/>',
+      '<circle cx="200" cy="300" r="74" fill="#e6b96d"/><path d="M200 226L216 284L274 300L216 316L200 374L184 316L126 300L184 284Z" fill="#fff6d7"/>',
+      '<path d="M105 340Q175 202 283 267Q225 263 196 337Q153 382 105 340Z" fill="#89bca6"/><circle cx="271" cy="256" r="20" fill="#fff1cb"/>'
+    ];
+    for (let i=1;i<=4;i++) IMAGE_SOURCES['Card'+i] = IMAGE_SOURCES.CardBack.replace('</svg>',lowerCardArt[i-1]+'</svg>');
+    delete IMAGE_SOURCES.CardBack;
+    const images = {};
+    let frameRequest = null;
+    function requestFrame() {
+      if (frameRequest !== null) return;
+      frameRequest = requestAnimationFrame(now => { frameRequest = null; draw(now); });
+    }
+    function cancelPendingFrame() {
+      if (frameRequest !== null) { cancelAnimationFrame(frameRequest); frameRequest = null; }
+    }
+    for (const [key, source] of Object.entries(IMAGE_SOURCES)) {
+      const image = new Image();
+      image.onload = () => draw(performance.now());
+      image.onerror = () => console.error('原型图片加载失败：' + key);
+      image.src = key === 'Pack' ? source : 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(source);
+      images[key] = image;
+    }
+    const ready = image => image && image.complete && image.naturalWidth > 0;
+    const ease = t => t < .5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+    const clamp01 = value => Math.max(0, Math.min(1, value));
+    const lerp = (a,b,p) => a+(b-a)*p;
+    const easeOut = p => 1-Math.pow(1-clamp01(p),3);
+    const easeInOut = p => ease(clamp01(p));
+    function flipAngle(now) {
+      if (state.flipStart === null) return null;
+      const total = reduceMotion ? 220 : FLIP_MS;
+      const progress = Math.min(1, (now - state.flipStart) / total);
+      if (progress >= 1) { state.flipStart = null; state.face = 'front'; updateControls(); return null; }
+      if (reduceMotion) return 0;
+      return progress <= .5 ? 180*ease(progress*2) : 180*(1-ease((progress-.5)*2));
+    }
+    function drawCheckerboard() {
+      if (!state.checker) return;
+      const size = 30;
+      for (let y=0;y<H;y+=size) for (let x=0;x<W;x+=size) {
+        ctx.fillStyle = ((x/size+y/size)%2) ? '#e5e5e5' : '#ffffff';
+        ctx.fillRect(x,y,size,size);
+      }
+    }
+    function drawPackSource(side,x,y,w,h) {
+      const image = images.Pack, source = PACK_RECTS[side];
+      if (ready(image)) ctx.drawImage(image,source.x,source.y,source.w,source.h,x,y,w,h);
+    }
+    function drawFace(x,y,w,h,alpha=1,highlight=0) {
+      if (alpha <= 0) return;
+      ctx.save();
+      ctx.translate(x,y);
+      ctx.globalAlpha = alpha;
+      ctx.beginPath();
+      ctx.roundRect(-w/2,-h/2,w,h,Math.min(5,w/30));
+      ctx.clip();
+      drawPackSource('front',-w/2,-h/2,w,h);
+      ctx.strokeStyle = highlight > 0 ? 'rgba(255,211,120,'+(highlight*.86)+')' : 'rgba(62,50,89,.45)';
+      ctx.lineWidth = highlight > 0 ? Math.max(2,w/90) : 1;
+      ctx.strokeRect(-w/2+.5,-h/2+.5,w-1,h-1);
+      ctx.restore();
+    }
+    function p2AngleDeg(time) {
+      if (time <= 200) return 0;
+      if (time <= 1100) return 184*(time-200)/900;
+      if (time <= 1400) return 184+20*easeOut((time-1100)/300);
+      return 204;
+    }
+    function ringLayout(time) {
+      const rotation = p2AngleDeg(time);
+      return Array.from({length:PACK_COUNT},(_,id) => {
+        const angle = (RING.baseDeg+id*360/PACK_COUNT+rotation)*Math.PI/180;
+        const depth = Math.sin(angle);
+        const size = .9+.18*depth;
+        const spread = easeOut(clamp01((time-id*4)/172));
+        return {
+          id, depth,
+          x: lerp(RING.cx+Math.cos(angle)*20,RING.cx+RING.rx*Math.cos(angle),spread),
+          y: lerp(RING.cy+Math.sin(angle)*10,RING.cy+RING.ry*depth,spread),
+          w: lerp(60,RING.w*size,spread), h: lerp(90,RING.h*size,spread),
+          alpha: clamp01((time-id*4)/120)
+        };
+      });
+    }
+    function p2Phase(time) {
+      if (p2.mode === 'static') return '圆环静态';
+      if (reduceMotion) return time < 250 ? '圆环建立' : time < 400 ? '选中确认 #3' : time < P2_PLAY_MS ? '聚焦英雄位' : '英雄位 #3';
+      if (time < 200) return '圆环建立';
+      if (time < 1100) return '快速旋转';
+      if (time < 1400) return '减速锁定 #3';
+      if (time < P2_MS) return '聚焦英雄位';
+      return '英雄位 #3';
+    }
+    function p2Pose(time,staticMode=false) {
+      if (reduceMotion && !staticMode) {
+        const ring = ringLayout(200).sort((a,b) => a.depth-b.depth || a.id-b.id);
+        const ringAlpha = time < 250 ? easeInOut(time/250) : time < 400 ? 1 : 1-easeInOut((time-400)/400);
+        const drawList = ring.map(pack => ({ ...pack, alpha:ringAlpha, highlight:pack.id === TARGET_ID && time >= 250 ? ringAlpha : 0 }));
+        if (time >= 400) drawList.push({ id:TARGET_ID, x:CENTER_X, y:CENTER_Y, w:CARD_W, h:CARD_H, alpha:easeInOut((time-400)/400), highlight:0 });
+        return { time, angle:0, drawList };
+      }
+      const layout = ringLayout(staticMode ? 200 : time);
+      const focus = clamp01((time-1400)/600), confirm = clamp01((time-1400)/100);
+      const focusEase = easeInOut(focus);
+      const ordered = layout.sort((a,b) => a.depth-b.depth || a.id-b.id);
+      const posePack = pack => {
+        if (pack.id === TARGET_ID && time >= 1400 && !staticMode) {
+          const lift = 10*easeOut(confirm), bump = 1+.04*easeOut(confirm);
+          return { ...pack,
+            x:lerp(pack.x,CENTER_X+70*Math.sin(Math.PI*focus),focusEase),
+            y:lerp(pack.y-lift,CENTER_Y,focusEase),
+            w:lerp(pack.w*bump,CARD_W,focusEase), h:lerp(pack.h*bump,CARD_H,focusEase),
+            alpha:1, highlight:(1-focus)*easeOut(confirm) };
+        }
+        const fade = time > 1400 ? .85*(1-easeOut(focus)) : 1;
+        const outward = time > 1400 ? easeOut(focus)*.36 : 0;
+        return { ...pack,
+          x:RING.cx+(pack.x-RING.cx)*(1+outward),
+          y:RING.cy+(pack.y-RING.cy)*(1+outward),
+          alpha:pack.alpha*fade, highlight:0 };
+      };
+      const drawList = ordered.filter(pack => pack.id !== TARGET_ID || time < 1400 || staticMode).map(posePack);
+      if (time >= 1400 && !staticMode) drawList.push(posePack(ordered.find(pack => pack.id === TARGET_ID)));
+      return { time, angle:p2AngleDeg(staticMode ? 200 : time), drawList };
+    }
+    function p2Draw(time,staticMode=p2.mode === 'static') {
+      for (const pack of p2Pose(time,staticMode).drawList) drawFace(pack.x,pack.y,pack.w,pack.h,pack.alpha,pack.highlight);
+    }
+    function advanceP2(now) {
+      if (p2.mode !== 'playing') return;
+      if (p2.lastFrame !== null) p2.elapsed = Math.min(P2_PLAY_MS,p2.elapsed+Math.max(0,now-p2.lastFrame));
+      p2.lastFrame = now;
+      if (p2.elapsed >= P2_PLAY_MS) {
+        p2.mode = 'done'; p2.lastFrame = null; state.face = 'front';
+      }
+    }
+    function traceTearCurve(reverse=false,move=true) {
+      const points = TEAR_POINTS;
+      const first = reverse ? points.length-1 : 0;
+      const last = reverse ? 0 : points.length-1;
+      if (move) ctx.moveTo(points[first][0],points[first][1]); else ctx.lineTo(points[first][0],points[first][1]);
+      const step = reverse ? -1 : 1;
+      for (let i=first;i!==last;i+=step) {
+        const j=i+step;
+        const midX=(points[i][0]+points[j][0])/2, midY=(points[i][1]+points[j][1])/2;
+        ctx.quadraticCurveTo(points[i][0],points[i][1],midX,midY);
+      }
+      ctx.quadraticCurveTo(points[last][0],points[last][1],points[last][0],points[last][1]);
+    }
+    function p3Pose(time) {
+      const t = Math.max(0,Math.min(P3_PLAY_MS,time));
+      const detached = t >= (reduceMotion ? 40 : 160);
+      const fly = easeOut((t-(reduceMotion ? 40 : 160))/(reduceMotion ? 130 : 320));
+      const fall = clamp01((t-(reduceMotion ? 80 : 220))/(reduceMotion ? 130 : 600));
+      const rise = easeOut((t-(reduceMotion ? 120 : 320))/(reduceMotion ? 160 : 730));
+      const preTension = !reduceMotion && t >= 100 && t < 160 ? 3*easeInOut((t-100)/60) : 0;
+      const sharedOffset = !reduceMotion && detached ? -3*(1-easeOut((t-160)/100)) : 0;
+      const bodyAlpha = reduceMotion ? 1-easeInOut((t-80)/130) : fall >= 1 ? 0 : 1;
+      const stackAlpha = easeInOut((t-(reduceMotion ? 120 : 320))/(reduceMotion ? 90 : 80));
+      const baseY = lerp(reduceMotion ? 400 : 410,360,rise);
+      const w = lerp(220,260,rise), h = lerp(330,390,rise);
+      const cardStack = Array.from({length:state.cardCount},(_,i) => ({
+        id: 'card-'+i, image: i===0 ? 'CardFront' : 'Card'+i,
+        x: CENTER_X+i*5, y: baseY-i*6, w, h,
+        rotation: -.035+i*.012, alpha: stackAlpha
+      }));
+      return {
+        time:t, stage: !detached ? 'attached' : t < (reduceMotion ? 170 : 480) ? 'detached' : 'gone',
+        topPiece: { state: !detached ? 'attached' : t < (reduceMotion ? 170 : 480) ? 'detached' : 'gone',
+          x: (reduceMotion ? 90 : 320)*fly,
+          y: sharedOffset-(reduceMotion ? 60 : 220)*fly-(!reduceMotion ? 18*Math.sin(Math.PI*fly) : 0),
+          rotation:(reduceMotion ? .22 : .78)*fly,
+          alpha: detached ? 1-easeInOut((t-(reduceMotion ? 100 : 400))/(reduceMotion ? 70 : 80)) : 1,
+          width:CARD_W, crop:'fixed-shallow-curve' },
+        body: { x:0, y:sharedOffset+(reduceMotion ? 130*easeInOut(fall) : 780*fall*fall), alpha:bodyAlpha },
+        cardStack, preTension
+      };
+    }
+    function p3Phase(time) {
+      if (p3.mode === 'start') return 'P3-R2 起点';
+      if (p3.mode === 'relay' || p3.mode === 'done') return 'P4 卡组接力';
+      if (reduceMotion) return time < 40 ? '无封条停稳' : time < 170 ? '整片撕离' : '卡组接力';
+      if (time < 100) return '无封条停稳';
+      if (time < 160) return '极短预备';
+      if (time < 220) return '顶部整体断裂';
+      if (time < 480) return '顶片抛飞 / 包体下坠';
+      if (time < 820) return '包体下坠 / 卡组上升';
+      return '卡组接力';
+    }
+    function drawCardStack(pose) {
+      for (let i=pose.cardStack.length-1;i>=0;i--) {
+        const card = pose.cardStack[i], picture = images[card.image];
+        if (card.alpha <= 0 || !ready(picture)) continue;
+        ctx.save(); ctx.translate(card.x,card.y); ctx.rotate(card.rotation); ctx.globalAlpha = card.alpha;
+        ctx.drawImage(picture,-card.w/2,-card.h/2,card.w,card.h);
+        ctx.restore();
+      }
+    }
+    function drawRemainingPack(pose) {
+      if (pose.body.alpha <= 0 || !ready(images.Pack)) return;
+      ctx.save();
+      ctx.translate(CENTER_X-CARD_W/2+pose.body.x,CENTER_Y-CARD_H/2+pose.body.y);
+      ctx.globalAlpha = pose.body.alpha;
+      ctx.beginPath(); traceTearCurve(); ctx.lineTo(CARD_W,CARD_H); ctx.lineTo(0,CARD_H); ctx.closePath(); ctx.clip();
+      drawPackSource('front',0,0,CARD_W,CARD_H);
+      ctx.restore();
+      ctx.save();
+      ctx.translate(CENTER_X-CARD_W/2+pose.body.x,CENTER_Y-CARD_H/2+pose.body.y);
+      ctx.globalAlpha = pose.body.alpha;
+      ctx.beginPath(); traceTearCurve();
+      ctx.strokeStyle = '#182c43'; ctx.lineWidth = 3; ctx.stroke();
+      ctx.beginPath(); ctx.translate(0,2); traceTearCurve();
+      ctx.strokeStyle = 'rgba(129,226,236,.88)'; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.restore();
+    }
+    function drawFlyingTop(pose) {
+      if (pose.topPiece.state !== 'detached' || pose.topPiece.alpha <= 0 || !ready(images.Pack)) return;
+      const top = pose.topPiece;
+      ctx.save();
+      ctx.translate(CENTER_X+CARD_W/2+top.x,CENTER_Y-CARD_H/2+TEAR_POINTS[6][1]+top.y);
+      ctx.rotate(top.rotation); ctx.translate(-CARD_W,-TEAR_POINTS[6][1]);
+      ctx.globalAlpha = top.alpha;
+      ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(CARD_W,0); traceTearCurve(true,false); ctx.closePath(); ctx.clip();
+      drawPackSource('front',0,0,CARD_W,CARD_H);
+      ctx.restore();
+    }
+    function p3Draw(time) {
+      const pose = p3Pose(time);
+      if (pose.stage === 'attached') { drawFace(CENTER_X,CENTER_Y-pose.preTension,CARD_W,CARD_H); return; }
+      // The selected ordered card prefix sits behind the fixed cut opening and moves as one group.
+      drawCardStack(pose);
+      drawRemainingPack(pose);
+      drawFlyingTop(pose);
+    }
+    function advanceP3(now) {
+      if (p3.mode !== 'playing') return;
+      if (p3.lastFrame !== null) p3.elapsed = Math.min(P3_PLAY_MS,p3.elapsed+Math.max(0,now-p3.lastFrame));
+      p3.lastFrame = now;
+      if (p3.elapsed >= P3_PLAY_MS) { p3.mode = 'done'; p3.lastFrame = null; }
+    }
+    function p4Pose(time) {
+      const t = Math.max(0,Math.min(p4Duration(),time));
+      const current = Math.min(state.cardCount,Math.floor(t/P4_CARD_PLAY_MS));
+      const local = current === state.cardCount ? P4_CARD_PLAY_MS : t-current*P4_CARD_PLAY_MS;
+      const flyStart = reduceMotion ? 60 : 400;
+      const gatherEnd = reduceMotion ? 140 : 620;
+      const gather = easeInOut((local-flyStart)/(gatherEnd-flyStart));
+      const base = p3Pose(P3_PLAY_MS).cardStack;
+      const cards = base.map((card,i) => {
+        const queueIndex = i < current ? i : null;
+        const queueX = 1620+i*20, queueY = reduceMotion ? 360 : 300+i*4;
+        if (queueIndex !== null) return {
+          ...card, state:'queued', queueIndex, x:queueX, y:queueY,
+          w:card.w*(reduceMotion ? 1 : 1.05), h:card.h*(reduceMotion ? 1 : 1.05),
+          rotation:reduceMotion ? -.035 : .175, alpha:1
+        };
+        if (i > current) {
+          const layer = i-current-gather;
+          return { ...card, state:'stacked', queueIndex:null,
+            x:CENTER_X+layer*5, y:360-layer*6,
+            rotation:-.035+layer*.012, alpha:1 };
+        }
+        const shakeT = reduceMotion ? 0 : clamp01((local-180)/270);
+        const shake = reduceMotion || local < 180 || local > 450 ? 0 : Math.sin(shakeT*Math.PI*2);
+        const flight = clamp01((local-flyStart)/(P4_CARD_PLAY_MS-flyStart));
+        const flightEase = flight*flight*flight;
+        const x = CENTER_X+8*shake+(queueX-CENTER_X)*flightEase;
+        const y = 360+(reduceMotion ? 0 : 2*Math.sin(Math.PI*shakeT))
+          +(queueY-360)*flightEase-(reduceMotion ? 0 : 25*Math.sin(Math.PI*flight));
+        const rotation = -.035+(reduceMotion ? 0 : .058*shake+.21*flightEase);
+        const scale = 1+(reduceMotion ? 0 : .05*flightEase);
+        return { ...card, state:local < flyStart ? 'active' : 'flying', queueIndex:null,
+          x,y,w:card.w*scale,h:card.h*scale,rotation,alpha:1 };
+      });
+      return { time:t, currentIndex:current, localTime:local, cards,
+        queued:cards.filter(card => card.state === 'queued').map(card => card.id) };
+    }
+    function p4Phase(time) {
+      if (p4.mode === 'start') return 'P4 起点';
+      if (p4.mode === 'queue' || p4.mode === 'done') return 'P5 画外队列';
+      const pose = p4Pose(time);
+      if (pose.currentIndex === state.cardCount) return 'P5 画外队列';
+      return '第 '+(pose.currentIndex+1)+' 张 · '+(pose.localTime < (reduceMotion ? 60 : 180) ? '停稳' : pose.localTime < (reduceMotion ? 60 : 400) ? '轻摇' : '右飞');
+    }
+    function p4Draw(time) { drawCardStack({ cardStack:p4Pose(time).cards }); }
+    function advanceP4(now) {
+      if (p4.mode !== 'playing') return;
+      if (p4.lastFrame !== null) p4.elapsed = Math.min(p4Duration(),p4.elapsed+Math.max(0,now-p4.lastFrame));
+      p4.lastFrame = now;
+      if (p4.elapsed >= p4Duration()) { p4.mode = 'done'; p4.lastFrame = null; }
+    }
+    function layoutFor(count) {
+      if (!Number.isInteger(count) || count < 1 || count > 5) return null;
+      const row = P5_LAYOUT[count];
+      return row.x.map((x,index) => ({ index, x, y:410, w:row.w, h:row.h, rotation:0 }));
+    }
+    function p5Pose(time) {
+      const t = Math.max(0,Math.min(p5Duration(),time));
+      const queue = p4Pose(p4Duration()).cards;
+      const slots = layoutFor(state.cardCount);
+      const cards = queue.map((card,i) => {
+        const slot = slots[i], start = (reduceMotion ? 100 : 150)+i*P5_STAGGER_PLAY_MS;
+        const raw = clamp01((t-start)/P5_CARD_PLAY_MS);
+        if (t <= start) return { ...card, state:'queued', targetSlot:slot };
+        const progress = easeOut(raw);
+        const arcHeight = reduceMotion ? 0 : Math.min(55,Math.abs(card.x-slot.x)*.045);
+        const pop = reduceMotion ? 1 : 1+.04*Math.sin(Math.PI*clamp01((raw-.78)/.22));
+        return {
+          ...card, state:raw >= 1 ? 'settled' : 'recalling', targetSlot:slot,
+          x:lerp(card.x,slot.x,progress),
+          y:lerp(card.y,slot.y,progress)-arcHeight*Math.sin(Math.PI*progress),
+          w:lerp(card.w,slot.w,progress)*pop, h:lerp(card.h,slot.h,progress)*pop,
+          rotation:reduceMotion ? 0 : lerp(card.rotation,0,progress), alpha:1
+        };
+      });
+      return { time:t, duration:p5Duration(), cardCount:state.cardCount, cards };
+    }
+    function p5Phase(time) {
+      if (p5.mode === 'start') return 'P5 起点';
+      if (p5.mode === 'final' || p5.mode === 'done') return '最终阵列';
+      const cards = p5Pose(time).cards;
+      return cards.every(card => card.state === 'settled') ? '最终阵列保持' : cards.some(card => card.state === 'recalling') ? '结果召回' : '画外待召回';
+    }
+    function p5Draw(time) { drawCardStack({ cardStack:p5Pose(time).cards }); }
+    function advanceP5(now) {
+      if (p5.mode !== 'playing') return;
+      if (p5.lastFrame !== null) p5.elapsed = Math.min(p5Duration(),p5.elapsed+Math.max(0,now-p5.lastFrame));
+      p5.lastFrame = now;
+      if (p5.elapsed >= p5Duration()) { p5.mode = 'done'; p5.lastFrame = null; }
+    }
+    const fullDuration = () => P2_PLAY_MS+P3_PLAY_MS+p4Duration()+p5Duration();
+    function fullPoseAt(time) {
+      const t = Math.max(0,Math.min(fullDuration(),time));
+      if (t < P2_PLAY_MS) return { time:t, segment:'P2', segmentLocalTime:t, pose:p2Pose(t) };
+      if (t < P2_PLAY_MS+P3_PLAY_MS) {
+        const local = t-P2_PLAY_MS;
+        return { time:t, segment:'P3', segmentLocalTime:local, pose:p3Pose(local) };
+      }
+      if (t < P2_PLAY_MS+P3_PLAY_MS+p4Duration()) {
+        const local = t-P2_PLAY_MS-P3_PLAY_MS;
+        return { time:t, segment:'P4', segmentLocalTime:local, pose:p4Pose(local) };
+      }
+      const local = t-P2_PLAY_MS-P3_PLAY_MS-p4Duration();
+      return { time:t, segment:'P5', segmentLocalTime:local, pose:p5Pose(local) };
+    }
+    function fullDraw(time) {
+      const cursor = fullPoseAt(time);
+      if (cursor.segment === 'P2') p2Draw(cursor.segmentLocalTime,false);
+      else if (cursor.segment === 'P3') p3Draw(cursor.segmentLocalTime);
+      else if (cursor.segment === 'P4') p4Draw(cursor.segmentLocalTime);
+      else p5Draw(cursor.segmentLocalTime);
+    }
+    function advanceFull(now) {
+      if (full.mode !== 'playing') return;
+      if (full.lastFrame !== null) full.elapsed = Math.min(fullDuration(),full.elapsed+Math.max(0,now-full.lastFrame));
+      full.lastFrame = now;
+      if (full.elapsed >= fullDuration()) { full.mode = 'done'; full.lastFrame = null; }
+    }
+    function draw(now, overrideAngle) {
+      ctx.clearRect(0,0,W,H);
+      drawCheckerboard();
+      if (full.mode !== 'off') {
+        advanceFull(now);
+        fullDraw(full.elapsed);
+        updateControls();
+        if (full.mode === 'playing') requestFrame();
+        return;
+      }
+      if (p5.mode !== 'off') {
+        advanceP5(now);
+        p5Draw(p5.elapsed);
+        updateControls();
+        if (p5.mode === 'playing') requestFrame();
+        return;
+      }
+      if (p4.mode !== 'off') {
+        advanceP4(now);
+        p4Draw(p4.elapsed);
+        updateControls();
+        if (p4.mode === 'playing') requestFrame();
+        return;
+      }
+      if (p3.mode !== 'off') {
+        advanceP3(now);
+        p3Draw(p3.elapsed);
+        updateControls();
+        if (p3.mode === 'playing') requestFrame();
+        return;
+      }
+      if (p2.mode !== 'off') {
+        advanceP2(now);
+        p2Draw(p2.elapsed);
+        updateControls();
+        if (p2.mode === 'playing') requestFrame();
+        return;
+      }
+      const angle = overrideAngle === undefined ? flipAngle(now) : overrideAngle;
+      const reducedProgress = reduceMotion && angle !== null && state.flipStart !== null ? Math.min(1,(now-state.flipStart)/220) : null;
+      const back = reducedProgress === null ? (angle === null ? state.face === 'back' : angle > 90) : reducedProgress >= .25 && reducedProgress < .75;
+      const widthFactor = angle === null ? 1 : Math.abs(Math.cos(angle*Math.PI/180));
+      const apparentWidth = Math.max(EDGE_PX, CARD_W*widthFactor);
+      ctx.save();
+      ctx.translate(CENTER_X,CENTER_Y);
+      if (reducedProgress !== null) {
+        const quarter = reducedProgress * 4 % 1;
+        ctx.globalAlpha = reducedProgress < .25 || (reducedProgress >= .5 && reducedProgress < .75) ? 1-ease(quarter) : ease(quarter);
+      }
+      if (apparentWidth <= EDGE_PX + .01) {
+        ctx.fillStyle = '#61547b';
+        ctx.fillRect(-EDGE_PX/2,-CARD_H/2,EDGE_PX,CARD_H);
+      } else {
+        // Positive destination width keeps Back text readable instead of mirroring Front.
+        ctx.beginPath();
+        ctx.roundRect(-apparentWidth/2,-CARD_H/2,apparentWidth,CARD_H,Math.min(5,apparentWidth/2));
+        ctx.clip();
+        drawPackSource(back ? 'back' : 'front',-apparentWidth/2,-CARD_H/2,apparentWidth,CARD_H);
+        ctx.strokeStyle = 'rgba(62,50,89,.45)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(-apparentWidth/2+.5,-CARD_H/2+.5,apparentWidth-1,CARD_H-1);
+      }
+      ctx.restore();
+      if (angle !== null && overrideAngle === undefined) requestFrame();
+    }
+    function updateControls() {
+      const flipping = state.flipStart !== null;
+      const inP2 = p2.mode !== 'off';
+      const inP3 = p3.mode !== 'off';
+      const inP4 = p4.mode !== 'off';
+      const inP5 = p5.mode !== 'off';
+      const inFull = full.mode !== 'off';
+      const cursor = inFull ? fullPoseAt(full.elapsed) : null;
+      segment.textContent = inFull ? '完整演示 · '+cursor.segment : inP5 ? p5Phase(p5.elapsed) : inP4 ? p4Phase(p4.elapsed) : inP3 ? p3Phase(p3.elapsed) : inP2 ? p2Phase(p2.elapsed) : flipping ? 'FLIP PREVIEW' : state.face === 'back' ? 'BACK' : 'FRONT';
+      const timing = inFull ? (full.elapsed/1000).toFixed(2)+' / '+(fullDuration()/1000).toFixed(2)+' 秒'+(full.mode === 'paused' ? ' · 已暂停' : '') : inP5 ? (p5.elapsed/1000).toFixed(2)+' / '+(p5Duration()/1000).toFixed(2)+' 秒'+(p5.mode === 'paused' ? ' · 已暂停' : '') : inP4 ? (p4.elapsed/1000).toFixed(2)+' / '+(p4Duration()/1000).toFixed(2)+' 秒'+(p4.mode === 'paused' ? ' · 已暂停' : '') : inP3 ? (p3.elapsed/1000).toFixed(2)+' / '+(P3_PLAY_MS/1000).toFixed(2)+' 秒'+(p3.mode === 'paused' ? ' · 已暂停' : '') : inP2 ? (p2.elapsed/1000).toFixed(2)+' / '+(P2_PLAY_MS/1000).toFixed(2)+' 秒'+(p2.mode === 'paused' ? ' · 已暂停' : '') : flipping ? (reduceMotion ? '0.22 秒 · 减少动态' : '2.1 秒 · 正面 → 背面 → 正面') : '静态 · 400 × 600 · 3:2';
+      duration.textContent = timing+' · '+state.cardCount+' 张';
+      const activeByAction = {
+        'show-front':state.face === 'front' && !flipping && !inP2 && !inP3 && !inP4 && !inP5 && !inFull,
+        'show-back':state.face === 'back' && !flipping && !inP2 && !inP3 && !inP4 && !inP5 && !inFull,
+        'checker':state.checker, 'ring-static':p2.mode === 'static',
+        'p2-play':p2.mode === 'playing', 'p2-pause':p2.mode === 'paused',
+        'p3-start':p3.mode === 'start', 'p3-play':p3.mode === 'playing',
+        'p3-pause':p3.mode === 'paused', 'p3-relay':p3.mode === 'relay' || p3.mode === 'done',
+        'p4-start':p4.mode === 'start', 'p4-play':p4.mode === 'playing',
+        'p4-pause':p4.mode === 'paused', 'p4-queue':p4.mode === 'queue' || p4.mode === 'done',
+        'p5-start':p5.mode === 'start', 'p5-play':p5.mode === 'playing',
+        'p5-pause':p5.mode === 'paused', 'p5-final':p5.mode === 'final' || p5.mode === 'done',
+        'full-start':full.mode === 'start', 'full-play':full.mode === 'playing',
+        'full-pause':full.mode === 'paused', 'full-final':full.mode === 'final' || full.mode === 'done'
+      };
+      activeByAction['count-'+state.cardCount] = true;
+      for (const button of document.querySelectorAll('[data-action]')) {
+        button.setAttribute('aria-pressed',String(Boolean(activeByAction[button.dataset.action])));
+      }
+      document.querySelector('[data-action="checker"]').textContent = '透明棋盘格 ' + (state.checker ? '开' : '关');
+    }
+    function setCardCount(count) {
+      if (!Number.isInteger(count) || count < 1 || count > 5) return { accepted:false, cardCount:state.cardCount };
+      const activeStage = full.mode !== 'off' ? 'full' : p5.mode !== 'off' ? 'p5' : p4.mode !== 'off' ? 'p4' : p3.mode !== 'off' ? 'p3' : null;
+      cancelPendingFrame();
+      state.cardCount = count;
+      for (const phase of [p3,p4,p5,full]) { phase.mode = 'off'; phase.elapsed = 0; phase.lastFrame = null; }
+      if (activeStage === 'full') full.mode = 'start';
+      else if (activeStage === 'p5') p5.mode = 'start';
+      else if (activeStage === 'p4') p4.mode = 'start';
+      else if (activeStage === 'p3') p3.mode = 'start';
+      draw(performance.now());
+      return { accepted:true, cardCount:state.cardCount, stage:activeStage };
+    }
+    document.getElementById('controls').addEventListener('click', event => {
+      const action = event.target.closest('button')?.dataset.action;
+      if (!action) return;
+      if (action.startsWith('count-')) { setCardCount(Number(action.slice(6))); return; }
+      cancelPendingFrame();
+      if (action.startsWith('full-')) {
+        for (const phase of [p2,p3,p4,p5]) { phase.mode = 'off'; phase.elapsed = 0; phase.lastFrame = null; }
+        state.flipStart = null; state.face = 'front';
+        if (action === 'full-start') { full.mode = 'start'; full.elapsed = 0; full.lastFrame = null; }
+        if (action === 'full-play' || action === 'full-replay') { full.mode = 'playing'; full.elapsed = 0; full.lastFrame = performance.now(); }
+        if (action === 'full-final') { full.mode = 'final'; full.elapsed = fullDuration(); full.lastFrame = null; }
+        if (action === 'full-pause') {
+          if (full.mode === 'playing') { full.mode = 'paused'; full.lastFrame = null; }
+          else if (full.mode === 'paused') { full.mode = 'playing'; full.lastFrame = performance.now(); }
+        }
+        updateControls(); draw(performance.now()); return;
+      }
+      full.mode = 'off'; full.elapsed = 0; full.lastFrame = null;
+      if (action.startsWith('p5-')) {
+        p4.mode = 'off'; p4.elapsed = 0; p4.lastFrame = null;
+        p3.mode = 'off'; p3.elapsed = 0; p3.lastFrame = null;
+        p2.mode = 'off'; p2.lastFrame = null; state.flipStart = null;
+        state.face = 'front';
+        if (action === 'p5-start') { p5.mode = 'start'; p5.elapsed = 0; p5.lastFrame = null; }
+        if (action === 'p5-play' || action === 'p5-replay') { p5.mode = 'playing'; p5.elapsed = 0; p5.lastFrame = performance.now(); }
+        if (action === 'p5-final') { p5.mode = 'final'; p5.elapsed = p5Duration(); p5.lastFrame = null; }
+        if (action === 'p5-pause') {
+          if (p5.mode === 'playing') { p5.mode = 'paused'; p5.lastFrame = null; }
+          else if (p5.mode === 'paused') { p5.mode = 'playing'; p5.lastFrame = performance.now(); }
+        }
+        updateControls(); draw(performance.now()); return;
+      }
+      p5.mode = 'off'; p5.elapsed = 0; p5.lastFrame = null;
+      if (action.startsWith('p4-')) {
+        p3.mode = 'off'; p3.elapsed = 0; p3.lastFrame = null;
+        p2.mode = 'off'; p2.lastFrame = null; state.flipStart = null;
+        state.face = 'front';
+        if (action === 'p4-start') { p4.mode = 'start'; p4.elapsed = 0; p4.lastFrame = null; }
+        if (action === 'p4-play' || action === 'p4-replay') { p4.mode = 'playing'; p4.elapsed = 0; p4.lastFrame = performance.now(); }
+        if (action === 'p4-queue') { p4.mode = 'queue'; p4.elapsed = p4Duration(); p4.lastFrame = null; }
+        if (action === 'p4-pause') {
+          if (p4.mode === 'playing') { p4.mode = 'paused'; p4.lastFrame = null; }
+          else if (p4.mode === 'paused') { p4.mode = 'playing'; p4.lastFrame = performance.now(); }
+        }
+        updateControls(); draw(performance.now()); return;
+      }
+      p4.mode = 'off'; p4.elapsed = 0; p4.lastFrame = null;
+      if (action.startsWith('p3-')) {
+        p2.mode = 'off'; p2.lastFrame = null; state.flipStart = null;
+        state.face = 'front';
+        if (action === 'p3-start') { p3.mode = 'start'; p3.elapsed = 0; p3.lastFrame = null; }
+        if (action === 'p3-play' || action === 'p3-replay') { p3.mode = 'playing'; p3.elapsed = 0; p3.lastFrame = performance.now(); }
+        if (action === 'p3-relay') { p3.mode = 'relay'; p3.elapsed = P3_PLAY_MS; p3.lastFrame = null; }
+        if (action === 'p3-pause') {
+          if (p3.mode === 'playing') { p3.mode = 'paused'; p3.lastFrame = null; }
+          else if (p3.mode === 'paused') { p3.mode = 'playing'; p3.lastFrame = performance.now(); }
+        }
+        updateControls(); draw(performance.now()); return;
+      }
+      p3.mode = 'off'; p3.elapsed = 0; p3.lastFrame = null;
+      if (action === 'ring-static') { p2.mode = 'static'; p2.elapsed = 200; p2.lastFrame = null; state.flipStart = null; }
+      if (action === 'p2-play' || action === 'p2-replay') { p2.mode = 'playing'; p2.elapsed = 0; p2.lastFrame = performance.now(); state.flipStart = null; }
+      if (action === 'p2-pause') {
+        if (p2.mode === 'playing') { p2.mode = 'paused'; p2.lastFrame = null; }
+        else if (p2.mode === 'paused') { p2.mode = 'playing'; p2.lastFrame = performance.now(); }
+      }
+      if (['show-front','show-back','flip'].includes(action)) { p2.mode = 'off'; p2.lastFrame = null; }
+      if (action === 'show-front' || action === 'show-back') { state.face = action === 'show-front' ? 'front' : 'back'; state.flipStart = null; }
+      if (action === 'flip') { state.face = 'front'; state.flipStart = performance.now(); }
+      if (action === 'checker') state.checker = !state.checker;
+      updateControls();
+      draw(performance.now());
+    });
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && p2.mode === 'playing') { p2.mode = 'paused'; p2.lastFrame = null; updateControls(); }
+      if (document.hidden && p3.mode === 'playing') { p3.mode = 'paused'; p3.lastFrame = null; updateControls(); }
+      if (document.hidden && p4.mode === 'playing') { p4.mode = 'paused'; p4.lastFrame = null; updateControls(); }
+      if (document.hidden && p5.mode === 'playing') { p5.mode = 'paused'; p5.lastFrame = null; updateControls(); }
+      if (document.hidden && full.mode === 'playing') { full.mode = 'paused'; full.lastFrame = null; updateControls(); }
+    });
+    window.addEventListener('blur', () => {
+      if (p2.mode === 'playing') { p2.mode = 'paused'; p2.lastFrame = null; updateControls(); }
+      if (p3.mode === 'playing') { p3.mode = 'paused'; p3.lastFrame = null; updateControls(); }
+      if (p4.mode === 'playing') { p4.mode = 'paused'; p4.lastFrame = null; updateControls(); }
+      if (p5.mode === 'playing') { p5.mode = 'paused'; p5.lastFrame = null; updateControls(); }
+      if (full.mode === 'playing') { full.mode = 'paused'; full.lastFrame = null; updateControls(); }
+    });
+    updateControls();
+    draw(performance.now());
+    window.__p1Review = Object.freeze({
+      state: () => ({ ...state }),
+      drawAtAngle: angle => { cancelPendingFrame(); full.mode = 'off'; full.elapsed = 0; full.lastFrame = null; p5.mode = 'off'; p5.elapsed = 0; p5.lastFrame = null; p4.mode = 'off'; p4.elapsed = 0; p4.lastFrame = null; p3.mode = 'off'; p3.elapsed = 0; p3.lastFrame = null; p2.mode = 'off'; p2.lastFrame = null; draw(performance.now(), angle); }
+    });
+    window.__p2Review = Object.freeze({
+      state: () => ({ ...p2 }),
+      layoutAt: time => ringLayout(time).map(pack => ({ ...pack })),
+      setTime: time => { cancelPendingFrame(); full.mode = 'off'; full.elapsed = 0; full.lastFrame = null; p5.mode = 'off'; p5.elapsed = 0; p5.lastFrame = null; p4.mode = 'off'; p4.elapsed = 0; p4.lastFrame = null; p3.mode = 'off'; p3.elapsed = 0; p3.lastFrame = null; state.flipStart = null; p2.mode = 'paused'; p2.elapsed = Math.max(0,Math.min(P2_PLAY_MS,time)); p2.lastFrame = null; draw(performance.now()); }
+    });
+    window.__p3Review = Object.freeze({
+      state: () => ({ ...p3, phase: p3Phase(p3.elapsed) }),
+      poseAt: time => ({ ...p3Pose(time) }),
+      setTime: time => {
+        cancelPendingFrame(); full.mode = 'off'; full.elapsed = 0; full.lastFrame = null; p5.mode = 'off'; p5.elapsed = 0; p5.lastFrame = null;
+        p4.mode = 'off'; p4.elapsed = 0; p4.lastFrame = null;
+        p2.mode = 'off'; p2.lastFrame = null; state.flipStart = null;
+        state.face = 'front';
+        p3.mode = 'paused'; p3.elapsed = Math.max(0,Math.min(P3_PLAY_MS,time)); p3.lastFrame = null;
+        draw(performance.now());
+      }
+    });
+    window.__p4Review = Object.freeze({
+      state: () => ({ ...p4, duration:p4Duration(), cardCount:state.cardCount, phase:p4Phase(p4.elapsed) }),
+      poseAt: time => p4Pose(time),
+      setTime: time => {
+        cancelPendingFrame(); full.mode = 'off'; full.elapsed = 0; full.lastFrame = null; p5.mode = 'off'; p5.elapsed = 0; p5.lastFrame = null;
+        p3.mode = 'off'; p3.elapsed = 0; p3.lastFrame = null;
+        p2.mode = 'off'; p2.lastFrame = null; state.flipStart = null;
+        state.face = 'front';
+        p4.mode = 'paused'; p4.elapsed = Math.max(0,Math.min(p4Duration(),time)); p4.lastFrame = null;
+        draw(performance.now());
+      }
+    });
+    window.__cardCountReview = Object.freeze({
+      get: () => state.cardCount,
+      set: count => setCardCount(count)
+    });
+    window.__p5Review = Object.freeze({
+      state: () => ({ ...p5, duration:p5Duration(), cardCount:state.cardCount, phase:p5Phase(p5.elapsed) }),
+      poseAt: time => p5Pose(time),
+      layoutFor: count => layoutFor(count),
+      setTime: time => {
+        cancelPendingFrame(); full.mode = 'off'; full.elapsed = 0; full.lastFrame = null;
+        p4.mode = 'off'; p4.elapsed = 0; p4.lastFrame = null;
+        p3.mode = 'off'; p3.elapsed = 0; p3.lastFrame = null;
+        p2.mode = 'off'; p2.lastFrame = null; state.flipStart = null;
+        state.face = 'front';
+        p5.mode = 'paused'; p5.elapsed = Math.max(0,Math.min(p5Duration(),time)); p5.lastFrame = null;
+        draw(performance.now());
+      }
+    });
+    window.__fullDemoReview = Object.freeze({
+      state: () => {
+        const cursor = fullPoseAt(full.elapsed);
+        return { ...full, duration:fullDuration(), cardCount:state.cardCount,
+          segment:cursor.segment, segmentLocalTime:cursor.segmentLocalTime };
+      },
+      poseAt: time => fullPoseAt(time),
+      setTime: time => {
+        cancelPendingFrame();
+        for (const phase of [p2,p3,p4,p5]) { phase.mode = 'off'; phase.elapsed = 0; phase.lastFrame = null; }
+        state.flipStart = null; state.face = 'front';
+        full.mode = 'paused'; full.elapsed = Math.max(0,Math.min(fullDuration(),time)); full.lastFrame = null;
+        draw(performance.now());
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

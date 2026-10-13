@@ -1,0 +1,1363 @@
+{
+  "version": 1,
+  "game": "game-demon-castle",
+  "note": "Candidate-only AssetSlotBrief manifest. All rows remain placeholder until owner reviews local or AI candidates; asset-manager alone may register approved final art.",
+  "slots": [
+    {
+      "slotId": "demon-castle.player.moon-demon",
+      "assetKey": "art:demon-castle:player:moon-demon",
+      "kind": "player",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/playerVisual/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 32,
+          "height": 48
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 29,
+          "height": 43
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "player"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "月影城堡的少女魔王，32位像素角色，俯视三分之四角，全身，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:3041bdb1"
+      }
+    },
+    {
+      "slotId": "demon-castle.npc.gargoyle-artisan",
+      "assetKey": "art:demon-castle:npc:gargoyle-artisan",
+      "kind": "npc",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/scenes/0/placements/4/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 32,
+          "height": 48
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 29,
+          "height": 43
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "npc"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "石像鬼工匠，暗紫石翼与铁匠围裙，32位像素角色，俯视三分之四角，全身，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:cb16960d"
+      }
+    },
+    {
+      "slotId": "demon-castle.npc.moonwell-keeper",
+      "assetKey": "art:demon-castle:npc:moonwell-keeper",
+      "kind": "npc",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/scenes/1/placements/3/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 32,
+          "height": 48
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 29,
+          "height": 43
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "npc"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "月井使者，白银长袍与月光灯笼，32位像素角色，俯视三分之四角，全身，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:693d1109"
+      }
+    },
+    {
+      "slotId": "demon-castle.item.moonbell-seed",
+      "assetKey": "art:demon-castle:item:moonbell-seed",
+      "kind": "item",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/itemCatalog/0/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 32,
+          "height": 32
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 32,
+          "height": 32
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "item"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "月铃花种子小袋，紫银色月纹，32位像素物品图标，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:a72f086c"
+      }
+    },
+    {
+      "slotId": "demon-castle.item.moonbell",
+      "assetKey": "art:demon-castle:item:moonbell",
+      "kind": "item",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/itemCatalog/1/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 32,
+          "height": 32
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 32,
+          "height": 32
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "item"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "成熟月铃花，一朵发光的淡紫铃形花，32位像素物品图标，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:b935492e"
+      }
+    },
+    {
+      "slotId": "demon-castle.item.moonwood",
+      "assetKey": "art:demon-castle:item:moonwood",
+      "kind": "item",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/itemCatalog/2/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 32,
+          "height": 32
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 32,
+          "height": 32
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "item"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "月木材料，银白木枝与蓝紫月光纹理，32位像素物品图标，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:e875f17e"
+      }
+    },
+    {
+      "slotId": "demon-castle.item.shadow-ore",
+      "assetKey": "art:demon-castle:item:shadow-ore",
+      "kind": "item",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/itemCatalog/3/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 32,
+          "height": 32
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 32,
+          "height": 32
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "item"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "影矿材料，深紫晶体矿石，32位像素物品图标，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:181c3a12"
+      }
+    },
+    {
+      "slotId": "demon-castle.crop.moonbell-seeded",
+      "assetKey": "art:demon-castle:crop:moonbell-seeded",
+      "kind": "crop",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/cropCatalog/0/visual/seededSkinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 32,
+          "height": 32
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 16,
+          "height": 16
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "crop"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "月铃花播种土堆，微弱紫色芽点，32位像素俯视作物，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:8c647bed"
+      }
+    },
+    {
+      "slotId": "demon-castle.crop.moonbell-growing",
+      "assetKey": "art:demon-castle:crop:moonbell-growing",
+      "kind": "crop",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/cropCatalog/0/visual/growingSkinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 32,
+          "height": 32
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 16,
+          "height": 16
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "crop"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "月铃花成长中的青紫叶簇，32位像素俯视作物，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:7b377315"
+      }
+    },
+    {
+      "slotId": "demon-castle.crop.moonbell-mature",
+      "assetKey": "art:demon-castle:crop:moonbell-mature",
+      "kind": "crop",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/cropCatalog/0/visual/matureSkinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 32,
+          "height": 32
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 20,
+          "height": 20
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "crop"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "成熟月铃花，淡紫铃形花簇与月光叶片，32位像素俯视作物，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:02a11662"
+      }
+    },
+    {
+      "slotId": "demon-castle.building.throne-hall",
+      "assetKey": "art:demon-castle:building:throne-hall",
+      "kind": "building",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/scenes/0/placements/0/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 192,
+          "height": 96
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 192,
+          "height": 96
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "building"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "破败月影城堡王座厅，月牙尖顶与裂纹石墙，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:90404e59"
+      }
+    },
+    {
+      "slotId": "demon-castle.building.greenhouse-ruin",
+      "assetKey": "art:demon-castle:building:greenhouse-ruin",
+      "kind": "building",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/scenes/0/placements/1/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 128,
+          "height": 96
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 128,
+          "height": 96
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "building"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "破败月庭温室，碎裂玻璃穹顶与紫藤，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:ae202cb3"
+      }
+    },
+    {
+      "slotId": "demon-castle.building.forest-arch",
+      "assetKey": "art:demon-castle:building:forest-arch",
+      "kind": "building",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/scenes/0/placements/2/skinKey"
+        },
+        {
+          "document": "life.json",
+          "jsonPointer": "/scenes/1/placements/2/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 64,
+          "height": 64
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 64,
+          "height": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "building"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "通往月影森林的黑石拱门，月光藤蔓，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:7fcec7c3"
+      }
+    },
+    {
+      "slotId": "demon-castle.building.undercrypt-stairs",
+      "assetKey": "art:demon-castle:building:undercrypt-stairs",
+      "kind": "building",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/scenes/0/placements/3/skinKey"
+        },
+        {
+          "document": "life.json",
+          "jsonPointer": "/scenes/2/placements/2/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 64,
+          "height": 64
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 64,
+          "height": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "building"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "通向地底工坊的古老石阶入口，幽蓝火把，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:0e0844c2"
+      }
+    },
+    {
+      "slotId": "demon-castle.building.moonwell",
+      "assetKey": "art:demon-castle:building:moonwell",
+      "kind": "building",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/scenes/1/placements/0/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 64,
+          "height": 64
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 64,
+          "height": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "building"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "月井，圆形石井与悬浮月光水面，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:497f6f1a"
+      }
+    },
+    {
+      "slotId": "demon-castle.decoration.ancient-grove",
+      "assetKey": "art:demon-castle:decoration:ancient-grove",
+      "kind": "building",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/scenes/1/placements/1/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 96,
+          "height": 96
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 96,
+          "height": 96
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "building"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "远古月影树丛，银叶古树与紫色根须，顶视三分之四像素景观，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:17f604f2"
+      }
+    },
+    {
+      "slotId": "demon-castle.building.forge-core",
+      "assetKey": "art:demon-castle:building:forge-core",
+      "kind": "building",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/scenes/2/placements/0/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 128,
+          "height": 96
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 128,
+          "height": 96
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "building"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "沉睡的地底熔炉核心，暗黑石炉与熄灭紫晶，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:27814be6"
+      }
+    },
+    {
+      "slotId": "demon-castle.building.sealed-vault",
+      "assetKey": "art:demon-castle:building:sealed-vault",
+      "kind": "building",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/scenes/2/placements/1/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 64,
+          "height": 96
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 64,
+          "height": 96
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "building"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "封印宝库门，黑石金属门与紫色封印，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:5028ab6e"
+      }
+    },
+    {
+      "slotId": "demon-castle.resource.moonwood-log",
+      "assetKey": "art:demon-castle:resource:moonwood-log",
+      "kind": "resource",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/scenes/1/placements/4/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 32,
+          "height": 32
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 29,
+          "height": 29
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "resource"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "倒下的月木原木，银白树皮与蓝紫荧光，32位像素俯视资源，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:707f6197"
+      }
+    },
+    {
+      "slotId": "demon-castle.resource.shadow-ore-vein",
+      "assetKey": "art:demon-castle:resource:shadow-ore-vein",
+      "kind": "resource",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/scenes/2/placements/3/skinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 32,
+          "height": 32
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 29,
+          "height": 29
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "resource"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "影矿矿脉，深紫晶体从黑岩中突出，32位像素俯视资源，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:ef86c966"
+      }
+    },
+    {
+      "slotId": "demon-castle.building.throne-hall-restored",
+      "assetKey": "art:demon-castle:building:throne-hall-restored",
+      "kind": "building",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/constructionProjects/0/completedSkinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 192,
+          "height": 96
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 192,
+          "height": 96
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "building"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "修复后的月影城堡王座厅，月光窗与亮起的紫金灯火，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:942b80bf"
+      }
+    },
+    {
+      "slotId": "demon-castle.building.greenhouse-restored",
+      "assetKey": "art:demon-castle:building:greenhouse-restored",
+      "kind": "building",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/constructionProjects/1/completedSkinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 128,
+          "height": 96
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 128,
+          "height": 96
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "building"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "修复后的月庭温室，完整玻璃穹顶与发光月铃花，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:fff2d7d9"
+      }
+    },
+    {
+      "slotId": "demon-castle.building.forge-core-awakened",
+      "assetKey": "art:demon-castle:building:forge-core-awakened",
+      "kind": "building",
+      "consumers": [
+        {
+          "document": "life.json",
+          "jsonPointer": "/constructionProjects/2/completedSkinKey"
+        }
+      ],
+      "asset": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "outputPx": {
+          "width": 128,
+          "height": 96
+        },
+        "alpha": "transparent",
+        "sampling": "nearest"
+      },
+      "render": {
+        "display": {
+          "unit": "pixel",
+          "width": 128,
+          "height": 96
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "fit": "contain",
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "fallbackRole": "building"
+      },
+      "generation": {
+        "briefVersion": 1,
+        "styleId": "pixel.moonshadow-castle",
+        "prompt": "苏醒的地底熔炉核心，紫蓝火焰与发光符文，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "negativePrompt": [
+          "text",
+          "watermark",
+          "photorealistic",
+          "isometric grid",
+          "cropped subject"
+        ]
+      },
+      "governance": {
+        "approval": "placeholder",
+        "humanApprovalRequired": true,
+        "licenseRequired": true,
+        "briefFingerprint": "asset-slot-v1:2f33ef90"
+      }
+    },
+    {
+      "slotId": "demon-castle.tile.moon-courtyard",
+      "assetKey": "art:demon-castle:tile:moon-courtyard",
+      "kind": "tile",
+      "consumers": [{ "document": "life.json", "jsonPointer": "/tileCatalog/courtyard-ground/visual/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "ground" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.moonshadow-castle", "prompt": "无缝平铺的月影城堡庭院深靛蓝板岩地砖，俯视32位像素纹理，月银石缝与少量紫苔，无文字无边框", "negativePrompt": ["text", "watermark", "perspective", "isometric grid", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:fe3df546" }
+    },
+    {
+      "slotId": "demon-castle.tile.moon-garden-earth",
+      "assetKey": "art:demon-castle:tile:moon-garden-earth",
+      "kind": "tile",
+      "consumers": [{ "document": "life.json", "jsonPointer": "/tileCatalog/courtyard-farm-ground/visual/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "plantable" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.moonshadow-castle", "prompt": "无缝平铺的月影庭院未耕种可耕土壤，暗紫褐土与细碎月银砂砾，俯视32位像素纹理，无文字无边框", "negativePrompt": ["text", "watermark", "perspective", "isometric grid", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:7de54904" }
+    },
+    {
+      "slotId": "demon-castle.tile.moon-garden-tilled",
+      "assetKey": "art:demon-castle:tile:moon-garden-tilled",
+      "kind": "tile",
+      "consumers": [{ "document": "life.json", "jsonPointer": "/visualSemantics/farm/tilledDrySkinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "plantable" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.moonshadow-castle", "prompt": "无缝平铺的月影庭院干燥耕地，整齐暗紫土垄与月银尘埃，俯视32位像素纹理，无文字无边框", "negativePrompt": ["text", "watermark", "perspective", "isometric grid", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:a5452e8c" }
+    },
+    {
+      "slotId": "demon-castle.tile.moon-garden-watered",
+      "assetKey": "art:demon-castle:tile:moon-garden-watered",
+      "kind": "tile",
+      "consumers": [{ "document": "life.json", "jsonPointer": "/visualSemantics/farm/wateredSkinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "plantable" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.moonshadow-castle", "prompt": "无缝平铺的月影庭院湿润耕地，深紫湿土垄与微弱月光反射，俯视32位像素纹理，无文字无边框", "negativePrompt": ["text", "watermark", "perspective", "isometric grid", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:461ff648" }
+    },
+    {
+      "slotId": "demon-castle.tile.moonshadow-forest",
+      "assetKey": "art:demon-castle:tile:moonshadow-forest",
+      "kind": "tile",
+      "consumers": [{ "document": "life.json", "jsonPointer": "/tileCatalog/forest-ground/visual/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "ground" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.moonshadow-castle", "prompt": "无缝平铺的月影森林地表，暗蓝绿泥土、月银落叶、细小紫色荧光菌与根须，俯视32位像素纹理，无文字无边框", "negativePrompt": ["text", "watermark", "perspective", "isometric grid", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:7472a345" }
+    },
+    {
+      "slotId": "demon-castle.tile.undercrypt-workshop",
+      "assetKey": "art:demon-castle:tile:undercrypt-workshop",
+      "kind": "tile",
+      "consumers": [{ "document": "life.json", "jsonPointer": "/tileCatalog/workshop-ground/visual/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "ground" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.moonshadow-castle", "prompt": "无缝平铺的地底魔王城工坊黑曜石地砖，微弱紫色符文镶嵌与冷蓝熔炉反光，俯视32位像素纹理，无文字无边框", "negativePrompt": ["text", "watermark", "perspective", "isometric grid", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:bc3549b2" }
+    }
+  ]
+}

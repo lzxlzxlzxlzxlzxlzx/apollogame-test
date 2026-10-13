@@ -33,6 +33,24 @@ import {
   mortalCapability,
   steeringCapability,
   keybindCapability,
+  lifeInputCapability,
+  lifeContinuousMotionCapability,
+  lifeActivityCapability,
+  lifeActionCapability,
+  lifeConstructionCapability,
+  lifeFarmingCapability,
+  lifeItemSelectionCapability,
+  lifePlantingCapability,
+  lifeCalendarCapability,
+  lifeNpcScheduleCapability,
+  lifeCropGrowthCapability,
+  lifeHarvestCapability,
+  lifeMilestoneCapability,
+  lifeTargetSelectionCapability,
+  lifeResourceGatherCapability,
+  lifeTalkCapability,
+  lifeQuestCapability,
+  lifeRelationshipCapability,
   statsCapability,
   launchCapability,
   tilemapCapability,
@@ -69,10 +87,14 @@ import {
   damageTableCapability,
   inventoryCapability,
   conveyorQueueCapability,
+  presentationTrackCapability,
+  orderedActionSessionCapability,
+  angularGestureCapability,
   memoryCapability,
   intentBarrierCapability,
+  lifeNavigationCapability,
 } from '@skills/tier2/index.js';
-import { dialogueCapability, match3BoardCapability, prefabCapability, casterCapability, aggroCapability, pokerHandCapability, cardScoringCapability, flowCapability, mergeRuleCapability, timelineCapability, slotPayoutCapability, blockGridCapability, handPatternCapability } from '@skills/tier3/index.js';
+import { dialogueCapability, match3BoardCapability, prefabCapability, casterCapability, aggroCapability, pokerHandCapability, cardScoringCapability, flowCapability, mergeRuleCapability, timelineCapability, slotPayoutCapability, blockGridCapability, handPatternCapability, progressiveRiskSessionCapability, discreteCombinationSessionCapability, riskRevealWheelCapability, lifeWorldCapability, narrativeDirectorCapability } from '@skills/tier3/index.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  能力注册表 (Capability Registry) —— manifest 加载的地基
@@ -117,6 +139,24 @@ export const ALL_CAPABILITIES: readonly CapabilityDefinition[] = [
   mortalCapability,
   steeringCapability,
   keybindCapability,
+  lifeInputCapability,
+  lifeContinuousMotionCapability,
+  lifeActivityCapability,
+  lifeActionCapability,
+  lifeConstructionCapability,
+  lifeFarmingCapability,
+  lifeItemSelectionCapability,
+  lifePlantingCapability,
+  lifeCalendarCapability,
+  lifeNpcScheduleCapability,
+  lifeCropGrowthCapability,
+  lifeHarvestCapability,
+  lifeMilestoneCapability,
+  lifeTargetSelectionCapability,
+  lifeResourceGatherCapability,
+  lifeTalkCapability,
+  lifeQuestCapability,
+  lifeRelationshipCapability,
   statsCapability,
   launchCapability,
   tilemapCapability,
@@ -185,6 +225,10 @@ export const ALL_CAPABILITIES: readonly CapabilityDefinition[] = [
   damageTableCapability,
   inventoryCapability,
   conveyorQueueCapability,
+  presentationTrackCapability,
+  // REQ-POTION-ORDERED-ACTION：运行时数据化有序动作会话；完整具名 Signal 输入，唯一终局。
+  orderedActionSessionCapability,
+  angularGestureCapability,
   // t2-memory（REQ-111-MEMORY·owner 2026-09-12 判 A）：记忆原语——条目(主体/客体/回合/强度/标签/来源) +
   // 逐标签衰减与遗忘 + **整数** top-K 检索（标签命中/强度/时近·禁浮点排序）+ 跨实体转述打折强度。
   // 「谁在何时对谁做了什么，且这件事会淡忘、会被传开」：绯闻/仇怨/好感来源/证词链通用（game101 同构）。
@@ -193,6 +237,7 @@ export const ALL_CAPABILITIES: readonly CapabilityDefinition[] = [
   // 异步意图收齐门——登记本回合待决实体 → 乱序回包进暂存（IntentInbox·不进 hash）→ 收齐或按**整数回合数**
   // 超期 → 按 id 升序一次性产出意图流，没着落的补默认动词。外部 AI 当输入源而非解释器的那块接缝。
   intentBarrierCapability,
+  lifeNavigationCapability,
   // tier3
   dialogueCapability,
   match3BoardCapability,
@@ -208,6 +253,15 @@ export const ALL_CAPABILITIES: readonly CapabilityDefinition[] = [
   blockGridCapability,
   // t3-hand-pattern（REQ-GUANDAN-牌型）：变长牌族判型 + 跨型压制序 + 逢人配确定性解释器（掼蛋/斗地主/跑得快通用）。
   handPatternCapability,
+  // t3-progressive-risk-session（REQ-THEFT-PROGRESSIVE）：持续风险 + 循环 QTE + 有序多目标 +
+  // RandomSeed 概率抽取 + 确定性终局回执；消费方只提供通用概率表，不把业务词塞进解释器。
+  progressiveRiskSessionCapability,
+  // t3-discrete-combination-session（GAP-LOCKPICK-01）：隐藏离散目标、单槽设值与整体 exact-match 反馈。
+  discreteCombinationSessionCapability,
+  // t3-risk-reveal-wheel（REQ-THEFT-RISK-REVEAL-WHEEL）：种子化槽位 + 连续精准度惩罚 + 一次翻格权。
+  riskRevealWheelCapability,
+  lifeWorldCapability,
+  narrativeDirectorCapability,
 ];
 
 export const CAPABILITY_REGISTRY: ReadonlyMap<string, CapabilityDefinition> = (() => {

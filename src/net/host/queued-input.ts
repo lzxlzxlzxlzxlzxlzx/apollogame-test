@@ -64,46 +64,93 @@ export function synthesizeDrag(
 // （否则 1080p vs 720p 两端同一指令算出不同出生点 → desync）。不传则注入 canvas 像素（无相机时 = 世界，identity）。
 export class PointerInputSource extends QueuedInputSource {
   private downAt: { x: number; y: number } | null = null; // REQ-F-045：拖拽起点（down 记录、up 合成）
+  private activePointerId: number | null = null; // 连续采样 opt-in：第二触点不得接管当前握持
+
+  private emitPointer(action: RawInputData): void {
+    this.enqueue(action);
+    if (this.opts.move && this.opts.onPointerSample) {
+      try { this.opts.onPointerSample(action); }
+      catch (error) { console.warn('[PointerInputSource] render-only pointer preview failed; authoritative input retained', error); }
+    }
+  }
+
+  private readonly onBlur = () => {
+    if (this.activePointerId === null) return;
+    this.emitPointer({ source: this.pid, phase: 'blur', pointerId: this.activePointerId });
+    this.activePointerId = null;
+    this.downAt = null;
+  };
 
   private readonly onPointer = (e: PointerEvent) => {
-    const phase = e.type === 'pointerdown' ? 'down' : e.type === 'pointerup' ? 'up' : 'move';
+    const phase = e.type === 'pointerdown' ? 'down' : e.type === 'pointerup' ? 'up'
+      : e.type === 'pointercancel' || e.type === 'lostpointercapture' ? 'cancel' : 'move';
+    if (this.opts.move) {
+      if (phase === 'down') {
+        if (this.activePointerId !== null) return;
+        this.activePointerId = e.pointerId;
+        try { this.canvas.setPointerCapture(e.pointerId); } catch { /* 测试 canvas/已移除目标可无 capture */ }
+      } else if (this.activePointerId !== e.pointerId) return;
+      if (phase === 'cancel') {
+        this.emitPointer({ source: this.pid, phase, pointerId: e.pointerId });
+        this.activePointerId = null;
+        this.downAt = null;
+        return;
+      }
+    }
     const rect = this.canvas.getBoundingClientRect();
     // 高分屏修复：渲染器把 canvas.width 设成「逻辑尺寸×devicePixelRatio」(Retina 字糊根治, c105b92)，
     // 但 worldFromScreen 逆投影按**逻辑**尺寸算 → 必须把指针映射回逻辑像素(÷dpr)，否则落点偏 dpr 倍、点击全空。
     // canvas.style.width 钉的是逻辑尺寸；逻辑宽 = canvas.width / dpr。dpr=1(headless/jsdom)逐位不变。
     const dpr = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
     const p = canvasPointerToScreen(e.clientX, e.clientY, rect, this.canvas.width / dpr, this.canvas.height / dpr);
-    const w = this.opts.worldFromScreen ? this.opts.worldFromScreen(p.x, p.y) : p; // 采集期逆投影 → 世界坐标
+    const projected = this.opts.worldFromScreen ? this.opts.worldFromScreen(p.x, p.y) : p; // 采集期逆投影 → 世界坐标
+    // 连续手势的世界采样在入 Command/网络前统一量化；旧点击/拖放路径保持原样。
+    const w = this.opts.move ? {
+      x: Math.round(projected.x * 256) / 256,
+      y: Math.round(projected.y * 256) / 256,
+    } : projected;
     // REQ-F-053 点拖互斥：'up' 与 drag 二选一——超阈值=拖（只发 drag，裸 up 吞掉），阈值内=真点击（发 up）。
     // 否则拖拽起手的 down/收手的 up 会被 clickable 当点击消费（按住即卖、落点误点）。可拖又可点的实体
     // （席位 marker 等）配 Clickable{phase:'up'}：down 永不触发、真点击靠 up、拖拽不产 up → 天然互斥。
     // 判定全在本地采集期、入流前完成（与逆投影/drag 合成同纪律）→ 命令流确定、lockstep 安全。
     if (phase === 'up' && this.downAt) {
       const d = synthesizeDrag(this.pid, this.downAt, { x: w.x, y: w.y }, this.opts.dragThreshold);
-      if (d) this.enqueue(d);
-      else this.enqueue({ source: this.pid, x: w.x, y: w.y, phase });
+      if (d) this.emitPointer(this.opts.move ? { ...d, pointerId: e.pointerId } : d);
+      else this.emitPointer({ source: this.pid, x: w.x, y: w.y, phase, ...(this.opts.move ? { pointerId: e.pointerId } : {}) });
       this.downAt = null;
+      if (this.opts.move) this.activePointerId = null;
       return;
     }
-    this.enqueue({ source: this.pid, x: w.x, y: w.y, phase });
+    this.emitPointer({ source: this.pid, x: w.x, y: w.y, phase, ...(this.opts.move ? { pointerId: e.pointerId } : {}) });
     if (phase === 'down') this.downAt = { x: w.x, y: w.y }; // REQ-F-045：拖拽起点
+    if (phase === 'up' && this.opts.move) this.activePointerId = null;
   };
 
   constructor(
     private readonly pid: string,
     private readonly canvas: HTMLCanvasElement,
     // worldFromScreen：本地相机逆投影 (canvas 像素 → 世界)。带相机的游戏必须传，保证联机确定性。
-    private readonly opts: { move?: boolean; dragThreshold?: number; worldFromScreen?: (sx: number, sy: number) => { x: number; y: number } } = {},
+    private readonly opts: { move?: boolean; dragThreshold?: number; worldFromScreen?: (sx: number, sy: number) => { x: number; y: number }; onPointerSample?: (action: RawInputData) => void } = {},
   ) {
     super(pid);
     canvas.addEventListener('pointerdown', this.onPointer as EventListener);
     canvas.addEventListener('pointerup', this.onPointer as EventListener);
-    if (opts.move) canvas.addEventListener('pointermove', this.onPointer as EventListener);
+    if (opts.move) {
+      canvas.addEventListener('pointermove', this.onPointer as EventListener);
+      canvas.addEventListener('pointercancel', this.onPointer as EventListener);
+      canvas.addEventListener('lostpointercapture', this.onPointer as EventListener);
+      if (typeof window !== 'undefined') window.addEventListener('blur', this.onBlur);
+    }
   }
 
   dispose(): void {
     this.canvas.removeEventListener('pointerdown', this.onPointer as EventListener);
     this.canvas.removeEventListener('pointerup', this.onPointer as EventListener);
     this.canvas.removeEventListener('pointermove', this.onPointer as EventListener);
+    this.canvas.removeEventListener('pointercancel', this.onPointer as EventListener);
+    this.canvas.removeEventListener('lostpointercapture', this.onPointer as EventListener);
+    if (this.opts.move && typeof window !== 'undefined') window.removeEventListener('blur', this.onBlur);
+    this.activePointerId = null;
+    this.downAt = null;
   }
 }

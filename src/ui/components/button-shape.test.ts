@@ -132,7 +132,13 @@ describe('Button · 交互态标记（按压/悬停反馈·配 server.ts 注入�
     ensureUiKeyframes(document);
     const css = document.getElementById('apollo-ui-keyframes')?.textContent ?? '';
     expect(css).toContain('[data-apollo-btn]{outline:none;');
-    expect(css).toContain('[data-apollo-btn]:not([disabled]):focus-visible{outline:3px solid var(--apollo-focus-ring);outline-offset:-3px}');
+    expect(css).toContain('[data-apollo-btn]:not([disabled]):not([data-apollo-focus-ring="off"]):focus-visible{outline:3px solid var(--apollo-focus-ring);outline-offset:-3px}');
     expect(css).not.toContain('[data-apollo-btn]:focus{outline:');
+  });
+  it('focusRing:false 只关闭视觉焦点环，保留 Button 与 action 语义', () => {
+    const html = renderNode({ type: 'Button', id: 'hitbox', props: { label: '', action: 'qte.press', focusRing: false } });
+    expect(html).toContain('data-apollo-focus-ring="off"');
+    expect(html).toContain('data-action="qte.press"');
+    expect(html).toContain('data-apollo-btn');
   });
 });

@@ -23,3 +23,12 @@ test('manifest matches the current DokiWorlds public/apps contract', async () =>
   assert.equal('inputs' in manifest, false);
   assert.equal('outputs' in manifest, false);
 });
+
+test('the entry page keeps the iframe canvas transparent before the module loads', async () => {
+  const entry = await readFile(new URL('../src/index.html', import.meta.url), 'utf8');
+  const css = await readFile(new URL('../src/style.css', import.meta.url), 'utf8');
+  assert.match(entry, /background:transparent!important/);
+  assert.match(entry, /color-scheme:normal/);
+  assert.match(css, /color-scheme: normal/);
+  assert.doesNotMatch(css, /color-scheme: dark/);
+});

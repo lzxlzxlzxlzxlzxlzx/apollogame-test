@@ -1,0 +1,17 @@
+{
+  "slug": "game-clue-investigation",
+  "form": "cart",
+  "exit": 0,
+  "summary": "✓ Canvas 点击打穿（3 个候选 · 1 个具名 Signal 真入世界 · 零控制台 error）",
+  "candidates": 3,
+  "hits": [
+    {
+      "id": "object-cup",
+      "action": "investigate.cup",
+      "x": 1093,
+      "y": 657,
+      "signalMatched": true
+    }
+  ],
+  "consoleErrors": []
+}

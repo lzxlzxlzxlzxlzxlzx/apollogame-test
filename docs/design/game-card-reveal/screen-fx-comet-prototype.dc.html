@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ScreenFx · 彗星掠屏原型</title>
+  <!-- 仅为设计原型，禁止复制进生产游戏。正式实现必须下沉为数据驱动 ScreenFxSequence。 -->
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+      color: #f8f1e3;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; min-height: 100%; margin: 0; background: transparent; overflow: hidden; }
+    body { min-height: 100vh; display: grid; place-items: center; }
+    #stage {
+      position: relative;
+      width: min(100vw, calc(100vh * 1.6));
+      aspect-ratio: 16 / 10;
+      isolation: isolate;
+      background: transparent;
+    }
+    #checker {
+      position: absolute;
+      inset: 0;
+      z-index: -4;
+      display: none;
+      background-color: #1d2028;
+      background-image:
+        linear-gradient(45deg, #272c36 25%, transparent 25%),
+        linear-gradient(-45deg, #272c36 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #272c36 75%),
+        linear-gradient(-45deg, transparent 75%, #272c36 75%);
+      background-size: 40px 40px;
+      background-position: 0 0, 0 20px, 20px -20px, -20px 0;
+    }
+    #scene-preview {
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      opacity: 0;
+      background:
+        radial-gradient(circle at 50% 38%, rgba(106, 82, 178, .46), transparent 28%),
+        radial-gradient(circle at 16% 24%, rgba(63, 164, 189, .18), transparent 22%),
+        linear-gradient(145deg, #090b18 0%, #17152c 48%, #080a14 100%);
+    }
+    #scene-preview::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .34;
+      background-image: radial-gradient(circle, rgba(255,255,255,.85) 0 1px, transparent 1.6px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(to bottom, black, transparent 78%);
+    }
+    .scene-content { position: relative; width: 78%; text-align: center; }
+    .scene-kicker { color: #e7cc88; font-size: 16px; letter-spacing: .38em; text-transform: uppercase; }
+    .scene-title { margin: 12px 0 34px; color: #fff4d4; font: 750 46px/1.1 Georgia, "Microsoft YaHei", serif; letter-spacing: .13em; text-shadow: 0 0 28px rgba(236,192,103,.34); }
+    .scene-cards { display: flex; justify-content: center; gap: 25px; perspective: 900px; }
+    .scene-card {
+      width: 174px;
+      height: 260px;
+      border: 1px solid rgba(255,229,163,.55);
+      border-radius: 12px;
+      background:
+        radial-gradient(circle at 50% 36%, rgba(255,235,170,.5), transparent 7%),
+        linear-gradient(145deg, rgba(86,64,134,.94), rgba(23,24,59,.96));
+      box-shadow: 0 22px 50px rgba(0,0,0,.42), inset 0 0 0 5px rgba(255,255,255,.04);
+      transform: translateY(16px) rotateY(var(--tilt));
+    }
+    .scene-card:nth-child(2) { transform: translateY(-4px) scale(1.08); filter: brightness(1.16); }
+    .scene-placeholder { margin-top: 30px; color: rgba(255,255,255,.58); font-size: 14px; letter-spacing: .12em; }
+    #veil { position: absolute; inset: 0; z-index: -1; background: #03050b; opacity: 1; pointer-events: none; }
+    canvas { display: block; width: 100%; height: 100%; background: transparent; }
+    #controls {
+      position: absolute;
+      left: 32px;
+      bottom: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 9px;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 16px;
+      background: rgba(14, 16, 24, .78);
+      box-shadow: 0 10px 35px rgba(0,0,0,.25);
+      backdrop-filter: blur(12px);
+    }
+    button {
+      appearance: none;
+      min-height: 38px;
+      padding: 0 15px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      color: #f7f1e8;
+      font: 650 14px/1 inherit;
+      letter-spacing: .02em;
+      cursor: pointer;
+    }
+    button:hover { background: rgba(255,255,255,.16); }
+    button:active { transform: translateY(1px); }
+    button[aria-pressed="true"] {
+      color: #201608;
+      border-color: rgba(255,237,177,.9);
+      background: linear-gradient(135deg, #fff1bd, #eeb95e);
+    }
+    #readout {
+      position: absolute;
+      top: 28px;
+      right: 32px;
+      padding: 10px 13px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 12px;
+      background: rgba(14, 16, 24, .72);
+      color: rgba(255,255,255,.72);
+      text-align: right;
+      font-size: 13px;
+      line-height: 1.55;
+      backdrop-filter: blur(10px);
+    }
+    #readout strong { display: block; color: #fff7df; font-size: 16px; letter-spacing: .08em; }
+    #stage.clean #controls, #stage.clean #readout { display: none; }
+    #stage.checker #checker { display: block; }
+    @media (prefers-reduced-motion: reduce) {
+      #readout::after { content: " · 减少动态"; color: #ffd99a; }
+    }
+  </style>
+</head>
+<body>
+  <main id="stage" aria-label="通用屏幕特效：彗星掠屏视觉原型">
+    <div id="checker" aria-hidden="true"></div>
+    <section id="scene-preview" aria-label="爆炸后出现的正常游戏画面占位">
+      <div class="scene-content">
+        <div class="scene-kicker">Scene Revealed</div>
+        <h1 class="scene-title">正常游戏画面</h1>
+        <div class="scene-cards" aria-hidden="true">
+          <div class="scene-card" style="--tilt: 8deg"></div>
+          <div class="scene-card" style="--tilt: 0deg"></div>
+          <div class="scene-card" style="--tilt: -8deg"></div>
+        </div>
+        <div class="scene-placeholder">占位画面 · 只用于确认转场结束状态</div>
+      </div>
+    </section>
+    <div id="veil" aria-hidden="true"></div>
+    <canvas id="fx" width="1440" height="900" aria-label="透明画布上的彗星掠屏特效"></canvas>
+    <section id="controls" aria-label="原型控制">
+      <button type="button" data-action="replay">重新播放</button>
+      <button type="button" data-palette="gold" aria-pressed="true">星辉金</button>
+      <button type="button" data-palette="cyan" aria-pressed="false">秘能青</button>
+      <button type="button" data-palette="violet" aria-pressed="false">稀有紫</button>
+      <button type="button" data-action="cover" aria-pressed="true">开场：黑幕</button>
+      <button type="button" data-action="checker" aria-pressed="false">透明底检查</button>
+      <button type="button" data-action="clean" aria-pressed="false">干净预览</button>
+    </section>
+    <div id="readout" aria-live="polite"><strong id="phase">聚光</strong><span id="clock">0.00 / 2.35 秒</span></div>
+  </main>
+  <script>
+  (() => {
+    'use strict';
+    const W = 1440;
+    const H = 900;
+    const DURATION = 2350;
+    const canvas = document.getElementById('fx');
+    const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
+    const stage = document.getElementById('stage');
+    const scenePreview = document.getElementById('scene-preview');
+    const veil = document.getElementById('veil');
+    const phaseNode = document.getElementById('phase');
+    const clockNode = document.getElementById('clock');
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reviewParams = new URLSearchParams(location.search);
+    const requestedFrame = reviewParams.has('frame') ? clampReviewFrame(reviewParams.get('frame')) : null;
+
+    function clampReviewFrame(value) {
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? Math.max(0, Math.min(DURATION, parsed)) : null;
+    }
+
+    const palettes = {
+      gold: {
+        core: '#fffdf1', hot: '#fff0a8', mid: '#f3b94f', edge: '#e67d22', spark: '#fff4ba', flash: '#fff6d3'
+      },
+      cyan: {
+        core: '#f3ffff', hot: '#b9ffff', mid: '#43dbea', edge: '#1786d7', spark: '#c9ffff', flash: '#d8ffff'
+      },
+      violet: {
+        core: '#fff7ff', hot: '#f1c9ff', mid: '#b469ff', edge: '#6347e7', spark: '#f3d7ff', flash: '#f4e5ff'
+      }
+    };
+
+    const requestedPalette = reviewParams.get('palette');
+    const state = {
+      palette: requestedPalette && Object.hasOwn(palettes, requestedPalette) ? requestedPalette : 'gold',
+      startedAt: performance.now(),
+      checker: reviewParams.get('checker') === '1',
+      clean: reviewParams.get('clean') === '1',
+      cover: reviewParams.get('cover') === 'transparent' ? 'transparent' : 'black',
+      raf: 0,
+      fixedFrame: requestedFrame
+    };
+
+    const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+    const mix = (a, b, t) => a + (b - a) * t;
+    const easeOutCubic = t => 1 - Math.pow(1 - clamp(t), 3);
+    const easeInOutCubic = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+    const smoothstep = (a, b, value) => {
+      const t = clamp((value - a) / (b - a));
+      return t * t * (3 - 2 * t);
+    };
+    const hash = value => {
+      const x = Math.sin(value * 91.733 + 17.17) * 43758.5453;
+      return x - Math.floor(x);
+    };
+    const rgba = (hex, alpha) => {
+      const raw = hex.replace('#', '');
+      const value = Number.parseInt(raw.length === 3 ? raw.split('').map(c => c + c).join('') : raw, 16);
+      return `rgba(${value >> 16},${value >> 8 & 255},${value & 255},${clamp(alpha)})`;
+    };
+
+    function pathPoint(t) {
+      const u = clamp(t);
+      const inv = 1 - u;
+      const p0 = { x: -190, y: 685 };
+      const p1 = { x: 245, y: 720 };
+      const p2 = { x: 760, y: 236 };
+      const p3 = { x: 770, y: 390 };
+      return {
+        x: inv*inv*inv*p0.x + 3*inv*inv*u*p1.x + 3*inv*u*u*p2.x + u*u*u*p3.x,
+        y: inv*inv*inv*p0.y + 3*inv*inv*u*p1.y + 3*inv*u*u*p2.y + u*u*u*p3.y
+      };
+    }
+
+    function pathTangent(t) {
+      const a = pathPoint(clamp(t - .002));
+      const b = pathPoint(clamp(t + .002));
+      const length = Math.hypot(b.x - a.x, b.y - a.y) || 1;
+      return { x: (b.x - a.x) / length, y: (b.y - a.y) / length };
+    }
+
+    function drawRibbon(progress, palette) {
+      const tailLength = mix(.22, .49, smoothstep(.12, .58, progress));
+      const start = Math.max(0, progress - tailLength);
+      const samples = 58;
+      const left = [];
+      const right = [];
+      for (let i = 0; i <= samples; i += 1) {
+        const local = i / samples;
+        const t = mix(start, progress, local);
+        const point = pathPoint(t);
+        const tangent = pathTangent(t);
+        const width = Math.sin(local * Math.PI) * mix(4, 29, Math.pow(local, 1.8));
+        left.push({ x: point.x - tangent.y * width, y: point.y + tangent.x * width });
+        right.push({ x: point.x + tangent.y * width, y: point.y - tangent.x * width });
+      }
+      const gradient = ctx.createLinearGradient(pathPoint(start).x, pathPoint(start).y, pathPoint(progress).x, pathPoint(progress).y);
+      gradient.addColorStop(0, rgba(palette.edge, 0));
+      gradient.addColorStop(.34, rgba(palette.edge, .2));
+      gradient.addColorStop(.78, rgba(palette.mid, .58));
+      gradient.addColorStop(1, rgba(palette.hot, .92));
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.filter = 'blur(12px)';
+      ctx.beginPath();
+      ctx.moveTo(left[0].x, left[0].y);
+      for (const point of left.slice(1)) ctx.lineTo(point.x, point.y);
+      for (const point of right.reverse()) ctx.lineTo(point.x, point.y);
+      ctx.closePath();
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      ctx.filter = 'blur(2px)';
+      ctx.globalAlpha = .86;
+      ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.lineCap = 'round';
+      ctx.lineWidth = 3.5;
+      ctx.strokeStyle = rgba(palette.core, .83);
+      ctx.shadowColor = palette.hot;
+      ctx.shadowBlur = 18;
+      ctx.beginPath();
+      for (let i = 0; i <= samples; i += 1) {
+        const t = mix(start + tailLength * .26, progress, i / samples);
+        const p = pathPoint(t);
+        if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawSparks(progress, palette, time) {
+      const start = Math.max(0, progress - .45);
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.lineCap = 'round';
+      for (let i = 0; i < 74; i += 1) {
+        const born = hash(i * 3.13);
+        const t = mix(start, progress, born);
+        if (t <= 0 || t >= progress) continue;
+        const age = clamp((progress - t) / .34);
+        const base = pathPoint(t);
+        const tangent = pathTangent(t);
+        const side = (hash(i * 5.29) - .5) * 2;
+        const drift = side * mix(14, 105, hash(i * 8.17)) * age;
+        const back = mix(5, 92, hash(i * 10.31)) * age;
+        const wobble = Math.sin(time * .005 + i * 2.1) * 4 * age;
+        const x = base.x - tangent.x * back - tangent.y * (drift + wobble);
+        const y = base.y - tangent.y * back + tangent.x * (drift + wobble) + age * age * 42;
+        const alpha = Math.sin(age * Math.PI) * mix(.2, .9, hash(i * 12.7));
+        const length = mix(2, 16, hash(i * 15.1));
+        ctx.strokeStyle = rgba(i % 5 === 0 ? palette.core : palette.spark, alpha);
+        ctx.lineWidth = mix(.8, 2.8, hash(i * 2.9));
+        ctx.shadowColor = palette.hot;
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x - tangent.x * length, y - tangent.y * length);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawHead(progress, palette, time) {
+      const p = pathPoint(progress);
+      const tangent = pathTangent(progress);
+      const pulse = 1 + Math.sin(time * .016) * .035;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(Math.atan2(tangent.y, tangent.x));
+      ctx.scale(pulse, pulse);
+      ctx.globalCompositeOperation = 'lighter';
+      const halo = ctx.createRadialGradient(0, 0, 0, 0, 0, 112);
+      halo.addColorStop(0, rgba(palette.core, .98));
+      halo.addColorStop(.08, rgba(palette.hot, .92));
+      halo.addColorStop(.28, rgba(palette.mid, .44));
+      halo.addColorStop(1, rgba(palette.edge, 0));
+      ctx.fillStyle = halo;
+      ctx.beginPath();
+      ctx.arc(0, 0, 112, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.filter = 'blur(5px)';
+      ctx.fillStyle = rgba(palette.hot, .72);
+      ctx.beginPath();
+      ctx.ellipse(-32, 0, 98, 25, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.filter = 'none';
+      ctx.fillStyle = palette.core;
+      ctx.shadowColor = palette.hot;
+      ctx.shadowBlur = 24;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 20, 14, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawImpact(progress, palette) {
+      const local = clamp((progress - .49) / .29);
+      if (local <= 0 || local >= 1) return;
+      const center = pathPoint(1);
+      const radius = easeOutCubic(local) * 370;
+      const alpha = Math.pow(1 - local, 1.8);
+      ctx.save();
+      ctx.translate(center.x, center.y);
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.strokeStyle = rgba(palette.hot, alpha * .75);
+      ctx.lineWidth = mix(12, 1, local);
+      ctx.shadowColor = palette.mid;
+      ctx.shadowBlur = 22;
+      ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.strokeStyle = rgba(palette.core, alpha * .5);
+      ctx.lineWidth = mix(4, .5, local);
+      ctx.beginPath();
+      ctx.arc(0, 0, radius * .7, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawExplosion(progress, palette) {
+      const local = clamp((progress - .485) / .34);
+      if (local <= 0 || local >= 1) return;
+      const center = pathPoint(1);
+      const alpha = Math.pow(1 - local, 1.45);
+      ctx.save();
+      ctx.translate(center.x, center.y);
+      ctx.globalCompositeOperation = 'lighter';
+      for (let i = 0; i < 54; i += 1) {
+        const angle = hash(i * 4.71) * Math.PI * 2;
+        const speed = mix(85, 470, hash(i * 8.13));
+        const radius = easeOutCubic(local) * speed;
+        const length = mix(10, 60, hash(i * 2.39)) * (1 - local);
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+        ctx.strokeStyle = rgba(i % 4 === 0 ? palette.core : palette.spark, alpha * mix(.35, 1, hash(i * 6.9)));
+        ctx.lineWidth = mix(1, 4, hash(i * 3.2));
+        ctx.shadowColor = palette.hot;
+        ctx.shadowBlur = 12;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x - Math.cos(angle) * length, y - Math.sin(angle) * length);
+        ctx.stroke();
+      }
+      const core = ctx.createRadialGradient(0, 0, 0, 0, 0, mix(70, 260, easeOutCubic(local)));
+      core.addColorStop(0, rgba(palette.core, alpha));
+      core.addColorStop(.24, rgba(palette.hot, alpha * .86));
+      core.addColorStop(1, rgba(palette.edge, 0));
+      ctx.fillStyle = core;
+      ctx.beginPath();
+      ctx.arc(0, 0, mix(70, 260, easeOutCubic(local)), 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawFlash(progress, palette) {
+      const up = smoothstep(.49, .54, progress);
+      const down = 1 - smoothstep(.55, .76, progress);
+      const alpha = up * down * .82;
+      if (alpha <= 0) return;
+      const impact = pathPoint(1);
+      const gradient = ctx.createRadialGradient(impact.x, impact.y, 0, impact.x, impact.y, 920);
+      gradient.addColorStop(0, rgba(palette.flash, alpha));
+      gradient.addColorStop(.24, rgba(palette.hot, alpha * .45));
+      gradient.addColorStop(1, rgba(palette.edge, 0));
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, W, H);
+      ctx.restore();
+    }
+
+    function phaseFor(elapsed) {
+      if (elapsed < 260) return '空白开场';
+      if (elapsed < 1180) return '彗星飞入';
+      if (elapsed < 1780) return '命中爆发';
+      return '正常画面出现';
+    }
+
+    function render(now) {
+      const elapsedRaw = state.fixedFrame === null ? now - state.startedAt : state.fixedFrame;
+      const elapsed = reduceMotion ? Math.min(elapsedRaw * 2.5, DURATION) : Math.min(elapsedRaw, DURATION);
+      const timeline = elapsed / DURATION;
+      const palette = palettes[state.palette];
+      ctx.clearRect(0, 0, W, H);
+
+      const reveal = smoothstep(.59, .84, timeline);
+      scenePreview.style.opacity = String(reveal);
+      veil.style.background = state.cover === 'black' ? '#03050b' : 'transparent';
+      veil.style.opacity = state.cover === 'black' ? String(1 - smoothstep(.53, .75, timeline)) : '0';
+
+      const travel = clamp((timeline - .11) / .40);
+      if (travel > 0 && travel < 1) {
+        const easedTravel = easeInOutCubic(travel);
+        drawRibbon(easedTravel, palette);
+        drawSparks(easedTravel, palette, now);
+        drawHead(easedTravel, palette, now);
+      }
+      drawExplosion(timeline, palette);
+      drawImpact(timeline, palette);
+      drawFlash(timeline, palette);
+
+      phaseNode.textContent = phaseFor(elapsed);
+      clockNode.textContent = `${(elapsed / 1000).toFixed(2)} / ${(DURATION / 1000).toFixed(2)} 秒`;
+      if (elapsed < DURATION && state.fixedFrame === null) state.raf = requestAnimationFrame(render);
+      else state.raf = 0;
+    }
+
+    function replay() {
+      if (state.raf) cancelAnimationFrame(state.raf);
+      state.fixedFrame = null;
+      state.startedAt = performance.now();
+      state.raf = requestAnimationFrame(render);
+    }
+
+    function syncControls() {
+      for (const button of document.querySelectorAll('[data-palette]')) {
+        button.setAttribute('aria-pressed', String(button.dataset.palette === state.palette));
+      }
+      document.querySelector('[data-action="checker"]').setAttribute('aria-pressed', String(state.checker));
+      document.querySelector('[data-action="clean"]').setAttribute('aria-pressed', String(state.clean));
+      const coverButton = document.querySelector('[data-action="cover"]');
+      coverButton.setAttribute('aria-pressed', String(state.cover === 'black'));
+      coverButton.textContent = state.cover === 'black' ? '开场：黑幕' : '开场：透明';
+      stage.classList.toggle('checker', state.checker);
+      stage.classList.toggle('clean', state.clean);
+    }
+
+    document.getElementById('controls').addEventListener('click', event => {
+      const button = event.target.closest('button');
+      if (!button) return;
+      if (button.dataset.palette) {
+        state.palette = button.dataset.palette;
+        replay();
+      }
+      if (button.dataset.action === 'replay') replay();
+      if (button.dataset.action === 'checker') state.checker = !state.checker;
+      if (button.dataset.action === 'clean') state.clean = !state.clean;
+      if (button.dataset.action === 'cover') { state.cover = state.cover === 'black' ? 'transparent' : 'black'; replay(); }
+      syncControls();
+    });
+
+    window.addEventListener('keydown', event => {
+      if (event.code === 'Space') { event.preventDefault(); replay(); }
+      if (event.code === 'Escape' && state.clean) { state.clean = false; syncControls(); }
+    });
+
+    syncControls();
+    if (state.fixedFrame === null) replay(); else render(performance.now());
+    window.__screenFxReview = Object.freeze({
+      replay,
+      setPalette: name => { if (palettes[name]) { state.palette = name; syncControls(); replay(); } },
+      clean: enabled => { state.clean = Boolean(enabled); syncControls(); },
+      checker: enabled => { state.checker = Boolean(enabled); syncControls(); }
+    });
+  })();
+  </script>
+</body>
+</html>

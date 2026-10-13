@@ -382,6 +382,28 @@ describe('UI Components · renderNode', () => {
     expect(renderNode({ type: 'ProgressBar', id: 'p', props: { value: -2, max: 3 } })).toContain('width:0%');  // 负值钳 0
   });
 
+  it('ProgressBar: barHeight 只加厚线性轨道，缺省仍保持 8px', () => {
+    expect(renderNode({ type: 'ProgressBar', id: 'thin', props: { value: 0.5 } })).toContain('height:8px');
+    expect(renderNode({ type: 'ProgressBar', id: 'thick', props: { value: 0.5, barHeight: 34 } })).toContain('height:34px');
+    expect(renderNode({ type: 'ProgressBar', id: 'cap', props: { value: 0.5, barHeight: 999 } })).toContain('height:80px');
+  });
+
+  it('ProgressBar: fillColor 对线性条生效并平滑过渡，缺省仍按 tone', () => {
+    const custom = renderNode({ type: 'ProgressBar', id: 'custom', props: { value: 0.6, fillColor: 'rgb(120,160,80)' } });
+    expect(custom).toContain('background:rgb(120,160,80)');
+    expect(custom).toContain('transition:width .2s,background .35s linear');
+    const semantic = renderNode({ type: 'ProgressBar', id: 'solid', props: { value: 0.6, tone: 'danger' } });
+    expect(semantic).not.toContain('background:rgb(120,160,80)');
+    expect(semantic).toContain('background:');
+  });
+
+  it('ProgressBar: fillGlow 使用同一填充色投柔光，缺省不增加阴影', () => {
+    const glowing = renderNode({ type: 'ProgressBar', id: 'glow', props: { value: 0.6, fillColor: '#46d17a', fillGlow: true } });
+    expect(glowing).toContain('box-shadow:0 0 10px #46d17a,0 0 22px #46d17a');
+    expect(glowing).toContain('overflow:visible');
+    expect(renderNode({ type: 'ProgressBar', id: 'plain', props: { value: 0.6, fillColor: '#46d17a' } })).not.toContain('box-shadow:0 0 10px');
+  });
+
   it('Tag: 可点(data-action+arg) + active 高亮 + removable 加 ×', () => {
     const html = renderNode({ type: 'Tag', id: 'tg', props: { label: '黑桃', active: true, action: 'filterSuit', actionArg: 'spade', removable: true } });
     expect(html).toContain('data-action="filterSuit"');

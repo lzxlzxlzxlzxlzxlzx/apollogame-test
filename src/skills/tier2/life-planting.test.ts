@@ -1,0 +1,20 @@
+import { describe, expect, it } from 'vitest';
+import { Engine } from '@runtime/engine.js';
+import { QueuedInputSource } from '@net/host/index.js';
+import { applyCommands } from '@net/commands.js';
+import { compileAndParseLifeGamePackage } from '@assembly/life-package-compile.js';
+import { threeSceneLifePackage } from '@assembly/life-package.fixture.js';
+import { validateLifeGamePackage } from '@assembly/life-package.js';
+import type { LifeCrop, LifePlantActionResult, LifeSelectedItem } from '@engine/protocol/components.js';
+import type { Inventory } from './inventory.js';
+import type { DebugTrace } from '@engine/protocol/components.js';
+
+const pkg = (): any => { const p:any = JSON.parse(JSON.stringify(threeSceneLifePackage())); p.itemCatalog=[{id:'seed.turnip',kind:'seed',skinKey:'item:seed'},{id:'crop.turnip',kind:'crop',skinKey:'item:crop'},{id:'resource.berry',kind:'resource',skinKey:'item:berry'}]; p.playerInventory={slots:2,maxStack:9,items:[{itemId:'seed.turnip',count:2}]}; p.cropCatalog=[{id:'turnip',seedItemId:'seed.turnip',harvestItemId:'crop.turnip',growthDays:2}]; return p; };
+function make(){const e=new Engine();e.load(compileAndParseLifeGamePackage(pkg()).blueprint);return e}
+function tick(e:Engine, s:QueuedInputSource, ...actions:Array<[string,string?]>) { for(const [key,arg] of actions)s.enqueueAction(key,arg===undefined?undefined:{arg});applyCommands(e.world,s.commandsForTick(e.world.getVersion()+1));e.world.tick(); }
+function farm(e:Engine){for(let i=0;i<3;i++){e.world.addComponent('life:player',{type:'LifeMoveRequest',dx:1,dy:0});e.world.tick()}e.world.addComponent('life:player',{type:'LifeWarpRequest',warpId:'town-farm-door'});e.world.tick()}
+describe('t2-life-planting',()=>{
+  it('requires watering, then selects a held seed and plants on the existing sparse plot',()=>{const e=make(),s=new QueuedInputSource('host');farm(e);tick(e,s,['life.action','till']);tick(e,s,['life.select-item','seed.turnip'],['life.action','plant']);expect(e.world.getComponent<LifePlantActionResult>('life:player','LifePlantActionResult')).toMatchObject({status:'rejected',reason:'unprepared-soil'});tick(e,s,['life.action','water']);tick(e,s,['life.select-item','seed.turnip'],['life.action','plant']);const id='life:farm-plot:farm:0:0';expect(e.world.getComponent<LifeSelectedItem>('life:player','LifeSelectedItem')).toEqual({type:'LifeSelectedItem',itemId:'seed.turnip'});expect(e.world.getComponent<Inventory>('life:player','Inventory')!.items).toEqual([{kind:'seed.turnip',count:1}]);expect(e.world.getComponent<LifeCrop>(id,'LifeCrop')).toMatchObject({cropId:'turnip'});expect(e.world.getComponent<LifePlantActionResult>('life:player','LifePlantActionResult')).toMatchObject({status:'applied',cropId:'turnip'});});
+  it('rejects malformed crop catalogs with exact paths and accepts legacy empty catalog',()=>{for(const [mut,path] of [[(p:any)=>p.cropCatalog[0].seedItemId='crop.turnip','$.cropCatalog[0].seedItemId'],[(p:any)=>p.cropCatalog[0].harvestItemId='seed.turnip','$.cropCatalog[0].harvestItemId'],[(p:any)=>p.cropCatalog[0].growthDays=0,'$.cropCatalog[0].growthDays'],[(p:any)=>p.cropCatalog.push({...p.cropCatalog[0]}),'$.cropCatalog[1].id']] as const){const p=pkg();mut(p);expect(validateLifeGamePackage(p).issues.map(x=>x.path)).toContain(path)}expect(validateLifeGamePackage(threeSceneLifePackage()).ok).toBe(true);});
+  it('traces applied and rejected planting while idle ticks remain quiet',()=>{const e=make(),s=new QueuedInputSource('host');farm(e);e.world.createEntity('trace');e.world.addComponent('trace',{type:'DebugTrace',events:[],tick:0} as DebugTrace);tick(e,s,['life.action','plant']);expect(e.world.getComponent<LifePlantActionResult>('life:player','LifePlantActionResult')).toMatchObject({reason:'missing-plot'});const t=e.world.getComponent<DebugTrace>('trace','DebugTrace')!;expect(t.events.some(x=>x.system==='life-planting'&&x.kind==='reject')).toBe(true);t.events=[];applyCommands(e.world,[]);e.world.tick();expect(t.events.filter(x=>x.system==='life-planting')).toEqual([]);});
+});

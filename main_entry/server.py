@@ -37,6 +37,7 @@ from .paths import LIBRARY_DIR, _design_parts, _lib_parts, _valid_slug
 from .pipeline_board import handle_pipeline_board, handle_pipeline_concept, handle_pipeline_gate, handle_pipeline_orch_abort, handle_pipeline_orch_dispatch, handle_pipeline_orch_status, handle_pipeline_signoff, handle_pipeline_wizard_concept
 from .placeholder import handle_art_resolve
 from .projects import handle_project_save
+from .project_roadmap import ensure as ensure_project_roadmap, list_projects as roadmap_projects, load as load_project_roadmap, owner_decide as roadmap_owner_decide, save as save_project_roadmap
 from .protocols import handle_capgaps_list
 from .settings_api import handle_settings_get, handle_settings_put, handle_settings_test
 from .sysutil import ROOT, VITE_PORT, c, env, get_project_status, handle_version, is_port_in_use, run_command
@@ -431,6 +432,16 @@ class APIHandler(BaseHTTPRequestHandler):
             self._send_json(200, handle_library_doctor())
             return
 
+        if path == '/api/projects':
+            self._send_json(200, {'success': True, 'projects': roadmap_projects()})
+            return
+        m_roadmap = re.fullmatch(r'/api/projects/([a-z0-9][a-z0-9-]*)/roadmap', path)
+        if m_roadmap:
+            try: self._send_json(200, {'success': True, 'roadmap': load_project_roadmap(m_roadmap.group(1))})
+            except FileNotFoundError: self._send_json(404, {'success': False, 'diagnostics': [{'path': '$', 'message': '项目路线图不存在'}]})
+            except ValueError as e: self._send_json(400, {'success': False, 'diagnostics': [{'path': '$', 'message': str(e)}]})
+            return
+
         # 库端点（可变状态码：400 越界 / 404 缺失）——先于遗留 200 端点分派。
         if path == '/api/library' or path.startswith('/api/library/'):
             try:
@@ -787,11 +798,30 @@ class APIHandler(BaseHTTPRequestHandler):
                 data = handle_design_ui_brief(body)
             except Exception as e:
                 data = {'success': False, 'error': f'ui-brief 异常: {e}'}
+        elif (m_roadmap_decision := re.fullmatch(r'/api/projects/([a-z0-9][a-z0-9-]*)/roadmap/owner-decision', path)):
+            try:
+                data = roadmap_owner_decide(m_roadmap_decision.group(1), body.get('milestoneId'), body.get('decision'))
+            except FileNotFoundError:
+                data = {'success': False, 'diagnostics': [{'path': '$', 'message': '项目路线图不存在'}]}
+            except ValueError as e:
+                data = {'success': False, 'diagnostics': [{'path': '$', 'message': str(e)}]}
+        elif path == '/api/projects' and 'projectId' in body:  # 项目控制台显式注册：仅不存在时初始化，绝不扫描或覆盖。
+            try:
+                roadmap, created = ensure_project_roadmap(str(body.get('projectId') or ''), str(body.get('title') or body.get('projectId') or ''))
+                data = {'success': True, 'created': created, 'roadmap': roadmap}
+            except ValueError as e:
+                data = {'success': False, 'diagnostics': [{'path': '$', 'message': str(e)}]}
         elif path == '/api/projects':  # 「存为项目」S1/S2 落点（REQ-S18PANEL ①·docs/design/<slug>/ + 对话认领）
             try:
                 data = handle_project_save(body)
             except Exception as e:
                 data = {'success': False, 'error': f'project save 异常: {e}'}
+            if data.get('success'):
+                try:
+                    roadmap, created = ensure_project_roadmap(str(body.get('slug') or ''), str(body.get('name') or body.get('slug') or ''))
+                    data['roadmapInitialized'] = created
+                except Exception as e:
+                    data = {'success': False, 'error': f'project roadmap 初始化失败: {e}'}
         elif path == '/api/pipeline/gate':
             try:
                 data = handle_pipeline_gate(body)
@@ -843,6 +873,16 @@ class APIHandler(BaseHTTPRequestHandler):
             return
         if path == '/api/settings':
             self._send_json(200, handle_settings_put(body))
+            return
+        m_roadmap = re.fullmatch(r'/api/projects/([a-z0-9][a-z0-9-]*)/roadmap', path)
+        if m_roadmap:
+            try:
+                result = save_project_roadmap(m_roadmap.group(1), body)
+                self._send_json(200 if result.get('success') else 400, result)
+            except FileNotFoundError:
+                self._send_json(404, {'success': False, 'diagnostics': [{'path': '$', 'message': '项目路线图不存在'}]})
+            except ValueError as e:
+                self._send_json(400, {'success': False, 'diagnostics': [{'path': '$', 'message': str(e)}]})
             return
         if path == '/api/agent/chats':
             self._send_json(200, handle_agent_chats_put(body))

@@ -15,9 +15,10 @@ import {
 export const CHEST_CLAIM_ACTION = 'chest.claim';
 export const CHEST_THEME: UITheme = {
   ...apolloOnyx,
-  pageBg: 'radial-gradient(circle at 50% 38%, rgba(116,55,20,.82) 0%, rgba(31,13,34,.94) 43%, #070611 78%)',
-  texture: 'repeating-linear-gradient(45deg, rgba(255,210,120,.025) 0 1px, transparent 1px 13px)',
-  wash: 'radial-gradient(circle at 50% 45%, rgba(255,153,44,.13), transparent 42%)',
+  // DokiWorld iframe 必须透出宿主场景；宝箱、锁芯与奖励卡各自仍保留局部面板皮肤。
+  pageBg: 'transparent',
+  texture: '',
+  wash: '',
   jade: '#f0a63d', jadeWash: 'rgba(240,166,61,.18)', jadeLine: 'rgba(255,215,126,.58)',
   gold: '#ffd978', text: '#fff4d6', sub: '#d3af79', dim: '#8f765e',
 };

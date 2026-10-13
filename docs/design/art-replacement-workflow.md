@@ -60,7 +60,7 @@
 | `desc` | **生成用详细描述**（英文·喂模型）：形体/主色 hex/行为角色（从 sim 组件推）/占比/视角/透明底 | 机器推导·人可改 |
 | `prompt` | 人工精调提示词（有则整体替代 query+desc 作生成主体） | 人 |
 | 头字段 `artStyle` | `{stylePrompt?, packId?}` 每游戏整体风格锚——自动拼进每行（风格包之后） | 人（平台头部编辑） |
-| `status` | `placeholder→queued→generated→replaced→approved` | 工作流 |
+| `status` | `placeholder→queued→pending→approved→replaced` | 真产物 pending 期不写最终 index；旧 `generated` 仅作兼容态 |
 | `gen` | `{provider, model, prompt, cacheKey}`（生成后回填） | 工作流 |
 | `provenance` | `{model, prompt, date, license}` 硬字段（同 M2.5 口径） | 工作流 |
 

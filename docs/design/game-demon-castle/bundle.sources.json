@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "zerocraft.life-generation-slice-manifest.v1",
+  "session": {
+    "id": "demon-castle-approved-bundle",
+    "round": 0,
+    "createdBy": "mixed",
+    "promptContractVersion": "life-generation.prompt.v1"
+  },
+  "slug": "game-demon-castle",
+  "world": "world.life.json",
+  "slices": [
+    "actors.patch.json",
+    "construction.patch.json",
+    "plot.patch.json"
+  ],
+  "assetSlots": "asset-slots.json"
+}

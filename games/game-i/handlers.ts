@@ -59,6 +59,10 @@ export function buildHandlers(hooks: GalleryHooks): HandlerMap {
   const L = hooks.log;
   return {
     click: (a) => L('click', a),
+    // Panel.wheel 的展示台动作：真实 WheelEvent 由 UI 基座归一化后才会抵达这里，
+    // 不在 game-i 另挂 DOM 监听（GAL-PUI-03B）。
+    'gallery.wheel.up': (a) => L('gallery.wheel.up', a),
+    'gallery.wheel.down': (a) => L('gallery.wheel.down', a),
     setText: (a) => L('setText', a),       // native input·DOM 自己更新
     setNum: (a) => L('setNum', a),         // native input
     setDifficulty: (a) => L('setDifficulty', a), // native select

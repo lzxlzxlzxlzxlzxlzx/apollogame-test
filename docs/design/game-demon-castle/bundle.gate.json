@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "zerocraft.life-generation-gate.v1",
+  "stage": "bundle",
+  "inputHash": "sha256:ab2510b87787a77c74e3416fd00064bc396dbb7f18d6be980b803f91e8b37890",
+  "selfCheck": {
+    "status": "pass",
+    "diagnostics": [],
+    "evidence": {
+      "lifePackageHash": "sha256:554b250be68beffc27ec22431745c07db7dc9783ba43c878a21fe1d0b644bc58",
+      "assetSlotsDraftHash": "sha256:065ad91f3cd202d8926d336d774f520cbca03adae2b15e049f267bb39c980f7a",
+      "checks": ["LifeGenerationBundle strict validation", "compile", "two-tick snapshot/hash/restore", "asset-slot closure"]
+    }
+  },
+  "visualArtifacts": [
+    { "kind": "bundle-report", "ref": "docs/design/game-demon-castle/bundle-review.md" }
+  ],
+  "ownerDecision": "approved"
+}

@@ -47,6 +47,10 @@ export interface LibraryRecord {
   readonly height?: number;
   readonly format?: string;
   readonly transparent?: boolean;
+  /** Texture semantics used by strict authoring-time candidate selection. Missing legacy values mean sprite/srgb. */
+  readonly usage?: string;
+  readonly colorSpace?: string;
+  readonly sampling?: string;
   readonly variants?: number;
 }
 
@@ -168,6 +172,9 @@ export function projectRecords(index: AssetIndex, assetsBase = '/assets/', alias
       height: numOrUndef(e.spec?.height),
       format: strOrUndef(e.spec?.format),
       transparent: typeof e.spec?.transparent === 'boolean' ? e.spec.transparent : undefined,
+      usage: strOrUndef(e.spec?.usage),
+      colorSpace: strOrUndef(e.spec?.colorSpace),
+      sampling: strOrUndef(e.spec?.sampling),
     };
   });
 }
@@ -214,6 +221,8 @@ export function artlibRecords(index: ArtLibIndex): LibraryRecord[] {
     height: a.h ?? index.basePixel,
     format: a.slot === 'card' ? 'webp' : 'png',
     transparent: a.transparent,
+    usage: 'sprite',
+    colorSpace: 'srgb',
     variants: a.variants,
   }));
 }
@@ -239,6 +248,8 @@ export function manifestRecords(gameId: string, manifest: AssetManifest): Librar
       path: inline ? undefined : d.src,
       width: d.kind === 'texture' ? d.width : sheet ? d.frameWidth : undefined,
       height: d.kind === 'texture' ? d.height : sheet ? d.frameHeight : undefined,
+      usage: 'sprite',
+      colorSpace: 'srgb',
       variants: sheet ? d.count : undefined,
     };
   });

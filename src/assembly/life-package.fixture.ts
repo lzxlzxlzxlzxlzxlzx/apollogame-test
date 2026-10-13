@@ -1,0 +1,13 @@
+const run = (tileId: string, count = 16) => [{ tileId, count }];
+const layers = (ground: string) => [
+  { name: 'ground', tiles: run(ground) }, { name: 'collision', tiles: run('clear') }, { name: 'interaction', tiles: run('clear') },
+];
+
+/** Legal ENG-01 fixture: town links a farm and river, with a full return graph. */
+export function threeSceneLifePackage(): Record<string, unknown> {
+  return { meta: { schema: 1, id: 'three-scene-life', title: 'Three Scene Life', tickRate: 20 }, world: { startSceneId: 'town' }, dialogueCatalog: [{ id: 'mayor.greeting', graph: { start: { kind: 'line', speaker: 'Mayor', text: 'Welcome.', next: null } } }], itemCatalog: [{ id: 'resource.berry', kind: 'resource', skinKey: 'item:berry' }], playerInventory: { slots: 10, maxStack: 99, items: [] }, tileCatalog: { grass: { tags: ['walkable', 'forage'] }, soil: { tags: ['walkable', 'plantable'] }, water: { tags: ['walkable', 'water'] }, clear: { tags: ['walkable'] }, wall: { tags: ['blocked'] } }, scenes: [
+    { id: 'town', title: 'Harbor Town', width: 4, height: 4, layers: layers('grass'), spawnPoints: [{ id: 'town-player', x: 0, y: 0, kind: 'player' }, { id: 'town-npc', x: 1, y: 1, kind: 'npc' }], zones: [{ id: 'town-forage', kind: 'forage', rect: { x: 0, y: 0, width: 4, height: 4 }, allowedActions: ['forage', 'talk'] }], warps: [{ id: 'town-farm-door', label: '前往农场', at: { x: 3, y: 0 }, toSceneId: 'farm', toSpawnId: 'farm-door' }, { id: 'town-river-door', label: '前往河岸', at: { x: 3, y: 3 }, toSceneId: 'river', toSpawnId: 'river-door' }], placements: [{ id: 'mayor', kind: 'npc', x: 1, y: 1, width: 1, height: 1, prefabRef: 'npc.mayor', skinKey: 'npc:mayor', npcDialogue: { dialogueId: 'mayor.greeting' } }] },
+    { id: 'farm', title: 'Old Farm', width: 4, height: 4, layers: layers('soil'), spawnPoints: [{ id: 'farm-door', x: 0, y: 0, kind: 'warp' }], zones: [{ id: 'farm-field', kind: 'farm', rect: { x: 0, y: 0, width: 4, height: 4 }, allowedActions: ['till', 'water', 'plant', 'harvest', 'forage'] }], warps: [{ id: 'farm-town-door', label: '返回港镇', at: { x: 0, y: 0 }, toSceneId: 'town', toSpawnId: 'town-player' }], placements: [{ id: 'berry-bush', kind: 'resource', x: 2, y: 2, width: 1, height: 1, prefabRef: 'resource.berry', skinKey: 'resource:berry', resourceNode: { action: 'forage', itemId: 'resource.berry', quantity: 3 } }] },
+    { id: 'river', title: 'Silver River', width: 4, height: 4, layers: layers('water'), spawnPoints: [{ id: 'river-door', x: 0, y: 0, kind: 'warp' }], zones: [{ id: 'river-fishing', kind: 'fishing', rect: { x: 0, y: 0, width: 4, height: 4 }, allowedActions: ['fish'] }], warps: [{ id: 'river-town-door', label: '返回港镇', at: { x: 0, y: 0 }, toSceneId: 'town', toSpawnId: 'town-player' }], placements: [] },
+  ] };
+}

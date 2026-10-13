@@ -68,3 +68,15 @@ export { blockGridCapability, bgIndex, canPlace, applyPlace, fullLines, clearLin
 // 与 t3-poker-hand 分工：poker-hand=Balatro 计分域；本能力=出牌类判定/压制/应对域（掼蛋/斗地主/跑得快通用）。
 export { handPatternCapability, matchPattern, beats, legalResponses, effRank, resolveTier, compareMatches } from './hand-pattern.js';
 export type { HandPatternConfig, HandFamily, FamilyKind, PatternMatch } from './hand-pattern.js';
+
+// progressive-risk-session（REQ-THEFT-PROGRESSIVE）：固定 tick 风险 + 循环 QTE + 整数成长概率 +
+// 严格有序多目标 + 终局回执。业务难度表只需投影成 targets[].initialChanceBp。
+export { progressiveRiskSessionCapability, progressiveChanceBp, validateProgressiveRiskConfig } from './progressive-risk-session.js';
+// discrete-combination-session（GAP-LOCKPICK-01）：离散隐藏向量、单槽修改与 exact-match 整体反馈。
+export { discreteCombinationSessionCapability, validateDiscreteCombinationConfig } from './discrete-combination-session.js';
+// risk-reveal-wheel（REQ-THEFT-RISK-REVEAL-WHEEL）：种子化隐藏槽位 + 精准 QTE 风险 + 翻格权。
+export { riskRevealWheelCapability, riskRevealQtePenaltyBp, validateRiskRevealConfig } from './risk-reveal-wheel.js';
+// life-world（SIMLIFE-ENG-02）：LifeGamePackage 的静态 Manifest 投影；运行时解释器另立能力。
+export { lifeWorldCapability } from './life-world.js';
+export { narrativeDirectorCapability, NARRATIVE_ADVANCE, NARRATIVE_CHOOSE } from './narrative-director.js';
+export type { StoryRuntime, NarrativeProjection } from './narrative-director.js';

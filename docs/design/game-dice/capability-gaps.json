@@ -1,12 +1,12 @@
 [
   {
-    "id": "REQ-HOST-GAME-SESSION",
-    "title": "外部游戏会话：请求、随机 seed 与结构化结果回传",
+    "id": "REQ-HOST-GAME-SESSION-SECOND-CONSUMER",
+    "title": "外部游戏会话第二消费者验证",
     "priority": "P1",
     "route": "engine",
-    "state": "in-progress",
-    "ticket": "docs/workflow/requests.md#req-host-game-session",
-    "blocks": ["S2", "S3", "S4"]
+    "state": "delivered",
+    "ticket": "docs/workflow/requests.md#req-host-game-session-second-consumer",
+    "blocks": []
   },
   {
     "id": "REQ-3D-POLY-DIE",

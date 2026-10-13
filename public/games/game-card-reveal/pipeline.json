@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "slug": "game-card-reveal",
+  "concept": {},
+  "signoffs": {},
+  "evidence": {
+    "S2": {
+      "exit": 0,
+      "summary": "capability-plan.md 在档 · ✓ 缺口 1 条全已裁决 · 未交付 1：GAP-CARD-REVEAL-01→锁S3/S4/S5/S8",
+      "at": "2026-10-09T10:54:36.741Z",
+      "gameHash": "c7ac7c1e15db9ba6"
+    }
+  },
+  "history": [
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 1,
+      "at": "2026-10-09T10:50:50.275Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-09T10:54:36.741Z"
+    }
+  ]
+}

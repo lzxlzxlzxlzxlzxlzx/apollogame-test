@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "zerocraft.life-generation-patch.v1",
+  "baseWorld": "world.life.json",
+  "operations": [
+    {
+      "op": "add",
+      "path": "/playerVisual",
+      "value": { "skinKey": "art:demon-castle:player:moon-demon", "anchor": "bottom-center" }
+    },
+    {
+      "op": "add",
+      "path": "/itemCatalog",
+      "value": [
+        { "id": "seed.moonbell", "kind": "seed", "skinKey": "art:demon-castle:item:moonbell-seed" },
+        { "id": "crop.moonbell", "kind": "crop", "skinKey": "art:demon-castle:item:moonbell" },
+        { "id": "resource.moonwood", "kind": "resource", "skinKey": "art:demon-castle:item:moonwood" },
+        { "id": "resource.shadow-ore", "kind": "resource", "skinKey": "art:demon-castle:item:shadow-ore" }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/playerInventory",
+      "value": { "slots": 12, "maxStack": 99, "items": [{ "itemId": "seed.moonbell", "count": 4 }] }
+    },
+    {
+      "op": "add",
+      "path": "/cropCatalog",
+      "value": [{ "id": "moonbell", "seedItemId": "seed.moonbell", "harvestItemId": "crop.moonbell", "growthDays": 2, "visual": { "seededSkinKey": "art:demon-castle:crop:moonbell-seeded", "growingSkinKey": "art:demon-castle:crop:moonbell-growing", "matureSkinKey": "art:demon-castle:crop:moonbell-mature" } }]
+    },
+    {
+      "op": "add",
+      "path": "/calendar",
+      "value": { "seasons": [{ "id": "eclipse", "lengthDays": 14 }], "initialSeasonId": "eclipse", "initialDayOfSeason": 1, "slots": ["dawn", "night"], "initialSlot": "dawn" }
+    },
+    {
+      "op": "add",
+      "path": "/relationships",
+      "value": [
+        { "npcId": "gargoyle-artisan", "min": 0, "max": 100, "initial": 20, "levels": [{ "id": "stranger", "min": 0, "titleKey": "陌生的工匠" }, { "id": "ally", "min": 40, "titleKey": "城堡同盟" }, { "id": "steward", "min": 75, "titleKey": "工坊管家" }], "dailyCaps": { "talk": 1, "gift": 1, "action": 2 }, "rules": [] },
+        { "npcId": "moonwell-keeper", "min": 0, "max": 100, "initial": 10, "levels": [{ "id": "stranger", "min": 0, "titleKey": "月井来客" }, { "id": "ally", "min": 45, "titleKey": "月影同盟" }, { "id": "oracle", "min": 80, "titleKey": "月井守望者" }], "dailyCaps": { "talk": 1, "gift": 1, "action": 2 }, "rules": [] }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/dialogueCatalog",
+      "value": [
+        { "id": "gargoyle-artisan.arrival", "graph": { "start": { "kind": "line", "speaker": "石像鬼工匠", "text": "熔炉还在呼吸。给我材料，城堡就能重新站起来。", "next": null } } },
+        { "id": "moonwell-keeper.arrival", "graph": { "start": { "kind": "line", "speaker": "月井使者", "text": "月井记得这座城堡。先让王座厅重新点亮吧。", "next": null } } }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/scenes/0/placements/-",
+      "value": { "id": "gargoyle-artisan", "kind": "npc", "x": 14, "y": 8, "width": 1, "height": 1, "prefabRef": "npc.gargoyle-artisan", "skinKey": "art:demon-castle:npc:gargoyle-artisan", "interactionRange": 1, "npcDialogue": { "dialogueId": "gargoyle-artisan.arrival" }, "schedule": [{ "slot": "dawn", "sceneId": "moon-courtyard", "x": 14, "y": 8, "visible": true, "interactive": true }, { "slot": "night", "sceneId": "undercrypt-workshop", "x": 6, "y": 4, "visible": true, "interactive": true }] }
+    },
+    {
+      "op": "add",
+      "path": "/scenes/1/placements/-",
+      "value": { "id": "moonwell-keeper", "kind": "npc", "x": 8, "y": 8, "width": 1, "height": 1, "prefabRef": "npc.moonwell-keeper", "skinKey": "art:demon-castle:npc:moonwell-keeper", "interactionRange": 1, "npcDialogue": { "dialogueId": "moonwell-keeper.arrival" }, "schedule": [{ "slot": "dawn", "sceneId": "moonshadow-forest", "x": 8, "y": 8, "visible": true, "interactive": true }, { "slot": "night", "sceneId": "moonshadow-forest", "x": 12, "y": 7, "visible": true, "interactive": true }] }
+    },
+    {
+      "op": "add",
+      "path": "/scenes/1/placements/-",
+      "value": { "id": "moonwood-fallen-log", "kind": "resource", "x": 5, "y": 9, "width": 1, "height": 1, "prefabRef": "resource.moonwood-fallen-log", "skinKey": "art:demon-castle:resource:moonwood-log", "resourceNode": { "action": "forage", "itemId": "resource.moonwood", "quantity": 4 } }
+    },
+    {
+      "op": "add",
+      "path": "/scenes/2/placements/-",
+      "value": { "id": "shadow-ore-vein", "kind": "resource", "x": 5, "y": 8, "width": 1, "height": 1, "prefabRef": "resource.shadow-ore-vein", "skinKey": "art:demon-castle:resource:shadow-ore-vein", "resourceNode": { "action": "mine", "itemId": "resource.shadow-ore", "quantity": 3 } }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "zerocraft.life-host.v1",
+  "slug": "game-demon-castle",
+  "packagePath": "life.json",
+  "assetSlotsPath": "asset-slots.json",
+  "artSlug": "game-demon-castle",
+  "viewport": { "profile": "life-standard-v1" },
+  "theme": "starter",
+  "hud": {
+    "preset": "life-standard-v1",
+    "title": "月影魔王城",
+    "labels": {
+      "date": "月相",
+      "time-slot": "时段",
+      "place": "地点",
+      "inventory": "魔王行囊",
+      "interaction": "互动",
+      "objective": "复兴目标",
+      "advance-time": "T：等待夜幕",
+      "advance-day": "N：迎接新月",
+      "relationships": "盟友",
+      "selected-item": "所选物品",
+      "selected-target": "所选目标"
+    }
+  },
+  "input": { "preset": "life-keyboard-v1" },
+  "save": {
+    "namespace": "life:game-demon-castle:v1",
+    "schemaVersion": 1,
+    "autosave": "life-commit-v1"
+  }
+}

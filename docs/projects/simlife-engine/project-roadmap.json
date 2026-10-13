@@ -1,0 +1,737 @@
+{
+  "schemaVersion": "zerocraft.project-roadmap.v1",
+  "project": {
+    "id": "simlife-engine",
+    "title": "模拟经营游戏引擎",
+    "summary": "以严格 JSON 创作世界、人物、剧情与素材槽位；Little Valley 是首个端到端验证游戏。",
+    "status": "active"
+  },
+  "milestones": [
+    {
+      "id": "project-control-console",
+      "title": "项目控制台可用性验收",
+      "track": "治理",
+      "description": "项目路线图、证据、门禁和下一步推导已可在控制台呈现；需要保留独立代码复查。",
+      "status": "review",
+      "dependsOn": [],
+      "acceptance": [
+        "5173 可以查看已注册项目",
+        "服务端拒绝非法 done 与依赖环",
+        "Agent 不能越过 owner/review 门禁"
+      ],
+      "evidence": [
+        {
+          "kind": "artifact",
+          "ref": "main_entry/project_roadmap.py",
+          "label": "严格路线图存储与校验"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/studio/ProjectRoadmapPanel.tsx",
+          "label": "5173 项目控制台"
+        },
+        {
+          "kind": "test",
+          "ref": "main_entry/test_project_roadmap.py",
+          "label": "控制台服务端测试"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "life-runtime-contract",
+      "title": "Life 通用运行时与数据契约复查",
+      "track": "引擎",
+      "description": "已具备世界、连续移动、农耕、资源、日历、NPC 日程、关系、任务、对话与存档能力；当前工作是确认它们可作为通用解释器而非 Little Valley 专属逻辑。",
+      "status": "done",
+      "dependsOn": [],
+      "acceptance": [
+        "Life 世界包能严格解析、编译和确定性运行",
+        "游戏内容不增加私有玩法系统",
+        "存档仅保存权威进展并能安全恢复"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/capability-plan.md",
+          "label": "能力消费与边界"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/engine/host/life-game-host.ts",
+          "label": "共享 Life Host"
+        },
+        {
+          "kind": "test",
+          "ref": "src/engine/host/life-game-host.test.ts",
+          "label": "共享宿主测试"
+        },
+        {
+          "kind": "test",
+          "ref": "src/engine/host/life-save.test.ts",
+          "label": "存档边界测试"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-ENG-17D.md",
+          "label": "共享 Life Host 独立复查"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "life-construction-capability",
+      "title": "Life 固定点建设能力验收",
+      "track": "引擎",
+      "description": "以严格 constructionProjects 数据、标准 build action、原子材料提交、完成皮肤投影和 Life save 完成位提供跨游戏复用的一次性固定点建设。",
+      "status": "review",
+      "dependsOn": [
+        "life-runtime-contract"
+      ],
+      "acceptance": [
+        "建设项目作者数据严格闭集且只引用固定 building/interactable placement",
+        "成功原子扣除全部材料并一次性完成，所有拒绝路径零进展写入",
+        "Quest/关系、renderer、snapshot/hash/save 与素材闭包复用共享 Life 合同"
+      ],
+      "evidence": [
+        {
+          "kind": "artifact",
+          "ref": "src/skills/tier2/life-construction.ts",
+          "label": "通用建设 capability"
+        },
+        {
+          "kind": "test",
+          "ref": "src/skills/tier2/life-construction.test.ts",
+          "label": "建设成功、拒绝、确定性与存档回归"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/self-check/REQ-SIMLIFE-CONSTRUCTION-01.md",
+          "label": "施工自检与撤修验红记录"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-demon-castle/review/REQ-SIMLIFE-CONSTRUCTION-01.md",
+          "label": "独立复查导航与待填判词"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "continuous-input-camera",
+      "title": "连续输入、碰撞与安全区镜头验收",
+      "track": "引擎",
+      "description": "已修复多方向键与交互键交错时的卡键问题；镜头使用玩家安全区、越界平移与地图边界夹紧。",
+      "status": "done",
+      "dependsOn": [
+        "life-runtime-contract"
+      ],
+      "acceptance": [
+        "任意多方向键按下/松开后速度归零",
+        "E/Tab/Enter 不改变 held movement",
+        "玩家未贴边前镜头保持，地图边缘不越界"
+      ],
+      "evidence": [
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-ENG-24.md",
+          "label": "多方向输入独立复查"
+        },
+        {
+          "kind": "test",
+          "ref": "src/skills/tier2/life-continuous-motion.test.ts",
+          "label": "连续移动回归"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-simlife/self-check/eng18/alignment.md",
+          "label": "镜头与边界视觉自检"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "approved"
+      }
+    },
+    {
+      "id": "little-valley-core-loop",
+      "title": "Little Valley 核心游玩循环验收",
+      "track": "试玩",
+      "description": "农田按荒地/翻土/播种/浇水/成熟状态提供不同交互；采集、采矿、背包和过日形成第一条循环。",
+      "status": "review",
+      "dependsOn": [
+        "life-runtime-contract",
+        "continuous-input-camera"
+      ],
+      "acceptance": [
+        "自由移动到地块或实体附近时显示 E 提示",
+        "交互菜单支持键盘与鼠标并可递归选择",
+        "收获和采集会留下世界状态并更新背包",
+        "休息至明日推动作物和日程"
+      ],
+      "evidence": [
+        {
+          "kind": "artifact",
+          "ref": "games/game-simlife/little-valley.life.json",
+          "label": "首个世界内容"
+        },
+        {
+          "kind": "test",
+          "ref": "games/game-simlife/world-interaction.test.ts",
+          "label": "交互回归"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-simlife/self-check/shots/demo19a/03-1440x900.png",
+          "label": "试玩视觉证据"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "npc-and-story-slice",
+      "title": "NPC、剧情条件与任务切片验收",
+      "track": "内容",
+      "description": "已有镇长/商人日程、对话、关系、首个收获事件与三节点任务链；尚未证明复杂多线剧情生成。",
+      "status": "review",
+      "dependsOn": [
+        "life-runtime-contract"
+      ],
+      "acceptance": [
+        "NPC 按日程在正确场景和位置出现",
+        "离开互动范围会自然关闭 proximity 对话",
+        "收获触发剧情条件，报告镇长后开放矿洞",
+        "任务进度和关系可存档恢复"
+      ],
+      "evidence": [
+        {
+          "kind": "test",
+          "ref": "src/skills/tier2/life-quest.test.ts",
+          "label": "任务图解释器测试"
+        },
+        {
+          "kind": "test",
+          "ref": "src/skills/tier2/life-npc-schedule.test.ts",
+          "label": "NPC 日程测试"
+        },
+        {
+          "kind": "test",
+          "ref": "src/skills/tier2/life-relationship.test.ts",
+          "label": "关系系统测试"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-simlife/self-check/shots/eng13a/04-completed-objective.png",
+          "label": "任务链视觉证据"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "life-host-web-registration",
+      "title": "共享 Host 与 Web 启动器验证",
+      "track": "平台",
+      "description": "Life host descriptor、launcher catalog 和 Little Valley 启动入口已存在；需继续作为所有新 Life 游戏的唯一 Web 入口。",
+      "status": "done",
+      "dependsOn": [
+        "life-runtime-contract"
+      ],
+      "acceptance": [
+        "严格 host/asset-slot/launcher 身份一致性检查",
+        "新 Life 条目可被目录发现",
+        "浏览器运行不复制 Little Valley 的宿主代码"
+      ],
+      "evidence": [
+        {
+          "kind": "artifact",
+          "ref": "games/game-simlife/host-descriptor.ts",
+          "label": "Little Valley Host 描述符"
+        },
+        {
+          "kind": "test",
+          "ref": "src/launcher/life-launcher-catalog.test.ts",
+          "label": "启动目录测试"
+        },
+        {
+          "kind": "test",
+          "ref": "src/launcher/life-launcher-integration.test.ts",
+          "label": "启动器集成测试"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-ENG-17D.md",
+          "label": "共享 Host 与启动器独立复查"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "visual-slot-consumption",
+      "title": "素材槽位与渲染消费验证",
+      "track": "素材",
+      "description": "Little Valley 已给地块、角色、作物和场景物体声明语义 visual key；当前仍以预览/占位素材为主。",
+      "status": "done",
+      "dependsOn": [
+        "life-runtime-contract"
+      ],
+      "acceptance": [
+        "每个可见实体均能由素材槽位消费",
+        "缺失素材保持可玩预览而不影响模拟",
+        "素材引用不进入 snapshot、hash 或 save"
+      ],
+      "evidence": [
+        {
+          "kind": "artifact",
+          "ref": "games/game-simlife/little-valley.asset-slots.json",
+          "label": "Little Valley 素材槽位"
+        },
+        {
+          "kind": "test",
+          "ref": "games/game-simlife/asset-slots.test.ts",
+          "label": "槽位闭包测试"
+        },
+        {
+          "kind": "test",
+          "ref": "games/game-simlife/art-consumption.test.ts",
+          "label": "渲染消费测试"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-VISUAL-01.md",
+          "label": "素材槽位渲染消费独立复查"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "approved"
+      }
+    },
+    {
+      "id": "local-ai-asset-pipeline",
+      "title": "本地库匹配与 AI 候选素材管线",
+      "track": "素材",
+      "description": "将槽位规格接到本地素材库检索、AI 候选生成、尺寸/锚点/许可审核和正式 AssetIndex 登记；目前只有设计与占位槽位。",
+      "status": "done",
+      "dependsOn": [
+        "visual-slot-consumption"
+      ],
+      "acceptance": [
+        "槽位先匹配本地库，未命中才请求 AI",
+        "AI 候选在审核前不能被标为 approved",
+        "批准素材按 key 接入消费端并记录来源与规格"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/life-generation-sop.md",
+          "label": "素材审核与物化规范"
+        },
+        {
+          "kind": "document",
+          "ref": ".agents/skills/resource-manager/SKILL.md",
+          "label": "本地素材接入流程"
+        },
+        {
+          "label": "共享只读素材候选计划器",
+          "ref": "src/assets/life-asset-candidate-plan.ts",
+          "kind": "artifact"
+        },
+        {
+          "label": "候选资格与稳定性测试",
+          "ref": "src/assets/life-asset-candidate-plan.test.ts",
+          "kind": "test"
+        },
+        {
+          "label": "独立复查通过记录",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-ASSET-01.md",
+          "kind": "review"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-ASSET-02.md",
+          "label": "素材候选审阅包独立复查"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "generation-bundle-validator",
+      "title": "Life Generation Bundle 严格校验器",
+      "track": "生成",
+      "description": "已定义并实现 Bundle、prompt packets、compile、快照恢复和素材槽位闭包检查；尚待用全新游戏简报走完一次真实候选生成。",
+      "status": "done",
+      "dependsOn": [
+        "life-runtime-contract",
+        "visual-slot-consumption"
+      ],
+      "acceptance": [
+        "世界/角色/剧情/素材包的非法 JSON 被稳定诊断",
+        "校验包含编译和 snapshot/hash/restore 探针",
+        "成功校验只给 dry-run，默认不写正式游戏文件"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/life-generation-sop.md",
+          "label": "Bundle 与 materializer 合同"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/SIMLIFE-ENG-17-life-host-materialization-investigation.md",
+          "label": "物化边界调查"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-ENG-16A.md",
+          "label": "Generation Bundle 独立复查"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "approved"
+      }
+    },
+    {
+      "id": "serial-generation-review",
+      "title": "逐阶段 JSON 自检与 owner 人审",
+      "track": "生成",
+      "description": "将 Brief、World、Actors、Plot、Assets、Host、Bundle、Playtest 固化为每一关都有自检记录和 owner 决策的流程；当前是流程/技能规范，尚非前端工作流产品。",
+      "status": "done",
+      "dependsOn": [
+        "generation-bundle-validator"
+      ],
+      "acceptance": [
+        "每一阶段保存 hash、自检诊断和可视化审阅物",
+        "owner pending 时 agent 不继续下一阶段",
+        "改动输入后必须重新自检和审阅"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/generation-workflow-v1.md",
+          "label": "串行双门生成流程"
+        },
+        {
+          "kind": "artifact",
+          "ref": ".agents/skills/simlife-generation/SKILL.md",
+          "label": "Codex 生成入口技能"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-GEN-GATE-01.md",
+          "label": "串行 JSON Gate 独立复查"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "approved"
+      }
+    },
+    {
+      "id": "new-game-end-to-end-pilot",
+      "title": "第二个全新游戏端到端生成试点",
+      "track": "生成",
+      "description": "用不同于 Little Valley 的新 Brief 实测：结构化世界、剧情、素材槽位、审阅和 Host 预览确实可复用，而不是仅能解释现有样例。Playtest 前置实证发现的三个建设点 zone-disallowed 已按 Owner A 下沉为通用建设可达性 gate 与受控正式四文件 safe update；此前返修与统一视口双 hash 正式更新均已完成。统一视口工单已把 Little Valley 比例冻结为 engine-owned life-standard-v1，魔王城正式组 hash 为 sha256:8a639e81aa9d828077628b924d65ee85f1592f93f5738b6492b18540795e6529。SIMLIFE-POSE-ANCHOR-01 已把连续 Transform、floor 离散格、玩家/NPC bottom-center、当前格高亮、WorldUI、interaction context 与相机消费统一到共享脚点合同，独立复查 14 files / 130 tests 与撤修验红通过。共享 Host Playtest 仍等待 owner 按六步路径真机目击、同尺寸格比例/脚点对照、截图与刷新恢复确认。",
+      "status": "active",
+      "dependsOn": [
+        "serial-generation-review",
+        "local-ai-asset-pipeline",
+        "life-host-web-registration"
+      ],
+      "acceptance": [
+        "从 Brief 产出通过校验的候选 Bundle",
+        "完成每阶段 owner 审阅记录",
+        "新游戏以共享 Host 运行且不复制 Little Valley 私有代码"
+      ],
+      "evidence": [
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-demon-castle/world.life.json",
+          "label": "新游戏基础世界候选"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-demon-castle/plot.patch.json",
+          "label": "通过校验的第一章剧情候选"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-demon-castle/plot-review.html",
+          "label": "Plot owner 审阅图"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-demon-castle/asset-slots.json",
+          "label": "26 个严格素材槽位候选"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-demon-castle/assets-review.html",
+          "label": "素材候选与地图落点审阅页"
+        },
+        {
+          "kind": "artifact",
+          "ref": "public/games/game-demon-castle/art/index.json",
+          "label": "26 个已审批素材的游戏本地 AssetIndex"
+        },
+        {
+          "kind": "artifact",
+          "ref": "public/games/game-demon-castle/art/approval-ledger.json",
+          "label": "OpenAI 生成来源、授权与 owner 审批台账"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-demon-castle/host-review.html",
+          "label": "共享 Life Host 身份与 HUD 审阅页"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-demon-castle/bundle-review.md",
+          "label": "Bundle 严格校验与 owner 审阅记录"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-demon-castle/materialization-plan.md",
+          "label": "四文件 M0 物化计划与确认哈希"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/workflow/requests.md",
+          "label": "owner 选择 A 后的通用正式提升能力施工单"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/authoring/life-materializer.ts",
+          "label": "受控正式四文件提升实现"
+        },
+        {
+          "kind": "test",
+          "ref": "src/authoring/life-materializer.test.ts",
+          "label": "正式提升 containment、幂等、冲突与事务回归"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/self-check/REQ-LIFE-FORMAL-PROMOTION.md",
+          "label": "正式提升施工自检与撤修验红"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/REQ-LIFE-FORMAL-PROMOTION.md",
+          "label": "正式提升独立复查 PASS（2026-10-12）"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-demon-castle/bundle.sources.json",
+          "label": "魔王城阶段切片 source manifest"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-demon-castle/bundle.candidate.json",
+          "label": "严格编译并复验的 Bundle candidate"
+        },
+        {
+          "kind": "test",
+          "ref": "src/authoring/life-bundle-compose.test.ts",
+          "label": "阶段依赖、patch 安全、原子候选写入与 M0 兼容回归"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/self-check/SIMLIFE-BUNDLE-05.md",
+          "label": "候选编译器施工自检与撤修验红"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-BUNDLE-05.md",
+          "label": "候选编译器独立复查 PASS（2026-10-12）"
+        },
+        {
+          "kind": "artifact",
+          "ref": "games/game-demon-castle/life.json",
+          "label": "正式提升并统一视口后的共享 Life 游戏包（2026-10-12）"
+        },
+        {
+          "kind": "artifact",
+          "ref": "games/game-demon-castle/life-launcher.json",
+          "label": "正式提升后的固定发现入口（2026-10-12）"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/requests.md",
+          "label": "Playtest 建设不可达实证与 A/B 裁决单（2026-10-12）"
+        },
+        {
+          "kind": "test",
+          "ref": "src/authoring/life-generation-bundle.test.ts",
+          "label": "三个建设项目的稳定诊断、非扩宽与真实 session 可达性回归"
+        },
+        {
+          "kind": "test",
+          "ref": "src/authoring/life-materializer.test.ts",
+          "label": "正式四文件 safe update 双 hash、回滚、竞态与幂等回归"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/REQ-LIFE-FORMAL-PROMOTION.md",
+          "label": "Owner A 通用返修扩展独立复查 PASS（2026-10-12）"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/playtest.md",
+          "label": "共享 Life Host 六步真机 Playtest 验收包"
+        },
+        {
+          "kind": "test",
+          "ref": "src/authoring/demon-castle-playtest-contract.test.ts",
+          "label": "production catalog/shared host、26 项素材闭包与完整首章语义路径回归"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/self-check/SIMLIFE-DEMON-PLAYTEST-01.md",
+          "label": "共享 Host Playtest 机器准备自检 PASS（2026-10-12）"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-demon-castle/review/SIMLIFE-DEMON-PLAYTEST-01.md",
+          "label": "共享 Host Playtest 独立复查 PASS（2026-10-12）"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/engine/protocol/life-viewport-profile.ts",
+          "label": "Life 统一逻辑画布、格子、HUD 与镜头 profile 单一真相"
+        },
+        {
+          "kind": "test",
+          "ref": "src/engine/protocol/life-viewport-profile.test.ts",
+          "label": "统一 profile exact-value 与自由数值拒收回归"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/self-check/SIMLIFE-VIEWPORT-01.md",
+          "label": "统一视口施工自检与正式更新双哈希"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-VIEWPORT-01.md",
+          "label": "统一视口独立复查导航"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/engine/protocol/life-pose.ts",
+          "label": "连续脚点与确定性 floor 当前格共享合同"
+        },
+        {
+          "kind": "test",
+          "ref": "src/renderer/life-scene-render.test.ts",
+          "label": "共享脚点、高亮、相机与 snapshot/hash 回归"
+        },
+        {
+          "kind": "test",
+          "ref": "games/game-simlife/life-pose-integration.test.ts",
+          "label": "Little Valley/魔王城正式包脚点、Host 与只读集成回归"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/self-check/SIMLIFE-POSE-ANCHOR-01.md",
+          "label": "统一脚点施工自检与撤修验红"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-POSE-ANCHOR-01.md",
+          "label": "统一脚点独立复查 PASS（2026-10-12）"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "life-authoring-console",
+      "title": "生成与调试前端工作台",
+      "track": "工具",
+      "description": "未来接入模型 API 后，为 Brief、地图、剧情图、素材候选、JSON 诊断和试玩提供图形工作台；本期不实现。",
+      "status": "planned",
+      "dependsOn": [
+        "serial-generation-review"
+      ],
+      "acceptance": [
+        "能显示逐阶段 gate 与诊断",
+        "能审阅地图/剧情/素材候选",
+        "前端不能绕过物化和资产审批边界"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/generation-workflow-v1.md",
+          "label": "未来 M2 范围"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "desktop-distribution",
+      "title": "通用 Web/桌面发行出口",
+      "track": "发行",
+      "description": "Web 入口已有验证；下一步是取消桌面打包对个别旧游戏的硬编码，形成可选择单个 Life 游戏或合集的发布出口。",
+      "status": "planned",
+      "dependsOn": [
+        "life-host-web-registration",
+        "new-game-end-to-end-pilot"
+      ],
+      "acceptance": [
+        "Web 启动器可发现已物化的 Life 游戏",
+        "桌面包可选择目标 Life 游戏或合集",
+        "发行配置不含游戏私有硬编码"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/life-launcher-entry.md",
+          "label": "现有 Web 启动入口说明"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "not-required"
+      }
+    }
+  ]
+}

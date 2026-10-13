@@ -11,8 +11,8 @@ import type { ComponentType, LayoutNode } from './types.js';
 /** 字段 schema：名 + 类型 + （枚举值/默认/必填）。type 是「数据形状」不是 TS 类型——弱模型按它填。 */
 export interface UiPropSpec {
   name: string;
-  type: 'string' | 'number' | 'boolean' | 'enum' | 'enum-or-number' | 'node' | 'nodes' | 'list' | 'object';
-  values?: readonly string[]; // type:'enum'/'enum-or-number'：具名档合法闭集（'enum-or-number' 另允许任意数字）
+  type: 'string' | 'number' | 'boolean' | 'enum' | 'enum-or-number' | 'enum-or-custom-color' | 'node' | 'nodes' | 'list' | 'object';
+  values?: readonly string[]; // enum 系列的具名合法闭集；enum-or-number 另允许数字，enum-or-custom-color 另允许受净化的 {custom}。
   default?: string | number | boolean;
   required?: boolean;
   describe: string;
@@ -47,6 +47,24 @@ export interface UiComponentSpec {
 const COLOR = ['text', 'sub', 'dim', 'jade', 'gold', 'ok', 'warn', 'danger', 'mine', 'foe', 'ink'] as const;
 const SIZE = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl', 'xxxl'] as const;
 
+/** Shared LayoutNode capabilities that apply to every component rather than a
+ * component-specific props object. Kept with UI_CATALOG for discovery. */
+export const UI_LAYOUT_CATALOG = Object.freeze({
+  transformFrom: Object.freeze({
+    fields: Object.freeze(['x', 'y', 'rotate', 'scale']),
+    terminal: 'layout.x/y/rotate/scale',
+    motionMs: 'transformMotionMs',
+    easing: Object.freeze(['linear', 'ease-out', 'ease-in-out']),
+    describe: '一次性状态变换：从二维起始姿态运动到本节点已声明的布局终点；仅动画 transform，不改变 opacity。',
+  }),
+  transformTransition: Object.freeze({
+    fields: Object.freeze(['ms', 'easing']),
+    changing: Object.freeze(['x', 'y', 'rotate', 'scale']),
+    easing: Object.freeze(['linear', 'ease-out', 'ease-in-out']),
+    describe: '连续状态变换：同 id 节点 update 时保留 DOM，从当前 transform 追至新的 x/y/rotate/scale；初次渲染直接终态，仅动画 transform。',
+  }),
+});
+
 export const UI_CATALOG: readonly UiComponentSpec[] = [
   // ── 容器 / 布局 ──────────────────────────────────────────────
   {
@@ -68,6 +86,7 @@ export const UI_CATALOG: readonly UiComponentSpec[] = [
       { name: 'title', type: 'string', describe: '阔字距小标题' },
       { name: 'titleIcon', type: 'string', describe: '标题前内联图标 URL（1.05em 随字号·配台账套装图标·缺省纯文字）' },
       { name: 'scroll', type: 'boolean', describe: 'overflow-y:auto 可滚' },
+      { name: 'wheel', type: 'object', describe: "受限滚轮动作 {upAction?:string,downAction?:string}。仅当前 Panel 非滚动子区生效；mountUI 将真实 WheelEvent 归一化后经 ActionSink 入队，每个事件至多一个动作。Modal 遮住该 Panel 或指针在 scroll/VirtualList 子区时不派发。" },
       { name: 'bare', type: 'boolean', describe: '无框纯布局容器（不画边/底/圆角）' },
       { name: 'bg', type: 'string', describe: '面填充三态·色库优先：语义令牌 panel/raised/sunken/jade/gold/ok/warn/danger/ink/transparent(换皮自适应·transparent=透明底 see-through 带透明贴图) | 预设配色 jade-sheen/gold-sheen/ink-deep/steel/blood/frost/ember/void(固定观感) | {custom:"#hex"}(特别指定才用)。缺省=主题 bg1。裸串仍收但 audit 会标' },
       { name: 'vignette', type: 'boolean', describe: '四周渐暗暗角' },
@@ -75,6 +94,10 @@ export const UI_CATALOG: readonly UiComponentSpec[] = [
       { name: 'glass', type: 'boolean', describe: '磨砂玻璃（backdrop-blur + 半透底·HUD 浮 3D/大图上）' },
       { name: 'skin', type: 'string', describe: '面覆盖皮 URL（复合按钮框皮·整面 cover/9-slice·art 即框·children 叠其上·配 action=贴图按钮·动态文字不烤进图）' },
       { name: 'skinSlice', type: 'number', describe: 'skin 9-slice 源边距 px（画框式·不填=cover）' },
+      { name: 'skinBorderWidth', type: 'number', describe: '9-slice 显示边宽 px（须与 skinSlice 同填；缺省沿用源边距，兼容旧皮）' },
+      { name: 'skinSize', type: 'object', describe: '无九宫格皮图尺寸 {x,y}（百分比·两轴同填·受限范围）；不填仍为 cover' },
+      { name: 'skinPosition', type: 'enum', values: ['center'], describe: '无九宫格皮图定位闭集；当前仅 center' },
+      { name: 'skinOutset', type: 'object', describe: '无九宫格皮图对称外扩 {x,y} px（左右/上下）；仅与 skinSize/skin 同用' },
       { name: 'bgTexture', type: 'string', describe: '平铺贴图 URL' },
       { name: 'pattern', type: 'enum', values: ['stripe', 'checker'], describe: '程序化纹理叠层（斜条纹/棋盘格）' },
       { name: 'action', type: 'string', describe: '容器可点→点击信号名（整个容器作点击目标·同 Button）' },
@@ -101,7 +124,7 @@ export const UI_CATALOG: readonly UiComponentSpec[] = [
     props: [
       { name: 'text', type: 'string', describe: '文本（spans/tween/bind 提供内容时可省）' },
       { name: 'size', type: 'enum-or-number', values: SIZE, default: 'md', describe: '字号档（具名令牌 xs10..xxxl34·保和谐默认）或裸 px 数字（复刻像素稿精确字号·8→任意大）' },
-      { name: 'color', type: 'enum', values: COLOR, default: 'text', describe: '颜色令牌（11 闭集令牌·换皮自适应）。特别指定色用 {custom:"#hex"} 逃生（同 Panel.bg 三态·audit 标记建议迁令牌·绝不收裸串）' },
+      { name: 'color', type: 'enum-or-custom-color', values: COLOR, default: 'text', describe: '颜色令牌（11 闭集令牌·换皮自适应）或显式 {custom:"#hex"}；custom 经安全净化，裸色串一律拒收。令牌优先，custom 仅特别指定色使用。' },
       { name: 'bold', type: 'boolean', describe: '加粗' },
       { name: 'font', type: 'enum', values: ['ui', 'mono', 'pixel', 'display', 'serif', 'impact', 'heavy', 'epic', 'fantasy', 'elegant', 'script', 'hand', 'scifi', 'terminal', 'comic', 'stencil', 'western', 'retro', 'marker', 'bubbly', 'gothic', 'fashion', 'shadow', 'round', 'cnbrush', 'cnwen', 'cnround', 'jpbrush', 'jppen'], describe: '字体槽：基础 ui/mono/pixel/display/serif + 18 款拉丁艺术字（OFL·base64）+ round(Fredoka 圆润数字/大标题·可变字重 300–700·bold→700·url 惰性载) + 5 款 CJK 艺术字（cnbrush 中文毛笔/cnwen 中文细宋/cnround 中文卡通粗圆黑站酷快乐体·标题大字/jpbrush 日文毛筆/jppen 日文楷書·能渲汉字假名·url 惰性载）' },
       { name: 'glow', type: 'boolean', describe: '磷光发光（按 color 描柔光）' },
@@ -131,6 +154,7 @@ export const UI_CATALOG: readonly UiComponentSpec[] = [
       { name: 'alt', type: 'string', describe: '替代文本' },
       { name: 'fit', type: 'enum', values: ['cover', 'contain', 'fill'], describe: 'object-fit' },
       { name: 'radius', type: 'number', describe: '圆角 px' },
+      { name: 'tint', type: 'object', describe: "{kind:'signal',progress:0..1,emission?:'off'|'steady'|'once'|'loop'}：同一中性信号灯染红→琥珀→绿；off 无光、steady 稳定轮廓光、once 暖金→目标色的单次非透明闪光、loop 循环。" },
       { name: 'bind', type: 'string', describe: '绑 StringVar id 取动态 src' },
     ],
     sample: { type: 'Image', id: 's-image', props: { src: '/logo.png', fit: 'contain', radius: 8 } },
@@ -265,6 +289,7 @@ export const UI_CATALOG: readonly UiComponentSpec[] = [
     props: [
       { name: 'label', type: 'string', required: true, describe: '按钮文字' },
       { name: 'kind', type: 'enum', values: ['primary', 'ghost', 'quiet', 'hero'], default: 'ghost', describe: '风格' },
+      { name: 'labelColor', type: 'enum-or-custom-color', values: COLOR, describe: '按钮内建文字色：语义 token 或受限 {custom:"#hex"}；仅覆盖文字色，缺省保持 kind/贴图皮原有语义' },
       { name: 'action', type: 'string', describe: '点击发的信号名' },
       { name: 'actionArg', type: 'string', describe: '信号参数（买哪件等）' },
       { name: 'disabled', type: 'boolean', describe: '禁用' },
@@ -272,6 +297,10 @@ export const UI_CATALOG: readonly UiComponentSpec[] = [
       { name: 'shape', type: 'enum', values: ['pill', 'hexagon', 'diamond', 'shield', 'ribbon', 'chevron', 'tag', 'cut'], describe: '异形轮廓（闭集·引擎预置 clip-path·缺省=矩形）。异形需给足宽高避免裁掉文字' },
       { name: 'skin', type: 'string', describe: '贴图皮=已解析图 URL（同 Image.src·sim 持 key·游戏经 resolveAsset 解析后填）。设了则按钮底=该图 cover+白字投影；配 shape 可做透明 PNG 异形贴图键。命中区=包围盒' },
       { name: 'skinSlice', type: 'number', describe: '9-slice 无损缩放（源边距 px）。设了则 skin 走 border-image 九宫格：四角固定·边中拉伸·任意尺寸不变形（治 cover 拉伸）。缺省=cover' },
+      { name: 'skinBorderWidth', type: 'number', describe: '9-slice 显示边宽 px（须与 skinSlice 同填；缺省沿用源边距）' },
+      { name: 'skinSize', type: 'object', describe: '无九宫格皮图尺寸 {x,y}（百分比·两轴同填·受限范围）；不填仍为 cover' },
+      { name: 'skinPosition', type: 'enum', values: ['center'], describe: '无九宫格皮图定位闭集；当前仅 center' },
+      { name: 'skinOutset', type: 'object', describe: '无九宫格皮图对称外扩 {x,y} px（左右/上下）；以受控图层模拟伪元素，不接自由 CSS' },
       { name: 'icon', type: 'string', describe: '键首内联图标 URL（1em 随字号·居 label 前）' },
     ],
     sample: { type: 'Button', id: 's-button', props: { label: '⚔ 出征 · 第 3 关', kind: 'hero', sub: '挑战 曹操 · 难度 ★★', action: 'play' } },
@@ -343,7 +372,7 @@ export const UI_CATALOG: readonly UiComponentSpec[] = [
   },
   {
     type: 'Toggle', summary: '药丸开关', whenToUse: '设置项开/关（比 Checkbox 更醒目）。', children: 'none',
-    props: [{ name: 'label', type: 'string', required: true, describe: '标签' }, { name: 'checked', type: 'boolean', describe: '开' }, { name: 'action', type: 'string', describe: '信号名' }],
+    props: [{ name: 'label', type: 'string', required: true, describe: '标签' }, { name: 'checked', type: 'boolean', describe: '开' }, { name: 'action', type: 'string', describe: '信号名' }, { name: 'disabled', type: 'boolean', describe: '禁用：保留 checked 只读外观，原生移出 Tab 序且不派发 action' }],
     sample: { type: 'Toggle', id: 's-toggle', props: { label: '背景音乐', checked: true, action: 'toggleBgm' } },
     tags: ['开关', '音效开关', '静音', '设置', '启用', '切换', '震动'],
     demo: [
@@ -378,7 +407,7 @@ export const UI_CATALOG: readonly UiComponentSpec[] = [
   },
   {
     type: 'Slider', summary: '数值滑块', whenToUse: '连续数值（音量/缩放）。handler 收数值串。', children: 'none',
-    props: [{ name: 'min', type: 'number', describe: '最小' }, { name: 'max', type: 'number', describe: '最大' }, { name: 'step', type: 'number', describe: '步进' }, { name: 'value', type: 'number', describe: '当前值' }, { name: 'label', type: 'string', describe: '标签' }, { name: 'action', type: 'string', describe: '信号名' }],
+    props: [{ name: 'min', type: 'number', describe: '最小' }, { name: 'max', type: 'number', describe: '最大' }, { name: 'step', type: 'number', describe: '步进' }, { name: 'value', type: 'number', describe: '当前值' }, { name: 'label', type: 'string', describe: '标签' }, { name: 'action', type: 'string', describe: '信号名' }, { name: 'disabled', type: 'boolean', describe: '保留当前视觉值，但禁用键鼠触控与 action' }, { name: 'trackSkin', type: 'string', describe: '已解析固定轨道皮肤 URL' }, { name: 'thumbSkin', type: 'string', describe: '已解析、随 value 移动的滑钮皮肤 URL' }, { name: 'thumbSize', type: 'number', describe: '滑钮像素尺寸' }, { name: 'trackHeight', type: 'number', describe: '皮肤轨道像素高度' }, { name: 'thumbInset', type: 'number', describe: '轨道两端滑钮中心的内缩像素' }, { name: 'releaseSnap', type: 'boolean', describe: '拖动期间本地跟随，松手吸附最近 step 并只提交一次 action' }, { name: 'motionMs', type: 'number', describe: '视觉滑钮移动/吸附时长；reduced-motion 自动取消' }],
     sample: { type: 'Slider', id: 's-slider', props: { min: 0, max: 100, value: 70, label: '音量', action: 'setVol' } },
     tags: ['滑块', '音量', '亮度', '拖动调节', '灵敏度', '缩放', '调档'],
     demo: [
@@ -450,10 +479,12 @@ export const UI_CATALOG: readonly UiComponentSpec[] = [
       { name: 'max', type: 'number', default: 1, describe: '满值' },
       { name: 'tone', type: 'enum', values: ['accent', 'gold', 'ok', 'warn', 'danger'], describe: '着色' },
       { name: 'label', type: 'string', describe: '标签' }, { name: 'showValue', type: 'boolean', describe: '显数值' },
+      { name: 'barHeight', type: 'number', default: 8, describe: '线性轨道高度 px（仅 shape:bar；4..80，默认保持紧凑 8px）' },
       { name: 'shape', type: 'enum', values: ['bar', 'ring', 'liquid'], default: 'bar', describe: 'bar=线性条 / ring=环形径向(conic·中心显值) / liquid=液面杯(水位=value·双错频波脊+整杯 slosh+气泡·杯体=本节点盒 layout.width/height 缺省 90×120)' },
       { name: 'size', type: 'number', default: 64, describe: '环直径 px(shape:ring 用)' },
       { name: 'radius', type: 'number', default: 14, describe: '液面杯体圆角 px(shape:liquid·按盒圆角裁水体)' },
-      { name: 'fillColor', type: 'string', describe: '液体色(shape:liquid·CSS 色·净化·如 "#31b7f2"·缺省按 tone)' },
+      { name: 'fillColor', type: 'string', describe: '填充色（bar/ring/liquid·CSS 色·净化·如 "#31b7f2"；缺省按 tone）' },
+      { name: 'fillGlow', type: 'boolean', default: false, describe: '线性填充向外投当前填充色的柔光（风险/蓄力条）' },
       { name: 'wave', type: 'boolean', default: true, describe: '液面波动(shape:liquid·主脊900ms+副脊1250ms 错频+整杯±1.6° slosh·false=静水)' },
       { name: 'bubbles', type: 'number', describe: '气泡数(shape:liquid·缺省 0·上限 8·尺寸/周期/横位 index 确定式分档)' },
       { name: 'bind', type: 'string', describe: '绑 Resource id' },
@@ -547,14 +578,18 @@ export const UI_CATALOG: readonly UiComponentSpec[] = [
   },
   // ── 浮层 / 反馈 ──────────────────────────────────────────────
   {
-    type: 'Modal', summary: '居中模态浮层 + 遮罩', whenToUse: '居中弹窗（确认框/详情/商城）。点遮罩本身关。children=弹窗体。', children: 'optional',
+    type: 'Modal', summary: '居中模态浮层 + 遮罩 + 键盘焦点圈定', whenToUse: '居中弹窗（确认框/详情/商城/历史）。填 closeAction 后点遮罩、× 或 Escape 均发同一具名信号；mountUI 自动把焦点移入、圈在对话框内并在关闭后还给触发控件。children=弹窗体。', children: 'optional',
     props: [
       { name: 'title', type: 'string', describe: '标题' },
-      { name: 'size', type: 'enum', values: ['sm', 'md', 'lg'], describe: '宽度档' },
+      { name: 'titleColor', type: 'enum-or-custom-color', values: COLOR, describe: '内建标题色：语义 token 或受限 {custom:"#hex"}；缺省主题 text' },
+      { name: 'size', type: 'enum', values: ['sm', 'md', 'lg', 'xl', 'wide'], describe: '固定尺寸档：sm/md/lg 保持旧宽；xl=800 确认框；wide=1080px、最小高610px 的历史/画廊框' },
       { name: 'closable', type: 'boolean', default: true, describe: '显 ×' },
       { name: 'closeAction', type: 'string', describe: '关闭信号（点×/点遮罩）' },
+      { name: 'skin', type: 'string', describe: '已解析框皮 URL（整面 cover；动态 children 仍叠在其上）' },
+      { name: 'skinSlice', type: 'number', describe: '框皮九宫格源边距 px（配 skin；不填=cover）' },
+      { name: 'skinBorderWidth', type: 'number', describe: '框皮 9-slice 显示边宽 px（须与 skinSlice 同填；缺省沿用源边距）' },
     ],
-    sample: { type: 'Modal', id: 's-modal', props: { title: '返回大厅？', size: 'sm', closeAction: 'close' }, children: [{ type: 'Label', id: 's-modal-b', props: { text: '进度将丢失。' } }] },
+    sample: { type: 'Modal', id: 's-modal', props: { title: '返回大厅？', size: 'xl', closeAction: 'close' }, children: [{ type: 'Label', id: 's-modal-b', props: { text: '进度将丢失。' } }] },
     tags: ['弹窗', '对话框', '确认框', '详情框', '遮罩', '结算弹窗', '提示窗'],
     demo: [
       { tab: 'tab-input', section: 't-modal', note: '开弹窗点遮罩关' },
@@ -669,6 +704,7 @@ export const UI_CATALOG: readonly UiComponentSpec[] = [
       { name: 'typewriter', type: 'number', describe: '打字机每字 ms（render-only 不进 sim）' },
       { name: 'skin', type: 'string', describe: '画框皮 URL（同 Panel.skin·art 即框·+skinSlice 9-slice）' },
       { name: 'skinSlice', type: 'number', describe: 'skin 9-slice 源边距 px（画框式无损缩放·不填=cover）' },
+      { name: 'skinBorderWidth', type: 'number', describe: '9-slice 显示边宽 px（须与 skinSlice 同填；缺省沿用源边距）' },
       { name: 'shape', type: 'enum', values: ['pill', 'hexagon', 'diamond', 'shield', 'ribbon', 'chevron', 'tag', 'cut'], describe: '异形轮廓（闭集·复用同套 clip-path·缺省矩形）' },
       { name: 'edge', type: 'enum', values: ['jade', 'gold', 'ok', 'warn', 'danger', 'mine', 'foe'], describe: '描边语义/阵营色（金框/阵营框·覆盖默认线）' },
       { name: 'bind', type: 'string', describe: '对话实体 id（resolveDialogue 投影 speaker/text/emotion/kind）' },

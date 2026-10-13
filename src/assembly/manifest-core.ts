@@ -3,6 +3,7 @@ import type { WorldBlueprint, EntityBlueprint } from './demo.assembly.js';
 import { inferCapabilityIdsWith, type CapabilityIndex } from './capability-index.js';
 import { validateComponentData, validateAssetRefs, formatIssues, coerceDurations, coerceTags } from './validate-manifest.js';
 import { validateReferences } from './validate-references.js';
+import { parseHitMaskSpec } from '@assets/index.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  Manifest 加载器 —— studio「导出 manifest」的逆运算
@@ -161,6 +162,8 @@ function fail(msg: string): never {
 export interface ParseOptions {
   /** 资产清单里所有已注册的 key（AssetIndex.assets[].id 等）。提供则对 `assetKey` 字段加载期硬校验（R9 增益 A）。 */
   assetKeys?: ReadonlySet<string>;
+  /** 可选已校验 AssetIndex：把预烘焙玩法 hit-mask 绑定进 Clickable 的确定性配置。 */
+  assetIndex?: import('@assets/index.js').AssetIndex;
 }
 
 /** prepareManifest 的产物：能力尚未装载，只有 id 列表。 */
@@ -292,6 +295,25 @@ export function finishManifest(prep: PreparedManifest, capabilities: CapabilityD
   if (opts.assetKeys) {
     const assetErrors = validateAssetRefs(capabilities, entities, opts.assetKeys);
     if (assetErrors.length) fail(`资产引用错误（${assetErrors.length} 处）—— ${formatIssues(assetErrors)}`);
+  }
+
+  // mask 是 gameplay 规则数据，不是贴图像素。只从已登记的 hit-mask 资产绑定；
+  // 未绑定/源贴图不符时保留 key，运行期严格拒收并可由 DebugTrace 解释。
+  for (const [eid, comps] of Object.entries(entities)) {
+    const click = (comps as Record<string, unknown>).Clickable as Record<string, unknown> | undefined;
+    if (!click) continue;
+    if (click.hitMask !== undefined) fail(`${eid}.Clickable.hitMask 不可内联；请使用 hitMaskKey 引资产索引`);
+    if (click.hitMaskKey === undefined) continue;
+    if (typeof click.hitMaskKey !== 'string' || !click.hitMaskKey) fail(`${eid}.Clickable.hitMaskKey 必须是非空字符串`);
+    const entry = opts.assetIndex?.assets.find((a) => a.id === click.hitMaskKey);
+    const mask = entry?.type === 'hit-mask' && entry.status === 'filled'
+      ? parseHitMaskSpec(entry.spec) : null;
+    const sprite = (comps as Record<string, unknown>).Sprite as Record<string, unknown> | undefined;
+    const texture = opts.assetIndex?.assets.find((a) => a.id === mask?.sourceTextureKey);
+    const textureSizeMatches = texture?.type === 'texture' && texture.status === 'filled'
+      && texture.spec?.width === mask?.width && texture.spec?.height === mask?.height;
+    if (mask && sprite?.textureKey === mask.sourceTextureKey && textureSizeMatches) click.hitMask = structuredClone(mask);
+    else warnings.push(`${eid}.Clickable.hitMaskKey "${click.hitMaskKey}" 未绑定有效掩码或与 Sprite.textureKey 不符；点击将 fail-closed`);
   }
 
   return { blueprint: { capabilities, entities, ...(meta ? { meta } : {}) }, inferredCapabilities: prep.inferredCapabilities, warnings };

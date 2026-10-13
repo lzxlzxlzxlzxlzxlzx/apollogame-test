@@ -1,6 +1,8 @@
 // launcher.tsx 拆分而来（2026-07-16 纯搬运·行为不变）：游戏运行时 —— GameOverlayMenu / GameRunner / BareListRetry。
 import React, { useState, useEffect } from 'react';
 import { SHELL, sGearBtn, sMenuPanel, sMenuItem } from '../ui/shell-theme.js';
+import { LIFE_LAUNCHER_ID_PREFIX } from './life-launcher-catalog.js';
+import { LifeGameRunner } from './life-game-runner.js';
 
 // ══════════════════════════════════════
 //  Game Runtime
@@ -71,6 +73,23 @@ function installZcProbe(gameId: string, host: HTMLElement): void {
 function teardownZcProbe(): void { delete window.__zcProbe; }
 
 export function GameRunner({ gameId, onBack }: { gameId: string; onBack: () => void }) {
+  const installProbe = React.useCallback((host: HTMLElement) => {
+    if (import.meta.env.DEV) installZcProbe(gameId, host);
+  }, [gameId]);
+  useEffect(() => () => { teardownZcProbe(); }, [gameId]);
+
+  if (gameId.startsWith(LIFE_LAUNCHER_ID_PREFIX)) {
+    return (
+      <div style={{ position: 'absolute', inset: 0, background: SHELL.bg0 }}>
+        <GameOverlayMenu items={[{ label: '⟵ 返回主界面', onClick: onBack }]} />
+        <LifeGameRunner gameId={gameId} onBack={onBack} onReady={installProbe} />
+      </div>
+    );
+  }
+  return <BuiltInGameRunner gameId={gameId} onBack={onBack} />;
+}
+
+function BuiltInGameRunner({ gameId, onBack }: { gameId: string; onBack: () => void }) {
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -79,7 +98,10 @@ export function GameRunner({ gameId, onBack }: { gameId: string; onBack: () => v
     const loaders: Record<string, () => Promise<{ mount: (el: HTMLElement, host?: { exit: () => void }) => () => void }>> = {
       'game-rhetoric-duel': () => import('@games/game-rhetoric-duel/game-rhetoric-duel.js'),
       'game-dice': () => import('@games/game-dice/game-dice.js'),
+      'game-lockpick': () => import('@games/game-lockpick/game-lockpick.js'),
       'game-loot-chest': () => import('@games/game-loot-chest/game-loot-chest.js'),
+      'game-theft': () => import('@games/game-theft/game-theft.js'),
+      'game-simlife': () => import('@games/game-simlife/game-simlife.js'),
       'game-e': () => import('@games/game-e/game-e.js'),
       'game-d': () => import('@games/game-d/game-d.js'),
       'game-f': () => import('@games/game-f/game-f.js'),
@@ -109,7 +131,7 @@ export function GameRunner({ gameId, onBack }: { gameId: string; onBack: () => v
       else if (import.meta.env.DEV) installZcProbe(gameId, containerRef.current);
     });
     return () => { disposed = true; cleanup?.(); teardownZcProbe(); };
-  }, [gameId]);
+  }, [gameId, onBack]);
 
   return (
     <div style={{ position: 'absolute', inset: 0, background: SHELL.bg0 }}>

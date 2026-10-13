@@ -12,7 +12,7 @@ import type {
   CardProps, PlayingCardProps, StepperProps, SegmentedProps, AvatarProps, AccordionProps,
   RatingProps, ComboboxProps, DrawerProps, VirtualListProps, ContextMenuProps,
   CoinFlipProps, VersusProps, VideoProps, ParticlesProps, LevelPathProps, FloatProps, ConnectorProps, AnchorRef,
-  DialogProps, ChoiceListProps, PortraitProps,
+  DialogProps, ChoiceListProps, PortraitProps, LabelColor,
 } from './types.js';
 
 const esc = (s: string): string =>
@@ -31,7 +31,12 @@ const ANIM_PRESETS = new Set(['fadeIn', 'slideUp', 'pop', 'shake', 'dealIn', 'fl
 const LOOP_PRESETS = new Set(['float', 'glow', 'pulse', 'spin', 'floatUp', 'marquee', 'tick']);   // 持续循环（浮动/发光/脉冲/自旋/升冒/跑马灯/steps 节拍·环境动效·infinite）
 // CSS 色净化（REQ-UIFX·Particles.color / ProgressBar.fillColor 等自由色串）：只留 hex/函数色/具名色合法字符，
 // 剥掉能逃出 style 声明或属性的 ; : " ' < > 等（同 safeUrl 思路·净化后再插样式）。空/全非法 → ''。
-const safeColor = (c: unknown): string => String(c ?? '').replace(/[^#a-zA-Z0-9(),.%\s-]/g, '');
+export const safeColor = (c: unknown): string => String(c ?? '').replace(/[^#a-zA-Z0-9(),.%\s-]/g, '');
+
+const resolveLabelColor = (c: LabelColor | undefined, t: UITheme, fallback: string): string => {
+  const map: Record<string, string> = { text: t.text, sub: t.sub, dim: t.dim, jade: t.jade, gold: t.gold, ok: t.ok, warn: t.warn, danger: t.danger, mine: t.mine ?? t.warn, foe: t.foe ?? t.jade, ink: t.ink ?? t.bg0 };
+  return (c && typeof c === 'object') ? safeColor(c.custom) : (map[c ?? 'text'] ?? fallback);
+};
 
 // 数字格式化（idle/休闲大数与计时·纯函数·render + mountUI tween 共用·单一真相）。
 export function formatNumber(n: number, format?: string, dec = 0): string {
@@ -157,6 +162,34 @@ function layoutStyle(c?: LayoutConstraints, t?: UITheme): string {
   if (c.z       !== undefined) tf.push(`translateZ(${num(c.z)}px)`);
   if (tf.length) p.push(`transform:${tf.join(' ')}`);
   if (has3d) p.push('transform-style:preserve-3d');
+  if (c.transformTransition) {
+    const ms = Math.max(0, Math.min(2000, num(c.transformTransition.ms, 260)));
+    const easing = c.transformTransition.easing === 'linear' || c.transformTransition.easing === 'ease-in-out'
+      ? c.transformTransition.easing : 'ease-out';
+    p.push(`transition:transform ${ms}ms ${easing}`);
+  }
+  // State-transform motion: `transformFrom` is a 2D source pose while the
+  // normal layout is always the terminal pose.  Both CSS variables are made
+  // entirely from numeric fields; the shared keyframe never mentions opacity.
+  // This is deliberately separate from flyIn: a mechanical joint must travel
+  // from its closed pose rather than fade in at its open pose.
+  if (c.transformFrom) {
+    const from = c.transformFrom;
+    const finalX = num(c.x), finalY = num(c.y);
+    const finalRotate = num(c.rotate), finalScale = num(c.scale, 1);
+    const sourceX = num(from.x, finalX), sourceY = num(from.y, finalY);
+    const sourceRotate = num(from.rotate, finalRotate), sourceScale = num(from.scale, finalScale);
+    const stable3d = has3d ? [
+      `perspective(${num(c.perspective, 800)}px)`,
+      c.rotateX !== undefined ? `rotateX(${num(c.rotateX)}deg)` : '',
+      c.rotateY !== undefined ? `rotateY(${num(c.rotateY)}deg)` : '',
+    ].filter(Boolean) : [];
+    const sourceTransform = [...stable3d, `translate(${sourceX - finalX}px,${sourceY - finalY}px)`, `rotate(${sourceRotate}deg)`, `scale(${sourceScale})`, c.z !== undefined ? `translateZ(${num(c.z)}px)` : ''].filter(Boolean).join(' ');
+    const targetTransform = tf.join(' ') || 'none';
+    const easing = c.transformMotionEasing === 'linear' || c.transformMotionEasing === 'ease-in-out' ? c.transformMotionEasing : 'ease-out';
+    p.push(`--transform-from:${sourceTransform}`, `--transform-to:${targetTransform}`);
+    p.push(`animation:apollo-transformFrom ${num(c.transformMotionMs, 800)}ms ${easing} both`);
+  }
   // 倒角切角（clip-path 八边形·扑克/art-deco 美学）。切角 px 过 num 防注入。
   if (c.chamfer !== undefined) {
     const k = num(c.chamfer);
@@ -175,9 +208,9 @@ function layoutStyle(c?: LayoutConstraints, t?: UITheme): string {
     p.push(`--anim-dx:${dx}px`, `--anim-dy:${dy}px`);
   }
   // 动画：一次性入场（both ease-out）或持续循环（infinite·环境动效）。仅白名单预设；时长/延迟强制数字。
-  if (c.anim && ANIM_PRESETS.has(c.anim)) {
+  if (!c.transformFrom && c.anim && ANIM_PRESETS.has(c.anim)) {
     p.push(`animation:apollo-${c.anim} ${num(c.animMs, 360)}ms ${c.animDelay ? `${num(c.animDelay)}ms ` : ''}both ease-out`);
-  } else if (c.anim && LOOP_PRESETS.has(c.anim)) {
+  } else if (!c.transformFrom && c.anim && LOOP_PRESETS.has(c.anim)) {
     // spin/marquee=匀速 linear（自旋/滚动不该忽快忽慢）；tick=steps(1,end) 硬跳节拍（印章每秒跳一下·REQ-UIFX ⑤）；
     // 其余环境动效 ease-in-out 呼吸。
     const timing = (c.anim === 'spin' || c.anim === 'marquee') ? 'linear' : c.anim === 'tick' ? 'steps(1,end)' : 'ease-in-out';
@@ -233,27 +266,37 @@ const safeUrl = (url: string): string => esc(String(url).replace(/['"()\\\s]/g, 
 // 贴图皮：已解析图 URL → 覆盖按钮底 + 白字投影保可读（同 texLayer 剥离 url() 逃逸字符防注入）。空 → ''。
 // slice 未给=cover（整图缩放·可能拉伸/裁切）；slice 给了（源边 px）=**9-slice 无损缩放**（border-image：四角固定·
 // 四边 1D 拉伸·中心 2D 拉伸——商业 UI 皮标配，治好非原生尺寸下贴图变形·owner 2026-07-07）。放样式末尾覆盖 kind 底。
-const skinCss = (url?: string, slice?: number): string => {
+const skinCss = (url?: string, slice?: number, borderWidth?: number, size?: { x: number; y: number }): string => {
   if (!url) return '';
   const u = safeUrl(url);
   const legible = 'color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.85)';
   if (slice !== undefined) {
     const s = num(slice);
-    return `;background:none;border-style:solid;border-width:${s}px;border-image:url('${u}') ${s} fill / ${s}px / 0 stretch;${legible}`;
+    const w = borderWidth === undefined ? s : num(borderWidth);
+    return `;background:none;border-style:solid;border-width:${w}px;border-image:url('${u}') ${s} fill / ${w}px / 0 stretch;${legible}`;
   }
-  return `;background:url('${u}') center/cover no-repeat;border:0;${legible}`;
+  const bgSize = size ? `${num(size.x)}% ${num(size.y)}%` : 'cover';
+  return `;background:url('${u}') center/${bgSize} no-repeat;border:0;${legible}`;
+};
+
+const skinLayer = (url: string | undefined, size: { x: number; y: number } | undefined, outset: { x: number; y: number } | undefined): string => {
+  if (!url || !size || !outset) return '';
+  const u = safeUrl(url); const x = num(outset.x); const y = num(outset.y);
+  return `<span data-ui-skin-layer style="position:absolute;inset:-${y}px -${x}px;z-index:0;pointer-events:none;background:url('${u}') center/${num(size.x)}% ${num(size.y)}% no-repeat"></span>`;
 };
 
 // Panel cover-skin（复合按钮/框皮·REQ-PANELSKIN·game-c 主行动键）：整面 art 覆盖（cover 或 9-slice），
 // **children 照常叠在皮上**（动态文字如「Call 50」= 实时 LayoutNode 渲在皮之上·数额不必烤进图）。
 // 区别 Button.skin：**不强制白字**（Panel children 各自定色）；art 即框（省默认边框/底）。区别 bgTexture：cover/9-slice 非平铺。
-const panelSkinCss = (url: string, slice?: number): string => {
+const panelSkinCss = (url: string, slice?: number, borderWidth?: number, size?: { x: number; y: number }): string => {
   const u = safeUrl(url);
   if (slice !== undefined) {
     const s = num(slice);
-    return `background:none;border-style:solid;border-width:${s}px;border-image:url('${u}') ${s} fill / ${s}px / 0 stretch;`;
+    const w = borderWidth === undefined ? s : num(borderWidth);
+    return `background:none;border-style:solid;border-width:${w}px;border-image:url('${u}') ${s} fill / ${w}px / 0 stretch;`;
   }
-  return `background:url('${u}') center/cover no-repeat;border:0;`;
+  const bgSize = size ? `${num(size.x)}% ${num(size.y)}%` : 'cover';
+  return `background:url('${u}') center/${bgSize} no-repeat;border:0;`;
 };
 
 // 面填充三态解析（owner 2026-07-04 色库化）：语义令牌(换皮自适应) / 预设配色(固定观感) / {custom}(显式逃生) / 遗留裸串。
@@ -312,41 +355,39 @@ function renderButton(id: string, p: ButtonProps, ls: string, t: UITheme): strin
     quiet:   `background:transparent;color:${t.sub};border:1px solid transparent`,
   };
   const kind = p.kind ?? 'ghost';
+  // 仅当数据显式声明时覆写文字色：缺省不追加任何字节，保留 kind 与贴图皮既有视觉合同。
+  const labelColorStyle = p.labelColor === undefined ? '' : `;color:${resolveLabelColor(p.labelColor, t, t.sub)}`;
   // 皮解析（批29 owner 07-15「按键也可换」）：node 级 skin 优先（含 skin:'' 显式关皮逃生）；未给则落主题级
   // buttonSkins[kind]——一个 kind 一张皮、全游戏按钮一体换，游戏零逐点改。两边都无 = 原 kind 底（字节不变）。
-  const sk = p.skin !== undefined ? { skin: p.skin, skinSlice: p.skinSlice } : t.buttonSkins?.[kind] ?? { skin: undefined, skinSlice: undefined };
+  const sk = p.skin !== undefined ? { skin: p.skin, skinSlice: p.skinSlice, skinBorderWidth: p.skinBorderWidth, skinSize: p.skinSize, skinOutset: p.skinOutset } : t.buttonSkins?.[kind] ?? { skin: undefined, skinSlice: undefined, skinBorderWidth: undefined, skinSize: undefined, skinOutset: undefined };
+  const layer = skinLayer(sk.skin, sk.skinSize, sk.skinOutset);
+  const skinStyle = layer ? ';background:transparent;border:0;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.85);position:relative;overflow:visible' : skinCss(sk.skin, sk.skinSlice, sk.skinBorderWidth, sk.skinSize);
   // 贴图皮按钮=**art 定色语义原语**（skinCss 强制白字 + 投影·可读性由皮 art 保证）→ 免 ui-audit 祖先链对比检查
   // （border-image 非可读 backgroundColor·祖先走到亮父面误判低对比=REQ-STYLESET 记录的盲区·同 PlayingCard 本色 A-007b）。
   const skinSkip = sk.skin ? ' data-audit-skip-contrast' : '';
   // 键首内联图标（批32 图标统一升级）：1em 随字号·居 label 前。无 icon=纯文字零变。
   const iconImg = p.icon ? `<img src="${esc(p.icon)}" alt="" style="height:1.05em;width:1.05em;object-fit:contain;vertical-align:-0.18em;margin-right:6px">` : '';
   const action = p.action ? ` data-ui-id="${esc(id)}" data-action="${esc(p.action)}"${p.actionArg ? ` data-arg="${esc(p.actionArg)}"` : ''}` : '';
+  const focusRing = p.focusRing === false ? ' data-apollo-focus-ring="off"' : '';
   // hero：金色倒角 sheen 大 CTA（下沉自 game-g 出征键）。倒角 clip-path + 流光 span(apollo-sheen 关键帧) + 可选副标。
   if (kind === 'hero') {
     const hbase = `position:relative;overflow:hidden;padding:14px 30px;border:0;border-radius:4px;cursor:${p.disabled ? 'not-allowed' : 'pointer'};font-family:${t.fontUi};--apollo-focus-ring:${t.text};background:linear-gradient(180deg,${t.gold},${t.warn});color:${t.bg0};font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.45);clip-path:polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px);opacity:${p.disabled ? 0.4 : 1}`;
     const sheen = `<span style="position:absolute;top:0;bottom:0;left:-60%;width:45%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);animation:apollo-sheen 2.6s ease-in-out infinite;pointer-events:none"></span>`;
-    const big = `<span style="display:block;font-size:17px;line-height:1.15">${iconImg}${escT(p.label, t)}</span>`;
-    const sub = p.sub ? `<span style="display:block;font-size:11px;font-weight:600;opacity:.8;margin-top:2px">${escT(p.sub, t)}</span>` : '';
-    return `<button id="${esc(id)}" data-apollo-btn${sk.skin ? ' data-apollo-skin' : ''}${skinSkip}${action}${p.disabled ? ' disabled' : ''} style="${hbase};${ls}${shapeCss(p.shape)}${skinCss(sk.skin, sk.skinSlice)}">${sheen}${big}${sub}</button>`;
+    const big = `<span style="display:block;font-size:17px;line-height:1.15${layer ? ';position:relative;z-index:1' : ''}">${iconImg}${escT(p.label, t)}</span>`;
+    const sub = p.sub ? `<span style="display:block;font-size:11px;font-weight:600;opacity:.8;margin-top:2px${layer ? ';position:relative;z-index:1' : ''}">${escT(p.sub, t)}</span>` : '';
+    return `<button id="${esc(id)}" data-apollo-btn${focusRing}${sk.skin ? ' data-apollo-skin' : ''}${skinSkip}${action}${p.disabled ? ' disabled' : ''} style="${hbase};${ls}${shapeCss(p.shape)}${skinStyle}${labelColorStyle}">${layer}${sheen}${big}${sub}</button>`;
   }
   const base = `padding:6px 14px;border-radius:7px;font-size:12px;cursor:${p.disabled ? 'not-allowed' : 'pointer'};font-family:${t.fontUi};--apollo-focus-ring:${t.text};transition:all .15s;opacity:${p.disabled ? 0.4 : 1}`;
-  return `<button id="${esc(id)}" data-apollo-btn${sk.skin ? ' data-apollo-skin' : ''}${skinSkip}${action}${p.disabled ? ' disabled' : ''} style="${base};${kindStyle[kind]};${ls}${shapeCss(p.shape)}${skinCss(sk.skin, sk.skinSlice)}">${iconImg}${escT(p.label, t)}</button>`;
+  const label = layer ? `<span style="position:relative;z-index:1">${iconImg}${escT(p.label, t)}</span>` : `${iconImg}${escT(p.label, t)}`;
+  return `<button id="${esc(id)}" data-apollo-btn${focusRing}${sk.skin ? ' data-apollo-skin' : ''}${skinSkip}${action}${p.disabled ? ' disabled' : ''} style="${base};${kindStyle[kind]};${ls}${shapeCss(p.shape)}${skinStyle}${labelColorStyle}">${layer}${label}</button>`;
 }
 
 function renderLabel(id: string, p: LabelProps, ls: string, t: UITheme): string {
   const sizeMap: Record<string, number> = { xs: 10, sm: 11, md: 13, lg: 16, xl: 22, xxl: 28, xxxl: 34 };
-  const colorMap: Record<string, string> = {
-    text: t.text, sub: t.sub, dim: t.dim,
-    jade: t.jade, gold: t.gold,
-    ok: t.ok, warn: t.warn, danger: t.danger,
-    mine: t.mine ?? t.warn, foe: t.foe ?? t.jade, // 阵营字色（我方暖/敌方冷·同 edge 令牌·缺省回退）
-    ink: t.ink ?? t.bg0, // 深墨字（金按钮/浅底上的深色文字·REQ-UI-Label ink 令牌·缺省回退最深底 bg0）
-  };
   // size 接受具名档 或 裸 px 数字（复刻像素稿精确字号·owner 2026-06-28「字阶该全档」）：数字直用、令牌查表。
   const sz = typeof p.size === 'number' ? p.size : (sizeMap[p.size ?? 'md'] ?? 13);
   // 色三态（REQ-UI-Label色三态）：令牌查表·{custom} 显式逃生（净化防注入）。同 Panel.bg 口径。
-  const resolveColor = (c: LabelProps['color'], fb: string): string =>
-    (c && typeof c === 'object') ? safeColor(c.custom) : (colorMap[c ?? 'text'] ?? fb);
+  const resolveColor = (c: LabelProps['color'], fb: string): string => resolveLabelColor(c, t, fb);
   const cl = resolveColor(p.color, t.text);
   // 具名字体槽（缺省按 mono 布尔回退·保旧调用方不变）：pixel/display 槽缺省回退 fontUi/fontMono。
   const fontSlot: Record<string, string> = {
@@ -444,6 +485,11 @@ function renderPanel(id: string, p: PanelProps, c: LayoutConstraints | undefined
   const pad = c?.padding ?? (bare ? 0 : 16);
   const ls = layoutStyle(c, t);          // 传 t：让 layout.fx（视觉特效·需主题取色）在 Panel 上也生效。
   const overflow = p.scroll ? 'overflow-y:auto;' : '';
+  const scrollRegion = p.scroll ? ' data-wheel-scroll' : '';
+  const wheel = p.wheel;
+  const wheelRegion = wheel && (wheel.upAction || wheel.downAction)
+    ? ` data-wheel-region${wheel.upAction ? ` data-wheel-up="${esc(wheel.upAction)}"` : ''}${wheel.downAction ? ` data-wheel-down="${esc(wheel.downAction)}"` : ''}`
+    : '';
   // grid 排布模式（卡牌格/货架）：cols=N 固定列数（严格等分·消空隙）；否则 auto-fill 自适应（minCol 定最小列宽）。非 grid 走 flex 行/列（支持 justify）。
   const gridCols = c?.cols !== undefined ? `repeat(${num(c.cols)},1fr)` : `repeat(auto-fill,minmax(${c?.minCol ?? 96}px,1fr))`;
   const box = dir === 'grid'
@@ -467,13 +513,13 @@ function renderPanel(id: string, p: PanelProps, c: LayoutConstraints | undefined
   // cover-skin（复合按钮框皮·REQ-PANELSKIN）：非 bare 面板给了 skin → art 即整面框（cover/9-slice），压过 fill/边框；
   // children 叠其上（动态数额活文字）。**bare 面板不吃皮**（bare=纯布局无 chrome·同 panelTexture guard·Lead 裁）。
   const chrome = (!bare && p.skin)
-    ? `${panelSkinCss(p.skin, p.skinSlice)}border-radius:${rad}px;${glow}`
+    ? `${p.skinOutset ? 'background:transparent;border:0;' : panelSkinCss(p.skin, p.skinSlice, p.skinBorderWidth, p.skinSize)}border-radius:${rad}px;${glow}`
     : bare
       ? (tex ? `background:${tex}, transparent;` : '')
       : `background:${tex ? `${tex}, ` : ''}${panelTex ? `${panelTex}, ` : ''}${resolveFill(p.bg, t) ?? (p.glass ? 'rgba(20,24,32,0.5)' : t.bg1)};border:1px ${bStyle} ${border};border-radius:${rad}px;${glow}${p.glass ? 'backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);' : ''}`;
   // 异形容器轮廓（REQ-UI-异型容器①·复用 Button 同一套 SHAPE_CSS 闭集·命中区=包围盒·裁在最外层·须给足宽高）。
   const shape = p.shape && SHAPE_CSS[p.shape] ? `${SHAPE_CSS[p.shape]};` : '';
-  const style = `${box};padding:${pad}px;${chrome}${shape}position:relative;${overflow}${ls}`;
+  const style = `${box};padding:${pad}px;${chrome}${shape}position:relative;${p.skinOutset ? 'isolation:isolate;' : ''}${overflow}${ls}`;
   // 标题图标（REQ-UI-标题图标槽）：titleIcon 在场 → 标题前 1.05em 内联图；无=纯文字标题字节不变。
   const titleIcon = p.titleIcon ? `<img src="${esc(p.titleIcon)}" alt="" style="height:1.05em;width:1.05em;object-fit:contain;vertical-align:-0.18em;margin-right:5px">` : '';
   const title = p.title
@@ -486,11 +532,12 @@ function renderPanel(id: string, p: PanelProps, c: LayoutConstraints | undefined
   const pattern = p.pattern
     ? `<div style="position:absolute;inset:0;border-radius:${bare ? '0' : `${rad}px`};pointer-events:none;background:${p.pattern === 'checker' ? 'repeating-conic-gradient(rgba(255,255,255,.04) 0% 25%,transparent 0% 50%) 0 0 / 16px 16px' : 'repeating-linear-gradient(45deg,rgba(255,255,255,.045) 0 2px,transparent 2px 12px)'}"></div>`
     : '';
+  const layer = (!bare && p.skin && !p.skinSlice) ? skinLayer(p.skin, p.skinSize, p.skinOutset).replace('z-index:0', 'z-index:-1') : '';
   const inner = children.map((ch) => renderNode(ch, t)).join('');
   // 容器可点（REQ-UI-容器可点）：整个容器发信号（同 Button·只信号名）+ 手型。
   const action = p.action ? ` data-ui-id="${esc(id)}" data-action="${esc(p.action)}"${p.actionArg ? ` data-arg="${esc(p.actionArg)}"` : ''}` : '';
   const cursor = p.action ? 'cursor:pointer;' : '';
-  return `<div id="${esc(id)}"${action}${bgScrollAttr(p.bgScroll)} style="${style}${cursor}">${vignette}${pattern}${title}${inner}</div>`;
+  return `<div id="${esc(id)}"${action}${scrollRegion}${wheelRegion}${bgScrollAttr(p.bgScroll)} style="${style}${cursor}">${layer}${vignette}${pattern}${title}${inner}</div>`;
 }
 
 // ── 新增 6 个控件 ───────────────────────────────────────────────
@@ -515,14 +562,16 @@ function renderCheckbox(id: string, p: CheckboxProps, ls: string, t: UITheme): s
 
 function renderToggle(id: string, p: ToggleProps, ls: string, t: UITheme): string {
   const on = p.checked ?? false;
+  const disabled = p.disabled === true;
   const trackBg = on ? t.jade        : t.bg3;
   const border   = on ? t.jadeLine   : t.line;
   const knob     = on ? t.bg0        : t.dim;
   const knobLeft = on ? '18px'           : '2px';
+  const input = hiddenInput(`${id}-i`, 'checkbox', disabled ? '' : p.action ?? '', `${on ? 'checked ' : ''}${disabled ? 'disabled aria-disabled="true" tabindex="-1"' : ''}`, id);
   return `<span id="${esc(id)}" style="display:inline-flex;align-items:center;${ls}">
-  ${hiddenInput(`${id}-i`, 'checkbox', p.action ?? '', on ? 'checked' : '', id)}
-  <label for="${esc(id)}-i" style="display:inline-flex;align-items:center;gap:10px;cursor:pointer">
-    <span style="display:inline-block;width:36px;height:20px;border-radius:10px;background:${trackBg};border:1px solid ${border};position:relative;flex-shrink:0">
+  ${input}
+  <label for="${esc(id)}-i" style="display:inline-flex;align-items:center;gap:10px;cursor:${disabled ? 'not-allowed' : 'pointer'}">
+    <span style="display:inline-block;width:36px;height:20px;border-radius:10px;background:${trackBg};border:1px solid ${border};position:relative;flex-shrink:0;opacity:${disabled ? .55 : 1}">
       <span style="width:14px;height:14px;border-radius:50%;background:${knob};position:absolute;top:2px;left:${knobLeft}"></span>
     </span>
     <span style="font-size:12px;color:${t.sub};font-family:${t.fontUi}">${esc(p.label)}</span>
@@ -550,7 +599,40 @@ function renderRadioGroup(id: string, p: RadioGroupProps, ls: string, t: UITheme
 function renderImage(id: string, p: ImageProps, ls: string): string {
   const fit    = p.fit ?? 'contain';
   const radius = p.radius ?? 0;
-  return `<img id="${esc(id)}" src="${esc(p.src)}" alt="${esc(p.alt ?? '')}" style="object-fit:${fit};border-radius:${radius}px;display:block;max-width:100%;${ls}">`;
+  const blur = p.blur ? `blur(${Math.max(0, Math.min(32, num(p.blur)))}px)` : '';
+  // Neutral signal-lens art is recolored here, not exchanged for state-specific PNGs.
+  // Sepia's native amber base is rotated from red (300°) through green (420°).
+  const progress = p.tint?.kind === 'signal' ? Math.max(0, Math.min(1, num(p.tint.progress))) : undefined;
+  const signalSpec = progress === undefined ? undefined : (() => {
+    const hue = 300 + progress * 120;
+    const glowHue = Math.round(progress * 120);
+    const glow = (8 + progress * 14).toFixed(1);
+    // `once` deliberately starts from this common warm-gold ignition colour,
+    // then travels to the progress-derived target. It makes a state change
+    // visible even when a small lens is framed by a large metal housing.
+    return {
+      core: `sepia(1) saturate(${(4 + progress * 5).toFixed(2)}) hue-rotate(${hue.toFixed(1)}deg) brightness(${(0.92 + progress * 0.25).toFixed(2)})`,
+      flashCore: 'sepia(1) saturate(2.20) hue-rotate(24deg) brightness(1.75)',
+      glowHue, glow, alpha: (0.52 + progress * 0.30).toFixed(2),
+    };
+  })();
+  // box-shadow always paints a rectangle around a transparent <img>.  Signal
+  // pulse deliberately uses filter:drop-shadow instead, which follows only
+  // non-transparent lamp pixels and leaves the lock body unobscured.
+  const requestedEmission = p.tint?.kind === 'signal' ? p.tint.emission : undefined;
+  const emission = requestedEmission === 'off' || requestedEmission === 'steady' || requestedEmission === 'once' || requestedEmission === 'loop'
+    ? requestedEmission
+    : (p.tint?.kind === 'signal' && p.tint.pulse === true ? 'loop' : 'steady');
+  const animatedEmission = signalSpec && (emission === 'once' || emission === 'loop');
+  const signal = signalSpec
+    ? `${signalSpec.core}${emission === 'steady' ? ` drop-shadow(0 0 ${signalSpec.glow}px hsl(${signalSpec.glowHue} 96% 55% / ${signalSpec.alpha}))` : ''}`
+    : '';
+  const pulseCss = animatedEmission
+    ? `--signal-core:${signalSpec.core};--signal-flash-core:${signalSpec.flashCore};--signal-glow-hue:${signalSpec.glowHue};--signal-glow-low:${Math.max(3, Number(signalSpec.glow) * .55).toFixed(1)}px;--signal-glow-high:${signalSpec.glow}px;--signal-glow-alpha:${signalSpec.alpha};animation:${emission === 'once' ? 'apollo-signalIgnition 420ms ease-out 1 both' : 'apollo-signalPulse 880ms ease-in-out infinite'};`
+    : '';
+  const filter = [blur, signal].filter(Boolean).join(' ');
+  const tintMotion = progress === undefined ? '' : 'transition:filter 420ms cubic-bezier(.2,.8,.2,1),transform 420ms cubic-bezier(.2,.8,.2,1);';
+  return `<img id="${esc(id)}" src="${esc(p.src)}" alt="${esc(p.alt ?? '')}" style="object-fit:${fit};border-radius:${radius}px;display:block;max-width:100%;${filter ? `filter:${filter};` : ''}${pulseCss}${tintMotion}${ls}">`;
 }
 
 function renderScreen(id: string, p: ScreenProps, children: LayoutNode[], t: UITheme): string {
@@ -572,15 +654,33 @@ function renderSlider(id: string, p: SliderProps, ls: string, t: UITheme): strin
   const max   = num(p.max, 100);
   const step  = num(p.step, 1);
   const value = num(p.value, Math.round((min + max) / 2));
-  const action = p.action ? ` data-ui-id="${esc(id)}" data-action="${esc(p.action)}"` : '';
+  const action = p.action && !p.disabled ? ` data-ui-id="${esc(id)}" data-action="${esc(p.action)}"` : '';
   const header = p.label
     ? `<div style="display:flex;justify-content:space-between;margin-bottom:4px">
         <span style="font-size:11px;color:${t.sub};font-family:${t.fontUi}">${esc(p.label)}</span>
         <span style="font-size:11px;color:${t.dim};font-family:${t.fontMono}">${value}</span>
       </div>`
     : '';
+  // A fixed board can already contain the rail art; thumb-only preserves the
+  // native input and lets it align to that board without drawing a duplicate rail.
+  const skinned = Boolean(p.thumbSkin);
+  const ratio = max > min ? Math.max(0, Math.min(1, (value - min) / (max - min))) : 0;
+  const thumbSize = Math.max(16, Math.min(128, num(p.thumbSize, 36)));
+  const trackHeight = Math.max(24, Math.min(200, num(p.trackHeight, thumbSize)));
+  const thumbInset = Math.max(0, Math.min(200, num(p.thumbInset, 0)));
+  const motion = Math.max(0, Math.min(2000, num(p.motionMs, 0)));
+  const thumbLeft = thumbInset > 0
+    ? `calc(${thumbInset}px + ${(ratio * 100).toFixed(4)}% - ${(ratio * 2 * thumbInset).toFixed(4)}px - ${thumbSize / 2}px)`
+    : `calc(${(ratio * 100).toFixed(4)}% - ${thumbSize / 2}px)`;
+  const trackArt = p.trackSkin ? `background:url('${safeUrl(p.trackSkin)}') center / 100% 100% no-repeat;` : '';
+  const skin = skinned ? `<div data-skin-slider style="height:${trackHeight}px;position:relative;z-index:0;${trackArt}"><img aria-hidden="true" src="${safeUrl(p.thumbSkin!)}" style="position:absolute;pointer-events:none;left:${thumbLeft};top:calc(50% - ${thumbSize / 2}px);width:${thumbSize}px;height:${thumbSize}px;object-fit:contain;transition:left ${motion}ms ease" data-skin-slider-thumb></div>` : '';
+  const snap = p.releaseSnap ? ` data-slider-release-snap="true" data-step="${step}" data-slider-thumb-inset="${thumbInset}" data-slider-thumb-size="${thumbSize}" data-slider-motion="${motion}"` : '';
+  const inputStyle = skinned
+    ? `position:absolute;z-index:1;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:${p.disabled ? 'default' : 'pointer'};pointer-events:${p.disabled ? 'none' : 'auto'};touch-action:none;appearance:none;-webkit-appearance:none;background:transparent;border:0`
+    : `width:100%;accent-color:${t.jade};cursor:${p.disabled ? 'default' : 'pointer'}`;
+  const disabled = p.disabled ? ' disabled aria-disabled="true"' : '';
   return `<div id="${esc(id)}" style="display:flex;flex-direction:column;${ls}">
-  ${header}<input type="range" min="${min}" max="${max}" step="${step}" value="${value}"${action} style="width:100%;accent-color:${t.jade};cursor:pointer">
+  ${header}${skinned ? `<div style="position:relative;height:${trackHeight}px">${skin}<input type="range" min="${min}" max="${max}" step="${p.releaseSnap ? 'any' : step}" value="${value}"${snap}${action}${disabled} style="${inputStyle}"></div>` : `<input type="range" min="${min}" max="${max}" step="${step}" value="${value}"${action}${disabled} style="${inputStyle}">`}
 </div>`;
 }
 
@@ -634,7 +734,7 @@ function renderProgressBar(id: string, p: ProgressBarProps, ls: string, t: UIThe
   const max = p.max ?? 1;
   const pct = Math.max(0, Math.min(100, max > 0 ? (p.value / max) * 100 : 0));
   const fillColor: Record<string, string> = { accent: t.jade, gold: t.gold, ok: t.ok, warn: t.warn, danger: t.danger };
-  const fill = fillColor[p.tone ?? 'accent'] ?? t.jade;
+  const fill = safeColor(p.fillColor) || fillColor[p.tone ?? 'accent'] || t.jade;
   const valTxt = max === 1 ? `${Math.round(pct)}%` : `${p.value}/${max}`;
   // 环形/径向进度（shape:'ring'·体力/耐力/每日目标/冷却环）：conic 弧 + 中心镂空显 value/label。
   if (p.shape === 'ring') {
@@ -653,7 +753,7 @@ function renderProgressBar(id: string, p: ProgressBarProps, ls: string, t: UIThe
   // 禁「每帧烤水面进贴图」那条路（owner 判词·工单 ③ networkidle 实测教训）。render-only 不进 sim/hash。
   if (p.shape === 'liquid') {
     const rad = num(p.radius, 14);
-    const liquid = p.fillColor ? safeColor(p.fillColor) : fill;
+    const liquid = fill;
     const wave = p.wave !== false;
     const nBub = Math.max(0, Math.min(8, num(p.bubbles, 0)));
     const BUB_SZ = [16, 11, 20, 13, 18, 10, 15, 12]; // 定稿：16/11/20px 起的分档
@@ -683,7 +783,13 @@ function renderProgressBar(id: string, p: ProgressBarProps, ls: string, t: UIThe
   const header = (p.label || p.showValue)
     ? `<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">${p.label ? `<span style="font-size:11px;color:${t.sub};font-family:${t.fontUi}">${esc(p.label)}</span>` : '<span></span>'}${p.showValue ? `<span style="font-size:11px;color:${t.sub};font-family:${t.fontMono}">${esc(valTxt)}</span>` : ''}</div>`
     : '';
-  return `<div id="${esc(id)}" style="display:flex;flex-direction:column;${ls}">${header}<div style="height:8px;border-radius:5px;background:${t.bg3};overflow:hidden"><div style="width:${pct}%;height:100%;background:${fill};border-radius:5px;transition:width .2s"></div></div></div>`;
+  // 线性轨道高度是展示能力而非布局高度：layout.height 控的是节点盒，barHeight 只控实际填充轨道。
+  // 缺省 8 保留所有既有 HUD 像素输出；上下钳住避免误填撑破紧凑布局。
+  const barHeight = Math.max(4, Math.min(80, Math.round(p.barHeight ?? 8)));
+  const radius = Math.max(5, Math.round(barHeight / 2));
+  const fillGlow = p.fillGlow ? `;box-shadow:0 0 10px ${fill},0 0 22px ${fill}` : '';
+  const trackOverflow = p.fillGlow ? 'visible' : 'hidden';
+  return `<div id="${esc(id)}" style="display:flex;flex-direction:column;${ls}">${header}<div style="height:${barHeight}px;border-radius:${radius}px;background:${t.bg3};overflow:${trackOverflow}"><div style="width:${pct}%;height:100%;background:${fill};border-radius:${radius}px;transition:width .2s,background .35s linear${fillGlow}"></div></div></div>`;
 }
 
 // 可点标签：active 或 tone 决定底/字/线色；有 action 则整体可点(arg=actionArg)；removable 加 ×。
@@ -746,22 +852,28 @@ function renderTooltip(id: string, p: TooltipProps, children: LayoutNode[], ls: 
 
 // ── Modal（居中模态浮层 + 遮罩·下沉自各游戏手搭确认框/详情弹窗）─────────────────
 
-// 遮罩满屏居中弹窗体；点 ×(data-action) 或点遮罩本身(data-modal-close·mountUI 内建) → closeAction。
+// 遮罩满屏居中弹窗体；点 ×(data-action) / 遮罩 / Escape（后两项由 mountUI 内建） → closeAction。
 function renderModal(id: string, p: ModalProps, children: LayoutNode[], ls: string, t: UITheme): string {
-  const widthMap: Record<string, number> = { sm: 320, md: 460, lg: 640 };
+  const widthMap: Record<string, number> = { sm: 320, md: 460, lg: 640, xl: 800, wide: 1080 };
   const w = widthMap[p.size ?? 'md'] ?? 460;
+  const minHeight = p.size === 'wide' ? 'min-height:610px;' : '';
   const closable = p.closable ?? true;
   const scrimClose = p.closeAction ? ` data-modal-close="${esc(p.closeAction)}"` : '';
   const xBtn = (closable && p.closeAction)
-    ? `<button data-ui-id="${esc(id)}" data-action="${esc(p.closeAction)}" aria-label="close" style="position:absolute;top:10px;right:13px;width:26px;height:26px;background:none;border:none;color:${t.dim};font-size:19px;line-height:1;cursor:pointer;font-family:${t.fontUi}">×</button>`
+    ? `<button data-ui-id="${esc(id)}" data-action="${esc(p.closeAction)}" aria-label="close" style="position:absolute;top:10px;right:13px;width:26px;height:26px;background:none;border:none;color:${t.sub};font-size:19px;line-height:1;cursor:pointer;font-family:${t.fontUi}">×</button>`
     : '';
+  const titleId = `${id}-title`;
   const title = p.title
-    ? `<div style="font-size:15px;font-weight:700;color:${t.text};font-family:${t.fontUi};margin-bottom:12px;padding-right:26px">${esc(p.title)}</div>`
+    ? `<div id="${esc(titleId)}" style="font-size:15px;font-weight:700;color:${resolveLabelColor(p.titleColor, t, t.text)};font-family:${t.fontUi};margin-bottom:12px;padding-right:26px">${esc(p.title)}</div>`
     : '';
   const body = children.map((ch) => renderNode(ch, t)).join('');
+  const frame = p.skin
+    ? `${panelSkinCss(p.skin, p.skinSlice, p.skinBorderWidth)}border-radius:12px;`
+    : `background:linear-gradient(${t.bg1},${t.bg1}),${t.bg0};border:1px solid ${t.line};border-radius:12px;`;
+  const accessibleName = p.title ? ` aria-labelledby="${esc(titleId)}"` : ' aria-label="Dialog"';
   // 遮罩加深 0.62→0.9（owner 2026-06-28 两度反馈「弹层太透·看穿到本体」）：弹层须与背后大厅强分离·操作看得清。
   // 面板底叠一层不透明 bg0 兜底（防 t.bg1 在半透明主题下透出背景·如战斗皮肤 var(--panel)）→ 内容永远实底可读。
-  return `<div id="${esc(id)}"${scrimClose} style="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,0.9);${ls}"><div style="position:relative;width:${w}px;max-width:100%;max-height:88vh;overflow-y:auto;background:linear-gradient(${t.bg1},${t.bg1}),${t.bg0};border:1px solid ${t.line};border-radius:12px;padding:22px;box-shadow:0 24px 70px rgba(0,0,0,0.7)">${xBtn}${title}${body}</div></div>`;
+  return `<div id="${esc(id)}" data-modal-scrim${scrimClose} style="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,0.9);${ls}"><div data-modal-dialog role="dialog" aria-modal="true"${accessibleName} tabindex="-1" style="position:relative;box-sizing:border-box;width:${w}px;max-width:100%;${minHeight}max-height:88vh;overflow-y:auto;${frame}padding:22px;box-shadow:0 24px 70px rgba(0,0,0,0.7)">${xBtn}${title}${body}</div></div>`;
 }
 
 // ── Card / Stepper / Segmented / Avatar / Accordion（P1·网格卡/数量/分段/头像/折叠）──────
@@ -1218,7 +1330,7 @@ function renderDialog(id: string, p: DialogProps, ls: string, t: UITheme): strin
   const emo = p.emotion ? ` data-emotion="${esc(p.emotion)}"` : '';
   // 货架框：skin=画框皮（cover/9-slice·art 即框·压过底/边框）；否则实底 + edge 描边（金框/阵营框·缺省细线）。
   const border = p.edge ? edgeColor(t, p.edge) : t.line;
-  const frame = p.skin ? panelSkinCss(p.skin, p.skinSlice) : `background:${t.bg1};border:1px solid ${border};`;
+  const frame = p.skin ? panelSkinCss(p.skin, p.skinSlice, p.skinBorderWidth) : `background:${t.bg1};border:1px solid ${border};`;
   return `<div id="${esc(id)}"${action}${emo} style="position:relative;${frame}border-radius:12px;padding:14px 16px;font-family:${t.fontUi};${cursor}${ls}${shapeCss(p.shape)}">${speaker}${body}${hint}</div>`;
 }
 
@@ -1281,12 +1393,13 @@ export function renderNode(node: LayoutNode, theme: UITheme = SHELL): string {
   const html = renderDispatch(node, theme);
   const c = node.layout;
   const fxData = c?.fx?.length ? fxToCss(c.fx, theme).dataFx : ''; // sheen/flash 等叠层 token
-  if (c && (c.draggable || c.dropZone || c.anchor || c.allowOverlap || c.sheen || c.tilt3d || c.press3d || c.flyTo || fxData)) {
+  if (c && (c.draggable || c.dropZone || c.anchor || c.allowOverlap || c.sheen || c.tilt3d || c.press3d || c.flyTo || c.transformTransition || fxData)) {
     const a: string[] = [];
     if (c.draggable) a.push(`draggable="true" data-drag="${esc(node.id)}"`);
     if (c.dropZone)  a.push(`data-drop="${esc(c.dropZone)}"`);
     if (c.anchor)    a.push(`data-anchor="${esc(c.anchor)}"`); // 新手引导 spotlight 锚点（OnboardingOverlay 定位）
     if (c.allowOverlap) a.push('data-allow-overlap'); // 意图叠层（扇形手牌/牌堆）→ ui-audit 重叠豁免（A-007）
+    if (c.transformTransition) a.push('data-transform-transition'); // state chase→reduced-motion 可精确归零
     if (c.sheen)     a.push('data-sheen'); // 流光层（CSS 注入 ::after·apollo-sheen-sweep）
     if (c.tilt3d)    a.push('data-tilt3d'); // 交互 3D 倾斜（悬停立体抬起·CSS 注入 :hover 变换）
     if (c.press3d)   a.push('data-press3d'); // 按压 3D 反馈（按下沉 Z + 底唇·CSS 注入 :active·触屏可用）

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, type Root } from 'react-dom/client';
 import { StudioInspector } from './studio/StudioInspector.js';
 import { AssetLibrary } from './studio/AssetLibrary.js';
 import { SHELL } from './ui/shell-theme.js';
@@ -20,6 +20,7 @@ import { DesignStudio, EntryChoice, ContinueChoice } from './studio/DesignStudio
 import { ArtLedgerPanel, ArtGamePicker } from './studio/ArtLedgerPanel.js';
 import { GamePipelinePanel } from './studio/GamePipelinePanel.js';
 import { SettingsPanel } from './studio/SettingsPanel.js';
+import { ProjectRoadmapPanel } from './studio/ProjectRoadmapPanel.js';
 
 // （2026-07-16 纯结构拆分·token 优化）轮播/DevTools/游戏运行时/API 助手拆至 ./launcher/*，行为不变。
 import { API, apiCall } from './launcher/api.js';
@@ -27,6 +28,7 @@ import { useKeyframes, CartridgeCarousel } from './launcher/carousel.js';
 import { DevTools } from './launcher/devtools.js';
 import { GameRunner, BareListRetry } from './launcher/game-runner.js';
 import { ProfileCard } from './launcher/profile-card.js';
+import { LIFE_LAUNCHER_GAME_ENTRIES, LIFE_LAUNCHER_ID_PREFIX } from './launcher/life-launcher-catalog.js';
 
 // ══════════════════════════════════════
 //  Game Registry
@@ -64,6 +66,7 @@ export const GAMES: GameEntry[] = [
     icon: '🎲',
     status: 'playable',
   },
+  { id: 'game-lockpick', title: '《机关锁》', subtitle: '三档滑钮 · 光色与声音反馈', description: '调节机关滑钮，通过整体光色与声音反馈试探隐藏组合。没有次数、倒计时或错误惩罚；只有确认放弃才会失败。', color: '#17201f', accentColor: '#d8b76a', icon: '🔐', status: 'playable' },
   {
     id: 'game-loot-chest',
     title: '开启宝箱 Loot Chest',
@@ -72,6 +75,26 @@ export const GAMES: GameEntry[] = [
     color: '#291522',
     accentColor: '#f5bd4f',
     icon: '🧰',
+    status: 'playable',
+  },
+  {
+    id: 'game-theft',
+    title: '潜取 Theft QTE',
+    subtitle: '透明叠层 · 渐进暴露 · 双环开门',
+    description: 'DokiWorld 场景上的透明偷窃小游戏：中央指针扫过金色时机窗，完美 QTE 累积开门机会；在持续上涨的暴露前翻开双环槽位并随时撤退。',
+    color: '#17151f',
+    accentColor: '#d5aa62',
+    icon: '🔐',
+    status: 'playable',
+  },
+  {
+    id: 'game-simlife',
+    title: '小山谷 Life 演示',
+    subtitle: '模拟经营引擎 · 可试玩验收入口',
+    description: '以纯 LifeGamePackage 数据展示行走、区域传送、农田循环、采集、日历与 NPC 声明式对话。所有操作进入既有语义输入链，不含独立游戏规则。',
+    color: '#183325',
+    accentColor: '#d8b76a',
+    icon: '🌿',
     status: 'playable',
   },
   {
@@ -242,6 +265,10 @@ export const GAMES: GameEntry[] = [
 export const VISIBLE_GAMES: GameEntry[] = GAMES.filter(
   (g) => GAMES_ALLOWLIST === null || GAMES_ALLOWLIST.has(g.id),
 );
+export const VISIBLE_LIFE_GAMES: GameEntry[] = LIFE_LAUNCHER_GAME_ENTRIES.filter((g) =>
+  GAMES_ALLOWLIST === null || GAMES_ALLOWLIST.has(g.id) || GAMES_ALLOWLIST.has(g.id.slice(LIFE_LAUNCHER_ID_PREFIX.length)),
+);
+const ALL_VISIBLE_GAMES: readonly GameEntry[] = [...VISIBLE_GAMES, ...VISIBLE_LIFE_GAMES];
 
 // ══════════════════════════════════════
 //  Main Launcher
@@ -254,7 +281,7 @@ export function Launcher() {
   // 系列 bug 的放大器（根因之一 stdout pipe 阻塞已修，此处把"导航被 reload 清零"永久防住）。
   const [launched, setLaunchedState] = useState<string | null>(() => {
     const q = new URLSearchParams(window.location.search).get('game');
-    return q && VISIBLE_GAMES.some((g) => g.id === q && g.status === 'playable') ? q : null;
+    return q && ALL_VISIBLE_GAMES.some((g) => g.id === q && g.status === 'playable') ? q : null;
   });
   // Workshop ▶ 直达（REQ-WORKSHOP 续·owner 07-11）：?game=lib:<slug> 直启卡带；from=workshop 时返回=回创作台。
   const fromWorkshop = React.useMemo(
@@ -274,6 +301,7 @@ export function Launcher() {
     setLaunchedState(id);
   }, []);
   const [studio, setStudio] = useState(false);
+  const [projectRoadmap, setProjectRoadmap] = useState(false);
   const [artlib, setArtlib] = useState(false);
 
   // 玩家模式（?mode=player）：面向 To-C 用户——隐藏内置 GAMES 与 DevTools，卡带架数据源=用户游戏库。
@@ -448,6 +476,7 @@ export function Launcher() {
   if (studio) {
     return <StudioInspector onBack={() => setStudio(false)} />;
   }
+  if (projectRoadmap) return <ProjectRoadmapPanel api={API} onBack={() => setProjectRoadmap(false)} />;
 
   if (artlib) {
     return <AssetLibrary onBack={() => setArtlib(false)} />;
@@ -661,6 +690,16 @@ export function Launcher() {
               ＋ 新建游戏
             </button>
             <button
+              onClick={() => setProjectRoadmap(true)}
+              style={{
+                marginTop: 14, marginLeft: 10, padding: '7px 18px', background: SHELL.violetWash,
+                color: SHELL.violet, border: `1px solid ${SHELL.violetLine}`, borderRadius: 8,
+                fontSize: 12, fontWeight: 600, letterSpacing: 1, cursor: 'pointer', outline: 'none',
+              }}
+            >
+              🧭 项目控制台
+            </button>
+            <button
               onClick={() => setStudio(true)}
               title="数据透视器：内置游戏装配/组件/系统逐帧检视"
               style={{
@@ -707,7 +746,7 @@ export function Launcher() {
           )}
         />
       ) : (
-        <CartridgeCarousel games={[...VISIBLE_GAMES, ...libGameEntries]} onLaunch={onLaunchCartridge} renderLaunchArea={renderLaunchArea} selectId={selectSlug ?? undefined} onSelected={clearSelect} />
+        <CartridgeCarousel games={[...ALL_VISIBLE_GAMES, ...libGameEntries]} onLaunch={onLaunchCartridge} renderLaunchArea={renderLaunchArea} selectId={selectSlug ?? undefined} onSelected={clearSelect} />
       )}
 
       {/* 玩家模式·非空架：显式「＋ 新建游戏」入口（空架时 EmptyShelf 已有大卡位·此处不重复） */}
@@ -886,4 +925,10 @@ export function Launcher() {
 // #app 存在才挂载（index.html 恒有）；无 #app（如无头集成测试 import 本模块）→ 零副作用，
 // 让测试能渲染导出的 <Launcher /> 走真实接线（返修 Lead 要求的 launcher 层集成测试的前提）。
 const appEl = document.getElementById('app');
-if (appEl) createRoot(appEl).render(<Launcher />);
+// Vite HMR 会重新执行本模块；复用唯一 React root，避免旧 GameRunner 的透明输入层残留在新游戏之上。
+type LauncherWindow = Window & { __zcLauncherRoot?: Root };
+if (appEl) {
+  const hostWindow = window as LauncherWindow;
+  const root = hostWindow.__zcLauncherRoot ?? (hostWindow.__zcLauncherRoot = createRoot(appEl));
+  root.render(<Launcher />);
+}

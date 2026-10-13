@@ -72,6 +72,26 @@ describe('mountHost（引擎公用宿主骨架）', () => {
     expect(h2.scene.style.transform).toBe('scale(0.75)');
   });
 
+  it('responsive viewport 明确 opt-in：scene 满容器、play-field/overlay 扣除 HUD，fixed 默认逐位不变', () => {
+    const fixed = mountHost(makeContainer(640, 720), { fieldW: 900, fieldH: 620, topBarH: 52 });
+    expect(fixed.playfieldHost).toBe(fixed.scene);
+    expect(fixed.scene.style.width).toBe('900px');
+    expect(fixed.scene.style.transform).toBe('scale(0.7111111111111111)');
+
+    const responsive = mountHost(makeContainer(640, 720), {
+      fieldW: 900, fieldH: 620, topBarH: 52, bottomBarH: 20, viewportMode: 'responsive',
+    });
+    expect(responsive.playfieldHost).not.toBe(responsive.scene);
+    expect(responsive.playfieldHost.parentElement).toBe(responsive.scene);
+    expect(responsive.scene.style.width).toBe('100%');
+    expect(responsive.scene.style.height).toBe('100%');
+    expect(responsive.scene.style.transform).toBe('none');
+    expect(responsive.playfieldHost.style.top).toBe('52px');
+    expect(responsive.playfieldHost.style.bottom).toBe('20px');
+    expect(responsive.overlayHost.style.top).toBe('52px');
+    expect(responsive.overlayHost.style.bottom).toBe('20px');
+  });
+
   it('缩放回退：容器 0 尺寸（未布局）→ 用场景定尺兜底 → scale(1)', () => {
     const container = makeContainer(0, 0);
     const h = mountHost(container, { fieldW: 500, fieldH: 500 });

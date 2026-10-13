@@ -6,7 +6,7 @@
 
 ---
 
-## REQ-3D-POLY-DIE · 通用多面骰（d4 / d6 / d8 / d20）几何、面标签与目标面落定 · [2026-09-21] · owner 选择路线 A · **施工主体 = P3D（待认领）** · status: accepted · P1 · 类型: 3D render-only 能力
+## REQ-3D-POLY-DIE · 通用多面骰（d4 / d6 / d8 / d20）几何、面标签与目标面落定 · [2026-09-21] · owner 选择路线 A · **施工主体 = Codex（获 owner 授权承担 P3D 域）** · status: in-progress · P1 · 类型: 3D render-only 能力
 
 **问题**：`Mesh3D.shape` 当前只含 box/plane/sphere/cylinder/cone/capsule/torus。`RigidBody3D{shape:'convex', hull}` 已可模拟凸包碰撞，却没有与之对应的可渲染多面几何、各面标签或「把确定结果展示为朝上面」的闭集数据接口。游戏层手写 Three.js 或从物理姿态反推点数均违反 3D/确定性边界。
 

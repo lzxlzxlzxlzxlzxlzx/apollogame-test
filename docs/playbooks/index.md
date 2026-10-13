@@ -17,7 +17,7 @@
 
 | 生产线 | 手册 | 基座核心 | 负责角色/agent |
 |---|---|---|---|
-| **游戏生产总线（八阶段流程板）** | `playbooks/game-production.md` | 生产流程板 pipeline.json · 每步三门（机器+复查+人）· `scripts/game-pipeline.mjs` | **全员（任何新游戏/续做先看板）**；判官=Lead |
+| **游戏生产总线（八阶段流程板）** | `playbooks/game-production.md` + `playbooks/game-requests.md` | 流程板 · 三门 · 当前需求单/归档纪律 | **全员（任何新游戏/续做先读）**；判官=Lead |
 | **流程验收问题层（每步答 YES 才过）** | `playbooks/game-flow-questions.md` | 八阶段的**验收问题层**·**T2 闭环竖切**（验收剧本 conformance 机器证「环跑通」）为第一强制门 | **全员（防「门绿但环不闭」）**；判官=Lead |
 | **超休闲/休闲工具箱（速查·2D+3D 汇总）** | `playbooks/casual-toolkit.md` | 按「你要做什么」汇 Juice/3D UI/卡通观感/手感/物理玩具/世界 UI · 活范例=game-i | **做休闲/超休闲游戏先看**（UI 细则→ui.md·3D 细则→3d.md） |
 | **按玩法选件（决策树一页）** | `playbooks/pick-list.md` | 玩法→基座件实名速查（卡牌/三消/波次/剧情…）·查不到走 capgap CLI | **全员（新游戏/新玩法开工第一站·8/4 评审 Q1 件）** |

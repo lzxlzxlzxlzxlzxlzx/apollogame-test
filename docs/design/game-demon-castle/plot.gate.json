@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "zerocraft.life-generation-gate.v1",
+  "stage": "plot",
+  "inputHash": "sha256:3eeed34970453b78278582e690e57d0cebd0518be5fd699d12b32ff3d268bf23",
+  "selfCheck": {
+    "status": "pass",
+    "diagnostics": [],
+    "evidence": {
+      "baseWorld": "world.life.json",
+      "requiresSlices": ["actors.patch.json", "construction.patch.json"],
+      "validator": "validateLifeGamePackage",
+      "compiler": "compileAndParseLifeGamePackage",
+      "questNodes": ["light-throne-hall", "restore-greenhouse", "awaken-forge-core"],
+      "dialogueIds": ["gargoyle-artisan.arrival", "moonwell-keeper.arrival"],
+      "relationshipRuleCounts": [2, 2],
+      "regression": "4 test files / 41 tests passed"
+    }
+  },
+  "visualArtifacts": [
+    { "kind": "plot-graph", "ref": "docs/design/game-demon-castle/plot-review.html" },
+    { "kind": "plot-patch", "ref": "docs/design/game-demon-castle/plot.patch.json" }
+  ],
+  "ownerDecision": "approved"
+}

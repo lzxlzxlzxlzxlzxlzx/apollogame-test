@@ -17,6 +17,12 @@
 | DokiWorld App 独立资产闭包 | `scripts/app-asset-closure.mjs` | 以游戏本地 AssetIndex 为真相复制 filled 文件、生成 portable index、清本机路径并产 `ASSET-CLOSURE.json`；额外字体等必须显式列 `extraTrees` |
 | 运行期装载本游戏美术索引（真图就绪即换装） | `loadGameArtInto` / `loadGameArtOverrides`（`src/assets/game-art-load.ts`·REQ-SHELL ②） | 两形态同一条链：注册进 AssetManager（渲染器按 **key** 取图）或取 `{skinKey:url}` 覆盖表（DOM/UI 按 **URL** 取）；**失败静默回退**（无索引/非 200/headless=观感零变化·美术是增量非依赖）。**别在游戏层再写 fetch `/games/<g>/art/index.json`** |
 | 逐游戏美术需求/生成/替换/换皮 | **美术平台**（ArtLedgerPanel·主屏 🎨 / 卡带「美术台账」入口）+ 大脑 `scripts/art-replace.mjs` + 风格包 `scripts/style-packs.json` | 台账 art-NN 编号 append-only·写回=manifest 重钉或 skinKey 别名·**全员必读终态档 `docs/design/art-platform-2026-07-09.md`** |
+| AI 生成前锁定视觉槽 | `AssetSlotBrief` + `scripts/asset-slot-guard.ts` | brief 声明 key / consumer JSON pointer / outputPx / anchor / fit / prompt 版本；产物只进 pending，人审后才由 asset-manager 登记 AssetIndex（`docs/design/asset-slot-brief.md`） |
+| Life 建设前后两态闭包 | `collectLifeVisualReferences` | placement 初始 `skinKey` 与 `constructionProjects[].completedSkinKey` 都是独立 consumer；两者必须同时有 slot/placeholder，不能只给完成态或靠运行期拼 key |
+| 槽位先查本地、未命中再准备 AI 请求 | `planLifeAssetCandidates`（`src/assets/life-asset-candidate-plan.ts`） | 把已校验 `AssetSlotBrief` 与只读 `LibraryRecord[]` 交给纯计划器；它只输出稳定的 `local-candidate|ai-required|invalid`，style 严格相等、尺寸/alpha 精确匹配，后续 vendor/候选生成/人审/登记仍只归 asset-manager |
+| 把候选计划交给人审/UI 展示 | `buildLifeAssetReviewPacket`（`src/assets/life-asset-review-packet.ts`） | 纯函数把 strict brief + 既有 candidate plan 投影为 `zerocraft.life-asset-review-packet.v1`；每项固定 `pending-human-review`，plan/brief 对账失败则整包 fail-closed，绝不代替人审或写 AssetIndex/pending |
+| 把 Life 审阅包转成可执行候选批次 | `buildLifeAssetGenerationBatch`（`src/assets/life-asset-generation-batch.ts`） | 再对账 brief/plan/packet 后输出稳定的 `local-review|ai-generate|invalid`；整批 fail-closed，无路径/密钥/bytes/批准字段，AI provider 闭集为 2D `qwen|gpt-image`，默认 qwen，可按调用/槽位显式覆盖 |
+| Codex 批量准备/审核 Life 候选 | `npm run life-asset-generate -- <asset-slots.json> [--provider qwen|gpt-image]` | 默认 qwen 且只输出零写入 plan；`--generate` 才建 local/AI 待审，真实调用再加 `--real-provider` 并配置对应 key。local 用 `--list-local` 查看，`--approve-local <slot> --reviewed-by <human>` 从可信 `assets/index.json` 重验并 vendor，`--reject-local <slot>` 只撤候选；本地批准当前仅支持能从字节严格核验尺寸/alpha 的 project PNG。AI approve 仍必须给当前 `--asset-slots`。两路成功都只登记原 `art:` key |
 | 加贴图/模型/图集/精灵表 | `asset-manager` agent | 维护 `assets/index.json` 单一真相 + 按类型填 spec |
 | 批量灌入共享货架（图标/emoji 系列） | `scripts/import-art-pack.mjs` · `import-emoji.mjs` | 整包从 GitHub 拉取→sniff→盖 style/license/source/provenance→并入 `assets/index.json`（加一个包=加一条 PACKS 配置，纯数据）；细节见 `docs/workflow/art-library-handoff.md` |
 | 贴图/网格 spec 元数据 | spec 闭集 | usage/colorSpace/wrap/genCollision（贴图）· scale（模型）——闭集，非自由字段 |
@@ -29,6 +35,8 @@
 - 真实用法：`games/game-e/assets.ts`+`cards-atlas.ts`（牌面图集）、`games/game-g/art-textures.ts`。
 - **2D UI 贴图皮入库范例**：`games/game-i/ui-assets.ts` + `public/games/game-i/art/index.json`（贴图皮=`type:'texture'`·`usage:'sprite'` 正规资产·按 key `uiTextureUrl` 解析成 URL 喂 `Button.skin`·`ui-assets.test.ts` 自检）——2D DOM UI 侧「资产 key→已解析 URL」样板，**替代内联 data-URI 硬编码**。两条素材路径都在此示范：**自产程序化 SVG**（零外部文件·"游戏=数据"）+ **vendor 真美术**（Kenney UI Pack·CC0·`node scripts/vendor-asset.mjs kenney-ui/blue-button05 game-i --as tex/btn-blue`·带 `vendoredFrom` 溯源）。
 - 索引/类型：`src/assets/index.ts`（`ASSET_TYPES`/`AssetIndex`）、`assets/index.json`、`assets/FreeArtLib/index.json`。
+- 玩法轮廓遮罩：`hit-mask` 是游戏本地索引里的**预烘焙二值规则数据**（非 texture、无 path），`spec` 为 `version:1,width,height,threshold,sourceTextureKey,rows`；`parseAssetIndex` 校验源 texture 与尺寸。作者态 `bakeHitMaskFromPng` 烘焙，运行期 `t2-clickable` 只读绑定后的二值行，不解 PNG/Canvas、不读 URL。不要把游戏专属 mask 放进共享 `assets/index.json`。
+- 宿主一次启动的动态 PNG：`HostVisualSession.prepare(manager,sessionId,visuals)` 在 World 创建前严格验证闭集 HTTPS PNG 描述、尺寸、零旋转、`bitset-hex-msb` 行与预算，并以无凭据 CORS 加载、PNG 签名/解码/尺寸校验；成功只投影 `textureKey`、`hitMaskKey`、逻辑摆放与稳定 `renderOrder`。`projectHostVisual(prepared,canvasWidth,canvasHeight,action)` 把归一化摆放投影为纯 `Transform/Sprite/Clickable` 数据，World 不接触 URL。正式局任何失败整体拒绝，不回退矩形；preview 传 `{preview:true}`，不读取宿主图也不创建可玩 World。创建 World 后调用 `session.bindWorld(world)`；快照恢复须用同一已校验宿主输入重建会话并重新绑定。`dispose()` 清会话 mask catalog 与临时纹理。mask payload、URL、图片字节不得进入 World/snapshot/hash/Signal/output；本桥不登记正式 AssetIndex，也不替代本地美术的人审流程。
 
 ## ③ 本线红线
 
@@ -67,10 +75,10 @@ Free Library（共享 `assets/index.json` + `FreeArtLib/`）= **货架·只被 c
 ## ⑧ AI 文本生成资产（外部服务·框架 `scripts/ai-gen.mjs`）
 
 文本→资产，**先落待审区、人审入库**（带 provenance）。哲学同 `src/services/aigp`：外部**非确定性** AI 走旁路，产物=固定数据，不碰 sim/hash。
-- 用法：`node scripts/ai-gen.mjs <tripo|meshy|qwen> "<prompt>" [--game <g>] [--id <id>] [--mock]`；`node scripts/ai-gen.mjs providers` 看设置视图。
+- 用法：`node scripts/ai-gen.mjs <tripo|meshy|qwen|gpt-image> "<prompt>" [--game <g>] [--id <id>] [--mock]`；GPT 真调用还必须显式 `--real-provider`；`node scripts/ai-gen.mjs providers` 看设置视图。
 - **想先看 mock 流程长啥样**：`node scripts/ai-gen.mjs demo`——两适配器各 mock 生成一个到临时目录、打印落库条目 shape + 设置视图、跑完自动清理（零仓库污染·零网络），用来一眼确认框架跑通。
-- 适配器（可扩·加一条进 `ADAPTERS`·zerocraft.py `GEN_ADAPTERS` 白名单同改）：**tripo**·**meshy** 文本→3D glb（`TRIPO_API_KEY`／`MESHY_API_KEY`·meshy 走 v2 openapi text-to-3d preview）· **qwen** 文本→2D png（DashScope 万相·`DASHSCOPE_API_KEY`）。
-- 密钥走 env、**绝不入库**；缺 key 或 `--mock` → mock（产合法占位·prompt 播种）。**本环境 GitHub-only·真调 API 被挡 → 用 `--mock`**；真调等放宽网络的 session。
+- 适配器（可扩·加一条进 `ADAPTERS`·zerocraft.py `GEN_ADAPTERS` 白名单同改）：**tripo**·**meshy** 文本→3D glb（`TRIPO_API_KEY`／`MESHY_API_KEY`·meshy 走 v2 openapi text-to-3d preview）· **qwen** 文本→2D png（DashScope 万相·`DASHSCOPE_API_KEY`）· **gpt-image** 文本→2D png（OpenAI Image API·固定显式模型 `gpt-image-2`·`OPENAI_API_KEY`）。Codex 内置 imagegen 不是 Node 可调用 provider；其产物只能另走手工导入/人审交接，禁止伪装成自动 API。
+- 密钥走 env、**绝不入库**；`--mock` 产合法 prompt 播种占位。历史 provider 缺 key 仍可能回退 mock；`gpt-image` 与 Life 批次更严格：真实调用必须同时有显式 `--real-provider` 和对应 key，任一缺失直接拒绝，绝不静默假绿。
 - **人审门（M2.5·宪法「无自动入库」）**：生成产物落**待审区**——`--game` 给了=游戏本地 `art/ai/pending/`；否则共享货架 `assets/ai/pending/`（各 + 独立 `pending.json`·**绝不进 index.json**）。人审 approve 才移出待审 + 登记 index，**provenance 硬校验**（model/prompt/date/license 缺一拒登记）；reject 删待审文件+清项。命令：`node scripts/ai-gen.mjs review <id> <approve|reject> [--game <g>]`·`pending [--game <g>]`。**登记面契约（字段/必填/校验/示例）单一真相**：`docs/design/m2.5-registration-contract.md`。
 - **软件内直达入口**：Studio 资源库（launcher→🗃 资源库）工具栏 **✨ AI 生成** 按钮 → `AssetGenPanel`（选适配器 + prompt + 落点 → 生成 → **预览 + 「✓ 入库 / ✕ 弃置」**）；工具栏 **🕒 待审区** 入口 + 待审计数 badge（`AssetPendingReview`·列待审·provenance·双按钮）。后端 `POST /api/assets/generate`（落待审）+ `POST /api/assets/review`（审核·唯一入 index 的门）+ `GET /api/assets/pending`（聚合共享+各游戏待审）+ `GET /api/assets/generate/providers`（key 状态·打码），zerocraft.py 薄胶水·shell 调本脚本，生成/审核大脑全在脚本，UI/后端零逻辑重复。
 - 全链自证：单测 `scripts/ai-gen.test.mjs` + 冒烟 `scripts/art-review-smoke.py`（17 断言）+ 真浏览器 `scripts/studio-m25-review-e2e.mjs`（16 断言）。
@@ -78,3 +86,6 @@ Free Library（共享 `assets/index.json` + `FreeArtLib/`）= **货架·只被 c
 ## ⑨ 风格库（house-style 共享库·styleset·多游戏共享一种美术风格）
 
 `node scripts/styleset-ledger.mjs build` 静态枚举首批清单→走 art-replace `mergeLedger` 保号写库级台账 `style-ledger.json`（mode:library·落 `assets/styleset/<id>/`）+ mock 占位登记共享 index（gen/mock 分域防覆盖真图·真 key 后逐行换真图=M1）；风格锚单一真相=风格包条目（`scripts/style-packs.json` 的 `stylePrompt`）；游戏消费仍 vendor 不直引。图纸 `docs/design/styleset-artlib-plan-2026-07-16.md`。
+# Life 世界视觉语义槽位
+
+Life 生成候选必须为 ground tile、`visualSemantics.farm` 的干/湿耕地和 crop stages 建立逐指针槽位。新增素材没有人审时只能是 `placeholder`；候选槽位闭包通过不等于素材已批准，也不得因此写入正式 AssetIndex。warp 地标复用同一张图时，应在原槽位追加每个真实 placement consumer，禁止复制孤儿槽位。

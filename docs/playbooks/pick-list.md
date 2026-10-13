@@ -31,6 +31,7 @@
 
 **剧情/VN 类**
 - 对话图推进（台词/选项/检定/好感）→ `dialogue` + UI 三件闭集控件 dialog/choiceList/portrait（`docs/playbooks/ui.md`·禁手写 React）
+- GAL 发行包的 schema / 引用 / 可达性预检 → `validateGalPackage`（`src/assembly/gal-package.ts`）；已校验包的确定性前进、StoryRef 跨章、场景继承、只读投影与最近 512 个可见节点的会话回滚 → `t3-narrative-director`（02B；仅资源/旗标效果，不含 UI/媒体播放或正式槽位存档）
 - 幕/回合/阶段流程状态机 → `flow`（声明式 GameFlow 数据·与 dialogue 同构）
 
 **通用横切件（各类都用）**

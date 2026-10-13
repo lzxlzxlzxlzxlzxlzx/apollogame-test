@@ -51,6 +51,9 @@ function tuneDeck(id: string, specs: TuneSpec[], c: ControlsState): LayoutNode {
 // 自包含演示图：内联 data-URI SVG（纯数据·不依赖外部资源文件），用于 Image 控件展示。
 const DEMO_IMG =
   'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22160%22%20height%3D%22100%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%2322d3ee%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%237c3aed%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22160%22%20height%3D%22100%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%2280%22%20y%3D%2258%22%20font-size%3D%2222%22%20fill%3D%22white%22%20text-anchor%3D%22middle%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22bold%22%3EZEROCRAFT%3C%2Ftext%3E%3C%2Fsvg%3E';
+// A neutral lens makes the four signal-emission states visible without
+// borrowing any production game's art. The renderer owns the tint and glow.
+const SIGNAL_LENS_DEMO = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><circle cx="32" cy="32" r="25" fill="#f5f5f5" stroke="#707070" stroke-width="5"/><circle cx="24" cy="23" r="8" fill="#ffffff" fill-opacity=".8"/></svg>')}`;
 
 // ── 段落标题小工具（统一风格：阔字距小标签）──────────────────
 // 子效果编号（owner：进模块后每个子效果/控件都要能按号找到，好跟美术说「换哪个」）：
@@ -191,7 +194,7 @@ const labelColors: Array<'text' | 'sub' | 'dim' | 'jade' | 'gold' | 'ok' | 'warn
 // 7 具名字号档全档（xs10…xxxl34）；另可填裸 px 任意字号（复刻像素稿用）。
 const labelSizes: Array<'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'xxxl'> = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl', 'xxxl'];
 
-function pageDisplay(): LayoutNode { return {
+function pageDisplay(controls: ControlsState): LayoutNode { return {
   type: 'Panel',
   id: 'page-display',
   props: { scroll: true },
@@ -310,6 +313,18 @@ function pageDisplay(): LayoutNode { return {
         { type: 'Image', id: 'img-radius', props: { src: DEMO_IMG, alt: 'radius 12', fit: 'cover', radius: 12 }, layout: { width: 110, height: 70 } },
       ],
     },
+    { type: 'Panel', id: 'demo-signal-emission', props: { bg: 'sunken', title: '同一中性灯芯 · 信号发光四态' }, layout: { direction: 'row', gap: 14, padding: 12, align: 'center' }, children: [
+      { type: 'Image', id: 'signal-off', props: { src: SIGNAL_LENS_DEMO, alt: '关闭的暗红信号灯', fit: 'contain', tint: { kind: 'signal', progress: 0, emission: 'off' } }, layout: { width: 46, height: 46 } },
+      { type: 'Image', id: 'signal-steady', props: { src: SIGNAL_LENS_DEMO, alt: '稳定亮绿信号灯', fit: 'contain', tint: { kind: 'signal', progress: 1, emission: 'steady' } }, layout: { width: 46, height: 46 } },
+      { type: 'Image', id: 'signal-once', props: { src: SIGNAL_LENS_DEMO, alt: '单次闪烁信号灯', fit: 'contain', tint: { kind: 'signal', progress: .5, emission: 'once' } }, layout: { width: 46, height: 46 } },
+      { type: 'Image', id: 'signal-loop', props: { src: SIGNAL_LENS_DEMO, alt: '循环信号灯', fit: 'contain', tint: { kind: 'signal', progress: .5, emission: 'loop' } }, layout: { width: 46, height: 46 } },
+      { type: 'Label', id: 'signal-emission-note', props: { text: 'off / steady / once / loop；仅 filter + alpha 轮廓光，绝不改透明度。', color: 'sub', size: 'xs' } },
+    ] },
+    { type: 'Panel', id: 'demo-transform-transition', props: { bg: 'sunken', title: '连续机械状态变换 · 同一节点追逐新姿态' }, layout: { direction: 'row', gap: 14, padding: 12, align: 'center' }, children: [
+      { type: 'Image', id: 'transform-chase-demo-rotor', props: { src: DEMO_IMG, alt: '可连续转位的演示棘轮', fit: 'contain', radius: 23 }, layout: { width: 54, height: 54, rotate: controls.flag ? 72 : -32, transformTransition: { ms: 280, easing: 'ease-out' } } },
+      { type: 'Toggle', id: 'transform-chase-demo-toggle', props: { label: '转到下一齿位', checked: controls.flag, action: 'setFlag' } },
+      { type: 'Label', id: 'transform-chase-demo-note', props: { text: '同一 id 仅更新 transform；初次渲染直接到位，状态变更由浏览器补间。', color: 'sub', size: 'xs' } },
+    ] },
     divider('d-d3'),
     sectionTitle('t-progress', 'PROGRESSBAR · 线性条 5 语义色（环形 ring / 液面 liquid 见 🧊 3D UI 页）'),
     {
@@ -534,7 +549,7 @@ function buildPageInput(c: ControlsState): LayoutNode {
   props: { scroll: true },
   layout: { direction: 'column', gap: 18, padding: 20 },
   children: [
-    sectionTitle('t-btn', 'BUTTON · 三态 + 禁用（→ 信号 click）'),
+    sectionTitle('t-btn', 'BUTTON · 三态 + 禁用 + 受限文字色（→ 信号 click）'),
     {
       type: 'Panel',
       id: 'demo-btn',
@@ -545,6 +560,7 @@ function buildPageInput(c: ControlsState): LayoutNode {
         { type: 'Button', id: 'btn-g', props: { label: '次操作', kind: 'ghost', action: 'click', actionArg: 'ghost' } },
         { type: 'Button', id: 'btn-q', props: { label: '安静', kind: 'quiet', action: 'click', actionArg: 'quiet' } },
         { type: 'Button', id: 'btn-d', props: { label: '禁用', kind: 'primary', disabled: true, action: 'click', actionArg: 'disabled' } },
+        { type: 'Button', id: 'btn-label-color', props: { label: '亮字 ghost', kind: 'ghost', labelColor: { custom: '#F4EEFF' }, action: 'click', actionArg: 'label-color' } },
       ],
     },
     divider('d-i1'),
@@ -583,6 +599,7 @@ function buildPageInput(c: ControlsState): LayoutNode {
       children: [
         { type: 'Checkbox', id: 'cb-tutorial', props: { label: '开启新手引导', checked: c.flag, action: 'setFlag' } },
         { type: 'Toggle', id: 'tg-sound', props: { label: '音效', checked: c.sound, action: 'setSound' } },
+        { type: 'Toggle', id: 'tg-sound-disabled', props: { label: '音效（待接入）', checked: true, action: 'setSound', disabled: true } },
       ],
     },
     sectionTitle('t-radio', 'RADIOGROUP · 互斥单选（→ 信号 setSpeed）'),
@@ -608,6 +625,22 @@ function buildPageInput(c: ControlsState): LayoutNode {
       props: { min: 0, max: 100, step: 5, value: 60, label: '音量', action: 'setVolume' },
     },
     divider('d-i3b'),
+    sectionTitle('t-wheel', 'PANEL.wheel · 真实滚轮 → 具名 ActionSink（内层滚动区优先）'),
+    {
+      type: 'Panel',
+      id: 'demo-wheel',
+      props: { title: '剧情/画廊翻页区', wheel: { upAction: 'gallery.wheel.up', downAction: 'gallery.wheel.down' }, bg: 'raised' },
+      layout: { direction: 'column', gap: 8, padding: 12 },
+      children: [
+        { type: 'Label', id: 'wheel-hint', props: { text: '在这张卡的非滚动区域向上/下滚：事件日志会收到 gallery.wheel.up/down。', color: 'sub', size: 'sm' } },
+        {
+          type: 'Panel', id: 'wheel-scroll-priority', props: { title: '内层历史（滚这里不翻页）', scroll: true, bg: 'sunken' },
+          layout: { direction: 'column', gap: 4, padding: 8, height: 82 },
+          children: Array.from({ length: 6 }, (_, i) => ({ type: 'Label' as const, id: `wheel-history-${i}`, props: { text: `历史行 ${i + 1} · 交给滚动容器`, color: 'dim', size: 'xs' } })),
+        },
+      ],
+    },
+    divider('d-i3wheel'),
     sectionTitle('t-segmented', 'SEGMENTED · 分段选择器（互斥·紧凑·→ 信号 setView）'),
     {
       type: 'Segmented',
@@ -652,7 +685,7 @@ function buildPageInput(c: ControlsState): LayoutNode {
       props: { value: c.rating, max: 5, action: 'setRating' },
     },
     divider('d-i4'),
-    sectionTitle('t-modal', 'MODAL · 模态浮层（按钮开 → 点遮罩/× 关·引擎内建 closeAction）'),
+    sectionTitle('t-modal', 'MODAL · 模态浮层（按钮开 → Escape/Tab 圈定/点遮罩/× 关·引擎内建 closeAction）'),
     {
       type: 'Panel',
       id: 'demo-modal',
@@ -660,7 +693,7 @@ function buildPageInput(c: ControlsState): LayoutNode {
       layout: { direction: 'row', gap: 10, align: 'center', padding: 10 },
       children: [
         { type: 'Button', id: 'btn-open-modal', props: { label: '打开模态框', kind: 'primary', action: 'openModal' } },
-        { type: 'Label', id: 'modal-hint', props: { text: '点遮罩本身或右上角 × 即关闭', size: 'sm', color: 'dim' } },
+        { type: 'Label', id: 'modal-hint', props: { text: 'xl=800px；Escape、Tab 焦点圈定、点遮罩或右上角 × 均关闭', size: 'sm', color: 'dim' } },
       ],
     },
     divider('d-i4b'),
@@ -723,7 +756,7 @@ function buildPageInput(c: ControlsState): LayoutNode {
 export const modalOverlay: LayoutNode = {
   type: 'Modal',
   id: 'demo-modal-overlay',
-  props: { title: '示例模态框', size: 'md', closable: true, closeAction: 'closeModal' },
+  props: { title: '示例模态框', size: 'xl', closable: true, closeAction: 'closeModal' },
   layout: {},
   children: [
     { type: 'Label', id: 'mo-body', props: { text: '这是一个数据驱动的模态浮层——标题/尺寸/可关均由数据配置。', color: 'sub' } },
@@ -1234,6 +1267,7 @@ function buildPageNew(controls: ControlsState): LayoutNode {
           { type: 'Button', id: 'sk-9-cover', props: { label: 'cover 糊角', skin: BTN_BLUE_URL, action: 'click', actionArg: '9-cover' }, layout: { width: 180, height: 110 } },
           { type: 'Button', id: 'sk-9-slice', props: { label: '9-slice 清晰', skin: BTN_GREEN_URL, skinSlice: 9, action: 'click', actionArg: '9-slice' }, layout: { width: 180, height: 110 } },
           { type: 'Button', id: 'sk-9-big', props: { label: '任意尺寸不变形', skin: BTN_GREEN_URL, skinSlice: 9, action: 'click', actionArg: '9-big' }, layout: { width: 240, height: 72 } },
+          { type: 'Button', id: 'sk-9-separate', props: { label: '源 9 / 显示 5', skin: BTN_GREEN_URL, skinSlice: 9, skinBorderWidth: 5, action: 'click', actionArg: '9-separate' }, layout: { width: 240, height: 72 } },
         ] },
 
       { type: 'Label', id: 't-skin-alpha', props: { text: '带透明色的贴图（透明处 see-through）：默认框面=不透明底吃掉透明（左·间隙显面色）vs bg:"transparent" 令牌=透明底保边框透见身后（右·间隙透见彩底）。贴图按钮/Image 本就透明·框面加此令牌即可。', size: 'xs', color: 'dim' } },
@@ -1924,7 +1958,7 @@ function buildUIModule(shop: ShopState, pick: PickState, activeTab: string, cont
       action: 'switchTab',
     },
     layout: { flex: 1 },
-    children: [pageLayout(), pageDisplay(), buildPageInput(controls), buildPage3dUi(controls), buildPageEmoji(), buildPageNew(controls), buildShop(shop), buildPickHand(pick), buildPage3dButtons()],
+    children: [pageLayout(), pageDisplay(controls), buildPageInput(controls), buildPage3dUi(controls), buildPageEmoji(), buildPageNew(controls), buildShop(shop), buildPickHand(pick), buildPage3dButtons()],
   };
 }
 

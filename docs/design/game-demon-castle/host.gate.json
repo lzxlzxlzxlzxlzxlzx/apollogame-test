@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "zerocraft.life-generation-gate.v1",
+  "stage": "host",
+  "inputHash": "sha256:d42c3790c1719d71ac7e3dcad8f4cc13162393a043c2a2c5de3874372abaf2db",
+  "selfCheck": {
+    "status": "pass",
+    "diagnostics": [],
+    "evidence": {
+      "hostDescriptor": "life-host.candidate.json",
+      "launcherCandidate": "life-launcher.candidate.json",
+      "identity": "game-demon-castle / life:game-demon-castle:v1",
+      "validation": "validateLifeHostDescriptor and parseLifeLauncherEntry passed"
+    }
+  },
+  "visualArtifacts": [
+    { "kind": "host-identity-card", "ref": "docs/design/game-demon-castle/host-review.html" },
+    { "kind": "host-descriptor", "ref": "docs/design/game-demon-castle/life-host.candidate.json" }
+  ],
+  "ownerDecision": "approved"
+}

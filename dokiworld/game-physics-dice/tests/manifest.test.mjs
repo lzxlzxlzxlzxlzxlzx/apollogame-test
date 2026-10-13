@@ -8,7 +8,7 @@ test('manifest matches the DokiWorlds public/apps catalog contract', async () =>
   const manifest = JSON.parse(await readFile(new URL('manifest.json', root), 'utf8'));
   assert.equal(manifest.schemaVersion, 3);
   assert.equal(manifest.id, 'game-physics-dice');
-  assert.equal(manifest.version, '1.0.6');
+  assert.equal(manifest.version, '1.1.3');
   assert.equal(manifest.entry, 'index.html');
   assert.deepEqual(manifest.context, { requiredScopes: [], optionalScopes: [] });
   assert.equal(manifest.locales.en.name, 'Physics Dice');
@@ -21,7 +21,7 @@ test('manifest matches the DokiWorlds public/apps catalog contract', async () =>
   assert.match(await readFile(new URL('../docs/integration.zh-CN.md', import.meta.url), 'utf8'), /^# 物理骰子/);
   assert.equal(manifest.runtime.protocol, 'dokiworld.app');
   assert.equal(manifest.runtime.protocolVersion, 2);
-  assert.deepEqual(manifest.runtime.input, { contract: 'doki.game.dice-input', version: 1 });
+  assert.deepEqual(manifest.runtime.input, { contract: 'doki.game.dice-input', version: 2 });
   assert.deepEqual(manifest.runtime.outputs, [{ contract: 'doki.game.result', version: 1 }]);
   assert.deepEqual(manifest.runtime.modules, []);
   assert.equal('inputs' in manifest, false);

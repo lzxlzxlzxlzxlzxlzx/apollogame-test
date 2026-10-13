@@ -1,0 +1,952 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "art:demon-castle:player:moon-demon",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/sprites/player-moon-demon.png",
+      "description": "月影魔王城像素风 player：moon-demon",
+      "category": "sprite.character",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "player"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 48,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.player.moon-demon",
+        "briefFingerprint": "asset-slot-v1:3041bdb1",
+        "contentHash": "sha256:86d11f474cb8dde5c237086f56b1108b1c717db795df88688b535671e7b8db18",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:npc:gargoyle-artisan",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/sprites/npc-gargoyle-artisan.png",
+      "description": "月影魔王城像素风 npc：gargoyle-artisan",
+      "category": "sprite.character",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "npc"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 48,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.npc.gargoyle-artisan",
+        "briefFingerprint": "asset-slot-v1:cb16960d",
+        "contentHash": "sha256:f2f69de7c54901ab3bba2403d1d5e56d90a4b1126a0bcaf81518fb37f09e0a91",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:npc:moonwell-keeper",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/sprites/npc-moonwell-keeper.png",
+      "description": "月影魔王城像素风 npc：moonwell-keeper",
+      "category": "sprite.character",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "npc"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 48,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.npc.moonwell-keeper",
+        "briefFingerprint": "asset-slot-v1:b954f3c0",
+        "contentHash": "sha256:0d8fa884f04737c5fc19e995e70b4f3222a49f901fc9e0738b996a0f4121ba6d",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:item:moonbell-seed",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/items/item-moonbell-seed.png",
+      "description": "月影魔王城像素风 item：moonbell-seed",
+      "category": "sprite.item",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "item"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.item.moonbell-seed",
+        "briefFingerprint": "asset-slot-v1:a72f086c",
+        "contentHash": "sha256:346b74b81710361886da5b1f13e6c6d424424a705c994a554229a3b355258202",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:item:moonbell",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/items/item-moonbell.png",
+      "description": "月影魔王城像素风 item：moonbell",
+      "category": "sprite.item",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "item"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.item.moonbell",
+        "briefFingerprint": "asset-slot-v1:b935492e",
+        "contentHash": "sha256:e2b2a6f5e09862702135593f5c333fd1c28c7b067a50c50f94c6870790986bb1",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:item:moonwood",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/items/item-moonwood.png",
+      "description": "月影魔王城像素风 item：moonwood",
+      "category": "sprite.item",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "item"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.item.moonwood",
+        "briefFingerprint": "asset-slot-v1:e875f17e",
+        "contentHash": "sha256:da15da89d3d9795fda1512506fcc127941e29bfbf146371a3aca614f4f6d1f86",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:item:shadow-ore",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/items/item-shadow-ore.png",
+      "description": "月影魔王城像素风 item：shadow-ore",
+      "category": "sprite.item",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "item"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.item.shadow-ore",
+        "briefFingerprint": "asset-slot-v1:181c3a12",
+        "contentHash": "sha256:f281db851d4e2f20576f46224d2866cd0f5b2d642b0bd183e6727efcd6138753",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:crop:moonbell-seeded",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/crops/crop-moonbell-seeded.png",
+      "description": "月影魔王城像素风 crop：moonbell-seeded",
+      "category": "sprite.crop",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "crop"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.crop.moonbell-seeded",
+        "briefFingerprint": "asset-slot-v1:8c647bed",
+        "contentHash": "sha256:e73e97004abdf8dd3dd92c16ae1f9d9fb2a70a7b3fe18305a2eb1ff08f38bf06",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:crop:moonbell-growing",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/crops/crop-moonbell-growing.png",
+      "description": "月影魔王城像素风 crop：moonbell-growing",
+      "category": "sprite.crop",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "crop"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.crop.moonbell-growing",
+        "briefFingerprint": "asset-slot-v1:7b377315",
+        "contentHash": "sha256:2517a08f2d2637e2d6c85dab069ba1f9aeba1d26994af0ef4069652143af638c",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:crop:moonbell-mature",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/crops/crop-moonbell-mature.png",
+      "description": "月影魔王城像素风 crop：moonbell-mature",
+      "category": "sprite.crop",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "crop"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.crop.moonbell-mature",
+        "briefFingerprint": "asset-slot-v1:02a11662",
+        "contentHash": "sha256:491eea83d4428fae27d3c4f2a8a198f5d3ce1fd20dad666236e4647105c8b563",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:building:throne-hall",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/buildings/building-throne-hall.png",
+      "description": "月影魔王城像素风 building：throne-hall",
+      "category": "sprite.building",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "building"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 192,
+        "height": 96,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.building.throne-hall",
+        "briefFingerprint": "asset-slot-v1:90404e59",
+        "contentHash": "sha256:990d274a17adf2ca816efe560b0b51bda1be06e23d6222558b25f93b015677f4",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:building:greenhouse-ruin",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/buildings/building-greenhouse-ruin.png",
+      "description": "月影魔王城像素风 building：greenhouse-ruin",
+      "category": "sprite.building",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "building"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 128,
+        "height": 96,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.building.greenhouse-ruin",
+        "briefFingerprint": "asset-slot-v1:ae202cb3",
+        "contentHash": "sha256:14e833521d36cb7287bfc0f3647edb2c37daa485c14563f08fd04c2f5e81116d",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:building:forest-arch",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/buildings/building-forest-arch.png",
+      "description": "月影魔王城像素风 building：forest-arch",
+      "category": "sprite.building",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "building"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 64,
+        "height": 64,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.building.forest-arch",
+        "briefFingerprint": "asset-slot-v1:4f06ee4e",
+        "contentHash": "sha256:aba1aefa2c7b92ccd8053a44f9c7645eea9c8d849bdfa1b8c107995ea778b5c8",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:building:undercrypt-stairs",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/buildings/building-undercrypt-stairs.png",
+      "description": "月影魔王城像素风 building：undercrypt-stairs",
+      "category": "sprite.building",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "building"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 64,
+        "height": 64,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.building.undercrypt-stairs",
+        "briefFingerprint": "asset-slot-v1:70979fd4",
+        "contentHash": "sha256:34f30236424656b1abd2a1aad9962ee0cc7b490d387a941f79d2c33cbaf9c643",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:building:moonwell",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/buildings/building-moonwell.png",
+      "description": "月影魔王城像素风 building：moonwell",
+      "category": "sprite.building",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "building"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 64,
+        "height": 64,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.building.moonwell",
+        "briefFingerprint": "asset-slot-v1:497f6f1a",
+        "contentHash": "sha256:515bbbca2831cc9a3ce3bd161b8b92b3bad6df85de213e476e91587638723a06",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:decoration:ancient-grove",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/buildings/decoration-ancient-grove.png",
+      "description": "月影魔王城像素风 decoration：ancient-grove",
+      "category": "sprite.building",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "decoration"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 96,
+        "height": 96,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.decoration.ancient-grove",
+        "briefFingerprint": "asset-slot-v1:17f604f2",
+        "contentHash": "sha256:833c53ef4aa4c55227d81b5172e4438c1cdd520c4108e399a5631543fdeb5312",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:building:forge-core",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/buildings/building-forge-core.png",
+      "description": "月影魔王城像素风 building：forge-core",
+      "category": "sprite.building",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "building"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 128,
+        "height": 96,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.building.forge-core",
+        "briefFingerprint": "asset-slot-v1:27814be6",
+        "contentHash": "sha256:1300b322d9763d93edcd46a3cdbe22a28e11037a36dfd4f83465534714fb7178",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:building:sealed-vault",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/buildings/building-sealed-vault.png",
+      "description": "月影魔王城像素风 building：sealed-vault",
+      "category": "sprite.building",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "building"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 64,
+        "height": 96,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.building.sealed-vault",
+        "briefFingerprint": "asset-slot-v1:5028ab6e",
+        "contentHash": "sha256:9c3e48be8b353db9f5298267c9bee4fb50db12060efe487156a24f621ed27a90",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:resource:moonwood-log",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/resources/resource-moonwood-log.png",
+      "description": "月影魔王城像素风 resource：moonwood-log",
+      "category": "sprite.resource",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "resource"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.resource.moonwood-log",
+        "briefFingerprint": "asset-slot-v1:e9e084dc",
+        "contentHash": "sha256:6304205054ebd54f685646edea61194efbac91cb7e215db756f8ee305feec6a9",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:resource:shadow-ore-vein",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/resources/resource-shadow-ore-vein.png",
+      "description": "月影魔王城像素风 resource：shadow-ore-vein",
+      "category": "sprite.resource",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "resource"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.resource.shadow-ore-vein",
+        "briefFingerprint": "asset-slot-v1:94126865",
+        "contentHash": "sha256:07161135c00f6905696db05173687a35d6d8749b5d2801648f0c0069dc831dd4",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:building:throne-hall-restored",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/buildings/building-throne-hall-restored.png",
+      "description": "月影魔王城像素风 building：throne-hall-restored",
+      "category": "sprite.building",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "building"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 192,
+        "height": 96,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.building.throne-hall-restored",
+        "briefFingerprint": "asset-slot-v1:942b80bf",
+        "contentHash": "sha256:680981be56e38ac47c52c7648a64453b9a293fdf02bccc3c31649dc483a5ff15",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:building:greenhouse-restored",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/buildings/building-greenhouse-restored.png",
+      "description": "月影魔王城像素风 building：greenhouse-restored",
+      "category": "sprite.building",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "building"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 128,
+        "height": 96,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.building.greenhouse-restored",
+        "briefFingerprint": "asset-slot-v1:fff2d7d9",
+        "contentHash": "sha256:f0c7164f0af1389c7455e9bed6c83af721b3b07c0d48b5dec8a100e481899450",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:building:forge-core-awakened",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/buildings/building-forge-core-awakened.png",
+      "description": "月影魔王城像素风 building：forge-core-awakened",
+      "category": "sprite.building",
+      "tags": [
+        "game-demon-castle",
+        "pixel",
+        "moonshadow-castle",
+        "building"
+      ],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 128,
+        "height": 96,
+        "transparent": true,
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-contain-bottom-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-2026-10-12",
+        "slotId": "demon-castle.building.forge-core-awakened",
+        "briefFingerprint": "asset-slot-v1:2f33ef90",
+        "contentHash": "sha256:09d4e07f995a5f605a5ec3c9703260a6b79b62775a0e4aec0089b569ddc68468",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:tile:moon-courtyard",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/tiles/tile-moon-courtyard.png",
+      "description": "月影魔王城像素风地块：moon-courtyard",
+      "category": "tile.ground",
+      "tags": ["game-demon-castle", "pixel", "moonshadow-castle", "tile", "ground", "courtyard"],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "repeat",
+        "width": 32,
+        "height": 32,
+        "transparent": false,
+        "sampling": "nearest"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-cover-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-terrain-tiles-2026-10-12",
+        "slotId": "demon-castle.tile.moon-courtyard",
+        "briefFingerprint": "asset-slot-v1:fe3df546",
+        "sourceContentHash": "sha256:71a816f89214c3845be17c49f54f1949e0642fccca57ed5ad30417c4e0a1afbb",
+        "contentHash": "sha256:300b45f687e9d17755bb3216adbd5abf28a5bed7ca6ddfe029820667ce4c7b96",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:tile:moonshadow-forest",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/tiles/tile-moonshadow-forest.png",
+      "description": "月影魔王城像素风地块：moonshadow-forest",
+      "category": "tile.ground",
+      "tags": ["game-demon-castle", "pixel", "moonshadow-castle", "tile", "ground", "forest"],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "repeat",
+        "width": 32,
+        "height": 32,
+        "transparent": false,
+        "sampling": "nearest"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-cover-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-terrain-tiles-2026-10-12",
+        "slotId": "demon-castle.tile.moonshadow-forest",
+        "briefFingerprint": "asset-slot-v1:7472a345",
+        "sourceContentHash": "sha256:9225a9049f53c4ac5d1eb2ea1cafaa3ac5b165e7f834b48c96cf70be1d7f7888",
+        "contentHash": "sha256:c8b9739f64ba09acf80e1f9abb8cea9d317afd1a3e9db843752c5fd44c3b6e80",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    },
+    {
+      "id": "art:demon-castle:tile:undercrypt-workshop",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-demon-castle/art/tiles/tile-undercrypt-workshop.png",
+      "description": "月影魔王城像素风地块：undercrypt-workshop",
+      "category": "tile.ground",
+      "tags": ["game-demon-castle", "pixel", "moonshadow-castle", "tile", "ground", "workshop"],
+      "source": "OpenAI built-in image generation",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "style": "pixel.moonshadow-castle",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "repeat",
+        "width": 32,
+        "height": 32,
+        "transparent": false,
+        "sampling": "nearest"
+      },
+      "provenance": {
+        "method": "ai-pending-approved-nearest-cover-center",
+        "batchRef": "approval-ledger.json#openai-image-generation-terrain-tiles-2026-10-12",
+        "slotId": "demon-castle.tile.undercrypt-workshop",
+        "briefFingerprint": "asset-slot-v1:bc3549b2",
+        "sourceContentHash": "sha256:6e233004d5cc40e12504edd394f9784896f3354cdb72a85fc7f9c4765c5691cb",
+        "contentHash": "sha256:85297bdd6e61fc8d2687665b9b925531a33f0d169b57d26f59a4abdafaf13fed",
+        "approvedAt": "2026-10-12",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved"
+      }
+    }
+  ]
+}

@@ -34,4 +34,4 @@
 **下一步（游戏层·归 🟢 本游戏 PE）**：写 `gdd.md`「NPC AI」详设章 → 摆四张 L0 数据表
 （`INTENT_VERBS` / `MEMORY_TAGS` / `NPC_CARDS` / `TURN_PHASES`）→ 按 `capability-plan.md` §2.3
 的三条硬口径接线。**别在游戏层重造那三件**。
-> 引擎池对应条目：`REQ-111-AINPC`（端口 + 门·捆绑）· `REQ-111-MEMORY`（记忆）。两条均等独立复查（复查人 ≠ 施工人）。
+> 历史引擎池条目：`REQ-111-AINPC`（端口 + 门·捆绑）· `REQ-111-MEMORY`（记忆）。Owner 于 2026-10-12 因项目停更取消后续排期并移出公共池；已落地代码不回退，两条独立复查仍未完成。详见 `requests.md` 顶部暂停决定。

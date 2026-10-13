@@ -26,18 +26,18 @@ Manifest(纯 JSON) ──parseManifest──▶ WorldBlueprint ──engine.load
 - 校验链：`validate-manifest`（number/boolean 硬校验 + assetKey 防编造）→ `validate-references`（信号/id/模板/图跳转断链体检）。
 - 确定性：一切随机走 `RandomSeed` + `nextRandom` 种子 PRNG；ZeroCraftBench 双跑同 hash 钉死可回放。
 
-## 2. LLM 产一个游戏的五步路径
+## 2. LLM 产一个游戏的六步路径
 
-1. **开工前**：交能力总览 capability-plan（模板 `docs/design/capability-plan-template.md`），Lead 过审才动工（CLAUDE.md 铁律）。
-2. **拿词汇表**：`buildCapabilityCatalog()`（zerocraft.py 生成管线自动注入 `{CAPABILITY_CATALOG}` 占位符）。
-3. **写 manifest 纯 JSON**：可抄样例 = zerocraft.py `PRESET_BLUEPRINTS`、registry 各能力 describe.examples。
-4. **UI/HUD 用 LayoutNode 数据**（34 控件闭集）：先读 `docs/design/ui-playbook.md`；活范例 = game-i（UI Gallery）。**⭐ 华丽起手（华丽度=第一要素·别从空白搭朴素屏）**：① `mountUI` 起手传 house 主题（`STARTER_THEME`/apollo-toon·apollo-kit onyx/brocade·非缺省 SHELL·非自写皮）；② 主菜单/结算直接 import `@ui/starters` 起手包；③ 按游戏「有什么」逛 game-i 挑成熟件（`faceArt`/`LevelPath`/`Particles`/`sheen-hover`/`Label.format`/`shape`/3D UI…·货架表 `docs/playbooks/ui.md`「华丽起手」）。朴素默认 UI = 缺陷（PUI 复查可打回）。
-5. **验证**：parseManifest 零 error → `npm run bench`（五轴 ≥70·含确定性双跑）→ launcher 透视器人验。
+1. **立项**：写清玩法、核心循环、胜负与宿主输入输出，形成 S1 立项卡。
+2. **S1-P HTML 原型**：在 `docs/design/<game>/` 交可运行 `.dc.html`（默认 1440×900），覆盖核心屏、状态与演出；owner 真机定稿前不得进入 S2 或正式实现。原型仅作目标，生产端仍用引擎闭集重做。
+3. **能力计划**：按 `docs/design/capability-plan-template.md` 交 capability-plan，Lead 过审才动工。
+4. **词汇表 + manifest**：用 `buildCapabilityCatalog()` 取机读词汇；manifest 保持纯 JSON，只抄 registry / preset 的表达结构，不抄玩法。
+5. **按原型实现 UI/HUD**：只用 LayoutNode 闭集；按 `docs/design/ui-playbook.md` / `docs/playbooks/ui.md` 华丽起手并参考 game-i。结构、视觉与时序须分层 1:1；禁搬原型 DOM/CSS/JS。
+6. **验证**：parseManifest → bench 确定性双跑 → launcher 人验；提交同画布截图/关键帧和差异单，未裁决偏差归零才可称对齐。
 
 **红线**（audit 硬红旗，出货不豁免）：游戏层禁写自由代码 / 禁手写 DOM / 禁裸 `Math.random`；数据表必须有现成解释器消费（禁"虚胖数据"——填了文案没有效果比没数据更糟）；零测试不出货。
 
-**过程编排**：五步说明"怎么做"；进度与门禁由八阶段流程板管理
-（`docs/playbooks/game-production.md`·工件定状态·双门验证）。会话只领一阶段，禁止跨阶段抢跑。
+**过程编排**：六步说明“怎么做”；八阶段流程板的 S1 内含 `S1-P` 原型人门（`docs/playbooks/game-production.md`）。会话只领一阶段，禁止跨阶段抢跑。
 
 ## 3. 分层阅读协议（token 价签）
 

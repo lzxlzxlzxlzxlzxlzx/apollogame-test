@@ -1,5 +1,7 @@
 # game211《翻命扑克》· 游戏级工单池
 
+> **Owner 暂停决定（2026-10-12）**：game211 已停止更新；取消公共引擎池 `REQ-FLOWFIELD` 的后续排期与 M2/M3/M4 扩展，释放占位。已落地的 `t2-flow-field`、软分离与 ORCA 代码不回退；原三轮独立复查的终态仍是 `CONCERNS`（「可交 Demo」），不能记为完整 PASS。`REQ-G211-CROWDDEMO` 及下文历史证据保留供将来重启时重估；重启必须重新立票，不沿用本次取消作为验收。
+
 > 游戏级工单随游戏走·**不占引擎 10 硬槽**（CLAUDE.md）。引擎级下沉一旦经 Lead 确认，升级进 `docs/workflow/requests.md`；3D 面走 `docs/workflow/requests-3d.md`。
 > 状态：`open` / `in-review` / `done`（附 commit）/ `wontfix`（附理由）。
 > **注**：本游戏其余设计文档现落在 `games/game211/design/`（`capability-plan.md`、`HANDOFF-duel-physics.md`），与全库 `docs/design/<game>/` 约定不一致。**未擅自搬迁**（会断已有引用）；如需归位另开工单。
@@ -113,14 +115,14 @@ Demo 要的正是这个：8% 的瞬时穿模肉眼看得出来吗？看不出来
 
 **顺带希望你带回来的数字**：你自己场景下的 ms/tick（A/B/C 三档 × 你的真实单位数），以及**你觉得手感对的
 `separation.weight` 取值**。引擎侧留了两个旋钮等 Demo 反馈定档：`SEP_MAX_WEIGHT`（斥力天花板·现 0.6）
-与 ORCA 的 `timeHorizon`（现 8）。**别自己去改引擎常数**——带数字回来，走引擎池 `REQ-FLOWFIELD`。
+与 ORCA 的 `timeHorizon`（现 8）。**别自己去改引擎常数**——项目已停更，带数字回来后须重新立票，历史 `REQ-FLOWFIELD` 已取消出池。
 
 **已知未做（别当 bug 报）**：M2 视线直指（`los` 摆了不生效·会在 trace 留痕）· M3 分块增量重建（≥192×192 大图重建 13.1ms）
 · M4 接 tilemap 地形代价（`cost[]` 得自己填）。硬不重叠仍归 `collision-resolve`（在 motion 之后介入）。
 
 **背景全文**：`docs/design/game211/crowd-pathfinding-research.md`（§9 = SC2/OpenSteer 实查与我们的偏离，§10 = ORCA 落地实测与三档选型，
 §10.5 = 独立复查打回的六条与修法）。复查报告 `docs/design/game211/orca-review-2026-08-25.md`。
-引擎池工单 `docs/workflow/requests.md` → `REQ-FLOWFIELD`。压测可复跑：`games/game211/pathfind-scale.bench.test.ts`。
+历史引擎池工单 `REQ-FLOWFIELD` 已因项目停更取消出池；压测仍可复跑：`games/game211/pathfind-scale.bench.test.ts`。
 
 ---
 

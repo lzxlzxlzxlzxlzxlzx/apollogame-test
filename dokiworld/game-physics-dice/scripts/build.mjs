@@ -14,7 +14,7 @@ const manifestPath = resolve(appRoot, 'manifest.json');
 const artRoot = resolve(repoRoot, 'public', 'games', 'game-dice', 'art');
 
 const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
-if (manifest.schemaVersion !== 3 || manifest.id !== 'game-physics-dice' || manifest.version !== '1.0.6') {
+if (manifest.schemaVersion !== 3 || manifest.id !== 'game-physics-dice' || manifest.version !== '1.1.3') {
   throw new Error('Unexpected DokiWorld dice manifest identity.');
 }
 if (manifest.entry !== 'index.html') throw new Error('Unexpected DokiWorld dice entry.');
@@ -28,7 +28,7 @@ if (!manifest.locales?.en?.name || !manifest.locales?.en?.description
 if (manifest.runtime?.protocol !== 'dokiworld.app' || manifest.runtime?.protocolVersion !== 2) {
   throw new Error('Unexpected DokiWorld dice runtime protocol.');
 }
-if (manifest.runtime?.input?.contract !== 'doki.game.dice-input' || manifest.runtime?.input?.version !== 1) {
+if (manifest.runtime?.input?.contract !== 'doki.game.dice-input' || manifest.runtime?.input?.version !== 2) {
   throw new Error('Unexpected DokiWorld dice input contract.');
 }
 if (manifest.runtime?.outputs?.length !== 1

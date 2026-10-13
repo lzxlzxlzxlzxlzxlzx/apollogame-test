@@ -1,0 +1,10 @@
+{
+  "name": "dokiworld-game-card-reveal", "version": "0.1.0", "private": true, "type": "module",
+  "scripts": {
+    "test": "node ../../node_modules/vitest/vitest.mjs run --config vitest.config.ts",
+    "typecheck": "node ../../node_modules/typescript/bin/tsc --noEmit -p tsconfig.json",
+    "build": "node scripts/build.mjs",
+    "verify:dist": "node scripts/verify-dist.mjs"
+  },
+  "dependencies": { "dokiworlds-app-sdk": "file:../../vendor/dokiworlds-app-sdk" }
+}

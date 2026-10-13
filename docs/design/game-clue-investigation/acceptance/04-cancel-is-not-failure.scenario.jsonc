@@ -1,0 +1,30 @@
+// author: GD
+// S4 条款：退出先确认；“留在现场”不丢调查状态；确认退出是 cancelled，绝非 completed/失败惩罚。
+// UI 对账：investigation.exit = “退出调查”；investigation.stay = “继续调查”；
+// investigation.cancel = 确认框“确认退出”。三个动作都须是玩家可见控件。
+// 对抗目标：退出直接结束、留在现场失效、取消误触发成功，均须转红。
+{
+  "name": "退出确认可返回且确认退出只取消",
+  "game": "game-clue-investigation",
+  "seed": 4104,
+  "steps": [
+    { "expect": [
+      { "res": "required-collected", "eq": 0 },
+      { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" }
+    ] },
+    { "signal": "investigation.exit" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "exit-confirm" } ], "cap": 30 },
+    { "expect": [ { "res": "required-collected", "eq": 0 } ] },
+    { "signal": "investigation.stay" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 30 },
+    { "signal": "investigation.exit" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "exit-confirm" } ], "cap": 30 },
+    { "signal": "investigation.cancel" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "cancelled" } ], "cap": 30 },
+    { "expect": [
+      { "res": "required-collected", "eq": 0 },
+      { "flag": "collected.lock", "eq": false },
+      { "flag": "collected.prints", "eq": false }
+    ] }
+  ]
+}

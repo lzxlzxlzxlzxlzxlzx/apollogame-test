@@ -21,6 +21,7 @@ export const ConditionExprSchema: Schema = t.lazy('ConditionExpr', () =>
       t.obj({ kind: t.lit('state'), fsmId: t.str('State.fsmId'), equals: t.str('目标状态名') }),
       t.obj({ kind: t.lit('timer'), id: t.str('Timer.id'), cmp: CmpOpSchema, value: t.num('elapsed 阈值（tick）') }),
       t.obj({ kind: t.lit('string'), id: t.str('StringVar.id'), equals: t.str() }),
+      t.obj({ kind:t.lit('relationship'), npcId:t.str('Life NPC placement id'), cmp:t.opt(CmpOpSchema), value:t.opt(t.num()), levelId:t.opt(t.str()) }),
       t.obj({ kind: t.lit('cooldown'), id: t.str('Cooldowns 槽名'), ready: t.opt(t.bool('缺省 true=判就绪')) }),
     ],
     'kind',

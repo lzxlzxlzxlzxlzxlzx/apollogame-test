@@ -54,14 +54,17 @@ describe('Game I gallery', () => {
       'app-title',           // Label
       'app-engine',          // Badge
       'img-cover',           // Image
+      'signal-once',         // Image.signal emission live sample
       'top-div',             // Divider
       'btn-p',               // Button
       'in-text',             // Input
       'dd-diff',             // Dropdown
       'cb-tutorial',         // Checkbox
       'tg-sound',            // Toggle
+      'tg-sound-disabled',   // Toggle.disabled（保持 checked 外观、不可交互）
       'rg-speed',            // RadioGroup
       'sl-volume',           // Slider
+      'sk-9-separate',       // 9-slice 源裁边与显示边宽分离
       'pb-accent',           // ProgressBar
       'tag-all',             // Tag
       'demo-modal-overlay',  // Modal

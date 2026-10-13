@@ -16,7 +16,7 @@ export type { Rect, Size, MeasureFn } from './layout-solver.js';
 export type {
   LayoutNode, LayoutConstraints, ComponentType, ComponentProps, HandlerMap, Handler, ActionSink, UITheme, UICursor, WebFont,
   VisualEffect, EffectKind, EffectColor, EdgeColor,
-  ButtonProps, LabelProps, DropdownProps, BadgeProps, InputProps, PanelProps,
+  ButtonProps, LabelProps, DropdownProps, BadgeProps, InputProps, PanelProps, WheelBinding,
   TableProps, TableColumn, TableRow, TabsProps, ProgressBarProps, TagProps, ModalProps, ToastProps, TooltipProps,
   CardProps, PlayingCardProps, StepperProps, SegmentedProps, AvatarProps, AccordionProps,
   RatingProps, ComboboxProps, DrawerProps, VirtualListProps, ContextMenuProps,

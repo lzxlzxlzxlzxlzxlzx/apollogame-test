@@ -1,17 +1,27 @@
 {
   "slug": "game108",
   "exit": 0,
-  "summary": "✓ 点击打穿（7 个控件 · 6 个点后 DOM 真的变了 · 零控制台 error）",
-  "controls": 7,
+  "summary": "✓ 点击打穿（8 个控件 · 2 个动作真经 Engine.step · 6 个点后 DOM 变化 · 零控制台 error）",
+  "discoveredControls": 14,
+  "controls": 8,
+  "unattempted": [
+    "key-sdk",
+    "key-help",
+    "key-lang",
+    "key-voice",
+    "key-sfx",
+    "key-bgm"
+  ],
   "changed": 6,
+  "engineMatched": 2,
+  "engineRequired": true,
+  "clickFailures": 0,
   "hits": [
     {
-      "id": "key-menu",
-      "changed": false,
-      "changedIds": []
-    },
-    {
       "id": "start",
+      "action": "ui.start",
+      "clicked": true,
+      "engineInput": false,
       "changed": true,
       "changedIds": [
         "help-veil",
@@ -24,6 +34,9 @@
     },
     {
       "id": "key-help-close",
+      "action": "ui.start",
+      "clicked": true,
+      "engineInput": false,
       "changed": true,
       "changedIds": [
         "phase-sec",
@@ -35,39 +48,76 @@
       ]
     },
     {
-      "id": "key-rock",
-      "changed": true,
-      "changedIds": [
-        "phase-sec",
-        "cb-p1-rock-d",
-        "cb-p1-rock-v",
-        "key-rock-s"
-      ]
-    },
-    {
-      "id": "key-paper",
-      "changed": true,
-      "changedIds": [
-        "phase-sec"
-      ]
-    },
-    {
-      "id": "key-scissors",
-      "changed": true,
-      "changedIds": [
-        "phase-sec"
-      ]
-    },
-    {
       "id": "key-smoke",
+      "action": "smoke.use",
+      "clicked": true,
+      "engineInput": true,
       "changed": true,
       "changedIds": [
-        "phase-sec",
         "cb-p2-rock-v",
         "key-smoke-n",
         "key-smoke-s",
         "smoke-fx",
-        "smoke-veil"
+        "smoke-veil",
+        "smoke-blind"
+      ]
+    },
+    {
+      "id": "key-scissors",
+      "action": "charge.scissors",
+      "clicked": true,
+      "engineInput": true,
+      "changed": true,
+      "changedIds": [
+        "cb-p1-scissors-d",
+        "cb-p1-scissors-v",
+        "key-scissors-s"
+      ]
+    },
+    {
+      "id": "key-paper",
+      "action": "charge.paper",
+      "clicked": true,
+      "engineInput": true,
+      "changed": false,
+      "changedIds": []
+    },
+    {
+      "id": "key-rock",
+      "action": "charge.rock",
+      "clicked": true,
+      "engineInput": true,
+      "changed": false,
+      "changedIds": []
+    },
+    {
+      "id": "key-menu",
+      "action": "ui.menu",
+      "clicked": true,
+      "engineInput": false,
+      "changed": true,
+      "changedIds": [
+        "menu-veil",
+        "menu",
+        "menu-t",
+        "menu-div",
+        "menu-bgm",
+        "menu-bgm-l"
+      ]
+    },
+    {
+      "id": "key-menu-close",
+      "action": "ui.menu",
+      "clicked": true,
+      "engineInput": false,
+      "changed": true,
+      "changedIds": [
+        "menu-veil",
+        "menu",
+        "menu-t",
+        "menu-div",
+        "menu-bgm",
+        "menu-bgm-l"
       ]
     }
   ],

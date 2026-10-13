@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "zerocraft.life-generation-patch.v1",
+  "baseWorld": "world.life.json",
+  "requiresSlices": ["actors.patch.json", "construction.patch.json"],
+  "operations": [
+    {
+      "op": "replace",
+      "path": "/relationships/0/rules",
+      "value": [
+        { "id": "gargoyle-build-throne", "priority": 100, "trigger": { "kind": "life-action", "action": "build", "targetId": "throne-hall" }, "effect": { "kind": "relationship-delta", "amount": 10 } },
+        { "id": "gargoyle-build-forge", "priority": 110, "trigger": { "kind": "life-action", "action": "build", "targetId": "forge-core" }, "effect": { "kind": "relationship-delta", "amount": 15 } }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/relationships/1/rules",
+      "value": [
+        { "id": "moonwell-build-throne", "priority": 100, "trigger": { "kind": "life-action", "action": "build", "targetId": "throne-hall" }, "effect": { "kind": "relationship-delta", "amount": 5 } },
+        { "id": "moonwell-build-greenhouse", "priority": 110, "trigger": { "kind": "life-action", "action": "build", "targetId": "greenhouse-ruin" }, "effect": { "kind": "relationship-delta", "amount": 12 } }
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/dialogueCatalog",
+      "value": [
+        {
+          "id": "gargoyle-artisan.arrival",
+          "graph": {
+            "start": {
+              "kind": "choice",
+              "speaker": "石像鬼工匠",
+              "prompt": "熔炉还在呼吸。先把哪一处城堡唤醒？",
+              "options": [
+                { "id": "ask-throne", "text": "先修复王座厅。", "next": "throne-hint" },
+                { "id": "ask-greenhouse", "text": "温室接下来该怎么修？", "requires": { "kind": "flag", "id": "flag.throne-lit", "equals": true }, "next": "greenhouse-hint" },
+                { "id": "ask-forge", "text": "熔炉核心需要什么？", "requires": { "kind": "flag", "id": "flag.greenhouse-restored", "equals": true }, "next": "forge-hint" }
+              ]
+            },
+            "throne-hint": { "kind": "line", "speaker": "石像鬼工匠", "text": "庭院的月木与地底的影矿足以点亮王座厅。", "next": null },
+            "greenhouse-hint": { "kind": "line", "speaker": "石像鬼工匠", "text": "月铃花能安抚温室的裂纹。带来两朵成熟作物和一束月木。", "next": null },
+            "forge-hint": { "kind": "line", "speaker": "石像鬼工匠", "text": "温室已稳，影矿和月木可以让熔炉重新回应你的命令。", "next": null }
+          }
+        },
+        {
+          "id": "moonwell-keeper.arrival",
+          "graph": {
+            "start": {
+              "kind": "choice",
+              "speaker": "月井使者",
+              "prompt": "月井记得这座城堡。你想聆听哪一段记忆？",
+              "options": [
+                { "id": "ask-origin", "text": "这座城堡为何沉睡？", "next": "origin" },
+                { "id": "ask-oath", "text": "王座厅点亮后会怎样？", "requires": { "kind": "flag", "id": "flag.throne-lit", "equals": true }, "next": "oath" },
+                { "id": "ask-future", "text": "熔炉苏醒后，我们要去哪里？", "requires": { "kind": "flag", "id": "flag.forge-awakened", "equals": true }, "next": "future" }
+              ]
+            },
+            "origin": { "kind": "line", "speaker": "月井使者", "text": "并非毁灭让它沉睡，而是最后一位城主把月光封进了根脉。", "next": null },
+            "oath": { "kind": "line", "speaker": "月井使者", "text": "灯火会召回仍在外漂泊的旧臣，也会照亮你自己的誓言。", "next": null },
+            "future": { "kind": "line", "speaker": "月井使者", "text": "向北的雾门将会开启。月影城堡终于能再次选择自己的命运。", "next": null }
+          }
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/quests",
+      "value": [
+        {
+          "id": "chapter.return-of-moonshadow",
+          "titleKey": "月影归城",
+          "quests": [
+            {
+              "id": "quest.restore-moonshadow",
+              "chapterId": "chapter.return-of-moonshadow",
+              "priority": 100,
+              "initialNodeId": "light-throne-hall",
+              "terminalNodeIds": ["awaken-forge-core"],
+              "nodes": [
+                {
+                  "id": "light-throne-hall",
+                  "titleKey": "点亮王座厅",
+                  "objectiveKey": "收集月木与影矿，修复庭院中的王座厅。",
+                  "trigger": { "kind": "life-action", "action": "build", "targetId": "throne-hall" },
+                  "effects": [
+                    { "kind": "set-flag", "id": "flag.throne-lit", "value": true },
+                    { "kind": "set-node-state", "questId": "quest.restore-moonshadow", "nodeId": "light-throne-hall", "state": "completed" },
+                    { "kind": "set-node-state", "questId": "quest.restore-moonshadow", "nodeId": "restore-greenhouse", "state": "active" }
+                  ]
+                },
+                {
+                  "id": "restore-greenhouse",
+                  "titleKey": "修复月庭温室",
+                  "objectiveKey": "种出两朵月铃花，与月木一同修复温室。",
+                  "trigger": { "kind": "life-action", "action": "build", "targetId": "greenhouse-ruin" },
+                  "when": { "kind": "flag", "id": "flag.throne-lit", "equals": true },
+                  "effects": [
+                    { "kind": "set-flag", "id": "flag.greenhouse-restored", "value": true },
+                    { "kind": "set-node-state", "questId": "quest.restore-moonshadow", "nodeId": "restore-greenhouse", "state": "completed" },
+                    { "kind": "set-node-state", "questId": "quest.restore-moonshadow", "nodeId": "awaken-forge-core", "state": "active" }
+                  ]
+                },
+                {
+                  "id": "awaken-forge-core",
+                  "titleKey": "唤醒地底熔炉",
+                  "objectiveKey": "向熔炉核心提交影矿与月木，让城堡恢复建造能力。",
+                  "trigger": { "kind": "life-action", "action": "build", "targetId": "forge-core" },
+                  "when": { "kind": "flag", "id": "flag.greenhouse-restored", "equals": true },
+                  "effects": [
+                    { "kind": "set-flag", "id": "flag.forge-awakened", "value": true },
+                    { "kind": "set-node-state", "questId": "quest.restore-moonshadow", "nodeId": "awaken-forge-core", "state": "completed" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

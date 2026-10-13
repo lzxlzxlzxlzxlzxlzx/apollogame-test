@@ -1,5 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
-import type { Component, IWorld } from '@engine/core/types.js';
+import { SystemPhase, type Component, type IWorld } from '@engine/core/types.js';
 import type { ConditionExpr, State, Text, Flag, Resource, ResourceModify, RandomSeed, InputQueue } from '@engine/protocol/components.js';
 import { findByComponentId, getComponentById, worldSeed } from '@engine/core/query.js';
 import { evaluateCondition } from '@skills/tier2/index.js';
@@ -34,11 +34,13 @@ export interface DialogueEffect {
   amount: number;
 }
 export interface DialogueChoiceOption {
+  id?: string;
   text: string;
   effects?: DialogueEffect[];
   setFlag?: string; // 目标 Flag 的 id
   next: string;
   requires?: ConditionExpr; // 出现/可选的条件门（检定/阈值解锁）
+  relationshipEffects?: { ruleId:string; priority:number; exclusiveGroup?:string; npcId:string; amount:number }[];
 }
 // check 节点（R17）：确定性骰子检定。同 line/choice 一样是图里的一种节点——
 //   score = resource(attribute) + floor(resource(bonusFrom)/bonusDiv) + roll(1..dice)
@@ -88,6 +90,15 @@ export interface DialogueAdvance extends Component {
 export interface DialogueChoose extends Component {
   readonly type: 'DialogueChoose';
   index: number;
+}
+export interface DialogueChoiceResult extends Component {
+  readonly type: 'DialogueChoiceResult';
+  status: 'applied' | 'rejected';
+  reason?: 'invalid-node' | 'invalid-choice' | 'condition-failed';
+  choiceId?: string;
+  index?: number;
+  fromNode?: string;
+  toNode?: string;
 }
 
 // 当前节点渲染成文本（line=「说话人：台词」；choice/check=「说话人 + 提示」）。
@@ -191,9 +202,21 @@ export const dialogueCapability = defineCapability({
         describe: '请求选择某个选项（choice 节点用）',
         fields: { index: { type: 'number', describe: '选项下标' } },
       },
+      DialogueChoiceResult: {
+        category: 'event',
+        describe: 'One-tick deterministic choice outcome. Applied results expose the stable authored choice id when present.',
+        fields: {
+          status: { type: 'string', describe: 'applied or rejected' },
+          reason: { type: 'string', describe: 'optional closed rejection reason' },
+          choiceId: { type: 'string', describe: 'optional stable authored option id' },
+          index: { type: 'number', describe: 'optional chosen option index' },
+          fromNode: { type: 'string', describe: 'optional choice node id' },
+          toNode: { type: 'string', describe: 'optional next node id' },
+        },
+      },
     },
     reads: ['DialogueScript', 'State', 'Resource', 'Flag', 'RandomSeed', 'InputQueue'],
-    writes: ['State', 'Text', 'Flag', 'ResourceModify', 'RandomSeed'],
+    writes: ['State', 'Text', 'Flag', 'ResourceModify', 'RandomSeed', 'DialogueChoiceResult'],
     consumes: ['DialogueAdvance', 'DialogueChoose'],
   },
 
@@ -202,17 +225,20 @@ export const dialogueCapability = defineCapability({
   systems: [
     {
       id: 'dialogue',
+      phase: SystemPhase.Resolve,
       reads: ['DialogueScript', 'State', 'Resource', 'Flag', 'RandomSeed', 'InputQueue'],
-      writes: ['State', 'Text', 'Flag', 'ResourceModify', 'RandomSeed'],
+      writes: ['State', 'Text', 'Flag', 'ResourceModify', 'RandomSeed', 'DialogueChoiceResult'],
       consumes: ['DialogueAdvance', 'DialogueChoose'],
       // R10：显式定序打破 RMW 伪环——本系统读 Resource/State 又产 ResourceModify、改 State，
       // 须排在 resource-apply（应用修改）与 state-sync（发切换事件）之前。
       runsBefore: ['resource-apply', 'state-sync'],
+      runsAfter: ['life-talk'],
       execute(world: IWorld) {
         // 本 tick 的 UI 输入动作（R3 接缝，全局单例）。约定单一活动对话；多对话机时同一动作作用于各机。
         const input = readDialogueActions(world);
         // 对话实体 = 同时挂 DialogueScript + State 且 fsmId 一致的实体（支持多对话机各跑各的脚本）。
         for (const [eid] of world.query('DialogueScript', 'State')) {
+          if (world.hasComponent(eid, 'DialogueChoiceResult')) world.removeComponent(eid, 'DialogueChoiceResult');
           const script = world.getComponent<DialogueScript>(eid, 'DialogueScript')!;
           const st = world.getComponent<State>(eid, 'State')!;
           if (st.fsmId !== script.fsmId) continue;
@@ -238,6 +264,7 @@ export const dialogueCapability = defineCapability({
           if (chooseIndex !== undefined && node.kind === 'choice') {
             const opt = node.options[chooseIndex];
             if (opt && optionAvailable(world, opt)) {
+              const fromNode = st.current;
               // 各效果指向不同资源=不同实体，天然不互相覆盖；无孤儿实体（一实体一组件的约束见 R14）。
               applyEffects(world, opt.effects);
               if (opt.setFlag) {
@@ -245,7 +272,12 @@ export const dialogueCapability = defineCapability({
                 if (fl) fl.active = true;
               }
               st.current = opt.next;
+              world.addComponent(eid, { type: 'DialogueChoiceResult', status: 'applied', choiceId: opt.id, index: chooseIndex, fromNode, toNode: opt.next } as DialogueChoiceResult);
+            } else {
+              world.addComponent(eid, { type: 'DialogueChoiceResult', status: 'rejected', reason: opt ? 'condition-failed' : 'invalid-choice', index: chooseIndex, fromNode: st.current } as DialogueChoiceResult);
             }
+          } else if (chooseIndex !== undefined) {
+            world.addComponent(eid, { type: 'DialogueChoiceResult', status: 'rejected', reason: 'invalid-node', index: chooseIndex, fromNode: st.current } as DialogueChoiceResult);
           }
 
           // ② 按（可能已更新的）current 渲染 Text

@@ -86,7 +86,7 @@ function buildDebugPanel(input: DiceRollInput): LayoutNode {
 }
 
 /** 悬浮判定窗的纯 LayoutNode 描述；标题、难度、骰子和修正卡严格分层。 */
-export function buildDiceWindow(input?: DiceRollInput, options: Readonly<{ debug?: boolean }> = {}): LayoutNode {
+export function buildDiceWindow(input?: DiceRollInput, options: Readonly<{ debug?: boolean; autoRoll?: boolean }> = {}): LayoutNode {
   const modifier = input?.modifier ?? 0;
   const skin = input?.backdrop ?? 'arcane-vault';
   const hasCustomJudgement = (input?.judgement?.bands.length ?? 0) > 0;
@@ -114,7 +114,7 @@ export function buildDiceWindow(input?: DiceRollInput, options: Readonly<{ debug
           // 文字落在 PNG 自带的金边空槽中，不再叠第二层矩形框。
           type: 'Panel', id: 'dice-window-prompt-box', props: { bare: true },
           layout: { width: 238, direction: 'column', align: 'center', padding: 8 },
-          children: [{ type: 'Label', id: 'dice-window-hint', props: { text: '点击骰子', size: 'lg', color: 'text', font: 'ui', bold: true } }],
+          children: [{ type: 'Label', id: 'dice-window-hint', props: { text: options.autoRoll ? '骰子即将掷出' : '点击骰子', size: 'lg', color: 'text', font: 'ui', bold: true } }],
         },
       ],
     },

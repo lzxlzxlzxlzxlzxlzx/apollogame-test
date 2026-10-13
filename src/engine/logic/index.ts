@@ -215,6 +215,18 @@ export function evalCondition(ctx: LogicCtx, expr: ConditionExpr): boolean {
       const s = resolveString(ctx, expr.id);
       return s ? s.value === expr.equals : false;
     }
+    case 'relationship': {
+      if (ctx.self !== undefined) return false;
+      interface RelationshipStateLike extends Component { entries:Array<{npcId:string;value:number;levelId:string}> }
+      for (const entity of ctx.world.queryEntities('LifeRelationshipState')) {
+        const state=ctx.world.getComponent<RelationshipStateLike>(entity,'LifeRelationshipState');
+        const entry=state?.entries.find((candidate)=>candidate.npcId===expr.npcId);
+        if (!entry) return false;
+        if (expr.levelId !== undefined && entry.levelId !== expr.levelId) return false;
+        return expr.value === undefined ? expr.levelId !== undefined : compare(entry.value,expr.cmp ?? 'gte',expr.value);
+      }
+      return false;
+    }
   }
 }
 

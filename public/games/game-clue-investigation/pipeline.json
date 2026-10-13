@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "slug": "game-clue-investigation",
+  "concept": {
+    "name": "现场搜证",
+    "pitch": "DokiWorld 提供现场与物件；玩家调查普通物件、收录必需线索，找齐后完成，退出为取消。",
+    "refs": "定稿原型 docs/design/game-clue-investigation/prototype.dc.html；立项 docs/design/game-clue-investigation/brief.md",
+    "style": "1440×900 深色档案现场，按 Owner 定稿原型实现"
+  },
+  "signoffs": {
+    "S2": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-10-13T02:25:26.315Z"
+    },
+    "S3": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-10-13T02:25:29.743Z"
+    },
+    "S1": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-10-13T02:25:34.480Z"
+    }
+  },
+  "evidence": {
+    "S3": {
+      "exit": 0,
+      "summary": "parse+引擎装载（load+2tick）零 error · ✓ 渲染探针过（截图 public/games/<slug>/probe/S3-render.png） · ✓ Canvas 点击打穿（3 个候选 · 1 个具名 Signal 真入世界 · 零控制台 error）",
+      "at": "2026-10-12T18:43:16.709Z",
+      "gameHash": "56754c65a5efd2b6"
+    }
+  },
+  "reviews": {
+    "S2": {
+      "verdict": "CONCERNS",
+      "note": "技术核证：14/14 capability 在 src/skills 实名；2/2 gap delivered；游戏层例外 0；capability-plan.md §4.5 有美术接入。独立复跑 8 files/120 tests PASS；clickable.ts:168 唯一锚点撤修得 1 failed/12 skipped，恢复得 1 passed/12 skipped；DOCS-REF PASS。范围审计限制：本作设计目录仍为 untracked，git diff --stat 无法归属既往 S2 施工文件，故不宣称范围 PASS。既有复查详情：review/S2-independent.md。",
+      "by": "/root/s2_pipeline_review",
+      "at": "2026-10-12T17:40:31.832Z",
+      "gameHash": "56754c65a5efd2b6",
+      "gapsHash": "1c0d4f3cac362aff"
+    },
+    "S3": {
+      "verdict": "PASS",
+      "note": "独立返修复核 PASS：REQ-S3CLICK 第一轮 game108 engine.start 断线假绿已关闭；同一唯一锚点停运行环后 click-probe exit1，恢复后 SHA256 原样且正常 game108 8 控件/2 Engine.step 动作 exit0；GCI Canvas 指针撤修 exit1/恢复 exit0。manifest-check 8 显式能力 warnings[]、S3 skeleton 4/4、点击关联 41/41；S3-render 真灰盒非启动器。仅 S3 骨架，不覆盖 S4/S5 PNG 实形/玩法；详 docs/design/game-clue-investigation/review/REQ-S3CLICK-independent.md。Owner 人门未动。",
+      "by": "/root/s3click_independent_review",
+      "at": "2026-10-12T18:45:24.064Z",
+      "gameHash": "56754c65a5efd2b6"
+    }
+  },
+  "history": [
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "CONCERNS",
+      "at": "2026-10-12T17:40:31.832Z"
+    },
+    {
+      "action": "concept",
+      "at": "2026-10-12T17:42:05.085Z"
+    },
+    {
+      "action": "out-of-order",
+      "stage": "S3",
+      "reason": "项目路线图 S1/S2 已由 Owner 批准；游戏 pipeline 是 S3 建卡后补建，S1/S2 人门仍待 Owner 在此板同步；S2 独立复查已登记 CONCERNS。",
+      "at": "2026-10-12T17:42:33.298Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-10-12T17:42:33.692Z"
+    },
+    {
+      "action": "out-of-order",
+      "stage": "S3",
+      "reason": "项目路线图 S1/S2 已由 Owner 批准；游戏 pipeline 是 S3 建卡后补建，S1/S2 人门仍待 Owner 在此板同步；S2 独立复查已登记 CONCERNS。",
+      "at": "2026-10-12T17:42:52.809Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-10-12T17:43:22.865Z"
+    },
+    {
+      "action": "out-of-order",
+      "stage": "S3",
+      "reason": "项目路线图 S1/S2 已由 Owner 批准；游戏 pipeline S1/S2 人门未同步；S2 独立复查 CONCERNS 已登记。2026-10-13 S3 真实 Canvas 渲染与点击接线机器门复跑。",
+      "at": "2026-10-12T18:23:05.934Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-12T18:23:19.845Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "FAIL",
+      "at": "2026-10-12T18:33:51.046Z"
+    },
+    {
+      "action": "out-of-order",
+      "stage": "S3",
+      "reason": "项目路线图 S1/S2 已由 Owner 批准；游戏 pipeline S1/S2 人门未同步；S2 独立复查 CONCERNS 已登记。2026-10-13 修复 DOM Engine.step 假绿并完成 Canvas 真实点击后复跑。",
+      "at": "2026-10-12T18:43:02.612Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-12T18:43:16.709Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-10-12T18:45:24.064Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S2",
+      "at": "2026-10-13T02:25:26.315Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S3",
+      "at": "2026-10-13T02:25:29.743Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S1",
+      "at": "2026-10-13T02:25:34.480Z"
+    }
+  ],
+  "outOfOrder": [
+    {
+      "stage": "S3",
+      "reason": "项目路线图 S1/S2 已由 Owner 批准；游戏 pipeline 是 S3 建卡后补建，S1/S2 人门仍待 Owner 在此板同步；S2 独立复查已登记 CONCERNS。",
+      "at": "2026-10-12T17:42:33.298Z"
+    },
+    {
+      "stage": "S3",
+      "reason": "项目路线图 S1/S2 已由 Owner 批准；游戏 pipeline 是 S3 建卡后补建，S1/S2 人门仍待 Owner 在此板同步；S2 独立复查已登记 CONCERNS。",
+      "at": "2026-10-12T17:42:52.809Z"
+    },
+    {
+      "stage": "S3",
+      "reason": "项目路线图 S1/S2 已由 Owner 批准；游戏 pipeline S1/S2 人门未同步；S2 独立复查 CONCERNS 已登记。2026-10-13 S3 真实 Canvas 渲染与点击接线机器门复跑。",
+      "at": "2026-10-12T18:23:05.934Z"
+    },
+    {
+      "stage": "S3",
+      "reason": "项目路线图 S1/S2 已由 Owner 批准；游戏 pipeline S1/S2 人门未同步；S2 独立复查 CONCERNS 已登记。2026-10-13 修复 DOM Engine.step 假绿并完成 Canvas 真实点击后复跑。",
+      "at": "2026-10-12T18:43:02.612Z"
+    }
+  ]
+}

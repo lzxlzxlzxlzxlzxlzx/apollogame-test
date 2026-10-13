@@ -15,8 +15,9 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import {
-  decodePNG, pixelVariance, isBlank, DEFAULT_VARIANCE_THRESHOLD, deepLinkQuery, detectBrowserRuntime,
+  decodePNG, pixelVariance, isBlank, hasCartRunnerCanvas, DEFAULT_VARIANCE_THRESHOLD, deepLinkQuery, detectBrowserRuntime,
 } from './render-probe.mjs';
+import { cartProbeFixture } from './lib/render-harness.mjs';
 import { interpretRenderProbe } from './game-pipeline.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -108,6 +109,28 @@ describe('deepLinkQuery（游戏形态 → 深链 query·跟玩家点开启动�
     expect(deepLinkQuery('compiled', 'game-e')).toBe('game=game-e');
     expect(deepLinkQuery('builtin', 'g2')).toBe('game=g2');
     expect(deepLinkQuery('cart', 'my-cart')).toBe('game=lib:my-cart');
+  });
+});
+
+describe('卡带探针：真实库路由与运行器挂载断言', () => {
+  it('本仓卡带提供真实 meta/manifest；非法 slug fail-closed', () => {
+    const root = join(HERE, '..');
+    const fixture = cartProbeFixture(root, 'game-clue-investigation');
+    expect(fixture.entries).toHaveLength(1);
+    expect(fixture.entries[0].slug).toBe('game-clue-investigation');
+    expect(fixture.entries[0].meta.name).toBe('现场搜证');
+    expect(fixture.manifest.entities['scene-background']).toBeTruthy();
+    expect(() => cartProbeFixture(root, '../outside')).toThrow('非法卡带 slug');
+  });
+
+  it('启动器自己的 Canvas 不算卡带挂载；运行器内 Canvas 才算', () => {
+    const launcherCanvas = { tagName: 'CANVAS' };
+    const runner = { querySelector: (selector) => selector === 'canvas' ? launcherCanvas : null };
+    const back = { textContent: '← 返回架上', parentElement: runner };
+    expect(hasCartRunnerCanvas({ querySelectorAll: () => [] })).toBe(false);
+    expect(hasCartRunnerCanvas({ querySelectorAll: () => [{ textContent: '启动游戏', parentElement: runner }] })).toBe(false);
+    expect(hasCartRunnerCanvas({ querySelectorAll: () => [back] })).toBe(true);
+    expect(hasCartRunnerCanvas({ querySelectorAll: () => [{ ...back, parentElement: { querySelector: () => null } }] })).toBe(false);
   });
 });
 

@@ -1,0 +1,913 @@
+{
+  "schemaVersion": "zerocraft.project-roadmap.v1",
+  "project": {
+    "id": "galgame-generation-engine",
+    "title": "GAL 引擎与 AI 创作产线",
+    "summary": "以通用 GalPackage 解释器、纯 LayoutNode 模板和分阶段人工审核的创作产线，最终在 Codex 工作页从需求生成可试玩、可发布的完整 GAL；首作验证复用性而非编写专属框架。",
+    "status": "active"
+  },
+  "milestones": [
+    {
+      "id": "package-contract",
+      "title": "版本化 GAL 包与静态校验",
+      "track": "引擎",
+      "description": "GAL-ENG-01 已获局部独立复查 PASS；合同覆盖角色、场景、剧情图、媒体、画廊与偏好，校验引用、可达性和本地化。仍非全库门禁通过。",
+      "status": "done",
+      "dependsOn": [],
+      "acceptance": [
+        "完整 GalPackage V1 闭集和纯校验器",
+        "坏引用、缺语言、死节点、无出口环有稳定诊断",
+        "独立复查与全库门禁结果分列"
+      ],
+      "evidence": [
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-01.md",
+          "label": "GAL-ENG-01 独立复查"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/engine/protocol/galgame.ts",
+          "label": "GAL 包合同"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "director-and-rollback",
+      "title": "叙事导演、512 步回滚与分支改选",
+      "track": "引擎",
+      "description": "02A/02B 已获局部独立复查 PASS；具名输入驱动 line/choice/check/ending，恢复存档内世界与随机种子，全球已读及解锁不回退。",
+      "status": "done",
+      "dependsOn": [],
+      "acceptance": [
+        "两章节分支、检定、结局可确定性运行",
+        "上滚一次退一玩家可见步并可重选，历史上限 512",
+        "快照/种子/效果恢复与损坏历史拒绝有回归"
+      ],
+      "evidence": [
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-02A.md",
+          "label": "前进内核复查"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-02B.md",
+          "label": "回滚改选复查"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "profile-save-bridge",
+      "title": "全局档案、手动槽与解锁事件桥",
+      "track": "引擎",
+      "description": "03A/03B/04A/04B 局部独立复查 PASS；GalProfile 跨槽保留，手动槽承载权威快照，剧情里程碑经 ack 桥可靠持久化。",
+      "status": "done",
+      "dependsOn": [],
+      "acceptance": [
+        "坏档、跨包和版本不兼容可定位拒绝",
+        "槽读写恢复剧情但不回滚全局档案",
+        "重复解锁幂等、失败不伪成功"
+      ],
+      "evidence": [
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-03A.md",
+          "label": "档案合同复查"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-03B.md",
+          "label": "手动槽复查"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-04B.md",
+          "label": "档案桥复查"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "pui-primitives",
+      "title": "通用大弹窗与滚轮 ActionSink",
+      "track": "UI 基座",
+      "description": "PUI-02B/03B 局部独立复查 PASS；大 Modal、焦点与背景阻断、声明式滚轮方向映射可由 GAL 模板复用。game-i 全量回归仍有非 Wheel 失败。",
+      "status": "done",
+      "dependsOn": [],
+      "acceptance": [
+        "Modal 尺寸、Esc、焦点与遮罩行为真浏览器核证",
+        "WheelEvent 仅在有效作用域派具名 action",
+        "滚动祖先和 Modal 不误推进剧情"
+      ],
+      "evidence": [
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-PUI-02B.md",
+          "label": "大弹窗复查"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-PUI-03B.md",
+          "label": "滚轮接口复查"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "ui-core-slice",
+      "title": "主页、剧情、选项与 4×3 存读档结构",
+      "track": "GAL 模板",
+      "description": "定稿 V2 的首个 S4 结构纵切片已获局部独立复查 PASS，覆盖真实滚轮改选、槽 2 存读档及已读保留；正式背景、立绘与框皮仍是显式占位。",
+      "status": "done",
+      "dependsOn": [],
+      "acceptance": [
+        "1440×900 主页→剧情→改选→存读档可真实操作",
+        "4×3 槽密度、禁用/确认/焦点状态可见",
+        "原型对拍和 UI 审计无未裁决结构阻断"
+      ],
+      "evidence": [
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-03A.md",
+          "label": "03A 独立复查"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-ui-03a-structure-diff.md",
+          "label": "同画布结构差异"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-ui-complete-v2.md",
+          "label": "Owner 定稿 V2"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-03D.md",
+          "label": "4×3 槽卡 S4 几何复查"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-03E.md",
+          "label": "剧情对话 S4 几何复查"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "approved"
+      }
+    },
+    {
+      "id": "ui-history-gallery",
+      "title": "历史浏览与 CG 画廊结构",
+      "track": "GAL 模板",
+      "description": "GAL-UI-03B 已获非施工者局部 PASS，仅限历史、回想只读卡和 CG 3×2/放大的 S4 信息结构与交互；网格顶约 11px 和卡高偏差仍未闭合，不签像素级结构 1:1。",
+      "status": "done",
+      "dependsOn": [],
+      "acceptance": [
+        "历史只读 512 窗且滚动不触发剧情滚轮",
+        "锁定 CG 不泄漏图与 key，解锁项可放大/返回原页",
+        "同画布截图、审计、真实主链和独立撤修验红"
+      ],
+      "evidence": [
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-03B.md",
+          "label": "03B 独立复查"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-ui-03b-structure-diff.md",
+          "label": "03B 同画布差异单"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "approved"
+      }
+    },
+    {
+      "id": "ui-gallery-geometry-closure",
+      "title": "画廊与历史结构偏差收敛",
+      "track": "GAL 模板",
+      "description": "GAL-UI-03C 已由非施工者独立签局部 S4 几何 PASS：回想/CG 网格、卡片与底栏按 1440×900 定稿 V2 收敛，原约 11px 顶距偏差关闭；不代签 S5/S6 视觉与演出。",
+      "status": "done",
+      "dependsOn": [],
+      "acceptance": [
+        "1440×900 同画布下网格位置、卡高和底栏锚点与 V2 对齐",
+        "不破坏 03B 的历史滚动、CG 锁态/分页和 03A 主链",
+        "独立视觉复查裁清全部结构差异"
+      ],
+      "evidence": [
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-03B.md",
+          "label": "03B 保留的结构偏差"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-ui-03b-structure-diff.md",
+          "label": "同画布测量"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-03C.md",
+          "label": "03C 画廊几何独立复查"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-ui-03c-geometry-diff.md",
+          "label": "03C 同画布几何差异"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "ui-settings-confirmations",
+      "title": "四页设置与六类确认开关",
+      "track": "GAL 模板",
+      "description": "C1 通用 Profile/迁移、六类确认、四页 S4 结构与几何已获局部独立 PASS。Owner 2026-10-12 在对话选择 04B 通用表现/设置能力 A（非控制台人门）；Profile 全设置恢复默认基础接口已获局部独立 PASS，UI 按钮仍禁用。待逐字完成信号、其余音频/画面消费者、全项恢复默认 UI、正式退出宿主与 V2 S5/S6 验收；本里程碑保持 active。 04B-2A 通用音频端口的克隆停播、相对音量与无音频降级获局部独立 PASS（音频/语音自证47/47，独立9/9）；正式工单登记晚于首次编辑的流程 CONCERNS 已保留。 04B-2B local functional PASS from independent review: 89 files 718/718; isolated static-browser real WAV playback, three sliders, rollback/load/replay/teardown; two anchored mutation checks turned red. Full type gate has 16 non-GAL diagnostics and V2 inner visual alignment remains CONCERNS. Master volume, voice-auto, focus mute, typewriter/display/reset and S5/S6 remain open. 04B-2C independent local functional PASS: Profile V3 V1/V2 migration, master gain and focus mute active; 89 files 722/722 self regression, independent 42/42, isolated file-browser WAV/focus interaction, two anchored mutation checks, dark/light UI audits. Full type gate and V2 S5 alignment remain CONCERNS. Owner separately approved a revised voice-replay prototype; formal toolbar implementation and voice-auto remain open. 04B-2D self-check: Profile V4 voice-auto migration and current-line manual replay through the Owner-approved revised toolbar; 89 files 726/726 and isolated static-browser WAV/voice-off/manual replay pass. 04B-2D independent local functional PASS: targeted 56/56 and adjacent 89 files 726/726, isolated file-browser real WAV, dark/light UI audit with zero blockers and two uniquely anchored in-memory sabotage checks red. Full type gate remains red for non-GAL files; V2 visual alignment, text/display PUI consumers and reset UI remain open. Active GAL ticket index condensed on 2026-10-12; full prior specifications and review chronology preserved in byte-identical archive. This is documentation hygiene only, not new milestone approval.",
+      "status": "active",
+      "dependsOn": [
+        "profile-save-bridge",
+        "ui-core-slice"
+      ],
+      "acceptance": [
+        "四页控件真实读取与持久化偏好",
+        "保存空位/覆盖/读取/新游戏/回标题/退出六项互不串扰",
+        "恢复默认、旧档迁移和失败回退通过独立复查"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-ui-layoutnode-map.md",
+          "label": "设置与 C1 缺口分析"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-05A.md",
+          "label": "05A 通用确认政策复查"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-PUI-04A.md",
+          "label": "Toggle.disabled 复查"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04A.md",
+          "label": "04A 四页设置与确认局部复查"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04C.md",
+          "label": "04C 设置几何复查"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-ui-04b-settings-gap.md",
+          "label": "04B 缺口实查、Owner A 裁决及分票顺序"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-reset-independent.md",
+          "label": "恢复默认 Profile 基础接口局部独立 PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-audio-base-independent.md",
+          "label": "04B-2A 音频底座局部独立 PASS；流程 CONCERNS"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-audio-consumer-self.md",
+          "label": "04B-2B audio consumer self-check; independent review pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-audio-consumer-independent.md",
+          "label": "04B-2B independent local functional PASS; full type and V2 visual concerns"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-audio-policy-self.md",
+          "label": "04B-2C master/focus audio self-check; independent review pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-audio-policy-independent.md",
+          "label": "04B-2C independent local functional PASS; full type and V2 visual concerns"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-ui-complete-v2.md",
+          "label": "Owner confirmed revised 1440x900 voice-replay prototype; milestone owner gate still required"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-voice-auto-self.md",
+          "label": "04B-2D voice-auto/manual replay self-check; independent review pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-voice-auto-independent.md",
+          "label": "04B-2D independent local functional PASS; full type and V2 visual concerns"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/requests.md",
+          "label": "Current GAL open tickets and historical review index"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/archive/requests-through-2026-10-12.md",
+          "label": "Full pre-condensation GAL ticket record, SHA256 701505E8F0AA3DB6BCDA853BF0C27C168D8CB8AFAFB2FF65EAFE1481050C1094"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "replay-save-preview-auto",
+      "title": "回想隔离重播、槽预览与自动/已读跳过",
+      "track": "引擎",
+      "description": "06A–06L 及 06K 单窗口政策均有真实证据；六条既定功能验收经整项独立复查 PASS，Owner 人门已通过，里程碑 done。正式 Web/Electron renderer 通用宿主在隔离 Edge 真 IDB 完成 320×180 图跨会话槽存读、坏图/侧车不可用降级与 Auto；完整 IDB 失效策略未承诺。Electron 安装包/离线闭包归 web-desktop-release。全库 tsc 尚有 14 条非 GAL 错误，不宣称全库门禁通过或推送。",
+      "status": "done",
+      "dependsOn": [
+        "director-and-rollback",
+        "profile-save-bridge",
+        "ui-history-gallery"
+      ],
+      "acceptance": [
+        "回想结束后活动剧情与存档不变",
+        "损坏/缺失缩略图不阻塞权威读档",
+        "auto/skip 与上滚、choice、已读政策冲突确定性裁决",
+        "正式 Web/桌面作品宿主显式注入预览采集与侧车端口并完成真图槽存读",
+        "真实/跨会话 IndexedDB、坏图与无存储降级在隔离本地环境实测并获独立复查",
+        "单窗口政策与非权威预览弱保证已由 Owner 裁决；意外多窗口并发不承诺权威冲突解决或缩略图实时同步"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-ui-layoutnode-map.md",
+          "label": "C2b/C5a/C5b 缺口分析"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-06A.md",
+          "label": "06A 自动与跳过独立复查"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-06B.md",
+          "label": "06B 非权威预览独立复查"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-06C.md",
+          "label": "06C 隔离回想独立复查"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/services/gal-save/gal-save-preview-indexeddb.ts",
+          "label": "06D 可注入 IndexedDB 预览适配器"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/review/GAL-ENG-06D-self.md",
+          "label": "06D 施工自证与独立复查导航"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-06D-independent.md",
+          "label": "06D 独立复查：局部 PASS，全库门禁 CONCERNS"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/review/GAL-ENG-06E-self.md",
+          "label": "06E 施工自证与测试导航"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-06E-independent.md",
+          "label": "06E 独立复查：局部 PASS，里程碑仍 active"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/services/gal-save/gal-browser-preview-capture.ts",
+          "label": "06F 浏览器场景缩略图编码器"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/review/GAL-ENG-06F-self.md",
+          "label": "06F 施工自证与浏览器审计"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-06F-independent.md",
+          "label": "06F 独立复查：局部 PASS，里程碑仍 active"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-06G-independent.md",
+          "label": "06G 同进程多控制器写删竞态独立复查：局部 PASS"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/services/gal-ui/verify-gal-save-preview-live.mjs",
+          "label": "06H 静态浏览器双路径验收脚本"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/review/GAL-ENG-06H-self.md",
+          "label": "06H 真浏览器施工自证"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-06H-independent.md",
+          "label": "06H 真浏览器整链独立复查：局部 PASS"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/services/gal-save/verify-gal-preview-indexeddb-owner.mjs",
+          "label": "06I 隔离本地真实 IDB 跨会话审计脚本"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/review/GAL-ENG-06I-self.md",
+          "label": "06I 真实本地 IDB 施工自证：局部 PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-06I-independent.md",
+          "label": "06I 真实本地 IDB 独立复查：局部 PASS"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/services/gal-ui/verify-gal-save-preview-idb-live.mjs",
+          "label": "06J isolated live IDB browser runner"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/review/GAL-ENG-06J-self.md",
+          "label": "06J local self-check"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-06J-independent.md",
+          "label": "06J independent local PASS"
+        },
+        {
+          "kind": "issue",
+          "ref": "docs/design/galgame/requests.md",
+          "label": "06K Owner 已选 B：单窗口与非权威预览弱保证"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/services/gal-ui/gal-browser-game-host.ts",
+          "label": "06L 正式 Web/Electron webview 宿主装配"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/review/GAL-ENG-06L-self.md",
+          "label": "06L 施工自证"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-06L-independent.md",
+          "label": "06L 局部独立 PASS"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/review/GAL-ENG-06-milestone-self.md",
+          "label": "06 里程碑六项施工汇总"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-06-milestone-independent.md",
+          "label": "06 整项独立复查：功能 PASS、全库门禁 CONCERNS"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "approved"
+      }
+    },
+    {
+      "id": "media-and-final-skin",
+      "title": "背景、立绘、CG、音视频与 V2 视觉演出对齐",
+      "track": "素材与演出",
+      "description": "8 张 V2 demo 单件原图已审计登记，GAL 稳定 assetKey 消费与 PUI S1–S4 局部接口/消费复查在档。音频端口、BGM/语音/SFX、主音量、失焦静音、语音自动及手动重播均有分票局部独立 PASS；共享九宫格显示边宽票已释放。2026-10-12 设置页 V2 有图路径回移框内锚点 57px、改深靛卡底与 ghost 导航/页签，静态 34 态重渲、GAL 相关 119/119 测试、深亮设置审计零阻断；独立局部复查判 CONCERNS：页签、滑轨、Toggle、分隔线和按钮皮仍非 V2 1:1，且未做锚点撤修验红；亮主题标题审计警告 3.57:1。S5 差异单仍为 CONCERNS：ghost 胶囊与悬停、设置控件/确认/槽卡细节、部分亮主题对比度均未 1:1；视频、转场关键帧和 S6 时序未验收。demo 背景/立绘/CG 不作新作品隐式内容；全库 TypeScript 仍有非 GAL 红项。本里程碑仍 active，Owner 人门未到。历史分票证据见现有 evidence 与精简后 requests 索引及归档。 2026-10-13 update: V2 loaded-art settings tabs now use existing button skin (4 tabs); slider rows are horizontal and use a thin ProgressBar rail. GAL tests 78/78 and 34-state static browser probe pass; browser closed. S5 still CONCERNS: Toggle, dividers, navigation/button detail, confirmation and gallery, plus S6 keyframes remain. Full TypeScript check remains red in unrelated game-card-reveal/game-dice/game-theft modules. No Owner gate requested. Independent settings-control review 2026-10-13: local PASS for 4 skinned tabs and visible 326px rails, 36/36 tests, anchored in-memory mutation rail 1->0, visual and UI audit; complete S5 remains CONCERNS and milestone stays active. 2026-10-13 slot V2 update: 124x46 skinned Save/Load tabs, ghost top/page navigation, footer offset -57 only for loaded V2 frame; 4x3 unchanged. GAL 79/79, UI 528/528, 34-state file browser exit 0 and closed. Independent local review PASS for this subset (12/12 with anchored in-memory mutation); full S5 remains CONCERNS: slot badge/empty diamond/metadata, top nav anchor, settings Toggle, confirmation/gallery and S6 keyframes. Full tsc red in unrelated games; do not request Owner gate.",
+      "status": "active",
+      "dependsOn": [
+        "ui-core-slice",
+        "pui-primitives"
+      ],
+      "acceptance": [
+        "背景、角色表情、CG 分图入库且许可证/规格可追溯",
+        "音视频缺失有明确降级与播放/停止契约",
+        "原型与真实游戏同画布、关键帧、动画时序逐项对齐"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-ui-complete-v2.md",
+          "label": "V2 视觉与时序基准"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-S4-consumer.md",
+          "label": "S4 GAL 素材消费局部复查"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-art-01a-s5-diff.md",
+          "label": "S5 同画布未闭差异"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-settings-v2-independent.md",
+          "label": "2026-10-12 设置页局部独立 CONCERNS；不得提人门"
+        },
+        {
+          "kind": "artifact",
+          "ref": "public/games/gal-template/art/index.json",
+          "label": "V2 demo 单件素材索引"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-audio-base-independent.md",
+          "label": "04B-2A 音频底座局部独立 PASS；流程 CONCERNS"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-audio-consumer-self.md",
+          "label": "04B-2B audio consumer self-check; independent review pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-audio-consumer-independent.md",
+          "label": "04B-2B independent local functional PASS; full type and V2 visual concerns"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-audio-policy-self.md",
+          "label": "04B-2C master/focus audio self-check; independent review pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-audio-policy-independent.md",
+          "label": "04B-2C independent local functional PASS; full type and V2 visual concerns"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-voice-auto-self.md",
+          "label": "04B-2D voice-auto/manual replay self-check; independent review pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-voice-auto-independent.md",
+          "label": "04B-2D independent local functional PASS; full type and V2 visual concerns"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-PUI-GAL-SKIN-BORDER-WIDTH-independent.md",
+          "label": "Released shared 9-slice border-width ticket; independent PUI local PASS, GAL S5 still active"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/requests.md",
+          "label": "Current GAL open tickets and historical review index"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/archive/requests-through-2026-10-12.md",
+          "label": "Full pre-condensation GAL ticket record, SHA256 701505E8F0AA3DB6BCDA853BF0C27C168D8CB8AFAFB2FF65EAFE1481050C1094"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-art-01a-s5-diff.md",
+          "label": "2026-10-13 V2 settings delta and remaining S5 gaps"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-settings-controls-independent.md",
+          "label": "2026-10-13 independent local PASS; full S5 CONCERNS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-slots-v2-independent.md",
+          "label": "2026-10-13 slot V2 independent local PASS; whole S5 CONCERNS"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-slots-v2.md",
+          "label": "2026-10-13 slot V2 local self-check and residuals"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "hand-authored-pilot",
+      "title": "首个纯数据 GAL 手工样例",
+      "track": "首作验证",
+      "description": "遵循 Owner 已选 B：先由人工审核静态包验证复用性，暂不冒充 AI 产线。新作品必须另经 S1 立项、S1-P 真机定稿与 S2 能力计划，再以纯数据走 S3–S8。",
+      "status": "planned",
+      "dependsOn": [
+        "package-contract",
+        "director-and-rollback",
+        "profile-save-bridge",
+        "ui-core-slice",
+        "gal-runtime-bootstrap"
+      ],
+      "acceptance": [
+        "10–20 分钟、2 角色、2 背景、2 结局、1 CG 的独立内容包",
+        "无作品专属 TS/React/DOM，所有逻辑由通用解释器解释",
+        "真浏览器走通两路线、检定、回滚改选、存读档并遵守 S1–S8 人门"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame-creation-pipeline.md",
+          "label": "首个样例范围"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-07A-independent.md",
+          "label": "Generic initial-world seam available; pilot S1/S1-P remains pending"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "draft-review-contract",
+      "title": "Brief 到剧情图的草稿信封与审核门",
+      "track": "创作产线",
+      "description": "P0–P4 DraftEnvelope、稳定 ID、规范指纹、审核事件 reducer 与上下游失效纯数据合同已获 GAL-PIPE-01A 局部独立 PASS；尚无正式审计持久化、权限/并发边界、写作项目适配或 P5–P9 装配，不得称完整产线审核门完成。 Active GAL ticket index condensed on 2026-10-12; full prior specifications and review chronology preserved in byte-identical archive. This is documentation hygiene only, not new milestone approval.",
+      "status": "active",
+      "dependsOn": [
+        "package-contract"
+      ],
+      "acceptance": [
+        "P0 Brief、P1 圣经、P2 路线、P3 图、P4 节拍各有闭集 schema",
+        "拒稿和上游修改使受影响下游失效",
+        "未获批准的草稿不能装配入 GalPackage"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame-creation-pipeline.md",
+          "label": "P0–P4 创作门设计"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-PIPE-01A.md",
+          "label": "P0–P4 纯合同独立复查"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/authoring/gal-draft-types.ts",
+          "label": "草稿信封与审核事件类型"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/requests.md",
+          "label": "Current GAL open tickets and historical review index"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/archive/requests-through-2026-10-12.md",
+          "label": "Full pre-condensation GAL ticket record, SHA256 701505E8F0AA3DB6BCDA853BF0C27C168D8CB8AFAFB2FF65EAFE1481050C1094"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "writing-engine-adapter",
+      "title": "外部 AI 写作项目的窄适配器",
+      "track": "创作产线",
+      "description": "待用户提供写作项目接口后实现 WritingEnginePort；模型只产结构化候选和修订，不生成作品专属运行代码或绕过人工审核。",
+      "status": "planned",
+      "dependsOn": [
+        "draft-review-contract"
+      ],
+      "acceptance": [
+        "每阶段仅接收已批准的上游版本",
+        "模型输出不合 schema 时给定位诊断及受限修复",
+        "输入版本、提示词/模型标识与人工修订可审计"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame-creation-pipeline.md",
+          "label": "WritingEnginePort 设计"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "asset-generation-review",
+      "title": "角色/背景/CG/动画候选生成与资产审核",
+      "track": "创作产线",
+      "description": "P2/P4 审批后才出资产需求；本地库优先，AI 生图为候选，审核后由专职资产流程赋予 assetKey。视频与语音在台词/节拍锁定后处理。",
+      "status": "planned",
+      "dependsOn": [
+        "draft-review-contract"
+      ],
+      "acceptance": [
+        "角色基础资产、背景与高价值 CG 按批准的需求单生成",
+        "未审核素材无正式 assetKey、不能进入发行包",
+        "来源、许可证、尺寸、锚点、风格一致性和审核决定可追溯"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame-creation-pipeline.md",
+          "label": "P5/P7 资产门设计"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "approved-package-assembler",
+      "title": "批准草稿到 GalPackage 的确定性组装",
+      "track": "创作产线",
+      "description": "只读 approved 草稿与已审核 assetKey；纯函数组装、静态校验、剧情可达性/本地化/资源闭包报告和旧档兼容报告。",
+      "status": "planned",
+      "dependsOn": [
+        "draft-review-contract",
+        "asset-generation-review",
+        "package-contract"
+      ],
+      "acceptance": [
+        "同一批准输入生成字节稳定的 GalPackage",
+        "缺资源、断链、ID 重复、缺语言明确失败",
+        "改上游版本后旧候选不可静默复用"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame-creation-pipeline.md",
+          "label": "组装规则"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "generated-gal-pilot",
+      "title": "Codex 工作页生成首个完整 GAL 的端到端试点",
+      "track": "首作验证",
+      "description": "从真实 Brief 经 P0–P9 审核、写作、资产、组装和试玩生成与手工样例不同的新作品；作品仍须独立遵守 S1–S8，不用游戏私有代码。",
+      "status": "planned",
+      "dependsOn": [
+        "hand-authored-pilot",
+        "writing-engine-adapter",
+        "approved-package-assembler",
+        "media-and-final-skin",
+        "replay-save-preview-auto",
+        "ui-settings-confirmations"
+      ],
+      "acceptance": [
+        "用户在每一关键创作门审核并可退回局部重生",
+        "最终包通过 schema/资产/路线/确定性和真玩验收",
+        "同一模板能生成第二个不同角色与分支的 GAL 而无需改框架"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame-creation-pipeline.md",
+          "label": "P0–P9 闭环定义"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "web-desktop-release",
+      "title": "Web 与桌面应用发行闭环",
+      "track": "发行",
+      "description": "先验证独立 Web 包，再由发行专职复用通用 Electron/桌面流程构建安装包、存档路径、媒体资源闭包与离线启动；不把桌面逻辑塞进剧情包。",
+      "status": "planned",
+      "dependsOn": [
+        "hand-authored-pilot",
+        "media-and-final-skin"
+      ],
+      "acceptance": [
+        "独立 Web 包离线可玩并可存读档",
+        "桌面包启动、退出、存档位置和资源解析有真机证据",
+        "新作品更换数据/素材即可复用相同发行流程"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame-template-data-model.md",
+          "label": "引擎与发行边界"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "gal-runtime-bootstrap",
+      "title": "GAL initial-world bootstrap",
+      "track": "Engine",
+      "description": "07A restricted companion Manifest assembles validated GalPackage + Resource/Flag/RandomSeed into a Narrative Director World and existing GalSliceHost seam. Independent local PASS; not a formal Web/desktop product entry, first game, or full type gate.",
+      "status": "done",
+      "dependsOn": [
+        "package-contract",
+        "director-and-rollback"
+      ],
+      "acceptance": [
+        "Package and initial-state data assemble with no game-specific TypeScript or extra systems",
+        "All story Resource/Flag/check references fail closed before the first tick",
+        "Independent targeted tests and anchored mutation verification pass"
+      ],
+      "evidence": [
+        {
+          "kind": "artifact",
+          "ref": "src/assembly/gal-world.ts",
+          "label": "07A restricted data assembly"
+        },
+        {
+          "kind": "test",
+          "ref": "src/assembly/gal-world.test.ts",
+          "label": "07A bootstrap tests"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-world-bootstrap.md",
+          "label": "07A contract and limits"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-07A-independent.md",
+          "label": "07A independent local PASS; global type concerns"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    }
+  ]
+}

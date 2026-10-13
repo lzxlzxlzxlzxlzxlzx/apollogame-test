@@ -10,6 +10,8 @@
 
 ## 0. 黄金流程（做任何一套 UI，按顺序走）
 
+> **第零步 · 先对 S1-P 定稿原型，不对聊天想象开工**：每款新游戏必须先有 owner 真机目击并明确定稿的可运行 HTML 原型（优先 `.dc.html`，默认 1440×900）。先把原型全部核心屏、状态和关键演出逐一触发并截图，提取布局、比例、文字层级、控件状态、动画时长/轨迹/并行关系，再开始 LayoutNode/render 实现。原型是 authoring-time 目标，不是生产代码：严禁复制其自由 DOM/CSS/JS。布局、卡面或动画节奏需要改变时，先改原型并重新确认，禁止程序侧先漂移再反改原型追认。
+
 > **⭐ 起手第一动作 · 华丽度=第一要素（owner 2026-07 拍板）**：**别从空白搭朴素屏、别从零调色写 UITheme**——新游戏 UI「起手默认华丽」，三步立起富底子，再往上按游戏改：
 > 1. **传 house 主题**：`mountUI` 缺省 `SHELL`（引擎清冷 chrome）=朴素。起手显式传一个 **house 主题**——`STARTER_THEME`（`@ui/starters`·=apollo-toon 水墨玩趣·亮宣纸糖果厚唇钮·程序化零资产）/ apollo-kit `apolloOnyx`(暗金属)·`apolloBrocade`(暖锦缎)。**只有明确美术方向时才自写 UITheme**（记债·经审）。
 > 2. **常见屏 import 起手包**：主菜单/结算这类屏**直接 `@ui/starters`**（`buildStarterHome`/`buildStarterResult`——糖果皮钮 + 星级 Rating + 庆祝粒子 + 悬停流光 + 数字格式化已接线·传标题/按钮/分数即得一屏富 UI），再改数据/加件。
@@ -98,10 +100,11 @@ node tools/ui-audit.mjs tools/audits/<你的页面>.audit.ts    # 退出码 0=�
 
 ## 2. 准则 · 颜色 / 对比度 / 可读性（自动查·别等用户说看不清）
 
-**铁律：文字必须在其背景上可读（足够对比度）；颜色走语义令牌，不写自由 hex 文字色。**
+**铁律：文字必须在其背景上可读（足够对比度）；默认走语义令牌。只有创作者特别指定、经校验与净化的 `{custom:'#hex'}` 才是受限例外，绝不写裸色串。**
 
-### 2.1 用令牌，不用自由色
-- 文字色只用语义档：`Label.color ∈ {text, sub, dim, jade, gold, ok, warn, danger}`（→ 主题令牌·换皮自动适配）。**别给文字塞 raw hex**——换皮就废、对比无保证。
+### 2.1 令牌优先；仅显式 custom 例外
+- 文字色优先用语义档：`Label.color` 与内建 `Button.labelColor` 均可取 `{text, sub, dim, jade, gold, ok, warn, danger, mine, foe, ink}`（→ 主题令牌·换皮自动适配）。Button 未显式给 `labelColor` 时保留其 kind/贴图皮原本字色。**不得给文字塞裸 raw hex**——换皮就废、对比无保证。
+- 定稿确需精确文字色时，唯一例外是 `Label.color:{custom:'#F4EEFF'}` 或 `Button.labelColor:{custom:'#F4EEFF'}`：对象只能有 `custom` 一键，值必须非空且经安全净化后不变；含样式分隔符/属性逃逸或额外字段会被校验拒收。仍须在深、亮主题真浏览器量对比度；不能把 custom 当作跳过可读性检查的通行证。
 - `Badge.tone / Tag.tone / ProgressBar.tone` 同理走闭集语义档。
 - 自定义底 `Panel.bg` 可以填渐变/令牌，但**填了深底就别再放 `dim` 灰字**（dim 是给默认深底调的，叠深底会糊）。
 
@@ -170,7 +173,7 @@ node tools/ui-audit.mjs tools/audits/<你的页面>.audit.ts    # 退出码 0=�
 | 手写 `<div>`/React 屏/自由 CSS 拼 UI | 全用 `LayoutNode` 数据；缺控件 → 提 requests |
 | 绝对定位坐标凭脑补尺寸瞎填 | 渲一次量实测包围盒，按真实尺寸排，跑 overlap 审计归零 |
 | 组件叠在一起（非玩家要的叠层） | §1 审计归零；叠层须标 intentional |
-| 文字塞 raw hex 色 | 用语义档 `color: text/sub/jade/...` |
+| 文字塞裸 raw hex 色 | 优先用语义档 `color: text/sub/jade/...`；确有定稿色才用受限 `color:{custom:'#hex'}`，并跑深/亮对比审计 |
 | 亮底上放 `dim` 浅灰字 / 深底糊深字 | 按 §2.2 配色，过 daylight 主题验对比 |
 | 弹窗半透明底、背后透出来 | 不透明实底兜底 + 深 scrim（§3） |
 | 拿「看着还行」当对比合格 | 程序量 computed 对比度 ≥4.5（§2.3） |

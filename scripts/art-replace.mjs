@@ -13,7 +13,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, copyFileSync, readd
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
-import { ADAPTERS, encodePng, curlFor } from './ai-gen.mjs';
+import { ADAPTERS, encodePng, curlFor, stagePendingAsset } from './ai-gen.mjs';
 import { decodePng, encodePngRGBA } from './asset-matte.mjs';
 import { decodeJpeg } from './jpeg-decode.mjs';
 import { STYLE_PACKS, listStylePacks, saveLocalStyle, deleteLocalStyle } from './style-packs.mjs';
@@ -621,7 +621,7 @@ async function mapLimit(items, limit, fn) {
   return out;
 }
 
-/** 逐行生成落盘 + 登记游戏本地 index + 更新台账。断点续跑=命中缓存(cacheKey+文件在)不重扣费；无 key=探针+mock。 */
+/** 逐行生成：mock 只预览；真产物统一进 pending，人审 approve 前绝不登记 index。 */
 export async function batchGenerate(ledger, packId, { root = ROOT, game, mock = true, env = process.env, at = new Date().toISOString(), only = null, provider: providerOverride = null, allowMock = false, debug = false, concurrency = DEFAULT_CONCURRENCY, persist = null } = {}) {
   const pack = STYLE_PACKS[packId];
   if (!pack) return { ok: false, error: `未知风格包: ${packId}` };
@@ -630,9 +630,10 @@ export async function batchGenerate(ledger, packId, { root = ROOT, game, mock = 
   const index = readJson(idxFile, { version: 1, assets: [] });
   if (!Array.isArray(index.assets)) index.assets = [];
   const byId = new Map(index.assets.map((a) => [a.id, a]));
+  let indexDirty = false;
   // debug：每行回显「实际发给文生图的完整提示词 + 完整请求（含 curl 命令行·key 打码）」——owner 2026-07-22
   // 「知道我到底传了什么」。mock 也带（genRowAsset 向 adapter 要 request）→ 免花 key 就能核对。
-  const summary = { total: 0, generated: 0, cached: 0, mock: 0, failed: 0, skipped: 0, probes: [], errors: [], debug: [], skippedFilled: [], previewOnly: [] };
+  const summary = { total: 0, generated: 0, pending: 0, cached: 0, mock: 0, failed: 0, skipped: 0, probes: [], errors: [], debug: [], skippedFilled: [], previewOnly: [] };
   const gameStyle = (ledger.artStyle && typeof ledger.artStyle.stylePrompt === 'string') ? ledger.artStyle.stylePrompt : '';
   // ═══ 三相执行（REQ-ARTPAR·owner 2026-08-10 令）═══
   // 原为单层 `for … await genRowAsset`（串行）。改造铁律：**只把网络调用并发化，变异顺序一字不动**——
@@ -646,8 +647,7 @@ export async function batchGenerate(ledger, packId, { root = ROOT, game, mock = 
   // 「图在磁盘·另一账空白」的黑户。索引由本函数写（idxFile 在此作用域），台账由调用方经 persist 写
   // （文件路径只有 CLI 知道）。库内调用不传 persist → 只落索引、不落台账（测试用·不写别人的盘）。
   const flush = () => {
-    index.assets = [...byId.values()];
-    writeJson(idxFile, index);
+    if (indexDirty) { index.assets = [...byId.values()]; writeJson(idxFile, index); }
     if (typeof persist === 'function') persist();
   };
   const plan = [];
@@ -682,7 +682,7 @@ export async function batchGenerate(ledger, packId, { root = ROOT, game, mock = 
       summary.skippedFilled.push({ no: row.no, status: row.status, reason: '已有真图/定稿切图（非 placeholder/needs-art）——batch 全量跑不覆盖，用 fill/regen 点名单槽或 reskin 整批重置' });
       continue;
     }
-    plan.push({ row, provider, apiKey, useMock, implicitNoKey, outRel, outAbs, ck });
+    plan.push({ row, provider, apiKey, useMock, implicitNoKey, outRel, outAbs, ck, ext });
   }
 
   // 相②：只并发网络调用。失败在此只**捕获不处理**——处理留到相③按行序做，保证回执顺序确定。
@@ -693,7 +693,7 @@ export async function batchGenerate(ledger, packId, { root = ROOT, game, mock = 
 
   // 相③：严格按行序落账（与改前逐条同序同效），每行落完即 persist。
   for (let i = 0; i < plan.length; i++) {
-    const { row, provider, useMock, implicitNoKey, outRel, outAbs, ck } = plan[i];
+    const { row, provider, useMock, implicitNoKey, outRel, outAbs, ck, ext } = plan[i];
     const { a, err } = results[i];
     if (err) {
       const em = errText(err); summary.failed++; summary.errors.push({ no: row.no, provider, error: em });
@@ -724,7 +724,7 @@ export async function batchGenerate(ledger, packId, { root = ROOT, game, mock = 
       console.log(`  prompt: ${a.prompt}`);
       if (dbg.curl) console.log(`  ${dbg.curl}`);
     }
-    mkdirSync(dirname(outAbs), { recursive: true }); writeFileSync(outAbs, a.buffer); // 预览图落盘（mock 命名空间·独立于台账/索引）
+    if (a.mock) { mkdirSync(dirname(outAbs), { recursive: true }); writeFileSync(outAbs, a.buffer); } // mock 只落预览命名空间
     // REQ-ARTTOOL-01：意外 mock 到此为止——只落了预览图 + probe 回执 + debug 回显，台账行（status/gen/
     // provenance）与 index.json 一个字节不碰（不给「有 key 时算数、没 key 也算数」留后门）。
     if (implicitNoKey) {
@@ -738,14 +738,25 @@ export async function batchGenerate(ledger, packId, { root = ROOT, game, mock = 
       id, type: row.kind === 'model3d' ? 'mesh' : 'texture', description: `${row.query} · 生成(${packId}${a.mock ? '·mock' : ''})`,
       status: 'filled', path: servedPath, category: row.kind === 'model3d' ? 'mesh' : 'ai-gen',
       tags: ['gen', packId, row.kind, ...(a.mock ? ['mock'] : [])], license: LICENSE[a.provider], source: `gen:${a.provider}`,
+      ...(row.kind === 'model3d' ? {} : { spec: { usage: 'sprite', colorSpace: 'srgb', wrap: 'clamp', ...(row.spec?.w ? { width: row.spec.w } : {}), ...(row.spec?.h ? { height: row.spec.h } : {}), ...(typeof row.spec?.transparent === 'boolean' ? { transparent: row.spec.transparent } : {}) } }),
       provenance: { generator: a.provider, prompt: a.prompt, model: a.model, mock: a.mock, generatedAt: at, pack: packId, style: pack.name, vendoredFrom: null },
     };
+    if (!a.mock) {
+      const candidate = { ...entry, id: row.skinKey || id, description: row.skinKey ? `${row.query} · 待审皮肤槽(${row.skinKey})` : entry.description, tags: row.skinKey ? [...entry.tags, 'skin'] : entry.tags };
+      const staged = stagePendingAsset({ root, game, entry: candidate, buffer: a.buffer, finalRel: outRel, pendingFile: `art-replace-${row.no}.${ext}`, workflow: { kind: 'art-replace', rowNo: row.no } });
+      row.status = 'pending';
+      row.gen = { provider: a.provider, model: a.model, prompt: a.prompt, cacheKey: ck, pack: packId, servedPath, localId: candidate.id, previewPath: staged.previewPath, pending: true, mock: false };
+      row.provenance = { model: a.model, prompt: a.prompt, date: at, license: LICENSE[a.provider] }; delete row.lastError;
+      summary.pending++; summary.generated++; if (typeof persist === 'function') persist();
+      continue;
+    }
     byId.set(id, entry);
     // 写回=登记别名（编译期游戏线）：行带 skinKey → 同产物再登记一条 id=skinKey；游戏 mount 时按
     // skinKey resolve → chooseRenderMode 贴图就绪即盖过 Shape 上画面。蓝图零改动（工作流档 §二⑤）。
     // mock 不上画面（owner 2026-07-10「Mock 数据不该这样做」）：皮肤别名只在真图时登记——
     // 真图前游戏保持原始观感（Shape 回退/freelib placeholder）。mock 产物仅供平台墙预览。
     if (row.skinKey && (!a.mock || allowMock)) byId.set(row.skinKey, { ...entry, id: row.skinKey, description: `${row.query} · 皮肤槽(${row.skinKey})`, tags: [...entry.tags, 'skin'] });
+    indexDirty = true;
     row.status = 'generated';
     row.gen = { provider: a.provider, model: a.model, prompt: a.prompt, cacheKey: ck, pack: packId, servedPath, localId: id, mock: !!a.mock };
     row.provenance = { model: a.model, prompt: a.prompt, date: at, license: LICENSE[a.provider] }; delete row.lastError; // M2.5 口径硬字段·成功清失败标
@@ -757,20 +768,19 @@ export async function batchGenerate(ledger, packId, { root = ROOT, game, mock = 
   // 注：mock 条目**留在本地 index**（`gen/mock/*` 墙预览用·文件 gitignored·别名不登记不上画面·上文 561）；
   // 但 mock 条目**绝不该随 index.json 提交入库**（文件 gitignored→提交后悬空）——各游戏 vendor.test 钉死
   // 「committed index 无 mock」把关（owner 2026-07-23 巡检实证 game-a/c 泄漏后补的护栏），提交前会红拦。
-  index.assets = [...byId.values()];
-  writeJson(idxFile, index);
+  if (indexDirty) { index.assets = [...byId.values()]; writeJson(idxFile, index); }
   return { ok: true, ledger, summary };
 }
 
 // ═══ ⑤ 对位替换（按编号重钉 manifest 引用·工作流档 §二⑤）═══
 
-/** 把 generated 行的 manifest 落点从 art: 串重钉为生成资产的本地 id；status→replaced。纯函数·不改输入 manifest。 */
+/** 人审后把 approved（兼容旧 generated）行的 manifest 落点重钉为本地 id；status→replaced。 */
 export function applyReplacements(manifest, ledger, { allowMock = false } = {}) {
   const m = JSON.parse(JSON.stringify(manifest));
   let replaced = 0;
   let skippedMock = 0;
   for (const row of ledger.rows) {
-    if (row.status !== 'generated' || !row.gen?.localId) continue;
+    if (!['generated', 'approved'].includes(row.status) || !row.gen?.localId) continue;
     if (row.gen.mock && !allowMock) { skippedMock++; continue; } // mock 永不写回（真图前保持原始 placeholder 观感）
     // 去重台账：一行可背多个槽位（slots[]·07-12），逐槽位扇出回写；旧单槽行照旧走 row.slot
     // （REQ-ARTTOOL-02：与 mergeLedger 共用同一条 rowSlots() 读法，新旧数据形态一致处理）。

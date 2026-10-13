@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "zerocraft.life-generation-gate.v1",
+  "stage": "construction-content",
+  "inputHash": "sha256:56dc2cd3d1e545053011764f734c26061ca7fe29ea40f03ad9c6a8480f2c0a43",
+  "selfCheck": {
+    "status": "pass",
+    "diagnostics": [],
+    "evidence": {
+      "baseWorld": "world.life.json",
+      "requiresSlices": ["actors.patch.json"],
+      "validator": "validateLifeGamePackage",
+      "compiler": "compileAndParseLifeGamePackage",
+      "projects": ["restore-throne-hall", "restore-greenhouse", "awaken-forge-core"],
+      "hasConstructionCapability": true
+    }
+  },
+  "visualArtifacts": [
+    { "kind": "construction-project-board", "ref": "docs/design/game-demon-castle/construction-review.html" },
+    { "kind": "construction-patch", "ref": "docs/design/game-demon-castle/construction.patch.json" }
+  ],
+  "ownerDecision": "approved"
+}

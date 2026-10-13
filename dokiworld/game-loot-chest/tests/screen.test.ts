@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { validateLayoutNode } from '@zerocraft/engine/ui/components/index.js';
-import { buildChestErrorScreen, buildChestScreen, CHEST_SKIN_KEYS, CHEST_SKIN_MAP } from '../src/chest-screen.js';
+import { buildChestErrorScreen, buildChestScreen, CHEST_SKIN_KEYS, CHEST_SKIN_MAP, CHEST_THEME } from '../src/chest-screen.js';
 import { parseChestInput, presentation, resolveChest } from '../src/chest.js';
 import type { ChestQteSnapshot } from '../src/qte-session.js';
 import type { LayoutNode } from '@zerocraft/engine/ui/components/index.js';
@@ -25,6 +25,12 @@ function findNode(root: LayoutNode, id: string): LayoutNode | undefined {
 }
 
 describe('loot chest LayoutNode screen', () => {
+  it('keeps the DokiWorld iframe background fully transparent', () => {
+    expect(CHEST_THEME.pageBg).toBe('transparent');
+    expect(CHEST_THEME.texture).toBe('');
+    expect(CHEST_THEME.wash).toBe('');
+  });
+
   it.each([
     ['ready', qte('ready')],
     ['playing', qte('playing', { elapsed: 54, locks: 1 })],

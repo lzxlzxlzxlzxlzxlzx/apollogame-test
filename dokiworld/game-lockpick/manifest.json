@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 3,
+  "id": "game-lockpick",
+  "version": "1.0.0",
+  "entry": "index.html",
+  "context": { "requiredScopes": [], "optionalScopes": [] },
+  "locales": {
+    "en": { "name": "Mechanism Lock", "description": "Align three-position tumblers using light and sound feedback." },
+    "zh-cn": { "name": "机关锁", "description": "根据光色与声音反馈，将三档机关滑钮调至正确位置。" }
+  },
+  "documentation": { "zh-cn": { "title": "机关锁调用文档", "path": "docs/integration.zh-CN.md" } },
+  "runtime": {
+    "protocol": "dokiworld.app", "protocolVersion": 2,
+    "input": { "contract": "doki.game.lockpick-input", "version": 1 },
+    "outputs": [{ "contract": "doki.game.lockpick-result", "version": 1 }], "modules": []
+  }
+}

@@ -37,6 +37,7 @@ import { textCapability } from './text/index.js';
 import { randomCapability } from './random/index.js';
 import { spatialQueryCapability } from './spatial-query/index.js';
 import { vfx2dCapability } from './vfx2d/index.js';
+import { worldUi2dCapability } from './world-ui2d/index.js';
 
 // 扩展原子（周期表 Extension，非核心原子）
 import { stringVariableCapability } from './string-variable/index.js';
@@ -75,6 +76,7 @@ export {
   randomCapability,
   spatialQueryCapability,
   vfx2dCapability,
+  worldUi2dCapability,
   stringVariableCapability,
 };
 
@@ -120,6 +122,7 @@ export const allAtomCapabilities: CapabilityDefinition[] = [
   randomCapability,
   spatialQueryCapability,
   vfx2dCapability,
+  worldUi2dCapability,
 ];
 
 // 扩展原子（按需引入，不计入核心原子）。

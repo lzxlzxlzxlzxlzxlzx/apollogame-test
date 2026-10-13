@@ -1,13 +1,13 @@
 // 引擎公用宿主骨架（render-only · 纯 DOM · 零 sim 依赖）——REQ-AUDIT-守门 C 件下沉。
 //
-// 抽出各卡带宿主层重复的「wrapper > scene(定尺缩放盒) > [topHost/bottomHost/overlayHost]」五容器
+// 抽出各卡带宿主层重复的「wrapper > scene > [playfield/topHost/bottomHost/overlayHost]」容器
 // 骨架 + 等比缩放逻辑（历史出处：原 game-q/game-t mount 逐字复制的那段·两游戏已随 REQ-RETRO 引擎大扫除
 // 2026-08-03 删除，仅留出处说明）。本 helper 只搭台：不引 Engine/World，
 // 不碰 sim/hash，不接渲染器/输入/HUD——那些一律留在调用方（宿主契约明许的 sim 外胶水）。
 //
-// 布局：wrapper 铺满容器并 flex 居中 → scene 定尺盒（fieldW×fieldH·等比 scale 缩进容器·信箱化）；
-// 渲染器画布由调用方 attach 进 scene 打底（z0），三个 HUD host 叠上（top/bottom z10·overlay z20）。
-// 指针映射经 scene 的 getBoundingClientRect 自动跟随缩放，调用方无需感知 scale。
+// 布局默认仍是 wrapper 铺满容器并居中 → scene 定尺盒（fieldW×fieldH·等比 scale·信箱化）。
+// 显式 responsive 时 scene 铺满容器，playfield/overlay 同步扣除上下 HUD 条；只改变 render host，
+// 不写 World。指针映射经 getBoundingClientRect 跟随有效画布尺寸，调用方无需补偿。
 
 export interface MountHostOptions {
   /** 定尺场景宽（逻辑像素·等比缩放基准）。 */
@@ -18,6 +18,11 @@ export interface MountHostOptions {
   topBarH?: number;
   /** 底栏 host 高（px·默认 0）。 */
   bottomBarH?: number;
+  /**
+   * `fixed`（默认）保留历史定尺 scene + 等比信箱；`responsive` 让 scene 跟随容器，另给
+   * play-field/WorldUI 一个扣除上下 HUD 条后的满幅 host。只改变 render host，不改 World。
+   */
+  viewportMode?: 'fixed' | 'responsive';
   /** 场景底纹（CSS background 值·省略=不设背景）。sceneBgSkin 有生成图时，此值自动降为**回退底层**（兜底永不丢）。 */
   sceneBackground?: string;
   /** wrapper 信箱区底色（CSS background 值·省略=不设背景）。 */
@@ -70,8 +75,10 @@ export function resolveSceneBg(
 export interface HostSkeleton {
   /** 铺满容器、flex 居中信箱区的最外层。 */
   wrapper: HTMLDivElement;
-  /** 定尺缩放盒——渲染器画布 attach 于此打底（z0）。 */
+  /** 场景盒：fixed 为定尺缩放盒，responsive 为容器满幅盒。 */
   scene: HTMLDivElement;
+  /** Canvas attach target。fixed 与 scene 同一节点；responsive 为上下 HUD 条之间的满幅 play-field。 */
+  playfieldHost: HTMLElement;
   /** 顶栏 HUD host（z10）。 */
   topHost: HTMLDivElement;
   /** 底栏 HUD host（z10）。 */
@@ -121,7 +128,8 @@ export function mountExternalAppFrame(container: HTMLElement, opts: ExternalAppF
  * render-only：不含任何 sim 逻辑，跳过/复用不影响回放/hash/lockstep。
  */
 export function mountHost(container: HTMLElement, opts: MountHostOptions): HostSkeleton {
-  const { fieldW, fieldH, topBarH = 0, bottomBarH = 0, sceneBackground, wrapperBackground, sceneBgSkin } = opts;
+  const { fieldW, fieldH, topBarH = 0, bottomBarH = 0, viewportMode = 'fixed', sceneBackground, wrapperBackground, sceneBgSkin } = opts;
+  const responsive = viewportMode === 'responsive';
 
   const wrapper = document.createElement('div');
   // overflow:clip（非 hidden，REQ-FOCUSSCROLL）：hidden 挡不住程序化 focus/scrollIntoView 对 scrollLeft/Top
@@ -140,7 +148,9 @@ export function mountHost(container: HTMLElement, opts: MountHostOptions): HostS
   const sceneBg = resolveSceneBg(sceneBackground, sceneBgSkin);
   const scene = document.createElement('div');
   scene.style.cssText =
-    `position:relative;width:${fieldW}px;height:${fieldH}px;flex:0 0 auto;transform-origin:center center` +
+    (responsive
+      ? 'position:relative;width:100%;height:100%;flex:1 1 auto;transform-origin:center center'
+      : `position:relative;width:${fieldW}px;height:${fieldH}px;flex:0 0 auto;transform-origin:center center`) +
     (sceneBg ? `;background:${sceneBg}` : '');
   // 标记「此场景有可换背景槽」（供孤儿审计/巡检识别·skinKey 即消费键）。
   if (sceneBgSkin?.skinKey) scene.dataset.sceneBgSkin = sceneBgSkin.skinKey;
@@ -150,7 +160,15 @@ export function mountHost(container: HTMLElement, opts: MountHostOptions): HostS
   const bottomHost = document.createElement('div');
   bottomHost.style.cssText = `position:absolute;left:0;right:0;bottom:0;height:${bottomBarH}px;z-index:10`;
   const overlayHost = document.createElement('div');
-  overlayHost.style.cssText = 'position:absolute;inset:0;z-index:20;pointer-events:none';
+  overlayHost.style.cssText = responsive
+    ? `position:absolute;left:0;right:0;top:${topBarH}px;bottom:${bottomBarH}px;z-index:20;pointer-events:none;overflow:hidden`
+    : 'position:absolute;inset:0;z-index:20;pointer-events:none';
+
+  const playfieldHost = responsive ? document.createElement('div') : scene;
+  if (responsive) {
+    playfieldHost.style.cssText = `position:absolute;left:0;right:0;top:${topBarH}px;bottom:${bottomBarH}px;z-index:0;overflow:hidden`;
+    scene.appendChild(playfieldHost);
+  }
 
   scene.append(topHost, bottomHost, overlayHost);
   wrapper.appendChild(scene);
@@ -158,6 +176,10 @@ export function mountHost(container: HTMLElement, opts: MountHostOptions): HostS
 
   // ── 响应式缩放（定尺场景盒等比缩进容器·指针映射经 getBoundingClientRect 自动跟随）──
   const fit = (): void => {
+    if (responsive) {
+      scene.style.transform = 'none';
+      return;
+    }
     const cw = container.clientWidth || fieldW;
     const ch = container.clientHeight || fieldH;
     const k = Math.min(cw / fieldW, ch / fieldH);
@@ -174,5 +196,5 @@ export function mountHost(container: HTMLElement, opts: MountHostOptions): HostS
     wrapper.remove();
   };
 
-  return { wrapper, scene, topHost, bottomHost, overlayHost, fit, teardown };
+  return { wrapper, scene, playfieldHost, topHost, bottomHost, overlayHost, fit, teardown };
 }

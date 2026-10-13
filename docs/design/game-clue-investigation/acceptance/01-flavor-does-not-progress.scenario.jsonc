@@ -1,0 +1,40 @@
+// author: GD
+// S4 条款：普通物件只留下已查看记录；无论查几件，必需线索进度不增长，也不触发完成。
+// UI 对账：investigate.shelf|clock|cup|rug = 场景热点；investigation.close = 档案条“继续调查”。
+// 对抗目标：把普通调查误接成线索收录、关掉档案条后相位不回现场，均须转红。
+{
+  "name": "普通物件可调查但不推进必需线索",
+  "game": "game-clue-investigation",
+  "seed": 4101,
+  "steps": [
+    { "expect": [
+      { "res": "required-collected", "eq": 0 },
+      { "res": "required-total", "eq": 2 },
+      { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" }
+    ] },
+    { "signal": "investigate.shelf" },
+    { "waitUntil": [
+      { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "flavor-result" },
+      { "flag": "viewed.shelf", "eq": true }
+    ], "cap": 30 },
+    { "expect": [ { "res": "required-collected", "eq": 0 } ] },
+    { "signal": "investigation.close" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 30 },
+    { "signal": "investigate.clock" },
+    { "waitUntil": [ { "flag": "viewed.clock", "eq": true } ], "cap": 30 },
+    { "signal": "investigation.close" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 30 },
+    { "signal": "investigate.cup" },
+    { "waitUntil": [ { "flag": "viewed.cup", "eq": true } ], "cap": 30 },
+    { "signal": "investigation.close" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 30 },
+    { "signal": "investigate.rug" },
+    { "waitUntil": [ { "flag": "viewed.rug", "eq": true } ], "cap": 30 },
+    { "expect": [
+      { "res": "required-collected", "eq": 0 },
+      { "flag": "collected.lock", "eq": false },
+      { "flag": "collected.prints", "eq": false },
+      { "flag": "collected.letter", "eq": false }
+    ] }
+  ]
+}

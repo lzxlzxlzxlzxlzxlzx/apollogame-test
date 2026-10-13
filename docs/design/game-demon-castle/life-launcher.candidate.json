@@ -1,0 +1,10 @@
+{
+  "schema": "zerocraft.life-launcher.v1",
+  "id": "game-demon-castle",
+  "title": "月影魔王城",
+  "subtitle": "重建沉睡城堡的月夜经营物语",
+  "description": "扮演少女魔王，探索月影庭院、森林与地底工坊；采集材料、种植月铃花、结识同盟，并逐步点亮王座厅、温室与熔炉。",
+  "color": "#24163d",
+  "accentColor": "#b48be7",
+  "icon": "🌙"
+}

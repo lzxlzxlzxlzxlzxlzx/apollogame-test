@@ -7,12 +7,13 @@ import { cooldownCapability, type Cooldowns } from './cooldown.js';
 import { conveyorQueueCapability, type ConveyorQueue } from './conveyor-queue.js';
 import { gaugeCapability } from './gauge.js';
 import { overTimeCapability } from './over-time.js';
+import { presentationTrackCapability } from './presentation-track.js';
 import { prefabCapability } from '@skills/tier3/prefab.js';
 import { timerCapability } from '@atom-skills/timer/index.js';
 import { resourceCapability } from '@atom-skills/resource/index.js';
 import { lifetimeCapability } from '@skills/tier1/lifetime.js';
 import { destroyCapability } from '@atom-skills/destroy/index.js';
-import type { Flag, PrefabLibrary, Resource, Gauge, Hierarchy, Shape, OverTime } from '@engine/protocol/components.js';
+import type { Flag, PrefabLibrary, Resource, Gauge, Hierarchy, Shape, OverTime, PresentationTrack, Transform } from '@engine/protocol/components.js';
 
 // 契约三件套（test-kit）：带运行态的 capability 都要过——确定性 / 存档续跑 / 静止零写入。
 // 语义测试各自在 *.test.ts；这里只钉「跨 capability 一致的底线」，新 capability 往下加一段即可。
@@ -64,7 +65,24 @@ const dotWorld = (): World => {
   return w;
 };
 
+const presentationWorld = (): World => {
+  const w = worldWith(eventWhenCapability, presentationTrackCapability);
+  w.createEntity('visual');
+  w.addComponent<Transform>('visual', { type: 'Transform', x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1 });
+  w.createEntity('track');
+  w.addComponent<PresentationTrack>('track', { type: 'PresentationTrack', id: 'intro', targetEntity: 'visual', playOnSignal: 'play', doneSignal: 'done',
+    channels: [{ target: 'Transform.x', keyframes: [{ at: 0, value: 0 }, { at: 3, value: 30 }] }],
+    finalPose: [{ target: 'Transform.x', value: 30 }] });
+  button(w, 'btn', 'play');
+  return w;
+};
+
 describe('契约三件套', () => {
+  it('t2-presentation-track（游标可回放/存档恢复，完成后无心跳写入）', () => {
+    expectDeterministic(presentationWorld, (w) => { press(w, 'btn'); tickN(w, 5); });
+    expectRestoreContinues(presentationWorld, (w) => { press(w, 'btn'); tickN(w, 1); }, (w) => tickN(w, 5));
+    const w = presentationWorld(); press(w, 'btn'); expectQuiescent(w, 4, 5);
+  });
   it('t2-turn-order', () => {
     const drive = (w: World) => { press(w, 'btn'); press(w, 'btn'); tickN(w, 1); press(w, 'btn'); };
     expectDeterministic(turnTable, drive);

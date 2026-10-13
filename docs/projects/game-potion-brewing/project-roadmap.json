@@ -1,0 +1,302 @@
+{
+  "schemaVersion": "zerocraft.project-roadmap.v1",
+  "project": {
+    "id": "game-potion-brewing",
+    "title": "坩埚炼药小游戏",
+    "summary": "DokiWorld 为本局指定唯一公开配方和目标成品，玩家直接按顺序投料并按方向搅拌；透明背景叠入宿主，全部正确成功，明确错误立即失败，宿主权威处理材料与成品。",
+    "status": "active"
+  },
+  "milestones": [
+    {
+      "id": "s1-project-and-prototype",
+      "title": "S1 立项与 HTML 原型定稿",
+      "track": "策划与原型",
+      "description": "S1-P-06 按 Owner 反馈改为单一宿主指定配方直入、透明背景、三栏布局，移除选方和多余按钮/提示/棒头蓝点；失败只使药液变紫、锅静止。隔离浏览器已核透明 alpha、真实拖动成功链、静止失败帧及 F2 审阅样例。Owner 已于 2026-10-12 在本会话确认 S1-P-06 原型定稿；自验实证见 prototype-notes.md，独立关键路径复查 PASS，控制台 Owner 人门已于 2026-10-12 通过。",
+      "status": "done",
+      "dependsOn": [],
+      "acceptance": [
+        "立项简报冻结 add/stir 两种步骤、错误边界与宿主权威",
+        "HTML 原型覆盖宿主指定配方直入、投料、搅拌、成功、失败和取消，常态背景透明",
+        "Owner 真机目击并明确给出原型定稿判词"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/brief.md",
+          "label": "S1 立项简报"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/requests.md",
+          "label": "S1-P Demo 施工单"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/prototype.dc.html",
+          "label": "S1-P-06 可交互视觉原型"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/prototype-notes.md",
+          "label": "S1-P-06 视觉与验收说明"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/19-clear-water-and-ai-cauldron.png",
+          "label": "清水与 AI 坩埚实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/20-ai-bottle-result-moon.png",
+          "label": "月露成品结算实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/23-three-quarter-clear-water.png",
+          "label": "S1-P-03 斜俯视坩埚与清水实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/24-rod-drag-stirring.png",
+          "label": "S1-P-04 抓棒入汤搅拌实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/25-material-selected-no-pot-glow.png",
+          "label": "S1-P-04 材料选中锅身不发光实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/26-rod-in-water-initial.png",
+          "label": "S1-P-05 棒常驻清水与入水遮挡实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/27-rod-track-drag.png",
+          "label": "S1-P-05 抓棒单角度轨道搅拌实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/28-angular-stir-success.png",
+          "label": "S1-P-05 真实拖动完成结算实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/29-transparent-fixed-recipe.png",
+          "label": "S1-P-06 透明背景单配方直入截图"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/30-purple-static-failure.png",
+          "label": "S1-P-06 紫色药液静止锅失败截图"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/31-transparent-success.png",
+          "label": "S1-P-06 单配方结算截图"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/S1-P-06-review.md",
+          "label": "S1-P-06 independent prototype review: key-path PASS"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "approved"
+      }
+    },
+    {
+      "id": "s2-capability-and-contract",
+      "title": "S2 能力计划与 DokiWorld 合同冻结",
+      "track": "架构与接入",
+      "description": "Owner 对 G1/G2/G3 全选 A、对 G4 单独选 A；四项机读缺口 accepted/P1/engine。S2 文档与合同独立复查 PASS，Owner 已在控制台通过人门。G1 单独入公共池并按 Owner 本会话特许使用本地领工锁；G2/G3/G4 仍留游戏级需求池。此批准不表示能力已交付或 S3 已解锁。",
+      "status": "done",
+      "dependsOn": [
+        "s1-project-and-prototype"
+      ],
+      "acceptance": [
+        "capability-plan 实名列出能力、数据表和例外",
+        "配方解释、步骤判定和圆周手势不存在未裁决游戏层解释器",
+        "输入输出、权威与 success/failure/cancelled 语义冻结"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/requests.md",
+          "label": "S2 Owner A adjudication and three engine capability specs"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/capability-plan.md",
+          "label": "S2 capability plan draft"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/contract-v1.md",
+          "label": "S2 DokiWorld contract v1 draft"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/capability-gaps.json",
+          "label": "S2 four Owner A decisions: accepted, not delivered"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/S2-review.md",
+          "label": "S2 independent review PASS: documents/adjudication only"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "approved"
+      }
+    },
+    {
+      "id": "s3-s4-playable-slice",
+      "title": "S3–S4 骨架与完整可玩炼药链",
+      "track": "玩法",
+      "description": "G1–G4 已按 Owner A 裁决和本地领工锁完成各自通用能力的局部施工：有序动作会话、椭圆单角度手势、DropZone 可选椭圆命中、render-only 拖动预览。四项均有施工自检与非施工者锚点撤修复查，判词均为 CONCERNS：本体定向测试通过，但正式炼药游戏尚未完成真鼠标/触控可见链和 S4 对齐；全库 TypeScript 与 depcruise 被其他项目当前错误阻断。Vite bundler 和本单局部 lint/系统图可通过；上下文容量守卫现因 game-simlife/requests.md 并发增长转红。四项公共池工单仍 in-progress、机读缺口仍 accepted，S3–S4 保持 blocked，未代签 Owner 人门。 2026-10-13 isolated browser probe independently PASS for the generic G1-G4 input/render chain (mouse, touch, visible preview, ellipse rejection/acceptance, ordered success); formal game S4 and global gates remain open.",
+      "status": "blocked",
+      "dependsOn": [
+        "s2-capability-and-contract"
+      ],
+      "acceptance": [
+        "两份以上 fixture 覆盖重复材料、双方向和多圈搅拌",
+        "错误提交立即失败，未提交拖拽和无效轨迹不误杀",
+        "验收剧本、确定性、UI 审计、真手势目击与独立复查通过"
+      ],
+      "evidence": [
+        {
+          "kind": "issue",
+          "ref": "docs/design/game-potion-brewing/capability-gaps.json",
+          "label": "G1–G4 accepted but not delivered; S3/S4 blocked"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/skills/tier2/ordered-action-session.ts",
+          "label": "G1 通用有序动作能力施工中"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/skills/tier2/ordered-action-session.test.ts",
+          "label": "G1 有序动作点名测试施工自检"
+        },
+        {
+          "kind": "issue",
+          "ref": "docs/workflow/requests.md",
+          "label": "G1 本地领工有效，仍在公共池 in-progress"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/self-check/REQ-POTION-ORDERED-ACTION.md",
+          "label": "G1 施工自检与门禁阻断证据"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/REQ-POTION-ORDERED-ACTION.md",
+          "label": "G1 独立复查 CONCERNS：本体通过、全库门禁未绿"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/skills/tier2/angular-gesture.ts",
+          "label": "G2 单角度手势能力施工"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/skills/tier2/drop-zone-hit.ts",
+          "label": "G3 共享投放命中与代发前置门"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/runtime/drag-preview.ts",
+          "label": "G4 宿主侧 render-only 拖动预览"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/REQ-POTION-ANGULAR-GESTURE.md",
+          "label": "G2 独立复查 CONCERNS：局部通过、全项未闭"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/REQ-POTION-ELLIPSE-DROPZONE.md",
+          "label": "G3 独立复查 CONCERNS：局部通过、全项未闭"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/REQ-POTION-DRAG-PREVIEW.md",
+          "label": "G4 独立复查 CONCERNS：局部通过、全项未闭"
+        },
+        {
+          "kind": "test",
+          "ref": "scripts/potion-engine-browser-e2e.mjs",
+          "label": "G1-G4 isolated real-browser engine integration test"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/g2-g4-browser-held.png",
+          "label": "DPR2 real-browser visible held material preview"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/self-check/G1-G4-browser-engine-integration.md",
+          "label": "G1-G4 browser bridge construction self-check"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/G2-G4-browser-engine-integration.md",
+          "label": "Independent browser bridge review: local PASS, overall CONCERNS"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "s5-s6-visual-performance",
+      "title": "S5–S6 炼药台美术、音频与演出 1:1",
+      "track": "视觉与演出",
+      "description": "接入坩埚、卷轴、材料、药液和声音资产，收敛投料、溶解、旋涡、成功与失败演出。",
+      "status": "planned",
+      "dependsOn": [
+        "s3-s4-playable-slice"
+      ],
+      "acceptance": [
+        "所有视觉实体有消费槽且资产索引无孤儿",
+        "原型与真实游戏同画布、关键帧与时序差异清零或有裁决",
+        "资源失败、音频无设备与 reduced-motion 均可安全降级"
+      ],
+      "evidence": [],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "s7-s8-dokiworld-delivery",
+      "title": "S7–S8 DokiWorld 联调与交付",
+      "track": "SDK 与发行",
+      "description": "完成 schema 3 manifest、严格单配方合同、十二章调用说明、资产闭包、真 dist、假宿主和 DokiWorld 子路径验收。",
+      "status": "planned",
+      "dependsOn": [
+        "s5-s6-visual-performance"
+      ],
+      "acceptance": [
+        "合法输入唯一 complete，错误动作返回 failure，主动退出为 cancelled",
+        "preview 不结算，宿主图片失败不改变规则判定",
+        "dist 文档、资产、SHA、新鲜度、独立复查与 Owner 人门全部通过"
+      ],
+      "evidence": [],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "required"
+      }
+    }
+  ]
+}

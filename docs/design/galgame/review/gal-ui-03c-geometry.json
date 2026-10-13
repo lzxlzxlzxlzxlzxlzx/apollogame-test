@@ -1,0 +1,398 @@
+{
+  "prototype_memories": {
+    "shell": {
+      "x": 18,
+      "y": 61,
+      "width": 1404,
+      "height": 824,
+      "right": 1422,
+      "bottom": 885
+    },
+    "heading": {
+      "x": 84,
+      "y": 109,
+      "width": 1272,
+      "height": 61,
+      "right": 1356,
+      "bottom": 170
+    },
+    "tabs": {
+      "x": 84,
+      "y": 182,
+      "width": 1272,
+      "height": 44,
+      "right": 1356,
+      "bottom": 226
+    },
+    "grid": {
+      "x": 84,
+      "y": 244,
+      "width": 1272,
+      "height": 486,
+      "right": 1356,
+      "bottom": 730
+    },
+    "cardFirst": {
+      "x": 84,
+      "y": 244,
+      "width": 628.5,
+      "height": 152,
+      "right": 712.5,
+      "bottom": 396
+    },
+    "cardLast": {
+      "x": 727.5,
+      "y": 578,
+      "width": 628.5,
+      "height": 152,
+      "right": 1356,
+      "bottom": 730
+    },
+    "footer": {
+      "x": 84,
+      "y": 782,
+      "width": 1272,
+      "height": 51,
+      "right": 1356,
+      "bottom": 833
+    },
+    "footerActions": {
+      "x": 1240,
+      "y": 787,
+      "width": 116,
+      "height": 42,
+      "right": 1356,
+      "bottom": 829
+    }
+  },
+  "prototype_cg": {
+    "shell": {
+      "x": 18,
+      "y": 61,
+      "width": 1404,
+      "height": 824,
+      "right": 1422,
+      "bottom": 885
+    },
+    "heading": {
+      "x": 84,
+      "y": 109,
+      "width": 1272,
+      "height": 61,
+      "right": 1356,
+      "bottom": 170
+    },
+    "tabs": {
+      "x": 84,
+      "y": 182,
+      "width": 1272,
+      "height": 44,
+      "right": 1356,
+      "bottom": 226
+    },
+    "grid": {
+      "x": 84,
+      "y": 242,
+      "width": 1272,
+      "height": 497,
+      "right": 1356,
+      "bottom": 739
+    },
+    "cardFirst": {
+      "x": 84,
+      "y": 242,
+      "width": 412.65625,
+      "height": 240,
+      "right": 496.65625,
+      "bottom": 482
+    },
+    "cardLast": {
+      "x": 943.328125,
+      "y": 499,
+      "width": 412.65625,
+      "height": 240,
+      "right": 1355.984375,
+      "bottom": 739
+    },
+    "footer": {
+      "x": 84,
+      "y": 782,
+      "width": 1272,
+      "height": 51,
+      "right": 1356,
+      "bottom": 833
+    },
+    "footerActions": {
+      "x": 1240,
+      "y": 787,
+      "width": 116,
+      "height": 42,
+      "right": 1356,
+      "bottom": 829
+    }
+  },
+  "current_memories": {
+    "shell": {
+      "x": 18,
+      "y": 61,
+      "width": 1404,
+      "height": 824,
+      "right": 1422,
+      "bottom": 885
+    },
+    "heading": {
+      "x": 84,
+      "y": 109,
+      "width": 1272,
+      "height": 61,
+      "right": 1356,
+      "bottom": 170
+    },
+    "tabs": {
+      "x": 84,
+      "y": 182,
+      "width": 1272,
+      "height": 44,
+      "right": 1356,
+      "bottom": 226
+    },
+    "grid": {
+      "x": 84,
+      "y": 244,
+      "width": 1272,
+      "height": 486,
+      "right": 1356,
+      "bottom": 730
+    },
+    "cardFirst": {
+      "x": 84,
+      "y": 244,
+      "width": 628.5,
+      "height": 152,
+      "right": 712.5,
+      "bottom": 396
+    },
+    "cardLast": {
+      "x": 727.5,
+      "y": 578,
+      "width": 628.5,
+      "height": 152,
+      "right": 1356,
+      "bottom": 730
+    },
+    "footer": {
+      "x": 84,
+      "y": 782,
+      "width": 1272,
+      "height": 51,
+      "right": 1356,
+      "bottom": 833
+    },
+    "footerActions": {
+      "x": 1132.421875,
+      "y": 786.5,
+      "width": 223.578125,
+      "height": 42,
+      "right": 1356,
+      "bottom": 828.5
+    }
+  },
+  "current_cg": {
+    "shell": {
+      "x": 18,
+      "y": 61,
+      "width": 1404,
+      "height": 824,
+      "right": 1422,
+      "bottom": 885
+    },
+    "heading": {
+      "x": 84,
+      "y": 109,
+      "width": 1272,
+      "height": 61,
+      "right": 1356,
+      "bottom": 170
+    },
+    "tabs": {
+      "x": 84,
+      "y": 182,
+      "width": 1272,
+      "height": 44,
+      "right": 1356,
+      "bottom": 226
+    },
+    "grid": {
+      "x": 84,
+      "y": 242,
+      "width": 1272,
+      "height": 497,
+      "right": 1356,
+      "bottom": 739
+    },
+    "cardFirst": {
+      "x": 84,
+      "y": 242,
+      "width": 412.65625,
+      "height": 240,
+      "right": 496.65625,
+      "bottom": 482
+    },
+    "cardLast": {
+      "x": 943.328125,
+      "y": 499,
+      "width": 412.65625,
+      "height": 240,
+      "right": 1355.984375,
+      "bottom": 739
+    },
+    "footer": {
+      "x": 84,
+      "y": 782,
+      "width": 1272,
+      "height": 51,
+      "right": 1356,
+      "bottom": 833
+    },
+    "footerActions": {
+      "x": 1132.421875,
+      "y": 786.5,
+      "width": 223.578125,
+      "height": 42,
+      "right": 1356,
+      "bottom": 828.5
+    }
+  },
+  "current_empty": {
+    "shell": {
+      "x": 18,
+      "y": 61,
+      "width": 1404,
+      "height": 824,
+      "right": 1422,
+      "bottom": 885
+    },
+    "heading": {
+      "x": 84,
+      "y": 109,
+      "width": 1272,
+      "height": 61,
+      "right": 1356,
+      "bottom": 170
+    },
+    "tabs": {
+      "x": 84,
+      "y": 182,
+      "width": 1272,
+      "height": 44,
+      "right": 1356,
+      "bottom": 226
+    },
+    "grid": {
+      "x": 84,
+      "y": 242,
+      "width": 1272,
+      "height": 26,
+      "right": 1356,
+      "bottom": 268
+    },
+    "cardFirst": {
+      "x": 84,
+      "y": 242,
+      "width": 412.65625,
+      "height": 26,
+      "right": 496.65625,
+      "bottom": 268
+    },
+    "cardLast": {
+      "x": 84,
+      "y": 242,
+      "width": 412.65625,
+      "height": 26,
+      "right": 496.65625,
+      "bottom": 268
+    },
+    "footer": {
+      "x": 84,
+      "y": 782,
+      "width": 1272,
+      "height": 51,
+      "right": 1356,
+      "bottom": 833
+    },
+    "footerActions": {
+      "x": 1132.421875,
+      "y": 786.5,
+      "width": 223.578125,
+      "height": 42,
+      "right": 1356,
+      "bottom": 828.5
+    }
+  },
+  "current_page2": {
+    "shell": {
+      "x": 18,
+      "y": 61,
+      "width": 1404,
+      "height": 824,
+      "right": 1422,
+      "bottom": 885
+    },
+    "heading": {
+      "x": 84,
+      "y": 109,
+      "width": 1272,
+      "height": 61,
+      "right": 1356,
+      "bottom": 170
+    },
+    "tabs": {
+      "x": 84,
+      "y": 182,
+      "width": 1272,
+      "height": 44,
+      "right": 1356,
+      "bottom": 226
+    },
+    "grid": {
+      "x": 84,
+      "y": 242,
+      "width": 1272,
+      "height": 240,
+      "right": 1356,
+      "bottom": 482
+    },
+    "cardFirst": {
+      "x": 84,
+      "y": 242,
+      "width": 412.65625,
+      "height": 240,
+      "right": 496.65625,
+      "bottom": 482
+    },
+    "cardLast": {
+      "x": 84,
+      "y": 242,
+      "width": 412.65625,
+      "height": 240,
+      "right": 496.65625,
+      "bottom": 482
+    },
+    "footer": {
+      "x": 84,
+      "y": 782,
+      "width": 1272,
+      "height": 51,
+      "right": 1356,
+      "bottom": 833
+    },
+    "footerActions": {
+      "x": 1132.421875,
+      "y": 786.5,
+      "width": 223.578125,
+      "height": 42,
+      "right": 1356,
+      "bottom": 828.5
+    }
+  }
+}

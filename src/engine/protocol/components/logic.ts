@@ -87,6 +87,7 @@ export type ConditionExpr =
   | { readonly kind: 'state'; readonly fsmId: string; readonly equals: string }
   | { readonly kind: 'timer'; readonly id: string; readonly cmp: CmpOp; readonly value: number }
   | { readonly kind: 'string'; readonly id: string; readonly equals: string }
+  | { readonly kind:'relationship'; readonly npcId:string; readonly cmp?:CmpOp; readonly value?:number; readonly levelId?:string }
   | { readonly kind: 'cooldown'; readonly id: string; readonly ready?: boolean }; // t2-cooldown 槽就绪（缺省判 ready=true·无此槽视为就绪）
 
 // ── event-when ── 条件成立时发信号。逻辑核心层，不直接产生效果(Effect 后置)。
@@ -111,6 +112,23 @@ export interface Signal extends Component {
   name: string; // 信号名（= EventWhen.signal）
   source: EntityId; // 发出该信号的 EventWhen 实体 id
   arg?: string; // 可选参数载荷（带参动作用·如「买哪件」card_42）：keybind 从 InputQueue 动作的 arg 透传。无参动作不挂此字段（旧内容形状/hash 不变）。
+}
+
+// ── ordered-action-session（REQ-POTION-ORDERED-ACTION）──────────────────────
+// 只比较完整具名动作；acceptedActions 是本会话会消费的精确动作全集，
+// 因此其它 UI Signal 永远不会被当作错误投料或搅拌。
+export interface OrderedActionSession extends Component {
+  readonly type: 'OrderedActionSession';
+  id: string;
+  acceptedActions: string[];
+  steps: Array<{ expectedAction: string; requiredCount: number }>;
+  successSignal: string;
+  failureSignal: string;
+  status?: 'active' | 'success' | 'failure';
+  stepIndex?: number;
+  confirmedCount?: number;
+  lastAction?: string;
+  failureExpected?: string;
 }
 
 // ── effect-apply ── Condition→Event→**Effect** 的 Effect 侧：信号在场时施加一个声明式效果。
@@ -214,6 +232,201 @@ export interface GameFlow extends Component {
   states: FlowState[]; // 状态机（声明式数据）
   entered?: boolean; // 内部：当前状态 onEnter 是否已跑（转移后置 false → 次拍跑新状态 onEnter）
   elapsed?: number; // 内部：进入当前状态后经过的 tick 数（驱动 after 时序门；转移时归零）
+}
+
+// ── progressive-risk-session（REQ-THEFT-PROGRESSIVE）─────────────────────────
+// 通用「风险持续上涨 + 循环检定 + 有序多目标 + 可随时退出」会话。这里没有偷窃/物品等业务词：
+// 消费方只给有序 target 目录与整数基点概率；系统按固定 tick 累积 risk，并把终局回执留在世界中。
+export type ProgressiveRiskPhase = 'idle' | 'active' | 'awaiting-continue' | 'terminal';
+export type ProgressiveRiskTerminal = 'withdrew' | 'exposed' | 'cleared' | 'aborted';
+export type ProgressiveRiskAction = 'start' | 'qte-press' | 'continue' | 'withdraw';
+export type ProgressiveRiskQteDirection = 'contract' | 'expand';
+
+export interface ProgressiveRiskTarget {
+  id: string;
+  initialChanceBp: number; // 0..10000；消费方负责把自己的难度表投影成这个通用概率
+}
+
+export interface ProgressiveRiskSession extends Component {
+  readonly type: 'ProgressiveRiskSession';
+  id: string;
+  targets: ProgressiveRiskTarget[]; // 数组序即唯一推进序；解释器绝不排序/跳过/重排
+  riskRateBpPerSecond: number;
+  ticksPerSecond: number;
+  riskLimitBp: number;
+  qteMissRiskBp: number;
+  qteCycleTicks: number; // 一个 QTE 周期的固定 tick 数；禁墙钟
+  qteWindowStartTick: number; // 闭区间起点，0 <= start <= end < cycle
+  qteWindowEndTick: number; // 闭区间终点
+  qteDirection: ProgressiveRiskQteDirection; // 表现投影方向；判定仍只看固定 tick 窗口
+  growthFactorBp: number;
+  maxRollChanceBp: number;
+
+  // 以下均为可快照运行态；蓝图可不填，系统在第一次见到 phase 缺席时统一初始化。
+  phase?: ProgressiveRiskPhase;
+  riskBp?: number;
+  riskRemainder?: number;
+  elapsedTicks?: number;
+  targetIndex?: number;
+  failedRollsByTarget?: number[];
+  acquiredIds?: string[];
+  qteAttempts?: number;
+  qteHits?: number;
+  qteMisses?: number;
+  qteTick?: number; // 当前周期游标 0..qteCycleTicks-1
+  qteResolved?: boolean; // 本周期是否已经按压判定；防连点并决定周期末 timeout
+  lootRolls?: number;
+  lastInputSeq?: number;
+  terminal?: ProgressiveRiskTerminal;
+  signalSeq?: number;
+  emittedSignalIds?: string[];
+}
+
+// 外部输入的闭集意图。seq 是会话内单调序号；重复/倒序输入 fail-closed。
+export interface ProgressiveRiskInput extends Component {
+  readonly type: 'ProgressiveRiskInput';
+  sessionId: string;
+  action: ProgressiveRiskAction;
+  seq: number;
+}
+
+// 终局确定性回执：一旦 terminal 写入，之后输入不再改变它；exposed 仍保留 acquiredIds。
+export interface ProgressiveRiskReceipt extends Component {
+  readonly type: 'ProgressiveRiskReceipt';
+  sessionId: string;
+  status: ProgressiveRiskTerminal;
+  acquiredIds: string[];
+  riskBp: number;
+  elapsedTicks: number;
+  targetIndex: number;
+  qteAttempts: number;
+  qteHits: number;
+  qteMisses: number;
+  lootRolls: number;
+}
+
+// ── discrete-combination-session（GAP-LOCKPICK-01）──────────────────────────
+// 通用「有限离散向量猜解」会话：系统生成隐藏目标，消费单槽 set / 主动 give-up，
+// 只产出整体 exact-match 反馈与唯一终局。没有机关/密码/次数/倒计时等业务词。
+export type DiscreteCombinationStatus = 'ready' | 'playing' | 'success' | 'failure';
+export type DiscreteCombinationAction = 'set' | 'give-up';
+// 初始向量是作者可声明的闭集策略：缺省 constant 保持全槽 initialValue 语义；
+// random 则只消费世界 RandomSeed，绝不接受宿主注入的初值或种子。
+export type DiscreteCombinationInitialStrategy = 'constant' | 'random';
+
+export interface DiscreteCombinationSession extends Component {
+  readonly type: 'DiscreteCombinationSession';
+  id: string;
+  slotCount: number;
+  valueCount: number;
+  initialValue: number;
+  initialStrategy?: DiscreteCombinationInitialStrategy;
+  setSignal: string;
+  giveUpSignal: string;
+  feedbackSignal: string;
+  successSignal: string;
+  failureSignal: string;
+
+  // 可快照运行态；配置作者不填。target 仅供 sim/测试，不应投影进 UI。
+  status?: DiscreteCombinationStatus;
+  target?: number[];
+  current?: number[];
+  matchCount?: number;
+}
+
+export interface DiscreteCombinationInput extends Component {
+  readonly type: 'DiscreteCombinationInput';
+  sessionId: string;
+  action: DiscreteCombinationAction;
+  slot?: number;
+  value?: number;
+}
+
+export interface DiscreteCombinationReceipt extends Component {
+  readonly type: 'DiscreteCombinationReceipt';
+  sessionId: string;
+  outcome: 'success' | 'failure';
+}
+
+// ── risk-reveal-wheel（REQ-THEFT-RISK-REVEAL-WHEEL）──────────────────────────
+// 通用「持续风险 + 精准 QTE + 种子化隐藏槽位 + 一次检定换一次翻格权」会话。
+// ringSizes 只描述逻辑槽位分组，渲染器可投影成同心环、网格或线路；解释器不持有像素/角度。
+export type RiskRevealPhase = 'idle' | 'qte' | 'reveal' | 'terminal';
+export type RiskRevealTerminal = 'withdrew' | 'exposed' | 'cleared' | 'aborted';
+export type RiskRevealAction = 'start' | 'qte-press' | 'reveal' | 'withdraw';
+/** `phase-after-qte` 保持旧版“任意 QTE → 单独翻格相位”；`bank-perfect-during-qte` 让精准命中累积开门权，QTE 不停。 */
+export type RiskRevealRule = 'phase-after-qte' | 'bank-perfect-during-qte';
+/** 完美 QTE 后是否以世界种子重抽下一个理想刻度；缺省 fixed 保持既有会话节奏。 */
+export type RiskRevealQteTargetRule = 'fixed' | 'reshuffle-on-perfect';
+/** 周期结束时的规则：缺省 penalize 保持旧会话；预览可选仅复位指针、不把未点击当作失误。 */
+export type RiskRevealQteTimeoutRule = 'penalize' | 'reset-no-penalty';
+/** QTE 按下后是回到起点还是保持当前转盘相位；缺省保留旧版回零。 */
+export type RiskRevealQtePressRule = 'reset-to-start' | 'continue-from-press';
+
+export interface RiskRevealTarget { id: string }
+
+export interface RiskRevealWheel extends Component {
+  readonly type: 'RiskRevealWheel';
+  id: string;
+  slotCount: number;
+  ringSizes: number[];
+  targets: RiskRevealTarget[];
+  blackSlotCount: number; // 消费方已完成“难度→黑位数”映射；引擎不解释业务难度
+  riskRateBpPerSecond: number;
+  ticksPerSecond: number;
+  riskLimitBp: number;
+  qteCycleTicks: number;
+  qteIdealTick: number;
+  qtePerfectRadiusTicks: number;
+  qteMaxPenaltyBp: number;
+  /** 缺省 `phase-after-qte`，确保既有消费者逐字节保留旧行为。 */
+  revealRule?: RiskRevealRule;
+  qteTargetRule?: RiskRevealQteTargetRule;
+  qteTimeoutRule?: RiskRevealQteTimeoutRule;
+  qtePressRule?: RiskRevealQtePressRule;
+  /** QTE 按下后保持当前刻度的确定性 tick 数；被动风险照常累计。缺省 0 不改变既有会话。 */
+  qtePressPauseTicks?: number;
+
+  // 可快照运行态。slotTargetIds 的 null 同时覆盖封锁位与空位，二者由 blackSlots 区分。
+  phase?: RiskRevealPhase;
+  riskBp?: number;
+  riskRemainder?: number;
+  elapsedTicks?: number;
+  qteTick?: number;
+  qtePauseTicks?: number;
+  qteAttempts?: number;
+  perfectQtes?: number;
+  lastQteOffsetTicks?: number;
+  lastQtePenaltyBp?: number;
+  revealCredits?: number;
+  blackSlots?: number[];
+  slotTargetIds?: Array<string | null>;
+  revealedSlots?: number[];
+  acquiredIds?: string[];
+  lastInputSeq?: number;
+  terminal?: RiskRevealTerminal;
+  signalSeq?: number;
+  emittedSignalIds?: string[];
+}
+
+export interface RiskRevealInput extends Component {
+  readonly type: 'RiskRevealInput';
+  sessionId: string;
+  action: RiskRevealAction;
+  seq: number;
+  slot?: number;
+}
+
+export interface RiskRevealReceipt extends Component {
+  readonly type: 'RiskRevealReceipt';
+  sessionId: string;
+  status: RiskRevealTerminal;
+  acquiredIds: string[];
+  revealedSlots: number[];
+  riskBp: number;
+  elapsedTicks: number;
+  qteAttempts: number;
+  perfectQtes: number;
 }
 
 // ── self-rule（REQ-021）── 逻辑链的「实体本地(self)」作用域：对**每个挂 SelfRule 的实体**，用其**自身组件**

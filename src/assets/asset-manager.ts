@@ -64,7 +64,18 @@ export class AssetManager {
 
   /** 注册单个描述符(覆盖同 key)。注册不触发加载。 */
   register(descriptor: AssetDescriptor): void {
+    closeImageHandle(this.loaded.get(descriptor.key)?.handle);
+    this.loaded.delete(descriptor.key);
+    this.inflight.delete(descriptor.key);
     this.descriptors.set(descriptor.key, descriptor);
+  }
+
+  /** Remove one session-owned asset without disturbing unrelated registrations. */
+  unregister(key: string): void {
+    closeImageHandle(this.loaded.get(key)?.handle);
+    this.descriptors.delete(key);
+    this.loaded.delete(key);
+    this.inflight.delete(key);
   }
 
   /** 注册一份清单(数据驱动，可来自 JSON)。 */
@@ -101,13 +112,15 @@ export class AssetManager {
       .load(descriptor)
       .then(({ handle, width, height }) => {
         const asset: LoadedAsset = { descriptor, handle, width, height };
-        this.loaded.set(key, asset);
-        this.inflight.delete(key);
+        if (this.descriptors.get(key) === descriptor && this.inflight.get(key) === promise) {
+          this.loaded.set(key, asset);
+          this.inflight.delete(key);
+        } else closeImageHandle(handle);
         return asset;
       })
       .catch((err) => {
         // 失败也要清 inflight，否则 rejected promise 永久占位，该 key 整局再也加载不了（Gemini code review）。
-        this.inflight.delete(key);
+        if (this.inflight.get(key) === promise) this.inflight.delete(key);
         throw err;
       });
     this.inflight.set(key, promise);
@@ -178,8 +191,15 @@ export class AssetManager {
   /** 清空缓存与注册(不影响进行中的加载承诺解析，但其结果不再被缓存复用)。 */
   clear(): void {
     this.descriptors.clear();
+    for (const asset of this.loaded.values()) closeImageHandle(asset.handle);
     this.loaded.clear();
     this.inflight.clear();
     this.animations.clear();
   }
+}
+
+function closeImageHandle(handle: unknown): void {
+  if (!handle || typeof handle !== 'object' || !('image' in handle)) return;
+  const image = handle.image;
+  if (image && typeof image === 'object' && 'close' in image && typeof image.close === 'function') image.close();
 }

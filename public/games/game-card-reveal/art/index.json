@@ -1,0 +1,407 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "card.fallback",
+      "type": "texture",
+      "description": "宿主卡面独立失败时的包内中性回退图；非抽卡结果",
+      "status": "filled",
+      "path": "/games/game-card-reveal/art/cards/fallback.svg",
+      "category": "card",
+      "tags": [
+        "game-card-reveal",
+        "card",
+        "fallback",
+        "vector"
+      ],
+      "source": "project-original-vector",
+      "license": "project-owned",
+      "spec": {
+        "format": "svg",
+        "width": 260,
+        "height": 390,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "provenance": {
+        "generator": "manual SVG",
+        "source": "S5 local fallback",
+        "generatedAt": "2026-10-10",
+        "mock": false
+      }
+    },
+    {
+      "id": "card.preview.0",
+      "type": "texture",
+      "description": "仅预览使用的第一张演示卡；源自冻结原型原创矢量卡图",
+      "status": "filled",
+      "path": "/games/game-card-reveal/art/cards/preview-0.svg",
+      "category": "card",
+      "tags": [
+        "game-card-reveal",
+        "card",
+        "preview",
+        "vector"
+      ],
+      "source": "design-handoff:prototype.dc.html",
+      "license": "project-owned",
+      "spec": {
+        "format": "svg",
+        "width": 260,
+        "height": 390,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "provenance": {
+        "generator": "manual SVG",
+        "source": "prototype.dc.html CardFront",
+        "generatedAt": "2026-10-10",
+        "mock": false
+      }
+    },
+    {
+      "id": "card.preview.1",
+      "type": "texture",
+      "description": "仅预览使用的第二张演示卡；源自冻结原型原创矢量卡图",
+      "status": "filled",
+      "path": "/games/game-card-reveal/art/cards/preview-1.svg",
+      "category": "card",
+      "tags": [
+        "game-card-reveal",
+        "card",
+        "preview",
+        "vector"
+      ],
+      "source": "design-handoff:prototype.dc.html",
+      "license": "project-owned",
+      "spec": {
+        "format": "svg",
+        "width": 260,
+        "height": 390,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "provenance": {
+        "generator": "manual SVG",
+        "source": "prototype.dc.html Card1",
+        "generatedAt": "2026-10-10",
+        "mock": false
+      }
+    },
+    {
+      "id": "card.preview.2",
+      "type": "texture",
+      "description": "仅预览使用的第三张演示卡；源自冻结原型原创矢量卡图",
+      "status": "filled",
+      "path": "/games/game-card-reveal/art/cards/preview-2.svg",
+      "category": "card",
+      "tags": [
+        "game-card-reveal",
+        "card",
+        "preview",
+        "vector"
+      ],
+      "source": "design-handoff:prototype.dc.html",
+      "license": "project-owned",
+      "spec": {
+        "format": "svg",
+        "width": 260,
+        "height": 390,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "provenance": {
+        "generator": "manual SVG",
+        "source": "prototype.dc.html Card2",
+        "generatedAt": "2026-10-10",
+        "mock": false
+      }
+    },
+    {
+      "id": "card.preview.3",
+      "type": "texture",
+      "description": "仅预览使用的第四张演示卡；源自冻结原型原创矢量卡图",
+      "status": "filled",
+      "path": "/games/game-card-reveal/art/cards/preview-3.svg",
+      "category": "card",
+      "tags": [
+        "game-card-reveal",
+        "card",
+        "preview",
+        "vector"
+      ],
+      "source": "design-handoff:prototype.dc.html",
+      "license": "project-owned",
+      "spec": {
+        "format": "svg",
+        "width": 260,
+        "height": 390,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "provenance": {
+        "generator": "manual SVG",
+        "source": "prototype.dc.html Card3",
+        "generatedAt": "2026-10-10",
+        "mock": false
+      }
+    },
+    {
+      "id": "card.preview.4",
+      "type": "texture",
+      "description": "仅预览使用的第五张演示卡；源自冻结原型原创矢量卡图",
+      "status": "filled",
+      "path": "/games/game-card-reveal/art/cards/preview-4.svg",
+      "category": "card",
+      "tags": [
+        "game-card-reveal",
+        "card",
+        "preview",
+        "vector"
+      ],
+      "source": "design-handoff:prototype.dc.html",
+      "license": "project-owned",
+      "spec": {
+        "format": "svg",
+        "width": 260,
+        "height": 390,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "provenance": {
+        "generator": "manual SVG",
+        "source": "prototype.dc.html Card4",
+        "generatedAt": "2026-10-10",
+        "mock": false
+      }
+    },
+    {
+      "id": "pack.back",
+      "type": "texture",
+      "description": "星辉启封统一卡包背面；FINAL 冻结原图右半幅离线裁切至逻辑 400×600",
+      "status": "filled",
+      "path": "/games/game-card-reveal/art/textures/pack-back.png",
+      "category": "packaging",
+      "tags": [
+        "game-card-reveal",
+        "pack",
+        "back",
+        "final"
+      ],
+      "source": "design-handoff:pack-unified-ai-v1.png",
+      "license": "project-owned ImageGen source; owner approved final asset use 2026-10-10",
+      "spec": {
+        "format": "png",
+        "width": 400,
+        "height": 600,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "provenance": {
+        "generator": "Codex built-in ImageGen",
+        "model": "Codex ImageGen (model not disclosed)",
+        "prompt": "Transparent paired front/back card wrapper with matching silhouette and heat-seal, dark indigo, teal and warm gold stars and moon; no character, text, number, logo or watermark",
+        "generatedAt": "2026-10-09",
+        "designFreeze": "S1-P FINAL frozen 2026-10-09; owner approved M2.5 asset use 2026-10-10",
+        "sourceSha256": "34de5a5a106ba842e4a2f99c3908b6a2f33b0d5943b42670fae65e5b28cb7dd3",
+        "sourceRect": [
+          771,
+          26,
+          571,
+          1032
+        ],
+        "derivation": "public/games/game-card-reveal/art/tools/gen-art.ps1; resize to 400x600 with high-quality bicubic",
+        "approvedAt": "2026-10-10T05:26:22.272Z",
+        "reviewedBy": "human-review",
+        "contentHash": "sha256:14c471341d51848344411db8fd7290725e1862861d6999cb6387d0333e656a21"
+      }
+    },
+    {
+      "id": "pack.front",
+      "type": "texture",
+      "description": "星辉启封统一卡包正面；FINAL 冻结原图左半幅离线裁切至逻辑 400×600",
+      "status": "filled",
+      "path": "/games/game-card-reveal/art/textures/pack-front.png",
+      "category": "packaging",
+      "tags": [
+        "game-card-reveal",
+        "pack",
+        "front",
+        "final"
+      ],
+      "source": "design-handoff:pack-unified-ai-v1.png",
+      "license": "project-owned ImageGen source; owner approved final asset use 2026-10-10",
+      "spec": {
+        "format": "png",
+        "width": 400,
+        "height": 600,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "provenance": {
+        "generator": "Codex built-in ImageGen",
+        "model": "Codex ImageGen (model not disclosed)",
+        "prompt": "Transparent paired front/back card wrapper with matching silhouette and heat-seal, dark indigo, teal and warm gold stars and moon; no character, text, number, logo or watermark",
+        "generatedAt": "2026-10-09",
+        "designFreeze": "S1-P FINAL frozen 2026-10-09; owner approved M2.5 asset use 2026-10-10",
+        "sourceSha256": "34de5a5a106ba842e4a2f99c3908b6a2f33b0d5943b42670fae65e5b28cb7dd3",
+        "sourceRect": [
+          105,
+          26,
+          573,
+          1032
+        ],
+        "derivation": "public/games/game-card-reveal/art/tools/gen-art.ps1; resize to 400x600 with high-quality bicubic",
+        "approvedAt": "2026-10-10T05:26:16.687Z",
+        "reviewedBy": "human-review",
+        "contentHash": "sha256:4e5477df2b9ef4b7c85c871f0ac04a51bf10c459f9ed7527967dfab42cdffe92"
+      }
+    },
+    {
+      "id": "pack.tearBody",
+      "type": "texture",
+      "description": "下坠余包；从 pack.front 同像素离线分割，400×600 全幅透明画布",
+      "status": "filled",
+      "path": "/games/game-card-reveal/art/textures/pack-tear-body.png",
+      "category": "packaging",
+      "tags": [
+        "game-card-reveal",
+        "pack",
+        "tear",
+        "body",
+        "final"
+      ],
+      "source": "design-handoff:pack-unified-ai-v1.png",
+      "license": "project-owned ImageGen source; owner approved final asset use 2026-10-10",
+      "spec": {
+        "format": "png",
+        "width": 400,
+        "height": 600,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "provenance": {
+        "derivedFrom": "pack.front",
+        "generator": "Codex built-in ImageGen source; deterministic offline crop",
+        "model": "Codex ImageGen (source model not disclosed)",
+        "prompt": "Transparent paired front/back card wrapper with matching silhouette and heat-seal, dark indigo, teal and warm gold stars and moon; no character, text, number, logo or watermark",
+        "generatedAt": "2026-10-09",
+        "sourceSha256": "34de5a5a106ba842e4a2f99c3908b6a2f33b0d5943b42670fae65e5b28cb7dd3",
+        "curvePoints": [
+          [
+            0,
+            57
+          ],
+          [
+            65,
+            55
+          ],
+          [
+            135,
+            58
+          ],
+          [
+            200,
+            62
+          ],
+          [
+            265,
+            59
+          ],
+          [
+            335,
+            55
+          ],
+          [
+            400,
+            57
+          ]
+        ],
+        "algorithm": "piecewise cubic Hermite; pixel center above curve belongs to top, other pixels to body; exact complement",
+        "derivation": "public/games/game-card-reveal/art/tools/gen-art.ps1",
+        "designFreeze": "S1-P FINAL frozen 2026-10-09; owner approved M2.5 asset use 2026-10-10",
+        "approvedAt": "2026-10-10T05:26:24.244Z",
+        "reviewedBy": "human-review",
+        "contentHash": "sha256:d68a23d42698328cb174742b4ceb3c39121726e4f77c7a77f9e2996a28e8f526"
+      }
+    },
+    {
+      "id": "pack.tearTop",
+      "type": "texture",
+      "description": "完整热封帽顶片；从 pack.front 同像素离线分割，400×600 全幅透明画布",
+      "status": "filled",
+      "path": "/games/game-card-reveal/art/textures/pack-tear-top.png",
+      "category": "packaging",
+      "tags": [
+        "game-card-reveal",
+        "pack",
+        "tear",
+        "top",
+        "final"
+      ],
+      "source": "design-handoff:pack-unified-ai-v1.png",
+      "license": "project-owned ImageGen source; owner approved final asset use 2026-10-10",
+      "spec": {
+        "format": "png",
+        "width": 400,
+        "height": 600,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "provenance": {
+        "derivedFrom": "pack.front",
+        "generator": "Codex built-in ImageGen source; deterministic offline crop",
+        "model": "Codex ImageGen (source model not disclosed)",
+        "prompt": "Transparent paired front/back card wrapper with matching silhouette and heat-seal, dark indigo, teal and warm gold stars and moon; no character, text, number, logo or watermark",
+        "generatedAt": "2026-10-09",
+        "sourceSha256": "34de5a5a106ba842e4a2f99c3908b6a2f33b0d5943b42670fae65e5b28cb7dd3",
+        "curvePoints": [
+          [
+            0,
+            57
+          ],
+          [
+            65,
+            55
+          ],
+          [
+            135,
+            58
+          ],
+          [
+            200,
+            62
+          ],
+          [
+            265,
+            59
+          ],
+          [
+            335,
+            55
+          ],
+          [
+            400,
+            57
+          ]
+        ],
+        "algorithm": "piecewise cubic Hermite; pixel center above curve belongs to top, other pixels to body; exact complement",
+        "derivation": "public/games/game-card-reveal/art/tools/gen-art.ps1",
+        "designFreeze": "S1-P FINAL frozen 2026-10-09; owner approved M2.5 asset use 2026-10-10",
+        "approvedAt": "2026-10-10T05:26:23.231Z",
+        "reviewedBy": "human-review",
+        "contentHash": "sha256:7e9017be8f736e68bd2f5164e97f7c5e0333ec1507e6c8666e2777e31613eca5"
+      }
+    }
+  ]
+}

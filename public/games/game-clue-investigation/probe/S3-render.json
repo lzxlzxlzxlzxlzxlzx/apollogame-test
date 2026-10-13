@@ -1,0 +1,35 @@
+{
+  "slug": "game-clue-investigation",
+  "at": "2026-10-12T18:43:11.973Z",
+  "gameHash": "56754c65a5efd2b6",
+  "ok": true,
+  "form": "cart",
+  "assertions": {
+    "gameMounted": {
+      "pass": true,
+      "detail": "卡带运行器 Canvas 已挂载"
+    },
+    "nonBlank": {
+      "pass": true,
+      "variance": 127.58,
+      "mean": 21.57,
+      "threshold": 15
+    },
+    "consoleErrors": {
+      "pass": true,
+      "count": 0,
+      "messages": []
+    },
+    "noUncaught": {
+      "pass": true,
+      "pageErrors": 0,
+      "overlay": false,
+      "messages": []
+    }
+  },
+  "screenshot": "public/games/game-clue-investigation/probe/S3-render.png",
+  "browser": {
+    "execPath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "via": "installed"
+  }
+}

@@ -163,6 +163,19 @@ try:
     check(skin and skin.get('path') == served, '④ 皮肤别名同步指回（工作台预览也回来）', skin)
     check(backup_body() == 'TRUE-ORIGINAL', '④ 备份区仍在·内容没被动（orig/ 只进不出）')
 
+    # F3 覆盖式夹具：正常 upload 只写 -up 文件，无法证明 restore 的 copyfile 真会复原
+    # 原服务路径。这里刻意把它盖成替换内容；撤掉 copyfile 后，下一条必须精确转红。
+    reset_world()
+    upload(b'REPLACEMENT-F3-UPLOAD')
+    target_served = f'{PREFIX}gen/{NO}.png'
+    target = ART / 'gen' / f'{NO}.png'
+    target.write_bytes(png(b'REPLACEMENT-F3-OVERWRITE'))
+    check(body(target_served) == 'REPLACEMENT-F3-OVERWRITE', 'F3 前置：原服务路径确已被替换内容覆盖', body(target_served))
+    rs = T.handle_art_restore({'slug': 'g', 'no': NO})
+    check(rs.get('success'), 'F3 覆盖式还原成功', rs.get('error'))
+    check(body(target_served) == 'TRUE-ORIGINAL', 'F3 **restore 真把原图内容拷回原服务路径**', body(target_served))
+    check(backup_body() == 'TRUE-ORIGINAL', 'F3 备份区仍在且保持真原图', backup_body())
+
     # ⑤ 还原后再替换 → 不炸（旧版此处 SameFileError 抛成 500）·备份仍是真原图
     r = upload(b'REPLACEMENT-AFTER-RESTORE')
     check(r.get('success'), '⑤ 还原后再上传不炸（旧版 SameFileError 500）', r.get('error'))

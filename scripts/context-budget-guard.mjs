@@ -6,6 +6,7 @@
 //  T0 必读集健康（~2 万字符），真炸弹=requests.md 曾胖到 23 万字符（done 回执不归档）。
 //  本守卫把「读得完」变成机器保证的预算：
 //    · 需求池 requests.md ≤ 封顶（超=红·逼「done 全文进 archive·池只留活跃」的归档纪律）
+//    · 各游戏 requests.md 同时卡字符和行数；旧超长文件走逐文件兼容棘轮，只许缩短不许继续增长
 //    · T0 必读集（CLAUDE.md/宪法/llm-onboarding）各自封顶（想变厚=显式改基线·diff 可见）
 //    · 每本线手册行数上限（原为君子约定·从此机器卡·**上限值以 baseline 的 playbookMaxLines 为准，
 //      别在文案里手抄数字**）+ ≤字符封顶（行数不捕捉密度·REQ-RETRO 2026-08-03 补）。
@@ -36,8 +37,21 @@ export function checkBudget(actual, budget) {
     else if (got > max) issues.push(`${file} ${got} 字符 > 封顶 ${max}——T0 必读集变厚须显式改基线（scripts/context-budget-baseline.json）`);
   }
   for (const [file, chars] of Object.entries(actual.gameRequestsChars ?? {})) {
-    if (budget.gameRequestsMaxChars && chars > budget.gameRequestsMaxChars) {
-      issues.push(`${file} ${chars} 字符 > 封顶 ${budget.gameRequestsMaxChars}——游戏需求单同主池纪律：done 工作票删除（查 git 历史）`);
+    const legacyMax = budget.gameRequestsLegacyMaxChars?.[file];
+    const max = legacyMax ?? budget.gameRequestsMaxChars;
+    if (max && chars > max) {
+      issues.push(`${file} ${chars} 字符 > ${legacyMax ? `旧文件兼容棘轮 ${max}` : `统一封顶 ${max}`}——requests.md 只留当前控制面；施工/复查证据分流，done 全文移出`);
+    } else if (legacyMax && budget.gameRequestsMaxChars && chars <= budget.gameRequestsMaxChars) {
+      issues.push(`${file} 已降至统一字符封顶 ${budget.gameRequestsMaxChars} 内——删除 gameRequestsLegacyMaxChars 兼容项，禁止保留可回涨预算`);
+    }
+  }
+  for (const [file, lines] of Object.entries(actual.gameRequestsLines ?? {})) {
+    const legacyMax = budget.gameRequestsLegacyMaxLines?.[file];
+    const max = legacyMax ?? budget.gameRequestsMaxLines;
+    if (max && lines > max) {
+      issues.push(`${file} ${lines} 行 > ${legacyMax ? `旧文件兼容棘轮 ${max}` : `统一封顶 ${max}`}——需求单不是历史日志；拆 work-orders/review/self-check/archive`);
+    } else if (legacyMax && budget.gameRequestsMaxLines && lines <= budget.gameRequestsMaxLines) {
+      issues.push(`${file} 已降至统一行数封顶 ${budget.gameRequestsMaxLines} 内——删除 gameRequestsLegacyMaxLines 兼容项，禁止保留可回涨预算`);
     }
   }
   for (const [file, lines] of Object.entries(actual.playbookLines)) {
@@ -76,22 +90,28 @@ function measure() {
   let requests3dChars;
   try { requests3dChars = read('docs/workflow/requests-3d.md').length; } catch { /* 池文件缺失（不可能·防御） */ }
   const gameRequestsChars = {};
+  const gameRequestsLines = {};
   try {
     for (const d of readdirSync(join(ROOT, 'docs', 'design'))) {
-      try { gameRequestsChars[`docs/design/${d}/requests.md`] = read(`docs/design/${d}/requests.md`).length; } catch { /* 该游戏无需求单 */ }
+      try {
+        const file = `docs/design/${d}/requests.md`;
+        const text = read(file);
+        gameRequestsChars[file] = text.length;
+        gameRequestsLines[file] = text.split('\n').length;
+      } catch { /* 该游戏无需求单 */ }
     }
   } catch { /* docs/design 缺失（不可能·防御） */ }
   const pool = read('docs/workflow/requests.md');
   // 槽位计数：### 条目·排除模板行（### [YYYY-MM-DD]）与导航指针段（### 📦）。
   const requestsEntries = pool.split('\n').filter((l) => l.startsWith('### ') && !l.startsWith('### [') && !l.startsWith('### 📦')).length;
-  return { budget, actual: { requestsChars: pool.length, requestsEntries, t0Chars, playbookLines, playbookChars, gameRequestsChars, requests3dChars } };
+  return { budget, actual: { requestsChars: pool.length, requestsEntries, t0Chars, playbookLines, playbookChars, gameRequestsChars, gameRequestsLines, requests3dChars } };
 }
 
 function main() {
   const { budget, actual } = measure();
   const issues = checkBudget(actual, budget);
   const out = [
-    `[context-budget] requests.md ${actual.requestsEntries}/${budget.requestsPoolMaxEntries ?? '∞'} 槽 · ${actual.requestsChars}/${budget.requestsPoolMaxChars} 字符 · T0 ${Object.keys(budget.t0MaxChars).length} 文件 · 手册 ${Object.keys(actual.playbookLines).length} 本（≤${budget.playbookMaxLines} 行·≤${budget.playbookMaxChars ?? '∞'} 字符） · requests-3d ${actual.requests3dChars ?? '?'}/${budget.requests3dMaxChars ?? '∞'} 字符`,
+    `[context-budget] requests.md ${actual.requestsEntries}/${budget.requestsPoolMaxEntries ?? '∞'} 槽 · ${actual.requestsChars}/${budget.requestsPoolMaxChars} 字符 · 游戏需求单 ${Object.keys(actual.gameRequestsChars ?? {}).length} 份（统一≤${budget.gameRequestsMaxChars ?? '∞'} 字符/≤${budget.gameRequestsMaxLines ?? '∞'} 行，旧档棘轮） · T0 ${Object.keys(budget.t0MaxChars).length} 文件 · 手册 ${Object.keys(actual.playbookLines).length} 本（≤${budget.playbookMaxLines} 行·≤${budget.playbookMaxChars ?? '∞'} 字符） · requests-3d ${actual.requests3dChars ?? '?'}/${budget.requests3dMaxChars ?? '∞'} 字符`,
   ];
   for (const i of issues) out.push(`  ✗ ${i}`);
   if (!issues.length) out.push('  ✓ 全部在预算内（新 session 读得完）');

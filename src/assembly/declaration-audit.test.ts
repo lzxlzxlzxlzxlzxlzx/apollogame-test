@@ -154,9 +154,15 @@ const PHASE_BASELINE: string[] = [
   // CAPGAP-RHETORIC-001：身份牌命令属于 Intent；只产 ResourceModify，交后续 Update 的 resource-apply 提交，避开资源 RMW SCC。
   'p-10:identity-card-play',
   'p4:rotation-apply',
-  'p10:collision-resolve,collision-resolve-3d,tile-collision',
+  // GAP-CARD-REVEAL-01：Commit 落终态、下一拍 Resolve 发 done Signal，避开 event-when 拍首清扫。
+  'p10:collision-resolve,collision-resolve-3d,dialogue,life-talk,presentation-track-done,tile-collision',
   'p14:conveyor-queue,friction,gauge,hierarchy-resolve,orbit-motion,text-binding',
-  'p20:anim-state,block-view-sync,bounds-clamp,cooldown,craft-recipe,effect-apply,face-rotate,facing,jump,match-view-sync,matrix-duel-announce,matrix-duel-intent,stat-bind,weighted-spawn',
+  // SIMLIFE-ENG-11：life-affordance 在 Commit 读取当拍已落地的农田/资源/对话终态，只投影回 ActivityContext。
+  // SIMLIFE-ENG-12A：life-npc-schedule-position 在 Commit 收束 NPC 的 Transform/LifePosition；显式晚于同相位 Transform RMW 系统。
+  // SIMLIFE-ENG-13A：life-quest 在 Commit 汇总权威 outcome，预检后原子写剧情状态/资源；显式晚于同相位资源与里程碑写者。
+  // REQ-SIMLIFE-CONSTRUCTION-01：life-construction 在 Commit 对 build 再预检并原子扣料/完成，晚于 affordance、早于关系/任务触发。
+  // REQ-THEFT-PROGRESSIVE / RISK-REVEAL-WHEEL：会话同拍产 Signal 给 Commit 消费；两会话之间以显式 RandomSeed 顺序消环。
+  'p20:anim-state,block-view-sync,bounds-clamp,cooldown,craft-recipe,discrete-combination-session,effect-apply,face-rotate,facing,jump,life-affordance,life-construction,life-milestone,life-npc-schedule-position,life-quest,match-view-sync,matrix-duel-announce,matrix-duel-intent,presentation-track,progressive-risk-session,risk-reveal-wheel,stat-bind,weighted-spawn',
   'p30:group-gc', // 2026-09-08 G4 group 配套：Cleanup 相位（destroy-apply 之后摘除已销毁成员）
 ];
 
@@ -198,7 +204,7 @@ const SCC_BASELINE: string[] = [
   // 不是本件的申报缺陷。**本件真有过的那个缺陷已另行治本**：首版它还 `reads:['TurnOrder']`，
   // 与 turn-order 构成真 2-环（strict 模式当场抛）；改成由 `setBarrierTurn` 推回合号后那条读边消失，
   // 2-环随之消失（`intent-barrier.test.ts` ⑦ 断言 strict 不抛 + warn 数为零 + 系统不读 TurnOrder）。
-  'p0:accel-apply+aggro+block-place+bounce-relay+card-pile+card-play-input+card-score-pass+clickable+dialogue+dice-roll+drag-place+drop-zone+event-when+flow+flow-field+grid-drag-square+grid-move+group-count+hitbox+intent-barrier+keybind+launch+match-resolve+match3-drag-swap+matrix-duel+merge-on-place+merge-proximity-clear+motion-apply+nav-follow+navmesh-bake+order-fulfill+over-time+overlap-detect+path-follow+poker-eval+pull-anchor+queue-slots+resource-apply+self-rule+state-sync+steering+string-apply+t3-slot-payout+timeline+tray+trigger-zone+turn-order+tween+zone-occupancy|via:Bounce,Clickable,Flag,HexPos,MergeEvent,NavGraph,OverTime,Overlap,PlaceBlockIntent,PlayedHand,RandomSeed,Relation,Resource,ResourceModify,RolledDice,Signal,State,Status,StringVar,Transform,Trigger,Tween,Velocity',
+  'p0:accel-apply+aggro+block-place+bounce-relay+card-pile+card-play-input+card-score-pass+clickable+dice-roll+drag-place+drop-zone+event-when+flow+flow-field+grid-drag-square+grid-move+group-count+hitbox+intent-barrier+keybind+launch+life-calendar+life-continuous-collision+life-continuous-motion+life-input+life-navigation+match-resolve+match3-drag-swap+matrix-duel+merge-on-place+merge-proximity-clear+motion-apply+nav-follow+navmesh-bake+order-fulfill+over-time+overlap-detect+path-follow+poker-eval+pull-anchor+queue-slots+resource-apply+self-rule+state-sync+steering+string-apply+t3-slot-payout+timeline+tray+trigger-zone+turn-order+tween+zone-occupancy|via:Bounce,Clickable,Flag,HexPos,LifeContinuousMotion,LifeMoveRequest,LifeWarpRequest,MergeEvent,NavGraph,OverTime,Overlap,PlaceBlockIntent,PlayedHand,RandomSeed,Relation,Resource,ResourceModify,RolledDice,Signal,State,Status,StringVar,Transform,Trigger,Tween,Velocity',
   'p10:collision-resolve+collision-resolve-3d+tile-collision|via:Transform,Velocity',
   'p20:anim-state+match-view-sync|via:Sprite',
   'p20:bounds-clamp+facing|via:Transform',

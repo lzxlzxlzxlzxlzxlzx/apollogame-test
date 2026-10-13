@@ -17,6 +17,7 @@ export type {
   AssetLoader,
 } from './asset-types.js';
 export { AssetManager, StubAssetLoader } from './asset-manager.js';
+export { HostVisualSession, HostPngAssetLoader, parseHostVisuals, projectHostVisual, createHostVisualAssetManager, type HostVisual, type PreparedHostVisual, type HostVisualWorldProjection } from './host-visual-bridge.js';
 export { ftpFrames, ftpToAtlasEntry, mergeAtlasIntoIndex, normalizeFrameName, type FtpAtlasJson } from './pack-atlas.js';
 export { ImageAssetLoader, isImageHandle, type ImageAssetHandle } from './image-loader.js';
 // 游戏本地美术索引装载（两形态·失败静默回退·REQ-SHELL ②）
@@ -39,6 +40,7 @@ export {
   ASSET_TYPES,
   deriveColorSpace,
   textureSpecOf,
+  parseHitMaskSpec,
   TEXTURE_USAGES,
   COLOR_SPACES,
   TEXTURE_WRAPS,
@@ -51,6 +53,7 @@ export {
   type TextureSpec,
   type MeshSpec,
   type MaterialSpec,
+  type HitMaskSpec,
   type TextureUsage,
   type ColorSpace,
   type TextureWrap,
@@ -92,6 +95,68 @@ export {
 // 导入器纯核心（嗅探/归一化/切割；UI 与写盘在外层）
 export { sniffImage, fnv1a, type ImageInfo, type ImageFormat } from './import/sniff.js';
 export { DEFAULT_PROFILE, type NormalizationProfile, type CategoryRule } from './import/profile.js';
+export {
+  parseAssetSlotManifest,
+  validateAssetSlotManifest,
+  validateAssetSlotClosure,
+  validateAssetPendingIsolation,
+  resolveJsonPointer,
+  deriveAssetSlotBriefFingerprint,
+  stableAssetSlotJson,
+  compileLifeVisualCatalog,
+  ASSET_SLOT_KINDS,
+  ASSET_SLOT_ALPHA,
+  ASSET_SLOT_SAMPLING,
+  ASSET_SLOT_FITS,
+  ASSET_SLOT_DISPLAY_UNITS,
+  ASSET_SLOT_FALLBACK_ROLES,
+  ASSET_SLOT_APPROVALS,
+  type AssetSlotKind,
+  type AssetSlotBrief,
+  type AssetSlotManifest,
+  type AssetSlotIssue,
+  type LifeVisualRule,
+  type LifeVisualCatalog,
+} from './asset-slot-brief.js';
+export {
+  planLifeAssetCandidates,
+  deriveLocalAssetCandidateFingerprint,
+  ASSET_CANDIDATE_PLAN_SCHEMA,
+  type AssetCandidateDecision,
+  type AssetCandidatePlanReason,
+  type LocalAssetCandidate,
+  type AiAssetCandidateRequest,
+  type AssetCandidatePlanItem,
+  type AssetCandidatePlan,
+} from './life-asset-candidate-plan.js';
+export {
+  buildLifeAssetReviewPacket,
+  LIFE_ASSET_REVIEW_PACKET_SCHEMA,
+  LIFE_ASSET_REVIEW_STATUS,
+  type LifeAssetReviewDiagnostic,
+  type LifeAssetReviewSpec,
+  type LifeAssetReviewRender,
+  type LifeAssetLocalReviewItem,
+  type LifeAssetAiReviewItem,
+  type LifeAssetInvalidReviewItem,
+  type LifeAssetReviewItem,
+  type LifeAssetReviewPacket,
+} from './life-asset-review-packet.js';
+export {
+  buildLifeAssetGenerationBatch,
+  buildLifeAssetGenerationBatchFromArtifacts,
+  LIFE_ASSET_GENERATION_BATCH_SCHEMA,
+  LIFE_ASSET_2D_PROVIDER,
+  LIFE_ASSET_2D_PROVIDERS,
+  type LifeAsset2dProvider,
+  type LifeAssetProviderSelection,
+  type LifeAssetGenerationDiagnostic,
+  type LifeAssetLocalReviewExecution,
+  type LifeAssetAiGenerationExecution,
+  type LifeAssetInvalidGenerationExecution,
+  type LifeAssetGenerationExecution,
+  type LifeAssetGenerationBatch,
+} from './life-asset-generation-batch.js';
 export {
   planImport,
   planEntries,

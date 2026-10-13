@@ -44,7 +44,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import {
-  DEFAULT_CHROMIUM, detectBrowserRuntime, decodePNG, deepLinkQuery, startDevServer, stopDevServer,
+  DEFAULT_CHROMIUM, detectBrowserRuntime, decodePNG, deepLinkQuery, cartProbeFixture, startDevServer, stopDevServer,
 } from './lib/render-harness.mjs';
 
 export { DEFAULT_CHROMIUM, detectBrowserRuntime, decodePNG, deepLinkQuery };
@@ -89,10 +89,22 @@ export function isBlank(variance, threshold = DEFAULT_VARIANCE_THRESHOLD) {
   return variance < threshold;
 }
 
+/** 不把启动器自己的画布当成卡带：必须是「返回架上」所在运行器内的 Canvas。 */
+export function hasCartRunnerCanvas(doc = document) {
+  const back = [...doc.querySelectorAll('button')].find((b) => b.textContent?.includes('返回架上'));
+  return !!back?.parentElement?.querySelector('canvas');
+}
+
 // ── 探针主流程（真起服+真浏览器+真装载·深链构造/vite 起停服已下沉共用模块）───────
 async function runProbe(slug, { root = ROOT, viewport = { width: 1280, height: 800 } } = {}) {
   const form = detectForm(root, slug);
   if (!form) return { usageError: `未知游戏: ${slug}（library/public/games/games 三处均无）` };
+
+  let cartFixture;
+  if (form === 'cart') {
+    try { cartFixture = cartProbeFixture(root, slug); }
+    catch (e) { return { ok: false, reason: `卡带只读路由准备失败 · ${e.message}` }; }
+  }
 
   const rt = detectBrowserRuntime();
   if (!rt.ok) return { noBrowser: true, reason: rt.reason };
@@ -111,16 +123,20 @@ async function runProbe(slug, { root = ROOT, viewport = { width: 1280, height: 8
   let overlay = false;
   let shot = null;
   let navError = null;
+  let gameMounted = false;
 
   try {
     browser = await chromium.launch({ headless: true, executablePath: rt.execPath, args: ['--no-sandbox'] });
     const page = await browser.newPage({ viewport });
-    // 本地路由拦截（P1b/沉浸模式代理同款手法）：只挡启动器壳层的两条引导态接口，
-    // 其余请求原样放行（游戏自己的真实资源/API 一律走真网络）。
+    // 卡带没有创作服时，库列表和 manifest 从本仓真实文件提供；否则深链会停在启动器却被像素方差误判为绿。
     await page.route('**/api/generate/providers', (route) =>
       route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
     await page.route('**/api/library', (route) =>
-      route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
+      route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(cartFixture?.entries ?? []) }));
+    if (cartFixture) {
+      await page.route(`**/api/library/${slug}/manifest`, (route) =>
+        route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(cartFixture.manifest) }));
+    }
 
     page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text().slice(0, 300)); });
     page.on('pageerror', (e) => pageErrors.push(String(e.message || e).slice(0, 300)));
@@ -128,9 +144,13 @@ async function runProbe(slug, { root = ROOT, viewport = { width: 1280, height: 8
     const url = `http://localhost:${dev.port}/?${deepLinkQuery(form, slug)}`;
     try {
       await page.goto(url, { waitUntil: 'load', timeout: 30000 });
-      await page.waitForSelector('canvas, [data-action]', { timeout: 8000 }).catch(() => {});
-      const has3d = await page.$('canvas');
-      await page.waitForTimeout(has3d ? 2600 : 1500);
+      if (form === 'cart') {
+        await page.waitForFunction(hasCartRunnerCanvas, undefined, { timeout: 8000 }).catch(() => {});
+        gameMounted = await page.evaluate(hasCartRunnerCanvas);
+      } else {
+        await page.waitForSelector('canvas, [data-action]', { timeout: 8000 }).catch(() => {});
+      }
+      await page.waitForTimeout(gameMounted ? 2600 : 200);
       overlay = await page.evaluate(() => !!document.querySelector('vite-error-overlay')).catch(() => false);
       shot = await page.screenshot();
     } catch (e) {
@@ -147,11 +167,14 @@ async function runProbe(slug, { root = ROOT, viewport = { width: 1280, height: 8
   const nonBlank = { pass: !isBlank(variance), variance: Math.round(variance * 100) / 100, mean: Math.round(mean * 100) / 100, threshold: DEFAULT_VARIANCE_THRESHOLD };
   const consoleOk = { pass: consoleErrors.length === 0, count: consoleErrors.length, messages: consoleErrors.slice(0, 5) };
   const noUncaught = { pass: pageErrors.length === 0 && !overlay, pageErrors: pageErrors.length, overlay, messages: pageErrors.slice(0, 5) };
-  const pass = nonBlank.pass && consoleOk.pass && noUncaught.pass;
+  const mounted = form === 'cart'
+    ? { pass: gameMounted, detail: gameMounted ? '卡带运行器 Canvas 已挂载' : '卡带运行器 Canvas 未挂载（可能仍在启动器/加载态/错误态）' }
+    : { pass: true, detail: '非卡带沿用既有三断言' };
+  const pass = nonBlank.pass && consoleOk.pass && noUncaught.pass && mounted.pass;
 
   return {
     ok: pass, form, port: dev.port, browser: { execPath: rt.execPath, via: rt.via },
-    assertions: { nonBlank, consoleErrors: consoleOk, noUncaught },
+    assertions: { gameMounted: mounted, nonBlank, consoleErrors: consoleOk, noUncaught },
     screenshot: shot,
   };
 }

@@ -1,0 +1,12 @@
+{
+  "name": "dokiworld-game-lockpick",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node ../../node_modules/vitest/vitest.mjs run --config vitest.config.ts && node --test tests/manifest.test.mjs tests/sdk-lifecycle.test.mjs",
+    "typecheck": "node ../../node_modules/typescript/bin/tsc --noEmit -p tsconfig.json",
+    "build": "node scripts/build.mjs"
+  },
+  "dependencies": { "dokiworlds-app-sdk": "file:../../vendor/dokiworlds-app-sdk" }
+}

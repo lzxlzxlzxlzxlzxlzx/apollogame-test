@@ -12,6 +12,9 @@
 | 表现字段平滑过渡 | `t1-tween` | 挂 `Tween{target,from,to,duration,easing}`（滑入/淡入/镜头）；不驱动被 Condition 读的值 |
 | 朝/背目标移动（AI） | `t2-steering` | 挂 `Steering{mode,speed,stopRange}`；配 `t3-aggro` 写 target + motion-apply |
 | 六边形棋盘沿格寻路 | `t2-grid-move` | 单位挂 `HexPos`+`GridMover{period}`+`Relation(target)`；世界放 `HexBoard`（内建 A*） |
+| 生活模拟的区域行动上下文 | `t2-life-activity` | 角色挂 `LifeActor`+`LifePosition`；在 `t2-life-navigation` 后派生 `LifeActivityContext`（半开 zone、邻近 footprint），行动副作用另接能力 |
+| Life 场景出口/往返 | `t2-life-navigation` + `t2-life-activity` | `LifeWarp` 只在玩家站上对应格并显式提交 `LifeWarpRequest` 时切场景；arrival spawn 可与反向 warp 同格，禁止自动触发/弹回。共享 Host 从可选 scene `title` / warp `label` 投影 HUD、出口标记与 `……（E）`，省略时稳定回退到目标 scene id；游戏层不得私写传送 UI/guard |
+| 生活模拟连续移动 | `t2-life-continuous-motion` | 浏览器宿主每次物理方向变化向 `InputQueue` 发完整 `life.move.state` 位掩码（up=1/down=2/left=4/right=8），解释器取同 tick 最后一份快照原子覆盖四个 held flag 并归一化 Velocity；旧 `life.move.start/stop` Signal 只作兼容。E/Tab/Enter/Escape 不改快照，对话范围生命周期交给 `t2-life-talk` |
 | 连续坐标绕障寻路 | `t2-pathfind` | 世界放 `NavGraph{nodes,edges}`；单位挂 `NavAgent{speed,arriveRange}`+`Relation(target)` |
 | 固定航点轨道匀速跑（巡逻/传送带） | `t2-path-follow` | 挂 `PathFollow{waypoints,speed,loop?}`（`pathFollowAt` 生成）；不索敌不绕障 |
 | 传送带队列：有序不重叠占位 + 递进（不超车） | `t2-path-follow` | 同上 + `queueId,minGap?`（REQ-CONVEYOR-CAP M1）：同 `queueId` 按 path 进度排序，每个非排头成员夹在「前一名进度 − minGap」；容量 full 旗标/空槽分配/死锁**不建新能力**，组合 `group-count`+`event-when(level 双向)`+`effect-apply`（空槽用既有 `t2-tray`），见 `conveyor-queue-compose.test.ts` |

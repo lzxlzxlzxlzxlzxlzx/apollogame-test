@@ -58,6 +58,30 @@ describe('asset-index — 校验', () => {
   });
 });
 
+describe('asset-index — 预烘焙 hit-mask', () => {
+  const texture = { id: 'suspect.png', type: 'texture', description: '图像', status: 'filled', path: 'suspect.png', spec: { width: 4, height: 2 } };
+  const entry = { id: 'suspect.mask', type: 'hit-mask', description: '嫌疑人轮廓', status: 'filled',
+    spec: { version: 1, width: 4, height: 2, threshold: 127, sourceTextureKey: 'suspect.png', rows: ['1001', '0110'] } };
+  it('合法二值数据免 path，且不注册为渲染资源', () => {
+    const index = parseAssetIndex({ version: 1, assets: [texture, entry] });
+    const manager = new AssetManager(new StubAssetLoader());
+    registerAssetIndex(manager, index);
+    expect(manager.has('suspect.mask')).toBe(false);
+  });
+  it.each([
+    { version: 2 }, { width: 3 }, { threshold: 256 }, { rows: ['1001', '01x0'] },
+  ])('非法版本/尺寸/阈值/位数据拒收：%j', (change) => {
+    expect(() => parseAssetIndex({ version: 1, assets: [texture, { ...entry, spec: { ...entry.spec, ...change } }] })).toThrow(/hit-mask spec 非法|逻辑尺寸不符/);
+  });
+  it('path 不能夹带原始图像字节', () => {
+    expect(() => parseAssetIndex({ version: 1, assets: [texture, { ...entry, path: 'suspect.png' }] })).toThrow(/不得有 path/);
+  });
+  it('源贴图缺失或尺寸不符拒收', () => {
+    expect(() => parseAssetIndex({ version: 1, assets: [entry] })).toThrow(/sourceTextureKey/);
+    expect(() => parseAssetIndex({ version: 1, assets: [{ ...texture, spec: { width: 5, height: 2 } }, entry] })).toThrow(/逻辑尺寸不符/);
+  });
+});
+
 describe('asset-index — TBF 工作面', () => {
   it('pendingAssets 列出待填充', () => {
     const idx = parseAssetIndex(good);

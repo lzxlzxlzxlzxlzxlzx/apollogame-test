@@ -6,12 +6,13 @@
 
 import type { LayoutNode } from './types.js';
 import { catalogSpec } from './catalog.js';
+import { safeColor } from './render.js';
 
 export interface UiIssue {
   path: string;   // 节点路径（如 root/children[2]/bubble），定位用
   type: string;   // 组件 type
-  kind: 'unknown-type' | 'missing-required' | 'bad-enum' | 'children-rule' | 'missing-id'
-    | 'naked-fill' | 'unsafe-style' | 'bad-repeat' | 'bad-layout-placement' | 'flatten-3d'; // ↑硬错 · ↓软建议（lintLayoutNode 专属·非阻塞）
+  kind: 'unknown-type' | 'missing-required' | 'bad-enum' | 'children-rule' | 'missing-id' | 'bad-wheel-binding'
+    | 'naked-fill' | 'unsafe-style' | 'bad-repeat' | 'bad-transform' | 'bad-signal-emission' | 'bad-custom-color' | 'bad-skin-layer' | 'bad-layout-placement' | 'flatten-3d' | 'bad-skin-border-width'; // ↑硬错 · ↓软建议（lintLayoutNode 专属·非阻塞）
   detail: string;
   severity?: 'error' | 'warn'; // 缺省=error（validateLayoutNode 全是硬错）；lint 的建议=warn（不进零 issue 门）
 }
@@ -55,6 +56,22 @@ export function validateLayoutNode(node: LayoutNode, path = 'root'): UiIssue[] {
   }
 
   const props = (node.props ?? {}) as Record<string, unknown>;
+  if (['Panel', 'Button', 'Modal', 'dialog'].includes(t) && props.skinBorderWidth !== undefined) {
+    if (typeof props.skinBorderWidth !== 'number' || !Number.isFinite(props.skinBorderWidth) || props.skinBorderWidth <= 0 || props.skinSlice === undefined || typeof props.skin !== 'string' || !props.skin) {
+      issues.push({ path, type: t, kind: 'bad-skin-border-width', detail: 'props.skinBorderWidth 须为正的有限数字，且只能与非空 props.skin 和 props.skinSlice 同时使用' });
+    }
+  }
+  if (['Panel', 'Button'].includes(t) && (props.skinSize !== undefined || props.skinPosition !== undefined || props.skinOutset !== undefined)) {
+    const bad = (detail: string) => issues.push({ path, type: t, kind: 'bad-skin-layer', detail });
+    if (typeof props.skin !== 'string' || !props.skin || props.skinSlice !== undefined) bad('skinSize/skinPosition/skinOutset 只可与非空无九宫格 props.skin 同用');
+    const size = props.skinSize as Record<string, unknown> | undefined;
+    if (!size || typeof size !== 'object' || Array.isArray(size) || Object.keys(size).length !== 2 || !['x', 'y'].every((key) => typeof size[key] === 'number' && Number.isFinite(size[key]) && (size[key] as number) > 0 && (size[key] as number) <= 400)) bad('props.skinSize 须为 {x,y}，两值均为 0–400 内的有限正百分比');
+    if (props.skinPosition !== undefined && props.skinPosition !== 'center') bad("props.skinPosition 仅允许 'center'");
+    if (props.skinOutset !== undefined) {
+      const outset = props.skinOutset as Record<string, unknown> | undefined;
+      if (!outset || typeof outset !== 'object' || Array.isArray(outset) || Object.keys(outset).length !== 2 || !['x', 'y'].every((key) => typeof outset[key] === 'number' && Number.isFinite(outset[key]) && (outset[key] as number) >= 0 && (outset[key] as number) <= 64)) bad('props.skinOutset 须为 {x,y}，两值均为 0–64 内的有限非负 px');
+    }
+  }
   for (const ps of spec.props) {
     const v = props[ps.name];
     if (ps.required && (v === undefined || v === null)) {
@@ -66,6 +83,39 @@ export function validateLayoutNode(node: LayoutNode, path = 'root'): UiIssue[] {
     // enum-or-number：数字直接放行（裸 px 精确档）；非数字仍须命中具名闭集（拦令牌拼写错）。
     if (ps.type === 'enum-or-number' && v !== undefined && typeof v !== 'number' && ps.values && !ps.values.includes(String(v))) {
       issues.push({ path, type: t, kind: 'bad-enum', detail: `props.${ps.name}='${String(v)}' 非法·合法值: ${ps.values.join(' | ')} 或裸 px 数字` });
+    }
+    if (ps.type === 'enum-or-custom-color' && v !== undefined && ps.values) {
+      const isToken = typeof v === 'string' && ps.values.includes(v);
+      const custom = v && typeof v === 'object' && !Array.isArray(v) ? (v as Record<string, unknown>) : undefined;
+      const raw = custom?.custom;
+      const isSafeCustom = !!custom && Object.keys(custom).length === 1 && typeof raw === 'string' && raw.trim().length > 0 && safeColor(raw) === raw;
+      if (!isToken && !isSafeCustom) {
+        issues.push({
+          path, type: t, kind: custom ? 'bad-custom-color' : 'bad-enum',
+          detail: custom ? `props.${ps.name}.custom 须是非空安全色串（禁止样式分隔符/属性逃逸）` : `props.${ps.name}='${String(v)}' 非法·合法值: ${ps.values.join(' | ')} 或显式 {custom:'#hex'}`,
+        });
+      }
+    }
+  }
+
+  if (t === 'Panel' && props.wheel !== undefined) {
+    const wheel = props.wheel as { upAction?: unknown; downAction?: unknown } | null;
+    const validAction = (v: unknown): boolean => v === undefined || (typeof v === 'string' && v.length > 0);
+    if (!wheel || typeof wheel !== 'object' || !validAction(wheel.upAction) || !validAction(wheel.downAction)
+      || (wheel.upAction === undefined && wheel.downAction === undefined)) {
+      issues.push({ path, type: t, kind: 'bad-wheel-binding', detail: 'props.wheel 须含非空 upAction 和/或 downAction 字符串（只声明具名 ActionSink 动作）' });
+    }
+  }
+
+  // Signal emission is deliberately a nested closed enum (rather than a
+  // collection of booleans).  Validate it here because catalog prop schemas
+  // only describe the outer tint object.
+  if (t === 'Image' && props.tint !== undefined) {
+    const tint = props.tint as { kind?: unknown; emission?: unknown } | null;
+    if (!tint || typeof tint !== 'object' || tint.kind !== 'signal') {
+      issues.push({ path, type: t, kind: 'bad-signal-emission', detail: "props.tint 须为 {kind:'signal',progress,…}" });
+    } else if (tint.emission !== undefined && !['off', 'steady', 'once', 'loop'].includes(String(tint.emission))) {
+      issues.push({ path, type: t, kind: 'bad-signal-emission', detail: `props.tint.emission='${String(tint.emission)}' 非法·合法值: off | steady | once | loop` });
     }
   }
 
@@ -80,6 +130,44 @@ export function validateLayoutNode(node: LayoutNode, path = 'root'): UiIssue[] {
         issues.push({ path, type: t, kind: 'bad-enum', detail: `layout.fx[${i}].color='${String(e.color)}' 非法·合法值: ${[...FX_COLORS].join(' | ')}` });
       }
     });
+  }
+
+  // transformFrom 是 LayoutNode 的闭集状态变换：起点只能是四个有限
+  // 数值，终点由普通 layout 读取。及早拒绝坏数据，不让 render 静默降级。
+  const layout = node.layout as Record<string, unknown> | undefined;
+  if (layout?.transformFrom !== undefined) {
+    const pose = layout.transformFrom;
+    if (!pose || typeof pose !== 'object' || Array.isArray(pose)) {
+      issues.push({ path, type: t, kind: 'bad-transform', detail: 'layout.transformFrom 须是 {x?,y?,rotate?,scale?} 姿态对象' });
+    } else {
+      for (const key of ['x', 'y', 'rotate', 'scale'] as const) {
+        const value = (pose as Record<string, unknown>)[key];
+        if (value !== undefined && (typeof value !== 'number' || !Number.isFinite(value))) {
+          issues.push({ path, type: t, kind: 'bad-transform', detail: `layout.transformFrom.${key} 须是有限数字` });
+        }
+      }
+    }
+    if (layout.transformMotionMs !== undefined && (typeof layout.transformMotionMs !== 'number' || !Number.isFinite(layout.transformMotionMs))) {
+      issues.push({ path, type: t, kind: 'bad-transform', detail: 'layout.transformMotionMs 须是有限数字' });
+    }
+    if (layout.transformMotionEasing !== undefined && !['linear', 'ease-out', 'ease-in-out'].includes(String(layout.transformMotionEasing))) {
+      issues.push({ path, type: t, kind: 'bad-transform', detail: 'layout.transformMotionEasing 非法·合法值: linear | ease-out | ease-in-out' });
+    }
+  }
+  if (layout?.transformTransition !== undefined) {
+    const transition = layout.transformTransition;
+    if (!transition || typeof transition !== 'object' || Array.isArray(transition)) {
+      issues.push({ path, type: t, kind: 'bad-transform', detail: 'layout.transformTransition 须是 {ms?,easing?} 对象' });
+    } else {
+      const ms = (transition as Record<string, unknown>).ms;
+      const easing = (transition as Record<string, unknown>).easing;
+      if (ms !== undefined && (typeof ms !== 'number' || !Number.isFinite(ms) || ms < 0 || ms > 2000)) {
+        issues.push({ path, type: t, kind: 'bad-transform', detail: 'layout.transformTransition.ms 须是 0..2000 的有限数字' });
+      }
+      if (easing !== undefined && !['linear', 'ease-out', 'ease-in-out'].includes(String(easing))) {
+        issues.push({ path, type: t, kind: 'bad-transform', detail: 'layout.transformTransition.easing 非法·合法值: linear | ease-out | ease-in-out' });
+      }
+    }
   }
 
   // children 规则
@@ -115,7 +203,7 @@ export function isValidLayoutNode(node: LayoutNode): boolean {
 const SURFACE_TOKENS = new Set(['panel', 'raised', 'sunken', 'jade', 'gold', 'ok', 'warn', 'danger', 'ink']);
 const FILL_PRESETS = new Set(['jade-sheen', 'gold-sheen', 'ink-deep', 'steel', 'blood', 'frost', 'ember', 'void']);
 // 只属 layout 的词（绝不是任何控件的合法 prop·误写进 props 静默失效）。**排除 radius**（Image/ProgressBar 真 prop·防误报）。
-const LAYOUT_ONLY = new Set(['fx', 'anim', 'animMs', 'animDelay', 'animFrom', 'animDist', 'rotate', 'rotateX', 'rotateY', 'z', 'scale', 'tilt3d', 'perspective', 'chamfer', 'sheen']);
+const LAYOUT_ONLY = new Set(['fx', 'anim', 'animMs', 'animDelay', 'animFrom', 'animDist', 'transformFrom', 'transformMotionMs', 'transformMotionEasing', 'transformTransition', 'rotate', 'rotateX', 'rotateY', 'z', 'scale', 'tilt3d', 'perspective', 'chamfer', 'sheen']);
 const has3dLayout = (l: unknown): boolean => {
   const c = l as { z?: unknown; rotateX?: unknown; rotateY?: unknown } | undefined;
   return !!c && (c.z !== undefined || c.rotateX !== undefined || c.rotateY !== undefined);

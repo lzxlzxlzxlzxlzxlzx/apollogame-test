@@ -10,6 +10,7 @@ import {
   type DialogueScript,
   type DialogueAdvance,
   type DialogueChoose,
+  type DialogueChoiceResult,
   type DialogueCheck,
 } from './dialogue.js';
 
@@ -20,7 +21,7 @@ const SCRIPT: DialogueGraph = {
     kind: 'choice',
     prompt: 'choose',
     options: [
-      { text: 'warm', effects: [{ resource: 'aff', amount: 5 }], setFlag: 'met', next: 'end' },
+      { id: 'warm', text: 'warm', effects: [{ resource: 'aff', amount: 5 }], setFlag: 'met', next: 'end' },
       { text: 'locked', requires: { kind: 'flag', id: 'gate' }, next: 'secret' },
     ],
   },
@@ -82,6 +83,7 @@ describe('T3 dialogue — 选择结算 / 条件门控', () => {
     const mod = w.getComponent<ResourceModify>('aff', 'ResourceModify');
     expect(mod).toBeTruthy();
     expect(mod!.amount).toBe(5);
+    expect(w.getComponent<DialogueChoiceResult>('dlg','DialogueChoiceResult')).toMatchObject({status:'applied',choiceId:'warm',index:0,fromNode:'pick',toNode:'end'});
   });
 
   it('选不满足 requires 的选项 → 拒绝（不跳转）', () => {
@@ -89,6 +91,7 @@ describe('T3 dialogue — 选择结算 / 条件门控', () => {
     w.addComponent('dlg', { type: 'DialogueChoose', index: 1 } as DialogueChoose);
     w.tick();
     expect(cur(w)).toBe('pick'); // 仍停在 pick
+    expect(w.getComponent<DialogueChoiceResult>('dlg','DialogueChoiceResult')).toMatchObject({status:'rejected',reason:'condition-failed',index:1,fromNode:'pick'});
   });
 
   it('门开后同一选项可选 → 跳到 secret', () => {
@@ -277,6 +280,7 @@ describe('dialogue — 拒收路径（2026-08-22 测试大扫除补钉·「什�
     w.tick();
     expect(cur(w)).toBe('pick'); // 不崩·不乱跳
     expect(w.hasComponent('dlg', 'DialogueChoose')).toBe(false); // 坏请求也消费（不无限重试）
+    expect(w.getComponent<DialogueChoiceResult>('dlg','DialogueChoiceResult')).toMatchObject({status:'rejected',reason:'invalid-choice',index:99,fromNode:'pick'});
     w.addComponent('dlg', { type: 'DialogueChoose', index: 0 } as DialogueChoose);
     w.tick();
     expect(cur(w)).toBe('end'); // 拒收不留伤

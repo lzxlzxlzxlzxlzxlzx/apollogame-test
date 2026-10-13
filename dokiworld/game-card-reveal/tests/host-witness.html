@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<title>星辉启封 · S8 真 dist 假宿主见证</title>
+<style>
+body{font:16px system-ui;margin:18px;background:#16202d;color:#f4f7fa}button{margin:4px;padding:8px 12px}pre{white-space:pre-wrap}iframe{display:block;width:1440px;height:900px;border:1px solid #7093a6;max-width:100%}
+</style>
+<h1>game-card-reveal · S8 真 dist 假宿主见证</h1>
+<p>只访问隔离静态目录下的 <code>./apps/game-card-reveal/index.html</code>；不会写业务数据。每次点击建立隔离 iframe 与 vendored SDK 宿主。</p>
+<nav>
+  <button data-mode="natural" data-count="1">N1 自然</button><button data-mode="natural" data-count="3">N3 自然</button><button data-mode="natural" data-count="5">N5 自然</button>
+  <button data-mode="skipped" data-count="3">N3 跳过</button><button data-mode="rejected" data-count="1">拒绝后同结果重试</button>
+  <button data-mode="preview" data-count="3">空 data 预览</button><button data-mode="cancelled" data-count="1">主动退出</button><button data-mode="invalid" data-count="1">非法输入</button>
+</nav>
+<pre id="status">待选择场景</pre><div id="stage"></div>
+<script type="module">
+import { createAppHost } from './vendor/dokiworlds-app-sdk/src/index.js';
+const status=document.querySelector('#status');
+const stage=document.querySelector('#stage');
+let cleanup=()=>{};
+const delay=(ms)=>new Promise(resolve=>setTimeout(resolve,ms));
+function show(message){status.textContent=message;}
+async function waitFor(predicate,label,timeout=16000){
+  const start=performance.now();
+  while(performance.now()-start<timeout){if(predicate())return;await delay(50);}
+  throw new Error(`${label} timed out`);
+}
+async function run(mode,count){
+  cleanup();stage.replaceChildren();
+  const iframe=document.createElement('iframe');
+  iframe.title=`${mode} N${count}`;
+  stage.append(iframe);
+  const presentationId=`witness-${mode}-${count}`;
+  const data=mode==='preview'?{}:mode==='invalid'?{presentationId,cards:[],extra:true}:{presentationId,cards:Array.from({length:count},(_,i)=>({id:`card-${i}`,faceImageUrl:`https://cards.example.invalid/${i}.png`,alt:`见证卡 ${i+1}`}))};
+  const input={contract:'doki.game.card-reveal-input',version:1,data};
+  const seen=[];
+  let requests=0,exits=0;
+  const host=createAppHost({appId:'game-card-reveal',runId:`run-${mode}-${count}`,target:iframe.contentWindow,input,scope:window,expectedOrigin:location.origin,createId:(()=>{let n=0;return()=>`host-${++n}`;})()});
+  const disconnect=host.connect({
+    onComplete(output){
+      requests++;seen.push(output);
+      if(mode==='preview'||mode==='cancelled'||mode==='invalid')throw Error('forbidden complete');
+      const expected=mode==='skipped'?'skipped':'natural';
+      if(output.contract!=='doki.game.card-reveal-result'||output.version!==1||output.data?.presentationId!==presentationId||output.data?.outcome!=='viewed'||output.data?.completion!==expected)throw Error('wrong output');
+      if(mode==='rejected'&&requests===1)return{status:'rejected'};
+      return{status:'accepted'};
+    },
+    onRequestExit(){exits++;},
+  });
+  cleanup=()=>{disconnect();host.dispose();iframe.remove();};
+  iframe.src='./apps/game-card-reveal/index.html';
+  show(`运行 ${mode} N${count}…`);
+  try{
+    const press=(key)=>iframe.contentWindow.dispatchEvent(new iframe.contentWindow.KeyboardEvent('keydown',{key,bubbles:true,cancelable:true}));
+    if(mode==='invalid'){
+      await waitFor(()=>exits===1,'invalid-input exit');
+      if(requests!==0)throw Error('invalid input produced complete');
+    }else{
+      await waitFor(()=>iframe.contentDocument?.querySelector('canvas'), 'rendered canvas');
+      if(iframe.contentDocument.querySelector('[data-action],#reveal-controls-row,#reveal-stage'))throw Error('runtime chrome must be absent');
+    }
+    if(mode==='skipped'){
+      press(' ');
+    }
+    if(mode==='cancelled'){
+      press('Escape');await waitFor(()=>exits===1,'cancelled exit');
+      if(requests!==0)throw Error('cancelled produced complete');
+    }else if(mode==='invalid'){
+      // Invalid input exits before mount; no stage or result is expected.
+    }else if(mode==='preview'){
+      await delay(10000);
+      if(requests!==0)throw Error('preview produced complete');
+    }else{
+      await waitFor(()=>requests>=1,'first complete');
+      if(mode==='rejected'){
+        press('Enter');await waitFor(()=>requests===2,'second complete');
+        if(JSON.stringify(seen[0])!==JSON.stringify(seen[1]))throw Error('retry changed frozen output');
+      }
+      await delay(100);
+      if(requests!==(mode==='rejected'?2:1))throw Error('duplicate complete');
+    }
+    show(`PASS ${mode} N${count} · complete=${requests} · exit=${exits}\n${JSON.stringify(seen,null,2)}`);
+  }catch(error){show(`FAIL ${mode} N${count}: ${String(error)}\ncomplete=${requests} exit=${exits}`);console.error(error);}
+}
+document.querySelectorAll('button[data-mode]').forEach(button=>button.addEventListener('click',()=>run(button.dataset.mode,Number(button.dataset.count))));
+window.addEventListener('pagehide',()=>cleanup(),{once:true});
+</script>
+</html>

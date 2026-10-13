@@ -55,6 +55,15 @@ function findNode(node: LayoutNode, id: string): LayoutNode | undefined {
   return undefined;
 }
 
+function hasModal(node: LayoutNode): boolean {
+  return node.type === 'Modal' || (node.children ?? []).some(hasModal);
+}
+
+function focusedElement(d: Document): HTMLElement | null {
+  const active = d.activeElement;
+  return active instanceof HTMLElement && active !== d.body ? active : null;
+}
+
 // ── 局部更新（diff/patch）核心 ───────────────────────────────────
 // 标准 UI 做法：不整树重挂，按 id 最小化打补丁——只替换「自身或子集真变了」的最浅子树，
 // 其余 DOM 原样保留（Tab 切页态/滚动位/焦点/native 输入态天然不丢；避免整树 innerHTML 替换
@@ -75,6 +84,29 @@ function uiChildKeysSame(a: LayoutNode, b: LayoutNode): boolean {
   const ak = a.children ?? [], bk = b.children ?? [];
   if (ak.length !== bk.length) return false;
   for (let i = 0; i < ak.length; i++) if (ak[i]!.id !== bk[i]!.id || ak[i]!.type !== bk[i]!.type) return false;
+  return true;
+}
+/** A state-transform chase is safe only when every semantic field except the
+ * four transform scalars is unchanged. Retaining the browser element lets its
+ * declared CSS transition interpolate from its old pose without game DOM code. */
+function uiCanChaseTransform(a: LayoutNode, b: LayoutNode): boolean {
+  const transition = b.layout?.transformTransition;
+  if (!transition || a.type !== b.type || JSON.stringify(a.props) !== JSON.stringify(b.props)) return false;
+  const strip = (layout: LayoutNode['layout']): Record<string, unknown> => {
+    const out = { ...(layout ?? {}) } as Record<string, unknown>;
+    delete out.x; delete out.y; delete out.rotate; delete out.scale;
+    return out;
+  };
+  return JSON.stringify(strip(a.layout)) === JSON.stringify(strip(b.layout));
+}
+
+function patchTransformChase(el: HTMLElement, newN: LayoutNode, theme: UITheme): boolean {
+  const tmp = (el.ownerDocument ?? document).createElement('div');
+  tmp.innerHTML = renderNode(newN, theme);
+  const next = tmp.firstElementChild as HTMLElement | null;
+  if (!next) return false;
+  const style = next.getAttribute('style');
+  if (style === null) el.removeAttribute('style'); else el.setAttribute('style', style);
   return true;
 }
 /**
@@ -109,6 +141,13 @@ function reconcileNode(scope: ParentNode, oldN: LayoutNode, newN: LayoutNode, th
   const el = uiFindById(scope, newN.id);
   if (!el) return; // 上层未变才会递进到此；找不到则跳过（安全）
   if (!uiOwnSame(oldN, newN)) {
+    if (uiCanChaseTransform(oldN, newN) && patchTransformChase(el, newN, theme)) {
+      if (uiChildKeysSame(oldN, newN)) {
+        const ak = oldN.children ?? [], bk = newN.children ?? [];
+        for (let i = 0; i < ak.length; i++) reconcileNode(el, ak[i]!, bk[i]!, theme);
+      } else reconcileChildrenKeyed(el, oldN, newN, theme);
+      return;
+    }
     // 节点**自身** props/layout 变了 → 整体替换这棵最浅子树（含焦点保护）。
     if (patchFocusedInput(el, newN)) return;
     el.outerHTML = renderNode(newN, theme);
@@ -184,6 +223,9 @@ const APOLLO_KEYFRAMES = `
 @keyframes apollo-shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 @keyframes apollo-dealIn{from{opacity:0;transform:translateY(-20px) rotate(-8deg)}to{opacity:1;transform:translateY(0) rotate(0)}}
 @keyframes apollo-flyIn{from{opacity:0;transform:translate(var(--anim-dx,-24px),var(--anim-dy,0px))}to{opacity:1;transform:translate(0,0)}}
+@keyframes apollo-transformFrom{from{transform:var(--transform-from)}to{transform:var(--transform-to)}}
+@keyframes apollo-signalPulse{0%,100%{filter:var(--signal-core) drop-shadow(0 0 var(--signal-glow-low) hsl(var(--signal-glow-hue) 96% 55% / var(--signal-glow-alpha)))}50%{filter:var(--signal-core) drop-shadow(0 0 var(--signal-glow-high) hsl(var(--signal-glow-hue) 96% 55% / var(--signal-glow-alpha)))} }
+@keyframes apollo-signalIgnition{0%{filter:var(--signal-flash-core,var(--signal-core)) drop-shadow(0 0 var(--signal-glow-low) hsl(42 100% 62% / var(--signal-glow-alpha)))}34%{filter:var(--signal-flash-core,var(--signal-core)) drop-shadow(0 0 var(--signal-glow-high) hsl(42 100% 62% / var(--signal-glow-alpha)))}68%{filter:var(--signal-core) drop-shadow(0 0 var(--signal-glow-high) hsl(var(--signal-glow-hue) 96% 55% / var(--signal-glow-alpha)))}100%{filter:var(--signal-core) drop-shadow(0 0 var(--signal-glow-low) hsl(var(--signal-glow-hue) 96% 55% / var(--signal-glow-alpha)))} }
 @keyframes apollo-coin-heads{0%{transform:rotateX(60deg)}100%{transform:rotateX(1800deg)}}
 @keyframes apollo-coin-tails{0%{transform:rotateX(60deg)}100%{transform:rotateX(1980deg)}}
 @keyframes apollo-spark{0%{transform:scale(.4);opacity:0}40%{transform:scale(1.25);opacity:1}100%{transform:scale(1);opacity:.9}}
@@ -237,7 +279,7 @@ const APOLLO_KEYFRAMES = `
 @keyframes apollo-fx-fade{from{opacity:1}to{opacity:0}}
 [data-fx~="flash"]::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:var(--fx-flash,#d3897a);mix-blend-mode:screen;animation:apollo-fx-flash var(--fx-flash-ms,420ms) ease-out both}
 [data-apollo-btn]{outline:none;transition:transform .07s ease,filter .12s ease,box-shadow .12s ease}
-[data-apollo-btn]:not([disabled]):focus-visible{outline:3px solid var(--apollo-focus-ring);outline-offset:-3px}
+[data-apollo-btn]:not([disabled]):not([data-apollo-focus-ring="off"]):focus-visible{outline:3px solid var(--apollo-focus-ring);outline-offset:-3px}
 [data-apollo-btn]:not([disabled]):hover{filter:brightness(1.07)}
 [data-apollo-btn]:not([disabled]):active{transform:translateY(1px);filter:brightness(.9)}
 [data-apollo-skin]:not([disabled]):hover{filter:brightness(1.08)}
@@ -245,7 +287,8 @@ const APOLLO_KEYFRAMES = `
 [data-tilt3d]{transition:transform .18s cubic-bezier(.2,.7,.3,1);transform-style:preserve-3d}
 [data-tilt3d]:hover{transform:perspective(800px) rotateX(7deg) rotateY(-9deg) translateZ(16px)}
 [data-press3d]{transition:transform .09s ease,box-shadow .09s ease;box-shadow:0 6px 0 rgba(0,0,0,.32)}
-[data-press3d]:active{transform:translateY(5px);box-shadow:0 1px 0 rgba(0,0,0,.32)}`;
+[data-press3d]:active{transform:translateY(5px);box-shadow:0 1px 0 rgba(0,0,0,.32)}
+@media (prefers-reduced-motion:reduce){[data-skin-slider-thumb],[data-transform-transition]{transition-duration:0ms!important}[style*="apollo-transformFrom"],[style*="apollo-signalPulse"],[style*="apollo-signalIgnition"]{animation-duration:0ms!important}}`;
 /**
  * 幂等注入引擎 UI 关键帧 + fx 叠层 CSS（anim 预设 / sheen·flash 的 ::after·::before / flipcard）。
  * mountUI 自动调；**renderNode-only 屏（如 game-g 战斗屏走 innerHTML·非 mountUI）须自己调一次**，
@@ -312,6 +355,10 @@ export function mountUI(
   theme: UITheme = SHELL,
   input?: ActionSink, // 传它 → 无本地 handler 的 action 走信号入队（UI 只发信号·逻辑入 sim 能力层·人/AI 共用动作总线）
 ): MountHandle {
+  // Capture the launcher before rendering replaces it.  A Modal is data, so this
+  // is the only place where DOM focus state is permitted to be remembered.
+  const doc = host.ownerDocument ?? document;
+  const initialReturnFocus = hasModal(root) ? focusedElement(doc) : null;
   ensureUiKeyframes();
   ensureWebfonts(theme.webfonts);
   ensureArtFonts();
@@ -321,6 +368,27 @@ export function mountUI(
   // 当前已挂载的树与主题（update 做最小 diff 的基线·VirtualList 复绑取数据）。
   let curRoot = root;
   let curTheme = theme;
+  let modalReturnFocus = initialReturnFocus;
+
+  const topModalDialog = (): HTMLElement | null => {
+    const dialogs = host.querySelectorAll<HTMLElement>('[data-modal-dialog]');
+    return dialogs.length ? dialogs[dialogs.length - 1]! : null;
+  };
+  const focusableIn = (dialog: HTMLElement): HTMLElement[] => Array.from(dialog.querySelectorAll<HTMLElement>(
+    'button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])',
+  )).filter((el) => el.tabIndex >= 0 && !el.hasAttribute('hidden'));
+  const focusModal = (): void => {
+    const dialog = topModalDialog();
+    if (!dialog) return;
+    const active = focusedElement(doc);
+    if (active && dialog.contains(active)) return;
+    (focusableIn(dialog)[0] ?? dialog).focus();
+  };
+  const returnModalFocus = (): void => {
+    const target = modalReturnFocus;
+    modalReturnFocus = null;
+    if (target?.isConnected) target.focus();
+  };
 
   // ── 数据驱动动效初始化（render-only·**可重入**·REQ-UICONTRACT③）────────────────────────────────
   // 把带 data-* 动效标记的元素初始化：typewriter 逐字 / tween 数字滚动 / flyto 弧线飞 / bgscroll 背景滚动。
@@ -397,6 +465,7 @@ export function mountUI(
     });
   }
   initDynamics(host);
+  focusModal();
 
   // 锚定浮层/连线（REQ-UI-锚定层①·render-only·不进 sim/hash）：每帧读目标 live rect → 把 Float 摆到锚点、Connector 连两端。
   //   目标消失/隐藏(rect 0)→自隐（不悬空）。entity=渲染器盖 `data-entity-anchor` 的实体节点·node=同树 LayoutNode id。
@@ -622,20 +691,50 @@ export function mountUI(
   ensureParticleSimLoop();
   // 背景 UV 滚动已并入 initDynamics（上·data-bgscroll·teardown 移除注入的 scrollStyles）。
 
+  const rangeValues = new WeakMap<HTMLInputElement, string>();
   const dispatch = (e: Event): void => {
     const el = (e.target as HTMLElement).closest('[data-action]') as HTMLElement | null;
     if (!el) return;
+    // Native disabled controls must stay inert even if an external caller dispatches
+    // a synthetic event after a stale DOM update.
+    if (el instanceof HTMLInputElement && el.disabled) return;
     const action = el.dataset['action'];
     if (!action) return;
 
-    // 本次动作的参数：change 取控件值（select / checkbox / 文本 input），其余取 data-arg。
+    // Range 在拖动时用 input 立即发送；紧随其后的 change 若值相同则去重。
+    // 其余控件仍只在 change 发送，避免文本输入每个字符都触发业务动作。
     let arg: string | undefined;
-    if (e.type === 'change') {
+    if (e.type === 'change' || e.type === 'input') {
       if (el.tagName === 'SELECT') arg = (el as HTMLSelectElement).value;
       else if (el.tagName === 'INPUT') {
         const inp = el as HTMLInputElement;
+        // 普通 range 只在原生 change（点击/松手完成）提交；input 期间若重建 UI，
+        // 会让浏览器把同一指针序列的后续事件送进已脱离 DOM 的旧 input。
+        if (e.type === 'input' && (inp.type !== 'range' || inp.dataset['sliderReleaseSnap'] !== 'true')) return;
+        if (inp.type === 'range' && inp.dataset['sliderReleaseSnap'] === 'true') {
+          const min = Number(inp.min), max = Number(inp.max), step = Number(inp.dataset['step'] ?? 1) || 1;
+          const thumb = inp.parentElement?.querySelector<HTMLElement>('[data-skin-slider-thumb]');
+          const ratio = Math.max(0, Math.min(1, (Number(inp.value) - min) / (max - min)));
+          const inset = Number(inp.dataset['sliderThumbInset'] ?? 0);
+          const thumbSize = Number(inp.dataset['sliderThumbSize'] ?? 0);
+          const thumbLeft = (r: number) => `calc(${inset}px + ${(r * 100).toFixed(4)}% - ${(r * 2 * inset).toFixed(4)}px - ${thumbSize / 2}px)`;
+          if (thumb && e.type === 'input') {
+            thumb.style.transitionDuration = '0ms';
+            thumb.style.left = thumbLeft(ratio);
+            return;
+          }
+          if (e.type === 'change') {
+            inp.value = String(Math.max(min, Math.min(max, Math.round((Number(inp.value) - min) / step) * step + min)));
+            if (thumb) thumb.style.left = thumbLeft(Math.max(0, Math.min(1, (Number(inp.value) - min) / (max - min))));
+          }
+        }
+        if (inp.type === 'range') {
+          const prior = rangeValues.get(inp);
+          if (prior === inp.value && e.type === 'change') return;
+          rangeValues.set(inp, inp.value);
+        }
         arg = inp.type === 'checkbox' ? String(inp.checked) : inp.value;
-      } else return; // change 只认 select/input
+      } else return; // value events only accept select/input
     } else {
       // REQ-UI-BUG-Slider回调偶发undefined（根因）：dispatch 同时绑 click + change。值控件（Slider range / Toggle /
       // Checkbox / Dropdown 的 input/select）的 action **只应在 change 取值派发**；click 也冒泡到这里会按 data-arg 派发——
@@ -648,6 +747,15 @@ export function mountUI(
     const fn = handlers[action];
     if (fn) { fn(arg); return; }
     input?.enqueueAction(action, { arg });
+  };
+
+  /** Modal close is a normal named UI action: local handler first, then the
+   * deterministic ActionSink.  Escape and scrim clicks must never invent a
+   * second direct state-write path. */
+  const dispatchModalClose = (action: string): void => {
+    const fn = handlers[action];
+    if (fn) { fn(); return; }
+    input?.enqueueAction(action);
   };
 
   // Tabs 切页（抗闪屏·引擎内建·下沉自 game-g 大厅 setTab）：点 [data-tab] → 就地 toggle 页 display + nav 高亮，
@@ -678,11 +786,79 @@ export function mountUI(
     if (!scrim || e.target !== scrim) return; // 点的是弹窗体内部 → 不关
     const action = scrim.dataset['modalClose'];
     if (!action) return;
-    // 路由同 dispatch（REQ-UICONTRACT①）：本地 handler 优先·无 handler + 有 sink → 发信号入队。
-    // 缺这条回退时纯信号游戏（不挂 handler·只挂 ActionSink）点遮罩关不掉 Modal → 玩家卡死弹窗。
-    const fn = handlers[action];
-    if (fn) { fn(); return; }
-    input?.enqueueAction(action);
+    dispatchModalClose(action);
+  };
+
+  // Modal keyboard contract: keep Tab inside the topmost dialog and route
+  // Escape through its declared closeAction.  No modal or no closeAction is a
+  // deliberate no-op rather than an implicit state mutation.
+  const modalKeydown = (e: KeyboardEvent): void => {
+    const dialog = topModalDialog();
+    if (!dialog) return;
+    if (e.key === 'Escape') {
+      const action = dialog.parentElement?.dataset['modalClose'];
+      if (!action) return;
+      e.preventDefault();
+      e.stopPropagation();
+      dispatchModalClose(action);
+      return;
+    }
+    if (e.key !== 'Tab') return;
+    const controls = focusableIn(dialog);
+    const first = controls[0] ?? dialog;
+    const last = controls[controls.length - 1] ?? dialog;
+    const active = focusedElement(doc);
+    if (e.shiftKey ? active === first || active === dialog : active === last || active === dialog) {
+      e.preventDefault();
+      (e.shiftKey ? last : first).focus();
+    }
+  };
+
+  // The fixed scrim normally wins hit-testing.  This capture guard also keeps
+  // synthetic events and unusual stacking contexts from leaking clicks or
+  // pointer focus to the underlying screen while a dialog is open.
+  const blockModalBackground = (e: Event): void => {
+    const dialog = topModalDialog();
+    if (!dialog) return;
+    const target = e.target as Node | null;
+    const scrim = dialog.parentElement;
+    if (target === scrim || (target && dialog.contains(target))) return;
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  // Wheel is an input *declaration*, not an invitation for games to attach DOM
+  // listeners.  The nearest Panel declares the two allowed action names; this
+  // runtime glue normalizes physical wheels and trackpads, then only enqueues a
+  // single named action through ActionSink.
+  const wheelRemainders = new WeakMap<HTMLElement, number>();
+  const wheelAction = (e: WheelEvent): void => {
+    const target = e.target instanceof Element ? e.target : null;
+    if (!target) return;
+    const region = target.closest<HTMLElement>('[data-wheel-region]');
+    if (!region || !host.contains(region)) return;
+    const dialog = topModalDialog();
+    // An open dialog blocks the obscured story region.  A wheel region nested
+    // inside that dialog remains legal (for a future modal history viewer).
+    if (dialog && !dialog.contains(region)) return;
+    // Native scroll areas own their own wheel stream, including at their
+    // boundary, so reading history/settings never advances the story.
+    const scrollOwner = target.closest<HTMLElement>('[data-wheel-scroll],[data-vlist]');
+    if (scrollOwner) return;
+    const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 800 : 1;
+    const delta = e.deltaY * unit;
+    if (!Number.isFinite(delta) || delta === 0) return;
+    const total = (wheelRemainders.get(region) ?? 0) + delta;
+    // 48px admits ordinary mouse notches immediately while coalescing small
+    // trackpad deltas.  On crossing, reset so one DOM event emits at most one
+    // input action; no wall clock participates in simulation behavior.
+    if (Math.abs(total) < 48) { wheelRemainders.set(region, total); return; }
+    wheelRemainders.delete(region);
+    const action = total < 0 ? region.dataset['wheelUp'] : region.dataset['wheelDown'];
+    if (!action || !input) return;
+    e.preventDefault();
+    e.stopPropagation();
+    input.enqueueAction(action);
   };
 
   // Tooltip 悬浮显隐（引擎内建·内联样式表达不了 :hover）：mouseover/focusin 显气泡、移出隐。
@@ -848,6 +1024,10 @@ export function mountUI(
     input?.enqueueAction(action, { arg: payload }); // 无 handler + 有 sink → 落点信号 + 被拖 id 作 arg（带参动作走 Signal.arg）
   };
 
+  host.addEventListener('pointerdown', blockModalBackground, true);
+  host.addEventListener('click',       blockModalBackground, true);
+  host.addEventListener('wheel',       wheelAction, { passive: false });
+  host.addEventListener('keydown',     modalKeydown);
   host.addEventListener('click',       dispatch);
   host.addEventListener('click',       switchTab);
   host.addEventListener('click',       modalClose);
@@ -855,6 +1035,71 @@ export function mountUI(
   host.addEventListener('click',       comboClick);
   host.addEventListener('click',       ctxClose);
   host.addEventListener('change',      dispatch);
+  host.addEventListener('input',       dispatch);
+  // 皮肤 Slider 自己占有这一条 pointer 序列：拖动只动本地视觉，松手才发 change。
+  // 绝不能在 pointerdown/input 阶段更新 LayoutNode；那会替换 range 节点，使同一次拖动
+  // 的后续事件落到旧节点，形成“点 A 却动 B / 点几次后失灵”的竞争。
+  const activeReleaseSliders = new Map<number, HTMLInputElement>();
+  const releaseValueAt = (inp: HTMLInputElement, clientX: number): number => {
+    const rect = inp.getBoundingClientRect();
+    const min = Number(inp.min), max = Number(inp.max);
+    if (!rect.width || !Number.isFinite(min) || !Number.isFinite(max)) return min;
+    return min + Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)) * (max - min);
+  };
+  const syncReleaseThumb = (inp: HTMLInputElement, motion: boolean): void => {
+    const min = Number(inp.min), max = Number(inp.max);
+    const ratio = max === min ? 0 : Math.max(0, Math.min(1, (Number(inp.value) - min) / (max - min)));
+    const inset = Number(inp.dataset['sliderThumbInset'] ?? 0);
+    const thumbSize = Number(inp.dataset['sliderThumbSize'] ?? 0);
+    const thumb = inp.parentElement?.querySelector<HTMLElement>('[data-skin-slider-thumb]');
+    if (!thumb) return;
+    thumb.style.transitionDuration = motion ? `${Number(inp.dataset['sliderMotion'] ?? 150)}ms` : '0ms';
+    thumb.style.left = `calc(${inset}px + ${(ratio * 100).toFixed(4)}% - ${(ratio * 2 * inset).toFixed(4)}px - ${thumbSize / 2}px)`;
+  };
+  const commitReleaseSnap = (e: PointerEvent): void => {
+    const inp = activeReleaseSliders.get(e.pointerId);
+    if (!inp) return;
+    activeReleaseSliders.delete(e.pointerId);
+    const min = Number(inp.min), max = Number(inp.max), step = Number(inp.dataset['step'] ?? 1) || 1;
+    // 最后一帧 pointermove 在某些浏览器不会冒泡；以松手坐标重算，才是真正的释放位置。
+    const released = releaseValueAt(inp, e.clientX);
+    inp.value = String(Math.max(min, Math.min(max, Math.round((released - min) / step) * step + min)));
+    syncReleaseThumb(inp, true);
+    inp.dispatchEvent(new Event('change', { bubbles: true }));
+  };
+  const cancelReleaseSnap = (e: PointerEvent): void => { activeReleaseSliders.delete(e.pointerId); };
+  const onRangePointerDown = (e: PointerEvent): void => {
+    const inp = (e.target as HTMLElement).closest('input[type="range"]') as HTMLInputElement | null;
+    if (!inp) return;
+    if (inp.disabled) return;
+    if (inp.dataset['sliderReleaseSnap'] === 'true') {
+      e.preventDefault();
+      activeReleaseSliders.set(e.pointerId, inp);
+      inp.value = String(releaseValueAt(inp, e.clientX));
+      syncReleaseThumb(inp, false);
+      try { inp.setPointerCapture(e.pointerId); } catch { /* unsupported DOM shim: window listener still commits */ }
+      return;
+    }
+    // 离散 Slider 保持一次点击一次提交；这一分支不参与连续拖动的 releaseSnap 控件。
+    const rect = inp.getBoundingClientRect();
+    if (!rect.width) return;
+    const min = Number(inp.min), max = Number(inp.max), step = Number(inp.step) || 1;
+    const raw = min + Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * (max - min);
+    inp.value = String(Math.max(min, Math.min(max, Math.round((raw - min) / step) * step + min)));
+    e.preventDefault();
+    inp.dispatchEvent(new Event('change', { bubbles: true }));
+  };
+  const onRangePointerMove = (e: PointerEvent): void => {
+    const inp = activeReleaseSliders.get(e.pointerId);
+    if (!inp) return;
+    inp.value = String(releaseValueAt(inp, e.clientX));
+    syncReleaseThumb(inp, false);
+  };
+  host.addEventListener('pointerdown', onRangePointerDown);
+  // Pointer capture can skip host bubbling; window capture keeps the active input authoritative.
+  window.addEventListener('pointermove', onRangePointerMove, true);
+  window.addEventListener('pointerup', commitReleaseSnap, true);
+  window.addEventListener('pointercancel', cancelReleaseSnap, true);
   host.addEventListener('input',       comboFilter);
   host.addEventListener('contextmenu', ctxOpen);
   host.addEventListener('dragstart',   onDragStart);
@@ -870,6 +1115,9 @@ export function mountUI(
   // 换皮（theme 变）：颜色烤进渲染串、props 不变 → diff 测不出，整根子树按新主题重渲一次
   // （替换 host 的单个子元素，非 host.innerHTML 全清）；其余情况走按 id 的 reconcile。
   const update = (newRoot: LayoutNode, newTheme?: UITheme): void => {
+    const hadModal = hasModal(curRoot);
+    const willHaveModal = hasModal(newRoot);
+    if (!hadModal && willHaveModal) modalReturnFocus = focusedElement(doc);
     const themeChanged = !!(newTheme && newTheme !== curTheme);
     if (themeChanged) { curTheme = newTheme!; applyThemeCursor(host, curTheme.cursor); } // 换皮同步主题指针
     // 整根重挂条件：① 换皮（换主题令牌包·全盘换色）② **换根**（新根 id ≠ 旧根 id·如牌桌 a-play→结算 a-result）。
@@ -884,6 +1132,8 @@ export function mountUI(
       reconcileNode(host, curRoot, newRoot, curTheme);
     }
     curRoot = newRoot;
+    if (willHaveModal) focusModal();
+    else if (hadModal) returnModalFocus();
     bindVlists(); // 子树可能被替换 → 复绑 vlist 滚动监听
     ensureAnchorLoop(); // update 引入锚定件（Float/Connector）→ 启动跟随 rAF（幂等·game-i 从 hub .update 进模块的路径）
     ensureParticleFollowLoop(); // update 引入 Particles follow:'cursor' → 启动光标微尘 rAF（幂等）
@@ -892,6 +1142,10 @@ export function mountUI(
   };
 
   const teardown = (() => {
+    host.removeEventListener('pointerdown', blockModalBackground, true);
+    host.removeEventListener('click',       blockModalBackground, true);
+    host.removeEventListener('wheel',       wheelAction);
+    host.removeEventListener('keydown',     modalKeydown);
     host.removeEventListener('click',       dispatch);
     host.removeEventListener('click',       switchTab);
     host.removeEventListener('click',       modalClose);
@@ -899,6 +1153,11 @@ export function mountUI(
     host.removeEventListener('click',       comboClick);
     host.removeEventListener('click',       ctxClose);
     host.removeEventListener('change',      dispatch);
+    host.removeEventListener('input',       dispatch);
+    host.removeEventListener('pointerdown', onRangePointerDown);
+    window.removeEventListener('pointermove', onRangePointerMove, true);
+    window.removeEventListener('pointerup', commitReleaseSnap, true);
+    window.removeEventListener('pointercancel', cancelReleaseSnap, true);
     host.removeEventListener('input',       comboFilter);
     host.removeEventListener('contextmenu', ctxOpen);
     host.removeEventListener('dragstart',   onDragStart);
@@ -918,6 +1177,7 @@ export function mountUI(
     if (followRaf && typeof cancelAnimationFrame === 'function') cancelAnimationFrame(followRaf);
     if (psRaf && typeof cancelAnimationFrame === 'function') cancelAnimationFrame(psRaf); // 停物理弹道 rAF（REQ-UIFX）
     host.innerHTML = '';
+    returnModalFocus();
   }) as MountHandle;
   teardown.update = update;
   return teardown;

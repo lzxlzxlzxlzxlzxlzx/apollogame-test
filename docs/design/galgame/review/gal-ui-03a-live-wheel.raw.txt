@@ -1,0 +1,4 @@
+2026-10-10 · node src/services/gal-ui/verify-gal-live-wheel.mjs
+GAL-UI-03A live 1440×900: start, read, wheel↓, stable choice, wheel↑, rechoice, slot 2 save/load, Profile retained — PASS
+Exit code: 0
+Browser: isolated headless Edge, local static file; closed in finally. Temporary build removed in finally.

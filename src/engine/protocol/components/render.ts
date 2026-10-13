@@ -22,6 +22,12 @@ export interface Sprite extends Component {
   anchorX: number;
   anchorY: number;
   zOrder: number;
+  /** 可选目标框宽度；与 height/fit 三者要么同时缺席（原生尺寸），要么同时给出。 */
+  width?: number;
+  /** 可选目标框高度；与 width/fit 三者要么同时缺席（原生尺寸），要么同时给出。 */
+  height?: number;
+  /** 在目标框内保持源图比例：cover 裁源铺满，contain 居中留透明边。 */
+  fit?: 'cover' | 'contain';
 }
 
 // ── Mesh3D（render-only，通用「3D 物件即数据」原语）── 一个有体积/双面、可翻面的 3D 物体（牌/骰/棋子）。
@@ -503,6 +509,23 @@ export interface WorldUI3D extends Component {
   glow?: boolean; // 发光（text 简写用）
 }
 
+// ── WorldUI2D（SIMLIFE-ENG-10·render-only·不进 hash）── 2D 世界实体旁的 LayoutNode。
+// 锚在同实体 Transform；Canvas 后端用当前相机把世界点投影到显式 overlay host，并产出
+// data-entity-anchor 给 Float/Connector 的 entity AnchorRef 消费。渲染线只读世界、不写组件；显式
+// interactive 时，LayoutNode 仍只经 mountUI 的 ActionSink/handler 接缝发动作。
+export interface WorldUI2D extends Component {
+  readonly type: 'WorldUI2D';
+  node?: LayoutNode; // 富内容优先；按钮等仍经 mountUI / ActionSink，不允许游戏层手写 DOM
+  text?: string; // node 缺省时的最小 Label 简写
+  offsetX?: number; // 相对 Transform 的世界 X 偏移；Life renderer 中单位为格
+  offsetY?: number; // 相对 Transform 的世界 Y 偏移；Life renderer 中单位为格
+  size?: 'xs' | 'sm' | 'md' | 'lg';
+  color?: string;
+  glow?: boolean;
+  /** 缺省 false 保持世界浮层点击穿透；true 才允许 LayoutNode 接收指针。 */
+  interactive?: boolean;
+}
+
 // ── Diegetic3D（render-only·不进 hash·UI 贴进 3D 空间）── 把一棵 **LayoutNode** 作为**真 DOM 面片**放进 3D 场景
 // （in-world 屏幕/告示牌/机台面板/仪表盘）：定位在实体 Transform3D、按其欧拉角朝向、随相机投影旋转/透视。经 CSS3DRenderer 叠层渲染
 // （真 DOM·文字锐利·Chromium 稳；区别贴图路线——foreignObject 栅格在 Chromium 渲空白故不用）。**代价**：DOM 叠层不进 WebGL 深度
@@ -698,6 +721,24 @@ export interface Camera extends Component {
   rotation: number;
   viewportW: number;
   viewportH: number;
+  /** camera-follow tuning; omission preserves margin=80 and zoom=[0.25,1]. */
+  followMargin?: number;
+  followMinZoom?: number;
+  followMaxZoom?: number;
+  /** Target anchor shift in the same world units as Transform. */
+  followOffsetX?: number;
+  followOffsetY?: number;
+  /**
+   * Screen-relative dead zone. Each inset is a viewport ratio in [0, 0.5).
+   * While the followed focus stays inside, the corresponding camera axis holds;
+   * crossing an edge moves only that axis until the focus returns to the edge.
+   */
+  followDeadZone?: {
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+  };
 }
 
 // ── camera-follow ── 标记：相机要跟随的目标（合作相机取所有目标的 AABB 中点）。空 marker。
@@ -749,6 +790,49 @@ export interface Tween extends Component {
   // 重放保留（REQ-F-057 落子 juice）：true=到点后**不移除组件**、停在终值置 done（done 实体每帧零开销跳过），
   // 供运行时倒带重放（drag-place 落子把 elapsed=0/done=false → 压扁回弹再播一次）。缺省=到点移除（原语义）。
   keep?: boolean;
+}
+
+// ── presentation-track ── 固定 tick 的多段二维表现轨道；只写与 Tween 相同的软表现字段，
+// 另允许在 keyframe 边界离散切换 Visibility 与 Sprite.zOrder。配置及播放游标随快照保存，
+// 与 Tween 一样保持确定性；不得把 Transform 全局排除出 hash（其它游戏的 sim 仍使用它）。
+export type PresentationContinuousTarget = TweenTarget;
+export type PresentationDiscreteTarget = 'Visibility.visible' | 'Visibility.active' | 'Sprite.zOrder';
+export type PresentationTarget = PresentationContinuousTarget | PresentationDiscreteTarget;
+export interface PresentationKeyframe {
+  at: number; // 非负整数 tick，严格递增
+  value: number | boolean;
+  easing?: TweenEasing; // 连续段的到达曲线；离散目标不得填写
+}
+export interface PresentationChannel {
+  target: PresentationTarget;
+  keyframes: PresentationKeyframe[];
+}
+export interface PresentationPoseValue {
+  target: PresentationTarget;
+  value: number | boolean;
+}
+export interface PresentationTrack extends Component {
+  readonly type: 'PresentationTrack';
+  id: string;
+  targetEntity: string;
+  playOnSignal: string;
+  pauseOnSignal?: string;
+  resumeOnSignal?: string;
+  resetOnSignal?: string;
+  skipOnSignal?: string;
+  channels: PresentationChannel[];
+  finalPose: PresentationPoseValue[];
+  doneSignal?: string;
+}
+export interface PresentationPlayback extends Component {
+  readonly type: 'PresentationPlayback';
+  cursor: number;
+  status: 'idle' | 'playing' | 'paused' | 'done';
+  done: boolean;
+  pendingDone: boolean; // Commit 落终态后，下一拍 Resolve 发通知，避开 event-when 的拍首全局清扫
+  authorPose: PresentationPoseValue[]; // 首次播放前的作者态；reset/重播据此复原
+  seq: number;
+  emitted: string[]; // 上一 tick 的 done Signal 实体，下次执行时回收
 }
 
 // ── text-binding（REQ-F-043）── Resource 数字 → Text 投影（gauge 的姊妹件；HUD 金币/回合/等级/楼层）。

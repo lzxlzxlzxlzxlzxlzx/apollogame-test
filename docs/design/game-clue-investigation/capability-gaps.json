@@ -1,0 +1,20 @@
+[
+  {
+    "id": "GCI-S2-01",
+    "title": "透明 PNG 的实心 alpha 像素命中",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "REQ-ENG-ALPHA-HIT-MASK（施工自检与非施工者独立复查 PASS：review/REQ-ENG-ALPHA-HIT-MASK-independent.md）",
+    "blocks": ["S2", "S3", "S4", "S5"]
+  },
+  {
+    "id": "GCI-S2-02",
+    "title": "宿主动态 PNG 与预烘焙实形遮罩桥",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "REQ-ENG-HOST-VISUAL-HIT-MASK（施工自检与非施工者独立复查 PASS：review/REQ-ENG-HOST-VISUAL-HIT-MASK-independent.md）",
+    "blocks": ["S2", "S3", "S4", "S5"]
+  }
+]

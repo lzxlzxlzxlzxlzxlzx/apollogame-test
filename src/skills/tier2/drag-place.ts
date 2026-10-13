@@ -1,10 +1,13 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { defineComponent } from '@engine/core/define-component.js';
+import { t } from '@engine/core/schema.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Draggable, InputQueue, Transform, Shape, HexBoard, HexPos, Tag, Flag, Resource, Tween, Clickable, DropZone, Signal } from '@engine/protocol/components.js';
 import { hexCellToPoint, hexPointToCell } from './grid-move.js';
 import { findByComponentId } from '@engine/core/query.js';
-import { inCircle } from '@engine/math/vec2.js';
+import { canDropZoneEmit, findDraggableAt, findDropZoneAt } from './drop-zone-hit.js';
+import { appendTrace, findDebugTrace } from '../debug-trace.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  drag-place —— 拖拽摆放（REQ-F-045；备战上场/调位/回席的输入桥，战棋/卡牌摆子通用）。
@@ -30,40 +33,6 @@ import { inCircle } from '@engine/math/vec2.js';
 function replayTween(world: IWorld, eid: string): void {
   const tw = world.getComponent<Tween>(eid, 'Tween');
   if (tw) { tw.elapsed = 0; tw.done = false; }
-}
-
-// 投放区命中（多区按 id 升序首中，确定）。
-function hitDropZone(world: IWorld, x: number, y: number): string | null {
-  const zones: string[] = [];
-  for (const [zid] of world.query('DropZone')) zones.push(zid);
-  zones.sort();
-  for (const zid of zones) {
-    const zt = world.getComponent<Transform>(zid, 'Transform');
-    const zs = world.getComponent<Shape>(zid, 'Shape');
-    if (!zt || !zs) continue;
-    const hw = ((zs.width ?? 16) / 2) * Math.abs(zt.scaleX), hh = ((zs.height ?? 16) / 2) * Math.abs(zt.scaleY);
-    if (Math.abs(x - zt.x) <= hw && Math.abs(y - zt.y) <= hh) return zid;
-  }
-  return null;
-}
-
-function hitDraggable(world: IWorld, x: number, y: number): string | null {
-  const ids: string[] = [];
-  for (const [eid] of world.query('Draggable')) ids.push(eid);
-  ids.sort();
-  for (const eid of ids) {
-    const t = world.getComponent<Transform>(eid, 'Transform');
-    const sh = world.getComponent<Shape>(eid, 'Shape');
-    if (!t || !sh) continue;
-    if (sh.kind === 'circle') {
-      const rr = sh.radius ?? 8;
-      if (inCircle(x, y, t.x, t.y, rr)) return eid;
-    } else {
-      const w = (sh.width ?? 16) / 2, h = (sh.height ?? 16) / 2;
-      if (Math.abs(x - t.x) <= w && Math.abs(y - t.y) <= h) return eid;
-    }
-  }
-  return null;
 }
 
 export const dragPlaceCapability = defineCapability({
@@ -93,11 +62,10 @@ export const dragPlaceCapability = defineCapability({
           capResource: { type: 'string', describe: '上板限额资源 id（如 level）；从板外进板且已满 → 整次拒绝' },
         },
       },
-      DropZone: {
+      DropZone: defineComponent('DropZone', { hitShape: t.opt(t.enum(['box', 'ellipse'] as const)) }, {
         category: 'marker',
-        describe: '拖放投放区（REQ-F-058 垃圾桶/出售槽）：自由落点命中本实体 Shape → 替被拖者发它自带 Clickable.action 的 Signal（source=被拖者）。',
-        fields: {},
-      },
+        describe: '拖放投放区：缺省旧 Shape AABB；显式 ellipse 用缩放半轴归一命中，替被拖者发自带 Clickable.action Signal。',
+      }),
     },
     reads: ['Draggable', 'InputQueue', 'Transform', 'Shape', 'HexBoard', 'HexPos', 'Tag', 'Flag', 'Resource'],
     writes: ['Transform', 'HexPos'],
@@ -138,13 +106,19 @@ export const dragPlaceCapability = defineCapability({
         }
         if (!drag) return;
 
-        const eid = hitDraggable(world, drag.fx, drag.fy);
+        const eid = findDraggableAt(world, drag.fx, drag.fy);
         if (!eid) return;
         const d = world.getComponent<Draggable>(eid, 'Draggable')!;
 
         // 投放区命中（REQ-F-058，**先于相位门**——拖进垃圾桶任何相位可投）：本系统只负责「被拖者原地
         // 不动」，代点信号由独立 drop-zone 系统种（见下方第二系统）。
-        if (hitDropZone(world, drag.tx, drag.ty)) return;
+        let tracedInvalidEllipse = false;
+        if (findDropZoneAt(world, drag.tx, drag.ty, (id) => {
+          if (tracedInvalidEllipse) return;
+          tracedInvalidEllipse = true;
+          const trace = findDebugTrace(world);
+          if (trace) appendTrace(trace, trace.tick ?? world.getVersion(), 'drag-place', 'reject', `${id}:非法椭圆半轴`);
+        })) return;
 
         // 相位门（读上一拍全局 Flag）。
         if (d.onlyFlag) {
@@ -244,12 +218,18 @@ export const dragPlaceCapability = defineCapability({
           if (drag) break;
         }
         if (!drag) return;
-        const zid = hitDropZone(world, drag.tx, drag.ty);
+        let tracedInvalidEllipse = false;
+        const zid = findDropZoneAt(world, drag.tx, drag.ty, (id) => {
+          if (tracedInvalidEllipse) return;
+          tracedInvalidEllipse = true;
+          const trace = findDebugTrace(world);
+          if (trace) appendTrace(trace, trace.tick ?? world.getVersion(), 'drop-zone', 'reject', `${id}:非法椭圆半轴`);
+        });
         if (!zid) return;
-        const eid = hitDraggable(world, drag.fx, drag.fy);
+        const eid = findDraggableAt(world, drag.fx, drag.fy);
         if (!eid) return;
         const click = world.getComponent<Clickable>(eid, 'Clickable');
-        if (click && !world.hasComponent(zid, 'Signal')) {
+        if (click && canDropZoneEmit(world, zid, eid)) {
           world.addComponent(zid, { type: 'Signal', name: click.action, source: eid } as Signal);
         }
       },

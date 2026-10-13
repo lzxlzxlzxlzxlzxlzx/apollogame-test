@@ -3,6 +3,7 @@
 // 富输入（牌码、菜单多选）经确定性命令流注入 → lockstep 安全。
 import type { Component } from '../../core/types.js';
 import type { ConditionExpr } from './logic.js';
+import type { HitMaskSpec } from '../hit-mask.js';
 
 // ── I1 input-capture ── 这帧的外部原始信号（由 runtime 注入）
 export interface RawInput extends Component {
@@ -29,12 +30,40 @@ export interface RawInputData {
   readonly x?: number;
   readonly y?: number;
   readonly phase?: string;
+  /** 指针身份；仅显式启用连续指针采集的宿主提供，供多触点拒收与取消回放。 */
+  readonly pointerId?: number;
   // 结构化数值载荷（REQ-016/017）：承载列表型输入（如卡牌游戏「出哪几张牌」的牌码 suit*100+rank、菜单多选下标）。
   // 让富输入（不止指针 x/y）也能经确定性命令流注入 → lockstep 安全。
   readonly values?: readonly number[];
   // 具名动作的字符串参数（带参 UI 动作用·如「买哪件」card_42 / 拖放被拖 id / 下拉所选 value）：
   // 经确定性命令流注入，keybind 命中后透传进 Signal.arg。区别于 key（=动作名，keybind 匹配的对象）。
   readonly arg?: string;
+}
+
+/** 椭圆轨道上的单角度手势。唯一位置真相为 angleMilliDegrees；Transform 是每拍确定性派生。 */
+export interface AngularGesture extends Component {
+  readonly type: 'AngularGesture';
+  id: string;
+  centerX: number;
+  centerY: number;
+  radiusX: number;
+  radiusY: number;
+  angleMilliDegrees: number;
+  grabTolerance: number;
+  centerDeadZone: number;
+  maxJumpMilliDegrees: number;
+  jitterMilliDegrees: number;
+  fullTurnMilliDegrees: number;
+  clockwiseSignal: string;
+  counterclockwiseSignal: string;
+  /** 可选：绑定有序动作会话，已完成当前步骤后同次握持不再把多余采样送到下一步。 */
+  sessionEntity?: string;
+  heldSource?: string;
+  heldPointerId?: number;
+  lastPointerAngleMilliDegrees?: number;
+  accumulatedMilliDegrees?: number;
+  heldStepIndex?: number;
+  lastEmitTick?: number;
 }
 
 // ── 输入队列（单例）── 本 tick 的原始输入事件列表。挂在唯一实体上，每 tick 整体覆写（零实体分配），
@@ -72,6 +101,10 @@ export interface Clickable extends Component {
   onlyFlag?: string;
   action: string; // 命中时产出的 Signal.name（下游 effect-apply / craft-recipe / match3 等按名消费）
   phase?: string; // 触发的指针相位 'down'|'up'，缺省 'down'
+  /** 可选已预烘焙命中遮罩资产 key；设置后缺/坏遮罩一律不回退 AABB。 */
+  hitMaskKey?: string;
+  /** 加载期从 AssetIndex 绑定的玩法二值数据；不是 PNG/渲染字节。作者不应内联。 */
+  hitMask?: HitMaskSpec;
 }
 
 // ── net: controllable ── 该实体由哪个玩家(playerId)操控；input 命令按 speed 写入其 Velocity

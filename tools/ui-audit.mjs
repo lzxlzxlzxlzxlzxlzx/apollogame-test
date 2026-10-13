@@ -21,7 +21,7 @@
 import { build } from 'vite';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve, join } from 'node:path';
-import { writeFileSync, mkdirSync, rmSync } from 'node:fs';
+import { writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -40,6 +40,13 @@ const H = Number(opt('h', 760));
 const MIN_CONTRAST = Number(opt('min-contrast', 4.5)); // AA 正文目标：低于此=警告（次级文字常落这）
 const HARD_FLOOR = Number(opt('hard-floor', 3.0));     // 硬地板：低于此=真读不清(深底深字/字≈底)=失败阻断
 const OVERLAP_TOL = Number(opt('overlap-tol', 4)); // px² 容差
+// 可选真实浏览器 9-slice 合同量测：`--skin-measure panel:115:58,button:115:36`。
+// 量的是 computed style 与 border-box，避免只靠 HTML 字符串断言。
+const SKIN_MEASURES = opt('skin-measure', '').split(',').filter(Boolean).map((spec) => {
+  const [id, source, width] = spec.split(':');
+  if (!id || !Number.isFinite(Number(source)) || !Number.isFinite(Number(width))) throw new Error(`非法 --skin-measure：${spec}（格式 id:source:width）`);
+  return { id, source: Number(source), width: Number(width) };
+});
 
 // ── 1) vite 把 entry 打成 IIFE ──────────────────────────
 const tmp = join(ROOT, '.ui-audit-tmp');
@@ -66,13 +73,24 @@ try {
   writeFileSync(join(tmp, 'audit.html'),
     `<!doctype html><meta charset="utf-8"><body style="margin:0;background:#06080d"><div id="${MOUNT}" style="width:${W - 20}px"></div><script src="./${bundleName}"></script></body>`);
   const chromium = await loadChromium();
-  browser = await chromium.launch({ executablePath: process.env.UI_AUDIT_CHROMIUM || '/opt/pw-browsers/chromium' });
+  // CI images supply /opt/pw-browsers; Windows contributors may instead have
+  // Playwright's bundled browser or Edge.  Pick an existing executable rather
+  // than hard-failing a read-only audit before it can inspect the UI.
+  const candidates = [
+    process.env.UI_AUDIT_CHROMIUM,
+    chromium.executablePath?.(),
+    '/opt/pw-browsers/chromium',
+    'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+    'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+  ].filter(Boolean);
+  const executablePath = candidates.find((candidate) => existsSync(candidate));
+  browser = await chromium.launch(executablePath ? { executablePath } : {});
   const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
   await page.goto(`file://${join(tmp, 'audit.html')}`);
   await page.waitForTimeout(600);
 
   // 浏览器内量包围盒 + 颜色，跑两项审计
-  report = await page.evaluate(({ MOUNT, OVERLAP_TOL, MIN_CONTRAST, HARD_FLOOR }) => {
+  report = await page.evaluate(({ MOUNT, OVERLAP_TOL, MIN_CONTRAST, HARD_FLOOR, SKIN_MEASURES }) => {
   const host = document.getElementById(MOUNT);
   const base = host.getBoundingClientRect();
   const rel = (r) => ({ x: Math.round(r.x - base.x), y: Math.round(r.y - base.y), w: Math.round(r.width), h: Math.round(r.height) });
@@ -169,8 +187,20 @@ try {
   }
   const flairTotal = Object.values(flair).reduce((a, b) => a + b, 0);
   const houseTheme = !!host.querySelector('[data-apollo-skin]') || flair.skin > 0; // house 主题的强信号（buttonSkins/纸纹面留 border-image）
-  return { positionedCount: positioned.length, overlaps, low, borderImageBroken, flair, flairTotal, houseTheme };
-  }, { MOUNT, OVERLAP_TOL, MIN_CONTRAST, HARD_FLOOR });
+  // — 可选 9-slice 实测：source slice、显示 border-image-width、四边 border-width、border-box 与内容安全区 —
+  const skinMeasures = SKIN_MEASURES.map((spec) => {
+    const el = host.querySelector(`#${CSS.escape(spec.id)}`);
+    if (!el) return { ...spec, ok: false, why: 'missing element' };
+    const cs = getComputedStyle(el); const box = el.getBoundingClientRect();
+    const source = Number.parseFloat(cs.borderImageSlice);
+    const imageWidth = Number.parseFloat(cs.borderImageWidth);
+    const borders = [cs.borderTopWidth, cs.borderRightWidth, cs.borderBottomWidth, cs.borderLeftWidth].map(Number.parseFloat);
+    const content = { w: Math.max(0, box.width - borders[1] - borders[3]), h: Math.max(0, box.height - borders[0] - borders[2]) };
+    const ok = cs.borderImageSource !== 'none' && source === spec.source && imageWidth === spec.width && borders.every((value) => value === spec.width) && content.w > 0 && content.h > 0;
+    return { ...spec, ok, source, imageWidth, borders, box: rel(box), content, why: ok ? undefined : 'computed border-image/source/width or content box mismatch' };
+  });
+  return { positionedCount: positioned.length, overlaps, low, borderImageBroken, flair, flairTotal, houseTheme, skinMeasures };
+  }, { MOUNT, OVERLAP_TOL, MIN_CONTRAST, HARD_FLOOR, SKIN_MEASURES });
 } finally {
   if (browser) await browser.close().catch(() => {});
   rmSync(tmp, { recursive: true, force: true });
@@ -192,6 +222,15 @@ const biBroken = report.borderImageBroken ?? [];
 console.log(`\n[border-image 前提] ${biBroken.length} 处（设了皮却缺 border-style/width·真浏览器不画）— 阻断`);
 for (const b of biBroken) console.log(`  ✕ ${b.id.padEnd(16)} ${b.why}`);
 
+const skinMeasures = report.skinMeasures ?? [];
+if (skinMeasures.length) {
+  console.log(`\n[9-slice 实测] ${skinMeasures.length} 个目标（computed slice / 显示边宽 / 四边 border / border-box / 内容安全区）— 阻断`);
+  for (const m of skinMeasures) {
+    const actual = `slice=${m.source ?? '-'} imageWidth=${m.imageWidth ?? '-'} border=${m.borders?.join('/') ?? '-'} box=${m.box ? `${m.box.w}×${m.box.h}` : '-'} content=${m.content ? `${m.content.w}×${m.content.h}` : '-'}`;
+    console.log(`  ${m.ok ? '✓' : '✕'} ${m.id}  expect ${m.source}:${m.width}  ${actual}${m.why ? ` (${m.why})` : ''}`);
+  }
+}
+
 // [华丽度] 华丽起手第三步的产物（逛橱窗挑成熟件·把「逛没逛」从心理活动变成可 review 的数字）— 非阻断·警告。
 const fl = report.flair ?? {};
 const flStr = Object.entries(fl).filter(([, n]) => n > 0).map(([k, n]) => `${k}:${n}`).join(' ') || '无';
@@ -203,8 +242,8 @@ if ((report.flairTotal ?? 0) === 0) {
   console.log(`  ⚠ 华丽件命中偏少且未见 house 主题皮——复核是否只搭了朴素骨架（华丽起手第三步核逐类货架）。`);
 }
 
-const fail = report.overlaps.length + hardLow.length + biBroken.length;
+const fail = report.overlaps.length + hardLow.length + biBroken.length + skinMeasures.filter((m) => !m.ok).length;
 console.log(`\n${fail === 0
   ? `✅ 通过（阻断项 0）：无重叠、无硬性读不清文字、border-image 前提齐。${warnLow.length ? ` 另有 ${warnLow.length} 处次级文字低于 AA·建议复核是否正文。` : ''}`
-  : `❌ 不合格：${report.overlaps.length} 重叠 + ${hardLow.length} 硬性低对比 + ${biBroken.length} border-image 缺前提。按 ui-playbook.md §1/§2 修。`}`);
+  : `❌ 不合格：${report.overlaps.length} 重叠 + ${hardLow.length} 硬性低对比 + ${biBroken.length} border-image 缺前提 + ${skinMeasures.filter((m) => !m.ok).length} 9-slice 实测失败。按 ui-playbook.md §1/§2 修。`}`);
 process.exit(fail === 0 ? 0 : 1);
