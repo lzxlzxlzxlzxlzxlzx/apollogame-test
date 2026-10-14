@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "potion/cauldron",
+      "type": "texture",
+      "description": "斜俯视、椭圆敞口的古铜魔法坩埚；透明中心供独立药液层显示",
+      "status": "filled",
+      "path": "/games/game-potion-brewing/art/textures/cauldron-three-quarter-v2.png",
+      "category": "potion.cauldron",
+      "tags": ["potion", "cauldron", "three-quarter", "transparent"],
+      "license": "Owner approved AI-generated image for game-potion-brewing project use",
+      "source": "design-handoff:game-potion-brewing/S1-P-06",
+      "spec": {
+        "format": "png",
+        "width": 1254,
+        "height": 1254,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "provenance": {
+        "method": "approved-design-handoff",
+        "originalFile": "docs/design/game-potion-brewing/ui-refs/cauldron-three-quarter-v2.png",
+        "originalSha256": "2b20e0bcdef0de4ed4ba927c9ed46e5ed4646f2d70d73fe79380e5c894beceaf",
+        "approvalRecord": "docs/design/game-potion-brewing/art-approval-2026-10-13.md"
+      }
+    },
+    {
+      "id": "potion/result-bottle",
+      "type": "texture",
+      "description": "金饰青蓝月相药剂瓶；成功结算图，宿主正式成品图接入前的本地资产",
+      "status": "filled",
+      "path": "/games/game-potion-brewing/art/textures/potion-bottle-v1.png",
+      "category": "potion.result",
+      "tags": ["potion", "bottle", "result", "transparent"],
+      "license": "Owner approved AI-generated image for game-potion-brewing project use",
+      "source": "design-handoff:game-potion-brewing/S1-P-06",
+      "spec": {
+        "format": "png",
+        "width": 1145,
+        "height": 1374,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp"
+      },
+      "provenance": {
+        "method": "approved-design-handoff",
+        "originalFile": "docs/design/game-potion-brewing/ui-refs/potion-bottle-v1.png",
+        "originalSha256": "5f005d805a795113c985b110e1c360bc7f0093facd1fdba661a4a9cf14fa9aa3",
+        "approvalRecord": "docs/design/game-potion-brewing/art-approval-2026-10-13.md"
+      }
+    },
+    {
+      "id": "potion/stirring-rod",
+      "type": "texture",
+      "description": "顶部圆木头、金棕渐变细木杆、末端入水渐隐的搅拌棒；按定稿原型程序化转制",
+      "status": "filled",
+      "path": "/games/game-potion-brewing/art/textures/stirring-rod.svg",
+      "category": "potion.tool",
+      "tags": ["potion", "stirring-rod", "wood", "prototype"],
+      "license": "Original programmatic derivative of Owner-approved S1-P-06 prototype; game-potion-brewing project use",
+      "source": "design-handoff:game-potion-brewing/S1-P-06",
+      "spec": { "format": "svg", "width": 58, "height": 205, "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp" },
+      "provenance": {
+        "method": "prototype-derived-programmatic-svg",
+        "originalFile": "docs/design/game-potion-brewing/prototype.dc.html",
+        "prototypeSha256": "899e7d57c8e69971c25aff204fa89f620339950cde9940bb86bc2353d1ed0894",
+        "humanArtPlatformReview": "pending"
+      }
+    },
+    {
+      "id": "potion/ingredient/moon-herb",
+      "type": "texture",
+      "description": "月露草：青绿色叶与微光露珠，原型原创材料插画",
+      "status": "filled",
+      "path": "/games/game-potion-brewing/art/textures/ingredient-moon-herb.svg",
+      "category": "potion.ingredient",
+      "tags": ["potion", "ingredient", "moon-herb", "prototype"],
+      "license": "Owner approved original S1-P-06 prototype illustration for game-potion-brewing project use",
+      "source": "design-handoff:game-potion-brewing/S1-P-06",
+      "spec": { "format": "svg", "width": 100, "height": 100, "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp" },
+      "provenance": { "method": "approved-prototype-extract", "originalFile": "docs/design/game-potion-brewing/prototype.dc.html", "prototypeSha256": "899e7d57c8e69971c25aff204fa89f620339950cde9940bb86bc2353d1ed0894", "approvalRecord": "docs/design/game-potion-brewing/art-approval-2026-10-14.md" }
+    },
+    {
+      "id": "potion/ingredient/silver-leaf",
+      "type": "texture",
+      "description": "银叶：白银色双叶与细脉，原型原创材料插画",
+      "status": "filled",
+      "path": "/games/game-potion-brewing/art/textures/ingredient-silver-leaf.svg",
+      "category": "potion.ingredient",
+      "tags": ["potion", "ingredient", "silver-leaf", "prototype"],
+      "license": "Owner approved original S1-P-06 prototype illustration for game-potion-brewing project use",
+      "source": "design-handoff:game-potion-brewing/S1-P-06",
+      "spec": { "format": "svg", "width": 100, "height": 100, "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp" },
+      "provenance": { "method": "approved-prototype-extract", "originalFile": "docs/design/game-potion-brewing/prototype.dc.html", "prototypeSha256": "899e7d57c8e69971c25aff204fa89f620339950cde9940bb86bc2353d1ed0894", "approvalRecord": "docs/design/game-potion-brewing/art-approval-2026-10-14.md" }
+    },
+    {
+      "id": "potion/ingredient/red-berry",
+      "type": "texture",
+      "description": "赤莓：三颗朱红果和绿叶，原型原创材料插画",
+      "status": "filled",
+      "path": "/games/game-potion-brewing/art/textures/ingredient-red-berry.svg",
+      "category": "potion.ingredient",
+      "tags": ["potion", "ingredient", "red-berry", "prototype"],
+      "license": "Owner approved original S1-P-06 prototype illustration for game-potion-brewing project use",
+      "source": "design-handoff:game-potion-brewing/S1-P-06",
+      "spec": { "format": "svg", "width": 100, "height": 100, "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp" },
+      "provenance": { "method": "approved-prototype-extract", "originalFile": "docs/design/game-potion-brewing/prototype.dc.html", "prototypeSha256": "899e7d57c8e69971c25aff204fa89f620339950cde9940bb86bc2353d1ed0894", "approvalRecord": "docs/design/game-potion-brewing/art-approval-2026-10-14.md" }
+    },
+    {
+      "id": "potion/ingredient/pepper-seed",
+      "type": "texture",
+      "description": "火椒籽：三枚暖色种荚与种子，原型原创材料插画",
+      "status": "filled",
+      "path": "/games/game-potion-brewing/art/textures/ingredient-pepper-seed.svg",
+      "category": "potion.ingredient",
+      "tags": ["potion", "ingredient", "pepper-seed", "prototype"],
+      "license": "Owner approved original S1-P-06 prototype illustration for game-potion-brewing project use",
+      "source": "design-handoff:game-potion-brewing/S1-P-06",
+      "spec": { "format": "svg", "width": 100, "height": 100, "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp" },
+      "provenance": { "method": "approved-prototype-extract", "originalFile": "docs/design/game-potion-brewing/prototype.dc.html", "prototypeSha256": "899e7d57c8e69971c25aff204fa89f620339950cde9940bb86bc2353d1ed0894", "approvalRecord": "docs/design/game-potion-brewing/art-approval-2026-10-14.md" }
+    },
+    {
+      "id": "potion/ingredient/dawn-petal",
+      "type": "texture",
+      "description": "晨光花瓣：金黄色四瓣花，原型原创材料插画",
+      "status": "filled",
+      "path": "/games/game-potion-brewing/art/textures/ingredient-dawn-petal.svg",
+      "category": "potion.ingredient",
+      "tags": ["potion", "ingredient", "dawn-petal", "prototype"],
+      "license": "Owner approved original S1-P-06 prototype illustration for game-potion-brewing project use",
+      "source": "design-handoff:game-potion-brewing/S1-P-06",
+      "spec": { "format": "svg", "width": 100, "height": 100, "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp" },
+      "provenance": { "method": "approved-prototype-extract", "originalFile": "docs/design/game-potion-brewing/prototype.dc.html", "prototypeSha256": "899e7d57c8e69971c25aff204fa89f620339950cde9940bb86bc2353d1ed0894", "approvalRecord": "docs/design/game-potion-brewing/art-approval-2026-10-14.md" }
+    }
+  ]
+}

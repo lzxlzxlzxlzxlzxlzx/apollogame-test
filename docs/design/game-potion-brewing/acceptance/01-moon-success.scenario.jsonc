@@ -1,0 +1,42 @@
+// author: GD /root/potion_s4_gd
+// 月露：唯一宿主配方直入；仅点错材料不提交；材料、双圈顺时针、银叶、逆时针依序成功。
+// 玩家动作名须与投料/搅拌 UI 的 action 对齐；终局信号只作被观察结果，不作为剧本输入。
+{
+  "name": "月露四步闭环：未提交选择无害，顺时针两圈后逆时针成功",
+  "game": "game-potion-brewing",
+  "seed": 101,
+  "config": { "fixture": "moon" },
+  "steps": [
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "active" }], "cap": 3 },
+    { "expect": [
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 0 },
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "confirmedCount" }, "eq": 0 }
+    ] },
+    { "signal": "brew.ui.inspect.red-berry" },
+    { "tick": 1 },
+    { "expect": [
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "active" },
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 0 }
+    ] },
+    { "signal": "brew.add.moon-herb" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 1 }], "cap": 3 },
+    { "signal": "brew.stir.clockwise" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "confirmedCount" }, "eq": 1 }], "cap": 3 },
+    { "expect": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 1 }] },
+    { "signal": "brew.stir.clockwise" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 2 }], "cap": 3 },
+    { "expect": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "confirmedCount" }, "eq": 0 }] },
+    { "signal": "brew.add.silver-leaf" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 3 }], "cap": 3 },
+    { "signal": "brew.stir.counterclockwise" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "success" }], "cap": 3 },
+    { "expect": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 4 }] },
+    // 终局只允许一次：后续动作不应再推进或反转。
+    { "signal": "brew.add.red-berry" },
+    { "tick": 1 },
+    { "expect": [
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "success" },
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 4 }
+    ] }
+  ]
+}

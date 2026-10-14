@@ -1,6 +1,6 @@
 # GAP-POTION-03 / G3 · DropZone 可选椭圆命中
 
-> 当前施工规格。Owner 于 2026-10-12 对 G1/G2/G3 选择 A；完整实查与 A/B 代价见 `../archive/requests-through-s2-2026-10-12.md`。尚未交付。
+> 历史施工规格，**G3 已于 2026-10-13 按炼药项目范围交付并从公共池释放**；权威当前判词见 [G1–G4 独立复查](../review/G1-G4-scoped-release-2026-10-13.md)。以下保留原验收规格，正式游戏投放另归 S4。
 
 - 施工主体：Codex/root（Owner 特许本地领工锁）；现有 `t2-drag-place` 能力的可选字段扩写，由主程施工并另请非施工者独立 review。
 - 几何：DropZone 增显式椭圆模式；缺省保持 AABB 逐字节行为。以区实体 Transform 中心与 Shape.width/height 经缩放得到半轴，归一化平方和 ≤1；半轴无效 fail-closed，不退化 box。候选依既有实体 ID 全序，不改 `drop-zone` Signal 来源、阶段或材料权威位置。锅口基线中心 `(760,423)`、半轴 `(123,53)`。

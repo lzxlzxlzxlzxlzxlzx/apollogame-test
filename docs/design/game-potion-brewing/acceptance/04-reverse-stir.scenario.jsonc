@@ -1,0 +1,27 @@
+// author: GD /root/potion_s4_gd
+// 月露第 2 步要求顺时针 2 圈：一个完整逆时针有效圈就是明确反向提交，必须失败。
+// 短弧、抖动、锅外释放没有形成上述具名动作，本机读剧本不伪造轨迹；由真浏览器手势测试另验。
+{
+  "name": "完整反向有效圈立即失败，而未提交动作无害",
+  "game": "game-potion-brewing",
+  "seed": 404,
+  "config": { "fixture": "moon" },
+  "steps": [
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "active" }], "cap": 3 },
+    { "signal": "brew.add.moon-herb" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 1 }], "cap": 3 },
+    { "signal": "brew.ui.inspect.silver-leaf" },
+    { "tick": 1 },
+    { "expect": [
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "active" },
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "confirmedCount" }, "eq": 0 }
+    ] },
+    { "signal": "brew.stir.counterclockwise" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "failure" }], "cap": 3 },
+    { "expect": [
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 1 },
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "failureExpected" }, "eq": "brew.stir.clockwise" },
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "lastAction" }, "eq": "brew.stir.counterclockwise" }
+    ] }
+  ]
+}

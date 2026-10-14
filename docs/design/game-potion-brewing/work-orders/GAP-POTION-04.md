@@ -1,6 +1,6 @@
 # GAP-POTION-04 / G4 · 通用材料拖动预览与回弹
 
-> 当前施工规格。G4 为 S2 独立复查后新发现缺口，Owner 随后单独选择 A；不是“全部 A”答复的外推。完整实查与 A/B 代价见 `../archive/requests-through-s2-2026-10-12.md`。尚未交付。
+> 历史施工规格，**G4 已于 2026-10-13 按炼药项目范围交付并从公共池释放**；权威当前判词见 [G1–G4 独立复查](../review/G1-G4-scoped-release-2026-10-13.md)。G4 曾由 Owner 单独选 A，非早前“全部 A”答复的外推；正式游戏的消费和视觉验收仍归 S4/S5。
 
 - 施工主体：Codex/root（Owner 特许本地领工锁）；输入壳层与 2D render 共享面，须主程归属/review。暂定 `t2-drag-preview`，并非已注册 API。默认关闭，仅配置预览槽的 Draggable 才出表现影像；材料实体和 G1 判定始终唯一权威，预览不可点击或投放。
 - 输入：复用 `PointerInputSource` 的 down/move/up 世界坐标；现有入口尚无 `pointercancel` 监听与活跃 `pointerId` 守卫，A 能力需在 opt-in 路径补 `pointercancel`、`lostpointercapture`、失焦清理，记录单活跃 pointerId 并拒第二指针，不伪称旧能力已具备。渲染用稳定 Sprite.textureKey/Frame/Color 槽。

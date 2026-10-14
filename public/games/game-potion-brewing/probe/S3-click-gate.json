@@ -1,0 +1,79 @@
+{
+  "slug": "game-potion-brewing",
+  "exit": 0,
+  "summary": "✓ 点击打穿（5 个控件 · 3 个动作真经 Engine.step · 4 个点后 DOM 变化 · 零控制台 error）",
+  "discoveredControls": 5,
+  "controls": 5,
+  "unattempted": [],
+  "changed": 4,
+  "engineMatched": 3,
+  "engineRequired": true,
+  "clickFailures": 0,
+  "hits": [
+    {
+      "id": "potion-material-select-dawn-petal",
+      "action": "brew.ui.inspect.dawn-petal",
+      "clicked": true,
+      "engineInput": true,
+      "changed": true,
+      "changedIds": [
+        "potion-current-label",
+        "potion-confirm-add"
+      ]
+    },
+    {
+      "id": "potion-confirm-add",
+      "action": "brew.add.dawn-petal",
+      "clicked": true,
+      "engineInput": true,
+      "changed": true,
+      "changedIds": [
+        "potion-recipe-progress",
+        "potion-title-stage",
+        "potion-current-label",
+        "potion-confirm-add",
+        "potion-result-empty",
+        "potion-result"
+      ]
+    },
+    {
+      "id": "potion-result-restart",
+      "action": "brew.ui.restart",
+      "clicked": true,
+      "engineInput": false,
+      "changed": true,
+      "changedIds": [
+        "potion-recipe-progress",
+        "potion-title-stage",
+        "potion-current-label",
+        "potion-result",
+        "potion-result-title",
+        "potion-result-body"
+      ]
+    },
+    {
+      "id": "potion-material-select-red-berry",
+      "action": "brew.ui.inspect.red-berry",
+      "clicked": true,
+      "engineInput": true,
+      "changed": true,
+      "changedIds": [
+        "potion-current-label",
+        "potion-confirm-add"
+      ]
+    },
+    {
+      "id": "potion-material-select-moon-herb",
+      "action": "brew.ui.inspect.moon-herb",
+      "clicked": true,
+      "engineInput": true,
+      "changed": false,
+      "changedIds": []
+    }
+  ],
+  "bindWiring": {
+    "ok": true,
+    "detail": "未用 props.bind"
+  },
+  "consoleErrors": []
+}

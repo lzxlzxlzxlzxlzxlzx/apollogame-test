@@ -1,0 +1,397 @@
+{
+  "version": 1,
+  "slug": "game-potion-brewing",
+  "concept": {
+    "name": "坩埚炼药",
+    "pitch": "DokiWorld 指定唯一公开配方，玩家按序投料并沿锅口搅拌，正确炼成药剂；明确错误立即失败。",
+    "refs": "docs/design/game-potion-brewing/prototype.dc.html;S1-P-06",
+    "style": "1440x900 透明三栏炼药台"
+  },
+  "signoffs": {
+    "S1": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-10-13T04:06:36.457Z"
+    },
+    "S2": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-10-13T04:06:49.895Z"
+    },
+    "S3": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-10-13T04:07:05.912Z"
+    },
+    "S4": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-10-13T10:55:00.670Z"
+    },
+    "S5": {
+      "by": "owner",
+      "note": "ok'",
+      "at": "2026-10-13T14:04:38.998Z"
+    }
+  },
+  "evidence": {
+    "S2": {
+      "exit": 0,
+      "summary": "capability-plan.md 在档 · ✓ 缺口 5 条全已裁决 · 全部了结",
+      "at": "2026-10-13T11:48:38.783Z",
+      "gameHash": "35b6fc9128549795"
+    },
+    "S3": {
+      "exit": 0,
+      "summary": "编译期游戏免 manifest 校验 · ✓ 渲染探针过（截图 public/games/<slug>/probe/S3-render.png） · ✓ 点击打穿（5 个控件 · 3 个动作真经 Engine.step · 4 个点后 DOM 变化 · 零控制台 error）",
+      "at": "2026-10-13T11:58:40.172Z",
+      "gameHash": "35b6fc9128549795"
+    },
+    "S4": {
+      "exit": 0,
+      "summary": "walkthrough 绿（ Test Files  2 passed (2) ·       Tests  8 passed (8)）· 验收剧本 5 场景绿 · ✓ UI 走查过·可驱动率 12%",
+      "at": "2026-10-13T12:03:12.285Z",
+      "gameHash": "35b6fc9128549795"
+    },
+    "S5": {
+      "exit": 0,
+      "summary": "AUDIT: WARNINGS · RATCHET: PASS · ⚠ 无标准照基准·未比对（golden-shot bless 建基准）",
+      "at": "2026-10-13T12:16:56.237Z",
+      "gameHash": "35b6fc9128549795"
+    }
+  },
+  "history": [
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T03:06:32.581Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T03:10:45.716Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "CONCERNS",
+      "at": "2026-10-13T03:11:16.021Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T03:13:10.514Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-10-13T03:13:19.965Z"
+    },
+    {
+      "action": "concept",
+      "at": "2026-10-13T03:14:03.415Z"
+    },
+    {
+      "action": "out-of-order",
+      "stage": "S3",
+      "reason": "S1-P-06 与 S2 已由 Owner 在项目路线图控制台批准，编译期流程板晚于批准建立；S2 机器门及独立复查 PASS，本次仅跑 S3 机器门，不代签流程板人门。",
+      "at": "2026-10-13T03:14:24.889Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-10-13T03:14:43.449Z"
+    },
+    {
+      "action": "out-of-order",
+      "stage": "S3",
+      "reason": "S1-P-06 与 S2 已由 Owner 在项目路线图控制台批准，编译期流程板晚于批准建立；S2 机器门及独立复查 PASS，本次仅跑 S3 机器门，不代签流程板人门。",
+      "at": "2026-10-13T03:15:18.377Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T03:15:30.840Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T03:20:54.379Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-10-13T03:21:02.450Z"
+    },
+    {
+      "action": "out-of-order",
+      "stage": "S3",
+      "reason": "S1-P-06 与 S2 已由 Owner 在项目路线图控制台批准，流程板晚建未代签；S2 最终规格机器门及非施工者复查 PASS，本次仅核 S3 骨架。",
+      "at": "2026-10-13T03:21:32.220Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T03:21:44.419Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T03:25:59.269Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-10-13T03:26:08.243Z"
+    },
+    {
+      "action": "out-of-order",
+      "stage": "S3",
+      "reason": "Owner 已在项目控制台通过 S1/S2；流程板后建、未代签流程板 Owner 人门；本次只验 S3 骨架",
+      "at": "2026-10-13T03:26:35.035Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T03:26:47.217Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-10-13T03:32:27.278Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S1",
+      "at": "2026-10-13T04:06:36.457Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S2",
+      "at": "2026-10-13T04:06:40.039Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S2",
+      "at": "2026-10-13T04:06:42.558Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S2",
+      "at": "2026-10-13T04:06:49.895Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T04:06:51.367Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T04:06:52.591Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S3",
+      "at": "2026-10-13T04:07:05.912Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T09:13:16.604Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T09:29:17.531Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T09:39:39.354Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-10-13T09:43:25.724Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T09:47:01.371Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-10-13T10:25:39.804Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-10-13T10:28:49.521Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-10-13T10:39:27.568Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S4",
+      "at": "2026-10-13T10:55:00.670Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T11:38:32.855Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T11:48:38.783Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-10-13T11:50:02.529Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T11:52:16.820Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T11:58:40.172Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-10-13T12:02:11.586Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-10-13T12:03:12.285Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-10-13T12:15:18.116Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-10-13T12:16:56.237Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "PASS",
+      "at": "2026-10-13T12:36:36.210Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S5",
+      "at": "2026-10-13T14:04:38.998Z"
+    }
+  ],
+  "reviews": {
+    "S2": {
+      "verdict": "PASS",
+      "note": "S5 外观换皮不改 S2 能力/规则契约：capability-plan.md:14-25 注册实名，screen.ts:18-27 仅 LayoutNode 颜色；blueprint.ts:26-29,95-106 规则接线未变。当前 hash 35b6fc9128549795，S2 gate exit 0；独立 Vitest 12/12；G5 内存锚点撤修使 S2 ok→warn 且 S4 锁回。S6 正式素材未批准，详 review/S2-S5-stale-recheck-2026-10-13.md。",
+      "by": "/root/s5_prior_review",
+      "at": "2026-10-13T11:50:02.529Z",
+      "gameHash": "35b6fc9128549795",
+      "gapsHash": "5361711f44a83e70"
+    },
+    "S3": {
+      "verdict": "PASS",
+      "note": "S5 换皮后 S3 骨架无回归：当前 gameHash 35b6fc9128549795，独立 S3 gate exit 0、真渲染方差 6798.68/阈值15、console/page error 0；blueprint+screen 8/8 PASS。blueprint.ts:21-45,70-108 组件均由 capability-plan.md:14-36 解释；screen.ts:18-27 只改外观。内存锚点撤修 1 处 ordered-action 能力使会话 active→missing；详 review/S3-S5-stale-recheck-2026-10-13.md。",
+      "by": "/root/s5_prior_review",
+      "at": "2026-10-13T12:02:11.586Z",
+      "gameHash": "35b6fc9128549795"
+    },
+    "S4": {
+      "verdict": "PASS",
+      "note": "S5 换皮后新指纹 35b6fc9128549795 独立复查：GD 验收 5/5（12/9/4/5/12）、Vitest 8/8、隔离真浏览器 12 帧零错误且触屏/成败重开/退出实操；内存锚定库存扣减撤修 2→1 变 2→2 验红，重复哈希 62f6aba2。旧 S4 图仅历史结构基线，新 S5 图及本轮截图代表当前皮肤；UI DOM 可驱动率 12% 不作玩法通过率，正式美术留 S6。证据 review/S4-S5-stale-recheck-2026-10-13.md",
+      "by": "/root/s5_prior_review",
+      "at": "2026-10-13T12:15:18.116Z",
+      "gameHash": "35b6fc9128549795"
+    },
+    "S5": {
+      "verdict": "PASS",
+      "note": "当前指纹 35b6fc9128549795 独立 S5 UI 复查：check-ui 三屏审计各 exit 0，重叠/硬软低对比/border-image 均 0；LayoutNode 与组件 535/535，内存定点对比撤修 ratio 1:1 触发 exit 1；当前皮肤隔离浏览器 12 帧零错误且成败重开、退出真点。S4 冻结版位无漂；无 blessed golden/正式美术台账，house 静态识别与结果朴素提示已读；S5 对齐 #7-8 正式资产/富屏差异留 S6 及 Owner 裁决。证据 review/S5-independent-2026-10-13.md",
+      "by": "/root/s5_prior_review",
+      "at": "2026-10-13T12:36:36.210Z",
+      "gameHash": "35b6fc9128549795"
+    }
+  },
+  "outOfOrder": [
+    {
+      "stage": "S3",
+      "reason": "S1-P-06 与 S2 已由 Owner 在项目路线图控制台批准，编译期流程板晚于批准建立；S2 机器门及独立复查 PASS，本次仅跑 S3 机器门，不代签流程板人门。",
+      "at": "2026-10-13T03:14:24.889Z"
+    },
+    {
+      "stage": "S3",
+      "reason": "S1-P-06 与 S2 已由 Owner 在项目路线图控制台批准，编译期流程板晚于批准建立；S2 机器门及独立复查 PASS，本次仅跑 S3 机器门，不代签流程板人门。",
+      "at": "2026-10-13T03:15:18.377Z"
+    },
+    {
+      "stage": "S3",
+      "reason": "S1-P-06 与 S2 已由 Owner 在项目路线图控制台批准，流程板晚建未代签；S2 最终规格机器门及非施工者复查 PASS，本次仅核 S3 骨架。",
+      "at": "2026-10-13T03:21:32.220Z"
+    },
+    {
+      "stage": "S3",
+      "reason": "Owner 已在项目控制台通过 S1/S2；流程板后建、未代签流程板 Owner 人门；本次只验 S3 骨架",
+      "at": "2026-10-13T03:26:35.035Z"
+    }
+  ],
+  "selfCheck": {
+    "S4": {
+      "at": "2026-10-13T12:03:12.285Z",
+      "shots": 24,
+      "gameHash": "35b6fc9128549795"
+    },
+    "S5": {
+      "at": "2026-10-13T12:16:56.237Z",
+      "shots": 24,
+      "gameHash": "35b6fc9128549795"
+    }
+  }
+}
