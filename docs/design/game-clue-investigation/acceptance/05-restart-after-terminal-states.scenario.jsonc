@@ -1,0 +1,114 @@
+// author: GD
+// S4 条款：完成与主动取消都可由玩家可见“重新调查”重开；新局不得继承上一局的查看、收录、进度或退出意图。
+// UI 对账：investigation.restart 须同时出现在 completed 与 cancelled 终态，重开后现场热点仍可继续调查。
+// 对抗目标：只重置 GameFlow 而未重置资源/Flag，或终态出口只是装饰，都应由下列逐项断言转红。
+{
+  "name": "完成与取消均可重开且清空本局状态",
+  "game": "game-clue-investigation",
+  "seed": 4105,
+  "steps": [
+    // 先让四个普通查看与三项收录实际发生，避免只检查本来就是 false 的空状态。
+    { "signal": "investigate.shelf" },
+    { "waitUntil": [ { "flag": "viewed.shelf", "eq": true } ], "cap": 30 },
+    { "signal": "investigation.close" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 30 },
+    { "signal": "investigate.clock" },
+    { "waitUntil": [ { "flag": "viewed.clock", "eq": true } ], "cap": 30 },
+    { "signal": "investigation.close" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 30 },
+    { "signal": "investigate.cup" },
+    { "waitUntil": [ { "flag": "viewed.cup", "eq": true } ], "cap": 30 },
+    { "signal": "investigation.close" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 30 },
+    { "signal": "investigate.rug" },
+    { "waitUntil": [ { "flag": "viewed.rug", "eq": true } ], "cap": 30 },
+    { "signal": "investigation.close" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 30 },
+    { "signal": "investigate.letter" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "clue-reveal" } ], "cap": 30 },
+    { "signal": "clue.collect" },
+    { "waitUntil": [ { "flag": "collected.letter", "eq": true } ], "cap": 30 },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 180 },
+    { "signal": "investigate.lock" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "clue-reveal" } ], "cap": 30 },
+    { "signal": "clue.collect" },
+    { "waitUntil": [ { "res": "required-collected", "eq": 1 } ], "cap": 30 },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 180 },
+    { "signal": "investigate.prints" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "clue-reveal" } ], "cap": 30 },
+    { "signal": "clue.collect" },
+    { "waitUntil": [ { "res": "required-collected", "eq": 2 } ], "cap": 30 },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "completed" } ], "cap": 180 },
+    { "expect": [
+      { "flag": "viewed.shelf", "eq": true },
+      { "flag": "viewed.clock", "eq": true },
+      { "flag": "viewed.cup", "eq": true },
+      { "flag": "viewed.rug", "eq": true },
+      { "flag": "collected.letter", "eq": true },
+      { "flag": "collected.lock", "eq": true },
+      { "flag": "collected.prints", "eq": true },
+      { "flag": "complete-ready", "eq": true }
+    ] },
+
+    // 完成态唯一出口必须真重开：世界回 idle，进度、所有对象标记及演出锁均归初始。
+    { "signal": "investigation.restart" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 30 },
+    { "expect": [
+      { "res": "required-collected", "eq": 0 },
+      { "res": "required-total", "eq": 2 },
+      { "res": "selected-object", "eq": 0 },
+      { "flag": "viewed.lock", "eq": false },
+      { "flag": "viewed.shelf", "eq": false },
+      { "flag": "viewed.clock", "eq": false },
+      { "flag": "viewed.cup", "eq": false },
+      { "flag": "viewed.rug", "eq": false },
+      { "flag": "viewed.prints", "eq": false },
+      { "flag": "viewed.letter", "eq": false },
+      { "flag": "collected.lock", "eq": false },
+      { "flag": "collected.prints", "eq": false },
+      { "flag": "collected.letter", "eq": false },
+      { "flag": "interaction-enabled", "eq": true },
+      { "flag": "clue-reveal-open", "eq": false },
+      { "flag": "collection-committed", "eq": false },
+      { "flag": "complete-ready", "eq": false },
+      { "flag": "exit-requested", "eq": false },
+      { "flag": "cancelled", "eq": false }
+    ] },
+    // 新局不是只换了画面：热点仍能工作。
+    { "signal": "investigate.shelf" },
+    { "waitUntil": [
+      { "flag": "viewed.shelf", "eq": true },
+      { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "flavor-result" }
+    ], "cap": 30 },
+    { "signal": "investigation.close" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 30 },
+
+    // 同一局再走取消分支；重开后也须消掉取消意图与上一轮已查看标记。
+    { "signal": "investigation.exit" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "exit-confirm" } ], "cap": 30 },
+    { "signal": "investigation.cancel" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "cancelled" } ], "cap": 30 },
+    { "expect": [
+      { "flag": "exit-requested", "eq": true },
+      { "flag": "cancelled", "eq": true },
+      { "flag": "viewed.shelf", "eq": true }
+    ] },
+    { "signal": "investigation.restart" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 30 },
+    { "expect": [
+      { "res": "required-collected", "eq": 0 },
+      { "res": "selected-object", "eq": 0 },
+      { "flag": "viewed.shelf", "eq": false },
+      { "flag": "collected.lock", "eq": false },
+      { "flag": "interaction-enabled", "eq": true },
+      { "flag": "complete-ready", "eq": false },
+      { "flag": "exit-requested", "eq": false },
+      { "flag": "cancelled", "eq": false }
+    ] },
+    { "signal": "investigate.lock" },
+    { "waitUntil": [
+      { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "clue-reveal" },
+      { "flag": "viewed.lock", "eq": true }
+    ], "cap": 30 }
+  ]
+}

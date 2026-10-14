@@ -22,31 +22,67 @@
       "by": "owner",
       "note": "ok",
       "at": "2026-10-13T02:25:34.480Z"
+    },
+    "S4": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-10-13T08:37:28.586Z"
+    },
+    "S5": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-10-13T10:29:29.574Z"
     }
   },
   "evidence": {
     "S3": {
       "exit": 0,
-      "summary": "parse+引擎装载（load+2tick）零 error · ✓ 渲染探针过（截图 public/games/<slug>/probe/S3-render.png） · ✓ Canvas 点击打穿（3 个候选 · 1 个具名 Signal 真入世界 · 零控制台 error）",
-      "at": "2026-10-12T18:43:16.709Z",
-      "gameHash": "56754c65a5efd2b6"
+      "summary": "parse+引擎装载（load+2tick）零 error · ✓ 渲染探针过（截图 public/games/<slug>/probe/S3-render.png） · ✓ Canvas 点击打穿（14 个候选 · 2 个具名 Signal 真入世界 · mask透明反例 2 个 · 零控制台 error）",
+      "at": "2026-10-13T13:09:36.322Z",
+      "gameHash": "12157d544b66554b"
+    },
+    "S4": {
+      "exit": 0,
+      "summary": "bench 五轴 score=95 · 验收剧本 5 场景绿 · ✓ UI 走查过·可驱动率 100%",
+      "at": "2026-10-13T10:09:04.749Z",
+      "gameHash": "ca2c25d386490316"
+    },
+    "S5": {
+      "exit": 0,
+      "summary": "纯数据卡带免审计 · ⚠ 无标准照基准·未比对（golden-shot bless 建基准）",
+      "at": "2026-10-13T10:19:29.645Z",
+      "gameHash": "ca2c25d386490316"
     }
   },
   "reviews": {
     "S2": {
       "verdict": "CONCERNS",
-      "note": "技术核证：14/14 capability 在 src/skills 实名；2/2 gap delivered；游戏层例外 0；capability-plan.md §4.5 有美术接入。独立复跑 8 files/120 tests PASS；clickable.ts:168 唯一锚点撤修得 1 failed/12 skipped，恢复得 1 passed/12 skipped；DOCS-REF PASS。范围审计限制：本作设计目录仍为 untracked，git diff --stat 无法归属既往 S2 施工文件，故不宣称范围 PASS。既有复查详情：review/S2-independent.md。",
-      "by": "/root/s2_pipeline_review",
-      "at": "2026-10-12T17:40:31.832Z",
-      "gameHash": "56754c65a5efd2b6",
-      "gapsHash": "1c0d4f3cac362aff"
+      "note": "S6正式接图独立复查：12能力实名与纯数据解释器核实；本游戏20/20、正式live多视口42 alpha断言通过；Sprite/asset槽与同源mask成立，隔离唯一锚点rug contain撤成cover为1失败/10通过。保留既有j1-state计划与Resource实现偏差CONCERNS；非S6批准。导航 docs/design/game-clue-investigation/review/S6-formal-independent.md",
+      "by": "s6_asset_candidate_review",
+      "at": "2026-10-13T12:48:47.228Z",
+      "gameHash": "12157d544b66554b",
+      "gapsHash": "da9882a2f6910af5"
     },
     "S3": {
       "verdict": "PASS",
-      "note": "独立返修复核 PASS：REQ-S3CLICK 第一轮 game108 engine.start 断线假绿已关闭；同一唯一锚点停运行环后 click-probe exit1，恢复后 SHA256 原样且正常 game108 8 控件/2 Engine.step 动作 exit0；GCI Canvas 指针撤修 exit1/恢复 exit0。manifest-check 8 显式能力 warnings[]、S3 skeleton 4/4、点击关联 41/41；S3-render 真灰盒非启动器。仅 S3 骨架，不覆盖 S4/S5 PNG 实形/玩法；详 docs/design/game-clue-investigation/review/REQ-S3CLICK-independent.md。Owner 人门未动。",
-      "by": "/root/s3click_independent_review",
-      "at": "2026-10-12T18:45:24.064Z",
-      "gameHash": "56754c65a5efd2b6"
+      "note": "S5返修后异人重新核：当前manifest严格parse/load/2tick warnings[]；本游戏9/9、先前本轮UI+host/clickable560通过；独立真浏览器22图，键鼠触控入世界并闭环，输入纯Signal/LayoutNode无游戏逃生。S3新机器门hash ca2c25d386490316已核；S2计划文档既有CONCERNS保留，S6灰盒素材不冒称完成。详review/S5-independent-2026-10-13.md。",
+      "by": "/root/s5_independent_review",
+      "at": "2026-10-13T10:06:58.609Z",
+      "gameHash": "ca2c25d386490316"
+    },
+    "S4": {
+      "verdict": "PASS",
+      "note": "S5 UI返修冻结版前置重核：独立GD5/5共67检查点、游戏9/9、真实浏览器22图含普通调查/首次收录/完成取消重开再玩，确定性与幂等断言通过。唯一effect-lock-count锚点1，内存value1→0使真实GD第2剧本step5/9/12期望1实际0转FAIL，原数据复跑PASS。当前S4机器门ca2c25d386490316新鲜；S5/S6观感另审。详review/S5-independent-2026-10-13.md。",
+      "by": "/root/s5_independent_review",
+      "at": "2026-10-13T10:13:19.888Z",
+      "gameHash": "ca2c25d386490316"
+    },
+    "S5": {
+      "verdict": "CONCERNS",
+      "note": "异人首轮FAIL已返修：恢复S4继续/收录/影像槽几何，真实稳定态包围盒复验；72文件560测试、GD5/5·67、独立14轮七态深亮审计均0、22图真浏览器闭环/键鼠触控/reduce0s。唯一标题锚点1内存撤色真实ui-audit exit1 ratio1，正常版复绿；另测240ms入场归位不重复。保留CONCERNS：无S5前完整manifest diff基线、S6实图/框皮/最终1:1尚未交付，不代审素材。详review/S5-independent-2026-10-13.md。",
+      "by": "/root/s5_independent_review",
+      "at": "2026-10-13T10:20:51.623Z",
+      "gameHash": "ca2c25d386490316"
     }
   },
   "history": [
@@ -134,6 +170,130 @@
       "action": "signoff",
       "stage": "S1",
       "at": "2026-10-13T02:25:34.480Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "CONCERNS",
+      "at": "2026-10-13T05:40:13.178Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T06:26:25.270Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-10-13T06:43:12.493Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-10-13T06:47:13.823Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "CONCERNS",
+      "at": "2026-10-13T07:03:30.813Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-10-13T08:17:09.504Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-10-13T08:27:59.156Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S4",
+      "at": "2026-10-13T08:37:28.586Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "CONCERNS",
+      "at": "2026-10-13T09:43:42.184Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T09:46:24.029Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "CONCERNS",
+      "at": "2026-10-13T10:01:58.559Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T10:04:30.934Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-10-13T10:06:58.609Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-10-13T10:09:04.749Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-10-13T10:13:19.888Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-10-13T10:19:29.645Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "CONCERNS",
+      "at": "2026-10-13T10:20:51.623Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S5",
+      "at": "2026-10-13T10:29:29.574Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "CONCERNS",
+      "at": "2026-10-13T12:48:47.228Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-10-13T12:49:06.306Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T13:09:36.322Z"
     }
   ],
   "outOfOrder": [
@@ -157,5 +317,17 @@
       "reason": "项目路线图 S1/S2 已由 Owner 批准；游戏 pipeline S1/S2 人门未同步；S2 独立复查 CONCERNS 已登记。2026-10-13 修复 DOM Engine.step 假绿并完成 Canvas 真实点击后复跑。",
       "at": "2026-10-12T18:43:02.612Z"
     }
-  ]
+  ],
+  "selfCheck": {
+    "S4": {
+      "at": "2026-10-13T10:09:04.749Z",
+      "shots": 43,
+      "gameHash": "ca2c25d386490316"
+    },
+    "S5": {
+      "at": "2026-10-13T10:19:29.645Z",
+      "shots": 43,
+      "gameHash": "ca2c25d386490316"
+    }
+  }
 }

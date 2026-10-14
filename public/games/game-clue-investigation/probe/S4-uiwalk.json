@@ -1,0 +1,799 @@
+{
+  "slug": "game-clue-investigation",
+  "at": "2026-10-13T10:09:04.708Z",
+  "gameHash": "ca2c25d386490316",
+  "ok": true,
+  "form": "cart",
+  "uiDrivableRate": 1,
+  "totalSummary": {
+    "signalSteps": 42,
+    "drivenSteps": 42,
+    "tickSteps": 0,
+    "waitUntilSteps": 49,
+    "expectSteps": 18,
+    "uiDrivableRate": 1
+  },
+  "scenarios": [
+    {
+      "name": "普通物件可调查但不推进必需线索",
+      "file": "01-flavor-does-not-progress.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "investigate.shelf",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-shelf"
+        },
+        {
+          "step": 2,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 3,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 4,
+          "kind": "signal",
+          "signal": "investigation.close",
+          "driven": true
+        },
+        {
+          "step": 5,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 6,
+          "kind": "signal",
+          "signal": "investigate.clock",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-clock"
+        },
+        {
+          "step": 7,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 8,
+          "kind": "signal",
+          "signal": "investigation.close",
+          "driven": true
+        },
+        {
+          "step": 9,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 10,
+          "kind": "signal",
+          "signal": "investigate.cup",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-cup"
+        },
+        {
+          "step": 11,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 12,
+          "kind": "signal",
+          "signal": "investigation.close",
+          "driven": true
+        },
+        {
+          "step": 13,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 14,
+          "kind": "signal",
+          "signal": "investigate.rug",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-rug"
+        },
+        {
+          "step": 15,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 16,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 17,
+        "signalSteps": 7,
+        "drivenSteps": 7,
+        "tickSteps": 0,
+        "waitUntilSteps": 7,
+        "expectSteps": 3,
+        "uiDrivableRate": 1
+      }
+    },
+    {
+      "name": "必需窗锁首次收录且重复回看幂等",
+      "file": "02-required-first-and-revisit.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "investigate.lock",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-lock"
+        },
+        {
+          "step": 2,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 3,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 4,
+          "kind": "signal",
+          "signal": "clue.collect",
+          "driven": true
+        },
+        {
+          "step": 5,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 6,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 7,
+          "kind": "signal",
+          "signal": "investigate.lock",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-lock"
+        },
+        {
+          "step": 8,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 9,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 10,
+          "kind": "signal",
+          "signal": "investigation.close",
+          "driven": true
+        },
+        {
+          "step": 11,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 12,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 13,
+        "signalSteps": 4,
+        "drivenSteps": 4,
+        "tickSteps": 0,
+        "waitUntilSteps": 5,
+        "expectSteps": 4,
+        "uiDrivableRate": 1
+      }
+    },
+    {
+      "name": "可选线索不推进且两条必需线索闭合完成",
+      "file": "03-optional-and-completion.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "investigate.letter",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-letter"
+        },
+        {
+          "step": 2,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 3,
+          "kind": "signal",
+          "signal": "clue.collect",
+          "driven": true
+        },
+        {
+          "step": 4,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 5,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 6,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 7,
+          "kind": "signal",
+          "signal": "investigate.lock",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-lock"
+        },
+        {
+          "step": 8,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 9,
+          "kind": "signal",
+          "signal": "clue.collect",
+          "driven": true
+        },
+        {
+          "step": 10,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 11,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 12,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 13,
+          "kind": "signal",
+          "signal": "investigate.prints",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-prints"
+        },
+        {
+          "step": 14,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 15,
+          "kind": "signal",
+          "signal": "clue.collect",
+          "driven": true
+        },
+        {
+          "step": 16,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 17,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 18,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 19,
+        "signalSteps": 6,
+        "drivenSteps": 6,
+        "tickSteps": 0,
+        "waitUntilSteps": 9,
+        "expectSteps": 4,
+        "uiDrivableRate": 1
+      }
+    },
+    {
+      "name": "退出确认可返回且确认退出只取消",
+      "file": "04-cancel-is-not-failure.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "investigation.exit",
+          "driven": true
+        },
+        {
+          "step": 2,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 3,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 4,
+          "kind": "signal",
+          "signal": "investigation.stay",
+          "driven": true
+        },
+        {
+          "step": 5,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 6,
+          "kind": "signal",
+          "signal": "investigation.exit",
+          "driven": true
+        },
+        {
+          "step": 7,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 8,
+          "kind": "signal",
+          "signal": "investigation.cancel",
+          "driven": true
+        },
+        {
+          "step": 9,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 10,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 11,
+        "signalSteps": 4,
+        "drivenSteps": 4,
+        "tickSteps": 0,
+        "waitUntilSteps": 4,
+        "expectSteps": 3,
+        "uiDrivableRate": 1
+      }
+    },
+    {
+      "name": "完成与取消均可重开且清空本局状态",
+      "file": "05-restart-after-terminal-states.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "signal",
+          "signal": "investigate.shelf",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-shelf"
+        },
+        {
+          "step": 1,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 2,
+          "kind": "signal",
+          "signal": "investigation.close",
+          "driven": true
+        },
+        {
+          "step": 3,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 4,
+          "kind": "signal",
+          "signal": "investigate.clock",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-clock"
+        },
+        {
+          "step": 5,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 6,
+          "kind": "signal",
+          "signal": "investigation.close",
+          "driven": true
+        },
+        {
+          "step": 7,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 8,
+          "kind": "signal",
+          "signal": "investigate.cup",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-cup"
+        },
+        {
+          "step": 9,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 10,
+          "kind": "signal",
+          "signal": "investigation.close",
+          "driven": true
+        },
+        {
+          "step": 11,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 12,
+          "kind": "signal",
+          "signal": "investigate.rug",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-rug"
+        },
+        {
+          "step": 13,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 14,
+          "kind": "signal",
+          "signal": "investigation.close",
+          "driven": true
+        },
+        {
+          "step": 15,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 16,
+          "kind": "signal",
+          "signal": "investigate.letter",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-letter"
+        },
+        {
+          "step": 17,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 18,
+          "kind": "signal",
+          "signal": "clue.collect",
+          "driven": true
+        },
+        {
+          "step": 19,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 20,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 21,
+          "kind": "signal",
+          "signal": "investigate.lock",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-lock"
+        },
+        {
+          "step": 22,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 23,
+          "kind": "signal",
+          "signal": "clue.collect",
+          "driven": true
+        },
+        {
+          "step": 24,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 25,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 26,
+          "kind": "signal",
+          "signal": "investigate.prints",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-prints"
+        },
+        {
+          "step": 27,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 28,
+          "kind": "signal",
+          "signal": "clue.collect",
+          "driven": true
+        },
+        {
+          "step": 29,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 30,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 31,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 32,
+          "kind": "signal",
+          "signal": "investigation.restart",
+          "driven": true
+        },
+        {
+          "step": 33,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 34,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 35,
+          "kind": "signal",
+          "signal": "investigate.shelf",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-shelf"
+        },
+        {
+          "step": 36,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 37,
+          "kind": "signal",
+          "signal": "investigation.close",
+          "driven": true
+        },
+        {
+          "step": 38,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 39,
+          "kind": "signal",
+          "signal": "investigation.exit",
+          "driven": true
+        },
+        {
+          "step": 40,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 41,
+          "kind": "signal",
+          "signal": "investigation.cancel",
+          "driven": true
+        },
+        {
+          "step": 42,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 43,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 44,
+          "kind": "signal",
+          "signal": "investigation.restart",
+          "driven": true
+        },
+        {
+          "step": 45,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 46,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 47,
+          "kind": "signal",
+          "signal": "investigate.lock",
+          "driven": true,
+          "gesture": "canvas",
+          "entity": "object-lock"
+        },
+        {
+          "step": 48,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 49,
+        "signalSteps": 21,
+        "drivenSteps": 21,
+        "tickSteps": 0,
+        "waitUntilSteps": 24,
+        "expectSteps": 4,
+        "uiDrivableRate": 1
+      }
+    }
+  ],
+  "assertions": {
+    "consoleErrors": {
+      "pass": true,
+      "count": 0,
+      "messages": []
+    },
+    "noUncaught": {
+      "pass": true,
+      "count": 0,
+      "messages": []
+    }
+  },
+  "browser": {
+    "execPath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "via": "installed"
+  }
+}

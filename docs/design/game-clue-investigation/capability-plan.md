@@ -28,6 +28,10 @@ DokiWorld 提供一张静态调查现场和有序对象数据；玩家以鼠标�
 | `t2-text-binding` | 将 `required-collected / required-total` 投影为 HUD 数字；文字模板不承担完成判定。 | ✅ 现有 |
 | `GCI-S2-01` | 可数据声明的透明 PNG alpha hit-mask。 | ✅ Owner 已选 A；`REQ-ENG-ALPHA-HIT-MASK` 已施工且独立复查 PASS，证据见 `review/REQ-ENG-ALPHA-HIT-MASK-independent.md`。 |
 | `GCI-S2-02` | 将 DokiWorld 单次启动传入的动态 HTTPS PNG 与宿主预烘焙二值 mask 安全桥接为渲染 key 与可点击 mask key。 | ✅ Owner 已选 A；`REQ-ENG-HOST-VISUAL-HIT-MASK` 已施工且独立复查 PASS。 |
+| `GCI-S6-ART-BRIDGE-01` | 卡带本地 AssetIndex 预载并绑定 Sprite/mask；UI `asset:<texture id>` 由同源 skinMap 解析。 | ✅ Owner A；共享桥功能独立复查局部 PASS，整单 CONCERNS 见 `review/REQ-GCI-CART-ART-BRIDGE.md`；正式游戏验收另行执行。 |
+| `GCI-S6-UI-02` | 共享 LayoutNode 的受限弹窗内框、背景模糊、顶部裁切与按钮字号字重；不新增世界 system。 | 共享独立PASS，见 `review/GCI-S6-UI-02.md`；游戏消费验收另行执行，遮罩0.9。 |
+| `GCI-S6-UI-03` | Label行高/字重、Panel边框、热点标签位置字号与每对象反馈色；不修改世界与命中几何。 | 共享独立局部PASS：`review/GCI-S6-UI-03-independent.md`；游戏消费未完成。 |
+| `GCI-S6-UI-04` | 受限字体、框边焦点、同源反馈精度与dialog整体入场；不修改世界时序。 | 共享独立局部PASS：`review/GCI-S6-UI-04-independent.md`；游戏消费未完成。 |
 
 不消费随机、战斗、AI、卡牌、寻路或存档能力；首版无任何随机规则，故不创建 `RandomSeed` 作为伪装性接入。
 
@@ -54,14 +58,17 @@ DokiWorld 提供一张静态调查现场和有序对象数据；玩家以鼠标�
 ## 4.5 美术接入
 
 - 皮肤槽：`scene/background`、每个 `object/<objectId>/scene`、每个 clue 的 `object/<objectId>/evidence`、HUD/印章/按钮的主题皮肤槽；正式实体消费 `Sprite.textureKey`/`skinKey`，均须优先通过本地 `skinMap`/资产索引解析，硬编码路径只允许作回退。
-- 原型的八张 AI 图仅是定稿设计参考，尚未登记为生产资产；S6 由资产管理线将已审批素材进入游戏本地索引和 `art-ledger.json`，每一行必须回指上述真实消费槽，禁止孤儿。
+- Owner 已确认原型八张 AI 图正式使用及来源许可；资产管理线已登记 `library/game-clue-investigation/art/index.json` 的八张生产 PNG 与七份同源 threshold=150 mask。背景 key 为 `game-clue-investigation/scene/background`，物件及证物共用 `game-clue-investigation/object/<id>`，mask 为 `game-clue-investigation/mask/<id>`。引用共用不复制资产；台账每行必须回指真实消费槽，禁止孤儿与代签逐行审批。
+- 原型物件使用 contain、背景 cover，维持既定 1440×900 位置与框尺寸；mask 从最终缩图字节烘焙。在线/预览/内联均由通用卡带资产桥装载，缺图、错绑、尺寸不符拒绝启动，不能用矩形或空图降级为可玩。资产与候选局部复查见 `review/S6-assets-candidate-independent.md`，不代替正式浏览器验收。
 - 背景无图时可以保留可替换的程序化回退，但不得以纯色块作为终态；任何新素材先入待审区，人工批准后才入索引。
 
 ## 4.6 UI 呈现 · 华丽起手
 
 - house 主题：正式调查现场采用 `apolloOnyx`；它与定稿的深色档案现场一致。不是自写主题。
 - 起手包：主菜单/结算不使用空白屏；若 App 需要独立进入/重置页，使用 `@ui/starters` 的 `buildStarterHome` / `buildStarterResult` 作为富屏骨架。现场内 HUD、档案条、证物 Modal 与退出确认由 LayoutNode 闭集按原型 1:1 重组。
-- 成熟件：主 action 用 `Button.kind:'hero'` + `sheen-hover`；线索特写/退出确认用 `Modal`；完成态使用 `Particles`（stars/sparkle）与 `Label.format` 的进度投影；完成印章/证物使用 `t2-presentation-track`，而不是自由 CSS 动画。S4 固定信息层级，S5 才调整贴图、纹样与粒子密度。
+- 成熟件：线索特写/退出确认使用原生 `Modal`，保留焦点与具名 action 语义。S6 按定稿将主 action 从 house hero 切角皮改为 `Button.kind:'ghost'` + 闭集 `stateColors`，不改为自由 DOM；字体与纸框精确对齐由 `GCI-S6-UI-02` 共享字段补齐。其它已用表现件沿用现有数据，不把起手皮肤当作偏离定稿的理由。
+- Owner 2026-10-13 明确批准唯一遮罩偏差：维持不透明度0.9，其余按定稿原型复刻；不反改原型追认，完整截图/几何与演出仍须自证及非施工者复查。
+- Owner 2026-10-14追加批准浅纸底小标题由浅青改深青、优先可读，以≥4.5对比度验收；先同步原型并记录新版本，再消费正式数据，不扩展为其他视觉变更许可。
 
 ## 4.65 对手/敌人 AI 设定
 
