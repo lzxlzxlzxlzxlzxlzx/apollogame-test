@@ -1,1 +1,2 @@
 export { CommittedTransitionController, projectCommittedTransition, projectCommittedTransitionWithTrace, type CommittedTransition, type PresentationCatalog, type PresentationProjection, type PresentationReject } from './committed-transition.js';
+export { NarrativeTransitionPolicy, type NarrativeTransitionFrame, type NarrativeTransitionKind, type NarrativeTransitionPreferences, type NarrativeTransitionRef, type NarrativeTransitionResult, type NarrativeTransitionSource, type NarrativeTransitionToken } from './narrative-transition-policy.js';
