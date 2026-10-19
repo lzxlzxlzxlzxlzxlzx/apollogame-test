@@ -1,3 +1,4 @@
+/* eslint-disable zerocraft/no-wall-clock -- 压测基准：performance.now 只量墙钟耗时作报告，不进断言/不进 sim（慢车道·slow-lane-guard 管） */
 // game211 · SLG 规模压测（owner 2026-08-10「战场 4096×4096 或 8192×8192 你能做到吗」）。
 //
 // 为什么用测试而不是 .mjs：要跑的是**真引擎能力**（steering/separation/motion-apply/pathfind），

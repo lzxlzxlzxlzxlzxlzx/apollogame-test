@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "zerocraft.life-generation-gate.v1",
+  "stage": "actors",
+  "inputHash": "sha256:27e5d7a3f6a92c9729b1255aa89c1f515723a7d3a51a7c97de4861f3c1183c44",
+  "selfCheck": {
+    "status": "pass",
+    "diagnostics": [],
+    "evidence": {
+      "baseWorld": "world.life.json",
+      "patch": "actors.patch.json",
+      "validator": "validateLifeGamePackage",
+      "compiler": "compileAndParseLifeGamePackage",
+      "placementsPerSceneAfterMerge": [5, 4, 3]
+    }
+  },
+  "visualArtifacts": [
+    { "kind": "actors-roster-and-schedule", "ref": "docs/design/game-demon-castle/actors-review.html" },
+    { "kind": "actor-patch", "ref": "docs/design/game-demon-castle/actors.patch.json" }
+  ],
+  "ownerDecision": "approved"
+}

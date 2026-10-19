@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseManifest, parseManifestDetailed } from './manifest.js';
+import { parseManifest, parseManifestDetailed, MANIFEST_SCHEMA } from './manifest.js';
 import { exportManifest } from '../studio/inspect.js';
 import { Engine } from '../runtime/engine.js';
 import { benchBlueprint } from '../bench/zerocraft-bench.js';
@@ -30,6 +30,90 @@ describe('manifest 桥接：导出↔导入对称、可加载、可玩', () => {
       expect(benchBlueprint(name, rebuilt).passed).toBe(true);
     });
   }
+
+  it('schema 版本位（P1c）：缺省=1 通过；等于当前版本通过；比引擎新 → 拒收；非数字 → 拒收', () => {
+    const base = { capabilities: ['a1-transform'], entities: { e: { Transform: { x: 0, y: 0 } } } };
+    expect(() => parseManifest(base)).not.toThrow();
+    expect(() => parseManifest({ ...base, schema: MANIFEST_SCHEMA })).not.toThrow();
+    expect(() => parseManifest({ ...base, schema: MANIFEST_SCHEMA + 1 })).toThrow(/比本引擎支持的/);
+    expect(() => parseManifest({ ...base, schema: '1' })).toThrow(/schema 必须是数字/);
+  });
+
+  it('嵌套校验（P1c）：EventWhen.when 里错 kind → 装载期拒收并点名路径（此前 when 被声明成 string·静默通过）', () => {
+    const bad = {
+      capabilities: ['t2-event-when', 'f1-resource'],
+      entities: { r: { Resource: { id: 'hp', current: 1, min: 0, max: 9 } }, ew: { EventWhen: { signal: 's', mode: 'edge', armed: false, when: { kind: 'and', of: [{ kind: 'resorce', id: 'hp', cmp: 'lte', value: 0 }] } } } },
+    };
+    expect(() => parseManifest(bad)).toThrow(/EventWhen\.when\.of\[0\].*"kind" 应为/);
+    const ok = JSON.parse(JSON.stringify(bad));
+    ok.entities.ew.EventWhen.when.of[0].kind = 'resource';
+    expect(() => parseManifest(ok)).not.toThrow();
+  });
+
+  it('模板 + $repeat（P2b）：buildBlueprint 的 for 循环/工厂函数有了 JSON 等价物；无这些键时逐字原样', () => {
+    const raw = {
+      capabilities: ['a1-transform', 'f1-resource'],
+      templates: { slot: { Transform: { x: '{{x}}', y: 0 }, Resource: { id: 'slot-{{i}}-hp', current: '{{hp}}', min: 0, max: 100 } } },
+      entities: {
+        hero: { Transform: { x: 1, y: 2 } },
+        'slot-{{i}}': { $repeat: { count: 3 }, $template: 'slot', $params: { x: 10, hp: 50 } },
+        'unit-{{item.name}}': { $repeat: { items: [{ name: 'a', p: 5 }, { name: 'b', p: 7 }] }, $template: 'slot', $params: { x: '{{item.p}}', hp: 1 }, Transform: { x: 99, y: '{{i}}' } },
+      },
+    };
+    const bp = parseManifest(raw);
+    expect(Object.keys(bp.entities).sort()).toEqual(['hero', 'slot-0', 'slot-1', 'slot-2', 'unit-a', 'unit-b']);
+    expect(bp.entities['slot-1']).toEqual({ Transform: { x: 10, y: 0 }, Resource: { id: 'slot-1-hp', current: 50, min: 0, max: 100 } }); // 整串占位 → 数值原类型
+    expect(bp.entities['unit-b']).toEqual({ Transform: { x: 99, y: 1 }, Resource: { id: 'slot-1-hp', current: 1, min: 0, max: 100 } }); // 组件级覆盖整体替换 Transform
+    expect(() => parseManifest({ ...raw, entities: { z: { $template: 'nope' } } })).toThrow(/不存在的模板 "nope"/);
+    expect(() => parseManifest({ ...raw, entities: { same: { $repeat: { count: 2 }, $template: 'slot' } } })).toThrow(/重复实体 id "same"/);
+    expect(() => parseManifest({ ...raw, templates: [] })).toThrow(/templates 必须是/);
+  });
+
+  it('meta.tickRate（P2d）：进蓝图 meta；非正数拒收；时长单位糖 "2s"/"500ms"/"1.5min" 按 tickRate 换算成整数 tick', () => {
+    const raw = {
+      capabilities: ['e1-timer', 'f1-resource'],
+      meta: { tickRate: 30 },
+      entities: {
+        t: { Timer: { id: 'door', elapsed: 0, duration: '2s', loop: false } },
+        r: { Resource: { id: 'hp', current: '500ms', min: 0, max: '1.5min' } },
+      },
+    };
+    const { blueprint, warnings } = parseManifestDetailed(raw);
+    expect(blueprint.meta).toEqual({ tickRate: 30 });
+    expect((blueprint.entities.t as { Timer: { duration: number } }).Timer.duration).toBe(60); // 2s @30Hz
+    expect((blueprint.entities.r as { Resource: { current: number; max: number } }).Resource.current).toBe(15); // 500ms
+    expect((blueprint.entities.r as { Resource: { max: number } }).Resource.max).toBe(2700); // 1.5min
+    expect(warnings.some((w) => w.includes('时长单位糖') && w.includes('30Hz'))).toBe(true);
+    // 缺 meta → 60Hz 换算；字符串字段（Timer.id）不动
+    const bp2 = parseManifest({ ...raw, meta: undefined, entities: { t: { Timer: { id: '2s', elapsed: 0, duration: '2s', loop: false } } } });
+    expect((bp2.entities.t as { Timer: { id: string; duration: number } }).Timer).toMatchObject({ id: '2s', duration: 120 });
+    expect(() => parseManifest({ ...raw, meta: { tickRate: 0 } })).toThrow(/meta.tickRate 必须是正数/);
+    expect(() => parseManifest({ ...raw, meta: [] })).toThrow(/meta 必须是对象/);
+  });
+
+  it('tags 名字表（B-8）：数字字段写 "enemy|boss" 装载折成位或；未知名字硬错；tags 非法拒收；无 tags 表时字符串照旧走类型错', () => {
+    const raw = {
+      capabilities: ['g1-tag', 't2-group-count', 'f1-resource'],
+      tags: { enemy: 1, boss: 2, player: 4 },
+      entities: {
+        e: { Tag: { flags: 'enemy|boss' } },
+        p: { Tag: { flags: 'player' } },
+        c: { GroupCount: { countResource: 'n', requiredTag: ' enemy | boss ' }, Resource: { id: 'n', current: 0, min: 0, max: 99 } },
+      },
+    };
+    const { blueprint, warnings } = parseManifestDetailed(raw);
+    expect((blueprint.entities.e as { Tag: { flags: number } }).Tag.flags).toBe(3);
+    expect((blueprint.entities.p as { Tag: { flags: number } }).Tag.flags).toBe(4);
+    expect((blueprint.entities.c as { GroupCount: { requiredTag: number } }).GroupCount.requiredTag).toBe(3);
+    expect(warnings.some((w) => w.includes('Tag 名字已折成位掩码'))).toBe(true);
+    expect(() => parseManifest({ ...raw, entities: { e: { Tag: { flags: 'enemy|bozz' } } } })).toThrow(/未声明的 tag 名 "bozz"/);
+    expect(() => parseManifest({ ...raw, tags: { enemy: -1 } })).toThrow(/tags.enemy 必须是/);
+    expect(() => parseManifest({ ...raw, tags: [] })).toThrow(/tags 必须是/);
+    // 无 tags 表：字符串留给 schema 校验按类型错拒收（旧行为不变）
+    expect(() => parseManifest({ capabilities: ['g1-tag'], entities: { e: { Tag: { flags: 'enemy' } } } })).toThrow();
+    // 纯数字照旧
+    expect((parseManifest({ ...raw, entities: { e: { Tag: { flags: 5 } } } }).entities.e as { Tag: { flags: number } }).Tag.flags).toBe(5);
+  });
 
   it('未知 capability id → 明确报错', () => {
     expect(() => parseManifest({ capabilities: ['nope.nope'], entities: {} })).toThrow(/未知 capability/);

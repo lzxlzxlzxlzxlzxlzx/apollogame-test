@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { worldSeed, sortedIds } from '@engine/core/query.js';
 import { SystemPhase, type IWorld } from '@engine/core/types.js';
 import type { WeightedSpawn, Signal, RandomSeed, Resource, Transform, SpawnRequest } from '@engine/protocol/components.js';
 import { nextRandom } from '@atom-skills/index.js';
@@ -43,11 +44,8 @@ import { weightedPick } from './weighted-pick.js';
 //  prefab-spawn 读+consume 它 → 组件拓扑自动把本系统排在 prefab-spawn 之前（同 caster/mortal 先例）。
 // ═══════════════════════════════════════════════════════════════
 
-/** 世界里第一个 RandomSeed 实体（约定单例，同 dice-roll/effect-apply/stat-bind 找首个单例的惯例）。 */
-function findWorldSeed(world: IWorld): RandomSeed | undefined {
-  for (const [id] of world.query('RandomSeed')) return world.getComponent<RandomSeed>(id, 'RandomSeed');
-  return undefined;
-}
+/** 世界随机种子（黑板单例）——统一取法 engine/core/query.worldSeed（B-3）。 */
+const findWorldSeed = worldSeed;
 
 export const weightedSpawnCapability = defineCapability({
   id: 't2-weighted-spawn',
@@ -109,7 +107,7 @@ export const weightedSpawnCapability = defineCapability({
         let rng: RandomSeed | undefined;
         let rngResolved = false;
 
-        const ids = world.query('WeightedSpawn', 'Transform').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'WeightedSpawn', 'Transform');
         for (const id of ids) {
           const ws = world.getComponent<WeightedSpawn>(id, 'WeightedSpawn');
           if (!ws || !signals.has(ws.onSignal)) continue;

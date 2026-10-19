@@ -283,3 +283,144 @@ describe('LockstepClient — REQ-DESYNC 三态同步判定 + 首次分叉一次�
     expect(solo.view().inSync).toBe(true);
   });
 });
+
+// ═══ REQ-NETGAPS（2026-08-26 引擎测试收尾·大扫除 B 路转单三件）═══════════════════
+
+// 乱序/延迟信道夹具：post 只入队，flushAdversarial() 把当轮报文**逆序**投递、并把每 3 条中的
+// 1 条压到下一轮（有界延迟 1 轮 ≈ 1 tick << inputDelay=4 的预算·远小于 PEER_TIMEOUT）。
+// 全确定性：无随机无真钟。
+class AdversarialBus {
+  private recv = new Map<string, (m: NetMsg) => void>();
+  private queue: { from: string; m: NetMsg }[] = [];
+  private held: { from: string; m: NetMsg }[] = [];
+  channel(tag: string): Channel {
+    return {
+      post: (m) => this.queue.push({ from: tag, m }),
+      onMessage: (cb) => this.recv.set(tag, cb),
+      close: () => this.recv.delete(tag),
+    };
+  }
+  flushAdversarial(): void {
+    const batch = [...this.held, ...this.queue];
+    this.queue = [];
+    this.held = [];
+    batch.reverse(); // 逆序投递
+    batch.forEach((it, i) => {
+      if (i % 3 === 2) { this.held.push(it); return; } // 每 3 条压 1 条到下一轮
+      for (const [id, cb] of this.recv) if (id !== it.from) cb(structuredClone(it.m));
+    });
+  }
+  flushAll(): void { // 收尾清空（不再扣压）
+    const batch = [...this.held, ...this.queue];
+    this.queue = []; this.held = [];
+    for (const it of batch) for (const [id, cb] of this.recv) if (id !== it.from) cb(structuredClone(it.m));
+  }
+}
+
+describe('LockstepClient — 乱序/延迟信道（REQ-NETGAPS①·输入按 tick 键控的耐乱序契约）', () => {
+  it('逆序+有界延迟投递 40 轮：双端持续推进·零 desync·终态同拍同 hash', () => {
+    const bus = new AdversarialBus();
+    let clock = 0;
+    const now = () => clock;
+    const desyncs: DesyncInfo[] = [];
+    const A = new LockstepClient({ peerId: 'A', channel: bus.channel('A'), getInput: () => ({ dx: 1, dy: 0 }), now, tickRate: 30, inputDelay: 4, onDesync: (i) => desyncs.push(i) });
+    const B = new LockstepClient({ peerId: 'B', channel: bus.channel('B'), getInput: () => ({ dx: 0, dy: 1 }), now, tickRate: 30, inputDelay: 4, onDesync: (i) => desyncs.push(i) });
+    const STEP2 = 1000 / 30;
+    // 发现阶段（正常投递·先收敛成员）
+    for (let i = 0; i < 12; i++) { clock += STEP2; A.pump(STEP2); B.pump(STEP2); bus.flushAll(); }
+    expect(A.view().epoch).toBe('A|B');
+    // 对抗阶段：逆序+压单投递
+    for (let i = 0; i < 40; i++) { clock += STEP2; A.pump(STEP2); B.pump(STEP2); bus.flushAdversarial(); }
+    bus.flushAll();
+    // 收尾对齐：再正常跑几轮让落后端追平
+    for (let i = 0; i < 8; i++) { clock += STEP2; A.pump(STEP2); B.pump(STEP2); bus.flushAll(); }
+    expect(desyncs).toEqual([]); // 乱序≠分叉：输入按 tick 键控·到达序无关
+    expect(A.view().syncState).toBe('synced'); // 真实可比拍背书（非缺数据默认）
+    expect(B.view().syncState).toBe('synced');
+    expect(A.view().tick).toBeGreaterThan(20); // 真在推进（掉输入会停摆·此断言即咬）
+    expect(A.view().tick).toBe(B.view().tick);
+    expect(A.view().hash).toBe(B.view().hash); // 同拍逐位一致
+  });
+});
+
+describe('LockstepClient — epoch 桶淘汰（REQ-NETGAPS②·MAX_INPUT_EPOCHS=4 上界下现役桶不被误逐）', () => {
+  it('成员抖动产 5+ 个 epoch 桶后·幸存双端仍能推进且同步（现役桶被逐=永久停摆·此测即咬）', () => {
+    const bus = new AdversarialBus();
+    let clock = 0;
+    const now = () => clock;
+    const desyncs: DesyncInfo[] = [];
+    const STEP2 = 1000 / 30;
+    const mk = (id: string): LockstepClient => new LockstepClient({ peerId: id, channel: bus.channel(id), getInput: () => ({ dx: 0, dy: 0 }), now, tickRate: 30, inputDelay: 4, onDesync: (i) => desyncs.push(i) });
+    const A = mk('A');
+    const B = mk('B');
+    const settle = (clients: LockstepClient[], rounds: number): void => {
+      for (let i = 0; i < rounds; i++) { clock += STEP2; for (const c of clients) c.pump(STEP2); bus.flushAll(); }
+    };
+    settle([A, B], 12);
+    expect(A.view().epoch).toBe('A|B');
+    // 四轮抖动：C1..C4 各进各出 → 桶键 {A|B, A|B|C1..C4} = 5 个 > MAX_INPUT_EPOCHS(4)
+    const seen: string[] = [];
+    for (const cid of ['C1', 'C2', 'C3', 'C4']) {
+      const ch = bus.channel(cid);
+      const C = new LockstepClient({ peerId: cid, channel: ch, getInput: () => ({ dx: 0, dy: 0 }), now, tickRate: 30, inputDelay: 4 });
+      settle([A, B, C], 14);
+      seen.push(A.view().epoch);
+      ch.close(); // C 离场：停 pump + 关信道 → 等心跳超时(1200ms)被 A/B 剔除
+      settle([A, B], Math.ceil(1200 / STEP2) + 6);
+      seen.push(A.view().epoch);
+    }
+    expect(seen).toEqual(['A|B|C1', 'A|B', 'A|B|C2', 'A|B', 'A|B|C3', 'A|B', 'A|B|C4', 'A|B']); // 抖动真发生（锚点）
+    // 抖动后现役 epoch 必须还活着：能推进、能同步
+    const t0 = A.view().tick;
+    settle([A, B], 20);
+    expect(desyncs).toEqual([]);
+    expect(A.view().epoch).toBe('A|B');
+    expect(A.view().tick).toBeGreaterThan(t0); // 现役桶被误逐会停在 t0
+    expect(A.view().syncState).toBe('synced');
+    expect(A.view().hash).toBe(B.view().hash);
+  });
+});
+
+// ── P2d · 调度指纹握手（engine-architecture-review-2026-09-02 D2b）──
+describe('LockstepClient — 调度指纹握手（系统序 + tickRate）', () => {
+  it('两端调度不同（对端多装一个系统）→ 不组局：epoch 各自 solo·onIncompatible 一次·console.error 一次', () => {
+    const bus = new MockBus();
+    let clock = 0;
+    const now = () => clock;
+    const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const seen: Array<{ peer: string }> = [];
+    const A = new LockstepClient({ peerId: 'A', channel: bus.channel('A'), getInput: () => ({ dx: 0, dy: 0 }), now, tickRate: 30, inputDelay: 4, onIncompatible: (i) => seen.push(i) });
+    const B = new LockstepClient({
+      peerId: 'B', channel: bus.channel('B'), getInput: () => ({ dx: 0, dy: 0 }), now, tickRate: 30, inputDelay: 4,
+      buildWorld: (ids) => { const w = buildMpWorld(); ids.forEach((id, i) => addPlayer(w, i, id)); w.addSystem({ id: 'extra-sys', reads: [], writes: [], consumes: [], execute() {} }); return w; },
+    });
+    for (let i = 0; i < 12; i++) { clock += STEP; A.pump(STEP); B.pump(STEP); }
+    expect(A.view().epoch).toBe('A'); // 没把 B 收进来
+    expect(B.view().epoch).toBe('B');
+    expect(seen.map((i) => i.peer)).toEqual(['B']); // A 只报一次
+    expect(errSpy.mock.calls.filter((c) => String(c[0]).includes('调度指纹')).length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('tickRate 不同 = 调度不同（同一份数据联机时快慢不一）→ 同样拒组局', () => {
+    const bus = new MockBus();
+    let clock = 0;
+    const now = () => clock;
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const A = new LockstepClient({ peerId: 'A', channel: bus.channel('A'), getInput: () => ({ dx: 0, dy: 0 }), now, tickRate: 30, inputDelay: 4 });
+    const B = new LockstepClient({ peerId: 'B', channel: bus.channel('B'), getInput: () => ({ dx: 0, dy: 0 }), now, tickRate: 60, inputDelay: 4 });
+    for (let i = 0; i < 12; i++) { clock += STEP; A.pump(STEP); B.pump(STEP); }
+    expect(A.view().epoch).toBe('A');
+    expect(B.view().epoch).toBe('B');
+  });
+
+  it('旧版对端（hello 无 sched）照旧接纳（兼容）', () => {
+    const bus = new MockBus();
+    let clock = 0;
+    const now = () => clock;
+    const A = new LockstepClient({ peerId: 'A', channel: bus.channel('A'), getInput: () => ({ dx: 0, dy: 0 }), now, tickRate: 30, inputDelay: 4 });
+    const legacy = bus.channel('L');
+    legacy.onMessage(() => {});
+    for (let i = 0; i < 12; i++) { clock += STEP; legacy.post({ t: 'hello', peer: 'L' }); A.pump(STEP); }
+    expect(A.view().epoch).toBe('A|L');
+  });
+});

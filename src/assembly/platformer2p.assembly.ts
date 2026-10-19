@@ -1,5 +1,5 @@
 import type { WorldBlueprint } from './demo.assembly.js';
-import type { KeyMap } from '@net/index.js';
+import type { KeyMap } from '@net/host/index.js';
 import {
   transformCapability,
   velocityCapability,

@@ -29,6 +29,8 @@ export function gameArtIndexUrl(slug: string): string {
 export interface GameArtLoadOptions {
   /** fetch 缓存策略（默认 'no-store'：工坊换图后刷新即见新图）。 */
   cache?: RequestCache;
+  /** 只等待这些已登记资产加载；省略时保持原有的全量加载行为。 */
+  onlyKeys?: readonly string[];
 }
 
 /**
@@ -59,7 +61,8 @@ export async function loadGameArtInto(
   if (raw === null) return false;
   try {
     registerAssetIndex(manager, parseAssetIndex(raw)); // path 已是站点绝对路径 → baseUrl ''
-    await manager.loadAll();
+    if (opts?.onlyKeys === undefined) await manager.loadAll();
+    else await Promise.all([...new Set(opts.onlyKeys)].map((key) => manager.load(key)));
     return true;
   } catch {
     return false; // 索引 schema 不合法 / 图加载失败 → 回退程序化观感·不炸游戏

@@ -1,0 +1,9 @@
+# P0 治理围栏（engine-architecture-review-2026-09-02 D13）：棘轮基线的豁免此前靠文件里写 `approvedBy:"LEAD"`
+# 五个字母（PE-T 自写豁免事故在案）。基线与围栏配置归 owner 所有——改动进 PR 时自动请求 owner review；
+# 直推分支时作为「谁该看」的机读声明（分支保护开启 Require review from Code Owners 后才具强制力）。
+scripts/*-baseline.json @eaglefly628
+eslint.config.mjs @eaglefly628
+.dependency-cruiser.cjs @eaglefly628
+tools/eslint/ @eaglefly628
+.github/ @eaglefly628
+scripts/scoped-gate.mjs @eaglefly628

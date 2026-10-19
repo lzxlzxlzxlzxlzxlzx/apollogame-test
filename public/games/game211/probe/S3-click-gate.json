@@ -1,0 +1,190 @@
+{
+  "slug": "game211",
+  "exit": 0,
+  "summary": "✓ 点击打穿（12 个控件 · 9 个点后 DOM 变化 · 零控制台 error）",
+  "discoveredControls": 26,
+  "controls": 12,
+  "unattempted": [
+    "duel-roll",
+    "tb-settings",
+    "tb-man",
+    "tb-foil",
+    "tb-shardtg",
+    "tb-shard",
+    "tb-dia",
+    "tb-coin",
+    "tb-shop",
+    "tb-stage",
+    "ggt-act-draw",
+    "lane-0-track",
+    "ggt-tb-gear",
+    "ggt-tb-back"
+  ],
+  "changed": 9,
+  "engineMatched": 0,
+  "engineRequired": false,
+  "clickFailures": 0,
+  "hits": [
+    {
+      "id": "story-next",
+      "action": "storyNext",
+      "clicked": true,
+      "engineInput": false,
+      "changed": true,
+      "changedIds": [
+        "story-scene",
+        "story-text",
+        "story-dots"
+      ]
+    },
+    {
+      "id": "story-skip",
+      "action": "closeOverlay",
+      "clicked": true,
+      "engineInput": false,
+      "changed": true,
+      "changedIds": [
+        "story-modal",
+        "story-modal-title",
+        "story-body",
+        "story-scene",
+        "story-dots",
+        "story-btns"
+      ]
+    },
+    {
+      "id": "home-man",
+      "action": "man",
+      "clicked": true,
+      "engineInput": false,
+      "changed": true,
+      "changedIds": [
+        "help-modal",
+        "help-modal-title",
+        "help-body",
+        "help-tabs",
+        "help-intro-p",
+        "help-intro"
+      ]
+    },
+    {
+      "id": "help-done",
+      "action": "closeOverlay",
+      "clicked": true,
+      "engineInput": false,
+      "changed": true,
+      "changedIds": [
+        "help-modal",
+        "help-modal-title",
+        "help-body",
+        "help-tabs",
+        "help-intro-p",
+        "help-intro"
+      ]
+    },
+    {
+      "id": "home-play",
+      "action": "play",
+      "clicked": true,
+      "engineInput": false,
+      "changed": true,
+      "changedIds": [
+        "lobby-screen-dd",
+        "lobby-frame",
+        "lobby-topbar",
+        "tb-left",
+        "tb-seal",
+        "tb-who"
+      ]
+    },
+    {
+      "id": "ggt-end",
+      "action": "end",
+      "clicked": true,
+      "engineInput": false,
+      "changed": true,
+      "changedIds": [
+        "ggt-actionmenu",
+        "ggt-act-grid",
+        "ggt-act-draw",
+        "ggt-act-draw-l",
+        "ggt-act-play",
+        "ggt-act-play-l"
+      ]
+    },
+    {
+      "id": "lane-2-track",
+      "action": "lane",
+      "clicked": true,
+      "engineInput": false,
+      "changed": false,
+      "changedIds": []
+    },
+    {
+      "id": "lane-1-track",
+      "action": "lane",
+      "clicked": true,
+      "engineInput": false,
+      "changed": true,
+      "changedIds": [
+        "ggt-tb-round",
+        "water-level",
+        "ggt-actionmenu",
+        "ggt-act-grid",
+        "ggt-act-draw",
+        "ggt-act-draw-l"
+      ]
+    },
+    {
+      "id": "ggt-act-swap",
+      "action": "swap",
+      "clicked": true,
+      "engineInput": false,
+      "changed": true,
+      "changedIds": [
+        "ggt-sub",
+        "ggt-swap-poker",
+        "ggt-swap-poker-l",
+        "ggt-swap-poker-c",
+        "ggt-swap-tengang",
+        "ggt-swap-tengang-l"
+      ]
+    },
+    {
+      "id": "ggt-swap-tengang",
+      "action": "swap-tengang",
+      "clicked": true,
+      "engineInput": false,
+      "changed": false,
+      "changedIds": []
+    },
+    {
+      "id": "ggt-swap-poker",
+      "action": "swap-poker",
+      "clicked": true,
+      "engineInput": false,
+      "changed": false,
+      "changedIds": []
+    },
+    {
+      "id": "ggt-act-play",
+      "action": "play",
+      "clicked": true,
+      "engineInput": false,
+      "changed": true,
+      "changedIds": [
+        "ggt-swap-poker",
+        "ggt-swap-poker-l",
+        "ggt-swap-poker-c",
+        "ggt-swap-tengang",
+        "ggt-swap-tengang-l",
+        "ggt-swap-tengang-c"
+      ]
+    }
+  ],
+  "bindWiring": {
+    "ok": true,
+    "detail": "未用 props.bind"
+  },
+  "consoleErrors": []
+}

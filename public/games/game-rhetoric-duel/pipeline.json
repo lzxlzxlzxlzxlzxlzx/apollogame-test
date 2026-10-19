@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "slug": "game-rhetoric-duel",
+  "concept": {
+    "name": "言弹交锋",
+    "pitch": "内置确定性卡组式言语对抗：以声明式身份牌推进论证、管理压力与专注，在固定意图脚本下于回合上限前说服对手。",
+    "refs": "fanren_qiyuan demo（仅结构与演出基准）",
+    "style": "古铜墨色·apolloBrocade·中央人物与底部纸牌"
+  },
+  "signoffs": {},
+  "evidence": {},
+  "history": [
+    {
+      "action": "concept",
+      "at": "2026-09-23T07:11:34.016Z"
+    }
+  ]
+}

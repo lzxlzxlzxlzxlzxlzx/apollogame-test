@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "game-loot-chest/texture/chest-closed",
+      "type": "texture",
+      "status": "filled",
+      "path": "/apps/game-loot-chest/assets/treasure-chest.png",
+      "description": "宝箱关闭状态的界面插画。",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp" },
+      "license": "project-existing"
+    },
+    {
+      "id": "game-loot-chest/texture/chest-open",
+      "type": "texture",
+      "status": "filled",
+      "path": "/apps/game-loot-chest/assets/treasure-chest-open.png",
+      "description": "宝箱开启状态的界面插画。",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp" },
+      "license": "project-existing"
+    },
+    {
+      "id": "game-loot-chest/texture/qte-dial-face",
+      "type": "texture",
+      "status": "filled",
+      "path": "/apps/game-loot-chest/assets/ai/openai/qte-dial-face.png",
+      "description": "暗铜鎏金、深蓝珐琅的宝箱 QTE 圆盘底座。",
+      "category": "ai-gen",
+      "tags": ["ai-gen", "openai", "qte", "dial", "bronze", "gold"],
+      "spec": { "format": "png", "width": 1254, "height": 1254, "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp" },
+      "license": "OpenAI generated content; project use subject to account terms",
+      "source": "ai:openai-built-in",
+      "provenance": {
+        "generator": "openai-built-in",
+        "prompt": "A front-on fantasy treasure-chest lock dial: antique-gold engraved outer rim, deep midnight-navy enamel inner ring, transparent outside, no pointer, no text, no numbers, no scene.",
+        "model": "OpenAI built-in image_gen",
+        "mock": false,
+        "generatedAt": "2026-09-29"
+      }
+    },
+    {
+      "id": "game-loot-chest/texture/qte-needle",
+      "type": "texture",
+      "status": "filled",
+      "path": "/apps/game-loot-chest/assets/ai/openai/qte-needle.png",
+      "description": "朝向圆心的鎏金机械 QTE 指针。",
+      "category": "ai-gen",
+      "tags": ["ai-gen", "openai", "qte", "needle", "bronze", "gold"],
+      "spec": { "format": "png", "width": 1024, "height": 1536, "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp" },
+      "license": "OpenAI generated content; project use subject to account terms",
+      "source": "ai:openai-built-in",
+      "provenance": {
+        "generator": "openai-built-in",
+        "prompt": "A single vertical antique-gold fantasy lock pointer on transparent background, sharp triangular tip pointing downward toward the dial center, dark-red enamel accent, no dial, no chest, no text.",
+        "model": "OpenAI built-in image_gen",
+        "mock": false,
+        "generatedAt": "2026-09-29"
+      }
+    }
+  ]
+}

@@ -4,7 +4,7 @@
 // 红线：本文件只产出数据。渲染/事件/换皮由引擎 renderNode + mountUI 解释（见 game-i.ts）。
 // 母法：apollo-ui-contract.md（控件契约总表·归档层已删·查 git 历史）。
 
-import type { LayoutNode } from '@zerocraft/engine/ui/components/index.js';
+import type { ButtonStateColors, LayoutNode } from '@zerocraft/engine/ui/components/index.js';
 import { uiTextureUrl, SKIN_METAL, SKIN_WOOD, SKIN_STONE, SKIN_SCROLL, BTN_BLUE, BTN_GREEN, BTN_RED, BTN_YELLOW, BTN_GREY, BTN_ROUND, BTN_GLOSSY, BTN_GHOST, CARD_JOKER, CARD_FLOWER } from './ui-assets.js';
 import { THEME_OPTIONS } from './themes.js';
 import { buildShop, INITIAL_SHOP, type ShopState } from './shop.js';
@@ -26,6 +26,14 @@ export interface ControlsState {
   tune: Record<string, string>;
 }
 export const INITIAL_CONTROLS: ControlsState = { flag: true, sound: true, speed: '1', view: 'grid', qty: 3, rating: 3, city: '', muted: false, reverb: false, vol: 70, pan: 0, tune: {} };
+
+/** 通用四态按钮皮：同一份纯数据在深/亮主题下均维持独立实色对比。 */
+const GHOST_STATE_COLORS: ButtonStateColors = {
+  default: { background: { custom: '#101A36' }, border: { custom: '#D7BD80' }, text: { custom: '#F4EEFF' } },
+  hover: { background: { custom: '#535C91' }, border: { custom: '#E4D6AA' }, text: { custom: '#FFFFFF' } },
+  pressed: { background: { custom: '#293359' }, border: { custom: '#F1D691' }, text: { custom: '#FFFFFF' } },
+  disabled: { background: { custom: '#30384B' }, border: { custom: '#8690A3' }, text: { custom: '#D8DEEB' } },
+};
 
 /** 一个可现场调节的离散参数（闭集档·Segmented 呈现·选中档编码进 value=`key:档`）。 */
 export interface TuneSpec { key: string; label: string; def: string; opts: Array<{ v: string; label: string }>; }
@@ -51,6 +59,9 @@ function tuneDeck(id: string, specs: TuneSpec[], c: ControlsState): LayoutNode {
 // 自包含演示图：内联 data-URI SVG（纯数据·不依赖外部资源文件），用于 Image 控件展示。
 const DEMO_IMG =
   'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22160%22%20height%3D%22100%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%2322d3ee%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%237c3aed%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22160%22%20height%3D%22100%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%2280%22%20y%3D%2258%22%20font-size%3D%2222%22%20fill%3D%22white%22%20text-anchor%3D%22middle%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22bold%22%3EZEROCRAFT%3C%2Ftext%3E%3C%2Fsvg%3E';
+// A neutral lens makes the four signal-emission states visible without
+// borrowing any production game's art. The renderer owns the tint and glow.
+const SIGNAL_LENS_DEMO = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><circle cx="32" cy="32" r="25" fill="#f5f5f5" stroke="#707070" stroke-width="5"/><circle cx="24" cy="23" r="8" fill="#ffffff" fill-opacity=".8"/></svg>')}`;
 
 // ── 段落标题小工具（统一风格：阔字距小标签）──────────────────
 // 子效果编号（owner：进模块后每个子效果/控件都要能按号找到，好跟美术说「换哪个」）：
@@ -185,17 +196,25 @@ function pageLayout(): LayoutNode { return {
 }; }
 
 // ── 页 2 · 数据展示 ──────────────────────────────────────────
-const labelColors: Array<'text' | 'sub' | 'dim' | 'jade' | 'gold' | 'ok' | 'warn' | 'danger'> =
-  ['text', 'sub', 'dim', 'jade', 'gold', 'ok', 'warn', 'danger'];
-const labelSizes: Array<'xs' | 'sm' | 'md' | 'lg' | 'xl'> = ['xs', 'sm', 'md', 'lg', 'xl'];
+// 11 语义色令牌全档（与 LabelProps.color 闭集对齐·mine/foe=阵营·ink=深墨压金底）。
+const labelColors: Array<'text' | 'sub' | 'dim' | 'jade' | 'gold' | 'ok' | 'warn' | 'danger' | 'mine' | 'foe' | 'ink'> =
+  ['text', 'sub', 'dim', 'jade', 'gold', 'ok', 'warn', 'danger', 'mine', 'foe', 'ink'];
+// 7 具名字号档全档（xs10…xxxl34）；另可填裸 px 任意字号（复刻像素稿用）。
+const labelSizes: Array<'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'xxxl'> = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl', 'xxxl'];
 
-function pageDisplay(): LayoutNode { return {
+function pageDisplay(controls: ControlsState): LayoutNode { return {
   type: 'Panel',
   id: 'page-display',
   props: { scroll: true },
   layout: { direction: 'column', gap: 18, padding: 20 },
   children: [
-    sectionTitle('t-lbl-size', 'LABEL · 五尺寸'),
+    sectionTitle('t-lbl-size', 'LABEL · 字号（7 具名档 xs10…xxxl34 + 裸 px 任意档）'),
+    sectionTitle('t-typewriter-signal', 'LABEL · 逐字完成与首次点击显全（StoryRef token 通知）'),
+    { type: 'Panel', id: 'demo-typewriter-signal', props: { bg: 'raised' }, layout: { direction: 'column', gap: 4, padding: 12 }, children: [
+      { type: 'Label', id: 'demo-typewriter-line', props: { text: '点击这句可立即显全；自然播毕或显全只发一次具名完成信号。', typewriter: 45,
+        typewriterSignal: { token: 'demo:line:1', action: 'demo.typewriter.complete' } } },
+      { type: 'Label', id: 'demo-typewriter-note', props: { text: '作品须用当前剧情引用 + 世代作 token；换行、回滚、读档均换 token。', size: 'sm', color: 'sub' } },
+    ] },
     {
       type: 'Panel',
       id: 'demo-lbl-size',
@@ -205,30 +224,99 @@ function pageDisplay(): LayoutNode { return {
         type: 'Label', id: `lbl-size-${s}`, props: { text: s.toUpperCase(), size: s, bold: true },
       })),
     },
-    sectionTitle('t-lbl-color', 'LABEL · 八语义色 + 等宽'),
+    // 裸 px：复刻像素稿/设计稿精确字号时用（具名档保和谐、裸 px 保精确）。
+    {
+      type: 'Panel', id: 'demo-lbl-px', props: { bare: true },
+      layout: { direction: 'row', gap: 16, align: 'end', padding: 10 },
+      children: [
+        ...[9, 15, 26, 44].map((n): LayoutNode => ({
+          type: 'Label', id: `lbl-px-${n}`, props: { text: `${n}px`, size: n, bold: true, color: 'jade' },
+        })),
+        { type: 'Label', id: 'lbl-px-hint', props: { text: '← size 填数字=裸 px（复刻稿子精确字号）；填令牌=7 具名档（保排版和谐）', color: 'sub', size: 'sm' }, layout: { flex: 1 } },
+      ],
+    },
+    sectionTitle('t-lbl-measured', 'LABEL / PANEL · 精确行高、900 字重与透明中心印章'),
+    { type: 'Panel', id: 'demo-lbl-measured', props: { bg: 'raised' }, layout: { direction: 'row', gap: 18, align: 'center', padding: 12 }, children: [
+      { type: 'Label', id: 'lbl-lineheight', props: { text: '多行证据\n按30px基线排列', size: 19, lineHeight: 30, color: 'text' } },
+      { type: 'Panel', id: 'panel-stamp-outline', props: { bg: 'transparent', border: { width: 5, color: { custom: '#963c38' } } }, layout: { radius: 0, padding: 8 }, children: [
+        { type: 'Label', id: 'lbl-stamp-heavy', props: { text: '已收录', size: 20, weight: 900, color: 'danger' } },
+      ] },
+    ] },
+    // 用法模式：同一件 Label 在真实屏上的四种典型角色（层级靠字号+色+粗细拉开·别全用一档）。
+    { type: 'Label', id: 'lbl-usage-note', props: { text: '典型用法：标题 / 正文 / 副文 / 爆数字——层级靠「字号 + 色 + bold」三者一起拉开', color: 'sub', size: 'sm' } },
+    {
+      type: 'Panel', id: 'demo-lbl-usage', props: { bg: 'sunken' },
+      layout: { direction: 'column', gap: 4, padding: 14, radius: 10 },
+      children: [
+        { type: 'Label', id: 'lu-title', props: { text: '第 12 关 · 雨夜书斋', size: 'xl', bold: true, color: 'gold' } },
+        { type: 'Label', id: 'lu-body', props: { text: '收集三枚印章即可通关。', size: 'md', color: 'text' } },
+        { type: 'Label', id: 'lu-sub', props: { text: '提示：印章藏在书架后', size: 'sm', color: 'sub' } },
+        { type: 'Label', id: 'lu-dmg', props: { text: '-240', size: 'xxl', bold: true, color: 'danger', stroke: true } },
+      ],
+    },
+    sectionTitle('t-lbl-color', 'LABEL · 11 语义色令牌（换皮自适应）+ {custom} 自由色逃生'),
     {
       type: 'Panel',
       id: 'demo-lbl-color',
       props: {},
       layout: { direction: 'row', gap: 14, padding: 10 },
       children: [
-        ...labelColors.map((c): LayoutNode => ({
+        // ink 不进这一排：它是**深墨**令牌，专给金/浅底上的深色字（压在暗底上必然读不清）——单独演在金底上。
+        ...labelColors.filter((c) => c !== 'ink').map((c): LayoutNode => ({
           type: 'Label', id: `lbl-color-${c}`, props: { text: c, color: c, bold: true },
         })),
         { type: 'Label', id: 'lbl-mono', props: { text: 'mono 0123', mono: true, color: 'sub' } },
       ],
     },
+    // ink 令牌的正确用法：坐在金/浅底上当深色字（放暗底=自造低对比·ui-audit 会当场抓）。
+    {
+      type: 'Panel', id: 'demo-lbl-ink', props: { bare: true },
+      layout: { direction: 'row', gap: 12, align: 'center', padding: 10 },
+      children: [
+        {
+          type: 'Panel', id: 'lbl-ink-chip', props: { bg: 'gold' },
+          layout: { padding: 8, radius: 8, align: 'center' },
+          children: [{ type: 'Label', id: 'lbl-color-ink', props: { text: 'ink 深墨字', color: 'ink', bold: true } }],
+        },
+        { type: 'Label', id: 'lbl-ink-hint', props: { text: '← ink = 金底/浅底上的深色字（如金 CTA 的键面字）。压暗底会读不清——色要配底选，不是随便挑。', color: 'sub', size: 'sm' }, layout: { flex: 1 } },
+      ],
+    },
+    // 语义色 = 换皮自适应（换主题自动跟着变）；{custom} = 特别指定才用（花色/稿子精确墨色·仍非裸串）。
+    {
+      type: 'Panel', id: 'demo-lbl-custom', props: { bare: true },
+      layout: { direction: 'row', gap: 18, align: 'center', padding: 10 },
+      children: [
+        { type: 'Label', id: 'lc-suit', props: { spans: [{ text: '♠13 ', color: { custom: '#8a94a6' } }, { text: '♥13 ', color: { custom: '#d8483f' } }, { text: '♦13 ', color: { custom: '#d3a03a' } }, { text: '♣13', color: { custom: '#3f9a5a' } }], size: 'xl', bold: true } },
+        { type: 'Label', id: 'lc-hint', props: { text: '← 四花色=令牌装不下的用色，走 {custom} 逃生（audit 会提示优先迁令牌）', color: 'sub', size: 'sm' }, layout: { flex: 1 } },
+      ],
+    },
+    // 常见语义配对：别自己发明配色，按「状态→令牌」照抄。
+    {
+      type: 'Panel', id: 'demo-lbl-semantic', props: { bg: 'sunken' },
+      layout: { direction: 'row', gap: 18, padding: 14, radius: 10 },
+      children: [
+        { type: 'Label', id: 'ls-buff', props: { text: '+12 攻击', color: 'ok', bold: true } },
+        { type: 'Label', id: 'ls-debuff', props: { text: '-8 防御', color: 'danger', bold: true } },
+        { type: 'Label', id: 'ls-coin', props: { text: '1280 金币', color: 'gold', bold: true } },
+        { type: 'Label', id: 'ls-lock', props: { text: '未解锁', color: 'dim' } },
+        { type: 'Label', id: 'ls-mine', props: { text: '我方', color: 'mine', bold: true } },
+        { type: 'Label', id: 'ls-foe', props: { text: '敌方', color: 'foe', bold: true } },
+      ],
+    },
     divider('d-d1'),
-    sectionTitle('t-badge', 'BADGE · 三态徽章'),
+    sectionTitle('t-badge', 'BADGE · 6 语义色 + icon 图标槽（角标/状态/红点/数量）'),
     {
       type: 'Panel',
       id: 'demo-badge',
       props: {},
-      layout: { direction: 'row', gap: 10, padding: 10 },
+      layout: { direction: 'row', gap: 10, padding: 10, align: 'center' },
       children: [
         { type: 'Badge', id: 'bdg-ok', props: { text: '在线', tone: 'ok' } },
         { type: 'Badge', id: 'bdg-warn', props: { text: '警示', tone: 'warn' } },
         { type: 'Badge', id: 'bdg-dim', props: { text: '离线', tone: 'dim' } },
+        { type: 'Badge', id: 'bdg-accent', props: { text: '新', tone: 'accent' } },
+        { type: 'Badge', id: 'bdg-gold', props: { text: '限定', tone: 'gold' } },
+        { type: 'Badge', id: 'bdg-danger', props: { text: '危', tone: 'danger' } },
         { type: 'Badge', id: 'bdg-icon', props: { text: '冠军', tone: 'ok', icon: DEMO_IMG } }, // icon 槽（补齐 Tag/Button 一致性·2026-08 查缺补漏）
       ],
     },
@@ -241,23 +329,49 @@ function pageDisplay(): LayoutNode { return {
       layout: { direction: 'row', gap: 12, padding: 10 },
       children: [
         { type: 'Image', id: 'img-cover', props: { src: DEMO_IMG, alt: 'cover', fit: 'cover' }, layout: { width: 110, height: 70 } },
+        { type: 'Image', id: 'img-cover-top', props: { src: DEMO_IMG, alt: 'cover top', fit: 'cover', position: 'top' }, layout: { width: 110, height: 70 } },
         { type: 'Image', id: 'img-contain', props: { src: DEMO_IMG, alt: 'contain', fit: 'contain' }, layout: { width: 110, height: 70 } },
         { type: 'Image', id: 'img-fill', props: { src: DEMO_IMG, alt: 'fill', fit: 'fill' }, layout: { width: 110, height: 70 } },
         { type: 'Image', id: 'img-radius', props: { src: DEMO_IMG, alt: 'radius 12', fit: 'cover', radius: 12 }, layout: { width: 110, height: 70 } },
       ],
     },
+    { type: 'Panel', id: 'demo-signal-emission', props: { bg: 'sunken', title: '同一中性灯芯 · 信号发光四态' }, layout: { direction: 'row', gap: 14, padding: 12, align: 'center' }, children: [
+      { type: 'Image', id: 'signal-off', props: { src: SIGNAL_LENS_DEMO, alt: '关闭的暗红信号灯', fit: 'contain', tint: { kind: 'signal', progress: 0, emission: 'off' } }, layout: { width: 46, height: 46 } },
+      { type: 'Image', id: 'signal-steady', props: { src: SIGNAL_LENS_DEMO, alt: '稳定亮绿信号灯', fit: 'contain', tint: { kind: 'signal', progress: 1, emission: 'steady' } }, layout: { width: 46, height: 46 } },
+      { type: 'Image', id: 'signal-once', props: { src: SIGNAL_LENS_DEMO, alt: '单次闪烁信号灯', fit: 'contain', tint: { kind: 'signal', progress: .5, emission: 'once' } }, layout: { width: 46, height: 46 } },
+      { type: 'Image', id: 'signal-loop', props: { src: SIGNAL_LENS_DEMO, alt: '循环信号灯', fit: 'contain', tint: { kind: 'signal', progress: .5, emission: 'loop' } }, layout: { width: 46, height: 46 } },
+      { type: 'Label', id: 'signal-emission-note', props: { text: 'off / steady / once / loop；仅 filter + alpha 轮廓光，绝不改透明度。', color: 'sub', size: 'xs' } },
+    ] },
+    { type: 'Panel', id: 'demo-transform-transition', props: { bg: 'sunken', title: '连续机械状态变换 · 同一节点追逐新姿态' }, layout: { direction: 'row', gap: 14, padding: 12, align: 'center' }, children: [
+      { type: 'Image', id: 'transform-chase-demo-rotor', props: { src: DEMO_IMG, alt: '可连续转位的演示棘轮', fit: 'contain', radius: 23 }, layout: { width: 54, height: 54, rotate: controls.flag ? 72 : -32, transformTransition: { ms: 280, easing: 'ease-out' } } },
+      { type: 'Toggle', id: 'transform-chase-demo-toggle', props: { label: '转到下一齿位', checked: controls.flag, action: 'setFlag' } },
+      { type: 'Label', id: 'transform-chase-demo-note', props: { text: '同一 id 仅更新 transform；初次渲染直接到位，状态变更由浏览器补间。', color: 'sub', size: 'xs' } },
+    ] },
     divider('d-d3'),
-    sectionTitle('t-progress', 'PROGRESSBAR · 进度条（五语义色 + 标签 + 显数值）'),
+    sectionTitle('t-progress', 'PROGRESSBAR · 线性条 5 语义色（环形 ring / 液面 liquid 见 🧊 3D UI 页）'),
     {
       type: 'Panel',
       id: 'demo-progress',
       props: {},
       layout: { direction: 'column', gap: 10, padding: 10 },
       children: [
-        { type: 'ProgressBar', id: 'pb-accent', props: { value: 72, label: '加载进度', showValue: true, tone: 'accent' } },
-        { type: 'ProgressBar', id: 'pb-ok', props: { value: 100, label: '已完成', showValue: true, tone: 'ok' } },
+        // ⚠ max 必填对：不给 max 时缺省 max=1，value:72 会被夹成满格（这段旧版就踩过）。
+        { type: 'ProgressBar', id: 'pb-accent', props: { value: 72, max: 100, label: '加载进度', showValue: true, tone: 'accent' } },
+        { type: 'ProgressBar', id: 'pb-ok', props: { value: 100, max: 100, label: '已完成', showValue: true, tone: 'ok' } },
         { type: 'ProgressBar', id: 'pb-warn', props: { value: 45, max: 100, label: '体力', tone: 'warn' } },
-        { type: 'ProgressBar', id: 'pb-danger', props: { value: 12, label: '血量', showValue: true, tone: 'danger' } },
+        { type: 'ProgressBar', id: 'pb-danger', props: { value: 12, max: 100, label: '血量', showValue: true, tone: 'danger' } },
+      ],
+    },
+    // 典型 HUD 四条：同一件换 tone/max 即成血/蓝/经验/护盾——别为每种条各搓一个件。
+    { type: 'Label', id: 'pb-usage-note', props: { text: '典型用法：血/蓝/经验/护盾 = 同一件换 tone + max（换皮自适应）。绑世界资源见下方 t-bind 段。', color: 'sub', size: 'sm' } },
+    {
+      type: 'Panel', id: 'demo-progress-hud', props: { bg: 'sunken' },
+      layout: { direction: 'column', gap: 8, padding: 14, radius: 10 },
+      children: [
+        { type: 'ProgressBar', id: 'pbh-hp', props: { value: 340, max: 520, label: '生命', showValue: true, tone: 'danger' } },
+        { type: 'ProgressBar', id: 'pbh-mp', props: { value: 88, max: 120, label: '法力', showValue: true, tone: 'accent' } },
+        { type: 'ProgressBar', id: 'pbh-xp', props: { value: 7300, max: 10000, label: '经验', showValue: true, tone: 'gold' } },
+        { type: 'ProgressBar', id: 'pbh-sh', props: { value: 60, max: 100, label: '护盾', showValue: true, tone: 'ok' } },
       ],
     },
     divider('d-d4'),
@@ -457,7 +571,7 @@ function buildPageInput(c: ControlsState): LayoutNode {
   props: { scroll: true },
   layout: { direction: 'column', gap: 18, padding: 20 },
   children: [
-    sectionTitle('t-btn', 'BUTTON · 三态 + 禁用（→ 信号 click）'),
+    sectionTitle('t-btn', 'BUTTON · 三态 + 禁用 + 受限文字色（→ 信号 click）'),
     {
       type: 'Panel',
       id: 'demo-btn',
@@ -468,8 +582,16 @@ function buildPageInput(c: ControlsState): LayoutNode {
         { type: 'Button', id: 'btn-g', props: { label: '次操作', kind: 'ghost', action: 'click', actionArg: 'ghost' } },
         { type: 'Button', id: 'btn-q', props: { label: '安静', kind: 'quiet', action: 'click', actionArg: 'quiet' } },
         { type: 'Button', id: 'btn-d', props: { label: '禁用', kind: 'primary', disabled: true, action: 'click', actionArg: 'disabled' } },
+        { type: 'Button', id: 'btn-label-color', props: { label: '亮字 ghost', kind: 'ghost', labelColor: { custom: '#F4EEFF' }, action: 'click', actionArg: 'label-color' } },
+        { type: 'Button', id: 'btn-measured-label', props: { label: '16px 粗体', kind: 'ghost', labelSize: 16, labelWeight: 700, action: 'click', actionArg: 'measured-label' } },
+        { type: 'Button', id: 'btn-icon-only', props: { label: '背包', icon: '/games/game-i/art/emoji/1f392.png', iconOnly: { size: 48 }, kind: 'primary', action: 'click', actionArg: 'icon-only' } },
+        { type: 'Button', id: 'btn-icon-feedback', props: { label: '反馈背包', icon: '/games/game-i/art/emoji/1f392.png', iconOnly: { size: 48 }, kind: 'quiet', skin: '', borderWidth: 0, iconFeedback: { hover: { translateY: -3, brightness: 1.2, glowRadius: 5, glowColor: { custom: '#d6b6ef' } }, pressed: { translateY: 3, brightness: 0.85 }, disabled: { opacity: 0.48, grayscale: 0.7 }, transitionMs: 120 }, action: 'click', actionArg: 'icon-feedback' } },
       ],
     },
+    { type: 'Panel', id: 'demo-btn-state-colors', props: { bare: true }, layout: { direction: 'row', gap: 12, padding: 10 }, children: [
+      { type: 'Button', id: 'btn-state-colors', props: { label: '四态胶囊 · 悬停/按下', kind: 'ghost', shape: 'pill', stateColors: GHOST_STATE_COLORS, action: 'click', actionArg: 'state-colors' }, layout: { width: 210, height: 40 } },
+      { type: 'Button', id: 'btn-state-colors-disabled', props: { label: '禁用胶囊', kind: 'ghost', shape: 'pill', stateColors: GHOST_STATE_COLORS, disabled: true, action: 'click', actionArg: 'state-colors-disabled' }, layout: { width: 130, height: 40 } },
+    ] },
     divider('d-i1'),
     sectionTitle('t-input', 'INPUT · 文本 / 数字（→ 信号 setText / setNum）'),
     {
@@ -506,6 +628,14 @@ function buildPageInput(c: ControlsState): LayoutNode {
       children: [
         { type: 'Checkbox', id: 'cb-tutorial', props: { label: '开启新手引导', checked: c.flag, action: 'setFlag' } },
         { type: 'Toggle', id: 'tg-sound', props: { label: '音效', checked: c.sound, action: 'setSound' } },
+        { type: 'Toggle', id: 'tg-sound-disabled', props: { label: '音效（待接入）', checked: true, action: 'setSound', disabled: true } },
+        { type: 'Label', id: 'tg-measured-caption', props: { text: '精确药丸皮', color: 'sub' } },
+        { type: 'Toggle', id: 'tg-measured-visual', props: { label: '精确药丸皮', checked: c.flag, action: 'setFlag', visual: {
+          showLabel: false,
+          width: 75, height: 31, knobSize: 22, knobOffLeft: 4, knobOnLeft: 46, knobTop: 3,
+          offBackground: { custom: '#1b2445' }, onBackground: { custom: '#5b679e' }, border: { custom: '#d8c389' },
+          offKnob: { custom: '#8b9ac3' }, onKnob: { custom: '#eff1ff' },
+        } } },
       ],
     },
     sectionTitle('t-radio', 'RADIOGROUP · 互斥单选（→ 信号 setSpeed）'),
@@ -531,6 +661,22 @@ function buildPageInput(c: ControlsState): LayoutNode {
       props: { min: 0, max: 100, step: 5, value: 60, label: '音量', action: 'setVolume' },
     },
     divider('d-i3b'),
+    sectionTitle('t-wheel', 'PANEL.wheel · 真实滚轮 → 具名 ActionSink（内层滚动区优先）'),
+    {
+      type: 'Panel',
+      id: 'demo-wheel',
+      props: { title: '剧情/画廊翻页区', wheel: { upAction: 'gallery.wheel.up', downAction: 'gallery.wheel.down' }, bg: 'raised' },
+      layout: { direction: 'column', gap: 8, padding: 12 },
+      children: [
+        { type: 'Label', id: 'wheel-hint', props: { text: '在这张卡的非滚动区域向上/下滚：事件日志会收到 gallery.wheel.up/down。', color: 'sub', size: 'sm' } },
+        {
+          type: 'Panel', id: 'wheel-scroll-priority', props: { title: '内层历史（滚这里不翻页）', scroll: true, bg: 'sunken' },
+          layout: { direction: 'column', gap: 4, padding: 8, height: 82 },
+          children: Array.from({ length: 6 }, (_, i) => ({ type: 'Label' as const, id: `wheel-history-${i}`, props: { text: `历史行 ${i + 1} · 交给滚动容器`, color: 'dim', size: 'xs' } })),
+        },
+      ],
+    },
+    divider('d-i3wheel'),
     sectionTitle('t-segmented', 'SEGMENTED · 分段选择器（互斥·紧凑·→ 信号 setView）'),
     {
       type: 'Segmented',
@@ -575,7 +721,7 @@ function buildPageInput(c: ControlsState): LayoutNode {
       props: { value: c.rating, max: 5, action: 'setRating' },
     },
     divider('d-i4'),
-    sectionTitle('t-modal', 'MODAL · 模态浮层（按钮开 → 点遮罩/× 关·引擎内建 closeAction）'),
+    sectionTitle('t-modal', 'MODAL · 模态浮层（按钮开 → Escape/Tab 圈定/点遮罩/× 关·引擎内建 closeAction）'),
     {
       type: 'Panel',
       id: 'demo-modal',
@@ -583,7 +729,7 @@ function buildPageInput(c: ControlsState): LayoutNode {
       layout: { direction: 'row', gap: 10, align: 'center', padding: 10 },
       children: [
         { type: 'Button', id: 'btn-open-modal', props: { label: '打开模态框', kind: 'primary', action: 'openModal' } },
-        { type: 'Label', id: 'modal-hint', props: { text: '点遮罩本身或右上角 × 即关闭', size: 'sm', color: 'dim' } },
+        { type: 'Label', id: 'modal-hint', props: { text: 'xl=800px；Escape、Tab 焦点圈定、点遮罩或右上角 × 均关闭', size: 'sm', color: 'dim' } },
       ],
     },
     divider('d-i4b'),
@@ -646,7 +792,7 @@ function buildPageInput(c: ControlsState): LayoutNode {
 export const modalOverlay: LayoutNode = {
   type: 'Modal',
   id: 'demo-modal-overlay',
-  props: { title: '示例模态框', size: 'md', closable: true, closeAction: 'closeModal' },
+  props: { title: '示例模态框', size: 'xl', closable: true, closeAction: 'closeModal', scrim: { blur: 3 }, visual: { width: 820, minHeight: 310, radius: 8, padding: { top: 26, right: 40, bottom: 26, left: 40 }, fill: { gradient: { from: '#1A2433', to: '#263247' } }, border: { width: 12, color: '#82623A' }, titleSize: 30, titleAlign: 'center', contentAlign: 'center' } },
   layout: {},
   children: [
     { type: 'Label', id: 'mo-body', props: { text: '这是一个数据驱动的模态浮层——标题/尺寸/可关均由数据配置。', color: 'sub' } },
@@ -1051,6 +1197,7 @@ function buildPageNew(controls: ControlsState): LayoutNode {
           { type: 'Badge', id: 'anim-float', props: { text: 'float 浮动', tone: 'ok' }, layout: { anim: 'float' } },
           { type: 'Badge', id: 'anim-glow', props: { text: 'glow 发光', tone: 'warn' }, layout: { anim: 'glow' } },
           { type: 'Badge', id: 'anim-pulse', props: { text: 'pulse 脉冲', tone: 'dim' }, layout: { anim: 'pulse' } },
+          { type: 'Label', id: 'anim-cue', props: { text: 'cue · 1300ms', color: 'gold' }, layout: { fx: [{ kind: 'cue', ms: 1300 }] } },
         ] },
 
       divider('d-n8'),
@@ -1157,6 +1304,8 @@ function buildPageNew(controls: ControlsState): LayoutNode {
           { type: 'Button', id: 'sk-9-cover', props: { label: 'cover 糊角', skin: BTN_BLUE_URL, action: 'click', actionArg: '9-cover' }, layout: { width: 180, height: 110 } },
           { type: 'Button', id: 'sk-9-slice', props: { label: '9-slice 清晰', skin: BTN_GREEN_URL, skinSlice: 9, action: 'click', actionArg: '9-slice' }, layout: { width: 180, height: 110 } },
           { type: 'Button', id: 'sk-9-big', props: { label: '任意尺寸不变形', skin: BTN_GREEN_URL, skinSlice: 9, action: 'click', actionArg: '9-big' }, layout: { width: 240, height: 72 } },
+          { type: 'Button', id: 'sk-9-separate', props: { label: '源 9 / 显示 5', skin: BTN_GREEN_URL, skinSlice: 9, skinBorderWidth: 5, action: 'click', actionArg: '9-separate' }, layout: { width: 240, height: 72 } },
+          { type: 'Button', id: 'sk-feedback', props: { label: '贴图状态反馈', skin: BTN_BLUE_URL, action: 'click', actionArg: 'skin-feedback', skinFeedback: { hoverBrightness: 1.32, pressedBrightness: 0.85, glowRadius: 8, glowColor: { custom: '#a7b2ff99' }, transitionMs: 160 } }, layout: { width: 180, height: 72 } },
         ] },
 
       { type: 'Label', id: 't-skin-alpha', props: { text: '带透明色的贴图（透明处 see-through）：默认框面=不透明底吃掉透明（左·间隙显面色）vs bg:"transparent" 令牌=透明底保边框透见身后（右·间隙透见彩底）。贴图按钮/Image 本就透明·框面加此令牌即可。', size: 'xs', color: 'dim' } },
@@ -1400,6 +1549,115 @@ function buildPageNew(controls: ControlsState): LayoutNode {
 // ── 页 · 3D UI 表达（CSS-3D 通用化·把 rotateX/Y/z/perspective/翻面 组合成一组 3D 数据控件）─────────
 // 全是既有 LayoutConstraints（rotateX/rotateY/z/perspective/tilt3d）+ PlayingCard.flipOnHover 的**重组**，
 // 无新引擎能力（showcase 职责=把底座能力排成活样例）。控件仍是纯数据·经真 UI 库渲染·UI 铁律。
+// ── 页 9 · 3D 按钮布局（owner 2026-09 点名）───────────────────────────────────
+// 定位：既有「🧊 3D UI」页是**逐字段隔离演示**（一段演一个 rotateY/z/press3d）；本页是**布局样板**——
+//   「一组按钮到底怎么摆成菜单」。六种排布，全是现成闭集字段的组合（零新控件·零自由 CSS）：
+//   layout.rotate/rotateX/rotateY/z/scale/tilt3d/press3d + Button.kind/shape/sub/icon + Panel.shadow/edge/bg。
+// 照抄法：复制那一段的 children 数组，只改 label/action 与那两三个数字。
+function buildPage3dButtons(): LayoutNode {
+  // 一颗菜单钮的统一底座：kind 定皮、宽度统一（竖排菜单不随字长变宽·手册「统一等宽」律）。
+  const btn = (id: string, label: string, kind: 'hero' | 'primary' | 'ghost' | 'quiet', extra: Record<string, unknown> = {}, lay: Record<string, unknown> = {}): LayoutNode =>
+    ({ type: 'Button', id, props: { label, kind, action: 'click', actionArg: id, ...extra }, layout: { width: 150, height: 48, ...lay } });
+  const note = (id: string, text: string): LayoutNode =>
+    ({ type: 'Label', id, props: { text, color: 'sub', size: 'sm' }, layout: { flex: 1 } });
+
+  return {
+    type: 'Panel', id: 'page-3dbtn', props: { scroll: true },
+    layout: { direction: 'column', gap: 18, padding: 20 },
+    children: [
+      { type: 'Label', id: '3dbtn-intro', props: {
+        text: '3D 按钮「布局」样板——不是再演一遍 rotateY 是什么，而是「一组按钮怎么摆」。六种排布各配适用场景；全部只用现成字段组合（rotate/rotateX/rotateY/z/scale/press3d + Button.kind/shape/sub + Panel.shadow），零新控件、零自由 CSS。照抄=复制 children 数组、改 label/action 与那两三个数字。',
+        color: 'text', size: 'sm' } },
+
+      // ① 弧形扇出 —— 绕屏幕 Z 轴转（rotate），不是 3D，但最像「手柄/技能扇」。
+      divider('d-3b1'),
+      sectionTitle('t-3dbtn-arc', '① 弧形扇出菜单（LAYOUT.rotate + y 偏移 → 拇指弧·技能扇）'),
+      // ⚠ 弧必须走**绝对定位**：x/y 同时给。只给 y 不给 x → 元素仍是 absolute 但 left 未定，
+      //   五颗会叠在同一处（ui-audit 当场报 10 处重叠——本段初版真踩过）。这条是本页最值钱的一课。
+      { type: 'Panel', id: '3db-arc', props: { bare: true }, layout: { width: 664, height: 148, padding: 4 },
+        children: ([['攻击', -14, 12, 62], ['技能', -7, 144, 26], ['必杀', 0, 276, 8], ['道具', 7, 408, 26], ['撤退', 14, 540, 62]] as const)
+          .map(([label, rot, x, y], i): LayoutNode =>
+            btn(`ab-${i}`, label, i === 2 ? 'hero' : 'primary', { shape: 'pill' }, { width: 104, height: 44, rotate: rot, x, y })),
+      },
+      { type: 'Panel', id: '3db-arc-n', props: { bare: true }, layout: { direction: 'row', padding: 4 },
+        children: [note('3db-arc-l', '拇指可达的弧：中间 rotate:0 最高，两翼逐级 ±7/±14° 并沿 y 下沉。⚠ 关键：弧要 x/y **成对**给（只给 y 会让五颗叠成一摞——layout.y 是绝对定位不是相对偏移）。旋转会撑大包围盒，x 间距留足（这里 132 > 旋转后的 111）。移动端「技能扇/表情轮」标配。')] },
+
+      // ② 景深主菜单 —— z 让主 CTA 真的「凸出来」。
+      divider('d-3b2'),
+      sectionTitle('t-3dbtn-depth', '② 景深主菜单（LAYOUT.z + scale → 主 CTA 凸出·次级后退）'),
+      { type: 'Panel', id: '3db-depth', props: { bare: true }, layout: { direction: 'column', gap: 12, padding: 26, align: 'center', perspective: 900 },
+        children: [
+          btn('db-start', '开始游戏', 'hero', { sub: '继续第 12 关' }, { width: 190, height: 58, z: 60, scale: 1.06 }),
+          btn('db-shop', '商店', 'primary', {}, { width: 165, z: 10 }),
+          btn('db-set', '设置', 'ghost', {}, { width: 150, z: -30, scale: 0.96 }),
+          btn('db-quit', '退出', 'quiet', {}, { width: 140, z: -60, scale: 0.92 }),
+        ] },
+      { type: 'Panel', id: '3db-depth-n', props: { bare: true }, layout: { direction: 'row', padding: 4 },
+        children: [note('3db-depth-l', '层级=z（+60 凸出 → −60 后退）配 scale 微调。主 CTA 用 kind:"hero" + sub 把关键信息写进键面（别塞到键外当说明）。这是主菜单的默认摆法。')] },
+
+      // ③ 透视斜置控制台 —— 父面板 rotateX，按钮作为子层随面倾斜（sci-fi HUD）。
+      divider('d-3b3'),
+      sectionTitle('t-3dbtn-console', '③ 透视斜置控制台（父 PANEL.rotateX → 整面倾斜·按钮随面躺下）'),
+      { type: 'Panel', id: '3db-con-wrap', props: { bare: true }, layout: { direction: 'row', gap: 20, padding: 30, align: 'center', justify: 'center' },
+        children: [
+          {
+            type: 'Panel', id: '3db-console', props: { bg: 'ink-deep', edge: 'jade' },
+            layout: { direction: 'grid', cols: 3, gap: 10, padding: 16, width: 330, radius: 12, rotateX: 34, z: -20 },
+            children: (['雷达', '护盾', '引擎', '武器', '通讯', '自毁'] as const).map((l, i): LayoutNode =>
+              btn(`cn-${i}`, l, i === 5 ? 'quiet' : 'ghost', { shape: 'cut' }, { width: 92, height: 40 })),
+          },
+          note('3db-con-l', '按钮不各自转——转的是**承载它们的面板**（rotateX:34），子层随面躺下、自动共面。sci-fi 控制台/驾驶舱面板就是这一招；改一个数就改倾角。'),
+        ] },
+
+      // ④ 旋转木马选择器 —— rotateY + z 摆成一圈，中间那颗是当前选中。
+      divider('d-3b4'),
+      sectionTitle('t-3dbtn-carousel', '④ 旋转木马选择器（LAYOUT.rotateY + z → 角色/模式左右翻选）'),
+      { type: 'Panel', id: '3db-caro', props: { bare: true }, layout: { direction: 'row', gap: 6, padding: 30, align: 'center', justify: 'center', perspective: 760 },
+        children: ([['难度·易', 50, -80], ['难度·中', 28, -34], ['难度·难', 0, 50], ['噩梦', -28, -34], ['地狱', -50, -80]] as const)
+          .map(([label, ry, z], i): LayoutNode =>
+            btn(`cr-${i}`, label, i === 2 ? 'hero' : 'ghost', { shape: 'pill' }, { width: 120, height: 50, rotateY: ry, z })),
+      },
+      { type: 'Panel', id: '3db-caro-n', props: { bare: true }, layout: { direction: 'row', padding: 4 },
+        children: [note('3db-caro-l', '同 cover-flow 的排法搬到按钮上：只有 rotateY 与 z 两个数不同（中间 0/+50 朝前、两翼 ±28/±50 后旋退后）。换选中项=换这组数，结构一字不改。')] },
+
+      // ⑤ 糖果厚钮网格 —— press3d + Panel.shadow，手机上最实用的一档。
+      divider('d-3b5'),
+      sectionTitle('t-3dbtn-candy', '⑤ 糖果厚钮网格（LAYOUT.press3d + PANEL.shadow → 按得下去的实体感·触屏首选）'),
+      { type: 'Panel', id: '3db-candy-wrap', props: { bare: true }, layout: { direction: 'row', gap: 20, padding: 26, align: 'center' },
+        children: [
+          {
+            type: 'Panel', id: '3db-candy', props: { bg: 'raised', shadow: { y: 6 } },
+            layout: { direction: 'grid', cols: 3, gap: 12, padding: 16, width: 384, radius: 14 },
+            // ⚠ hero 皮自带 30px 横向内边距——宽度给不够会**折行**（初版 92px 把「抽卡」折成两行）。
+            //   网格里混 hero 时按最宽的那颗定列宽，别让 kind 决定的内边距把字挤掉。
+            children: (['金币', '钻石', '体力', '抽卡', '邮件', '好友'] as const).map((l, i): LayoutNode =>
+              btn(`cd-${i}`, l, i === 3 ? 'hero' : 'primary', { shape: 'pill' }, { width: 108, height: 46, press3d: true })),
+          },
+          note('3db-candy-l', 'press3d 走 :active——**触屏也触发**（tilt3d 只吃 :hover，手机上等于没有）。承载面加 Panel.shadow 硬边投影＝整块浮起来。休闲/手游主界面按钮墙用这一档。'),
+        ] },
+
+      // ⑥ 悬停抬起侧栏 —— tilt3d（桌面），配 rotateY 侧翼。
+      divider('d-3b6'),
+      sectionTitle('t-3dbtn-side', '⑥ 侧翼立体栏（LAYOUT.rotateY 侧转 + tilt3d 悬停抬起·桌面端）'),
+      { type: 'Panel', id: '3db-side-wrap', props: { bare: true }, layout: { direction: 'row', gap: 24, padding: 26, align: 'center', perspective: 1000 },
+        children: [
+          {
+            type: 'Panel', id: '3db-side', props: { bare: true },
+            layout: { direction: 'column', gap: 10, rotateY: 22 },
+            children: (['角色', '背包', '任务', '公会'] as const).map((l, i): LayoutNode =>
+              btn(`sd-${i}`, l, 'ghost', { shape: 'tag' }, { width: 132, height: 42, tilt3d: true })),
+          },
+          note('3db-side-l', '整栏 rotateY:22 侧转成「翻开的书页」，每颗钮 tilt3d 悬停抬起。**仅桌面**——tilt3d 走 :hover，触屏无效，移动端改用 ⑤ 的 press3d。'),
+        ] },
+
+      divider('d-3b7'),
+      { type: 'Label', id: '3dbtn-foot', props: {
+        text: '选型速查：主菜单→② 景深 ｜ 技能/表情轮→① 弧形 ｜ 模式/角色选择→④ 木马 ｜ 手游按钮墙→⑤ 糖果厚钮（触屏）｜ 驾驶舱/仪表→③ 斜置面板 ｜ 桌面侧栏→⑥ 侧翼。移动端一律避开 tilt3d（只吃 hover），用 press3d。',
+        color: 'gold', size: 'sm', bold: true } },
+    ],
+  };
+}
+
 function buildPage3dUi(controls: ControlsState): LayoutNode {
   // 旋转木马一张卡：绕 Y 轴按位次倾 + 朝外/朝内推（z），共享父 perspective → 卡组呈 3D 扇形。
   const coverCard = (id: string, rank: string, suit: string, name: string, rotY: number, z: number, sel = false): LayoutNode =>
@@ -1732,12 +1990,13 @@ function buildUIModule(shop: ShopState, pick: PickState, activeTab: string, cont
         { id: 'tab-new', label: '🆕 新控件/特性' },
         { id: 'tab-shop', label: '🧩 组合演示·商店' },
         { id: 'tab-pick', label: '🎴 组合演示·选牌' },
+        { id: 'tab-3dbtn', label: '🕹 3D 按钮布局' },
       ],
       active: activeTab,
       action: 'switchTab',
     },
     layout: { flex: 1 },
-    children: [pageLayout(), pageDisplay(), buildPageInput(controls), buildPage3dUi(controls), buildPageEmoji(), buildPageNew(controls), buildShop(shop), buildPickHand(pick)],
+    children: [pageLayout(), pageDisplay(controls), buildPageInput(controls), buildPage3dUi(controls), buildPageEmoji(), buildPageNew(controls), buildShop(shop), buildPickHand(pick), buildPage3dButtons()],
   };
 }
 

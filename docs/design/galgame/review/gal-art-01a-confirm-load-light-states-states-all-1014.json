@@ -1,0 +1,92 @@
+[
+  {
+    "id": "starter-act-0",
+    "occluded": true
+  },
+  {
+    "id": "starter-act-1",
+    "occluded": true
+  },
+  {
+    "id": "starter-act-2",
+    "occluded": true
+  },
+  {
+    "id": "gal-home-gallery",
+    "occluded": true
+  },
+  {
+    "id": "gal-home-settings",
+    "occluded": true
+  },
+  {
+    "id": "gal-home-exit",
+    "occluded": true
+  },
+  {
+    "id": "gal-confirm-yes",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32) drop-shadow(rgba(167, 178, 255, 0.6) 0px 0px 8px)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32)",
+      "transform": "matrix(1, 0, 0, 1, 0, 2)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-confirm-no",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32) drop-shadow(rgba(167, 178, 255, 0.6) 0px 0px 8px)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32)",
+      "transform": "matrix(1, 0, 0, 1, 0, 2)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  }
+]

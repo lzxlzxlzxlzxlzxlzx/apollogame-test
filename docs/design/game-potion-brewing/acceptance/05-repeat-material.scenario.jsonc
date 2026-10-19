@@ -1,0 +1,31 @@
+// author: GD /root/potion_s4_gd
+// revised for Owner-confirmed 2026-10-14 unlimited materials
+// repeat 宿主 fixture 的预期配方（供 PE 在 fixtures.ts 接数据，不是玩家选方）：
+// 材料可无限取用；步骤 add moon-herb → add moon-herb →
+// stir clockwise 2 圈 → add silver-leaf → stir counterclockwise 1 圈。
+// 首次、第二次投同 ID 各推进一格；不得按材料唯一性跳过重复步骤。
+{
+  "name": "重复材料 ID 可无限取用但仍按步骤判定",
+  "game": "game-potion-brewing",
+  "seed": 505,
+  "config": { "fixture": "repeat" },
+  "steps": [
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "active" }], "cap": 3 },
+    { "signal": "brew.add.moon-herb" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 1 }], "cap": 3 },
+    { "expect": [
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "active" }
+    ] },
+    { "signal": "brew.add.moon-herb" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 2 }], "cap": 3 },
+    { "signal": "brew.stir.clockwise" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "confirmedCount" }, "eq": 1 }], "cap": 3 },
+    { "signal": "brew.stir.clockwise" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 3 }], "cap": 3 },
+    { "signal": "brew.add.silver-leaf" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 4 }], "cap": 3 },
+    { "signal": "brew.stir.counterclockwise" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "success" }], "cap": 3 },
+    { "expect": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 5 }] }
+  ]
+}

@@ -1,7 +1,15 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld, Component } from '@engine/core/types.js';
 import type { StatBind, ModifierTotals, Stats } from '@engine/protocol/components.js';
+import { findDebugTrace, appendTrace } from '@skills/debug-trace.js';
+
+// 投影目标组件闭集（= 本能力的 writes 申报·单一真相）。P1a 严格模式实证：目标是数据驱动的（binding.component），
+// 申报却是固定表——数据写到表外组件（game-103 曾投到 Velocity）= 调度图不知情的写入。故：表加 Velocity，
+// 且运行时按表校验，表外目标 reject 留痕跳过（不静默写）。要投新组件 → 加进本表（= 加进申报）。
+export const STAT_BIND_TARGETS = ['Controllable', 'Steering', 'Shape', 'Hitbox', 'Timer', 'Caster', 'Resource', 'Velocity'] as const;
+const TARGET_SET: ReadonlySet<string> = new Set(STAT_BIND_TARGETS);
 
 // ═══════════════════════════════════════════════════════════════
 //  stat-bind —— 属性桥/投影器（REQ-SURVIVOR被动轴）。modifier-stack 产出一张 ModifierTotals.totals，
@@ -59,11 +67,8 @@ export function projectStatBind(op: 'set' | 'mul' | 'add' | 'div', base: number 
 
 /** 世界里第一个 ModifierTotals 实体（约定单例，同 dice-roll/effect-apply 找首个 RandomSeed 的惯例）。 */
 function findWorldTotals(world: IWorld): ModifierTotals | undefined {
-  for (const [id] of world.query('ModifierTotals')) {
-    const mt = world.getComponent<ModifierTotals>(id, 'ModifierTotals');
-    if (mt) return mt;
-  }
-  return undefined;
+  const id = world.singleton('ModifierTotals'); // 黑板单例（P1b）：严格模式多份即抛·生产按创建序取首个（= 旧 for…break 语义）
+  return id === undefined ? undefined : world.getComponent<ModifierTotals>(id, 'ModifierTotals');
 }
 
 export const statBindCapability = defineCapability({
@@ -101,7 +106,7 @@ export const statBindCapability = defineCapability({
     // 而 game-103 蓝图已装 effect-apply——一旦游戏加 maxHp→Resource（或 attackSpeed→Timer）binding 即成环
     // 蓝图 load 不了（PE-103 踩过的同类死环）。故 reads 不含写目标·只靠 writes 让本相位读者排在其后（单向边）。
     reads: ['StatBind', 'ModifierTotals', 'Stats'],
-    writes: ['Controllable', 'Steering', 'Shape', 'Hitbox', 'Timer', 'Caster', 'Resource'],
+    writes: [...STAT_BIND_TARGETS],
     consumes: [],
   },
 
@@ -114,10 +119,10 @@ export const statBindCapability = defineCapability({
       // phase 分桶保证自动排在全部 Update 相位系统之后，零 runsAfter、零环，见文件头详述。
       phase: SystemPhase.Commit,
       reads: ['StatBind', 'ModifierTotals', 'Stats'],
-      writes: ['Controllable', 'Steering', 'Shape', 'Hitbox', 'Timer', 'Caster', 'Resource'],
+      writes: [...STAT_BIND_TARGETS],
       consumes: [],
       execute(world: IWorld) {
-        const ids = world.query('StatBind').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'StatBind');
         if (ids.length === 0) return;
 
         // 世界单例 ModifierTotals：本 tick 只查一次（同 dice-roll 找首个 RandomSeed 的缓存惯例）。
@@ -145,7 +150,12 @@ export const statBindCapability = defineCapability({
             }
             if (v === undefined) continue;
 
-            // ② 取目标组件：不存在 → 跳过（绝不代创建，见 spec）。
+            // ② 取目标组件：表外目标 → reject 留痕跳过（申报闭集之外的写调度图不知情·见 STAT_BIND_TARGETS）；不存在 → 跳过（绝不代创建，见 spec）。
+            if (!TARGET_SET.has(b.component)) {
+              const tr = findDebugTrace(world);
+              appendTrace(tr, tr?.tick ?? 0, 'stat-bind', 'reject', `${id}: target ${b.component}.${b.field}`, '不在 STAT_BIND_TARGETS 闭集（申报之外的写·调度图不知情）');
+              continue;
+            }
             const target = world.getComponent(id, b.component) as (Component & Record<string, unknown>) | undefined;
             if (!target) continue;
 

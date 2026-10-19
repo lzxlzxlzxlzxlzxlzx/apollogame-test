@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { worldSeed } from '@engine/core/query.js';
 import { SystemPhase, type IWorld } from '@engine/core/types.js';
 import type { DeliverDrop, Order, PrefabOrigin, DestroyRequest, Resource, RandomSeed } from '@engine/protocol/components.js';
 import { nextRandom } from '@atom-skills/index.js';
@@ -24,11 +25,8 @@ import { weightedPick } from './weighted-pick.js';
 //  pool 为空/未设 = 完全退化回旧行为（resetOnComplete!==false 才清空 filled·逐字节零回归，既有测全绿）。
 // ═══════════════════════════════════════════════════════════════
 
-/** 世界里第一个 RandomSeed 实体（约定单例，同 weighted-spawn/effect-apply/dice-roll 找首个单例的惯例）。 */
-function findWorldSeed(world: IWorld): RandomSeed | undefined {
-  for (const [id] of world.query('RandomSeed')) return world.getComponent<RandomSeed>(id, 'RandomSeed');
-  return undefined;
-}
+/** 世界随机种子（黑板单例）——统一取法 engine/core/query.worldSeed（B-3）。 */
+const findWorldSeed = worldSeed;
 
 /** REQ-ORDERROT：集齐发奖后从 order.pool 取下一单写回 needItems/reward + 清 filled（调用前已确认 pool 非空）。
  *  sequence（缺省）：按 cursor 顺序取，取后环回递进 cursor=(cursor+1)%pool.length（缺省 cursor 视为 0）。

@@ -39,4 +39,29 @@ describe('string-apply system', () => {
     expect(world.getComponent<StringVar>('e1', 'StringVar')!.value).toBe('x');
     expect(world.hasComponent('e2', 'StringSet')).toBe(false);
   });
+
+  // A2 遗留缺口腿：同拍多个 StringSet 同 id 的折叠语义（源码 string-apply 按 query 序=创建序逐条应用）。
+  it('同拍多个 StringSet 同 id → 按创建序依次应用、末位胜（last-wins·实测钉死），且全部消费', () => {
+    world.createEntity('holder');
+    world.addComponent('holder', { type: 'StringVar', id: 'node', value: 'a' } as StringVar);
+    world.createEntity('e1');
+    world.addComponent('e1', { type: 'StringSet', id: 'node', value: 'from-e1' } as StringSet);
+    world.createEntity('e2');
+    world.addComponent('e2', { type: 'StringSet', id: 'node', value: 'from-e2' } as StringSet);
+    world.tick();
+    expect(world.getComponent<StringVar>('holder', 'StringVar')!.value).toBe('from-e2'); // 创建序末位胜
+    expect(world.hasComponent('e1', 'StringSet')).toBe(false); // 两条都被消费（不残留下一拍重放）
+    expect(world.hasComponent('e2', 'StringSet')).toBe(false);
+  });
+
+  it('同拍折叠的胜者随创建序走（反序创建 → 另一条胜）——不是固定实体名，是创建序末位', () => {
+    world.createEntity('holder');
+    world.addComponent('holder', { type: 'StringVar', id: 'node', value: 'a' } as StringVar);
+    world.createEntity('e2'); // 先建 e2
+    world.addComponent('e2', { type: 'StringSet', id: 'node', value: 'from-e2' } as StringSet);
+    world.createEntity('e1'); // 后建 e1 → 末位
+    world.addComponent('e1', { type: 'StringSet', id: 'node', value: 'from-e1' } as StringSet);
+    world.tick();
+    expect(world.getComponent<StringVar>('holder', 'StringVar')!.value).toBe('from-e1');
+  });
 });

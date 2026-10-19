@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { World } from '@engine/core/world.js';
 import type { KeyBinding, InputQueue, Signal, RawInputData } from '@engine/protocol/components.js';
+import { validateComponentData } from '../../assembly/validate-manifest.js';
+import type { EntityBlueprint } from '../../assembly/demo.assembly.js';
 import { keybindCapability } from './keybind.js';
 
 const sig = (w: World, e: string): Signal | undefined => w.getComponent<Signal>(e, 'Signal');
@@ -130,5 +132,44 @@ describe('keybind — 代发 Signal.source（REQ-108-ENG-04）', () => {
     bind(w, 'kb-bad', { key: 'x', signal: 's', source: '' });
     input(w, [{ source: 'p1', key: 'x', phase: 'down' }]);
     expect(() => w.tick()).toThrow(/KeyBinding\.source 是空串/);
+  });
+});
+
+describe('keybind — 声明式条件门（CAPGAP-RHETORIC-003）', () => {
+  const validateWhen = (when: unknown) => validateComponentData(
+    [keybindCapability],
+    { binding: { KeyBinding: { key: 'end-turn', signal: 'end-turn', when } } } as unknown as Record<string, EntityBlueprint>,
+  );
+
+  it('manifest 落盘门接受合法嵌套条件，拒绝未知 kind、缺字段与非法比较符', () => {
+    expect(validateWhen({ kind: 'and', of: [
+      { kind: 'flag', id: 'can-play', equals: true },
+      { kind: 'resource', id: 'focus', cmp: 'gte', value: 1 },
+    ] }).errors).toHaveLength(0);
+
+    for (const invalid of [
+      { kind: 'not-a-condition' },
+      { kind: 'flag', equals: true },
+      { kind: 'resource', id: 'focus', cmp: 'approximately', value: 1 },
+    ]) {
+      expect(validateWhen(invalid).errors, JSON.stringify(invalid)).not.toHaveLength(0);
+    }
+  });
+
+  it('门开产 Signal；门关 fail-closed 并写聚合 reject trace；缺省 when 保持旧行为', () => {
+    const w = world();
+    w.createEntity('gate'); w.addComponent('gate', { type: 'Flag', id: 'can-play', active: false } as any);
+    w.createEntity('trace'); w.addComponent('trace', { type: 'DebugTrace', events: [] } as any);
+    bind(w, 'guarded', { key: 'end-turn', signal: 'end-turn', when: { kind: 'flag', id: 'can-play', equals: true } });
+    bind(w, 'legacy', { key: 'inspect', signal: 'inspect' });
+    input(w, [{ source: 'ui', key: 'end-turn', phase: 'action' }, { source: 'ui', key: 'inspect', phase: 'action' }]);
+    w.tick();
+    expect(sig(w, 'guarded')).toBeUndefined();
+    expect(sig(w, 'legacy')?.name).toBe('inspect');
+    expect(w.getComponent<any>('trace', 'DebugTrace').events).toEqual(expect.arrayContaining([expect.objectContaining({ system: 'keybind', kind: 'reject', what: expect.stringContaining('条件门关闭') })]));
+    w.getComponent<any>('gate', 'Flag').active = true;
+    w.getComponent<any>('global-input', 'InputQueue').actions = [{ source: 'ui', key: 'end-turn', phase: 'action' }];
+    w.tick();
+    expect(sig(w, 'guarded')?.name).toBe('end-turn');
   });
 });

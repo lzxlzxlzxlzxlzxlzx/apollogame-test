@@ -67,6 +67,7 @@ describe('debug · record / replay', () => {
           execute(world) {
             for (const [id] of world.query('Resource')) {
               const r = world.getComponent<Resource>(id, 'Resource')!;
+    // eslint-disable-next-line zerocraft/no-unseeded-random -- 故意非确定：被测对象就是「用 Math.random 制造非确定」以验证 Recorder 抓到分叉（原 test-hygiene 白名单）
               r.current = Math.floor(Math.random() * 1000);
             }
           },

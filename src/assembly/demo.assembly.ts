@@ -20,6 +20,13 @@ export type EntityBlueprint = { [K in keyof ComponentDataMap]?: Record<string, u
 export interface WorldBlueprint {
   capabilities: CapabilityDefinition[];
   entities: Record<string, EntityBlueprint>;
+  /** 蓝图元数据（P2d）：tickRate 是玩法数据（能力全按 tick 计时）——写进蓝图，宿主/联机据此建时钟并进握手指纹。 */
+  meta?: BlueprintMeta;
+}
+
+export interface BlueprintMeta {
+  /** 模拟频率（Hz）。缺省 60。 */
+  tickRate?: number;
 }
 
 // 演示蓝图：子弹向右飞 → 撞墙被 overlap-detect 检测 → 寿命到时自毁。

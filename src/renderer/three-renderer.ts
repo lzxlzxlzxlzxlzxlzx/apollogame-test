@@ -467,6 +467,7 @@ export class ThreeRenderer implements RendererBackend {
 
     // 渲染：有 Post3D → EffectComposer 管线；否则直渲（向后兼容）。用 CameraRig 当前激活相机（透视/正交）。
     const cam = this.cameras.current;
+    this.reflectors.cull(cam); // 镜面视锥剔除（相机定位后·渲染前）：不在视锥的镜子 visible=false → 零 RTT 全场景渲染
     this.trails.build(this.scene, world, cam); // 运动拖尾几何：据历史 + 相机方位重建「朝相机带状」（须相机就绪后·渲染前）。
     this.lines.build(this.scene, world, cam); // 世界折线几何：据给定点 + 相机重建「朝相机带状」（瞄准线/牵引/路径·相机就绪后）。
     if (post) this.post.render(this.scene, cam, post, flashAmt);

@@ -3,6 +3,7 @@ import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Velocity, Transform, Shape, Mass, Overlap } from '@engine/protocol/components.js';
 import { contactBetween } from '@engine/spatial/contact.js';
+import { cmpStr } from '@engine/math/scalar.js';
 
 // 速度迭代在"固定流形"上做（不重算几何）；位置迭代用 NGS（重算几何、只动位置）。Box2D 同构。
 const VEL_ITERS = 8;
@@ -61,7 +62,7 @@ export const collisionResolveCapability = defineCapability({
           const o = world.getComponent<Overlap>(oid, 'Overlap')!;
           pairs.push(o.entityA < o.entityB ? [o.entityA, o.entityB] : [o.entityB, o.entityA]);
         }
-        pairs.sort((p, q) => (p[0] < q[0] ? -1 : p[0] > q[0] ? 1 : p[1] < q[1] ? -1 : p[1] > q[1] ? 1 : 0));
+        pairs.sort((p, q) => cmpStr(p[0], q[0]) || cmpStr(p[1], q[1]));
 
         // 窄相位一次：构建接触流形（法线/逆质量/组件引用固定下来；速度迭代不再重跑几何）。
         interface Manifold {

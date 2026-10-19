@@ -24,7 +24,8 @@ export const zoneOccupancyCapability = defineCapability({
     summary: '数声明矩形内的匹配目标（按实体名单/Tag/全体），达数量阈值 → 置 outFlag。通关/到达/区域占据/收集齐通用。',
     semantic: ['tier2', 'logic', 'objective'],
     whenToUse:
-      '想把「胜负/通关/到达/区域占据」表达成数据而不写游戏代码时。挂 Zone{outFlag,矩形,requiredEntities|requiredTag,count}；下游 event-when/condition 读 outFlag。',
+      '想把「胜负/通关/到达/区域占据」表达成数据而不写游戏代码时。挂 Zone{outFlag,矩形,requiredEntities|requiredTag,count}；下游 event-when/condition 读 outFlag。' +
+      '⚠ 契约：同一 outFlag 挂多个 Zone = 按创建序末位胜（每 tick 逐 Zone 覆写同一 Flag·非或/非与·2026-08-26 测试收尾实证钉死）；要或/与语义 → 各 Zone 各自独立 outFlag，经 condition 组合。',
     examples: [
       '双人协作通关：Zone{ outFlag:"coop-clear", 矩形=目标区, requiredEntities:["playerA","playerB"] }（全部在内）',
       '压力台需 2 人：Zone{ outFlag:"plate_on", 矩形=台子, requiredTag:PLAYER_BIT, count:2 }',

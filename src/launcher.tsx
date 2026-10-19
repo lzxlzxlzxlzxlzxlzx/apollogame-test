@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, type Root } from 'react-dom/client';
 import { StudioInspector } from './studio/StudioInspector.js';
 import { AssetLibrary } from './studio/AssetLibrary.js';
+import { CharacterLibrary } from './studio/CharacterLibrary.js';
 import { SHELL } from './ui/shell-theme.js';
 import { resolveArtRefs } from './assembly/resolve-art-refs.js';
 import { artlibRecords, type LibraryRecord } from '@assets/index.js';
 import type { ArtLibIndex } from '@assets/artlib.js';
-import { buildCapabilityCatalog } from './assembly/capability-catalog.js';
+import { buildCapabilityCatalog, buildCapabilityIndex } from './assembly/capability-catalog.js';
 import { ALL_CAPABILITIES } from './assembly/capability-registry.js';
 import {
   metaToGameEntry, libSlug, providerStatus, LIB_ID_PREFIX,
@@ -20,6 +21,8 @@ import { DesignStudio, EntryChoice, ContinueChoice } from './studio/DesignStudio
 import { ArtLedgerPanel, ArtGamePicker } from './studio/ArtLedgerPanel.js';
 import { GamePipelinePanel } from './studio/GamePipelinePanel.js';
 import { SettingsPanel } from './studio/SettingsPanel.js';
+import { ProjectRoadmapPanel } from './studio/ProjectRoadmapPanel.js';
+import { AuthoringStudio } from './studio/AuthoringStudio.js';
 
 // （2026-07-16 纯结构拆分·token 优化）轮播/DevTools/游戏运行时/API 助手拆至 ./launcher/*，行为不变。
 import { API, apiCall } from './launcher/api.js';
@@ -27,6 +30,7 @@ import { useKeyframes, CartridgeCarousel } from './launcher/carousel.js';
 import { DevTools } from './launcher/devtools.js';
 import { GameRunner, BareListRetry } from './launcher/game-runner.js';
 import { ProfileCard } from './launcher/profile-card.js';
+import { LIFE_LAUNCHER_GAME_ENTRIES, LIFE_LAUNCHER_ID_PREFIX } from './launcher/life-launcher-catalog.js';
 
 // ══════════════════════════════════════
 //  Game Registry
@@ -44,6 +48,58 @@ const GAMES_ALLOWLIST: Set<string> | null = (() => {
 
 // GAMES 不拆走：main_entry/games_list.py 以正则从 src/launcher.tsx 解析本表（内置卡片元信息单一真相·只读）。
 export const GAMES: GameEntry[] = [
+  {
+    id: 'game-rhetoric-duel',
+    title: '《言弹交锋》',
+    subtitle: '身份牌辩论 · 确定性对决',
+    description: '以声明式身份牌组织论点、顶住对手施压的回合制辩论。牌组、对手意图、资源和终局全部由通用引擎能力解释。',
+    color: '#3b1827',
+    accentColor: '#d8607b',
+    icon: '🗣️',
+    status: 'playable',
+  },
+  {
+    id: 'game-dice',
+    title: '轻掷 Dice Overlay',
+    subtitle: '透明叠层 · d4 / d6 / d8 / d20',
+    description: '一个可嵌入其他应用的掷骰子卡带。点击或拖动骰子即可投掷；调用方可传入骰池、预定点数或 seed。没有预定结果时由宿主安全地产生一次 seed，结算后按统一消息合同回传每颗骰面和总点数。',
+    color: '#21164a',
+    accentColor: '#b9a1ff',
+    icon: '🎲',
+    status: 'playable',
+  },
+  { id: 'game-lockpick', title: '《机关锁》', subtitle: '三档滑钮 · 光色与声音反馈', description: '调节机关滑钮，通过整体光色与声音反馈试探隐藏组合。没有次数、倒计时或错误惩罚；只有确认放弃才会失败。', color: '#17201f', accentColor: '#d8b76a', icon: '🔐', status: 'playable' },
+  { id: 'game-potion-brewing', title: '《坩埚炼药》', subtitle: '透明炼药台 · S3 骨架预览', description: '宿主指定唯一配方；现阶段仅供正式引擎骨架与输入接缝内部验收，完整可玩链与美术对齐待后续阶段。', color: '#3d293b', accentColor: '#d8aa66', icon: '⚗️', status: 'playable' },
+  {
+    id: 'game-loot-chest',
+    title: '开启宝箱 Loot Chest',
+    subtitle: '概率掉落 · 多物品 · 数量奖励',
+    description: '独立 DokiWorld SDK App 的本地预览：点击宝箱开启，按固定种子从战利品表中抽取多件物品与数量奖励。正式 Host 可传入自己的掉落表与物品图片。',
+    color: '#291522',
+    accentColor: '#f5bd4f',
+    icon: '🧰',
+    status: 'playable',
+  },
+  {
+    id: 'game-theft',
+    title: '潜取 Theft QTE',
+    subtitle: '透明叠层 · 渐进暴露 · 双环开门',
+    description: 'DokiWorld 场景上的透明偷窃小游戏：中央指针扫过金色时机窗，完美 QTE 累积开门机会；在持续上涨的暴露前翻开双环槽位并随时撤退。',
+    color: '#17151f',
+    accentColor: '#d5aa62',
+    icon: '🔐',
+    status: 'playable',
+  },
+  {
+    id: 'game-simlife',
+    title: '小山谷 Life 演示',
+    subtitle: '模拟经营引擎 · 可试玩验收入口',
+    description: '以纯 LifeGamePackage 数据展示行走、区域传送、农田循环、采集、日历与 NPC 声明式对话。所有操作进入既有语义输入链，不含独立游戏规则。',
+    color: '#183325',
+    accentColor: '#d8b76a',
+    icon: '🌿',
+    status: 'playable',
+  },
   {
     id: 'game108',
     title: 'Game 108: 拳律 Rule of Three',
@@ -160,6 +216,17 @@ export const GAMES: GameEntry[] = [
     status: 'playable',
   },
   {
+    id: 'game111',
+    title: 'Game 111:《小都会》',
+    subtitle: '没有剧本的小镇 · AI NPC 活世界',
+    description:
+      '一座回合推进的小镇：五个居民由大语言模型驱动，自己决定今天去哪、找谁说话、要不要歇一会儿。没有固定剧本——他们的动机来自各自的经历，经历会淡忘、会在彼此之间传开，于是事情一件牵着一件地发生。好感度攒够了，NPC 会给你一个只属于你们俩的称号；他们也会拿和你相处的记忆去小星书发帖。架构基石=「LLM 不是解释器，LLM 是输入源」：模型只能吐闭集意图，经 intent-barrier 收齐排序后走和人类玩家完全相同的输入路径进世界，所以录放 bit 一致、断网自动降级照样转。当前=框架层：回合/需求衰减/记忆流转/意图闭集/称号/看板 UI 已通，接 DeepSeek 走 scripts/game111-deepseek-proxy.mjs；无端点则走确定性桩。玩家↔NPC 对话入口=下一阶段。',
+    color: '#070e17',
+    accentColor: '#ff5d2e',
+    icon: '🏘️',
+    status: 'playable',
+  },
+  {
     id: 'game-103',
     title: 'Game 103: 幸存者核心',
     subtitle: '俯视割草 Roguelite · 吸血鬼幸存者式',
@@ -192,6 +259,18 @@ export const GAMES: GameEntry[] = [
     icon: '⚔️',
     status: 'playable',
   },
+  /* AI START */
+  {
+    id: 'manor-escape',
+    title: '《庄园出逃》',
+    subtitle: '一条共通线 · 两个一起的结局',
+    description: '机械师与囚徒在一场庄园游戏里相识。走到外墙园门后，选择一起离开，或一起留下。画面使用已批准的本机 AI 图。配乐尚未入库。',
+    color: '#2a2118',
+    accentColor: '#c4a46a',
+    icon: '🚪',
+    status: 'playable',
+  },
+  /* AI END */
 ];
 
 // 客户端货架实际渲染表（下方 Launcher 组件 + CartridgeCarousel 消费这份，不消费 GAMES 本身）：
@@ -201,6 +280,10 @@ export const GAMES: GameEntry[] = [
 export const VISIBLE_GAMES: GameEntry[] = GAMES.filter(
   (g) => GAMES_ALLOWLIST === null || GAMES_ALLOWLIST.has(g.id),
 );
+export const VISIBLE_LIFE_GAMES: GameEntry[] = LIFE_LAUNCHER_GAME_ENTRIES.filter((g) =>
+  GAMES_ALLOWLIST === null || GAMES_ALLOWLIST.has(g.id) || GAMES_ALLOWLIST.has(g.id.slice(LIFE_LAUNCHER_ID_PREFIX.length)),
+);
+const ALL_VISIBLE_GAMES: readonly GameEntry[] = [...VISIBLE_GAMES, ...VISIBLE_LIFE_GAMES];
 
 // ══════════════════════════════════════
 //  Main Launcher
@@ -213,7 +296,7 @@ export function Launcher() {
   // 系列 bug 的放大器（根因之一 stdout pipe 阻塞已修，此处把"导航被 reload 清零"永久防住）。
   const [launched, setLaunchedState] = useState<string | null>(() => {
     const q = new URLSearchParams(window.location.search).get('game');
-    return q && VISIBLE_GAMES.some((g) => g.id === q && g.status === 'playable') ? q : null;
+    return q && ALL_VISIBLE_GAMES.some((g) => g.id === q && g.status === 'playable') ? q : null;
   });
   // Workshop ▶ 直达（REQ-WORKSHOP 续·owner 07-11）：?game=lib:<slug> 直启卡带；from=workshop 时返回=回创作台。
   const fromWorkshop = React.useMemo(
@@ -233,7 +316,11 @@ export function Launcher() {
     setLaunchedState(id);
   }, []);
   const [studio, setStudio] = useState(false);
+  const [projectRoadmap, setProjectRoadmap] = useState(false);
+  const [authoringStudio, setAuthoringStudio] = useState(false);
   const [artlib, setArtlib] = useState(false);
+  const [characterFocus, setCharacterFocus] = useState<string | null>(() => new URLSearchParams(window.location.search).get('character'));
+  const [charlib, setCharlib] = useState(() => new URLSearchParams(window.location.search).has('character'));
 
   // 玩家模式（?mode=player）：面向 To-C 用户——隐藏内置 GAMES 与 DevTools，卡带架数据源=用户游戏库。
   const playerMode = React.useMemo(
@@ -274,7 +361,11 @@ export function Launcher() {
   // 保存新卡带后请求轮播选中它（`lib:<slug>`）。
   const [selectSlug, setSelectSlug] = useState<string | null>(null);
   // 能力目录（从引擎 ALL_CAPABILITIES 自动派生）：向导生成请求随之送出，注入系统词。派生一次即可。
+  // **两份**（独立审查 2026-09-12 第二轮）：全量目录近 7 万字符，整份塞进每一次请求会吃光弱模型的上下文。
+  // 索引面（id + 一句话·约 7.8k·省 88.7%）给「讨论/分解」这类只需按名字挑件的调用；
+  // 全量留给「出 manifest」那一步——那里真要逐字段的形状，省不得。
   const catalog = React.useMemo(() => buildCapabilityCatalog(ALL_CAPABILITIES), []);
+  const catalogIndex = React.useMemo(() => buildCapabilityIndex(ALL_CAPABILITIES), []);
 
   useEffect(() => {
     apiCall('/api/generate/providers')
@@ -342,12 +433,14 @@ export function Launcher() {
   }, []);
 
   // 向导 / 设计工作台保存成功 → 关面板、刷卡带架、请求选中新卡带 + 「下一步 → 🏭」引导条（REQ-WORKSHOP C1 导流）。
-  const [savedNext, setSavedNext] = useState<{ slug: string } | null>(null);
-  const onWizardSaved = useCallback((slug: string) => {
+  const [savedNext, setSavedNext] = useState<{ slug: string; warnings?: string[] } | null>(null);
+  const onWizardSaved = useCallback((slug: string, warnings?: string[]) => {
     setWizard(null);
     setDesignStudio(null);
     setSelectSlug(`${LIB_ID_PREFIX}${slug}`);
-    setSavedNext({ slug });
+    // 告警随「已入库」条一起显示（独立审查 2026-09-12：软环/降级/兼容性告警此前在成功路径被整段吞掉，
+    // 作者只看到「创建成功」）。告警不阻断入库，但必须看得见。
+    setSavedNext({ slug, warnings: (warnings || []).filter(Boolean) });
     setLibRefresh((k) => k + 1);
   }, []);
   // 轮播跳转完成 → 清 selectSlug（一次性，之后刷架不再强跳）。
@@ -401,9 +494,20 @@ export function Launcher() {
   if (studio) {
     return <StudioInspector onBack={() => setStudio(false)} />;
   }
+  if (projectRoadmap) return <ProjectRoadmapPanel api={API} onBack={() => setProjectRoadmap(false)} />;
+  if (authoringStudio) return <AuthoringStudio api={API} onBack={() => setAuthoringStudio(false)} />;
 
   if (artlib) {
     return <AssetLibrary onBack={() => setArtlib(false)} />;
+  }
+  if (charlib) {
+    return <CharacterLibrary initialId={characterFocus} onBack={() => {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('character');
+      window.history.replaceState(null, '', url);
+      setCharacterFocus(null);
+      setCharlib(false);
+    }} />;
   }
 
   if (artLedger) {
@@ -594,6 +698,26 @@ export function Launcher() {
               🗃 资源库
             </button>
             <button
+              onClick={() => { setCharacterFocus(null); setCharlib(true); }}
+              title="角色仓库：按每个角色的目录文件展示百科页"
+              style={{
+                marginTop: 14,
+                marginLeft: 10,
+                padding: '7px 18px',
+                background: SHELL.violetWash,
+                color: SHELL.violet,
+                border: `1px solid ${SHELL.violetLine}`,
+                borderRadius: 8,
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: 1,
+                cursor: 'pointer',
+                outline: 'none',
+              }}
+            >
+              角色仓库
+            </button>
+            <button
               onClick={() => setEntryChoice(true)}
               title="新建游戏（设计先行 / 快速生成）——旧 GameCreator 已退役，两模式同流"
               style={{
@@ -612,6 +736,26 @@ export function Launcher() {
               }}
             >
               ＋ 新建游戏
+            </button>
+            <button
+              onClick={() => setProjectRoadmap(true)}
+              style={{
+                marginTop: 14, marginLeft: 10, padding: '7px 18px', background: SHELL.violetWash,
+                color: SHELL.violet, border: `1px solid ${SHELL.violetLine}`, borderRadius: 8,
+                fontSize: 12, fontWeight: 600, letterSpacing: 1, cursor: 'pointer', outline: 'none',
+              }}
+            >
+              🧭 项目控制台
+            </button>
+            <button
+              onClick={() => setAuthoringStudio(true)}
+              style={{
+                marginTop: 14, marginLeft: 10, padding: '7px 18px', background: SHELL.jadeWash,
+                color: SHELL.jade, border: `1px solid ${SHELL.jadeLine}`, borderRadius: 8,
+                fontSize: 12, fontWeight: 600, letterSpacing: 1, cursor: 'pointer', outline: 'none',
+              }}
+            >
+              GAL 创作台
             </button>
             <button
               onClick={() => setStudio(true)}
@@ -660,7 +804,7 @@ export function Launcher() {
           )}
         />
       ) : (
-        <CartridgeCarousel games={[...VISIBLE_GAMES, ...libGameEntries]} onLaunch={onLaunchCartridge} renderLaunchArea={renderLaunchArea} selectId={selectSlug ?? undefined} onSelected={clearSelect} />
+        <CartridgeCarousel games={[...ALL_VISIBLE_GAMES, ...libGameEntries]} onLaunch={onLaunchCartridge} renderLaunchArea={renderLaunchArea} selectId={selectSlug ?? undefined} onSelected={clearSelect} />
       )}
 
       {/* 玩家模式·非空架：显式「＋ 新建游戏」入口（空架时 EmptyShelf 已有大卡位·此处不重复） */}
@@ -689,7 +833,17 @@ export function Launcher() {
           background: SHELL.jadeWash, border: `1px solid ${SHELL.jadeLine}`,
           color: SHELL.jade, fontSize: 13, fontFamily: SHELL.fontUi,
         }}>
-          <span>✓ 已入库 <b>{libGameEntries.find((g) => libSlug(g.id) === savedNext.slug)?.title ?? savedNext.slug}</b></span>
+          <span>
+            {(savedNext.warnings?.length ?? 0) > 0 ? '⚠' : '✓'} 已入库{' '}
+            <b>{libGameEntries.find((g) => libSlug(g.id) === savedNext.slug)?.title ?? savedNext.slug}</b>
+            {(savedNext.warnings?.length ?? 0) > 0 && (
+              <span style={{ display: 'block', marginTop: 4, color: SHELL.warn, fontSize: 11, lineHeight: 1.6, maxWidth: 520 }}>
+                {savedNext.warnings!.length} 条引擎告警（已入库·但请看一眼）：
+                {savedNext.warnings!.slice(0, 4).map((w, i) => <span key={i} style={{ display: 'block' }}>· {w}</span>)}
+                {savedNext.warnings!.length > 4 && <span style={{ display: 'block' }}>· …还有 {savedNext.warnings!.length - 4} 条</span>}
+              </span>
+            )}
+          </span>
           <button
             onClick={() => {
               const title = libGameEntries.find((g) => libSlug(g.id) === savedNext.slug)?.title ?? savedNext.slug;
@@ -773,6 +927,7 @@ export function Launcher() {
           api={API}
           providers={providers ?? []}
           catalog={catalog}
+          catalogIndex={catalogIndex}
           resolveArt={resolveArt}
           initialSlug={designStudio.slug}
           initialName={designStudio.name}
@@ -828,4 +983,10 @@ export function Launcher() {
 // #app 存在才挂载（index.html 恒有）；无 #app（如无头集成测试 import 本模块）→ 零副作用，
 // 让测试能渲染导出的 <Launcher /> 走真实接线（返修 Lead 要求的 launcher 层集成测试的前提）。
 const appEl = document.getElementById('app');
-if (appEl) createRoot(appEl).render(<Launcher />);
+// Vite HMR 会重新执行本模块；复用唯一 React root，避免旧 GameRunner 的透明输入层残留在新游戏之上。
+type LauncherWindow = Window & { __zcLauncherRoot?: Root };
+if (appEl) {
+  const hostWindow = window as LauncherWindow;
+  const root = hostWindow.__zcLauncherRoot ?? (hostWindow.__zcLauncherRoot = createRoot(appEl));
+  root.render(<Launcher />);
+}

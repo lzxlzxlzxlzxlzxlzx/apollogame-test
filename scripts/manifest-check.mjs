@@ -16,6 +16,9 @@
 
 import { parseManifestDetailed } from '../src/assembly/manifest.ts';
 import { Engine } from '../src/runtime/engine.ts';
+import { readFileSync } from 'node:fs';
+import { basename, dirname } from 'node:path';
+import { requireCartAssetIndex, assertCartMasksBound } from '../src/assets/cart-art.ts';
 
 function readStdin() {
   return new Promise((resolve, reject) => {
@@ -46,7 +49,13 @@ async function main() {
 
   let result;
   try {
-    result = parseManifestDetailed(parsed);
+    const arg = process.argv.indexOf('--art-index');
+    const indexPath = arg >= 0 ? process.argv[arg + 1] : undefined;
+    if (arg >= 0 && !indexPath) throw new Error('--art-index 需要文件路径');
+    const slug = indexPath ? basename(dirname(dirname(indexPath))) : 'stdin';
+    const index = requireCartAssetIndex(parsed, slug, indexPath ? JSON.parse(readFileSync(indexPath, 'utf8')) : null);
+    result = parseManifestDetailed(parsed, index ? { assetIndex: index, assetKeys: new Set(index.assets.map((a) => a.id)) } : {});
+    assertCartMasksBound(result.blueprint);
   } catch (e) {
     // 引擎判定的真错（结构/基元类型不符）→ 拒绝落盘。
     process.stderr.write(`${e && e.message ? e.message : e}\n`);
@@ -75,6 +84,8 @@ async function main() {
     JSON.stringify({
       ok: true,
       inferredCapabilities: result.inferredCapabilities,
+      // 真解析出的能力 id（显式或推断·登记序无关=manifest 序）——package-web 据此裁剪懒注册表打子集外壳（P2e）。
+      capabilities: result.blueprint.capabilities.map((c) => c.id),
       warnings: result.warnings,
     }) + '\n',
   );

@@ -13,7 +13,8 @@
 // 直扫「后写覆盖」会读到某个敌的血；② `kills` 世界里叫 `score`（killbox 计分环）；③ `GameFlow.current`
 // 非标量组件 → 投成 StringVar `status`。xp/level/clock 世界里本就唯一，一并走合成=同一条读法（仍是 passthrough）。
 import { Engine } from '@zerocraft/engine/runtime/engine.js';
-import { applyCommands, QueuedInputSource } from '@zerocraft/engine/net/index.js';
+import { applyCommands } from '@zerocraft/engine/net/index.js';
+import { QueuedInputSource } from '@zerocraft/engine/net/host/index.js';
 import type { IWorld } from '@zerocraft/engine/engine/core/types.js';
 import type { Resource, GameFlow } from '@zerocraft/engine/engine/protocol/components.js';
 import { buildBlueprint } from './blueprint.js';

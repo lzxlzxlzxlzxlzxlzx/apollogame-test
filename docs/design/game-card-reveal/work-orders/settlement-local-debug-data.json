@@ -1,0 +1,21 @@
+{
+  "presentationId": "preview-clear",
+  "locale": "zh-CN",
+  "pack": {
+    "packId": "preview",
+    "title": "哈利·波特",
+    "coverImageUrl": null,
+    "titleLogoUrl": null
+  },
+  "cards": [
+    {
+      "id": "preview-clear",
+      "kind": "event",
+      "name": "哈利·波特 · 通关纪念",
+      "description": "完成全部主线",
+      "rarity": "epic",
+      "imageUrl": null,
+      "worldTitle": "哈利·波特"
+    }
+  ]
+}

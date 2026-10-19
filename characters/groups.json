@@ -1,0 +1,16 @@
+{
+  "groups": [
+    {
+      "id": "identity-v",
+      "name": "第五人格"
+    },
+    {
+      "id": "original",
+      "name": "原创"
+    },
+    {
+      "id": "manor-escape",
+      "name": "庄园出逃"
+    }
+  ]
+}

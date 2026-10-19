@@ -1,0 +1,3783 @@
+{
+  "kind": "script-candidate",
+  "status": "approved",
+  "projectId": "manor-escape",
+  "basedOn": [
+    "beats-3"
+  ],
+  "locale": "zh-CN",
+  "note": "Owner 2026-10-16 批准当前逐句稿。图像同日批准，来源为本机部署的 AI。配乐不在该批素材中，组装时省略 bgm，不编造音频。外墙园门一章从 n-gate-01 起，选择仍是 n-choice。",
+  "entry": {
+    "chapterId": "c-hall",
+    "nodeId": "n-meet"
+  },
+  "chapters": {
+    "c-hall": {
+      "id": "c-hall",
+      "title": {
+        "zh-CN": "门厅"
+      },
+      "start": "n-meet",
+      "nodes": {
+        "n-meet": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师进门时，邀请函已经不在自己手里。锁芯那套衣服在暖灯下几乎是黑的，只有瞳仁和腰间的心形锁透出一点紫。金色短发用黑丝带束在一侧，帽上的紫镜护目镜没有拉下来。她的左手是一副黄铜骨骼，指节并拢，像暂时不想被人看见。右手把机械玩偶从肩上放下来，玩偶的关节轻轻响了一下，像在替她问好。"
+          },
+          "presentation": {
+            "scene": "s-hall",
+            "background": "bg-hall",
+            "bgm": {
+              "play": "bgm-manor"
+            },
+            "transition": "fade",
+            "cast": {
+              "mechanic": {
+                "visible": true,
+                "side": "left",
+                "emotion": "戒备",
+                "zOrder": 3
+              },
+              "prisoner": {
+                "visible": true,
+                "side": "right",
+                "emotion": "警惕",
+                "zOrder": 3
+              },
+              "doctor": {
+                "visible": true,
+                "side": "center",
+                "emotion": "诊视",
+                "zOrder": 2
+              },
+              "gardener": {
+                "visible": true,
+                "side": "left",
+                "emotion": "担忧",
+                "zOrder": 1
+              },
+              "factory-chief": {
+                "visible": false
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-02"
+          }
+        },
+        "n-meet-02": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "门在她身后合上。锁舌咬住门框，声音很短。"
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-03"
+          }
+        },
+        "n-meet-03": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "医生站在灯下，药箱放在脚边，先看了看每个人的手和膝盖。园丁把草帽捏在胸前，眼睛却往走廊尽头看。囚徒靠着墙，腕上的线缆垂下来，电路匣被他按在身侧，像一件不肯交给别人的行李。"
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-04"
+          }
+        },
+        "n-meet-04": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "函呢。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "戒备",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-05"
+          }
+        },
+        "n-meet-05": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "收走了。进这扇门之前，谁的函都不会留在自己身上。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "诊视",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-06"
+          }
+        },
+        "n-meet-06": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "那奖金呢。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "戒备",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-07"
+          }
+        },
+        "n-meet-07": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "奖金写在函上。函不在了，奖金还在不在，得到出去以后才知道。你先让我看看你有没有受伤。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "诊视",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-08"
+          }
+        },
+        "n-meet-08": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师把袖口往上推了推。没有伤。她不喜欢被人这样检查，可医生的手很稳，稳得让人没法找茬。"
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-09"
+          }
+        },
+        "n-meet-09": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "能走。下一个。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "诊视",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-10"
+          }
+        },
+        "n-meet-10": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "囚徒没有马上伸手。他先看见她的机械左手，又看见肩边的玩偶，看了两秒，才把电路匣的盖子按严。"
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-11"
+          }
+        },
+        "n-meet-11": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "我没事。线是我自己接的，不是他们弄断的。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "受伤仍逞强",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-12"
+          }
+        },
+        "n-meet-12": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "我问的是人，不是线。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "皱眉",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-13"
+          }
+        },
+        "n-meet-13": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "人也是我自己的。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "受伤仍逞强",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-14"
+          }
+        },
+        "n-meet-14": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "园丁这时才开口。她的声音不高，像怕惊动墙里的什么。"
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-15"
+          }
+        },
+        "n-meet-15": {
+          "kind": "line",
+          "speaker": "gardener",
+          "text": {
+            "zh-CN": "外墙有一扇园门。我从前给那里的花剪过枝。门不是装饰，是能开的。开的时候很短。"
+          },
+          "presentation": {
+            "cast": {
+              "gardener": {
+                "emotion": "认真指路",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-16"
+          }
+        },
+        "n-meet-16": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "多短。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-17"
+          }
+        },
+        "n-meet-17": {
+          "kind": "line",
+          "speaker": "gardener",
+          "text": {
+            "zh-CN": "够一个人出去，或者两个人一起出去。再慢，它就自己关上。"
+          },
+          "presentation": {
+            "cast": {
+              "gardener": {
+                "emotion": "认真指路",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-18"
+          }
+        },
+        "n-meet-18": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "关上以后呢。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "警惕",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-19"
+          }
+        },
+        "n-meet-19": {
+          "kind": "line",
+          "speaker": "gardener",
+          "text": {
+            "zh-CN": "门内的园子也能住。花还在。住不住院子，是另一件事。我只是说，门在。"
+          },
+          "presentation": {
+            "cast": {
+              "gardener": {
+                "emotion": "担忧",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-20"
+          }
+        },
+        "n-meet-20": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "走廊尽头有脚步声。不急。一步，一步，拖着一点火星落在地毯上，又自己灭掉。厂长停在拱门下面，面具后的眼睛对着门厅扫了一圈。他不说话。他手里的木偶和机械师的玩偶对上了，两个小东西都没有动。"
+          },
+          "presentation": {
+            "cast": {
+              "factory-chief": {
+                "visible": true,
+                "side": "right",
+                "emotion": "巡视",
+                "zOrder": 4,
+                "motion": "enter-right"
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-21"
+          }
+        },
+        "n-meet-21": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师把玩偶重新背好。她觉得自己的声音比刚才硬。"
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-22"
+          }
+        },
+        "n-meet-22": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "巡视开始了。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "戒备",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-23"
+          }
+        },
+        "n-meet-23": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "厂长没有回答。他抬了一下手，不是招呼，是拦截的预备。然后他转身，往宅子深处走。火星跟着他，不追人，只照路。"
+          },
+          "presentation": {
+            "cast": {
+              "factory-chief": {
+                "visible": false,
+                "motion": "leave-right",
+                "emotion": "抬手拦截"
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-24"
+          }
+        },
+        "n-meet-24": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "医生扣上药箱。"
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-25"
+          }
+        },
+        "n-meet-25": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "还能走的人，跟我走。哭和争辩都留到门外。这里的门已经锁了。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "压低声音",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-26"
+          }
+        },
+        "n-meet-26": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "囚徒看了机械师一眼。那一眼不像求助，像在确认她会不会把别人的机器当成自己的。"
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-27"
+          }
+        },
+        "n-meet-27": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "你的玩偶能靠近带电的东西吗。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "讲道理",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-28"
+          }
+        },
+        "n-meet-28": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "能。它比我耐撞，也比我听话。你问这个干什么。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "戒备",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-29"
+          }
+        },
+        "n-meet-29": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "因为我有一条还活着的电路。如果你的玩偶肯替我走过去，我们也许不必在这里等他回头。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "讲道理",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-30"
+          }
+        },
+        "n-meet-30": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "互相利用的话，我接受。别的以后再说。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "别过脸",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-31"
+          }
+        },
+        "n-meet-31": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "别的我也不打算在门厅说。这里的灯太暖，暖得像在骗人。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "警惕",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-32"
+          }
+        },
+        "n-meet-32": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "园丁把草帽重新戴好。她看了看机械师的玩偶，又看了看囚徒的线。"
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-33"
+          }
+        },
+        "n-meet-33": {
+          "kind": "line",
+          "speaker": "gardener",
+          "text": {
+            "zh-CN": "你们的东西都还在自己身上。函可以被拿走，手不能。外墙那扇门我可以带路，可我不会替你们决定谁和谁一起过。"
+          },
+          "presentation": {
+            "cast": {
+              "gardener": {
+                "emotion": "认真指路",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-34"
+          }
+        },
+        "n-meet-34": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "决定留到没有火的地方再做。现在先离开这间已经上锁的屋子。谁掉队，谁就对着他的木偶解释。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "皱眉",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-35"
+          }
+        },
+        "n-meet-35": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师把遥控器在掌心里转了一圈。玩偶抬起头，像在等命令。她点了一下头，玩偶便跟上她的脚踝。"
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-36"
+          }
+        },
+        "n-meet-36": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "它听我的。人也先听能出去的路。我的左手能接线，可它碰不到电机那边。远的活给玩偶。你的匣子如果中途熄火，就说。别等它烧到我这边。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-37"
+          }
+        },
+        "n-meet-37": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "熄火我会说。烧到你那边之前，我会先把线扯断。这是利用，不是牺牲。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "讲道理",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-hall",
+            "nodeId": "n-meet-38"
+          }
+        },
+        "n-meet-38": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "园丁已经指向侧面的楼梯。医生走在前面。厂长的脚步还在远处，不近，也不远。"
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair"
+          }
+        }
+      }
+    },
+    "c-cipher": {
+      "id": "c-cipher",
+      "title": {
+        "zh-CN": "破译室"
+      },
+      "start": "n-pair",
+      "nodes": {
+        "n-pair": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "破译室比门厅冷。一台旧电机靠墙站着，皮带松了，仍在转。密码机接在它旁边，灯一格一格地跳，像在数谁还没有离开。"
+          },
+          "presentation": {
+            "scene": "s-cipher",
+            "background": "bg-cipher",
+            "transition": "cut",
+            "cast": {
+              "mechanic": {
+                "visible": true,
+                "side": "left",
+                "emotion": "专注",
+                "zOrder": 3
+              },
+              "prisoner": {
+                "visible": true,
+                "side": "right",
+                "emotion": "讲道理",
+                "zOrder": 3
+              },
+              "doctor": {
+                "visible": true,
+                "side": "center",
+                "emotion": "皱眉",
+                "zOrder": 2
+              },
+              "gardener": {
+                "visible": false
+              },
+              "factory-chief": {
+                "visible": false
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-02"
+          }
+        },
+        "n-pair-02": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "医生把药箱放在离电机最远的桌上。"
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-03"
+          }
+        },
+        "n-pair-03": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "不要用手去碰正在转的皮带。要碰，让不会流血的那个去。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "皱眉",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-04"
+          }
+        },
+        "n-pair-04": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师把玩偶放到地上。玩偶的轮子在灰里碾出两道细痕，它自己走到电机侧面，小手按上密码机的侧板。机械师在房间另一头握着遥控器，掌心出了汗。"
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-05"
+          }
+        },
+        "n-pair-05": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "它在听齿轮。左边第二组是松的。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-06"
+          }
+        },
+        "n-pair-06": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "囚徒已经蹲下来。他从电路匣里拉出一根短线，没有看机械师，只把线头递向玩偶够得到的位置。"
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-07"
+          }
+        },
+        "n-pair-07": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "接这里。电流会先过我的匣子，再进机器。过载的话，断的是线，不是你。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "讲道理",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-08"
+          }
+        },
+        "n-pair-08": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "你倒是把自己算得很清楚。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "别过脸",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-09"
+          }
+        },
+        "n-pair-09": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "不清楚的人活不到这一步。你要是信不过，现在把玩偶叫回来。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "受伤仍逞强",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-10"
+          }
+        },
+        "n-pair-10": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师没有叫回来。玩偶的金属指尖夹住线头，轻轻一扣。电机的声音变稳了。密码机跳出一串新的格，其中一格终于不再乱跳。"
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-11"
+          }
+        },
+        "n-pair-11": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "门外面有慢脚步。三个人同时安静。脚步过去了，火星的味道留了一点在门缝里。"
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-12"
+          }
+        },
+        "n-pair-12": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "他不会一直走错路。再有一次，我们就不要留在有电机的房间。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "压低声音",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-13"
+          }
+        },
+        "n-pair-13": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "再有一次，这扇密码也许就开了。你到底是要救人，还是要催人去送死。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "受伤仍逞强",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-14"
+          }
+        },
+        "n-pair-14": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "我要你们活着走到那扇园门。密码开不开，是你们的事。人倒下了，我的药箱也没有用。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "皱眉",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-15"
+          }
+        },
+        "n-pair-15": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师看着玩偶。它还维持着夹线的姿势，小脸上没有表情，可她忽然觉得它站得很辛苦。"
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-16"
+          }
+        },
+        "n-pair-16": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "它替我挨过很多下。今天我想让它只做一件事：把这条路打开。打开以后，我自己走。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-17"
+          }
+        },
+        "n-pair-17": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "那我和你的约定就到打开为止。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "讲道理",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-18"
+          }
+        },
+        "n-pair-18": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "可以。打开为止。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "别过脸",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-19"
+          }
+        },
+        "n-pair-19": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "密码机响了一声，像一口钟被敲在很远的地方。侧门的锁松开了。锁后不是园门，是向下的楼梯，风从下面上来，带着机油和旧木头的气味。"
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-20"
+          }
+        },
+        "n-pair-20": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "向下不是出去。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "皱眉",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-21"
+          }
+        },
+        "n-pair-21": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "向下是还能修东西的地方。出去的门如果坏了，就在下面修。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "讲道理",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-22"
+          }
+        },
+        "n-pair-22": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师把玩偶召回来。玩偶的手里还夹着一点线头，她帮它把线头绕好，动作比对自己还轻。"
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-23"
+          }
+        },
+        "n-pair-23": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "它夹线的时候，手会发热。发热还好。发烫我就叫停。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-24"
+          }
+        },
+        "n-pair-24": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "我数得清。匣子的第二格如果跳红，你就喊。不必等我承认。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-25"
+          }
+        },
+        "n-pair-25": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "医生已经站到楼梯口。她没有催第二遍，可她的药箱带扣扣得很响，响一下，就是一句没说出口的快点。"
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-26"
+          }
+        },
+        "n-pair-26": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "医生。若下面没有门，你还跟我们下去吗。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "戒备",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-27"
+          }
+        },
+        "n-pair-27": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "跟到我还能把人带出来为止。再深的楼梯，也不能变成你们躲起来的理由。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "压低声音",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-28"
+          }
+        },
+        "n-pair-28": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "没有人要躲。要修。修不好，你的催促也出不了门。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "受伤仍逞强",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-29"
+          }
+        },
+        "n-pair-29": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "那就修。修的时候把背对着墙，不要对着楼梯。他从上面来，你们要先看见影子。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "诊视",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-30"
+          }
+        },
+        "n-pair-30": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师把玩偶抱稳。侧门的风又灌上来一次，把她额前的头发吹乱。她没有拨开。她看着囚徒，确认他的线还绕在自己指定的那一格上。"
+          },
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair-31"
+          }
+        },
+        "n-pair-31": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "走。利用还没有结束。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond"
+          }
+        }
+      }
+    },
+    "c-workshop": {
+      "id": "c-workshop",
+      "title": {
+        "zh-CN": "地下工坊"
+      },
+      "start": "n-bond",
+      "nodes": {
+        "n-bond": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "工坊像一个被人匆忙离开的钟表店。桌上有齿轴、发条、没有装完的表壳，也有囚徒认得的铜端子。机械师进门就停住了。她的父亲也有过这样一张桌子。她没有把这句话说出来。"
+          },
+          "presentation": {
+            "scene": "s-workshop",
+            "background": "bg-workshop",
+            "transition": "cut",
+            "cast": {
+              "mechanic": {
+                "visible": true,
+                "side": "left",
+                "emotion": "专注",
+                "zOrder": 3
+              },
+              "prisoner": {
+                "visible": true,
+                "side": "right",
+                "emotion": "讲道理",
+                "zOrder": 3
+              },
+              "doctor": {
+                "visible": false
+              },
+              "gardener": {
+                "visible": false
+              },
+              "factory-chief": {
+                "visible": false
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-02"
+          }
+        },
+        "n-bond-02": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "囚徒把电路匣放上台面，手却没有离开。"
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-03"
+          }
+        },
+        "n-bond-03": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "你认识这些。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "警惕",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-04"
+          }
+        },
+        "n-bond-04": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "认识零件，不认识这张桌子。别问我家的事。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "别过脸",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-05"
+          }
+        },
+        "n-bond-05": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "我不问。我只问你的玩偶能不能和我的匣子接在同一条线上。刚才是它帮我。现在如果两条线并成一条，园门那边的锁也许认得出我们。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "讲道理",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-06"
+          }
+        },
+        "n-bond-06": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师把玩偶放到桌上。玩偶坐下，双腿垂在桌沿外，很像一个被带去见客的孩子。她不喜欢这个比喻，可她还是把玩偶胸口的小盖打开了。"
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-07"
+          }
+        },
+        "n-bond-07": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "接吧。过载仍然断你的线。它的芯子不许烧。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-08"
+          }
+        },
+        "n-bond-08": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "不许烧。我听见了。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-09"
+          }
+        },
+        "n-bond-09": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "他接线的时候很安静。机械师也安静。两个人的手隔着一个玩偶，偶尔碰到，就立刻错开，像错开一根不该同时握住的导线。电流进来的一瞬，玩偶的眼睛亮了一下，囚徒的匣子也亮了一下。是同一种光。"
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-10"
+          }
+        },
+        "n-bond-10": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "它认得我的电路。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-11"
+          }
+        },
+        "n-bond-11": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "它认得有用的东西。你别得意。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "别过脸",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-12"
+          }
+        },
+        "n-bond-12": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "我没有得意。我只是很久没有被一台机器这样认真地对待。人也很少。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "受伤仍逞强",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-13"
+          }
+        },
+        "n-bond-13": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师本来想笑一下，把这句话挡回去。她没有笑成。工坊外面传来厂长的脚步，这一次比门厅近，近到能听见木偶的木关节在碰墙。"
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-14"
+          }
+        },
+        "n-bond-14": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "他来了。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "戒备",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-15"
+          }
+        },
+        "n-bond-15": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "线还差最后一扣。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "讲道理",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-16"
+          }
+        },
+        "n-bond-16": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "那就扣。扣完我们跑。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-17"
+          }
+        },
+        "n-bond-17": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "最后一扣合上时，整张桌子轻轻震了一下。不是爆炸。是一台旧机器终于同意工作。机械师下意识用那只黄铜左手按住玩偶，囚徒下意识按住她的手背，指腹碰到的是金属指节，不是皮肤。两个人都愣住了。上面是脚步，下面是他们叠在一起的手。她腰间的心形锁和玩偶的眼睛一起亮着，紫的，和匣子同一种光。"
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-18"
+          }
+        },
+        "n-bond-18": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "囚徒先抽回手。他的耳朵红了，语气却还硬。"
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-19"
+          }
+        },
+        "n-bond-19": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "刚才是为了按住机器。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "受伤仍逞强",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-20"
+          }
+        },
+        "n-bond-20": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "我知道。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "别过脸",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-21"
+          }
+        },
+        "n-bond-21": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "你知道就好。别把利用听成别的。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "受伤仍逞强",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-22"
+          }
+        },
+        "n-bond-22": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "若只有利用，你不会说不许烧它的芯。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-23"
+          }
+        },
+        "n-bond-23": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "囚徒看着她。厂长的影子已经到了楼梯口。面具，慢步，一手木偶，一手将燃未燃的火。他仍不说话。他只是把路堵住了。"
+          },
+          "presentation": {
+            "cast": {
+              "factory-chief": {
+                "visible": true,
+                "side": "center",
+                "emotion": "抬手拦截",
+                "zOrder": 4,
+                "motion": "enter-right"
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-24"
+          }
+        },
+        "n-bond-24": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师把玩偶抱起来。玩偶还温着，温得像刚被谁认真修好。"
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-25"
+          }
+        },
+        "n-bond-25": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师看着那两盏一样的光。她忽然不想再把这句话说成交易。"
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-26"
+          }
+        },
+        "n-bond-26": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "在上面的时候，我说别的以后再说。现在就是以后。我要和你一起走。不是利用到此为止。是走到门那里，也走到门以后。你要是只想用我的玩偶，现在就说。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "轻轻笑",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-27"
+          }
+        },
+        "n-bond-27": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "囚徒的手指还按在端子上。他没有立刻抬头。"
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-28"
+          }
+        },
+        "n-bond-28": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "我想用它。我也想让它好好的。这两句如果只能留一句，我留第二句。人的那一句更难说。可你问了，我就答。我不是只会把人留下的那种人。你要一起走，我就一起走。走不走得出去，我现在保证不了。我保证的是，我不会先松开你。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-29"
+          }
+        },
+        "n-bond-29": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "松开的定义是什么。手，还是人。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-30"
+          }
+        },
+        "n-bond-30": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "人。手可以暂时拿去接线。人不要走到我看不见玩偶眼睛的地方，除非那地方更安全。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-31"
+          }
+        },
+        "n-bond-31": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "成交。这次不是利用。你要是事后反悔，我就让它坐在你的匣子上，直到你承认。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "轻轻笑",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-32"
+          }
+        },
+        "n-bond-32": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "那它会把我的电路坐暖。也好。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-33"
+          }
+        },
+        "n-bond-33": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "厂长抬起手。火光在他掌心亮了一个很小的弧，足够照清楼梯，足够让人知道不能从他身边挤过去。机械师拉着囚徒往工坊侧面的通风廊跑。"
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-34"
+          }
+        },
+        "n-bond-34": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "这边。不要回头看他的火。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "visible": true,
+                "side": "left",
+                "emotion": "压低声音",
+                "zOrder": 2,
+                "motion": "enter-left"
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond-35"
+          }
+        },
+        "n-bond-35": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "园丁在更前面推开一扇矮门。夜风进来了。风里有土，有叶子，有一扇正在被打开的门的气味。"
+          },
+          "presentation": {
+            "cast": {
+              "gardener": {
+                "visible": true,
+                "side": "left",
+                "emotion": "认真指路",
+                "zOrder": 1,
+                "motion": "enter-left"
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-01"
+          }
+        }
+      }
+    },
+    "c-gate": {
+      "id": "c-gate",
+      "title": {
+        "zh-CN": "外墙园门"
+      },
+      "start": "n-gate-01",
+      "nodes": {
+        "n-gate-01": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "园门比园丁说的更小。它开着，开出一个人侧身能过的宽度，又诚实地向两边多让出一掌，像确实为两个人留过一次。门轴在响。响声很有礼貌，也像在倒计时。"
+          },
+          "presentation": {
+            "scene": "s-gate",
+            "background": "bg-gate",
+            "transition": "fade",
+            "cast": {
+              "mechanic": {
+                "visible": true,
+                "side": "left",
+                "emotion": "专注",
+                "zOrder": 3
+              },
+              "prisoner": {
+                "visible": true,
+                "side": "right",
+                "emotion": "看着她时放轻",
+                "zOrder": 3
+              },
+              "doctor": {
+                "visible": true,
+                "side": "center",
+                "emotion": "皱眉",
+                "zOrder": 2
+              },
+              "gardener": {
+                "visible": true,
+                "side": "left",
+                "emotion": "认真指路",
+                "zOrder": 1
+              },
+              "factory-chief": {
+                "visible": false
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-02"
+          }
+        },
+        "n-gate-02": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "门外是路。路不长，能看见草，能看见没有巡视的天。门内是园子，剪过的枝还堆在墙根，花未眠，泥土是湿的。"
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-03"
+          }
+        },
+        "n-gate-03": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "医生站在门槛内侧，药箱背在肩上。"
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-04"
+          }
+        },
+        "n-gate-04": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "所有人出门。现在。我不管奖金，不管机器，不管你们刚才在下面说了什么。先离开这扇会自己关上的门。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "皱眉",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-05"
+          }
+        },
+        "n-gate-05": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "园丁没有跟着催。她站在花旁边，手背蹭掉一片叶子。"
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-06"
+          }
+        },
+        "n-gate-06": {
+          "kind": "line",
+          "speaker": "gardener",
+          "text": {
+            "zh-CN": "门外能走。门内也能住。我不是劝你们留下。我是怕你们以为出去是唯一还能呼吸的地方。有的人出去了，还是会把这里带在身上。有的人留下了，也可以不是囚犯。"
+          },
+          "presentation": {
+            "cast": {
+              "gardener": {
+                "emotion": "认真指路",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-07"
+          }
+        },
+        "n-gate-07": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "住进规矩里，和被规矩追着跑，不是同一种留下。你把话说得太软。门正在关。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "皱眉",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-08"
+          }
+        },
+        "n-gate-08": {
+          "kind": "line",
+          "speaker": "gardener",
+          "text": {
+            "zh-CN": "软才听得见。你们从下面跑出来的时候，手上都是机油，眼睛却在看彼此。那种看，不是逃跑能解释的。我只把两条路指清楚。选的人不是我。"
+          },
+          "presentation": {
+            "cast": {
+              "gardener": {
+                "emotion": "担忧",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-09"
+          }
+        },
+        "n-gate-09": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "医生转过来看机械师。她的声音放低了，仍旧不弯。"
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-10"
+          }
+        },
+        "n-gate-10": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "你若出去，我走在你们后面，直到大路。你若留下，我不会骂你。我只会再确认一次：这是你的嘴说的，不是他的火把你逼回来的。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "压低声音",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-11"
+          }
+        },
+        "n-gate-11": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "他还没逼这一次。他站在那里。门自己在响。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "戒备",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-12"
+          }
+        },
+        "n-gate-12": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "你要是为了不让我一个人留在门里才留下，那就算逼。我不接受那种留下。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "受伤仍逞强",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-13"
+          }
+        },
+        "n-gate-13": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "我还没说留。你也先别替我的嘴起草。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "别过脸",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-14"
+          }
+        },
+        "n-gate-14": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "囚徒的手还被机械师拉着。他看门外，又看门内的花。电路匣撞在他的腿上，一下一下，像一颗不肯安分的心。"
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-15"
+          }
+        },
+        "n-gate-15": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "你选。我说过不先松开。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-16"
+          }
+        },
+        "n-gate-16": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "厂长停在园径尽头。他没有再追进花丛。火小了，小到只够看清他自己。他看着那扇开着的门，不像要拦这一次。他只是在那里，让规矩被看见。"
+          },
+          "presentation": {
+            "cast": {
+              "factory-chief": {
+                "visible": true,
+                "side": "center",
+                "emotion": "停在园门前",
+                "zOrder": 4,
+                "motion": "enter-right"
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-gate-17"
+          }
+        },
+        "n-gate-17": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师感觉到门轴的响声变快了。玩偶在她臂弯里，眼睛还留着工坊那一点光。她看着囚徒。利用已经不够用了。她必须说一句能把两个人放在同一边的话。"
+          },
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-choice"
+          }
+        },
+        "n-choice": {
+          "kind": "choice",
+          "prompt": {
+            "zh-CN": "一起离开，或一起留下。"
+          },
+          "options": [
+            {
+              "id": "opt-leave",
+              "text": {
+                "zh-CN": "一起离开"
+              },
+              "next": {
+                "chapterId": "c-leave",
+                "nodeId": "n-walk"
+              }
+            },
+            {
+              "id": "opt-stay",
+              "text": {
+                "zh-CN": "一起留下"
+              },
+              "next": {
+                "chapterId": "c-stay",
+                "nodeId": "n-remain"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "c-leave": {
+      "id": "c-leave",
+      "title": {
+        "zh-CN": "走出庄园"
+      },
+      "start": "n-walk",
+      "nodes": {
+        "n-walk": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "我们出去。"
+          },
+          "presentation": {
+            "scene": "s-gate",
+            "background": "bg-gate",
+            "transition": "dissolve",
+            "cast": {
+              "mechanic": {
+                "visible": true,
+                "side": "left",
+                "emotion": "专注",
+                "zOrder": 3
+              },
+              "prisoner": {
+                "visible": true,
+                "side": "right",
+                "emotion": "看着她时放轻",
+                "zOrder": 3
+              },
+              "doctor": {
+                "visible": true,
+                "side": "center",
+                "emotion": "皱眉",
+                "zOrder": 2
+              },
+              "gardener": {
+                "visible": true,
+                "side": "left",
+                "emotion": "认真指路",
+                "zOrder": 1
+              },
+              "factory-chief": {
+                "visible": true,
+                "side": "center",
+                "emotion": "目送",
+                "zOrder": 1
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-leave",
+            "nodeId": "n-walk-02"
+          }
+        },
+        "n-walk-02": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "她侧身，先让囚徒过去，自己紧跟着。两个人的肩膀在门框上碰了一下，谁也没有退。玩偶被她护在胸前，电路匣被他提在门外。门在他们身后开始回关。"
+          },
+          "next": {
+            "chapterId": "c-leave",
+            "nodeId": "n-walk-03"
+          }
+        },
+        "n-walk-03": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "医生也出来了。她没有拉任何人，只在门外点了一下人数，又往门内看。"
+          },
+          "next": {
+            "chapterId": "c-leave",
+            "nodeId": "n-walk-04"
+          }
+        },
+        "n-walk-04": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "园丁。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "诊视",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-leave",
+            "nodeId": "n-walk-05"
+          }
+        },
+        "n-walk-05": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "园丁把一枝剪下来的花放在门槛上，然后自己也出来了。她拍拍裙上的土。"
+          },
+          "next": {
+            "chapterId": "c-leave",
+            "nodeId": "n-walk-06"
+          }
+        },
+        "n-walk-06": {
+          "kind": "line",
+          "speaker": "gardener",
+          "text": {
+            "zh-CN": "我知道路。我也可以不跟着你们走远。门一关，各人有各人的白天。"
+          },
+          "presentation": {
+            "cast": {
+              "gardener": {
+                "emotion": "点头",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-leave",
+            "nodeId": "n-walk-07"
+          }
+        },
+        "n-walk-07": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "厂长没有出来。他停在门内，火灭了。面具对着已经变窄的门缝。机械师第一次觉得他不是在追，只是在目送一场按规矩结束的游戏。门合上。锁没有再咬她的衣角。"
+          },
+          "presentation": {
+            "cast": {
+              "factory-chief": {
+                "visible": false
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-leave",
+            "nodeId": "n-walk-08"
+          }
+        },
+        "n-walk-08": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "他停了。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-leave",
+            "nodeId": "n-walk-09"
+          }
+        },
+        "n-walk-09": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "他停在他的地方。我们在我们的地方。走吧。别在门口站成另一场游戏。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-leave",
+            "nodeId": "n-walk-10"
+          }
+        },
+        "n-walk-10": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "往前的路上如果有人受伤，再来找我。没有受伤，就不要把我的药箱当成回庄园的理由。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "松一口气",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-leave",
+            "nodeId": "n-walk-11"
+          }
+        },
+        "n-walk-11": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师点头。她仍然握着囚徒的手。这一次不是为了跑。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life"
+          }
+        }
+      }
+    },
+    "c-outside": {
+      "id": "c-outside",
+      "title": {
+        "zh-CN": "外面的新生活"
+      },
+      "start": "n-life",
+      "nodes": {
+        "n-life": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "路走到天光变白的时候，庄园的墙已经低到像一道普通的篱笆。没有慢脚步。没有火星。风只是风。"
+          },
+          "presentation": {
+            "scene": "s-outside",
+            "background": "bg-outside",
+            "bgm": {
+              "play": "bgm-outside"
+            },
+            "transition": "fade",
+            "cast": {
+              "mechanic": {
+                "visible": true,
+                "side": "left",
+                "emotion": "轻轻笑",
+                "zOrder": 3
+              },
+              "prisoner": {
+                "visible": true,
+                "side": "right",
+                "emotion": "看着她时放轻",
+                "zOrder": 3
+              },
+              "doctor": {
+                "visible": false
+              },
+              "gardener": {
+                "visible": false
+              },
+              "factory-chief": {
+                "visible": false
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-02"
+          }
+        },
+        "n-life-02": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "他们在一间靠路的小房间住下来。房东不问邀请函。桌上有一把旧扳手，是机械师用第一笔零工换的。窗下有一个插座，囚徒把电路匣的线改短了，短到只够给台灯用。玩偶坐在窗台上，看着外面的人走路，不再被派去替谁挨打。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-03"
+          }
+        },
+        "n-life-03": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "第一天他们几乎不会用这间房。机械师把玩偶放在桌角，又移到窗台，又移回来，好像位置错了，外面的风就会把庄园的脚步带回来。囚徒把匣子拆开又装上，装了三次，才允许自己坐在床沿上。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-04"
+          }
+        },
+        "n-life-04": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "你再拆一次，螺丝就会认不出自己的孔。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "别过脸",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-05"
+          }
+        },
+        "n-life-05": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "认得出。我只是要确认这里的电不会忽然变成那边的火。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "警惕",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-06"
+          }
+        },
+        "n-life-06": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "不会。我听过那种脚步。这里的地板只会响自己的响。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-07"
+          }
+        },
+        "n-life-07": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "第二天，房东送来一盆不大好看的绿叶。园丁若在，会知道它的名字。他们都不知道。机械师还是给它浇了水。囚徒把花盆挪到不会滴进插座的位置，挪得很认真。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-08"
+          }
+        },
+        "n-life-08": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "第三天，机械师去修邻街一扇不肯合上的窗。她回来时，手里除了起子，还有半块被她舍不得一次吃完的面包。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-09"
+          }
+        },
+        "n-life-09": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "路上她回头看过一次。墙已经看不见了。她仍把玩偶抱在外侧，像习惯还没有从身上撤走。邻街的人问她玩偶会不会说话。她说不会。对方就不再问，只把窗钩交给她。窗钩是松的，不是坏的。她拧紧的时候忽然想，有些门不必整扇换掉，只要有人肯在旁边按住。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-10"
+          }
+        },
+        "n-life-10": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "回来的走廊很短。囚徒把面包接过去，先掰给她更大的那一半。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-11"
+          }
+        },
+        "n-life-11": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "你在外面站了很久。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-12"
+          }
+        },
+        "n-life-12": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "我在听有没有慢的脚步。没有。只有一家在喊孩子回家吃饭。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "戒备",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-13"
+          }
+        },
+        "n-life-13": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "那就是普通的晚上。我们试着过这种晚上。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-14"
+          }
+        },
+        "n-life-14": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "今天的齿轮我修好了。对方给了面包和一把更好的起子。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "轻轻笑",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-15"
+          }
+        },
+        "n-life-15": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "台灯也不闪了。我本来想把它接得更亮，又怕亮得像工坊里那一下。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "讲道理",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-16"
+          }
+        },
+        "n-life-16": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "亮一点没关系。这里没有人靠火光来认路。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "轻轻笑",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-17"
+          }
+        },
+        "n-life-17": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "囚徒把台灯拧亮。暖光落在玩偶脸上，也落在机械师没来得及擦干净的机油上。他看了她很久。硬的那层语气终于没有再穿回来。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-18"
+          }
+        },
+        "n-life-18": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "在里面的时候，我说不先松开。出来以后我还是这样。如果你只是需要一个会接线的人，你可以现在改口。我不会把你的玩偶留下。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-19"
+          }
+        },
+        "n-life-19": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "我不改口。我需要你会接线。我也需要你留在这个插座够得到的距离里。这是两件事。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-20"
+          }
+        },
+        "n-life-20": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "两件事一起，就很像你在下面没有说完的那种意思。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-21"
+          }
+        },
+        "n-life-21": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "那就让它像。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "轻轻笑",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-22"
+          }
+        },
+        "n-life-22": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "第四天没有活。机械师本来想出门再找一扇坏窗户，走到门口又折回来。房间里太安静，安静得她不放心把囚徒和插座留在同一张桌子上。她靠着门框看他给台灯换一截更短的线。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-23"
+          }
+        },
+        "n-life-23": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "你换这么短，是怕它又变成能把人带走的长度。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-24"
+          }
+        },
+        "n-life-24": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "是怕我自己又习惯把线绕在腕上。绕在腕上的时候，我会觉得还在游戏里。短线只够这张桌子。桌子外面就是你。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-25"
+          }
+        },
+        "n-life-25": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师把玩偶放到他手边，没有下命令。玩偶自己坐下，看着那截短线，像在学习一种不必奔跑的距离。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-26"
+          }
+        },
+        "n-life-26": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "那它今天也不工作。我们也学一次不工作。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "轻轻笑",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-27"
+          }
+        },
+        "n-life-27": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "他们把面包分成三小块，第三块放在玩偶面前，谁也没真的让铁吃东西。囚徒先笑了一下。笑完他像被自己吓到，又把脸别开。机械师没有揭穿。她只把那块面包收回来，说铁不吃，人不要浪费。窗外的车又过了一趟。这一次她没有去听里面有没有慢脚步。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-28"
+          }
+        },
+        "n-life-28": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "她把玩偶轻轻转向窗外，像给它一个不必看见主人的夜晚。台灯把两个人的脸照得很近。近到能看见他眼下没睡好的青，也能看见她瞳仁里那道心形锁纹，和颊上没擦净的一点黑。帽上的护目镜推在额侧，紫镜不挡眼睛。谁都没有先笑。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-29"
+          }
+        },
+        "n-life-29": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "你如果现在退开，我不会把今天说成利用。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "别过脸",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-30"
+          }
+        },
+        "n-life-30": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "我不退。我只是要确认这不是门快关上时的那一种急。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-31"
+          }
+        },
+        "n-life-31": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "门已经关上了。急也留下在那边。这里只有你把面包掰偏了的手。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "轻轻笑",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-32"
+          }
+        },
+        "n-life-32": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "囚徒低头看了一眼自己的手，果然把较小的那半留在了自己这边。他像要辩，终于没有辩。然后她靠近囚徒。台灯的光停在他们之间，很稳。第一个吻很短，短得像园门开着的那一会儿。第二个吻才是他们自己的，不倒计时，也不为了哪一条电路。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-33"
+          }
+        },
+        "n-life-33": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "庄园外，机械师和囚徒接吻。没有巡视，没有火。她的金发和黑丝带垂在灯侧，腰间的紫心锁还亮着。玩偶在窗台上。台灯亮着。"
+          },
+          "enter": [
+            {
+              "kind": "unlockCg",
+              "id": "cg-outside"
+            }
+          ],
+          "presentation": {
+            "cg": {
+              "show": "cg-outside"
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-34"
+          }
+        },
+        "n-life-34": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "吻结束以后，机械师的额头抵着他的额头。她笑了一下，这次笑成了。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-35"
+          }
+        },
+        "n-life-35": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "明天你如果把台灯接灭了，我就让它坐你的电路匣上。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "轻轻笑",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-36"
+          }
+        },
+        "n-life-36": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "那它会比我先学会住在这里。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-37"
+          }
+        },
+        "n-life-37": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "我们都会学会。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "轻轻笑",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life-38"
+          }
+        },
+        "n-life-38": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "窗外有人拉着车过去。车声普通，普通得不可思议。庄园不在这声车轮里。他们的手还叠在一起，这一次没有脚步来把他们分开。"
+          },
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-end-leave"
+          }
+        },
+        "n-end-leave": {
+          "kind": "ending",
+          "text": {
+            "zh-CN": "一起离开。庄园外的新生活里，他们留下彼此。"
+          },
+          "ending": "end-leave"
+        }
+      }
+    },
+    "c-stay": {
+      "id": "c-stay",
+      "title": {
+        "zh-CN": "留在园中"
+      },
+      "start": "n-remain",
+      "nodes": {
+        "n-remain": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "我们留下。"
+          },
+          "presentation": {
+            "scene": "s-gate",
+            "background": "bg-gate",
+            "transition": "cut",
+            "cast": {
+              "mechanic": {
+                "visible": true,
+                "side": "left",
+                "emotion": "专注",
+                "zOrder": 3
+              },
+              "prisoner": {
+                "visible": true,
+                "side": "right",
+                "emotion": "警惕",
+                "zOrder": 3
+              },
+              "doctor": {
+                "visible": true,
+                "side": "center",
+                "emotion": "皱眉",
+                "zOrder": 2
+              },
+              "gardener": {
+                "visible": false
+              },
+              "factory-chief": {
+                "visible": true,
+                "side": "center",
+                "emotion": "停在园门前",
+                "zOrder": 1
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-stay",
+            "nodeId": "n-remain-02"
+          }
+        },
+        "n-remain-02": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "医生的眉心动了一下。她没有立刻反驳。门还开着，风从外面往里灌，灌到花叶上。"
+          },
+          "next": {
+            "chapterId": "c-stay",
+            "nodeId": "n-remain-03"
+          }
+        },
+        "n-remain-03": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "你知道自己在说什么。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "皱眉",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-stay",
+            "nodeId": "n-remain-04"
+          }
+        },
+        "n-remain-04": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "知道。出去可以。可我要的不是一扇会关上的门。我要他在我还能握住的地方。门若把我们拆开，出去就没有意义。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-stay",
+            "nodeId": "n-remain-05"
+          }
+        },
+        "n-remain-05": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "你不必为了我留在会巡视的房子里。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "受伤仍逞强",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-stay",
+            "nodeId": "n-remain-06"
+          }
+        },
+        "n-remain-06": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "我不是为了你的可怜。我是说，留下也是一起。你若想出去，我再拉你一次。你若留下，就不要再说自己只是一条电路。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "别过脸",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-stay",
+            "nodeId": "n-remain-07"
+          }
+        },
+        "n-remain-07": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "囚徒看着开着的门，又看着她臂弯里仍亮着眼睛的玩偶。他把手从门框上放下来。"
+          },
+          "next": {
+            "chapterId": "c-stay",
+            "nodeId": "n-remain-08"
+          }
+        },
+        "n-remain-08": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "我留下。不是因为门快关了。是因为你说的一起，包括门这一侧。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-stay",
+            "nodeId": "n-remain-09"
+          }
+        },
+        "n-remain-09": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "医生听完，把已经迈出去的脚收回来。她没有说同意，可她把药箱重新放回门内的石阶上。"
+          },
+          "next": {
+            "chapterId": "c-stay",
+            "nodeId": "n-remain-10"
+          }
+        },
+        "n-remain-10": {
+          "kind": "line",
+          "speaker": "doctor",
+          "text": {
+            "zh-CN": "那我至少要看着你们不是被拖回去的。是你们自己站在这里。厂长如果再追，我仍会挡在受伤的人前面。别的选择，我不再替你们做。"
+          },
+          "presentation": {
+            "cast": {
+              "doctor": {
+                "emotion": "松一口气",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-stay",
+            "nodeId": "n-remain-11"
+          }
+        },
+        "n-remain-11": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "门合上了。合上的声音比出来的那一次轻。园子还在。花还在。厂长站在园径上，没有走进来把他们拉开。他看了他们一会儿，像看一场没有违规的结束，然后转身继续他的路。火没有再抬起来。"
+          },
+          "presentation": {
+            "cast": {
+              "factory-chief": {
+                "visible": false,
+                "motion": "leave-right"
+              },
+              "doctor": {
+                "visible": false,
+                "motion": "leave-left"
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules"
+          }
+        }
+      }
+    },
+    "c-belong": {
+      "id": "c-belong",
+      "title": {
+        "zh-CN": "成为庄园的一部分"
+      },
+      "start": "n-rules",
+      "nodes": {
+        "n-rules": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "日子改了算法。没有人再发邀请函给他们。他们的名字被写进庄园的工作牌：一个负责会动的小机器，一个负责不肯灭的电路。牌不叫囚犯，也不叫客人。叫当值。"
+          },
+          "presentation": {
+            "scene": "s-gate",
+            "background": "bg-gate",
+            "transition": "dissolve",
+            "cast": {
+              "mechanic": {
+                "visible": true,
+                "side": "left",
+                "emotion": "专注",
+                "zOrder": 3
+              },
+              "prisoner": {
+                "visible": true,
+                "side": "right",
+                "emotion": "讲道理",
+                "zOrder": 3
+              },
+              "doctor": {
+                "visible": false
+              },
+              "gardener": {
+                "visible": false
+              },
+              "factory-chief": {
+                "visible": false
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-02"
+          }
+        },
+        "n-rules-02": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "当值的第一周，机械师几乎每晚都要问一句今天的灯还在不在。不是不信他。是她的耳朵还记得慢脚步。囚徒每次都答在，答到她终于先去看喷泉，而不先去看园径。"
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-03"
+          }
+        },
+        "n-rules-03": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师在园子边的棚里修喷泉的心轴。玩偶坐在架子上，给她递她点过的起子。它不再被派去破译，只在她手边做它本来就会做的事。有一次起子递偏了，敲到它自己的手指。它没有坏。机械师却停下来，把那根手指擦干净，像擦一件终于可以爱惜的工具。"
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-04"
+          }
+        },
+        "n-rules-04": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "囚徒把园灯的线重新排过，排得很整齐，整齐得像他终于允许别人看见自己的工作。他不再把匣子挂在身上睡觉。匣子有自己的钩子。人也有自己的椅子。椅子挨着棚门，从那里能看见她弯腰时玩偶探出的小脑袋。"
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-05"
+          }
+        },
+        "n-rules-05": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "厂长有时经过。他仍不说话。他看一眼灯亮不亮，看一眼喷泉转不转，就走。火星小到几乎没有。规矩还在，可规矩不再追着他们的后背。"
+          },
+          "presentation": {
+            "cast": {
+              "factory-chief": {
+                "visible": true,
+                "side": "center",
+                "emotion": "巡视",
+                "zOrder": 1,
+                "motion": "enter-right"
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-06"
+          }
+        },
+        "n-rules-06": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "喷泉在午后停过一次。不是心轴断了，是一片叶子卡进了格栅。机械师跪在池边往外掏，玩偶在棚门口急得直转，却不再自己跳进水里。囚徒把灯关了一盏，省下的那点亮给她照池底。厂长从园径经过，看见她跪着，停了一步。"
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-07"
+          }
+        },
+        "n-rules-07": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "厂长没有伸手。他看完叶子被掏出来，又看了看重新亮起的那盏灯，才继续走。走之前他对工作牌的方向点了一下，像在说：这就是你们现在该做的事。"
+          },
+          "presentation": {
+            "cast": {
+              "factory-chief": {
+                "visible": false,
+                "motion": "leave-right"
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-08"
+          }
+        },
+        "n-rules-08": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "他没有赶我们。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-09"
+          }
+        },
+        "n-rules-09": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "他在认我们的活。活认完了，人就可以下班。以前没有下班。追上来的时候，白天晚上都算在局里。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "讲道理",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-10"
+          }
+        },
+        "n-rules-10": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "那我们今天算下班。下班以后的事，不写在工作牌上。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "轻轻笑",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-11"
+          }
+        },
+        "n-rules-11": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "不写在牌上，也可以做。只要不做给巡视看。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-12"
+          }
+        },
+        "n-rules-12": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "她站起来，裤脚是湿的。他把自己的外套披到她肩上，又觉得这个动作太像别人的故事，手停在半空。机械师自己把外套拉好。"
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-13"
+          }
+        },
+        "n-rules-13": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "披就披。庄园又不会因为一件外套改变规矩。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "别过脸",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-14"
+          }
+        },
+        "n-rules-14": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "一天晚上，园灯全亮了。白天厂长走过两次。第一次他看喷泉，第二次他看灯。两次都没有停下来训话。机械师把这件事告诉囚徒的时候，自己也觉得不像在报平安，像在报一种新的天气。"
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-15"
+          }
+        },
+        "n-rules-15": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "机械师从棚里出来，手上有水。囚徒站在灯下等她，电路匣不再挂在腿边，而放在台阶上，像放下一件下班的工具。台阶上还放着她中午没喝完的水。他没有收走。"
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-16"
+          }
+        },
+        "n-rules-16": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "你的水我热过。棚里风大。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-17"
+          }
+        },
+        "n-rules-17": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "你把当值做成了照看。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "轻轻笑",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-18"
+          }
+        },
+        "n-rules-18": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "照看也算规矩的一种。至少这种规矩不会追人。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "讲道理",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-19"
+          }
+        },
+        "n-rules-19": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "今天的灯不会灭。我检查了三次。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "讲道理",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-20"
+          }
+        },
+        "n-rules-20": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "喷泉也不会停。我检查了两次。第三次留给明天，不然你会说我说大话。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "别过脸",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-21"
+          }
+        },
+        "n-rules-21": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "你可以对我说大话。我已经决定住在能听见你说大话的距离里。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-22"
+          }
+        },
+        "n-rules-22": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "这就是你接受的规矩。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "专注",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-23"
+          }
+        },
+        "n-rules-23": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "这是我接受的生活。规矩是灯要亮，水要转，巡视的人按他的路走。生活是我下班以后还知道你在哪一盏灯下面。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-24"
+          }
+        },
+        "n-rules-24": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "厂长正好从园径那头过来。他看见他们，停下，既不靠近，也不叫他们散开。工作牌挂在机械师腰间那把紫心锁旁边，也别在囚徒的袖口上。它们让这三个人在同一套规矩里，却不必站成追逐。"
+          },
+          "presentation": {
+            "cast": {
+              "factory-chief": {
+                "visible": true,
+                "side": "center",
+                "emotion": "目送",
+                "zOrder": 1,
+                "motion": "enter-right"
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-25"
+          }
+        },
+        "n-rules-25": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "厂长点了一下头。那是他整场游戏里最像回答的动作。然后他走了。"
+          },
+          "presentation": {
+            "cast": {
+              "factory-chief": {
+                "visible": false,
+                "motion": "leave-right"
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-26"
+          }
+        },
+        "n-rules-26": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "园子安静下来。机械师走到囚徒面前。水还在她指尖上，她在他袖子上擦干，动作很慢。"
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-27"
+          }
+        },
+        "n-rules-27": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "若我们是庄园的一部分，这一部分里要有这件事。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "轻轻笑",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-28"
+          }
+        },
+        "n-rules-28": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "她吻了他。不是逃跑前的碰撞，是下班以后的吻。园灯把两个人的影子叠在花墙上。玩偶在棚里，没有被叫出来。电路匣在台阶上，盖子关着。"
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-29"
+          }
+        },
+        "n-rules-29": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "园灯下，机械师和囚徒接吻。她的机械左手停在他袖口旁边，没有握紧。紫心锁和园灯是两种亮。他们的工作牌还在身上。庄园没有把他们拆开。他们留在规矩里，也留在彼此身边。"
+          },
+          "enter": [
+            {
+              "kind": "unlockCg",
+              "id": "cg-belong"
+            }
+          ],
+          "presentation": {
+            "cg": {
+              "show": "cg-belong"
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-30"
+          }
+        },
+        "n-rules-30": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "吻结束时，喷泉仍在转。囚徒的声音轻了。"
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-31"
+          }
+        },
+        "n-rules-31": {
+          "kind": "line",
+          "speaker": "prisoner",
+          "text": {
+            "zh-CN": "明天灯如果灭了，你要来找我。"
+          },
+          "presentation": {
+            "cast": {
+              "prisoner": {
+                "emotion": "看着她时放轻",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-32"
+          }
+        },
+        "n-rules-32": {
+          "kind": "line",
+          "speaker": "mechanic",
+          "text": {
+            "zh-CN": "灭了我就找你。没灭我也找你。这是我的当值。"
+          },
+          "presentation": {
+            "cast": {
+              "mechanic": {
+                "emotion": "轻轻笑",
+                "visible": true
+              }
+            }
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules-33"
+          }
+        },
+        "n-rules-33": {
+          "kind": "line",
+          "text": {
+            "zh-CN": "远处有一步很慢的脚步，不久就转向另一条园径。那不是来拆散他们的。那只是庄园还在，而他们已经知道自己站在哪里。"
+          },
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-end-stay"
+          }
+        },
+        "n-end-stay": {
+          "kind": "ending",
+          "text": {
+            "zh-CN": "一起留下。他们接受庄园的规矩，也留在彼此身边。"
+          },
+          "ending": "end-stay"
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,15 @@
-import type { EntityId, ComponentType, Component, SystemDeclaration, IWorld, TickObserver, WorldSnapshot } from './types.js';
+import type { EntityId, ComponentType, Component, SystemDeclaration, IWorld, TickObserver, WorldSnapshot, WorldDelta } from './types.js';
 import { topologicalSort } from './topological-sort.js';
+import { SystemView, strictByEnv, type StrictMode } from './system-view.js';
+
+const EMPTY: readonly never[] = Object.freeze([]);
+const singletonReported = new Set<string>();
+
+export interface WorldOptions {
+  /** 严格模式：系统视图对未申报访问抛错、只读组件深冻结（测试/门禁用·缺省读环境变量 ZEROCRAFT_STRICT=1|report）。
+   *  true='throw'·false='off'·'report'=盘点（同类只 warn 一次·不抛不改行为）。 */
+  strict?: boolean | StrictMode;
+}
 
 export class World implements IWorld {
   private entities = new Map<EntityId, Map<ComponentType, Component>>();
@@ -8,6 +18,28 @@ export class World implements IWorld {
   private needsSort = false;
   private version = 0;
   private observer?: TickObserver;
+
+  // ── 写入通道（P1a）──
+  // 系统只透过 SystemView 碰世界（tick 里 execute(view)）：视图按申报做脏标 + 严格模式校验（见 system-view.ts）。
+  // dirty = 自上次 drainDirty() 以来「可能被改过」的实体集（保守：取到 writes 申报的组件即算）。
+  // 增量 hash / 脏渲染 / delta 快照（P2c）以它为输入。
+  readonly root: IWorld = this;
+  readonly strict: StrictMode;
+  private views = new Map<SystemDeclaration, SystemView>();
+  private dirty = new Set<EntityId>();
+  // ── 版本号（P2c）──：每次「可能改了」推进一次全局写序号，并记到实体 / 组件类型上。
+  // 增量 hash（net/world-hash）按实体版本判缓存命中；渲染器/服务按类型版本跳过未变桶；delta 快照按序号取变更。
+  private writeSeq = 0;
+  private entityVer = new Map<EntityId, number>();
+  private typeVer = new Map<ComponentType, number>();
+  private tombstones = new Map<EntityId, number>(); // 被销毁实体 → 销毁时的写序号（delta 的 removed 用）
+  // ── tick 内事件总线（P1b）──：type → 本 tick 发出的事件（发出序）。tick 末清空·不进快照。
+  private bus = new Map<string, unknown[]>();
+
+  constructor(options: WorldOptions = {}) {
+    const s = options.strict ?? strictByEnv();
+    this.strict = s === true ? 'throw' : s === false ? 'off' : s;
+  }
 
   // ── 倒排组件索引（query-perf-plan 方案 A）──
   // typeIndex: 组件类型 → 持有它的实体集（add/remove/destroy/consume 同步维护）。
@@ -23,15 +55,164 @@ export class World implements IWorld {
     if (this.entities.has(id)) throw new Error(`Entity "${id}" already exists`);
     this.entities.set(id, new Map());
     this.creationSeq.set(id, this.nextSeq++);
+    this.tombstones.delete(id);
+    this.touch(id);
   }
 
   destroyEntity(id: EntityId): void {
     const comps = this.entities.get(id);
     if (comps) {
-      for (const type of comps.keys()) this.typeIndex.get(type)?.delete(id);
+      for (const type of comps.keys()) { this.typeIndex.get(type)?.delete(id); this.touchType(type); }
     }
     this.entities.delete(id);
     this.creationSeq.delete(id);
+    this.entityVer.delete(id);
+    this.dirty.add(id);
+    this.tombstones.set(id, ++this.writeSeq);
+  }
+
+  // ── 脏跟踪 / 版本号（P2c）──
+
+  private touch(id: EntityId, type?: ComponentType): void {
+    this.dirty.add(id);
+    this.entityVer.set(id, ++this.writeSeq);
+    if (type !== undefined) this.typeVer.set(type, this.writeSeq);
+  }
+  private touchType(type: ComponentType): void {
+    this.typeVer.set(type, ++this.writeSeq);
+  }
+
+  /** 记一个实体为脏（视图取到 writes 申报组件 / add / remove / create / destroy 时调；type 给了同时推进该类型版本）。 */
+  markDirty(id: EntityId, type?: ComponentType): void {
+    this.touch(id, type);
+  }
+
+  /** 实体版本：最后一次「可能被改」的全局写序号（不存在 → 0）。增量 hash 的缓存键。 */
+  entityVersion(id: EntityId): number {
+    return this.entityVer.get(id) ?? 0;
+  }
+  /** 组件类型版本：该类型最后一次 add/remove/consume/写取 的全局写序号（从未 → 0）。渲染器按它跳过未变桶。 */
+  typeVersion(type: ComponentType): number {
+    return this.typeVer.get(type) ?? 0;
+  }
+  /** 当前全局写序号（delta 基准）。 */
+  get writeSequence(): number {
+    return this.writeSeq;
+  }
+
+  /** 只读取组件：**不记脏**（渲染器/服务/hash 用；改它返回的对象 = 绕过版本号·调用方自负）。 */
+  peek<T extends Component>(entityId: EntityId, type: ComponentType): T | undefined {
+    return this.entities.get(entityId)?.get(type) as T | undefined;
+  }
+  /** 实体的组件表（活对象·只读契约·hash/渲染提取用）。 */
+  componentsOf(entityId: EntityId): ReadonlyMap<ComponentType, Component> | undefined {
+    return this.entities.get(entityId);
+  }
+
+  /** 只读视图：get/has/query/singleton 透传且**不记脏**——给渲染器/每帧服务用，它们的读不该把整个世界标脏
+   *  （否则增量 hash 在真宿主里退化成全量）。写操作仍透到本体（并记脏）。 */
+  readView(): IWorld {
+    if (!this.readOnlyView) {
+      const w = this;
+      this.readOnlyView = {
+        root: w,
+        createEntity: (id) => w.createEntity(id),
+        destroyEntity: (id) => w.destroyEntity(id),
+        getAllEntities: () => w.getAllEntities(),
+        addComponent: (id, c) => w.addComponent(id, c),
+        removeComponent: (id, t) => w.removeComponent(id, t),
+        getComponent: <T extends Component>(id: EntityId, t: ComponentType) => w.peek<T>(id, t),
+        hasComponent: (id, t) => w.hasComponent(id, t),
+        query: (...types) => w.query(...types),
+        queryEntities: (...types) => w.queryEntities(...types),
+        singleton: (t) => w.singleton(t),
+        byId: (t, f, id) => w.byId(t, f, id),
+        emit: (t, e) => w.emit(t, e),
+        events: (t) => w.events(t),
+        getVersion: () => w.getVersion(),
+      };
+    }
+    return this.readOnlyView;
+  }
+  private readOnlyView: IWorld | undefined;
+
+  // ── delta 快照（P2c）──
+
+  /** 自写序号 base 以来的变更：changed = 版本 > base 的实体全量组件；removed = base 之后被销毁的实体。 */
+  snapshotDelta(base: number): WorldDelta {
+    const changed: WorldSnapshot = {};
+    for (const [id, comps] of this.entities) {
+      if ((this.entityVer.get(id) ?? 0) <= base) continue;
+      const components: Record<ComponentType, Component> = {};
+      for (const [type, comp] of comps) components[type] = structuredClone(comp);
+      changed[id] = components;
+    }
+    const removed: EntityId[] = [];
+    for (const [id, seq] of this.tombstones) if (seq > base && !this.entities.has(id)) removed.push(id);
+    return { base, seq: this.writeSeq, changed, removed };
+  }
+
+  /** 套用 delta：removed 销毁、changed 整实体替换（新实体按 changed 键序创建）。 */
+  applyDelta(delta: WorldDelta): void {
+    for (const id of delta.removed) if (this.entities.has(id)) this.destroyEntity(id);
+    for (const [id, comps] of Object.entries(delta.changed)) {
+      if (!this.entities.has(id)) this.createEntity(id);
+      const cur = this.entities.get(id)!;
+      for (const type of [...cur.keys()]) if (!(type in comps)) this.removeComponent(id, type);
+      for (const [type, comp] of Object.entries(comps)) this.addComponent(id, structuredClone(comp));
+    }
+  }
+
+  /** 取走并清空脏集（按记入序）。消费方：增量 hash / 渲染 / delta（P2c）。 */
+  drainDirty(): EntityId[] {
+    const out = [...this.dirty];
+    this.dirty.clear();
+    return out;
+  }
+
+  /** 当前脏实体数（测试/观测用·不清）。 */
+  get dirtyCount(): number {
+    return this.dirty.size;
+  }
+
+  // ── tick 内事件总线（P1b）──
+
+  emit<E>(type: string, event: E): void {
+    let q = this.bus.get(type);
+    if (!q) {
+      q = [];
+      this.bus.set(type, q);
+    }
+    q.push(event);
+  }
+
+  events<E>(type: string): readonly E[] {
+    return (this.bus.get(type) as E[] | undefined) ?? EMPTY;
+  }
+
+  /** 清空总线（tick 末自动调；宿主在 tick 外 emit 的事件会活到下一 tick 末）。 */
+  clearEvents(): void {
+    if (this.bus.size) this.bus.clear();
+  }
+
+  // ── 黑板单例 ──
+
+  singleton(type: ComponentType): EntityId | undefined {
+    const owners = this.typeIndex.get(type);
+    if (!owners || owners.size === 0) return undefined;
+    if (owners.size > 1 && this.strict !== 'off') {
+      const msg = `[strict] singleton("${type}") 有 ${owners.size} 个持有者（${[...owners].join(', ')}）——黑板单例组件每个世界只能有一份；多份是数据错。`;
+      if (this.strict === 'throw') throw new Error(msg);
+      if (!singletonReported.has(type)) { singletonReported.add(type); console.warn(msg); }
+    }
+    // 生产：按创建序取首个（= 旧「query 取首个 break」语义·query 候选序即创建序）。
+    let best: EntityId | undefined;
+    let bestSeq = Infinity;
+    for (const id of owners) {
+      const seq = this.creationSeq.get(id)!;
+      if (seq < bestSeq) { bestSeq = seq; best = id; }
+    }
+    return best;
   }
 
   getAllEntities(): EntityId[] {
@@ -44,6 +225,7 @@ export class World implements IWorld {
     const entity = this.entities.get(entityId);
     if (!entity) throw new Error(`Entity "${entityId}" not found`);
     entity.set(component.type, component);
+    this.touch(entityId, component.type);
     let owners = this.typeIndex.get(component.type);
     if (!owners) {
       owners = new Set();
@@ -55,15 +237,42 @@ export class World implements IWorld {
   removeComponent(entityId: EntityId, type: ComponentType): void {
     if (this.entities.get(entityId)?.delete(type)) {
       this.typeIndex.get(type)?.delete(entityId);
+      this.touch(entityId, type);
     }
   }
 
   getComponent<T extends Component>(entityId: EntityId, type: ComponentType): T | undefined {
-    return this.entities.get(entityId)?.get(type) as T | undefined;
+    const c = this.entities.get(entityId)?.get(type) as T | undefined;
+    // 本体上的取组件视为「可能要改」（applyCommands / 宿主 / 测试直接改活对象·无从得知）→ 记脏推进版本，
+    // 增量 hash 才不会读到陈旧缓存。纯读方（渲染器/服务/hash）走 peek() 或 readView()，系统走 SystemView。
+    if (c !== undefined) this.touch(entityId, type);
+    return c;
   }
 
   hasComponent(entityId: EntityId, type: ComponentType): boolean {
     return this.entities.get(entityId)?.has(type) ?? false;
+  }
+
+  // ── 语义 id 索引（B-3）──：(type, idField) → { 建索引时的类型版本, id 值 → 创建序首个实体 }。
+  // 类型版本在 add/remove/consume/destroy/restore 与本体 getComponent（可能改字段）时推进 → 索引按需重建；
+  // 只读路径（peek/readView/SystemView 只读申报）不推进版本，索引不失效——它们也改不了 id 字段。
+  private idIndex = new Map<string, { ver: number; map: Map<string, EntityId> }>();
+
+  byId(type: ComponentType, idField: string, id: string): EntityId | undefined {
+    const key = `${type}\u0000${idField}`;
+    const ver = this.typeVersion(type);
+    let entry = this.idIndex.get(key);
+    if (!entry || entry.ver !== ver) {
+      const map = new Map<string, EntityId>();
+      // 候选按创建序（= query 序）→ 同 id 多份时取首个，与旧线性扫 / buildIdLookup 的 `!has` 语义逐字一致。
+      for (const e of this.queryEntities(type)) {
+        const v = (this.entities.get(e)!.get(type) as unknown as Record<string, unknown>)[idField];
+        if (typeof v === 'string' && !map.has(v)) map.set(v, e);
+      }
+      entry = { ver, map };
+      this.idIndex.set(key, entry);
+    }
+    return entry.map.get(id);
   }
 
   // ── Queries ──
@@ -121,12 +330,26 @@ export class World implements IWorld {
 
   addSystem(system: SystemDeclaration): void {
     this.systems.push(system);
+    this.views.set(system, new SystemView(this, system, this.strict));
     this.needsSort = true;
+  }
+
+  /** 某系统的视图（tick 用；测试可拿来单独跑一个系统）。未 addSystem 的系统临时建一份。 */
+  viewOf(system: SystemDeclaration): IWorld {
+    return this.systemView(system);
+  }
+  private systemView(system: SystemDeclaration): SystemView {
+    let v = this.views.get(system);
+    if (!v) {
+      v = new SystemView(this, system, this.strict);
+      this.views.set(system, v);
+    }
+    return v;
   }
 
   private ensureSorted(): void {
     if (this.needsSort) {
-      this.sorted = topologicalSort(this.systems);
+      this.sorted = topologicalSort(this.systems, { softCycle: this.strict === 'off' ? 'warn' : 'throw' }); // P2d：严格模式软环即抛
       this.needsSort = false;
     }
   }
@@ -145,7 +368,9 @@ export class World implements IWorld {
 
     for (const system of this.sorted) {
       this.observer?.onSystemStart?.(system);
-      system.execute(this);
+      const view = this.systemView(system);
+      view.beginRun();
+      system.execute(view); // 系统只透过视图碰世界（P1a：脏标 + 严格模式申报门）
 
       // Consume: remove components marked as consumed（走倒排索引，O(持有者数)；并保持索引一致）
       for (const consumeType of system.consumes) {
@@ -153,6 +378,7 @@ export class World implements IWorld {
         if (!owners || owners.size === 0) continue;
         for (const entityId of owners) {
           this.entities.get(entityId)?.delete(consumeType);
+          this.touch(entityId, consumeType);
         }
         owners.clear();
       }
@@ -160,6 +386,7 @@ export class World implements IWorld {
       this.observer?.onSystemEnd?.(system);
     }
 
+    this.clearEvents(); // tick 内事件总线：tick 末清空（P1b）
     this.version++;
     this.observer?.onTickEnd?.(this.version);
   }
@@ -207,6 +434,10 @@ export class World implements IWorld {
     this.typeIndex.clear();
     this.creationSeq.clear();
     this.nextSeq = 0;
+    this.dirty.clear();
+    this.entityVer.clear();
+    this.typeVer.clear();
+    this.tombstones.clear();
     // 有 order 就按它排（只认快照里真存在的 id）；order 未覆盖到的键按枚举序补在后面，
     // 保证「order 残缺/过期」时不丢实体（宁可顺序退化，不可丢数据）。
     const keys = Object.keys(snapshot);
@@ -228,6 +459,8 @@ export class World implements IWorld {
         owners.add(id);
       }
       this.entities.set(id, m);
+      this.touch(id); // restore 换了整个世界 → 全部实体皆脏·版本全新
+      for (const type of m.keys()) this.typeVer.set(type, this.writeSeq);
     }
     // restore 换了整个世界内容：单调推进 version，作废一切以 version 为键的派生缓存
     // （如 spatial-query 索引）。否则读档/回滚后缓存命中 restore 前的陈旧索引 → 返回

@@ -4,6 +4,7 @@ import { resolve, extname, sep } from 'path';
 import { existsSync, statSync, createReadStream } from 'node:fs';
 import { copyUsedAssets } from './vite.assets';
 import { engineAliases } from './scripts/engine-aliases.mjs';
+import { loadCharacterLibrary, loadCharacterPage } from './src/services/character-library/disk.ts';
 
 // 开发期实况伺服 public/games/** 与 public/art/**（owner 07-15 根因·立绘大叉/图标不换）：
 // 这两处目录在下方 server.watch.ignored 里（避开 assets/ 3.7 万文件的启动监听风暴）。副作用是
@@ -59,6 +60,45 @@ function serveLiveGameAssets() {
   };
 }
 
+function serveCharacterLibrary() {
+  const root = resolve(__dirname, 'characters');
+  return {
+    name: 'zerocraft-character-library',
+    configureServer(server: { middlewares: { use: (fn: (req: { url?: string }, res: { statusCode: number; setHeader: (k: string, v: string) => void; end: (b?: string) => void } & NodeJS.WritableStream, next: () => void) => void) => void } }) {
+      server.middlewares.use((req, res, next) => {
+        const url = (req.url || '').split('?')[0];
+        if (url === '/characters/index.json') {
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
+          res.setHeader('Cache-Control', 'no-cache');
+          res.end(JSON.stringify(loadCharacterLibrary(root)));
+          return;
+        }
+        const page = /^\/characters\/([^/]+)\/page\.json$/.exec(url);
+        if (page) {
+          let id = '';
+          try { id = decodeURIComponent(page[1]); } catch { res.statusCode = 400; res.end('bad id'); return; }
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
+          res.setHeader('Cache-Control', 'no-cache');
+          res.end(JSON.stringify(loadCharacterPage(root, id)));
+          return;
+        }
+        const file = /^\/characters\/([^/]+)\/(.+)$/.exec(url);
+        if (!file) return next();
+        let id = '';
+        let rel = '';
+        try { id = decodeURIComponent(file[1]); rel = decodeURIComponent(file[2]); } catch { return next(); }
+        const base = resolve(root, id);
+        const target = resolve(base, rel);
+        if (target !== base && !target.startsWith(base + sep)) { res.statusCode = 403; res.end('forbidden'); return; }
+        if (!existsSync(target) || !statSync(target).isFile()) return next();
+        res.setHeader('Content-Type', ASSET_CT[extname(target).toLowerCase()] || 'application/octet-stream');
+        res.setHeader('Cache-Control', 'no-cache');
+        createReadStream(target).pipe(res);
+      });
+    },
+  };
+}
+
 // 平台打包（D2·scripts/build-platform.mjs 设）：JS/CSS/字体产物挪出默认的 dist/assets/，
 // 因为 main_entry/server.py 早占了 `/assets/*` 这条路由给共享素材库 FreeArtLib（ROOT/assets/**·
 // assets/index.json + 缩略图，见 _serve_assets）——不挪会撞名：构建产物覆盖同名路径，浏览器把
@@ -69,7 +109,7 @@ function serveLiveGameAssets() {
 const PLATFORM_BUILD = process.env.VITE_PLATFORM_BUILD === '1';
 
 export default defineConfig({
-  plugins: [react(), serveLiveGameAssets(), copyUsedAssets(__dirname, 'dist')],
+  plugins: [react(), serveLiveGameAssets(), serveCharacterLibrary(), copyUsedAssets(__dirname, 'dist')],
   build: {
     assetsDir: PLATFORM_BUILD ? 'app' : 'assets',
     copyPublicDir: !PLATFORM_BUILD,
@@ -97,6 +137,9 @@ export default defineConfig({
     alias: {
       ...engineAliases(__dirname),
       '@games': resolve(__dirname, 'games'),
+      // DokiWorld App boundary is vendored so tests/builds remain reproducible and
+      // never follow a machine-specific junction outside this checkout.
+      'dokiworlds-app-sdk': resolve(__dirname, 'vendor/dokiworlds-app-sdk/src/index.js'),
     },
   },
   // 3D 渲染线的重依赖藏在**动态 import 的 3D 游戏**背后。Vite 冷启动扫描会跟进动态 import 把 three
@@ -126,6 +169,9 @@ export default defineConfig({
     ],
   },
   test: {
+    // P1a 严格模式缺省开（system-view.ts）：系统对未申报组件的访问一跑就炸·只读组件深冻结。
+    // 生产（浏览器）无 process.env → off；这里只影响 vitest。要盘点全库改 ZEROCRAFT_STRICT=report。
+    env: { ZEROCRAFT_STRICT: process.env.ZEROCRAFT_STRICT ?? '1' },
     // 排除并行 Programmer 的 worktree 副本（.claude/worktrees）——否则 vitest 会把副本里的
     // 测试也扫进来、测试数虚高（曾出现 1515 假象）。保留默认的 node_modules/dist 排除。
     //
@@ -142,6 +188,9 @@ export default defineConfig({
       ...((process.env.ZEROCRAFT_DEEP ?? process.env.APOLLO_DEEP) === '1' ? [] : [
         'games/game-f/**', // 冻结游戏（owner 勿删勿迁·2026-08-03 owner 改判「不删了要还原·上架但代码纪律仍冻结」）·26s/133 测·没人开发→只慢车道跑
         'games/game-g/flow-walk.test.ts', // 整局通关走查 8.4s/1 测·33 个单元文件已覆盖各片段
+        'games/game211/flow-walk.test.ts', // 整局通关走查 10s/1 测（同 game-g 判据·2026-09-10 测试体检）
+        'games/game211/pathfind-scale.bench.test.ts', // 寻路选型压测 25s·量数不判语义（选型已定=流场·REQ-FLOWFIELD）·发版前/改寻路时慢车道跑
+        'games/game211/slg-scale.bench.test.ts', // 规模压测 4.6s·阈值宽松只防退化·同上慢车道
         'scripts/manifest-check.test.mjs', // 起进程跑 CLI 7.3s·库 manifest 校验（发版前跑够）
         'scripts/acceptance.test.mjs', // 起进程 3.1s·验收剧本harness
         'scripts/game-pipeline.test.mjs', // 起进程 2.4s·流程板 CLI（人用工具·不常改）

@@ -23,7 +23,7 @@ function inRegistryOrder(ids: string[]): CapabilityDefinition[] {
 
 /** 真实装载：新建 world、按给定顺序 addSystem，返回定序后的 system id 序列。 */
 function loadOrder(caps: CapabilityDefinition[]): string[] {
-  const w = new World();
+  const w = new World({ strict: false }); // 本文件专测软环的 warn+裁决路径；严格模式（vitest 缺省）下软环即抛（P2d）
   for (const c of caps) for (const s of c.systems ?? []) w.addSystem(s);
   const ids = w.getSortedSystems().map((s) => s.id); // 触发 topologicalSort
   expect(() => w.tick()).not.toThrow(); // 空世界跑一拍：装得进也跑得动
@@ -54,7 +54,7 @@ describe('REQ-CYCLEHAZ B — Lead 点名最小复现（真能力）', () => {
     const order = loadTwice(['t3-timeline', 'f1-resource']);
     expect(order).toContain('timeline');
     expect(order).toContain('resource-apply');
-    // 按注册表序装载 → atom(f1-resource) 在 tier3(t3-timeline) 之前 = 平局键即 tier 序。
+    // P2d：平局键 = id 字典序（'resource-apply' < 'timeline'）·与装载序无关。
     expect(order.indexOf('resource-apply')).toBeLessThan(order.indexOf('timeline'));
     expect(warns.some((w) => w.includes('timeline') && w.includes('resource-apply'))).toBe(true);
   });
@@ -67,23 +67,23 @@ describe('REQ-CYCLEHAZ B — Lead 点名最小复现（真能力）', () => {
     expect(order.indexOf('event-when')).toBeLessThan(order.indexOf('timeline'));
     // 点名环成员（同 :59 口径·升格自「存在任意 warn」）：实测基线（2026-08-24）该组合恰闭合
     // 这一个三元推断环——告警若换了环成员/消失，都是定序面变动，必须转红被看见。
-    expect(warns.some((w) => w.includes('[resource-apply, event-when, timeline]'))).toBe(true);
+    expect(warns.some((w) => w.includes('[event-when, resource-apply, timeline]'))).toBe(true); // 环成员按 id 升序点名（P2d）
   });
 
-  it('④ 平局键与 tier/注册序一致：按注册表序装载 → 低 tier 在前', () => {
+  it('④ 平局键 = id 字典序（P2d）：显式边 event-when→timeline 服从，其余按 id', () => {
     captureWarn();
     const order = loadTwice(['f1-resource', 't2-event-when', 't3-timeline']);
     const rank = (id: string): number => order.indexOf(id);
-    expect(rank('resource-apply')).toBeLessThan(rank('event-when')); // atom < tier2
-    expect(rank('event-when')).toBeLessThan(rank('timeline')); // tier2 < tier3
+    expect(rank('event-when')).toBeLessThan(rank('timeline')); // 硬约束（timeline.runsAfter event-when）
+    expect(rank('event-when')).toBeLessThan(rank('resource-apply')); // 'event-when' < 'resource-apply'
   });
 
-  it('平局键 = 装载序：反序装载则裁决反转（键就是注册序本身）', () => {
+  it('平局键与装载序无关（P2d）：反序装载得到**同一**顺序——两端 manifest 列序不同也不分叉', () => {
     captureWarn();
     const forward = loadOrder(inRegistryOrder(['t3-timeline', 'f1-resource']));
     const reversed = loadOrder([...inRegistryOrder(['t3-timeline', 'f1-resource'])].reverse());
+    expect(reversed).toEqual(forward);
     expect(forward.indexOf('resource-apply')).toBeLessThan(forward.indexOf('timeline'));
-    expect(reversed.indexOf('timeline')).toBeLessThan(reversed.indexOf('resource-apply'));
   });
 });
 
@@ -96,7 +96,7 @@ describe('REQ-CYCLEHAZ B — 代表组合装载冒烟', () => {
     ['dialogue × flow（剧情线 M4 必踩·闭环组件 Flag/Resource/State）', ['t3-dialogue', 't3-flow'], ['dialogue', 'flow'],
       '[dialogue, flow]（闭环组件：Flag, Resource, State）'],
     ['card-play × card-pile（卡牌线·闭环组件 Flag/PlayedHand）', ['t2-card-play', 't2-card-pile'], ['card-play-input', 'card-pile'],
-      '[card-play-input, card-pile]（闭环组件：Flag, PlayedHand）'],
+      '[card-pile, card-play-input]（闭环组件：Flag, PlayedHand）'], // 环成员按 id 升序点名（P2d）
     ['dialogue × timeline（剧情线 M4 必踩·闭环组件 Flag/Resource）', ['t3-dialogue', 't3-timeline'], ['dialogue', 'timeline'],
       '[dialogue, timeline]（闭环组件：Flag, Resource）'],
   ];

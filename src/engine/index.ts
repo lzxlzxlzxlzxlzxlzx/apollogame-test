@@ -1,5 +1,14 @@
 export type { EntityId, ComponentType, Component, SystemDeclaration, IWorld, RendererBackend } from './core/types.js';
 export { World } from './core/world.js';
+export type { WorldOptions } from './core/world.js';
+export { SystemView, StrictAccessError, OBSERVABILITY_COMPONENTS } from './core/system-view.js';
+export type { StrictMode } from './core/system-view.js';
+export { defineSystem } from './core/define-system.js';
+export { defineComponent, COMPONENT_DEFS } from './core/define-component.js';
+export type { ComponentDef, ComponentMeta } from './core/define-component.js';
+export { t, validate, sig, legacyField } from './core/schema.js';
+export type { Schema, Infer, Issue } from './core/schema.js';
+export type { TypedWorld, TypedSystemSpec } from './core/define-system.js';
 export { defineCapability } from './core/define-capability.js';
 export type { CapabilityDefinition, CapabilityConfig } from './core/define-capability.js';
 export { topologicalSort } from './core/topological-sort.js';

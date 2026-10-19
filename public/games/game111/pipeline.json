@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "slug": "game111",
+  "concept": {
+    "name": "小都会",
+    "pitch": "回合推进的 AI 活世界:五个居民由大语言模型驱动自主生活(去哪/找谁说话/歇不歇);经历会淡忘会在彼此间传开=链式影响;好感够了 NPC 给你专属称号;架构基石=LLM 不是解释器而是输入源(闭集意图经 barrier 收齐排序,走与人类玩家完全相同的输入路径进世界→录放 bit 一致·断网自动降级)",
+    "refs": "米哈游 AI 生态团队《星布谷地/小都会》技术方案;机制骨架≈Dwarf Fortress 传闻传播 × Stardew Valley 关系养成",
+    "style": "apolloOnyx 玄铁:暗金属底+钢蓝细纹+熔岩橙点睛(对位素材深色霓虹赛博调)"
+  },
+  "signoffs": {},
+  "evidence": {
+    "S2": {
+      "exit": 0,
+      "summary": "capability-plan.md 在档 · 缺口台账未建（零缺口=直接过）",
+      "at": "2026-09-14T05:00:11.450Z",
+      "gameHash": "e4a61739c16fd4d9"
+    }
+  },
+  "history": [
+    {
+      "action": "concept",
+      "at": "2026-09-14T05:00:04.331Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-09-14T05:00:11.450Z"
+    }
+  ]
+}

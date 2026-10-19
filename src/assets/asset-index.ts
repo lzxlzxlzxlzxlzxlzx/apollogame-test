@@ -1,6 +1,9 @@
 import type { AssetManager } from './asset-manager.js';
 import type { TextureDescriptor, AtlasDescriptor, SpriteSheetDescriptor, Rect } from './asset-types.js';
 import { generatorSpecOf, resolveGeneratedSrc } from './texture-generators.js';
+import { parseHitMaskSpec } from '@engine/protocol/hit-mask.js';
+export { parseHitMaskSpec } from '@engine/protocol/hit-mask.js';
+export type { HitMaskSpec } from '@engine/protocol/hit-mask.js';
 
 // 原始资产存储索引（`assets/index.json`）的读取/校验/桥接。
 //
@@ -12,7 +15,7 @@ import { generatorSpecOf, resolveGeneratedSrc } from './texture-generators.js';
 // v2（资源库重构）：条目增加可选 category/tags/source/license/provenance —— 全部向后兼容，
 // 由资源库浏览器消费、导入器写入（溯源 = 导入方式/原始文件名/归一化 profile）。
 
-export type AssetType = 'texture' | 'mesh' | 'material' | 'sound' | 'animation' | 'video' | 'font';
+export type AssetType = 'texture' | 'mesh' | 'material' | 'sound' | 'animation' | 'video' | 'font' | 'hit-mask';
 export const ASSET_TYPES: readonly AssetType[] = [
   'texture',
   'mesh',
@@ -21,6 +24,7 @@ export const ASSET_TYPES: readonly AssetType[] = [
   'animation',
   'video',
   'font',
+  'hit-mask',
 ];
 
 /** TBF 生命周期（raw 存储层的最小子集；语义槽位层可细分为 placeholder/approved）。 */
@@ -81,12 +85,16 @@ export function parseAssetIndex(raw: unknown): AssetIndex {
     const hasGenerator = e.type === 'texture'
       && !!e.spec && typeof e.spec === 'object' && !Array.isArray(e.spec)
       && (e.spec as Record<string, unknown>).generator !== undefined;
-    if (e.status === 'filled' && e.type !== 'material' && !hasGenerator
+    if (e.status === 'filled' && e.type !== 'material' && e.type !== 'hit-mask' && !hasGenerator
       && (typeof e.path !== 'string' || e.path.length === 0))
       fail(`assets[${i}] "${e.id}" 已 filled 但缺 path`);
     if (e.spec !== undefined && (typeof e.spec !== 'object' || e.spec === null))
       fail(`assets[${i}] "${e.id}".spec 必须是对象`);
     validateSpec(e.type as AssetType, e.spec as Record<string, unknown> | undefined, i, e.id);
+    if (e.type === 'hit-mask' && e.status === 'filled') {
+      if (e.path !== undefined) fail(`assets[${i}] "${e.id}" hit-mask 是纯数据资产，不得有 path`);
+      if (!parseHitMaskSpec(e.spec)) fail(`assets[${i}] "${e.id}" hit-mask spec 非法（需要 version=1、逻辑尺寸、阈值、sourceTextureKey 与二值 rows）`);
+    }
     for (const f of ['category', 'source', 'license', 'style'] as const)
       if (e[f] !== undefined && typeof e[f] !== 'string') fail(`assets[${i}] "${e.id}".${f} 必须是字符串`);
     if (e.tags !== undefined && (!Array.isArray(e.tags) || e.tags.some((t) => typeof t !== 'string')))
@@ -108,6 +116,16 @@ export function parseAssetIndex(raw: unknown): AssetIndex {
       provenance: e.provenance as Record<string, unknown> | undefined,
     };
   });
+
+  const byId = new Map(assets.map((a) => [a.id, a]));
+  for (const e of assets) {
+    if (e.type !== 'hit-mask' || e.status !== 'filled') continue;
+    const mask = parseHitMaskSpec(e.spec)!;
+    const texture = byId.get(mask.sourceTextureKey);
+    if (!texture || texture.type !== 'texture' || texture.status !== 'filled'
+      || texture.spec?.width !== mask.width || texture.spec?.height !== mask.height)
+      fail(`hit-mask "${e.id}" 的 sourceTextureKey 缺失、未填充或逻辑尺寸不符`);
+  }
 
   return { version: obj.version, assets };
 }

@@ -1,4 +1,6 @@
 import type { IWorld } from '@engine/core/types.js';
+export { spriteAnchorOffset, planSpriteDraw } from '@engine/protocol/sprite-layout.js';
+export type { SpriteDrawPlan } from '@engine/protocol/sprite-layout.js';
 import type { Transform, Transform3D, Shape, Color, Sprite, Text, Visibility, Frame, Mesh3D, Model3D, Material3D, FaceDir } from '@engine/protocol/components.js';
 
 // 相机视图与世界↔屏幕投影已下沉为共享契约（renderer 正向投影 + clickable 逆向命中的单一真相）。
@@ -54,14 +56,6 @@ export function chooseRenderMode(r: Renderable, spriteReady: boolean): RenderMod
 // 失效**，按文档写 anchorY:1 画面纹丝不动且零报错（engine-review-2026-08-04 §5「2D 渲染」P1）。
 // 缺省 0.5 时结果与旧式 `-sw/2` 逐位等价 → 现有游戏零回归；非有限值（坏数据/NaN）退回 0.5，
 // 不让脏数据把贴图甩出画面。
-export function spriteAnchorOffset(
-  sprite: Sprite | undefined, sw: number, sh: number,
-): { dx: number; dy: number } {
-  const ax = Number.isFinite(sprite?.anchorX) ? sprite!.anchorX : 0.5;
-  const ay = Number.isFinite(sprite?.anchorY) ? sprite!.anchorY : 0.5;
-  return { dx: -sw * ax, dy: -sh * ay };
-}
-
 export function resolveRotation2D(r: Renderable): number {
   return r.faceDir ? Math.atan2(r.faceDir.y, r.faceDir.x) : r.rotation;
 }

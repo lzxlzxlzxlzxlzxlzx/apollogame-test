@@ -8,6 +8,12 @@ import { buildGallery } from './gallery.js';
 import { THEMES, onyx } from './themes.js';
 
 describe('Game I gallery', () => {
+  it('keeps one live icon-only Button example on the known emoji path', () => {
+    const html = renderNode(buildGallery('onyx', 'mod-ui'), onyx);
+    expect(html.match(/<button type="button" id="btn-icon-only"/g)).toHaveLength(1);
+    expect(html).toContain('/games/game-i/art/emoji/1f392.png');
+    expect(html).not.toContain('/games/game-i/art/icons/backpack.png');
+  });
   it('落地展台 = 积木墙（Hub·点 Card 进模块）', () => {
     const html = renderNode(buildGallery('onyx'), onyx);
     expect(html).toContain('id="gameui-root"');     // Screen 根
@@ -54,14 +60,19 @@ describe('Game I gallery', () => {
       'app-title',           // Label
       'app-engine',          // Badge
       'img-cover',           // Image
+      'signal-once',         // Image.signal emission live sample
       'top-div',             // Divider
       'btn-p',               // Button
       'in-text',             // Input
       'dd-diff',             // Dropdown
       'cb-tutorial',         // Checkbox
       'tg-sound',            // Toggle
+      'tg-sound-disabled',   // Toggle.disabled（保持 checked 外观、不可交互）
+      'tg-measured-visual',  // Toggle.visual（原型级几何与两态闭集色）
+      'tg-measured-caption', // 外置可见行名；Toggle.visual.showLabel:false 保留 aria-label
       'rg-speed',            // RadioGroup
       'sl-volume',           // Slider
+      'sk-9-separate',       // 9-slice 源裁边与显示边宽分离
       'pb-accent',           // ProgressBar
       'tag-all',             // Tag
       'demo-modal-overlay',  // Modal
@@ -85,6 +96,17 @@ describe('Game I gallery', () => {
   it('overlays the Modal only when modalOpen=true', () => {
     expect(renderNode(buildGallery('onyx', 'mod-ui', false), onyx)).not.toContain('demo-modal-overlay');
     expect(renderNode(buildGallery('onyx', 'mod-ui', true), onyx)).toContain('demo-modal-overlay');
+  });
+
+  it('keeps the measured Modal, cover-top Image, and native Button typography visible in the gallery', () => {
+    const html = renderNode(buildGallery('onyx', 'mod-ui', true), onyx);
+    expect(html).toContain('id="img-cover-top"');
+    expect(html).toContain('object-position:center top;');
+    expect(html).toContain('id="btn-measured-label"');
+    expect(html).toContain('font-size:16px;');
+    expect(html).toContain('width:820px;max-width:100%');
+    expect(html).toContain('backdrop-filter:blur(3px);');
+    expect(html).toContain('border:12px solid #82623A;border-radius:8px;');
   });
 
   it('exercises every input control with an action signal', () => {

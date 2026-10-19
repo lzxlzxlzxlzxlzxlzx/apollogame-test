@@ -1,0 +1,27 @@
+{
+  "url": "http://127.0.0.1:5173/?game=game-rhetoric-duel",
+  "playerImpactMid": {
+    "phase": "impact",
+    "progress": "2"
+  },
+  "playerImpactSettled": {
+    "phase": "opponent-response",
+    "progress": "2"
+  },
+  "disabled": [
+    {
+      "text": "专注不足 · 需 2",
+      "color": "rgb(238, 232, 220)",
+      "background": "rgb(43, 8, 7)"
+    },
+    {
+      "text": "专注不足 · 需 1",
+      "color": "rgb(238, 232, 220)",
+      "background": "rgb(43, 8, 7)"
+    }
+  ],
+  "enemyImpact": {
+    "phase": "enemy-impact",
+    "pressure": "1"
+  }
+}

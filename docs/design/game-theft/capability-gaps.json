@@ -1,0 +1,20 @@
+[
+  {
+    "id": "GAP-THEFT-01",
+    "title": "渐进风险会话：固定 tick 风险与 QTE 时间窗、动态概率、有序多目标、操作日志和确定性回执。Owner 两次选 A：会话与原始按压→hit/miss/timeout 均下沉 t3-progressive-risk-session；禁止游戏层专属解释器。详见 capability-plan.md §4.8。",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/workflow/requests.md#req-theft-progressive",
+    "blocks": []
+  },
+  {
+    "id": "GAP-THEFT-02",
+    "title": "风险翻格轮盘：种子化槽位、公开封锁位、连续 QTE 偏移惩罚、一次检定换一次翻格权与确定性回执。Owner 选择 A：下沉 t3-risk-reveal-wheel；难度映射留在游戏纯数据层。",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/workflow/requests.md#req-theft-risk-reveal-wheel",
+    "blocks": []
+  }
+]

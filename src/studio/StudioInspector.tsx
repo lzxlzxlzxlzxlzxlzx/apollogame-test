@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Engine } from '../runtime/engine.js';
 import { CanvasRenderer } from '@renderer/canvas-renderer.js';
 import { parseAssetIndex, AssetManager, ImageAssetLoader, type AssetIndex } from '@assets/index.js';
-import { KeyboardInputSource, MultiInputSource, type InputSource } from '@net/index.js';
+import { MultiInputSource, type InputSource } from '@net/index.js';
+import { KeyboardInputSource } from '@net/host/index.js';
 import type { WorldSnapshot } from '@engine/core/types.js';
 import { getCameraView } from '@engine/protocol/camera-view.js';
 import type { WorldBlueprint } from '../assembly/demo.assembly.js';

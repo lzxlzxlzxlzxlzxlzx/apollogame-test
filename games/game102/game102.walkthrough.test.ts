@@ -4,7 +4,8 @@
 // ⚠ 精确逐格数 = GD 更新后的验收剧本（acceptance/*）为准；本处自验**机制不变式**（绕圈/过位剥离/空转/入槽/确定性）。
 import { describe, it, expect } from 'vitest';
 import { Engine } from '@zerocraft/engine/runtime/engine.js';
-import { applyCommands, QueuedInputSource } from '@zerocraft/engine/net/index.js';
+import { applyCommands } from '@zerocraft/engine/net/index.js';
+import { QueuedInputSource } from '@zerocraft/engine/net/host/index.js';
 import type { Resource, Transform, GameFlow, Caster } from '@zerocraft/engine/engine/protocol/components.js';
 import { buildBlueprint } from './blueprint.js';
 import type { Level } from './levels.js';

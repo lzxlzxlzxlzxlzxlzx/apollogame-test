@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "game": "game-simlife",
+  "note": "Authoring declarations for existing local placeholders only. They are not new or AI-approved art; asset-manager owns all future generation, import, license review, and AssetIndex registration.",
+  "slots": [
+    {
+      "slotId": "little-valley.tile.meadow",
+      "assetKey": "art:little-valley:tile:meadow-grass",
+      "kind": "tile",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/tileCatalog/grass/visual/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "ground" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "seamless warm rural pixel meadow tile, top-down, no text", "negativePrompt": ["perspective", "text", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:38a51497" }
+    },
+    {
+      "slotId": "little-valley.crop.turnip.seeded",
+      "assetKey": "art:little-valley:crop:turnip-seeded",
+      "kind": "crop",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/cropCatalog/0/visual/seededSkinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 16, "height": 16 }, "anchor": { "x": 0.5, "y": 1 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "crop" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "warm rural pixel turnip seed mound, top-down, transparent background", "negativePrompt": ["text", "frame", "shadow plane"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:c8682d07" }
+    },
+    {
+      "slotId": "little-valley.crop.turnip.growing",
+      "assetKey": "art:little-valley:crop:turnip-growing",
+      "kind": "crop",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/cropCatalog/0/visual/growingSkinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 16, "height": 16 }, "anchor": { "x": 0.5, "y": 1 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "crop" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "warm rural pixel growing turnip leaves, top-down, transparent background", "negativePrompt": ["text", "frame", "shadow plane"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:31ebd3cd" }
+    },
+    {
+      "slotId": "little-valley.crop.turnip.mature",
+      "assetKey": "art:little-valley:crop:turnip-mature",
+      "kind": "crop",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/cropCatalog/0/visual/matureSkinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 16, "height": 16 }, "anchor": { "x": 0.5, "y": 1 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "crop" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "warm rural pixel mature purple white turnip, top-down, transparent background", "negativePrompt": ["text", "frame", "shadow plane"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:40ef6c0e" }
+    },
+    {
+      "slotId": "little-valley.player.farmer",
+      "assetKey": "art:little-valley:player:farmer",
+      "kind": "player",
+      "consumers": [
+        { "document": "little-valley.life.json", "jsonPointer": "/playerVisual/skinKey" },
+        { "document": "little-valley.life.json", "jsonPointer": "/scenes/0/placements/2/skinKey" }
+      ],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 48 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 28.8, "height": 43.2 }, "anchor": { "x": 0.5, "y": 1 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "player" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "warm rural pixel farmer, three-quarter top-down, full body, transparent background", "negativePrompt": ["text", "frame", "cropped feet"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:6e47852c" }
+    },
+    {
+      "slotId": "little-valley.npc.mayor",
+      "assetKey": "art:little-valley:placement:mayor",
+      "kind": "npc",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/scenes/0/placements/1/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 48 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 28.8, "height": 43.2 }, "anchor": { "x": 0.5, "y": 1 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "npc" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "warm rural pixel town mayor with brown hat and burgundy coat, transparent background", "negativePrompt": ["text", "frame", "cropped feet"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:41950392" }
+    },
+    {
+      "slotId": "little-valley.building.farmhouse",
+      "assetKey": "art:little-valley:placement:farmhouse",
+      "kind": "building",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/scenes/0/placements/0/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 256, "height": 96 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 230.4, "height": 86.4 }, "anchor": { "x": 0.5, "y": 1 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "building" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "warm rural pixel wooden farmhouse, three-quarter top-down, transparent background", "negativePrompt": ["text", "frame", "cut-off roof"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:0acba1b6" }
+    },
+    {
+      "slotId": "little-valley.resource.berry-bush",
+      "assetKey": "art:little-valley:placement:berry-bush",
+      "kind": "resource",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/scenes/0/placements/3/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 28.8, "height": 28.8 }, "anchor": { "x": 0.5, "y": 1 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "resource" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "warm rural pixel berry bush with red berries, top-down, transparent background", "negativePrompt": ["text", "frame", "ground tile"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:322a75bd" }
+    },
+    {
+      "slotId": "little-valley.resource.ore-vein",
+      "assetKey": "art:little-valley:placement:ore-vein",
+      "kind": "resource",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/scenes/1/placements/1/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 28.8, "height": 28.8 }, "anchor": { "x": 0.5, "y": 1 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "resource" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "warm rural pixel copper ore vein, top-down, transparent background", "negativePrompt": ["text", "frame", "ground tile"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:92a26324" }
+    },
+    {
+      "slotId": "little-valley.tile.tilled-soil", "assetKey": "art:little-valley:tile:tilled-soil", "kind": "tile",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/visualSemantics/farm/tilledDrySkinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "plantable" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "seamless warm rural pixel tilled soil tile, top-down, no text", "negativePrompt": ["perspective", "text", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:a4cebdfc" }
+    },
+    {
+      "slotId": "little-valley.tile.farmable-earth", "assetKey": "art:little-valley:tile:farmable-earth", "kind": "tile",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/tileCatalog/soil/visual/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "plantable" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "seamless warm rural pixel untilled farmable earth tile, top-down, no text", "negativePrompt": ["perspective", "text", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:8280a37f" }
+    },
+    {
+      "slotId": "little-valley.tile.watered-soil", "assetKey": "art:little-valley:tile:watered-soil", "kind": "tile",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/visualSemantics/farm/wateredSkinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "plantable" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "seamless warm rural pixel freshly watered dark soil tile, top-down, no text", "negativePrompt": ["perspective", "text", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:187779d2" }
+    },
+    {
+      "slotId": "little-valley.tile.ochre-path", "assetKey": "art:little-valley:tile:ochre-path", "kind": "tile",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/tileCatalog/path/visual/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "ground" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "seamless warm rural pixel ochre gravel path tile, top-down", "negativePrompt": ["perspective", "text", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:7d0f7949" }
+    },
+    {
+      "slotId": "little-valley.tile.river-bridge", "assetKey": "art:little-valley:tile:river-bridge", "kind": "tile",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/tileCatalog/bridge/visual/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "ground" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "seamless warm rural pixel wooden bridge tile, top-down", "negativePrompt": ["perspective", "text", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:331f204f" }
+    },
+    {
+      "slotId": "little-valley.tile.river-water", "assetKey": "art:little-valley:tile:river-water", "kind": "tile",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/tileCatalog/water/visual/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "water" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "seamless warm rural pixel river water tile, top-down", "negativePrompt": ["perspective", "text", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:77943bc5" }
+    },
+    {
+      "slotId": "little-valley.tile.forest-floor", "assetKey": "art:little-valley:tile:forest-floor", "kind": "tile",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/tileCatalog/forage-ground/visual/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "ground" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "seamless warm rural pixel forest floor tile with leaves, top-down", "negativePrompt": ["perspective", "text", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:caec4fac" }
+    },
+    {
+      "slotId": "little-valley.tile.mine-approach", "assetKey": "art:little-valley:tile:mine-approach", "kind": "tile",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/tileCatalog/mine-ground/visual/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "ground" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "seamless warm rural pixel rocky mine approach tile, top-down", "negativePrompt": ["perspective", "text", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:b73e47fd" }
+    },
+    {
+      "slotId": "little-valley.tile.scenery-solid", "assetKey": "art:little-valley:placement:scenery-solid", "kind": "tile",
+      "consumers": [
+        { "document": "little-valley.life.json", "jsonPointer": "/tileCatalog/solid/visual/skinKey" },
+        { "document": "little-valley.life.json", "jsonPointer": "/tileCatalog/blocked-ground/visual/skinKey" }
+      ],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "ground" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "seamless warm rural pixel solid hedge and rock tile, top-down", "negativePrompt": ["perspective", "text", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:3f7a4222" }
+    },
+    {
+      "slotId": "little-valley.item.turnip-seed", "assetKey": "art:little-valley:item:turnip-seed", "kind": "item",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/itemCatalog/0/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 32, "height": 32 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "item" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "warm rural pixel turnip seed packet icon, transparent background", "negativePrompt": ["text", "frame", "scene"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:ffcf3698" }
+    },
+    {
+      "slotId": "little-valley.item.turnip", "assetKey": "art:little-valley:item:turnip", "kind": "item",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/itemCatalog/1/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 32, "height": 32 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "item" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "warm rural pixel purple white turnip item icon, transparent background", "negativePrompt": ["text", "frame", "scene"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:ee1f6734" }
+    },
+    {
+      "slotId": "little-valley.item.berry", "assetKey": "art:little-valley:item:berry", "kind": "item",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/itemCatalog/2/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 32, "height": 32 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "item" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "warm rural pixel red berry cluster item icon, transparent background", "negativePrompt": ["text", "frame", "scene"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:7bed4e9f" }
+    },
+    {
+      "slotId": "little-valley.item.ore", "assetKey": "art:little-valley:item:ore", "kind": "item",
+      "consumers": [{ "document": "little-valley.life.json", "jsonPointer": "/itemCatalog/3/skinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 32, "height": 32 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "item" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "warm rural pixel copper ore item icon, transparent background", "negativePrompt": ["text", "frame", "scene"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:dd112058" }
+    },
+    {
+      "slotId": "little-valley.building.mine-entrance", "assetKey": "art:little-valley:placement:mine-entrance", "kind": "building",
+      "consumers": [
+        { "document": "little-valley.life.json", "jsonPointer": "/scenes/0/placements/4/skinKey" },
+        { "document": "little-valley.life.json", "jsonPointer": "/scenes/1/placements/0/skinKey" }
+      ],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 64, "height": 64 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 57.6, "height": 57.6 }, "anchor": { "x": 0.5, "y": 1 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "building" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.warm-rural", "prompt": "warm rural pixel rocky mine entrance with dark opening and timber beams, transparent background", "negativePrompt": ["text", "frame", "scene border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:99548386" }
+    }
+  ]
+}

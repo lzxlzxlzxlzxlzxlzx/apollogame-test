@@ -58,7 +58,14 @@ async function run() {
     check('内联 window.__APOLLO_INLINE_CART__', html.includes('window.__APOLLO_INLINE_CART__='));
     check('<title> 是游戏名', html.includes('<title>弹跳冒烟</title>'));
     check('内联卡带含 ball 实体（manifest 真进去了）', html.includes('ball') && html.includes('Velocity'));
-    check('产物体量合理（>200KB·bundle 真内联）', readFileSync(out).length > 200 * 1024);
+    // P2e 验收（engine-architecture-review-2026-09-02 §5 P2e）：10 能力卡带的外壳 JS < 120 KB（裁剪前 ~317 KB）；
+    // 没点名的能力连名字都不该出现（rollup 真摇掉了·不是只藏起来）。
+    const scriptBytes = [...html.matchAll(/<script(?![^>]*__APOLLO_INLINE_CART__)[^>]*>([\s\S]*?)<\/script>/g)]
+      .map((m) => Buffer.byteLength(m[1])).reduce((a, b) => a + b, 0);
+    process.stdout.write(`  · 外壳 JS ${Math.round(scriptBytes / 1024)} KB\n`);
+    check('产物体量合理（>40KB·bundle 真内联）', readFileSync(out).length > 40 * 1024);
+    check('P2e 摇树：外壳 JS < 120 KB', scriptBytes < 120 * 1024);
+    check('P2e 摇树：未点名能力零命中（matrix-duel / hand-pattern / poker-hand 的 id 串）', !html.includes('matrix-duel') && !html.includes('hand-pattern') && !html.includes('poker-hand'));
   } finally {
     rmSync(FIX_DIR, { recursive: true, force: true });
     rmSync(join(ROOT, 'release', SLUG), { recursive: true, force: true });

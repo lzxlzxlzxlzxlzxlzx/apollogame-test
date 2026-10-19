@@ -6,8 +6,12 @@ export { collectRenderables } from './renderable.js';
 export type { Renderable } from './renderable.js';
 export { AsciiRenderer } from './ascii-renderer.js';
 export type { AsciiRendererOptions } from './ascii-renderer.js';
-export { CanvasRenderer } from './canvas-renderer.js';
-export type { CanvasRendererOptions } from './canvas-renderer.js';
+export { CanvasRenderer, lifeVisualConsumptionMode, planLifeVisualDraw } from './canvas-renderer.js';
+export type { CanvasRendererOptions, LifeVisualConsumptionMode, LifeVisualDrawPlan } from './canvas-renderer.js';
+export { WorldUi2DLayer, projectWorldUi2D, worldUi2DTree } from './world-ui2d.js';
+export type { WorldUi2DLayerOptions, WorldUi2DPresentation, WorldUi2DProjection, WorldUi2DProjectionMode } from './world-ui2d.js';
+export { collectLifeSceneRender, compileLifeWorldVisualCatalog, lifeCellToWorld, lifeWorldToCell, LIFE_PREVIEW_PALETTE } from './life-scene-render.js';
+export type { LifePreviewRole, LifeSceneProjectionOptions, LifeSceneRenderProjection, LifeTileDrawDescriptor, LifePlayerDrawDescriptor, LifeWarpDrawDescriptor, LifeWorldVisualCatalog } from './life-scene-render.js';
 // SVG 帧投影（无头「截图」：确定 / 可版本控制 / 浏览器可看 / 可文本 diff —— 视觉回归 + 看帧用）。
 export { frameSvg } from './frame-svg.js';
 export type { FrameSvgOptions } from './frame-svg.js';

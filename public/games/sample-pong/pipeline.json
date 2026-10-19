@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "slug": "sample-pong",
+  "concept": {
+    "name": "Pong",
+    "pitch": "Two-player pong"
+  },
+  "signoffs": {},
+  "evidence": {},
+  "history": [
+    {
+      "action": "concept",
+      "at": "2026-10-10T07:55:49.735Z"
+    }
+  ]
+}

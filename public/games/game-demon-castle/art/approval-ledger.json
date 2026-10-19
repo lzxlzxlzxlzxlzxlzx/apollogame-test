@@ -1,0 +1,628 @@
+{
+  "version": 1,
+  "batches": [
+    {
+      "id": "openai-image-generation-2026-10-12",
+      "source": "OpenAI built-in image generation",
+      "provider": "OpenAI image generation (Codex built-in; model identifier not exposed)",
+      "model": "OpenAI image generation (Codex built-in; model identifier not exposed)",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "generatedAt": "2026-10-12",
+      "reviewedBy": "owner",
+      "ownerDecision": "approved",
+      "normalization": {
+        "mode": "nearest-contain-bottom-center",
+        "alpha": "transparent",
+        "sampling": "nearest",
+        "anchor": "bottom-center"
+      },
+      "slots": [
+        {
+          "slotId": "demon-castle.player.moon-demon",
+          "assetKey": "art:demon-castle:player:moon-demon",
+          "prompt": "月影城堡的少女魔王，32位像素角色，俯视三分之四角，全身，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:3041bdb1",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/player-moon-demon-candidate-v1.png",
+          "sourceContentHash": "sha256:51364239d3c1e6340d22f63f6ffb223c8d5c6e885cf41d3bccef8e2179799068",
+          "contentHash": "sha256:86d11f474cb8dde5c237086f56b1108b1c717db795df88688b535671e7b8db18",
+          "outputPx": {
+            "width": 32,
+            "height": 48
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.npc.gargoyle-artisan",
+          "assetKey": "art:demon-castle:npc:gargoyle-artisan",
+          "prompt": "石像鬼工匠，暗紫石翼与铁匠围裙，32位像素角色，俯视三分之四角，全身，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:cb16960d",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/npc-gargoyle-artisan-candidate-v1.png",
+          "sourceContentHash": "sha256:8f3d0d61611f7e93c7025987a5d090fe3d1224e1ba6a0b5364f5e06cba964d14",
+          "contentHash": "sha256:f2f69de7c54901ab3bba2403d1d5e56d90a4b1126a0bcaf81518fb37f09e0a91",
+          "outputPx": {
+            "width": 32,
+            "height": 48
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.npc.moonwell-keeper",
+          "assetKey": "art:demon-castle:npc:moonwell-keeper",
+          "prompt": "月井使者，白银长袍与月光灯笼，32位像素角色，俯视三分之四角，全身，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:b954f3c0",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/npc-moonwell-keeper-candidate-v1.png",
+          "sourceContentHash": "sha256:9ca79abec32ceb8b5f39e1bbed42defc54cb918d1396d8514b04ab8c88abc67e",
+          "contentHash": "sha256:0d8fa884f04737c5fc19e995e70b4f3222a49f901fc9e0738b996a0f4121ba6d",
+          "outputPx": {
+            "width": 32,
+            "height": 48
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.item.moonbell-seed",
+          "assetKey": "art:demon-castle:item:moonbell-seed",
+          "prompt": "月铃花种子小袋，紫银色月纹，32位像素物品图标，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:a72f086c",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/item-moonbell-seed-candidate-v1.png",
+          "sourceContentHash": "sha256:e865a074b1c7a90cd8a356cb9fd724690da5f749c2a92c60b6af68a255b2f03d",
+          "contentHash": "sha256:346b74b81710361886da5b1f13e6c6d424424a705c994a554229a3b355258202",
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.item.moonbell",
+          "assetKey": "art:demon-castle:item:moonbell",
+          "prompt": "成熟月铃花，一朵发光的淡紫铃形花，32位像素物品图标，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:b935492e",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/item-moonbell-candidate-v1.png",
+          "sourceContentHash": "sha256:1dc5dd822068358b2abfb50bb650ba2037d7179925b3b38a52130f22b6a9ce7f",
+          "contentHash": "sha256:e2b2a6f5e09862702135593f5c333fd1c28c7b067a50c50f94c6870790986bb1",
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.item.moonwood",
+          "assetKey": "art:demon-castle:item:moonwood",
+          "prompt": "月木材料，银白木枝与蓝紫月光纹理，32位像素物品图标，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:e875f17e",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/item-moonwood-candidate-v1.png",
+          "sourceContentHash": "sha256:73859cc98a47f9a6b96bbbe1e941d9d7ea6c7da2009a2670d906a12e3b22dea6",
+          "contentHash": "sha256:da15da89d3d9795fda1512506fcc127941e29bfbf146371a3aca614f4f6d1f86",
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.item.shadow-ore",
+          "assetKey": "art:demon-castle:item:shadow-ore",
+          "prompt": "影矿材料，深紫晶体矿石，32位像素物品图标，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:181c3a12",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/item-shadow-ore-candidate-v1.png",
+          "sourceContentHash": "sha256:8ee41aec0fd74ec161f0b4892fe06a2179b8bb994934d04e1342dce1c437bc7c",
+          "contentHash": "sha256:f281db851d4e2f20576f46224d2866cd0f5b2d642b0bd183e6727efcd6138753",
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.crop.moonbell-seeded",
+          "assetKey": "art:demon-castle:crop:moonbell-seeded",
+          "prompt": "月铃花播种土堆，微弱紫色芽点，32位像素俯视作物，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:8c647bed",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/crop-moonbell-seeded-candidate-v1.png",
+          "sourceContentHash": "sha256:dfb6774171eabff86e807017fdf1945a1bbc24f2d6281accc709c324b1214b89",
+          "contentHash": "sha256:e73e97004abdf8dd3dd92c16ae1f9d9fb2a70a7b3fe18305a2eb1ff08f38bf06",
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.crop.moonbell-growing",
+          "assetKey": "art:demon-castle:crop:moonbell-growing",
+          "prompt": "月铃花成长中的青紫叶簇，32位像素俯视作物，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:7b377315",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/crop-moonbell-growing-candidate-v1.png",
+          "sourceContentHash": "sha256:ea0cc1ef21bf038c499af583bd47d8c7ba46200da26c5f39677c61c9c4d6765c",
+          "contentHash": "sha256:2517a08f2d2637e2d6c85dab069ba1f9aeba1d26994af0ef4069652143af638c",
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.crop.moonbell-mature",
+          "assetKey": "art:demon-castle:crop:moonbell-mature",
+          "prompt": "成熟月铃花，淡紫铃形花簇与月光叶片，32位像素俯视作物，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:02a11662",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/crop-moonbell-mature-candidate-v1.png",
+          "sourceContentHash": "sha256:1133bb8fd0728c103a81a422f07feaa15fb6ab1196496830c23a3cc72879abac",
+          "contentHash": "sha256:491eea83d4428fae27d3c4f2a8a198f5d3ce1fd20dad666236e4647105c8b563",
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.building.throne-hall",
+          "assetKey": "art:demon-castle:building:throne-hall",
+          "prompt": "破败月影城堡王座厅，月牙尖顶与裂纹石墙，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:90404e59",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/building-throne-hall-candidate-v1.png",
+          "sourceContentHash": "sha256:352e325d8f20121cf9d3dcd34a4adda415da6dbeb00ecdbc0d28017d9aecfa4a",
+          "contentHash": "sha256:990d274a17adf2ca816efe560b0b51bda1be06e23d6222558b25f93b015677f4",
+          "outputPx": {
+            "width": 192,
+            "height": 96
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.building.greenhouse-ruin",
+          "assetKey": "art:demon-castle:building:greenhouse-ruin",
+          "prompt": "破败月庭温室，碎裂玻璃穹顶与紫藤，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:ae202cb3",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/building-greenhouse-ruin-candidate-v1.png",
+          "sourceContentHash": "sha256:7c4251936ce1cea2c15bd9d1d592ad809bc6499397b77539babd7e0ca727507f",
+          "contentHash": "sha256:14e833521d36cb7287bfc0f3647edb2c37daa485c14563f08fd04c2f5e81116d",
+          "outputPx": {
+            "width": 128,
+            "height": 96
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.building.forest-arch",
+          "assetKey": "art:demon-castle:building:forest-arch",
+          "prompt": "通往月影森林的黑石拱门，月光藤蔓，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:4f06ee4e",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/building-forest-arch-candidate-v1.png",
+          "sourceContentHash": "sha256:6e0e14ab77ada57262ce8bf62ce1e4d134c5fcdddd3dfe745e2ebc0dc034fbc8",
+          "contentHash": "sha256:aba1aefa2c7b92ccd8053a44f9c7645eea9c8d849bdfa1b8c107995ea778b5c8",
+          "outputPx": {
+            "width": 64,
+            "height": 64
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.building.undercrypt-stairs",
+          "assetKey": "art:demon-castle:building:undercrypt-stairs",
+          "prompt": "通向地底工坊的古老石阶入口，幽蓝火把，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:70979fd4",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/building-undercrypt-stairs-candidate-v1.png",
+          "sourceContentHash": "sha256:c5bdf2bf85c20f552f7a733f3dd4f510ca486ac707fb939db3fdd50291a9a7a3",
+          "contentHash": "sha256:34f30236424656b1abd2a1aad9962ee0cc7b490d387a941f79d2c33cbaf9c643",
+          "outputPx": {
+            "width": 64,
+            "height": 64
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.building.moonwell",
+          "assetKey": "art:demon-castle:building:moonwell",
+          "prompt": "月井，圆形石井与悬浮月光水面，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:497f6f1a",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/building-moonwell-candidate-v1.png",
+          "sourceContentHash": "sha256:162327e0bd16649fc508ad0294460b1ff2d63bedaacd068fc455a3bf8b8cdae0",
+          "contentHash": "sha256:515bbbca2831cc9a3ce3bd161b8b92b3bad6df85de213e476e91587638723a06",
+          "outputPx": {
+            "width": 64,
+            "height": 64
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.decoration.ancient-grove",
+          "assetKey": "art:demon-castle:decoration:ancient-grove",
+          "prompt": "远古月影树丛，银叶古树与紫色根须，顶视三分之四像素景观，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:17f604f2",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/decoration-ancient-grove-candidate-v1.png",
+          "sourceContentHash": "sha256:d94b95681f69dcc8463e7dcf59888d07f7600ac8469db15edb1d1ddd66e041d2",
+          "contentHash": "sha256:833c53ef4aa4c55227d81b5172e4438c1cdd520c4108e399a5631543fdeb5312",
+          "outputPx": {
+            "width": 96,
+            "height": 96
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.building.forge-core",
+          "assetKey": "art:demon-castle:building:forge-core",
+          "prompt": "沉睡的地底熔炉核心，暗黑石炉与熄灭紫晶，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:27814be6",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/building-forge-core-candidate-v1.png",
+          "sourceContentHash": "sha256:38dc7a56266d827ecf1d2a6315d23fe5a96041dc4d9ca8539465f9083f9e6f24",
+          "contentHash": "sha256:1300b322d9763d93edcd46a3cdbe22a28e11037a36dfd4f83465534714fb7178",
+          "outputPx": {
+            "width": 128,
+            "height": 96
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.building.sealed-vault",
+          "assetKey": "art:demon-castle:building:sealed-vault",
+          "prompt": "封印宝库门，黑石金属门与紫色封印，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:5028ab6e",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/building-sealed-vault-candidate-v1.png",
+          "sourceContentHash": "sha256:f3601ebe2301868b851841afc221500d36f0e107f768018348a24e59d49a502e",
+          "contentHash": "sha256:9c3e48be8b353db9f5298267c9bee4fb50db12060efe487156a24f621ed27a90",
+          "outputPx": {
+            "width": 64,
+            "height": 96
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.resource.moonwood-log",
+          "assetKey": "art:demon-castle:resource:moonwood-log",
+          "prompt": "倒下的月木原木，银白树皮与蓝紫荧光，32位像素俯视资源，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:e9e084dc",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/resource-moonwood-log-candidate-v1.png",
+          "sourceContentHash": "sha256:475bb09aa0631df6f77b44e367018f04934bec76ee8086ae9b09aae80ad3ff75",
+          "contentHash": "sha256:6304205054ebd54f685646edea61194efbac91cb7e215db756f8ee305feec6a9",
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.resource.shadow-ore-vein",
+          "assetKey": "art:demon-castle:resource:shadow-ore-vein",
+          "prompt": "影矿矿脉，深紫晶体从黑岩中突出，32位像素俯视资源，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:94126865",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/resource-shadow-ore-vein-candidate-v1.png",
+          "sourceContentHash": "sha256:6384a732d1af3e4d447003a8b024b1e2550259a94a96ecd9419fa31461cff86d",
+          "contentHash": "sha256:07161135c00f6905696db05173687a35d6d8749b5d2801648f0c0069dc831dd4",
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.building.throne-hall-restored",
+          "assetKey": "art:demon-castle:building:throne-hall-restored",
+          "prompt": "修复后的月影城堡王座厅，月光窗与亮起的紫金灯火，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:942b80bf",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/building-throne-hall-restored-candidate-v1.png",
+          "sourceContentHash": "sha256:f053a8c6fa6fc5b753eb7504390c80a6ee482b73265f6635dbfd597bf2f889fe",
+          "contentHash": "sha256:680981be56e38ac47c52c7648a64453b9a293fdf02bccc3c31649dc483a5ff15",
+          "outputPx": {
+            "width": 192,
+            "height": 96
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.building.greenhouse-restored",
+          "assetKey": "art:demon-castle:building:greenhouse-restored",
+          "prompt": "修复后的月庭温室，完整玻璃穹顶与发光月铃花，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:fff2d7d9",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/building-greenhouse-restored-candidate-v1.png",
+          "sourceContentHash": "sha256:f56b8419234c9b6d840e3216856b08a38508ae06f14b1d8d4b6a54bbe2839393",
+          "contentHash": "sha256:f0c7164f0af1389c7455e9bed6c83af721b3b07c0d48b5dec8a100e481899450",
+          "outputPx": {
+            "width": 128,
+            "height": 96
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.building.forge-core-awakened",
+          "assetKey": "art:demon-castle:building:forge-core-awakened",
+          "prompt": "苏醒的地底熔炉核心，紫蓝火焰与发光符文，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+          "briefFingerprint": "asset-slot-v1:2f33ef90",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/building-forge-core-awakened-candidate-v1.png",
+          "sourceContentHash": "sha256:a2e4d34205a76f898fa7e289110b76f23608f9688ad7475169c76848227730a7",
+          "contentHash": "sha256:09d4e07f995a5f605a5ec3c9703260a6b79b62775a0e4aec0089b569ddc68468",
+          "outputPx": {
+            "width": 128,
+            "height": 96
+          },
+          "approval": "approved"
+        }
+      ]
+    },
+    {
+      "id": "openai-image-generation-terrain-tiles-2026-10-12",
+      "source": "OpenAI built-in image generation",
+      "provider": "OpenAI image generation (Codex built-in; model identifier not exposed)",
+      "model": "unknown/not exposed",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "generatedAt": "2026-10-12",
+      "reviewedBy": "owner",
+      "ownerDecision": "approved",
+      "normalization": {
+        "mode": "nearest-cover-center",
+        "alpha": "opaque",
+        "sampling": "nearest",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "fit": "cover"
+      },
+      "slots": [
+        {
+          "slotId": "demon-castle.tile.moon-courtyard",
+          "assetKey": "art:demon-castle:tile:moon-courtyard",
+          "prompt": "无缝平铺的月影城堡庭院深靛蓝板岩地砖，俯视32位像素纹理，月银石缝与少量紫苔，无文字无边框",
+          "briefFingerprint": "asset-slot-v1:fe3df546",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/tile-moon-courtyard-candidate-v1.png",
+          "sourceContentHash": "sha256:71a816f89214c3845be17c49f54f1949e0642fccca57ed5ad30417c4e0a1afbb",
+          "contentHash": "sha256:300b45f687e9d17755bb3216adbd5abf28a5bed7ca6ddfe029820667ce4c7b96",
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.tile.moonshadow-forest",
+          "assetKey": "art:demon-castle:tile:moonshadow-forest",
+          "prompt": "无缝平铺的月影森林地表，暗蓝绿泥土、月银落叶、细小紫色荧光菌与根须，俯视32位像素纹理，无文字无边框",
+          "briefFingerprint": "asset-slot-v1:7472a345",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/tile-moonshadow-forest-candidate-v1.png",
+          "sourceContentHash": "sha256:9225a9049f53c4ac5d1eb2ea1cafaa3ac5b165e7f834b48c96cf70be1d7f7888",
+          "contentHash": "sha256:c8b9739f64ba09acf80e1f9abb8cea9d317afd1a3e9db843752c5fd44c3b6e80",
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.tile.undercrypt-workshop",
+          "assetKey": "art:demon-castle:tile:undercrypt-workshop",
+          "prompt": "无缝平铺的地底魔王城工坊黑曜石地砖，微弱紫色符文镶嵌与冷蓝熔炉反光，俯视32位像素纹理，无文字无边框",
+          "briefFingerprint": "asset-slot-v1:bc3549b2",
+          "sourcePath": "docs/design/game-demon-castle/art/ai/pending/tile-undercrypt-workshop-candidate-v1.png",
+          "sourceContentHash": "sha256:6e233004d5cc40e12504edd394f9784896f3354cdb72a85fc7f9c4765c5691cb",
+          "contentHash": "sha256:85297bdd6e61fc8d2687665b9b925531a33f0d169b57d26f59a4abdafaf13fed",
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
+          "approval": "approved"
+        }
+      ]
+    },
+    {
+      "id": "codex-imagegen-illustrated-core-2026-10-13",
+      "source": "Codex built-in image generation candidate capture",
+      "provider": "codex-imagegen",
+      "model": "codex-imagegen",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "generatedAt": "2026-10-13",
+      "reviewedBy": "owner",
+      "ownerDecision": "approved",
+      "normalization": {
+        "mode": "asset-slot-exact-resample",
+        "sampling": "nearest",
+        "note": "Source candidates retain their original bytes under docs/design; approved runtime copies are normalized to the existing slot contract."
+      },
+      "slots": [
+        {
+          "slotId": "demon-castle.player.moon-demon",
+          "assetKey": "art:demon-castle:player:moon-demon",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:3041bdb1",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/player-moon-demon-three-head-v3.png",
+          "sourceContentHash": "sha256:a13734e31cc844e3e97f17b2ff9217c6688848a3b4f080df8f34d872ceeddbaa",
+          "contentHash": "sha256:2c7efda117652e482d258ba9750a947644ff5ffe5adfacb5db38c46a57dc7f97",
+          "outputPx": {
+            "width": 32,
+            "height": 48
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.tile.moon-courtyard",
+          "assetKey": "art:demon-castle:tile:moon-courtyard",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:fe3df546",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/tile-moon-courtyard-neutral-v2.png",
+          "sourceContentHash": "sha256:203b573358d11ea9c27a21f31ccf0ca7b488ec6a5498f8a88988b1bd623319ea",
+          "contentHash": "sha256:f54c9ae05c41f68ca69aaf9338680b6b42f75c5cdc329820ee7d0352b6eef64c",
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.npc.gargoyle-artisan",
+          "assetKey": "art:demon-castle:npc:gargoyle-artisan",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:cb16960d",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/npc-gargoyle-artisan-three-head-v1.png",
+          "sourceContentHash": "sha256:adabe1e68a449d6be34eba3b78027e9d9f2ccd3e4ffb21d161d8fbb4109b7199",
+          "contentHash": "sha256:ddad2c322dc781eebc0c55fba06678c4234e60ec1e5edc7a4a9d3f914d6bcbd4",
+          "outputPx": {
+            "width": 32,
+            "height": 48
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.building.forest-arch",
+          "assetKey": "art:demon-castle:building:forest-arch",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:7fcec7c3",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/building-forest-arch-neutral-v1.png",
+          "sourceContentHash": "sha256:cb9941a3212aa19f1258378c528b650d0b52b817ddb249a6cf688ef2ec404fb4",
+          "contentHash": "sha256:08eee20aaf6e504ed30920065d1215b771912528ffed291fb4ca40944c295870",
+          "outputPx": {
+            "width": 64,
+            "height": 64
+          },
+          "approval": "approved"
+        }
+      ]
+    },
+    {
+      "id": "codex-imagegen-illustrated-core-highres-repair-2026-10-13",
+      "source": "Codex built-in image generation candidate capture",
+      "provider": "codex-imagegen",
+      "model": "codex-imagegen",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "generatedAt": "2026-10-13",
+      "reviewedBy": "owner",
+      "ownerDecision": "approved",
+      "supersedes": "codex-imagegen-illustrated-core-2026-10-13",
+      "normalization": {
+        "mode": "illustrated-asset-slot-contract",
+        "sampling": "linear",
+        "note": "Corrects the prior low-resolution nearest-neighbour normalization. Logical cells remain independent from high-resolution illustrated source textures."
+      },
+      "slots": [
+        {
+          "slotId": "demon-castle.player.moon-demon",
+          "assetKey": "art:demon-castle:player:moon-demon",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:5c18a301",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/player-moon-demon-three-head-v3.png",
+          "sourceContentHash": "sha256:a13734e31cc844e3e97f17b2ff9217c6688848a3b4f080df8f34d872ceeddbaa",
+          "contentHash": "sha256:10ed97937949a742cdc8dc678cd0e7d2af8c78613a8a3f3b9b181ed3200754ad",
+          "outputPx": {
+            "width": 384,
+            "height": 512
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.tile.moon-courtyard",
+          "assetKey": "art:demon-castle:tile:moon-courtyard",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:b43a7a2c",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/tile-moon-courtyard-neutral-v2.png",
+          "sourceContentHash": "sha256:203b573358d11ea9c27a21f31ccf0ca7b488ec6a5498f8a88988b1bd623319ea",
+          "contentHash": "sha256:21196c0ff0f6257918508d74dfb288edf1cb584edaf73a132cd1fecd2c759b15",
+          "outputPx": {
+            "width": 256,
+            "height": 256
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.npc.gargoyle-artisan",
+          "assetKey": "art:demon-castle:npc:gargoyle-artisan",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:688e07d8",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/npc-gargoyle-artisan-three-head-v1.png",
+          "sourceContentHash": "sha256:adabe1e68a449d6be34eba3b78027e9d9f2ccd3e4ffb21d161d8fbb4109b7199",
+          "contentHash": "sha256:820154a0ca658826920d73737962abe8f53f3719b869cd9d94ae6027aa6d9825",
+          "outputPx": {
+            "width": 384,
+            "height": 512
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.building.forest-arch",
+          "assetKey": "art:demon-castle:building:forest-arch",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:8bdf0fbb",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/building-forest-arch-neutral-v1.png",
+          "sourceContentHash": "sha256:cb9941a3212aa19f1258378c528b650d0b52b817ddb249a6cf688ef2ec404fb4",
+          "contentHash": "sha256:af0ffd435cb3c39e3366a96dce48ab8dbc9f1336cc75ffa1070d0a2338217c5a",
+          "outputPx": {
+            "width": 512,
+            "height": 512
+          },
+          "approval": "approved"
+        }
+      ]
+    },
+    {
+      "id": "ui-skin-moonshadow-2026-10-15",
+      "source": "Owner-approved prototype UI candidate",
+      "license": "owner-authorized use in game-demon-castle",
+      "generatedAt": "2026-10-13",
+      "reviewedBy": "owner",
+      "ownerDecision": "approved",
+      "approvedAt": "2026-10-15",
+      "slots": [
+        {
+          "assetKey": "art:game-demon-castle:ui:panel-frame",
+          "sourcePath": "docs/design/game-demon-castle/ui-refs/2026-10-13-ui-demo/ui-moonshadow-panel-frame-v1.png",
+          "sourceContentHash": "sha256:5fa3aef549574e3e8d8716f3e8ecbb71f99ae4adb9b7e3995fc91da11fab2471",
+          "contentHash": "sha256:5fa3aef549574e3e8d8716f3e8ecbb71f99ae4adb9b7e3995fc91da11fab2471",
+          "outputPx": {
+            "width": 1086,
+            "height": 1448
+          },
+          "approval": "approved"
+        },
+        {
+          "assetKey": "art:game-demon-castle:ui:world-status-ribbon",
+          "sourcePath": "docs/design/game-demon-castle/ui-refs/2026-10-13-ui-demo/ui-world-status-ribbon-v1.png",
+          "sourceContentHash": "sha256:74e0f53d824e32d38dae63a6f24cdb936a9c524e9091674a8f2d72a61812ff6b",
+          "contentHash": "sha256:01410bf45eec4959fdc38652b7b4951e2eb229215aee4e097ee239ca6aeec13d",
+          "outputPx": {
+            "width": 2136,
+            "height": 304
+          },
+          "approval": "approved"
+        },
+        {
+          "assetKey": "art:game-demon-castle:ui:tracked-quest-frame",
+          "sourcePath": "docs/design/game-demon-castle/ui-refs/2026-10-13-ui-demo/ui-reference-extracted-kit-v1.png",
+          "sourceContentHash": "sha256:d785917c7a5a6d93d6af4706f92c6eb3a9cc7bfee774d93dc8651ee3d4ac11e2",
+          "crop": {
+            "x": 27,
+            "y": 209,
+            "width": 562,
+            "height": 197
+          },
+          "contentHash": "sha256:b398b53ceacc922f23f46ee6db596a2ab4cafce69d33780b5567e204a565cdc1",
+          "outputPx": {
+            "width": 562,
+            "height": 197
+          },
+          "approval": "approved"
+        }
+      ]
+    },
+    {
+      "id": "codex-ui-icons-2026-10-15",
+      "source": "Codex built-in image generation candidate capture",
+      "provider": "Codex built-in image generation",
+      "model": "unknown/not retained in candidate artifact",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "generatedAt": "2026-10-15",
+      "reviewedBy": "owner",
+      "ownerDecision": "approved",
+      "approvedAt": "2026-10-15",
+      "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-15-ui-icons/moonshadow-ui-icons-sheet-candidate-v1.png",
+      "sourceContentHash": "sha256:684fc490657625445c0409e6f6ac448b697a6137a132bd4ac28b9f96ae9be920",
+      "normalization": { "mode": "fixed-grid-cell-crop", "alpha": "transparent", "sampling": "linear", "note": "Each 512x512 cell is copied independently; no text is present in the approved icon sheet." },
+      "slots": [
+        { "slotId": "demon-castle.ui-icon.resource-gold", "assetKey": "art:game-demon-castle:ui:resource-gold", "crop": { "x": 0, "y": 0, "width": 512, "height": 512 }, "contentHash": "sha256:43030b1756d6f557c5a0a7fb31035cf11685971ed2435c4f368caebcd999cb52", "outputPx": { "width": 512, "height": 512 }, "consumer": "planned Life Host important-resource HUD icon: gold", "approval": "approved" },
+        { "slotId": "demon-castle.ui-icon.resource-moon-crystal", "assetKey": "art:game-demon-castle:ui:resource-moon-crystal", "crop": { "x": 512, "y": 0, "width": 512, "height": 512 }, "contentHash": "sha256:7278a4df52b0d81b67fde96a104f0f5aedeee73a8a5b19aba476995173b77072", "outputPx": { "width": 512, "height": 512 }, "consumer": "planned Life Host important-resource HUD icon: moon-crystal", "approval": "approved" },
+        { "slotId": "demon-castle.ui-icon.resource-moonleaf", "assetKey": "art:game-demon-castle:ui:resource-moonleaf", "crop": { "x": 1024, "y": 0, "width": 512, "height": 512 }, "contentHash": "sha256:661ba2904aebbe14aaedfa1573e1054a8112d84ef453dd8edca6df27905b4762", "outputPx": { "width": 512, "height": 512 }, "consumer": "planned Life Host important-resource HUD icon: moonleaf", "approval": "approved" },
+        { "slotId": "demon-castle.ui-icon.entry-quest-scroll", "assetKey": "art:game-demon-castle:ui:entry-quest-scroll", "crop": { "x": 0, "y": 512, "width": 512, "height": 512 }, "contentHash": "sha256:ad98580a2fd1007e2cddd67978800695fb53a9efbefa63d4f15b85c8414d702f", "outputPx": { "width": 512, "height": 512 }, "consumer": "planned Life Host quest entry button: J", "approval": "approved" },
+        { "slotId": "demon-castle.ui-icon.entry-backpack", "assetKey": "art:game-demon-castle:ui:entry-backpack", "crop": { "x": 512, "y": 512, "width": 512, "height": 512 }, "contentHash": "sha256:70b1eb6e35cb9a373a937b2afeca6335b950630e5ad394ba8b56646c3b2652cd", "outputPx": { "width": 512, "height": 512 }, "consumer": "planned Life Host inventory entry button: I", "approval": "approved" },
+        { "slotId": "demon-castle.ui-icon.entry-profile", "assetKey": "art:game-demon-castle:ui:entry-profile", "crop": { "x": 1024, "y": 512, "width": 512, "height": 512 }, "contentHash": "sha256:08a650a0e587df1851470fc601dcacbcb9810d720b754cdac1a3bdfb89c12f5e", "outputPx": { "width": 512, "height": 512 }, "consumer": "planned Life Host profile entry button: C", "approval": "approved" }
+      ]
+    }
+  ]
+}

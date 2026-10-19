@@ -1,0 +1,559 @@
+{
+  "slug": "game-potion-brewing",
+  "at": "2026-10-15T04:03:30.819Z",
+  "gameHash": "453f23a6b8e49673",
+  "ok": true,
+  "form": "compiled",
+  "uiDrivableRate": 0,
+  "totalSummary": {
+    "signalSteps": 24,
+    "drivenSteps": 0,
+    "tickSteps": 4,
+    "waitUntilSteps": 25,
+    "expectSteps": 14,
+    "uiDrivableRate": 0
+  },
+  "scenarios": [
+    {
+      "name": "月露四步闭环：未提交选择无害，顺时针两圈后逆时针成功",
+      "file": "01-moon-success.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 1,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 2,
+          "kind": "signal",
+          "signal": "brew.ui.inspect.red-berry",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 3,
+          "kind": "tick",
+          "driven": false,
+          "note": "按 60Hz 等待真实运行时间；非 UI 动作"
+        },
+        {
+          "step": 4,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 5,
+          "kind": "signal",
+          "signal": "brew.add.moon-herb",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 6,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 7,
+          "kind": "signal",
+          "signal": "brew.stir.clockwise",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 8,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 9,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 10,
+          "kind": "signal",
+          "signal": "brew.stir.clockwise",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 11,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 12,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 13,
+          "kind": "signal",
+          "signal": "brew.add.silver-leaf",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 14,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 15,
+          "kind": "signal",
+          "signal": "brew.stir.counterclockwise",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 16,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 17,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 18,
+          "kind": "signal",
+          "signal": "brew.add.red-berry",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 19,
+          "kind": "tick",
+          "driven": false,
+          "note": "按 60Hz 等待真实运行时间；非 UI 动作"
+        },
+        {
+          "step": 20,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 21,
+        "signalSteps": 7,
+        "drivenSteps": 0,
+        "tickSteps": 2,
+        "waitUntilSteps": 6,
+        "expectSteps": 6,
+        "uiDrivableRate": 0
+      }
+    },
+    {
+      "name": "赤焰五步闭环：连续材料与逆顺双方向",
+      "file": "02-ember-success.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "brew.add.red-berry",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 2,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 3,
+          "kind": "signal",
+          "signal": "brew.add.pepper-seed",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 4,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 5,
+          "kind": "signal",
+          "signal": "brew.stir.counterclockwise",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 6,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 7,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 8,
+          "kind": "signal",
+          "signal": "brew.stir.counterclockwise",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 9,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 10,
+          "kind": "signal",
+          "signal": "brew.add.dawn-petal",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 11,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 12,
+          "kind": "signal",
+          "signal": "brew.stir.clockwise",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 13,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 14,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 15,
+        "signalSteps": 6,
+        "drivenSteps": 0,
+        "tickSteps": 0,
+        "waitUntilSteps": 7,
+        "expectSteps": 2,
+        "uiDrivableRate": 0
+      }
+    },
+    {
+      "name": "错误材料提交立即失败且终局冻结",
+      "file": "03-wrong-material.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "brew.add.red-berry",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 2,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 3,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 4,
+          "kind": "signal",
+          "signal": "brew.add.moon-herb",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 5,
+          "kind": "tick",
+          "driven": false,
+          "note": "按 60Hz 等待真实运行时间；非 UI 动作"
+        },
+        {
+          "step": 6,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 7,
+        "signalSteps": 2,
+        "drivenSteps": 0,
+        "tickSteps": 1,
+        "waitUntilSteps": 2,
+        "expectSteps": 2,
+        "uiDrivableRate": 0
+      }
+    },
+    {
+      "name": "完整反向有效圈立即失败，而未提交动作无害",
+      "file": "04-reverse-stir.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "brew.add.moon-herb",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 2,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 3,
+          "kind": "signal",
+          "signal": "brew.ui.inspect.silver-leaf",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 4,
+          "kind": "tick",
+          "driven": false,
+          "note": "按 60Hz 等待真实运行时间；非 UI 动作"
+        },
+        {
+          "step": 5,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 6,
+          "kind": "signal",
+          "signal": "brew.stir.counterclockwise",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 7,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 8,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 9,
+        "signalSteps": 3,
+        "drivenSteps": 0,
+        "tickSteps": 1,
+        "waitUntilSteps": 3,
+        "expectSteps": 2,
+        "uiDrivableRate": 0
+      }
+    },
+    {
+      "name": "重复材料 ID 可无限取用但仍按步骤判定",
+      "file": "05-repeat-material.scenario.jsonc",
+      "steps": [
+        {
+          "step": 0,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 1,
+          "kind": "signal",
+          "signal": "brew.add.moon-herb",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 2,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 3,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        },
+        {
+          "step": 4,
+          "kind": "signal",
+          "signal": "brew.add.moon-herb",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 5,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 6,
+          "kind": "signal",
+          "signal": "brew.stir.clockwise",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 7,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 8,
+          "kind": "signal",
+          "signal": "brew.stir.clockwise",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 9,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 10,
+          "kind": "signal",
+          "signal": "brew.add.silver-leaf",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 11,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 12,
+          "kind": "signal",
+          "signal": "brew.stir.counterclockwise",
+          "driven": false,
+          "liveActions": [],
+          "note": "活体 DOM 无匹配 [data-action]（两种可能：① 剧本词表与 UI 词表不同源 ② 探针没入场·当前屏根本不是该动作所在的屏——看 liveActions 判哪种）"
+        },
+        {
+          "step": 13,
+          "kind": "waitUntil",
+          "driven": false,
+          "note": "条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核"
+        },
+        {
+          "step": 14,
+          "kind": "expect",
+          "driven": false,
+          "note": "断言步骤·探针只读 UI 动作清单(非仿真世界态)·未核"
+        }
+      ],
+      "summary": {
+        "totalSteps": 15,
+        "signalSteps": 6,
+        "drivenSteps": 0,
+        "tickSteps": 0,
+        "waitUntilSteps": 7,
+        "expectSteps": 2,
+        "uiDrivableRate": 0
+      }
+    }
+  ],
+  "assertions": {
+    "consoleErrors": {
+      "pass": true,
+      "count": 0,
+      "messages": []
+    },
+    "noUncaught": {
+      "pass": true,
+      "count": 0,
+      "messages": []
+    }
+  },
+  "browser": {
+    "execPath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "via": "installed"
+  }
+}

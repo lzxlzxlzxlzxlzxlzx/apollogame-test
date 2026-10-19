@@ -1,0 +1,627 @@
+{
+  "version": 1,
+  "slug": "game-potion-brewing",
+  "concept": {
+    "name": "坩埚炼药",
+    "pitch": "DokiWorld 指定唯一公开配方，玩家按序投料并沿锅口搅拌，正确炼成药剂；明确错误立即失败。",
+    "refs": "docs/design/game-potion-brewing/prototype.dc.html;S1-P-06",
+    "style": "1440x900 透明三栏炼药台"
+  },
+  "signoffs": {
+    "S1": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-10-13T04:06:36.457Z"
+    },
+    "S2": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-10-13T04:06:49.895Z"
+    },
+    "S3": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-10-13T04:07:05.912Z"
+    },
+    "S4": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-10-13T10:55:00.670Z"
+    },
+    "S5": {
+      "by": "owner",
+      "note": "ok'",
+      "at": "2026-10-13T14:04:38.998Z"
+    }
+  },
+  "evidence": {
+    "S2": {
+      "exit": 0,
+      "summary": "capability-plan.md 在档 · ✓ 缺口 5 条全已裁决 · 全部了结",
+      "at": "2026-10-15T03:34:49.634Z",
+      "gameHash": "453f23a6b8e49673"
+    },
+    "S3": {
+      "exit": 0,
+      "summary": "编译期游戏免 manifest 校验 · ✓ 渲染探针过（截图 public/games/<slug>/probe/S3-render.png） · ✓ Canvas 真手势打穿（2 项 · Engine.step 输入与可见变化同证 · 零控制台 error）",
+      "at": "2026-10-15T03:58:08.324Z",
+      "hashes": {
+        "full": "453f23a6b8e49673",
+        "rules": "f1fca8d9f97ffeb3",
+        "ui": "2612e091f095bd66",
+        "assets": "b0d3f916f46d000a",
+        "sdk": "e3b0c44298fc1c14",
+        "visual": "8cb67879ab46387f"
+      },
+      "gameHash": "453f23a6b8e49673"
+    },
+    "S4": {
+      "exit": 0,
+      "summary": "walkthrough 绿（ Test Files  4 passed (4) ·       Tests  19 passed (19)）· 验收剧本 5 场景绿 · ✓ UI 走查过·可驱动率 0%（⚠ 零可驱动：剧本动作一个都点不出来·当前只报不拦）",
+      "at": "2026-10-15T04:03:31.046Z",
+      "hashes": {
+        "full": "453f23a6b8e49673",
+        "rules": "f1fca8d9f97ffeb3",
+        "ui": "2612e091f095bd66",
+        "assets": "b0d3f916f46d000a",
+        "sdk": "e3b0c44298fc1c14",
+        "visual": "8cb67879ab46387f"
+      },
+      "gameHash": "453f23a6b8e49673"
+    },
+    "S5": {
+      "exit": 0,
+      "summary": "AUDIT: PASS · RATCHET: PASS · ⚠ 无标准照基准·未比对（golden-shot bless 建基准）",
+      "at": "2026-10-15T04:10:09.121Z",
+      "hashes": {
+        "full": "453f23a6b8e49673",
+        "rules": "f1fca8d9f97ffeb3",
+        "ui": "2612e091f095bd66",
+        "assets": "b0d3f916f46d000a",
+        "sdk": "e3b0c44298fc1c14",
+        "visual": "8cb67879ab46387f"
+      },
+      "gameHash": "453f23a6b8e49673"
+    }
+  },
+  "history": [
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T03:06:32.581Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T03:10:45.716Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "CONCERNS",
+      "at": "2026-10-13T03:11:16.021Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T03:13:10.514Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-10-13T03:13:19.965Z"
+    },
+    {
+      "action": "concept",
+      "at": "2026-10-13T03:14:03.415Z"
+    },
+    {
+      "action": "out-of-order",
+      "stage": "S3",
+      "reason": "S1-P-06 与 S2 已由 Owner 在项目路线图控制台批准，编译期流程板晚于批准建立；S2 机器门及独立复查 PASS，本次仅跑 S3 机器门，不代签流程板人门。",
+      "at": "2026-10-13T03:14:24.889Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-10-13T03:14:43.449Z"
+    },
+    {
+      "action": "out-of-order",
+      "stage": "S3",
+      "reason": "S1-P-06 与 S2 已由 Owner 在项目路线图控制台批准，编译期流程板晚于批准建立；S2 机器门及独立复查 PASS，本次仅跑 S3 机器门，不代签流程板人门。",
+      "at": "2026-10-13T03:15:18.377Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T03:15:30.840Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T03:20:54.379Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-10-13T03:21:02.450Z"
+    },
+    {
+      "action": "out-of-order",
+      "stage": "S3",
+      "reason": "S1-P-06 与 S2 已由 Owner 在项目路线图控制台批准，流程板晚建未代签；S2 最终规格机器门及非施工者复查 PASS，本次仅核 S3 骨架。",
+      "at": "2026-10-13T03:21:32.220Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T03:21:44.419Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T03:25:59.269Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-10-13T03:26:08.243Z"
+    },
+    {
+      "action": "out-of-order",
+      "stage": "S3",
+      "reason": "Owner 已在项目控制台通过 S1/S2；流程板后建、未代签流程板 Owner 人门；本次只验 S3 骨架",
+      "at": "2026-10-13T03:26:35.035Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T03:26:47.217Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-10-13T03:32:27.278Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S1",
+      "at": "2026-10-13T04:06:36.457Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S2",
+      "at": "2026-10-13T04:06:40.039Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S2",
+      "at": "2026-10-13T04:06:42.558Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S2",
+      "at": "2026-10-13T04:06:49.895Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T04:06:51.367Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T04:06:52.591Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S3",
+      "at": "2026-10-13T04:07:05.912Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T09:13:16.604Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T09:29:17.531Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T09:39:39.354Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-10-13T09:43:25.724Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T09:47:01.371Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-10-13T10:25:39.804Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-10-13T10:28:49.521Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-10-13T10:39:27.568Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S4",
+      "at": "2026-10-13T10:55:00.670Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T11:38:32.855Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-13T11:48:38.783Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-10-13T11:50:02.529Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T11:52:16.820Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-13T11:58:40.172Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-10-13T12:02:11.586Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-10-13T12:03:12.285Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-10-13T12:15:18.116Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-10-13T12:16:56.237Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "PASS",
+      "at": "2026-10-13T12:36:36.210Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S5",
+      "at": "2026-10-13T14:04:38.998Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-14T18:58:09.507Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-10-14T19:13:19.829Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-10-14T19:19:06.801Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-10-14T19:20:14.065Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-14T20:29:00.654Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-10-15T02:59:38.185Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-10-15T03:00:49.826Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-15T03:01:44.646Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-10-15T03:05:09.992Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-10-15T03:07:14.525Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-15T03:34:49.634Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-10-15T03:39:49.929Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-15T03:42:22.388Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-10-15T03:45:35.872Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "PASS",
+      "at": "2026-10-15T03:54:30.562Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-15T03:58:08.324Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-10-15T04:00:26.264Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-10-15T04:03:31.046Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-10-15T04:07:56.369Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-10-15T04:10:09.121Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "PASS",
+      "at": "2026-10-15T04:31:32.603Z"
+    },
+    {
+      "action": "scorecard",
+      "total": 16,
+      "premium": false,
+      "at": "2026-10-15T04:37:15.127Z"
+    }
+  ],
+  "reviews": {
+    "S2": {
+      "verdict": "PASS",
+      "note": "分域哈希口径变更后独立重核：游戏 full 453f23a6b8e49673，能力计划/G1-G5/正式规则未变；blueprint 同 seed 完整快照断言独立 6/6，审计红旗0；先前 S2 五项 checklist 仍成立。此次仅刷新 rules 域合法复查指纹，不把并行 CLI 改动视为游戏施工。",
+      "by": "/root/potion_current_review",
+      "at": "2026-10-15T03:54:30.562Z",
+      "gameHash": "453f23a6b8e49673",
+      "hashes": {
+        "full": "453f23a6b8e49673",
+        "rules": "f1fca8d9f97ffeb3",
+        "ui": "2612e091f095bd66",
+        "assets": "b0d3f916f46d000a",
+        "sdk": "e3b0c44298fc1c14",
+        "visual": "8cb67879ab46387f"
+      },
+      "gapsHash": "5361711f44a83e70"
+    },
+    "S3": {
+      "verdict": "PASS",
+      "note": "分域哈希口径下 rules=f1fca8d9f97ffeb3/full=453f23a6b8e49673；正式骨架、S3 Canvas 夹具/通用门未变，独立真浏览器 mouse/touch 2/2、Engine.step drag/drag、可见步骤1→2、console error0；31/31 原定向回归、锚点三重断言内存验红仍成立，S3 machine 当前域 PASS。详见 review/S3-current-fingerprint-2026-10-15.md。",
+      "by": "/root/potion_current_review",
+      "at": "2026-10-15T04:00:26.264Z",
+      "gameHash": "453f23a6b8e49673",
+      "hashes": {
+        "full": "453f23a6b8e49673",
+        "rules": "f1fca8d9f97ffeb3",
+        "ui": "2612e091f095bd66",
+        "assets": "b0d3f916f46d000a",
+        "sdk": "e3b0c44298fc1c14",
+        "visual": "8cb67879ab46387f"
+      }
+    },
+    "S4": {
+      "verdict": "PASS",
+      "note": "rules=f1fca8d9f97ffeb3 独立 S4：游戏 Vitest 19/19、GD 五剧本39检查点 PASS、同 seed 完整 world.snapshot 断言、短时浏览器12帧0error、Canvas mouse/touch 2/2+Engine.step+可见步骤；失败/终局锁定有剧本。UI walk 的 DOM direct drive 0% 是不识 Canvas 的非阻断 WARN，已以真手势补证。Owner 新合同无库存/QE/本局重开，S5/S6 视觉另验。详见 review/S4-current-fingerprint-2026-10-15.md。",
+      "by": "/root/potion_current_review",
+      "at": "2026-10-15T04:07:56.369Z",
+      "gameHash": "453f23a6b8e49673",
+      "hashes": {
+        "full": "453f23a6b8e49673",
+        "rules": "f1fca8d9f97ffeb3",
+        "ui": "2612e091f095bd66",
+        "assets": "b0d3f916f46d000a",
+        "sdk": "e3b0c44298fc1c14",
+        "visual": "8cb67879ab46387f"
+      }
+    },
+    "S5": {
+      "verdict": "PASS",
+      "note": "当前 ui=2612e091f095bd66 独立核证：UI audit 重叠/硬对比/低对比/边框前提 0，UI组件76文件573/573，S5短时真浏览器12帧0error；1440x900 原型与当前截图三栏/层级/锚点人工并排一致，Owner 新合同无数量/QE/重开。审计华丽件0/house否属 fixture 非阻断启发式，正式 POTION_THEME 走 mountUI；机器门无 golden，故不宣称逐像素自动1:1。详见 review/S5-current-ui-domain-2026-10-15.md。",
+      "by": "/root/potion_current_review",
+      "at": "2026-10-15T04:31:32.603Z",
+      "gameHash": "453f23a6b8e49673",
+      "hashes": {
+        "full": "453f23a6b8e49673",
+        "rules": "f1fca8d9f97ffeb3",
+        "ui": "2612e091f095bd66",
+        "assets": "b0d3f916f46d000a",
+        "sdk": "e3b0c44298fc1c14",
+        "visual": "8cb67879ab46387f"
+      }
+    }
+  },
+  "outOfOrder": [
+    {
+      "stage": "S3",
+      "reason": "S1-P-06 与 S2 已由 Owner 在项目路线图控制台批准，编译期流程板晚于批准建立；S2 机器门及独立复查 PASS，本次仅跑 S3 机器门，不代签流程板人门。",
+      "at": "2026-10-13T03:14:24.889Z"
+    },
+    {
+      "stage": "S3",
+      "reason": "S1-P-06 与 S2 已由 Owner 在项目路线图控制台批准，编译期流程板晚于批准建立；S2 机器门及独立复查 PASS，本次仅跑 S3 机器门，不代签流程板人门。",
+      "at": "2026-10-13T03:15:18.377Z"
+    },
+    {
+      "stage": "S3",
+      "reason": "S1-P-06 与 S2 已由 Owner 在项目路线图控制台批准，流程板晚建未代签；S2 最终规格机器门及非施工者复查 PASS，本次仅核 S3 骨架。",
+      "at": "2026-10-13T03:21:32.220Z"
+    },
+    {
+      "stage": "S3",
+      "reason": "Owner 已在项目控制台通过 S1/S2；流程板后建、未代签流程板 Owner 人门；本次只验 S3 骨架",
+      "at": "2026-10-13T03:26:35.035Z"
+    }
+  ],
+  "selfCheck": {
+    "S4": {
+      "at": "2026-10-15T04:03:31.046Z",
+      "shots": 64,
+      "gameHash": "453f23a6b8e49673",
+      "hashes": {
+        "full": "453f23a6b8e49673",
+        "rules": "f1fca8d9f97ffeb3",
+        "ui": "2612e091f095bd66",
+        "assets": "b0d3f916f46d000a",
+        "sdk": "e3b0c44298fc1c14",
+        "visual": "8cb67879ab46387f"
+      }
+    },
+    "S5": {
+      "at": "2026-10-15T04:10:09.121Z",
+      "shots": 64,
+      "gameHash": "453f23a6b8e49673",
+      "hashes": {
+        "full": "453f23a6b8e49673",
+        "rules": "f1fca8d9f97ffeb3",
+        "ui": "2612e091f095bd66",
+        "assets": "b0d3f916f46d000a",
+        "sdk": "e3b0c44298fc1c14",
+        "visual": "8cb67879ab46387f"
+      }
+    }
+  },
+  "scorecard": {
+    "scores": {
+      "艺术方向": 2,
+      "主角面": 3,
+      "世界密度": 1,
+      "材质": 2,
+      "渲染管线": 2,
+      "VFX": 2,
+      "UI美术": 2,
+      "性能证据": 2
+    },
+    "total": 16,
+    "premium": false,
+    "by": "/root/potion_s7_score",
+    "note": "八维逐项截图/台账/帧时依据见 docs/design/game-potion-brewing/review/S7-visual-scorecard-2026-10-15.md。世界密度1：透明宿主大空区未达3层底线，PREMIUM:NO；性能投料p95 18.1ms/DOM115。S5无golden基准WARN；art-08 provenance pending与流程板8/8复核不一致，已如实披露。S7 Owner人门未代签。",
+    "at": "2026-10-15T04:37:15.127Z",
+    "gameHash": "453f23a6b8e49673",
+    "hashes": {
+      "full": "453f23a6b8e49673",
+      "rules": "f1fca8d9f97ffeb3",
+      "ui": "2612e091f095bd66",
+      "assets": "b0d3f916f46d000a",
+      "sdk": "e3b0c44298fc1c14",
+      "visual": "8cb67879ab46387f"
+    }
+  }
+}

@@ -11,7 +11,7 @@
 | 2 | 秒可玩：art: 确定性解析到免费 CC0 库（同查询同图·placeholder=真图） | `resolveArtRefs`（引擎·自动） |
 | 3 | 出需求台账：机器扫 art: 槽位→**按素材去重**（owner 07-12：一行=一种素材·同 query 多实体共用一行·slots[] 记全部槽位·生成一张扇出写回全部·旧重复行自动吸收） | 美术平台/工坊素材屏自动（或 POST /api/art/derive） |
 | 4 | 配风格：选**风格包**（闭集·中英双方言+palette+钉死供应商）+ 填**本游戏风格锚**；模型菜单默认随包 | 平台头部（风格包/🎯风格锚/模型下拉） |
-| 5 | 一键全量：逐行拼 prompt（`prompt`>`query+desc`>`query` + 类型词 + 包方言 + 游戏锚）→ 调 API → palette-snap+按规格缩放 → 落**该游戏美术根**+provenance；断点续跑·缓存不重扣费·无 key=探针+mock | 平台「⚡ 一键全量」（大脑=`scripts/art-replace.mjs`） |
+| 5 | 一键全量：逐行拼 prompt（`prompt`>`query+desc`>`query` + 类型词 + 包方言 + 游戏锚）→ 调 API → palette-snap+按规格缩放 → 落**`art/ai/pending/` 待审区**+provenance；审前不写最终 index/skinKey alias；断点续跑·无 key=探针+mock | 平台「⚡ 一键全量」（大脑=`scripts/art-replace.mjs`） |
 | 6 | 写回：按编号重钉 manifest art: 引用→**parseManifest 零 error 才落盘**（玩法零改） | 平台自动（library 线 batch 后 replace） |
 | 7 | 优化：缩略图墙按编号三式——重生成(可改 prompt)/库选换/上传（magic-bytes 嗅探）——只动那一行 | 平台详情面板 |
 | 7.5 | **人审复核（double verify 人门）**：逐行/全部「☑ 复核通过」→ approved——五步流程条全绿才算这条线走完 | 平台流程条+复核按钮 |
@@ -60,3 +60,6 @@
 ## 查不到怎么办
 
 - 新资产类型/新供应商/参考图模式等本册没有 → `docs/workflow/requests.md` 提缺口等裁决，**绝不自造旁路**。
+# Life surface / landmark 审美检查
+
+Life 世界审阅按两张矩阵验收：`warp → landmark → destination` 检查出口是否由同场景可见实体表达；`surface → actions → asset slot` 检查普通、未耕、干耕、湿耕和作物阶段是否视觉可辨。候选为 placeholder 时只评 brief、尺寸、anchor 与落点，不得写 approved/provenance。

@@ -124,6 +124,28 @@ describe('over-time — addTimedEffect 助手', () => {
   });
 });
 
+// A2 遗留缺口腿：period=0 / 负数边界（「什么都没发生」分支·实测钉现状）。
+// 源码 over-time.ts:91 的 `ef.period >= 1` 门：非法 period 不做 elapsed % period → 无除零/NaN 风险，
+// 资源脉冲整段停摆；duration 计时与到期清理**不受影响**。非 bug——按现状钉死。
+describe('over-time — TimedEffect period=0 / 负数边界', () => {
+  it('period=0 → 资源脉冲永不触发（不除零不 NaN），duration 照走到期自清', () => {
+    const w = world();
+    mob(w, 'm1', [{ resource: 'hp', amountPerTick: -5, period: 0, duration: 4, elapsed: 0 }]);
+    expect(() => { for (let i = 0; i < 8; i++) w.tick(); }).not.toThrow(); // 不崩不死循环
+    expect(hp(w, 'm1')).toBe(100);                 // 一滴血未掉（脉冲被 period>=1 门拒收）
+    expect(Number.isNaN(hp(w, 'm1'))).toBe(false); // 无 NaN 污染
+    expect(ot(w, 'm1')).toBeUndefined();           // elapsed 到 duration 仍正常过期 → 组件自清
+  });
+
+  it('period 负数 → 同 period=0：停摆不结算，到期自清（实测）', () => {
+    const w = world();
+    mob(w, 'm1', [{ resource: 'hp', amountPerTick: -5, period: -2, duration: 4, elapsed: 0 }]);
+    expect(() => { for (let i = 0; i < 8; i++) w.tick(); }).not.toThrow();
+    expect(hp(w, 'm1')).toBe(100);
+    expect(ot(w, 'm1')).toBeUndefined();
+  });
+});
+
 describe('over-time — 确定性', () => {
   it('同初值重跑一致', () => {
     const run = (): string => {

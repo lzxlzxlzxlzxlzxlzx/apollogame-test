@@ -244,4 +244,4 @@ async function run(argv) {
 }
 function countByRegion(l) { const c = {}; for (const r of l.rows) c[r.region] = (c[r.region] || 0) + 1; return c; }
 
-if (import.meta.url === `file://${process.argv[1]}`) run(process.argv.slice(2));
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) run(process.argv.slice(2));

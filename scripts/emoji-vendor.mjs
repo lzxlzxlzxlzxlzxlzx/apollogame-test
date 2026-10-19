@@ -70,4 +70,4 @@ function run(argv) {
   else console.log(`  样例: ${res.assets.slice(0, 6).map((a) => `${a.id}←${a.sources[0]}`).join(' · ')}`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) run(process.argv.slice(2));
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) run(process.argv.slice(2));

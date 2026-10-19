@@ -1,6 +1,12 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { defineComponent } from '@engine/core/define-component.js';
+import { sortedIds } from '@engine/core/query.js';
+import { t } from '@engine/core/schema.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { KeyBinding, InputQueue, Signal } from '@engine/protocol/components.js';
+import { ConditionExprSchema } from '@engine/protocol/schemas/logic.js';
+import { evaluateCondition, buildConditionLookup } from './condition.js';
+import { appendTrace, findDebugTrace } from '@skills/debug-trace.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  keybind —— 具名输入动作 → Signal（clickable 的"非空间孪生"）。
@@ -20,14 +26,14 @@ import type { KeyBinding, InputQueue, Signal } from '@engine/protocol/components
 
 export const keybindCapability = defineCapability({
   id: 't2-keybind',
-  version: '1.0.0',
+  version: '1.1.0',
 
   describe: {
     name: 'keybind',
-    summary: '具名输入动作→Signal：InputQueue 里 key 命中 KeyBinding.key（相位匹配）→ 在该实体产出 Signal{name:signal}。键位映射=数据。',
+    summary: '具名输入动作→Signal：key/phase 命中且可选 ConditionExpr 门成立时产出 Signal；键位映射与输入冻结均为数据。',
     semantic: ['tier2', 'input', 'event'],
     whenToUse:
-      '想让"按某个键/触发某个具名动作"产生一个信号而不写输入代码时。挂 KeyBinding{key,signal,phase?}；下游 query Signal 按名消费（接 caster 放技能 / craft-recipe / effect-apply / 对话推进）。',
+      '想让具名动作产生信号时挂 KeyBinding{key,signal,phase?,when?}；菜单、暂停、终局等冻结条件直接复用 ConditionExpr，不在宿主回调里写规则。',
     examples: [
       '按 1 放冰环：KeyBinding{ key:"1", signal:"cast_nova" } → caster 释放',
       '按 q 冲刺：KeyBinding{ key:"q", signal:"dash", phase:"down" }',
@@ -38,23 +44,20 @@ export const keybindCapability = defineCapability({
 
   components: {
     provides: {
-      KeyBinding: {
+      KeyBinding: defineComponent('KeyBinding', {
+        key: t.str('匹配 InputQueue 事件的 key（物理键 "1"/"q" 或语义动作名）'),
+        signal: t.str('命中时产出的 Signal.name'),
+        phase: t.opt(t.str("仅匹配此相位（如 'down'|'action'）；缺省=任意")),
+        when: t.opt(ConditionExprSchema, '可选 ConditionExpr 条件门；不成立则命中的输入 fail-closed，不产 Signal'),
+        source: t.opt(t.entity(
+          '代发：产出的 Signal.source 填这个实体而非本实体。给按 source 认人的消费方使用；缺省=本实体。',
+        )),
+      }, {
         category: 'config',
         describe: '声明「InputQueue 动作事件 key 命中此 key（相位匹配）时产出 Signal{name:signal}」。键位映射=数据。',
-        fields: {
-          key: { type: 'string', describe: '匹配 InputQueue 事件的 key（物理键 "1"/"q" 或语义动作名）' },
-          signal: { type: 'string', describe: '命中时产出的 Signal.name' },
-          phase: { type: 'string', describe: "仅匹配此相位（如 'down'|'action'）；缺省=任意" },
-          source: {
-            type: 'EntityId',
-            describe:
-              '代发：产出的 Signal.source 填这个实体而非本实体。给**按 source 认人**的消费方用（如 matrix-duel 出招接缝按侧认人）——'
-              + '房屋范式「一动作一个 kb-* 实体」会让 source 永远是 kb 实体，而一实体一组件又不许把多份绑定挤到主体上。缺省=本实体（零回归）；空串硬抛。',
-          },
-        },
-      },
+      }),
     },
-    reads: ['KeyBinding', 'InputQueue'],
+    reads: ['KeyBinding', 'InputQueue', 'Resource', 'Flag', 'State', 'Cooldowns', 'Timer', 'StringVar', 'DebugTrace'],
     writes: ['Signal'],
     consumes: [],
   },
@@ -65,7 +68,7 @@ export const keybindCapability = defineCapability({
     {
       id: 'keybind',
       runsAfter: ['event-when'],
-      reads: ['KeyBinding', 'InputQueue'],
+      reads: ['KeyBinding', 'InputQueue', 'Resource', 'Flag', 'State', 'Cooldowns', 'Timer', 'StringVar', 'DebugTrace'],
       writes: ['Signal'],
       consumes: [],
       execute(world: IWorld) {
@@ -81,7 +84,9 @@ export const keybindCapability = defineCapability({
         if (!queue || queue.actions.length === 0) return;
 
         // ③ 逐绑定（按 id 升序，确定性）匹配本帧输入事件。
-        const ids = world.query('KeyBinding').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'KeyBinding');
+        const lookup = buildConditionLookup(world);
+        const rejected: string[] = [];
         for (const id of ids) {
           const kb = world.getComponent<KeyBinding>(id, 'KeyBinding')!;
           // 代发落盘门：`source` 填了空串 = 永不自愈的数据错（发出去的信号没有主体，下游按 source
@@ -91,6 +96,10 @@ export const keybindCapability = defineCapability({
           }
           for (const ev of queue.actions) {
             if (ev.key === kb.key && (kb.phase === undefined || ev.phase === kb.phase)) {
+              if (kb.when && !evaluateCondition(world, kb.when, lookup)) {
+                rejected.push(`${id}:${kb.key} 条件门关闭`);
+                break;
+              }
               // arg 透传（带参 UI 动作·如买哪件 card_42）：仅在事件带 arg 时挂，无参动作不挂 arg:undefined（旧内容形状/hash 不变）。
               // source：缺省=本实体（零回归）；填了 = 代发给该实体（REQ-108-ENG-04·见 KeyBinding.source 注释）。
               // 信号组件本身仍挂在本实体上（清扫逻辑①按 KeyBinding 实体清·代发不改生命周期）。
@@ -99,6 +108,8 @@ export const keybindCapability = defineCapability({
             }
           }
         }
+        const trace = findDebugTrace(world);
+        if (trace && rejected.length) appendTrace(trace, trace.tick ?? 0, 'keybind', 'reject', rejected.join('；'));
       },
     },
   ],

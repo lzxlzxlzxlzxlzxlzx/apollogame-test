@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { World } from '@engine/core/world.js';
 import type { Draggable, InputQueue, Transform, Shape, HexBoard, HexPos, Tag, Flag, Resource } from '@engine/protocol/components.js';
 import { dragPlaceCapability } from './drag-place.js';
-import { synthesizeDrag } from '../../net/queued-input.js';
+import { synthesizeDrag } from '../../net/host/queued-input.js';
 
 const ALLY = 1 << 1;
 function mk(layout: 'axial' | 'odd-r' = 'odd-r'): World {

@@ -1,0 +1,150 @@
+{
+  "url": "http://127.0.0.1:5173/?game=game-rhetoric-duel",
+  "samples": [
+    {
+      "label": "ready",
+      "phase": "ready",
+      "progressTrackY": 140,
+      "cards": [
+        {
+          "id": "rhetoric-hand-x-catch-the-thread--0",
+          "x": 329,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-reframe-the-case--0",
+          "x": 479,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-pin-down-detail--0",
+          "x": 629,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-gather-your-thoughts--0",
+          "x": 779,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-catch-the-thread--1",
+          "x": 929,
+          "y": 615.5
+        }
+      ]
+    },
+    {
+      "label": "flight-start",
+      "phase": "card-flight",
+      "progressTrackY": 140,
+      "cards": [
+        {
+          "id": "rhetoric-hand-x-catch-the-thread--0",
+          "x": 329,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-pin-down-detail--0",
+          "x": 629,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-gather-your-thoughts--0",
+          "x": 779,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-catch-the-thread--1",
+          "x": 929,
+          "y": 615.5
+        }
+      ]
+    },
+    {
+      "label": "flight-mid",
+      "phase": "card-flight",
+      "progressTrackY": 140,
+      "cards": [
+        {
+          "id": "rhetoric-hand-x-catch-the-thread--0",
+          "x": 404,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-pin-down-detail--0",
+          "x": 554,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-gather-your-thoughts--0",
+          "x": 704,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-catch-the-thread--1",
+          "x": 854,
+          "y": 615.5
+        }
+      ]
+    },
+    {
+      "label": "flight-late",
+      "phase": "impact",
+      "progressTrackY": 140,
+      "cards": [
+        {
+          "id": "rhetoric-hand-x-catch-the-thread--0",
+          "x": 404,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-pin-down-detail--0",
+          "x": 554,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-gather-your-thoughts--0",
+          "x": 704,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-catch-the-thread--1",
+          "x": 854,
+          "y": 615.5
+        }
+      ]
+    },
+    {
+      "label": "impact",
+      "phase": "impact",
+      "progressTrackY": 140,
+      "cards": [
+        {
+          "id": "rhetoric-hand-x-catch-the-thread--0",
+          "x": 404,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-pin-down-detail--0",
+          "x": 554,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-gather-your-thoughts--0",
+          "x": 704,
+          "y": 615.5
+        },
+        {
+          "id": "rhetoric-hand-x-catch-the-thread--1",
+          "x": 854,
+          "y": 615.5
+        }
+      ]
+    }
+  ],
+  "unavailable": {
+    "bands": 0,
+    "warningCopy": 0,
+    "veils": 2
+  }
+}

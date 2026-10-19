@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "zerocraft.life-generation-gate.v1",
+  "stage": "assets",
+  "inputHash": "sha256:065ad91f3cd202d8926d336d774f520cbca03adae2b15e049f267bb39c980f7a",
+  "selfCheck": {
+    "status": "pass",
+    "diagnostics": [],
+    "evidence": {
+      "manifest": "asset-slots.json",
+      "slotCount": 26,
+      "localQualifiedCandidateCount": 0,
+      "aiCandidatePlanCount": 26,
+      "provider": "gpt-image",
+      "approvalState": "26/26 approved candidates materialized under original art: keys",
+      "materializationAudit": "26 indexed PNGs, including 3 opaque 32×32 repeatable terrain textures, verified independently",
+      "regression": "5 test files / 79 tests passed"
+    }
+  },
+  "visualArtifacts": [
+    { "kind": "asset-slot-sheet", "ref": "docs/design/game-demon-castle/assets-review.html" },
+    { "kind": "asset-placement-preview", "ref": "docs/design/game-demon-castle/assets-review.html" },
+    { "kind": "style-anchor-candidate", "ref": "docs/design/game-demon-castle/art/ai/pending/player-moon-demon-candidate-v1.png" },
+    { "kind": "asset-slot-manifest", "ref": "docs/design/game-demon-castle/asset-slots.json" },
+    { "kind": "approved-asset-index", "ref": "public/games/game-demon-castle/art/index.json" },
+    { "kind": "asset-approval-ledger", "ref": "public/games/game-demon-castle/art/approval-ledger.json" },
+    { "kind": "terrain-tile-candidates", "ref": "docs/design/game-demon-castle/art/ai/pending/terrain-tile-candidates.v1.json" }
+  ],
+  "ownerDecision": "approved"
+}

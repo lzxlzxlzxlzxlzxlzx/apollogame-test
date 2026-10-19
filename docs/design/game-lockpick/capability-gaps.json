@@ -1,0 +1,20 @@
+[
+  {
+    "id": "GAP-LOCKPICK-01",
+    "title": "离散组合会话：隐藏目标生成、单槽修改、exact-match 反馈与终局",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-lockpick/review/GAP-LOCKPICK-01-independent-review.md",
+    "blocks": ["S3", "S4", "S5", "S8"]
+  },
+  {
+    "id": "GAP-LOCKPICK-02",
+    "title": "可皮肤化的离散 Slider：独立轨道与滑钮视觉层",
+    "priority": "P1",
+    "route": "pui",
+    "state": "delivered",
+    "ticket": "docs/design/game-lockpick/review/GAP-LOCKPICK-02-independent-review.md",
+    "blocks": ["S4", "S5", "S6", "S8"]
+  }
+]

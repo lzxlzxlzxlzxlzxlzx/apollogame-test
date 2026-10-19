@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { parseManifest } from '../assembly/manifest.js';
+import { parseManifestDetailed } from '../assembly/manifest.js';
 import { SHELL } from '../ui/shell-theme.js';
 import type { WorldBlueprint } from '../assembly/demo.assembly.js';
 import type { GameEntry, LibraryEntry } from './library-model.js';
 import { runBlueprintInto, controllablePlayerIds, RUN_VP } from './cart-run-core.js';
+import type { CartPresentation } from '../assembly/cart-presentation.js';
+import { fetchCartArtIndex, requireCartAssetIndex, assertCartMasksBound, loadCartArt, resolveCartSkins, type CartArtSession } from '../assets/cart-art.js';
 
 // 引擎运行核已抽到 cart-run-core（供离线单文件 cartridge-inline-run 复用同一路径）。
 // 兼容既有引用：controllable.test.ts 仍从本模块导入 controllablePlayerIds。
@@ -378,9 +380,12 @@ export function VersionHistoryOverlay({ api, slug, onClose, onRolledBack }: {
 
 // ── 纯运行：build 引擎 + CanvasRenderer 跑 WorldBlueprint（无检查器面板）。
 //    引擎生命周期/键盘接线/装载探针已抽到 cart-run-core.runBlueprintInto（与离线单文件共用）。──
-function RunOnly({ blueprint, vp = RUN_VP, onError }: {
+function RunOnly({ blueprint, vp = RUN_VP, presentation, art, fill = false, onError }: {
   blueprint: WorldBlueprint;
   vp?: { w: number; h: number };
+  presentation?: CartPresentation;
+  art?: CartArtSession;
+  fill?: boolean;
   /** 装载/首帧崩溃时回调错误文本（owner 07-11「告诉我为什么没法加载」——没有它就是静默白屏）。 */
   onError?: (message: string) => void;
 }) {
@@ -390,48 +395,70 @@ function RunOnly({ blueprint, vp = RUN_VP, onError }: {
     if (!div) return;
     try {
       // 装载探针（load + 空跑 2 tick）先同步引爆坏稿·成功则建引擎+渲染器跑起来，返回清理函数。
-      return runBlueprintInto(div, blueprint, vp);
+      const stop = runBlueprintInto(div, blueprint, vp, presentation, art?.assets);
+      return () => { stop(); art?.dispose(); };
     } catch (e: unknown) {
+      art?.dispose();
       onError?.(e instanceof Error ? e.message : String(e));
       return;
     }
-  }, [blueprint, vp.w, vp.h, onError]);
-  return <div ref={ref} style={{ width: vp.w, height: vp.h, maxWidth: '100%' }} />;
+  }, [blueprint, vp.w, vp.h, presentation, art, onError]);
+  return <div ref={ref} style={fill && presentation
+    ? { position: 'relative', width: '100%', height: '100%' }
+    : { position: presentation ? 'relative' : undefined, width: vp.w, height: vp.h, maxWidth: '100%' }} />;
 }
 
 // ── 预览运行核（喂 manifest 而非拉 slug）：创作向导的「预览试玩」复用同一 RunOnly。
 //    raw manifest → resolveArt（art: 选材，可选）→ parseManifest → RunOnly；解析失败出错误态不白屏。
-export function ManifestPreview({ manifest, resolveArt, vp = { w: 640, h: 400 } }: {
+export function ManifestPreview({ manifest, resolveArt, slug, vp = { w: 640, h: 400 } }: {
   manifest: unknown;
   resolveArt?: (raw: unknown) => unknown;
+  /** Existing saved cartridge; unsaved previews have no local art index. */
+  slug?: string;
   vp?: { w: number; h: number };
 }) {
-  const parsed = React.useMemo((): { ok: true; bp: WorldBlueprint } | { ok: false; message: string } => {
-    try {
-      const bp = parseManifest(resolveArt ? resolveArt(manifest) : manifest);
-      return { ok: true, bp };
-    } catch (e: unknown) {
-      return { ok: false, message: e instanceof Error ? e.message : String(e) };
-    }
-  }, [manifest, resolveArt]);
+  const [parsed, setParsed] = React.useState<
+    { phase: 'loading' } | { phase: 'running'; bp: WorldBlueprint; presentation?: CartPresentation; art?: CartArtSession } | { phase: 'error'; message: string }
+  >({ phase: 'loading' });
   const [runError, setRunError] = React.useState<string | null>(null);
-  if (!parsed.ok || runError) {
+  React.useEffect(() => {
+    let dead = false;
+    setParsed({ phase: 'loading' });
+    setRunError(null);
+    (async () => {
+      try {
+        const raw = resolveArt ? resolveArt(manifest) : manifest;
+        const index = requireCartAssetIndex(raw, slug ?? 'preview', slug ? await fetchCartArtIndex(slug) : null);
+        const result = parseManifestDetailed(raw, index ? { assetIndex: index, assetKeys: new Set(index.assets.map((a) => a.id)) } : {});
+        assertCartMasksBound(result.blueprint);
+        const presentation = resolveCartSkins(result.presentation, index);
+        const art = await loadCartArt(index, result.blueprint.entities, result.presentation);
+        if (dead) art?.dispose();
+        else setParsed({ phase: 'running', bp: result.blueprint, presentation, art });
+      } catch (e: unknown) {
+        if (!dead) setParsed({ phase: 'error', message: e instanceof Error ? e.message : String(e) });
+      }
+    })();
+    return () => { dead = true; };
+  }, [manifest, resolveArt, slug]);
+  if (parsed.phase === 'loading') return <div style={{ padding: 24, color: SHELL.dim }}>正在装入预览…</div>;
+  if (parsed.phase === 'error' || runError) {
     return (
       <div style={{ padding: 24, textAlign: 'center', color: SHELL.danger, fontSize: 13, lineHeight: 1.6 }}>
-        预览无法加载：{parsed.ok ? runError : parsed.message}
+        预览无法加载：{parsed.phase === 'error' ? parsed.message : runError}
       </div>
     );
   }
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <RunOnly blueprint={parsed.bp} vp={vp} onError={setRunError} />
+      <RunOnly blueprint={parsed.bp} vp={vp} presentation={parsed.presentation} art={parsed.art} onError={setRunError} />
     </div>
   );
 }
 
 type RunState =
   | { phase: 'loading' }
-  | { phase: 'running'; bp: WorldBlueprint }
+  | { phase: 'running'; bp: WorldBlueprint; presentation?: CartPresentation; art?: CartArtSession }
   | { phase: 'error'; message: string };
 
 // ── 数据卡带运行器：挂载即拉 manifest → resolveArt → parseManifest → 全屏纯运行。
@@ -448,13 +475,17 @@ export function DataCartridgeRunner({ slug, entry, api, resolveArt, onBack }: {
 
   useEffect(() => {
     let dead = false;
+    setState({ phase: 'loading' });
     (async () => {
       try {
         const res = await fetch(`${api}/api/library/${slug}/manifest`);
         if (!res.ok) throw new Error(`服务器未返回卡带 manifest（HTTP ${res.status}）——API(:3000) 是否在跑、卡带是否还在库里？`);
         const raw = await res.json();
         const manifest = resolveArt ? resolveArt(raw) : raw;
-        let bp = parseManifest(manifest);
+        const index = requireCartAssetIndex(manifest, slug, await fetchCartArtIndex(slug));
+        const parsed = parseManifestDetailed(manifest, index ? { assetIndex: index, assetKeys: new Set(index.assets.map((a) => a.id)) } : {});
+        assertCartMasksBound(parsed.blueprint);
+        let bp = parsed.blueprint;
         if (entry.hasLogic) {
           // ── 执行侧闸门（engine-review-2026-08-04 §3.3 · owner 2026-08-05 拍板补）──────
           // 旧实现只看 `hasLogic`（= 盘上有 logic.ts）就直接 import 执行，而**授权旗
@@ -489,7 +520,10 @@ export function DataCartridgeRunner({ slug, entry, api, resolveArt, onBack }: {
             throw new Error(`TS 逻辑装载失败（此卡带是 TS 例外·logic.ts）：${m}——仅 dev 线（vite）可跑；可回创作台让「程序」修，或撤除 TS 逻辑。`);
           }
         }
-        if (!dead) setState({ phase: 'running', bp });
+        const presentation = resolveCartSkins(parsed.presentation, index);
+        const art = await loadCartArt(index, bp.entities, parsed.presentation);
+        if (dead) art?.dispose();
+        else setState({ phase: 'running', bp, presentation, art });
       } catch (e: unknown) {
         if (!dead) setState({ phase: 'error', message: e instanceof Error ? e.message : String(e) });
       }
@@ -521,7 +555,7 @@ export function DataCartridgeRunner({ slug, entry, api, resolveArt, onBack }: {
           </div>
         </div>
       )}
-      {state.phase === 'running' && <RunOnly blueprint={state.bp} onError={onRunError} />}
+      {state.phase === 'running' && <RunOnly blueprint={state.bp} presentation={state.presentation} art={state.art} fill onError={onRunError} />}
       <button onClick={onBack} style={backBtnStyle}>← 返回架上</button>
     </div>
   );

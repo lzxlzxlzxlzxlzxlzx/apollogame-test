@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import type { Transform, Collider3D, Overlap3D } from '@engine/protocol/components.js';
 import { aabb3dOf, aabb3Overlap, contact3d, type Aabb3 } from '@engine/spatial/contact3d.js';
 
@@ -28,6 +29,25 @@ export const overlapDetect3dCapability = defineCapability({
 
   components: {
     provides: {
+      // C 治理：Collider3D 此前无 provider——本原子是它的读方与契约归属（同 2D overlap-detect 之于 Shape）。
+      Collider3D: {
+        category: 'config',
+        describe: '3D 碰撞体（sphere/box/capsule/hull·胶囊限竖直·hull=预烘焙局部顶点+分离轴·运行时只平移不旋转）。平面位置取 2D Transform，竖直取 baseY。',
+        fields: {
+          kind: { type: 'string', describe: "'sphere' / 'box' / 'capsule' / 'hull'" },
+          radius: { type: 'number', describe: 'sphere / capsule 半径' },
+          halfX: { type: 'number', describe: 'box 半尺寸 X' },
+          halfY: { type: 'number', describe: 'box 半尺寸 Y' },
+          halfZ: { type: 'number', describe: 'box 半尺寸 Z' },
+          height: { type: 'number', describe: 'capsule 总高（含两端半球·缺省 2*radius）' },
+          verts: { type: 'number[]', describe: 'hull：扁平局部顶点 [x0,y0,z0,…]' },
+          axes: { type: 'number[]', describe: 'hull：扁平单位面法线分离轴 [nx,ny,nz,…]' },
+          baseY: { type: 'number', describe: '碰撞体下沿离地高度（缺省 0）' },
+          offsetX: { type: 'number', describe: '相对 Transform 的平面偏移 X' },
+          offsetZ: { type: 'number', describe: '相对 Transform 的平面偏移 Z' },
+          trigger: { type: 'boolean', describe: 'true=触发区：只产 Overlap3D 事件·不参与推开' },
+        },
+      },
       Overlap3D: {
         category: 'event',
         describe: '一对重叠 3D 碰撞体的事实。法线从 A 指向 B，depth 为穿透深度。每帧重算（挂在 overlap3d:<a>:<b>·a<b）。',
@@ -56,7 +76,7 @@ export const overlapDetect3dCapability = defineCapability({
         for (const [id] of world.query('Overlap3D')) world.destroyEntity(id);
 
         // 按 id 升序收集（确定性、rollback 安全），预算各自 AABB（宽相位）。
-        const ids = world.query('Transform', 'Collider3D').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'Transform', 'Collider3D');
         const boxes: Aabb3[] = [];
         for (const id of ids) {
           const t = world.getComponent<Transform>(id, 'Transform')!;

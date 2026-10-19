@@ -1,0 +1,37 @@
+{
+  "url": "http://127.0.0.1:5173/?game=game-rhetoric-duel",
+  "timing": {
+    "lift": 180,
+    "liftPhase": 233.33333333333334,
+    "dealSingle": 900,
+    "dealStagger": 180,
+    "dealFiveTotal": 1620,
+    "dealPhase": 1800.0000000000002,
+    "flight": 720,
+    "flightPhase": 800,
+    "impactHold": 1200,
+    "response": 1200
+  },
+  "samples": [
+    {
+      "phase": "card-lift",
+      "elapsedMs": 216
+    },
+    {
+      "phase": "card-flight",
+      "elapsedMs": 493
+    },
+    {
+      "phase": "impact",
+      "elapsedMs": 1238
+    },
+    {
+      "phase": "opponent-response",
+      "elapsedMs": 2442
+    },
+    {
+      "phase": "ready",
+      "elapsedMs": 3648
+    }
+  ]
+}

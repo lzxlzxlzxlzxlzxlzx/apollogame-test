@@ -25,6 +25,7 @@ function reflectorSig(r: Reflector3D): string {
 function buildReflector(r: Reflector3D, dpr: number): Reflector {
   const q = Math.max(128, Math.round((r.quality ?? 512) * Math.min(dpr, 2)));
   const geo = new THREE.PlaneGeometry(r.width, r.height);
+  geo.computeBoundingSphere(); // 供 cull() 视锥相交测
   const mesh = new Reflector(geo, {
     color: (r.color ?? DEFAULT_TINT) & 0xffffff,
     textureWidth: q, textureHeight: q, clipBias: 0.003,
@@ -63,6 +64,21 @@ function disposeReflector(mesh: Reflector): void {
 
 export class ReflectorSystem {
   private readonly refs = new Map<string, { mesh: Reflector; sig: string }>();
+  private readonly frustum = new THREE.Frustum();
+  private readonly viewProj = new THREE.Matrix4();
+
+  // 视锥剔除（省真浪费）：镜面**不在相机视锥内 → `mesh.visible=false`**——three.Reflector 只在 mesh 可见时才触发
+  //  onBeforeRender 把**整个场景**渲进 RTT，故不可见的镜子零 RTT 成本（否则每个非跳渲帧白付一次全场景渲染）。
+  //  须在**相机定位后、主渲染前**调（拿当帧相机）。用包围球（PlaneGeometry 已 computeBoundingSphere）+ mesh 世界矩阵。
+  cull(camera: THREE.Camera): void {
+    if (this.refs.size === 0) return;
+    this.viewProj.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+    this.frustum.setFromProjectionMatrix(this.viewProj);
+    for (const [, e] of this.refs) {
+      e.mesh.updateMatrixWorld();
+      e.mesh.visible = this.frustum.intersectsObject(e.mesh); // 包围球相交才画（保守·边缘留可见·不误剔真镜）
+    }
+  }
 
   sync(scene: THREE.Scene, world: IWorld, dpr: number): void {
     const seen = new Set<string>();

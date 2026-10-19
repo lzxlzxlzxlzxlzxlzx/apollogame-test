@@ -1,0 +1,1 @@
+{"name":"dokiworld-game-theft","version":"0.2.0","private":true,"type":"module","scripts":{"build":"node scripts/build.mjs","test":"node --test tests/*.test.mjs"},"dependencies":{"dokiworlds-app-sdk":"file:../../vendor/dokiworlds-app-sdk"}}

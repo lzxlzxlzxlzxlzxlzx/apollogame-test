@@ -11,7 +11,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const budget = JSON.parse(readFileSync(join(ROOT, 'scripts', 'context-budget-baseline.json'), 'utf8'));
 
 describe('context-budget-guard — 真仓库在预算内（门禁）', () => {
-  it('requests 池 ≤ 封顶 · T0 必读各 ≤ 封顶 · 每本手册 ≤行数封顶 + ≤字符封顶 · requests-3d ≤ 封顶', () => {
+  it('requests 池/游戏当前单 ≤ 封顶 · T0 必读各 ≤ 封顶 · 每本手册 ≤行数封顶 + ≤字符封顶 · requests-3d ≤ 封顶', () => {
     const t0Chars = {};
     for (const f of Object.keys(budget.t0MaxChars)) t0Chars[f] = readFileSync(join(ROOT, f), 'utf8').length;
     const playbookLines = {};
@@ -23,9 +23,19 @@ describe('context-budget-guard — 真仓库在预算内（门禁）', () => {
       playbookChars[`docs/playbooks/${f}`] = text.length;
     }
     const requests3dChars = readFileSync(join(ROOT, 'docs/workflow/requests-3d.md'), 'utf8').length;
+    const gameRequestsChars = {};
+    const gameRequestsLines = {};
+    for (const d of readdirSync(join(ROOT, 'docs', 'design'))) {
+      try {
+        const file = `docs/design/${d}/requests.md`;
+        const text = readFileSync(join(ROOT, file), 'utf8');
+        gameRequestsChars[file] = text.length;
+        gameRequestsLines[file] = text.split('\n').length;
+      } catch { /* 该游戏无需求单 */ }
+    }
     const actual = {
       requestsChars: readFileSync(join(ROOT, 'docs/workflow/requests.md'), 'utf8').length,
-      t0Chars, playbookLines, playbookChars, requests3dChars,
+      t0Chars, playbookLines, playbookChars, gameRequestsChars, gameRequestsLines, requests3dChars,
     };
     expect(checkBudget(actual, budget)).toEqual([]); // 超预算即红·点名文件与数字
   });
@@ -49,11 +59,28 @@ describe('context-budget-guard — 检查核语义（自证）', () => {
     expect(checkBudget({ requestsEntries: 1, requestsChars: 1, t0Chars: {}, playbookLines: {} }, B)[0]).toContain('缺文件');
   });
   it('游戏需求单超顶点名（owner 07-15 批②·done 票迁归档纪律）', () => {
-    const B2 = { ...B, gameRequestsMaxChars: 100 };
-    const i = checkBudget({ requestsEntries: 1, requestsChars: 1, t0Chars: { 'a.md': 10 }, playbookLines: {}, gameRequestsChars: { 'docs/design/game-g/requests.md': 101 } }, B2);
+    const B2 = { ...B, gameRequestsMaxChars: 100, gameRequestsMaxLines: 10 };
+    const i = checkBudget({ requestsEntries: 1, requestsChars: 1, t0Chars: { 'a.md': 10 }, playbookLines: {}, gameRequestsChars: { 'docs/design/game-g/requests.md': 101 }, gameRequestsLines: { 'docs/design/game-g/requests.md': 10 } }, B2);
     expect(i).toHaveLength(1);
     expect(i[0]).toContain('game-g');
-    expect(checkBudget({ requestsEntries: 1, requestsChars: 1, t0Chars: { 'a.md': 10 }, playbookLines: {}, gameRequestsChars: { 'docs/design/game-g/requests.md': 100 } }, B2)).toEqual([]);
+    expect(checkBudget({ requestsEntries: 1, requestsChars: 1, t0Chars: { 'a.md': 10 }, playbookLines: {}, gameRequestsChars: { 'docs/design/game-g/requests.md': 100 }, gameRequestsLines: { 'docs/design/game-g/requests.md': 10 } }, B2)).toEqual([]);
+  });
+  it('游戏需求单行数超顶点名', () => {
+    const B2 = { ...B, gameRequestsMaxChars: 100, gameRequestsMaxLines: 10 };
+    const i = checkBudget({ requestsEntries: 1, requestsChars: 1, t0Chars: { 'a.md': 10 }, playbookLines: {}, gameRequestsChars: { 'docs/design/game-g/requests.md': 100 }, gameRequestsLines: { 'docs/design/game-g/requests.md': 11 } }, B2);
+    expect(i).toHaveLength(1);
+    expect(i[0]).toContain('11 行');
+  });
+  it('旧游戏需求单按兼容棘轮封顶，降到统一线后要求删兼容项', () => {
+    const file = 'docs/design/legacy/requests.md';
+    const B2 = { ...B, gameRequestsMaxChars: 100, gameRequestsMaxLines: 10, gameRequestsLegacyMaxChars: { [file]: 150 }, gameRequestsLegacyMaxLines: { [file]: 15 } };
+    const base = { requestsEntries: 1, requestsChars: 1, t0Chars: { 'a.md': 10 }, playbookLines: {} };
+    expect(checkBudget({ ...base, gameRequestsChars: { [file]: 150 }, gameRequestsLines: { [file]: 15 } }, B2)).toEqual([]);
+    expect(checkBudget({ ...base, gameRequestsChars: { [file]: 151 }, gameRequestsLines: { [file]: 15 } }, B2)[0]).toContain('兼容棘轮');
+    const cleaned = checkBudget({ ...base, gameRequestsChars: { [file]: 100 }, gameRequestsLines: { [file]: 10 } }, B2);
+    expect(cleaned).toHaveLength(2);
+    expect(cleaned.join('\n')).toContain('删除 gameRequestsLegacyMaxChars');
+    expect(cleaned.join('\n')).toContain('删除 gameRequestsLegacyMaxLines');
   });
   it('手册超 80 行点名', () => {
     const i = checkBudget({ requestsEntries: 1, requestsChars: 1, t0Chars: { 'a.md': 10 }, playbookLines: { 'docs/playbooks/x.md': 81 } }, B);

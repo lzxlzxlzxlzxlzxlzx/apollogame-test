@@ -53,6 +53,28 @@ def _spawn(cmd: list[str]) -> dict:
         return {'args': subprocess.list2cmdline(cmd), 'shell': True}
     return {'args': cmd, 'shell': False}
 
+def _node_spawn(args: list[str]) -> dict:
+    """Resolve Node once and execute the real binary without a command shell.
+
+    The desktop API can outlive, or be started independently from, the Vite
+    process.  On Windows that means its inherited PATH is not guaranteed to
+    contain a later-installed Node.js.  Calling the real executable also keeps
+    cmd.exe's locale-encoded "command not found" text out of UTF-8 JSON APIs.
+    """
+    override = env('ZEROCRAFT_NODE')
+    candidates = [override, shutil.which('node')]
+    if IS_WINDOWS:
+        for base in (os.environ.get('ProgramFiles'), os.environ.get('LOCALAPPDATA')):
+            if base:
+                candidates.append(str(Path(base) / 'nodejs' / 'node.exe'))
+        candidates.append(r'C:\Program Files\nodejs\node.exe')
+    for candidate in candidates:
+        if candidate and Path(candidate).is_file():
+            return {'args': [str(Path(candidate)), *args], 'shell': False}
+    raise FileNotFoundError(
+        '未找到 Node.js。请安装 Node.js，或通过 ZEROCRAFT_NODE 指定 node 可执行文件。'
+    )
+
 def _git(args: list[str]) -> str:
     """跑 git 并**强制 UTF-8 解码**。Windows 上 subprocess.getoutput / text=True 默认按系统
     ANSI 码页（中文系统=GBK）解码——但 git 输出的中文提交信息是 UTF-8，遇 0x80 之类字节即

@@ -25,6 +25,7 @@ export const spawnCapability = defineCapability({
           templateId: { type: 'string', describe: '要实例化的模板 id' },
           x: { type: 'number', describe: '生成位置 X' },
           y: { type: 'number', describe: '生成位置 Y' },
+          source: { type: 'EntityId', describe: '发起者实体（可选）：展开后写进 PrefabOrigin.source，供 scope:source 的资源寻址' },
         },
       },
     },

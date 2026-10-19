@@ -1,0 +1,47 @@
+[
+  {
+    "id": "GAP-POTION-01",
+    "title": "有序动作会话：宿主数据定义的 add/stir 步骤、明确错误与唯一终局",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-potion-brewing/work-orders/GAP-POTION-01.md",
+    "blocks": ["S3", "S4", "S8"]
+  },
+  {
+    "id": "GAP-POTION-02",
+    "title": "椭圆单角度连续搅拌：方向与有效整圈信号",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-potion-brewing/work-orders/GAP-POTION-02.md",
+    "blocks": ["S3", "S4", "S8"]
+  },
+  {
+    "id": "GAP-POTION-03",
+    "title": "DropZone 可选椭圆命中而保持既有矩形缺省",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-potion-brewing/work-orders/GAP-POTION-03.md",
+    "blocks": ["S3", "S4", "S8"]
+  },
+  {
+    "id": "GAP-POTION-04",
+    "title": "材料拖动期间的跨鼠标触控跟手影像与锅外回弹",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-potion-brewing/work-orders/GAP-POTION-04.md",
+    "blocks": ["S4", "S5", "S8"]
+  },
+  {
+    "id": "GAP-POTION-05",
+    "title": "有序步骤完成后发具名信号，供声明式材料份数扣减与耗尽禁投",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-potion-brewing/work-orders/GAP-POTION-05.md",
+    "blocks": ["S4", "S8"]
+  }
+]

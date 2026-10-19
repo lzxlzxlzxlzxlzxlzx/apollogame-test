@@ -153,7 +153,7 @@ function GameE() {
     window.addEventListener('resize', measure);
     window.addEventListener('scroll', measure, true);
     return () => { window.removeEventListener('resize', measure); window.removeEventListener('scroll', measure, true); };
-  }, [tour]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [tour]);
   const handSizeRef = useRef(HAND_SIZE); // 本道手牌张数（镣铐诅咒减 1）
   const bossesBeatenRef = useRef(0); // 已击败 Boss 数（Rocket 等经济小丑读）
   const [hoverJoker, setHoverJoker] = useState<string | null>(null); // 悬浮中的小丑（详情框延迟关闭，便于移到框上点卖出）

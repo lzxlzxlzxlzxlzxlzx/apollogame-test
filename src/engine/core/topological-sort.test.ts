@@ -42,13 +42,14 @@ describe('topologicalSort — phase 阶段', () => {
     expect(topologicalSort([resolve, detect]).map((s) => s.id)).toEqual(['detect', 'resolve']);
   });
 
-  // 同样两系统不分阶段：B 前抛环、B 后按平局键裁决（装得进但顺序由注册序定，语义不保证）——
+  // 同样两系统不分阶段：B 前抛环、B 后按平局键裁决（装得进但顺序由 id 字典序定，语义不保证）——
   // 所以 phase 仍是这条「读后改」管线的**正解**：它表达的是意图，平局裁决只是安全网。
-  it('同样的两系统不分阶段 → 裁决出的顺序与「拿 phase 表达意图」不同（phase 仍是正解）', () => {
+  it('同样的两系统不分阶段 → 裁决只按 id 字典序、与输入序无关（phase 仍是表达意图的正解）', () => {
     const detect = sys('detect', ['Transform'], ['Overlap']);
     const resolve = sys('resolve', ['Overlap'], ['Transform']); // 同 Update 阶段
-    // 输入序 [resolve, detect] → 平局键让 resolve 在前，恰与 phase 表达的意图相反。
-    expect(quietOrder([resolve, detect])).toEqual(['resolve', 'detect']);
+    // P2d：平局键 = id 字典序（'detect' < 'resolve'），输入序 [resolve, detect] 也得 [detect, resolve]。
+    expect(quietOrder([resolve, detect])).toEqual(['detect', 'resolve']);
+    expect(quietOrder([detect, resolve])).toEqual(['detect', 'resolve']);
   });
 
   it('阶段内仍按组件拓扑排序', () => {
@@ -113,7 +114,8 @@ describe('topologicalSort — 显式定序 runsAfter/runsBefore（R10）', () =>
 //  契约（钉死·改实现必须同步改这里的理由，不许只改期望值）：
 //   · 显式 runsAfter/runsBefore = 硬约束，绝不被裁决推翻；**申报边自成环 = 申报自相矛盾 → 照旧抛**。
 //   · 环由组件推断边闭合 → 砍环内推断边、保留环内显式边，按「平局键升序且服从显式边」定环内全序。
-//   · 平局键 = 系统在输入数组中的下标 = addSystem 注册序（= 蓝图 capabilities 装载序）。
+//   · 平局键 = **系统 id 字典序**（P2d·engine-architecture-review-2026-09-02 D2b）——与输入数组下标 / 注册序 /
+//     manifest capabilities 列序 / JSON 键序全部无关：两端列序不同也得同一执行序。
 //   · 裁决结果参与全图传播：环外下游仍排在**整个环**之后。
 // ══════════════════════════════════════════════════════════════════════════
 describe('topologicalSort — 纯推断环平局裁决（REQ-CYCLEHAZ B）', () => {
@@ -123,7 +125,7 @@ describe('topologicalSort — 纯推断环平局裁决（REQ-CYCLEHAZ B）', () 
     const input = [rmw('timeline', 'Resource'), rmw('resource-apply', 'Resource')];
     const a = quietOrder(input);
     const b = quietOrder([...input]);
-    expect(a).toEqual(['timeline', 'resource-apply']);
+    expect(a).toEqual(['resource-apply', 'timeline']); // id 字典序
     expect(b).toEqual(a); // 确定性：同一世界每次装载同序（录放一致）
   });
 
@@ -133,7 +135,7 @@ describe('topologicalSort — 纯推断环平局裁决（REQ-CYCLEHAZ B）', () 
     const timeline: SystemDeclaration = { id: 'timeline', reads: ['Signal', 'Resource'], writes: ['Resource'], consumes: [], runsAfter: ['event-when'], execute: noop };
     const resourceApply = rmw('resource-apply', 'Resource');
     const got = quietOrder([eventWhen, timeline, resourceApply]);
-    expect(got).toEqual(['event-when', 'timeline', 'resource-apply']);
+    expect(got).toEqual(['event-when', 'resource-apply', 'timeline']); // 显式边 event-when→timeline 服从·其余按 id 字典序
     // 硬约束不被推翻：无论输入序怎么打乱，event-when 恒在 timeline 之前。
     const shuffled = quietOrder([resourceApply, timeline, eventWhen]);
     expect(shuffled.indexOf('event-when')).toBeLessThan(shuffled.indexOf('timeline'));
@@ -156,13 +158,26 @@ describe('topologicalSort — 纯推断环平局裁决（REQ-CYCLEHAZ B）', () 
     expect(() => topologicalSort([a, b, c])).toThrow(/申报自相矛盾/);
   });
 
-  it('④ 裁决顺序 = 平局键（注册序）· 反序装载即反序裁决', () => {
+  it('④ 裁决顺序 = 平局键（id 字典序）· 反序装载**不**改变裁决（P2d：执行序不再是游戏数据）', () => {
     const t = rmw('timeline', 'Resource');
     const r = rmw('resource-apply', 'Resource');
-    // 注册表按 atoms→tier1→tier2→tier3 编写：按注册表序装载时 atom(resource-apply) 在前 = tier 序。
     expect(quietOrder([r, t])).toEqual(['resource-apply', 'timeline']);
-    // 反过来装载 → 裁决随注册序翻转（键就是注册序本身，不是系统 id 字典序之类的隐含规则）。
-    expect(quietOrder([t, r])).toEqual(['timeline', 'resource-apply']);
+    expect(quietOrder([t, r])).toEqual(['resource-apply', 'timeline']); // 反序装载同序：两端 manifest 列序不同也不分叉
+  });
+
+  it('④b 无边的独立系统也按 id 字典序（最小字典序拓扑序）·与注册序无关', () => {
+    const a = sys('alpha', ['A'], []);
+    const z = sys('zulu', ['Z'], []);
+    const m = sys('mid', ['M'], []);
+    expect(order([z, m, a])).toEqual(['alpha', 'mid', 'zulu']);
+    expect(order([a, z, m])).toEqual(['alpha', 'mid', 'zulu']);
+  });
+
+  it('softCycle:"throw"（严格模式）：软环即抛并点名；缺省 warn 照旧裁决', () => {
+    const t = rmw('timeline', 'Resource');
+    const r = rmw('resource-apply', 'Resource');
+    expect(() => topologicalSort([t, r], { softCycle: 'throw' })).toThrow(/严格模式：软环即错/);
+    expect(quietOrder([t, r])).toEqual(['resource-apply', 'timeline']);
   });
 
   it('⑤ console.warn 留痕：点名环成员 + 闭环组件 + 裁决顺序 + 显式申报可覆盖', () => {
@@ -173,7 +188,7 @@ describe('topologicalSort — 纯推断环平局裁决（REQ-CYCLEHAZ B）', () 
     expect(msg).toContain('timeline');
     expect(msg).toContain('resource-apply');
     expect(msg).toContain('Resource'); // 闭环组件点名
-    expect(msg).toContain('timeline → resource-apply'); // 裁决顺序
+    expect(msg).toContain('resource-apply → timeline'); // 裁决顺序（id 字典序）
     expect(msg).toMatch(/runsAfter\/runsBefore/); // 「显式申报可覆盖」提示
     expect(msg).toContain('REQ-CYCLEHAZ');
   });

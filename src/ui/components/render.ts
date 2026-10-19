@@ -4,6 +4,7 @@
 import { SHELL } from '../shell-theme.js';
 import { ART_FONT_FAMILY } from './art-fonts.js';
 import { emojifyHtml } from './emoji.js';
+import { safeButtonIconUrl } from './button-icon.js';
 import type {
   LayoutNode, LayoutConstraints, UITheme, VisualEffect, EffectColor, EdgeColor,
   ButtonProps, LabelProps, DropdownProps, BadgeProps, InputProps, PanelProps,
@@ -12,7 +13,7 @@ import type {
   CardProps, PlayingCardProps, StepperProps, SegmentedProps, AvatarProps, AccordionProps,
   RatingProps, ComboboxProps, DrawerProps, VirtualListProps, ContextMenuProps,
   CoinFlipProps, VersusProps, VideoProps, ParticlesProps, LevelPathProps, FloatProps, ConnectorProps, AnchorRef,
-  DialogProps, ChoiceListProps, PortraitProps,
+  DialogProps, ChoiceListProps, PortraitProps, LabelColor, ButtonStateColors,
 } from './types.js';
 
 const esc = (s: string): string =>
@@ -26,12 +27,21 @@ const escT = (s: string, t: UITheme): string => emojifyHtml(esc(s), t.emoji);
 // 数值强制：layout 数值字段虽类型标 number，但弱模型/外部数据运行时可能是字符串
 // （如 "0;background:url(x)"）→ 直接插进 style 串即 CSS 注入。统一过 num() 只取有限数字。
 const num = (v: unknown, d = 0): number => { const n = Number(v); return Number.isFinite(n) ? n : d; };
+const bounded = (v: unknown, min: number, max: number, fallback: number): number =>
+  typeof v === 'number' && Number.isFinite(v) && v >= min && v <= max ? v : fallback;
+const opaqueHex = (v: unknown): string | undefined =>
+  typeof v === 'string' && /^#(?:[\da-fA-F]{3}|[\da-fA-F]{6})$/.test(v) ? v : undefined;
 // anim 预设白名单（mountUI 注入的关键帧名）：拒绝任意字符串插入 animation。
 const ANIM_PRESETS = new Set(['fadeIn', 'slideUp', 'pop', 'shake', 'dealIn', 'flyIn', 'fadeOut', 'popOut']); // 一次性入场/退场
 const LOOP_PRESETS = new Set(['float', 'glow', 'pulse', 'spin', 'floatUp', 'marquee', 'tick']);   // 持续循环（浮动/发光/脉冲/自旋/升冒/跑马灯/steps 节拍·环境动效·infinite）
 // CSS 色净化（REQ-UIFX·Particles.color / ProgressBar.fillColor 等自由色串）：只留 hex/函数色/具名色合法字符，
 // 剥掉能逃出 style 声明或属性的 ; : " ' < > 等（同 safeUrl 思路·净化后再插样式）。空/全非法 → ''。
-const safeColor = (c: unknown): string => String(c ?? '').replace(/[^#a-zA-Z0-9(),.%\s-]/g, '');
+export const safeColor = (c: unknown): string => String(c ?? '').replace(/[^#a-zA-Z0-9(),.%\s-]/g, '');
+
+const resolveLabelColor = (c: LabelColor | undefined, t: UITheme, fallback: string): string => {
+  const map: Record<string, string> = { text: t.text, sub: t.sub, dim: t.dim, jade: t.jade, gold: t.gold, ok: t.ok, warn: t.warn, danger: t.danger, mine: t.mine ?? t.warn, foe: t.foe ?? t.jade, ink: t.ink ?? t.bg0 };
+  return (c && typeof c === 'object') ? safeColor(c.custom) : (map[c ?? 'text'] ?? fallback);
+};
 
 // 数字格式化（idle/休闲大数与计时·纯函数·render + mountUI tween 共用·单一真相）。
 export function formatNumber(n: number, format?: string, dec = 0): string {
@@ -80,7 +90,7 @@ function edgeColor(t: UITheme, e: EdgeColor): string {
 }
 // motion/opacity 类特效 → 复用已注入的关键帧 [keyframe, 缺省 ms]。
 const FX_MOTION: Record<string, [string, number]> = {
-  pulse: ['apollo-pulse', 1600], float: ['apollo-float', 2600], pop: ['apollo-pop', 360],
+  pulse: ['apollo-pulse', 1600], cue: ['apollo-cue', 1300], float: ['apollo-float', 2600], pop: ['apollo-pop', 360],
 };
 // VisualEffect[] → CSS（可叠加·分组合成）：motion/opacity 走 animation 列表；glow 走 filter；
 // sheen/flash 走 data-fx 叠层（::after/::before）。同组多个 transform 动画同时只末个生效（文档说明·取一个动作即可）。
@@ -89,7 +99,7 @@ function fxToCss(fx: readonly VisualEffect[], t: UITheme): { css: string; dataFx
   const anim: string[] = [], filter: string[] = [], vars: string[] = [], dataFx: string[] = [];
   for (const e of fx) {
     const ms = num(e.ms, 0);
-    if (e.kind === 'pulse' || e.kind === 'float' || e.kind === 'pop') {
+    if (e.kind === 'pulse' || e.kind === 'cue' || e.kind === 'float' || e.kind === 'pop') {
       const [kf, dms] = FX_MOTION[e.kind]!;
       const iter = e.kind === 'pop' || e.once ? 'both' : 'infinite';
       anim.push(`${kf} ${ms || dms}ms ease-in-out ${iter}`);
@@ -157,6 +167,34 @@ function layoutStyle(c?: LayoutConstraints, t?: UITheme): string {
   if (c.z       !== undefined) tf.push(`translateZ(${num(c.z)}px)`);
   if (tf.length) p.push(`transform:${tf.join(' ')}`);
   if (has3d) p.push('transform-style:preserve-3d');
+  if (c.transformTransition) {
+    const ms = Math.max(0, Math.min(2000, num(c.transformTransition.ms, 260)));
+    const easing = c.transformTransition.easing === 'linear' || c.transformTransition.easing === 'ease-in-out'
+      ? c.transformTransition.easing : 'ease-out';
+    p.push(`transition:transform ${ms}ms ${easing}`);
+  }
+  // State-transform motion: `transformFrom` is a 2D source pose while the
+  // normal layout is always the terminal pose.  Both CSS variables are made
+  // entirely from numeric fields; the shared keyframe never mentions opacity.
+  // This is deliberately separate from flyIn: a mechanical joint must travel
+  // from its closed pose rather than fade in at its open pose.
+  if (c.transformFrom) {
+    const from = c.transformFrom;
+    const finalX = num(c.x), finalY = num(c.y);
+    const finalRotate = num(c.rotate), finalScale = num(c.scale, 1);
+    const sourceX = num(from.x, finalX), sourceY = num(from.y, finalY);
+    const sourceRotate = num(from.rotate, finalRotate), sourceScale = num(from.scale, finalScale);
+    const stable3d = has3d ? [
+      `perspective(${num(c.perspective, 800)}px)`,
+      c.rotateX !== undefined ? `rotateX(${num(c.rotateX)}deg)` : '',
+      c.rotateY !== undefined ? `rotateY(${num(c.rotateY)}deg)` : '',
+    ].filter(Boolean) : [];
+    const sourceTransform = [...stable3d, `translate(${sourceX - finalX}px,${sourceY - finalY}px)`, `rotate(${sourceRotate}deg)`, `scale(${sourceScale})`, c.z !== undefined ? `translateZ(${num(c.z)}px)` : ''].filter(Boolean).join(' ');
+    const targetTransform = tf.join(' ') || 'none';
+    const easing = c.transformMotionEasing === 'linear' || c.transformMotionEasing === 'ease-in-out' ? c.transformMotionEasing : 'ease-out';
+    p.push(`--transform-from:${sourceTransform}`, `--transform-to:${targetTransform}`);
+    p.push(`animation:apollo-transformFrom ${num(c.transformMotionMs, 800)}ms ${easing} both`);
+  }
   // 倒角切角（clip-path 八边形·扑克/art-deco 美学）。切角 px 过 num 防注入。
   if (c.chamfer !== undefined) {
     const k = num(c.chamfer);
@@ -175,9 +213,9 @@ function layoutStyle(c?: LayoutConstraints, t?: UITheme): string {
     p.push(`--anim-dx:${dx}px`, `--anim-dy:${dy}px`);
   }
   // 动画：一次性入场（both ease-out）或持续循环（infinite·环境动效）。仅白名单预设；时长/延迟强制数字。
-  if (c.anim && ANIM_PRESETS.has(c.anim)) {
+  if (!c.transformFrom && c.anim && ANIM_PRESETS.has(c.anim)) {
     p.push(`animation:apollo-${c.anim} ${num(c.animMs, 360)}ms ${c.animDelay ? `${num(c.animDelay)}ms ` : ''}both ease-out`);
-  } else if (c.anim && LOOP_PRESETS.has(c.anim)) {
+  } else if (!c.transformFrom && c.anim && LOOP_PRESETS.has(c.anim)) {
     // spin/marquee=匀速 linear（自旋/滚动不该忽快忽慢）；tick=steps(1,end) 硬跳节拍（印章每秒跳一下·REQ-UIFX ⑤）；
     // 其余环境动效 ease-in-out 呼吸。
     const timing = (c.anim === 'spin' || c.anim === 'marquee') ? 'linear' : c.anim === 'tick' ? 'steps(1,end)' : 'ease-in-out';
@@ -233,27 +271,37 @@ const safeUrl = (url: string): string => esc(String(url).replace(/['"()\\\s]/g, 
 // 贴图皮：已解析图 URL → 覆盖按钮底 + 白字投影保可读（同 texLayer 剥离 url() 逃逸字符防注入）。空 → ''。
 // slice 未给=cover（整图缩放·可能拉伸/裁切）；slice 给了（源边 px）=**9-slice 无损缩放**（border-image：四角固定·
 // 四边 1D 拉伸·中心 2D 拉伸——商业 UI 皮标配，治好非原生尺寸下贴图变形·owner 2026-07-07）。放样式末尾覆盖 kind 底。
-const skinCss = (url?: string, slice?: number): string => {
+const skinCss = (url?: string, slice?: number, borderWidth?: number, size?: { x: number; y: number }): string => {
   if (!url) return '';
   const u = safeUrl(url);
   const legible = 'color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.85)';
   if (slice !== undefined) {
     const s = num(slice);
-    return `;background:none;border-style:solid;border-width:${s}px;border-image:url('${u}') ${s} fill / ${s}px / 0 stretch;${legible}`;
+    const w = borderWidth === undefined ? s : num(borderWidth);
+    return `;background:none;border-style:solid;border-width:${w}px;border-image:url('${u}') ${s} fill / ${w}px / 0 stretch;${legible}`;
   }
-  return `;background:url('${u}') center/cover no-repeat;border:0;${legible}`;
+  const bgSize = size ? `${num(size.x)}% ${num(size.y)}%` : 'cover';
+  return `;background:url('${u}') center/${bgSize} no-repeat;border:0;${legible}`;
+};
+
+const skinLayer = (url: string | undefined, size: { x: number; y: number } | undefined, outset: { x: number; y: number } | undefined): string => {
+  if (!url || !size || !outset) return '';
+  const u = safeUrl(url); const x = num(outset.x); const y = num(outset.y);
+  return `<span data-ui-skin-layer style="position:absolute;inset:-${y}px -${x}px;z-index:0;pointer-events:none;background:url('${u}') center/${num(size.x)}% ${num(size.y)}% no-repeat"></span>`;
 };
 
 // Panel cover-skin（复合按钮/框皮·REQ-PANELSKIN·game-c 主行动键）：整面 art 覆盖（cover 或 9-slice），
 // **children 照常叠在皮上**（动态文字如「Call 50」= 实时 LayoutNode 渲在皮之上·数额不必烤进图）。
 // 区别 Button.skin：**不强制白字**（Panel children 各自定色）；art 即框（省默认边框/底）。区别 bgTexture：cover/9-slice 非平铺。
-const panelSkinCss = (url: string, slice?: number): string => {
+const panelSkinCss = (url: string, slice?: number, borderWidth?: number, size?: { x: number; y: number }): string => {
   const u = safeUrl(url);
   if (slice !== undefined) {
     const s = num(slice);
-    return `background:none;border-style:solid;border-width:${s}px;border-image:url('${u}') ${s} fill / ${s}px / 0 stretch;`;
+    const w = borderWidth === undefined ? s : num(borderWidth);
+    return `background:none;border-style:solid;border-width:${w}px;border-image:url('${u}') ${s} fill / ${w}px / 0 stretch;`;
   }
-  return `background:url('${u}') center/cover no-repeat;border:0;`;
+  const bgSize = size ? `${num(size.x)}% ${num(size.y)}%` : 'cover';
+  return `background:url('${u}') center/${bgSize} no-repeat;border:0;`;
 };
 
 // 面填充三态解析（owner 2026-07-04 色库化）：语义令牌(换皮自适应) / 预设配色(固定观感) / {custom}(显式逃生) / 遗留裸串。
@@ -274,65 +322,116 @@ const PRESET_FILL: Record<string, string> = {
   'ember':      'linear-gradient(180deg,#4a2c14,#2a180c)',
   'void':       'linear-gradient(160deg,#2a1a3a,#170f28)',
 };
+// 填充串净化（P2b · 评审 D8：`{custom}` 与遗留裸串此前原样拼进 style="…"，`x"onmouseover=…` 可越出属性）。
+// 允许的语法：CSS 色 / 渐变函数 / `url('…')`（url 内容按 safeUrl 剥引号括号空白反斜杠·再统一加单引号）/ 位置尺寸关键字与 `/`。
+// url 之外剥掉一切能逃出声明或属性的字符（; " ' < > \\ 及冒号）。合法的 game-g/game211 `url('…') center/cover no-repeat`
+// 与各家 linear-gradient(…rgba()) 逐字保留；只有注入尝试被削。
+function safeFill(raw: string): string {
+  return raw
+    .replace(/url\(\s*(['"]?)([^'")]*)\1\s*\)/g, (_m, _q, u: string) => `\u0000${u.replace(/['"()\\\s]/g, '')}\u0000`)
+    .split('\u0000')
+    .map((seg, i) => (i % 2 === 1 ? `url('${seg}')` : seg.replace(/[^#a-zA-Z0-9(),.%\s\-/]/g, '')))
+    .join('');
+}
 function resolveFill(bg: unknown, t: UITheme): string | undefined {
   if (bg === undefined || bg === null) return undefined;
-  if (typeof bg === 'object') return (bg as { custom?: string }).custom; // 显式逃生（创作者特别指定色）
+  if (typeof bg === 'object') { const c = (bg as { custom?: unknown }).custom; return typeof c === 'string' ? safeFill(c) : undefined; } // 显式逃生（创作者特别指定色·净化后用）
   const s = String(bg);
   const tok = SURFACE_TOKEN[s]; if (tok) return tok(t); // 语义令牌·换皮自适应
   if (PRESET_FILL[s]) return PRESET_FILL[s];            // 预设配色·固定观感
-  return s; // 遗留裸串（back-compat·audit 标记建议迁令牌/preset/custom）
+  return safeFill(s); // 遗留裸串（back-compat·audit 标记建议迁令牌/preset/custom·净化后用）
 }
 // 平移投影的"3D 侧"实色（REQ-108-UI-03·Panel.shadow.color）：闭集 SurfaceToken → 主题色（换皮自适应），
 // 否则裸串原样（稿子精确墨色）。**只取实色**·不走 PRESET_FILL（那是渐变·硬边投影要单色）。缺省=深墨。
 function shadowColor(c: string | undefined, t: UITheme): string {
   if (!c) return t.ink ?? t.bg0;              // 缺省 3D 侧 = 最深墨（自然投影侧）
-  const tok = SURFACE_TOKEN[c]; return tok ? tok(t) : c;
+  const tok = SURFACE_TOKEN[c]; return tok ? tok(t) : safeColor(c); // 裸串净化（P2b）
 }
 
 // ── 原有 7 个控件 ───────────────────────────────────────────────
 
+function buttonStateCss(colors: ButtonStateColors, t: UITheme, fallbackText: string): string {
+  const vars: string[] = [];
+  for (const state of ['default', 'hover', 'pressed', 'disabled'] as const) {
+    const entry = colors[state];
+    const background = typeof entry.background === 'string'
+      ? SURFACE_TOKEN[entry.background]?.(t) ?? 'transparent'
+      : safeColor(entry.background.custom);
+    vars.push(`--apollo-btn-${state}-bg:${background}`);
+    vars.push(`--apollo-btn-${state}-border:${resolveLabelColor(entry.border, t, t.line)}`);
+    vars.push(`--apollo-btn-${state}-text:${entry.text === undefined ? fallbackText : resolveLabelColor(entry.text, t, fallbackText)}`);
+  }
+  return `;${vars.join(';')}`;
+}
+
 function renderButton(id: string, p: ButtonProps, ls: string, t: UITheme): string {
+  const labelSize = p.labelSize === undefined ? undefined : bounded(p.labelSize, 10, 32, p.kind === 'hero' ? 17 : 12);
+  const labelWeight = p.labelWeight === 400 || p.labelWeight === 600 || p.labelWeight === 700 ? p.labelWeight : undefined;
   const kindStyle: Record<string, string> = {
     primary: `background:${t.jadeWash};color:${t.jade};border:1px solid ${t.jadeLine};font-weight:600`,
     ghost:   `background:rgba(255,255,255,0.03);color:${t.sub};border:1px solid ${t.line}`,
-    quiet:   `background:transparent;color:${t.dim};border:1px solid transparent`,
+    // quiet=克制态，但它仍是**可点的按钮文字**：用 t.dim 实测 2.93 < 硬地板 3.0（暗主题下键面读不清·
+    // 波及 25 处含 @ui/starters 起手包的「重来/设置」）。降权用 t.sub（比 text 弱、仍过地板）——
+    // dim 留给真正的三级非必读文字。同 ProgressBar.showValue 的同类修（2026-09）。
+    quiet:   `background:transparent;color:${t.sub};border:1px solid transparent`,
   };
   const kind = p.kind ?? 'ghost';
+  // 仅当数据显式声明时覆写文字色：缺省不追加任何字节，保留 kind 与贴图皮既有视觉合同。
+  const labelColorStyle = p.labelColor === undefined ? '' : `;color:${resolveLabelColor(p.labelColor, t, t.sub)}`;
   // 皮解析（批29 owner 07-15「按键也可换」）：node 级 skin 优先（含 skin:'' 显式关皮逃生）；未给则落主题级
   // buttonSkins[kind]——一个 kind 一张皮、全游戏按钮一体换，游戏零逐点改。两边都无 = 原 kind 底（字节不变）。
-  const sk = p.skin !== undefined ? { skin: p.skin, skinSlice: p.skinSlice } : t.buttonSkins?.[kind] ?? { skin: undefined, skinSlice: undefined };
+  const sk = p.skin !== undefined ? { skin: p.skin, skinSlice: p.skinSlice, skinBorderWidth: p.skinBorderWidth, skinSize: p.skinSize, skinOutset: p.skinOutset } : p.stateColors || p.borderWidth !== undefined ? { skin: undefined, skinSlice: undefined, skinBorderWidth: undefined, skinSize: undefined, skinOutset: undefined } : t.buttonSkins?.[kind] ?? { skin: undefined, skinSlice: undefined, skinBorderWidth: undefined, skinSize: undefined, skinOutset: undefined };
+  const layer = skinLayer(sk.skin, sk.skinSize, sk.skinOutset);
+  const skinStyle = layer ? ';background:transparent;border:0;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.85);position:relative;overflow:visible' : skinCss(sk.skin, sk.skinSlice, sk.skinBorderWidth, sk.skinSize);
   // 贴图皮按钮=**art 定色语义原语**（skinCss 强制白字 + 投影·可读性由皮 art 保证）→ 免 ui-audit 祖先链对比检查
   // （border-image 非可读 backgroundColor·祖先走到亮父面误判低对比=REQ-STYLESET 记录的盲区·同 PlayingCard 本色 A-007b）。
   const skinSkip = sk.skin ? ' data-audit-skip-contrast' : '';
   // 键首内联图标（批32 图标统一升级）：1em 随字号·居 label 前。无 icon=纯文字零变。
   const iconImg = p.icon ? `<img src="${esc(p.icon)}" alt="" style="height:1.05em;width:1.05em;object-fit:contain;vertical-align:-0.18em;margin-right:6px">` : '';
   const action = p.action ? ` data-ui-id="${esc(id)}" data-action="${esc(p.action)}"${p.actionArg ? ` data-arg="${esc(p.actionArg)}"` : ''}` : '';
+  const focusRing = p.focusRing === false ? ' data-apollo-focus-ring="off"' : '';
+  const focusVisualAttr = p.focusRingVisual && p.focusRing !== false ? ' data-apollo-focus-visual' : '';
+  const measuredBorderAttr = p.borderWidth !== undefined && !sk.skin ? ' data-apollo-border-width' : '';
+  const stateAttr = p.stateColors ? ' data-apollo-state-colors' : '';
+  const defaultText = p.labelColor === undefined ? (kind === 'hero' ? t.bg0 : kind === 'primary' ? t.jade : t.sub) : resolveLabelColor(p.labelColor, t, t.sub);
+  const stateStyle = p.stateColors ? buttonStateCss(p.stateColors, t, defaultText) : '';
+  const feedback = sk.skin && p.skinFeedback ? p.skinFeedback : undefined;
+  const feedbackAttr = feedback ? ' data-apollo-skin-feedback' : '';
+  const feedbackStyle = feedback ? `;--apollo-skin-hover-brightness:${num(feedback.hoverBrightness, 1)};--apollo-skin-pressed-brightness:${num(feedback.pressedBrightness, 1)};--apollo-skin-glow-radius:${num(feedback.glowRadius)}px;--apollo-skin-glow-color:${resolveLabelColor(feedback.glowColor, t, t.text)};--apollo-skin-transition:${num(feedback.transitionMs)}ms` : '';
+  const measuredBorder = !sk.skin && p.borderWidth !== undefined ? `;--apollo-btn-border-width:${bounded(p.borderWidth, 0, 8, 1)}px;border-width:var(--apollo-btn-border-width)` : '';
+  const ring = p.focusRingVisual && p.focusRing !== false
+    ? `;--apollo-focus-ring:${resolveLabelColor(p.focusRingVisual.color, t, t.text)};--apollo-focus-ring-width:${bounded(p.focusRingVisual.width, 1, 8, 3)}px;--apollo-focus-ring-offset:${bounded(p.focusRingVisual.offset, -8, 8, -3)}px` : '';
+  if (p.iconOnly !== undefined) {
+    const size = bounded(p.iconOnly?.size, 24, 64, 48);
+    const iconFeedback = p.iconFeedback;
+    const iconFeedbackStyle = iconFeedback ? `;--apollo-icon-hover-y:${bounded(iconFeedback.hover?.translateY, -8, 0, 0)}px;--apollo-icon-hover-brightness:${bounded(iconFeedback.hover?.brightness, 0.5, 2, 1)};--apollo-icon-glow-radius:${bounded(iconFeedback.hover?.glowRadius, 0, 16, 0)}px;--apollo-icon-glow-color:${resolveLabelColor(iconFeedback.hover?.glowColor, t, t.text)};--apollo-icon-pressed-y:${bounded(iconFeedback.pressed?.translateY, 0, 8, 0)}px;--apollo-icon-pressed-brightness:${bounded(iconFeedback.pressed?.brightness, 0.5, 2, 1)};--apollo-icon-disabled-opacity:${bounded(iconFeedback.disabled?.opacity, 0.1, 1, 0.4)};--apollo-icon-disabled-grayscale:${bounded(iconFeedback.disabled?.grayscale, 0, 1, 0)};--apollo-icon-transition:${bounded(iconFeedback.transitionMs, 0, 500, 0)}ms` : '';
+    const url = safeButtonIconUrl(p.icon);
+    const accessibleLabel = typeof p.label === 'string' && p.label.trim() ? p.label.trim() : '按钮';
+    const icon = url ? `<img data-apollo-icon-img src="${esc(url)}" alt="" aria-hidden="true" style="display:none;width:${size - 8}px;height:${size - 8}px;object-fit:contain;pointer-events:none">` : '';
+    const fallback = `<span data-apollo-icon-label style="font-size:${Math.min(12, size / 3)}px;line-height:1.1;overflow-wrap:anywhere">${escT(accessibleLabel, t)}</span>`;
+    const face = kind === 'hero' ? `background:linear-gradient(180deg,${t.gold},${t.warn});color:${t.bg0};border:0` : kindStyle[kind];
+    const fallbackColor = p.labelColor === undefined && kind !== 'hero' && !sk.skin ? `;color:${t.text}` : labelColorStyle;
+    return `<button type="button" id="${esc(id)}" aria-label="${esc(accessibleLabel)}" data-apollo-btn data-apollo-icon-only${iconFeedback ? ' data-apollo-icon-feedback' : ''}${stateAttr}${focusVisualAttr}${measuredBorderAttr}${sk.skin ? ' data-apollo-skin' : ''}${feedbackAttr}${skinSkip}${action}${p.disabled ? ' disabled' : ''} style="display:inline-flex;align-items:center;justify-content:center;width:${size}px;height:${size}px;padding:0;border-radius:50%;cursor:${p.disabled ? 'not-allowed' : 'pointer'};font-family:${t.fontUi};--apollo-focus-ring:${t.text};opacity:${p.disabled && !p.stateColors ? 0.4 : 1};${face};${ls}${skinStyle}${fallbackColor}${stateStyle}${feedbackStyle}${iconFeedbackStyle}${measuredBorder}${ring}">${layer}${icon}${fallback}</button>`;
+  }
   // hero：金色倒角 sheen 大 CTA（下沉自 game-g 出征键）。倒角 clip-path + 流光 span(apollo-sheen 关键帧) + 可选副标。
   if (kind === 'hero') {
-    const hbase = `position:relative;overflow:hidden;padding:14px 30px;border:0;border-radius:4px;cursor:${p.disabled ? 'not-allowed' : 'pointer'};font-family:${t.fontUi};outline:none;background:linear-gradient(180deg,${t.gold},${t.warn});color:${t.bg0};font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.45);clip-path:polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px);opacity:${p.disabled ? 0.4 : 1}`;
+    const hbase = `position:relative;overflow:hidden;padding:14px 30px;border:0;border-radius:4px;cursor:${p.disabled ? 'not-allowed' : 'pointer'};font-family:${t.fontUi};--apollo-focus-ring:${t.text};background:linear-gradient(180deg,${t.gold},${t.warn});color:${t.bg0};font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.45);clip-path:polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px);opacity:${p.disabled && !p.stateColors ? 0.4 : 1}`;
     const sheen = `<span style="position:absolute;top:0;bottom:0;left:-60%;width:45%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);animation:apollo-sheen 2.6s ease-in-out infinite;pointer-events:none"></span>`;
-    const big = `<span style="display:block;font-size:17px;line-height:1.15">${iconImg}${escT(p.label, t)}</span>`;
-    const sub = p.sub ? `<span style="display:block;font-size:11px;font-weight:600;opacity:.8;margin-top:2px">${escT(p.sub, t)}</span>` : '';
-    return `<button id="${esc(id)}" data-apollo-btn${sk.skin ? ' data-apollo-skin' : ''}${skinSkip}${action}${p.disabled ? ' disabled' : ''} style="${hbase};${ls}${shapeCss(p.shape)}${skinCss(sk.skin, sk.skinSlice)}">${sheen}${big}${sub}</button>`;
+    const big = `<span style="display:block;font-size:${labelSize === undefined ? 17 : labelSize}px;line-height:1.15${layer ? ';position:relative;z-index:1' : ''}">${iconImg}${escT(p.label, t)}</span>`;
+    const sub = p.sub ? `<span style="display:block;font-size:11px;font-weight:600;opacity:.8;margin-top:2px${layer ? ';position:relative;z-index:1' : ''}">${escT(p.sub, t)}</span>` : '';
+    return `<button id="${esc(id)}" data-apollo-btn${stateAttr}${focusRing}${focusVisualAttr}${measuredBorderAttr}${sk.skin ? ' data-apollo-skin' : ''}${feedbackAttr}${skinSkip}${action}${p.disabled ? ' disabled' : ''} style="${hbase};${ls}${shapeCss(p.shape)}${skinStyle}${labelColorStyle}${stateStyle}${feedbackStyle}${measuredBorder}${ring}${labelWeight === undefined ? '' : `;font-weight:${labelWeight}`}">${layer}${sheen}${big}${sub}</button>`;
   }
-  const base = `padding:6px 14px;border-radius:7px;font-size:12px;cursor:${p.disabled ? 'not-allowed' : 'pointer'};font-family:${t.fontUi};outline:none;transition:all .15s;opacity:${p.disabled ? 0.4 : 1}`;
-  return `<button id="${esc(id)}" data-apollo-btn${sk.skin ? ' data-apollo-skin' : ''}${skinSkip}${action}${p.disabled ? ' disabled' : ''} style="${base};${kindStyle[kind]};${ls}${shapeCss(p.shape)}${skinCss(sk.skin, sk.skinSlice)}">${iconImg}${escT(p.label, t)}</button>`;
+  const base = `padding:6px 14px;border-radius:7px;font-size:${labelSize === undefined ? 12 : labelSize}px;cursor:${p.disabled ? 'not-allowed' : 'pointer'};font-family:${t.fontUi};--apollo-focus-ring:${t.text};transition:all .15s;opacity:${p.disabled && !p.stateColors ? 0.4 : 1}`;
+  const label = layer ? `<span style="position:relative;z-index:1">${iconImg}${escT(p.label, t)}</span>` : `${iconImg}${escT(p.label, t)}`;
+  return `<button id="${esc(id)}" data-apollo-btn${stateAttr}${focusRing}${focusVisualAttr}${measuredBorderAttr}${sk.skin ? ' data-apollo-skin' : ''}${feedbackAttr}${skinSkip}${action}${p.disabled ? ' disabled' : ''} style="${base};${kindStyle[kind]};${ls}${shapeCss(p.shape)}${skinStyle}${labelColorStyle}${stateStyle}${feedbackStyle}${measuredBorder}${ring}${labelWeight === undefined ? '' : `;font-weight:${labelWeight}`}">${layer}${label}</button>`;
 }
 
 function renderLabel(id: string, p: LabelProps, ls: string, t: UITheme): string {
   const sizeMap: Record<string, number> = { xs: 10, sm: 11, md: 13, lg: 16, xl: 22, xxl: 28, xxxl: 34 };
-  const colorMap: Record<string, string> = {
-    text: t.text, sub: t.sub, dim: t.dim,
-    jade: t.jade, gold: t.gold,
-    ok: t.ok, warn: t.warn, danger: t.danger,
-    mine: t.mine ?? t.warn, foe: t.foe ?? t.jade, // 阵营字色（我方暖/敌方冷·同 edge 令牌·缺省回退）
-    ink: t.ink ?? t.bg0, // 深墨字（金按钮/浅底上的深色文字·REQ-UI-Label ink 令牌·缺省回退最深底 bg0）
-  };
   // size 接受具名档 或 裸 px 数字（复刻像素稿精确字号·owner 2026-06-28「字阶该全档」）：数字直用、令牌查表。
   const sz = typeof p.size === 'number' ? p.size : (sizeMap[p.size ?? 'md'] ?? 13);
   // 色三态（REQ-UI-Label色三态）：令牌查表·{custom} 显式逃生（净化防注入）。同 Panel.bg 口径。
-  const resolveColor = (c: LabelProps['color'], fb: string): string =>
-    (c && typeof c === 'object') ? safeColor(c.custom) : (colorMap[c ?? 'text'] ?? fb);
+  const resolveColor = (c: LabelProps['color'], fb: string): string => resolveLabelColor(c, t, fb);
   const cl = resolveColor(p.color, t.text);
   // 具名字体槽（缺省按 mono 布尔回退·保旧调用方不变）：pixel/display 槽缺省回退 fontUi/fontMono。
   const fontSlot: Record<string, string> = {
@@ -346,7 +445,8 @@ function renderLabel(id: string, p: LabelProps, ls: string, t: UITheme): string 
     : (p.font ? fontSlot[p.font] : (p.mono ? t.fontMono : t.fontUi));
   const style = [
     `font-size:${sz}px`, `color:${cl}`,
-    p.bold ? 'font-weight:700' : '',
+    p.weight !== undefined && [400, 600, 700, 900].includes(p.weight) ? `font-weight:${p.weight}` : (p.bold ? 'font-weight:700' : ''),
+    typeof p.lineHeight === 'number' && Number.isFinite(p.lineHeight) && p.lineHeight >= 8 && p.lineHeight <= 120 ? `line-height:${p.lineHeight}px` : '',
     `font-family:${fam}`,
     // 仅当文本含换行符时保留换行（\n→实换行·多段说明/手册用）；无换行的单行 label 不加·HTML 字节不变（不动既有 golden）。
     (typeof p.text === 'string' && p.text.includes('\n')) ? 'white-space:pre-line' : '',
@@ -375,7 +475,7 @@ function renderLabel(id: string, p: LabelProps, ls: string, t: UITheme): string 
     const tweenAttr = ` data-tween-to="${num(p.tween.to)}" data-tween-ms="${num(p.tween.ms, 600)}" data-tween-dec="${dec}"${fmtAttr}${scaleAttr}`;
     return `<span id="${esc(id)}"${tweenAttr} style="${style}${scaleCss}">${esc(formatNumber(num(p.tween.from), p.format, dec))}</span>`;
   }
-  const tw = p.typewriter ? ` data-typewriter="${esc(String(p.typewriter))}"` : ''; // 转义防属性逃逸（威胁模型：弱模型可能给字符串）
+  const tw = p.typewriter !== undefined && (p.typewriter > 0 || p.typewriterSignal) ? ` data-typewriter="${esc(String(p.typewriter))}"${p.typewriterSignal ? ` data-typewriter-token="${esc(p.typewriterSignal.token)}" data-typewriter-action="${esc(p.typewriterSignal.action)}"` : ''}` : ''; // 0ms 仅显式通知合同生效；旧缺省不变
   // 纯数字 text + format → 渲染时格式化（idle 大数/计时/百分比·静态显示）。
   const body = (p.format && p.text !== undefined && p.text !== '' && Number.isFinite(Number(p.text)))
     ? formatNumber(Number(p.text), p.format) : (p.text ?? '');
@@ -430,6 +530,11 @@ function renderPanel(id: string, p: PanelProps, c: LayoutConstraints | undefined
   const pad = c?.padding ?? (bare ? 0 : 16);
   const ls = layoutStyle(c, t);          // 传 t：让 layout.fx（视觉特效·需主题取色）在 Panel 上也生效。
   const overflow = p.scroll ? 'overflow-y:auto;' : '';
+  const scrollRegion = p.scroll ? ' data-wheel-scroll' : '';
+  const wheel = p.wheel;
+  const wheelRegion = wheel && (wheel.upAction || wheel.downAction)
+    ? ` data-wheel-region${wheel.upAction ? ` data-wheel-up="${esc(wheel.upAction)}"` : ''}${wheel.downAction ? ` data-wheel-down="${esc(wheel.downAction)}"` : ''}`
+    : '';
   // grid 排布模式（卡牌格/货架）：cols=N 固定列数（严格等分·消空隙）；否则 auto-fill 自适应（minCol 定最小列宽）。非 grid 走 flex 行/列（支持 justify）。
   const gridCols = c?.cols !== undefined ? `repeat(${num(c.cols)},1fr)` : `repeat(auto-fill,minmax(${c?.minCol ?? 96}px,1fr))`;
   const box = dir === 'grid'
@@ -439,6 +544,13 @@ function renderPanel(id: string, p: PanelProps, c: LayoutConstraints | undefined
   // accent：高亮框（jade 描边 + 柔光投影）用于活动视口/强调面板；缺省细线边。bare 时不画框故忽略 accent。
   // edge（REQ-UI-容器描边形）：语义/阵营描边色（闭集令牌·覆盖默认线/accent 取色）；dashed：虚线边；radius：覆盖恒 10 圆角（叠层同步）。
   const border = p.edge ? edgeColor(t, p.edge) : (p.accent ? t.jadeLine : t.line);
+  const measuredColor = p.border?.color;
+  const safeMeasuredColor = typeof measuredColor === 'string'
+    ? (['text', 'sub', 'dim', 'jade', 'gold', 'ok', 'warn', 'danger', 'mine', 'foe', 'ink'].includes(measuredColor) ? resolveLabelColor(measuredColor, t, border) : undefined)
+    : (measuredColor && typeof measuredColor === 'object' && Object.keys(measuredColor).length === 1 && opaqueHex(measuredColor.custom));
+  const measuredBorder = !bare && !p.skin && safeMeasuredColor && p.border && typeof p.border.width === 'number'
+    && Number.isFinite(p.border.width) && p.border.width >= 0 && p.border.width <= 24
+    ? { width: p.border.width, color: safeMeasuredColor } : undefined;
   const bStyle = p.dashed ? 'dashed' : 'solid';
   const rad = num(c?.radius ?? 10);
   // box-shadow 叠层（accent 柔光 + REQ-108-UI-03 硬边平移投影可共存·逗号合成）：bare 无 chrome 故都忽略。
@@ -449,17 +561,18 @@ function renderPanel(id: string, p: PanelProps, c: LayoutConstraints | undefined
   // 图片贴图层（平铺·叠在面板底上）。bare 但有贴图 → 只铺贴图、仍无框。
   const tex = texLayer(p.bgTexture, p.bgTextureSize);
   // 主题级面板底纹（纸纹/底纹·house-style 主题填·叠在填色之上、节点 bgTexture 之下）。缺省无 = 老主题字节不变。
-  const panelTex = (!bare && t.panelTexture) ? t.panelTexture : '';
+  // A measured border around a transparent center must not inherit house paper texture.
+  const panelTex = (!bare && t.panelTexture && !(measuredBorder && p.bg === 'transparent')) ? t.panelTexture : '';
   // cover-skin（复合按钮框皮·REQ-PANELSKIN）：非 bare 面板给了 skin → art 即整面框（cover/9-slice），压过 fill/边框；
   // children 叠其上（动态数额活文字）。**bare 面板不吃皮**（bare=纯布局无 chrome·同 panelTexture guard·Lead 裁）。
   const chrome = (!bare && p.skin)
-    ? `${panelSkinCss(p.skin, p.skinSlice)}border-radius:${rad}px;${glow}`
+    ? `${p.skinOutset ? 'background:transparent;border:0;' : panelSkinCss(p.skin, p.skinSlice, p.skinBorderWidth, p.skinSize)}border-radius:${rad}px;${glow}`
     : bare
       ? (tex ? `background:${tex}, transparent;` : '')
-      : `background:${tex ? `${tex}, ` : ''}${panelTex ? `${panelTex}, ` : ''}${resolveFill(p.bg, t) ?? (p.glass ? 'rgba(20,24,32,0.5)' : t.bg1)};border:1px ${bStyle} ${border};border-radius:${rad}px;${glow}${p.glass ? 'backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);' : ''}`;
+      : `background:${tex ? `${tex}, ` : ''}${panelTex ? `${panelTex}, ` : ''}${resolveFill(p.bg, t) ?? (p.glass ? 'rgba(20,24,32,0.5)' : t.bg1)};border:${measuredBorder?.width ?? 1}px ${bStyle} ${measuredBorder?.color ?? border};border-radius:${rad}px;${glow}${p.glass ? 'backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);' : ''}`;
   // 异形容器轮廓（REQ-UI-异型容器①·复用 Button 同一套 SHAPE_CSS 闭集·命中区=包围盒·裁在最外层·须给足宽高）。
   const shape = p.shape && SHAPE_CSS[p.shape] ? `${SHAPE_CSS[p.shape]};` : '';
-  const style = `${box};padding:${pad}px;${chrome}${shape}position:relative;${overflow}${ls}`;
+  const style = `${box};padding:${pad}px;${chrome}${shape}position:relative;${p.skinOutset ? 'isolation:isolate;' : ''}${overflow}${ls}`;
   // 标题图标（REQ-UI-标题图标槽）：titleIcon 在场 → 标题前 1.05em 内联图；无=纯文字标题字节不变。
   const titleIcon = p.titleIcon ? `<img src="${esc(p.titleIcon)}" alt="" style="height:1.05em;width:1.05em;object-fit:contain;vertical-align:-0.18em;margin-right:5px">` : '';
   const title = p.title
@@ -472,11 +585,12 @@ function renderPanel(id: string, p: PanelProps, c: LayoutConstraints | undefined
   const pattern = p.pattern
     ? `<div style="position:absolute;inset:0;border-radius:${bare ? '0' : `${rad}px`};pointer-events:none;background:${p.pattern === 'checker' ? 'repeating-conic-gradient(rgba(255,255,255,.04) 0% 25%,transparent 0% 50%) 0 0 / 16px 16px' : 'repeating-linear-gradient(45deg,rgba(255,255,255,.045) 0 2px,transparent 2px 12px)'}"></div>`
     : '';
+  const layer = (!bare && p.skin && !p.skinSlice) ? skinLayer(p.skin, p.skinSize, p.skinOutset).replace('z-index:0', 'z-index:-1') : '';
   const inner = children.map((ch) => renderNode(ch, t)).join('');
   // 容器可点（REQ-UI-容器可点）：整个容器发信号（同 Button·只信号名）+ 手型。
   const action = p.action ? ` data-ui-id="${esc(id)}" data-action="${esc(p.action)}"${p.actionArg ? ` data-arg="${esc(p.actionArg)}"` : ''}` : '';
   const cursor = p.action ? 'cursor:pointer;' : '';
-  return `<div id="${esc(id)}"${action}${bgScrollAttr(p.bgScroll)} style="${style}${cursor}">${vignette}${pattern}${title}${inner}</div>`;
+  return `<div id="${esc(id)}"${action}${scrollRegion}${wheelRegion}${bgScrollAttr(p.bgScroll)} style="${style}${cursor}">${layer}${vignette}${pattern}${title}${inner}</div>`;
 }
 
 // ── 新增 6 个控件 ───────────────────────────────────────────────
@@ -501,14 +615,36 @@ function renderCheckbox(id: string, p: CheckboxProps, ls: string, t: UITheme): s
 
 function renderToggle(id: string, p: ToggleProps, ls: string, t: UITheme): string {
   const on = p.checked ?? false;
+  const disabled = p.disabled === true;
+  if (p.visual && typeof p.visual === 'object') {
+    const v = p.visual;
+    // Validator rejects malformed geometry; renderer also coerces runtime JSON before CSS interpolation.
+    const width = num(v.width), height = num(v.height), knobSize = num(v.knobSize);
+    const knobTop = num(v.knobTop), knobLeft = num(on ? v.knobOnLeft : v.knobOffLeft);
+    const trackFill = (color: typeof v.offBackground): string => typeof color === 'string'
+      ? SURFACE_TOKEN[color]?.(t) ?? 'transparent' : color && typeof color === 'object' ? safeColor(color.custom) : 'transparent';
+    const hideLabel = v.showLabel === false;
+    const accessibleName = typeof p.label === 'string' && p.label.trim() ? p.label.trim() : id;
+    const input = hiddenInput(`${id}-i`, 'checkbox', disabled ? '' : p.action ?? '', `${on ? 'checked ' : ''}${disabled ? 'disabled aria-disabled="true" tabindex="-1"' : ''}${hideLabel ? ` aria-label="${esc(accessibleName)}"` : ''}`, id);
+    return `<span id="${esc(id)}" style="display:inline-flex;align-items:center;${ls}">
+  ${input}
+  <label for="${esc(id)}-i" style="display:inline-flex;align-items:center;gap:10px;cursor:${disabled ? 'not-allowed' : 'pointer'}">
+    <span data-apollo-toggle-track style="display:inline-block;width:${width}px;height:${height}px;border-radius:${height / 2}px;background:${trackFill(on ? v.onBackground : v.offBackground)};border:1px solid ${resolveLabelColor(v.border, t, t.line)};position:relative;flex-shrink:0;opacity:${disabled ? .55 : 1}">
+      <span data-apollo-toggle-knob style="width:${knobSize}px;height:${knobSize}px;border-radius:50%;background:${resolveLabelColor(on ? v.onKnob : v.offKnob, t, t.dim)};position:absolute;top:${knobTop}px;left:${knobLeft}px;transition:left .18s"></span>
+    </span>
+    ${hideLabel ? '' : `<span style="font-size:12px;color:${t.sub};font-family:${t.fontUi}">${esc(p.label)}</span>`}
+  </label>
+</span>`;
+  }
   const trackBg = on ? t.jade        : t.bg3;
   const border   = on ? t.jadeLine   : t.line;
   const knob     = on ? t.bg0        : t.dim;
   const knobLeft = on ? '18px'           : '2px';
+  const input = hiddenInput(`${id}-i`, 'checkbox', disabled ? '' : p.action ?? '', `${on ? 'checked ' : ''}${disabled ? 'disabled aria-disabled="true" tabindex="-1"' : ''}`, id);
   return `<span id="${esc(id)}" style="display:inline-flex;align-items:center;${ls}">
-  ${hiddenInput(`${id}-i`, 'checkbox', p.action ?? '', on ? 'checked' : '', id)}
-  <label for="${esc(id)}-i" style="display:inline-flex;align-items:center;gap:10px;cursor:pointer">
-    <span style="display:inline-block;width:36px;height:20px;border-radius:10px;background:${trackBg};border:1px solid ${border};position:relative;flex-shrink:0">
+  ${input}
+  <label for="${esc(id)}-i" style="display:inline-flex;align-items:center;gap:10px;cursor:${disabled ? 'not-allowed' : 'pointer'}">
+    <span style="display:inline-block;width:36px;height:20px;border-radius:10px;background:${trackBg};border:1px solid ${border};position:relative;flex-shrink:0;opacity:${disabled ? .55 : 1}">
       <span style="width:14px;height:14px;border-radius:50%;background:${knob};position:absolute;top:2px;left:${knobLeft}"></span>
     </span>
     <span style="font-size:12px;color:${t.sub};font-family:${t.fontUi}">${esc(p.label)}</span>
@@ -536,7 +672,41 @@ function renderRadioGroup(id: string, p: RadioGroupProps, ls: string, t: UITheme
 function renderImage(id: string, p: ImageProps, ls: string): string {
   const fit    = p.fit ?? 'contain';
   const radius = p.radius ?? 0;
-  return `<img id="${esc(id)}" src="${esc(p.src)}" alt="${esc(p.alt ?? '')}" style="object-fit:${fit};border-radius:${radius}px;display:block;max-width:100%;${ls}">`;
+  const blur = p.blur ? `blur(${Math.max(0, Math.min(32, num(p.blur)))}px)` : '';
+  // Neutral signal-lens art is recolored here, not exchanged for state-specific PNGs.
+  // Sepia's native amber base is rotated from red (300°) through green (420°).
+  const progress = p.tint?.kind === 'signal' ? Math.max(0, Math.min(1, num(p.tint.progress))) : undefined;
+  const signalSpec = progress === undefined ? undefined : (() => {
+    const hue = 300 + progress * 120;
+    const glowHue = Math.round(progress * 120);
+    const glow = (8 + progress * 14).toFixed(1);
+    // `once` deliberately starts from this common warm-gold ignition colour,
+    // then travels to the progress-derived target. It makes a state change
+    // visible even when a small lens is framed by a large metal housing.
+    return {
+      core: `sepia(1) saturate(${(4 + progress * 5).toFixed(2)}) hue-rotate(${hue.toFixed(1)}deg) brightness(${(0.92 + progress * 0.25).toFixed(2)})`,
+      flashCore: 'sepia(1) saturate(2.20) hue-rotate(24deg) brightness(1.75)',
+      glowHue, glow, alpha: (0.52 + progress * 0.30).toFixed(2),
+    };
+  })();
+  // box-shadow always paints a rectangle around a transparent <img>.  Signal
+  // pulse deliberately uses filter:drop-shadow instead, which follows only
+  // non-transparent lamp pixels and leaves the lock body unobscured.
+  const requestedEmission = p.tint?.kind === 'signal' ? p.tint.emission : undefined;
+  const emission = requestedEmission === 'off' || requestedEmission === 'steady' || requestedEmission === 'once' || requestedEmission === 'loop'
+    ? requestedEmission
+    : (p.tint?.kind === 'signal' && p.tint.pulse === true ? 'loop' : 'steady');
+  const animatedEmission = signalSpec && (emission === 'once' || emission === 'loop');
+  const signal = signalSpec
+    ? `${signalSpec.core}${emission === 'steady' ? ` drop-shadow(0 0 ${signalSpec.glow}px hsl(${signalSpec.glowHue} 96% 55% / ${signalSpec.alpha}))` : ''}`
+    : '';
+  const pulseCss = animatedEmission
+    ? `--signal-core:${signalSpec.core};--signal-flash-core:${signalSpec.flashCore};--signal-glow-hue:${signalSpec.glowHue};--signal-glow-low:${Math.max(3, Number(signalSpec.glow) * .55).toFixed(1)}px;--signal-glow-high:${signalSpec.glow}px;--signal-glow-alpha:${signalSpec.alpha};animation:${emission === 'once' ? 'apollo-signalIgnition 420ms ease-out 1 both' : 'apollo-signalPulse 880ms ease-in-out infinite'};`
+    : '';
+  const filter = [blur, signal].filter(Boolean).join(' ');
+  const tintMotion = progress === undefined ? '' : 'transition:filter 420ms cubic-bezier(.2,.8,.2,1),transform 420ms cubic-bezier(.2,.8,.2,1);';
+  const position = p.position === 'top' || p.position === 'center' ? `object-position:center ${p.position};` : '';
+  return `<img id="${esc(id)}" src="${esc(p.src)}" alt="${esc(p.alt ?? '')}" style="object-fit:${fit};${position}border-radius:${radius}px;display:block;max-width:100%;${filter ? `filter:${filter};` : ''}${pulseCss}${tintMotion}${ls}">`;
 }
 
 function renderScreen(id: string, p: ScreenProps, children: LayoutNode[], t: UITheme): string {
@@ -545,7 +715,7 @@ function renderScreen(id: string, p: ScreenProps, children: LayoutNode[], t: UIT
   // 三路贴图并存：程序化(theme.texture) / cover 整图(下方 bgImg) / 平铺图片(bgTexture)。
   const bg     = [t.wash, texLayer(p.bgTexture, p.bgTextureSize), t.texture, baseBg].filter(Boolean).join(', ');
   const center = p.center ? 'align-items:center;justify-content:center;' : 'align-items:stretch;';
-  const bgImg  = p.image ? `background-image:url('${esc(p.image)}');background-size:cover;background-position:center;` : '';
+  const bgImg  = p.image ? `background-image:url('${safeUrl(p.image)}');background-size:cover;background-position:center;` : ''; // safeUrl：esc 不转单引号·`')` 可越出 url()（P2b）
   const blur   = p.blur ? `backdrop-filter:blur(${num(p.blur)}px);` : '';
   // 高度语义（REQ-SCREENFILL）：缺省 100vh（吃视口·直挂页面对）；fill=100%（吃父定尺盒·mountHost 信箱盒填满去底部空白）。
   const minH   = p.fill ? '100%' : '100vh';
@@ -558,15 +728,33 @@ function renderSlider(id: string, p: SliderProps, ls: string, t: UITheme): strin
   const max   = num(p.max, 100);
   const step  = num(p.step, 1);
   const value = num(p.value, Math.round((min + max) / 2));
-  const action = p.action ? ` data-ui-id="${esc(id)}" data-action="${esc(p.action)}"` : '';
+  const action = p.action && !p.disabled ? ` data-ui-id="${esc(id)}" data-action="${esc(p.action)}"` : '';
   const header = p.label
     ? `<div style="display:flex;justify-content:space-between;margin-bottom:4px">
         <span style="font-size:11px;color:${t.sub};font-family:${t.fontUi}">${esc(p.label)}</span>
         <span style="font-size:11px;color:${t.dim};font-family:${t.fontMono}">${value}</span>
       </div>`
     : '';
+  // A fixed board can already contain the rail art; thumb-only preserves the
+  // native input and lets it align to that board without drawing a duplicate rail.
+  const skinned = Boolean(p.thumbSkin);
+  const ratio = max > min ? Math.max(0, Math.min(1, (value - min) / (max - min))) : 0;
+  const thumbSize = Math.max(16, Math.min(128, num(p.thumbSize, 36)));
+  const trackHeight = Math.max(24, Math.min(200, num(p.trackHeight, thumbSize)));
+  const thumbInset = Math.max(0, Math.min(200, num(p.thumbInset, 0)));
+  const motion = Math.max(0, Math.min(2000, num(p.motionMs, 0)));
+  const thumbLeft = thumbInset > 0
+    ? `calc(${thumbInset}px + ${(ratio * 100).toFixed(4)}% - ${(ratio * 2 * thumbInset).toFixed(4)}px - ${thumbSize / 2}px)`
+    : `calc(${(ratio * 100).toFixed(4)}% - ${thumbSize / 2}px)`;
+  const trackArt = p.trackSkin ? `background:url('${safeUrl(p.trackSkin)}') center / 100% 100% no-repeat;` : '';
+  const skin = skinned ? `<div data-skin-slider style="height:${trackHeight}px;position:relative;z-index:0;${trackArt}"><img aria-hidden="true" src="${safeUrl(p.thumbSkin!)}" style="position:absolute;pointer-events:none;left:${thumbLeft};top:calc(50% - ${thumbSize / 2}px);width:${thumbSize}px;height:${thumbSize}px;object-fit:contain;transition:left ${motion}ms ease" data-skin-slider-thumb></div>` : '';
+  const snap = p.releaseSnap ? ` data-slider-release-snap="true" data-step="${step}" data-slider-thumb-inset="${thumbInset}" data-slider-thumb-size="${thumbSize}" data-slider-motion="${motion}"` : '';
+  const inputStyle = skinned
+    ? `position:absolute;z-index:1;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:${p.disabled ? 'default' : 'pointer'};pointer-events:${p.disabled ? 'none' : 'auto'};touch-action:none;appearance:none;-webkit-appearance:none;background:transparent;border:0`
+    : `width:100%;accent-color:${t.jade};cursor:${p.disabled ? 'default' : 'pointer'}`;
+  const disabled = p.disabled ? ' disabled aria-disabled="true"' : '';
   return `<div id="${esc(id)}" style="display:flex;flex-direction:column;${ls}">
-  ${header}<input type="range" min="${min}" max="${max}" step="${step}" value="${value}"${action} style="width:100%;accent-color:${t.jade};cursor:pointer">
+  ${header}${skinned ? `<div style="position:relative;height:${trackHeight}px">${skin}<input type="range" min="${min}" max="${max}" step="${p.releaseSnap ? 'any' : step}" value="${value}"${snap}${action}${disabled} style="${inputStyle}"></div>` : `<input type="range" min="${min}" max="${max}" step="${step}" value="${value}"${action}${disabled} style="${inputStyle}">`}
 </div>`;
 }
 
@@ -620,7 +808,7 @@ function renderProgressBar(id: string, p: ProgressBarProps, ls: string, t: UIThe
   const max = p.max ?? 1;
   const pct = Math.max(0, Math.min(100, max > 0 ? (p.value / max) * 100 : 0));
   const fillColor: Record<string, string> = { accent: t.jade, gold: t.gold, ok: t.ok, warn: t.warn, danger: t.danger };
-  const fill = fillColor[p.tone ?? 'accent'] ?? t.jade;
+  const fill = safeColor(p.fillColor) || fillColor[p.tone ?? 'accent'] || t.jade;
   const valTxt = max === 1 ? `${Math.round(pct)}%` : `${p.value}/${max}`;
   // 环形/径向进度（shape:'ring'·体力/耐力/每日目标/冷却环）：conic 弧 + 中心镂空显 value/label。
   if (p.shape === 'ring') {
@@ -639,7 +827,7 @@ function renderProgressBar(id: string, p: ProgressBarProps, ls: string, t: UIThe
   // 禁「每帧烤水面进贴图」那条路（owner 判词·工单 ③ networkidle 实测教训）。render-only 不进 sim/hash。
   if (p.shape === 'liquid') {
     const rad = num(p.radius, 14);
-    const liquid = p.fillColor ? safeColor(p.fillColor) : fill;
+    const liquid = fill;
     const wave = p.wave !== false;
     const nBub = Math.max(0, Math.min(8, num(p.bubbles, 0)));
     const BUB_SZ = [16, 11, 20, 13, 18, 10, 15, 12]; // 定稿：16/11/20px 起的分档
@@ -667,9 +855,15 @@ function renderProgressBar(id: string, p: ProgressBarProps, ls: string, t: UIThe
       `</div></div>${center}</div>`;
   }
   const header = (p.label || p.showValue)
-    ? `<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">${p.label ? `<span style="font-size:11px;color:${t.sub};font-family:${t.fontUi}">${esc(p.label)}</span>` : '<span></span>'}${p.showValue ? `<span style="font-size:11px;color:${t.dim};font-family:${t.fontMono}">${esc(valTxt)}</span>` : ''}</div>`
+    ? `<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">${p.label ? `<span style="font-size:11px;color:${t.sub};font-family:${t.fontUi}">${esc(p.label)}</span>` : '<span></span>'}${p.showValue ? `<span style="font-size:11px;color:${t.sub};font-family:${t.fontMono}">${esc(valTxt)}</span>` : ''}</div>`
     : '';
-  return `<div id="${esc(id)}" style="display:flex;flex-direction:column;${ls}">${header}<div style="height:8px;border-radius:5px;background:${t.bg3};overflow:hidden"><div style="width:${pct}%;height:100%;background:${fill};border-radius:5px;transition:width .2s"></div></div></div>`;
+  // 线性轨道高度是展示能力而非布局高度：layout.height 控的是节点盒，barHeight 只控实际填充轨道。
+  // 缺省 8 保留所有既有 HUD 像素输出；上下钳住避免误填撑破紧凑布局。
+  const barHeight = Math.max(4, Math.min(80, Math.round(p.barHeight ?? 8)));
+  const radius = Math.max(5, Math.round(barHeight / 2));
+  const fillGlow = p.fillGlow ? `;box-shadow:0 0 10px ${fill},0 0 22px ${fill}` : '';
+  const trackOverflow = p.fillGlow ? 'visible' : 'hidden';
+  return `<div id="${esc(id)}" style="display:flex;flex-direction:column;${ls}">${header}<div style="height:${barHeight}px;border-radius:${radius}px;background:${t.bg3};overflow:${trackOverflow}"><div style="width:${pct}%;height:100%;background:${fill};border-radius:${radius}px;transition:width .2s,background .35s linear${fillGlow}"></div></div></div>`;
 }
 
 // 可点标签：active 或 tone 决定底/字/线色；有 action 则整体可点(arg=actionArg)；removable 加 ×。
@@ -732,22 +926,52 @@ function renderTooltip(id: string, p: TooltipProps, children: LayoutNode[], ls: 
 
 // ── Modal（居中模态浮层 + 遮罩·下沉自各游戏手搭确认框/详情弹窗）─────────────────
 
-// 遮罩满屏居中弹窗体；点 ×(data-action) 或点遮罩本身(data-modal-close·mountUI 内建) → closeAction。
+// 遮罩满屏居中弹窗体；点 ×(data-action) / 遮罩 / Escape（后两项由 mountUI 内建） → closeAction。
 function renderModal(id: string, p: ModalProps, children: LayoutNode[], ls: string, t: UITheme): string {
-  const widthMap: Record<string, number> = { sm: 320, md: 460, lg: 640 };
-  const w = widthMap[p.size ?? 'md'] ?? 460;
+  const widthMap: Record<string, number> = { sm: 320, md: 460, lg: 640, xl: 800, wide: 1080 };
+  const defaultWidth = widthMap[p.size ?? 'md'] ?? 460;
+  const w = p.visual?.width === undefined ? defaultWidth : bounded(p.visual.width, 280, 1200, defaultWidth);
+  const visual = p.visual;
+  const minHeight = visual?.minHeight !== undefined ? `min-height:${num(visual.minHeight)}px;` : p.size === 'wide' ? 'min-height:610px;' : '';
   const closable = p.closable ?? true;
   const scrimClose = p.closeAction ? ` data-modal-close="${esc(p.closeAction)}"` : '';
   const xBtn = (closable && p.closeAction)
-    ? `<button data-ui-id="${esc(id)}" data-action="${esc(p.closeAction)}" aria-label="close" style="position:absolute;top:10px;right:13px;width:26px;height:26px;background:none;border:none;color:${t.dim};font-size:19px;line-height:1;cursor:pointer;font-family:${t.fontUi}">×</button>`
+    ? `<button data-ui-id="${esc(id)}" data-action="${esc(p.closeAction)}" aria-label="close" style="position:absolute;top:10px;right:13px;width:26px;height:26px;background:none;border:none;color:${t.sub};font-size:19px;line-height:1;cursor:pointer;font-family:${t.fontUi}">×</button>`
     : '';
+  const titleId = `${id}-title`;
+  const titleSize = visual?.titleSize === undefined ? 15 : num(visual.titleSize, 15);
+  const titleAlign = visual?.titleAlign === 'center' ? ';padding-left:26px;text-align:center' : '';
   const title = p.title
-    ? `<div style="font-size:15px;font-weight:700;color:${t.text};font-family:${t.fontUi};margin-bottom:12px;padding-right:26px">${esc(p.title)}</div>`
+    ? `<div id="${esc(titleId)}" style="font-size:${titleSize}px;font-weight:700;color:${resolveLabelColor(p.titleColor, t, t.text)};font-family:${t.fontUi};margin-bottom:12px;padding-right:26px${titleAlign}">${esc(p.title)}</div>`
     : '';
-  const body = children.map((ch) => renderNode(ch, t)).join('');
+  const bodyHtml = children.map((ch) => renderNode(ch, t)).join('');
+  const body = visual?.contentAlign ? `<div data-modal-content style="text-align:${visual.contentAlign === 'center' ? 'center' : 'left'}">${bodyHtml}</div>` : bodyHtml;
+  const requestedFill: unknown = visual?.fill;
+  const fillData = requestedFill && typeof requestedFill === 'object' && !Array.isArray(requestedFill) ? requestedFill as Record<string, unknown> : {};
+  const gradientData = fillData.gradient && typeof fillData.gradient === 'object' && !Array.isArray(fillData.gradient) ? fillData.gradient as Record<string, unknown> : {};
+  const from = opaqueHex(gradientData.from);
+  const to = opaqueHex(gradientData.to);
+  const frameFill = from && to ? `linear-gradient(145deg,${from},${to})`
+    : opaqueHex(fillData.color) ?? `linear-gradient(${t.bg1},${t.bg1}),${t.bg0}`;
+  const borderWidth = visual?.border ? bounded(visual.border.width, 0, 24, 1) : 1;
+  const borderColor = visual?.border ? opaqueHex(visual.border.color) ?? t.line : t.line;
+  const frameBorder = `${borderWidth}px solid ${borderColor}`;
+  const frameRadius = visual?.radius === undefined ? 12 : bounded(visual.radius, 0, 64, 12);
+  const ringWidth = visual?.outerRing ? bounded(visual.outerRing.width, 0, 24, 0) : 0;
+  const ringColor = visual?.outerRing && /^#(?:[\da-fA-F]{4}|[\da-fA-F]{8})$/.test(visual.outerRing.color) ? visual.outerRing.color : '#0000';
+  const outerRing = ringWidth ? `,0 0 0 ${ringWidth}px ${ringColor}` : '';
+  const enter = visual?.enter === 'lift-240' || visual?.enter === 'lift-600' ? `;animation:apollo-modal-lift ${visual.enter === 'lift-240' ? 240 : 600}ms cubic-bezier(.2,.8,.2,1) both` : '';
+  const frame = p.skin
+    ? `${panelSkinCss(p.skin, p.skinSlice, p.skinBorderWidth)}border-radius:${frameRadius}px;`
+    : `background:${frameFill};border:${frameBorder};border-radius:${frameRadius}px;`;
+  const padding = visual?.padding && typeof visual.padding === 'object'
+    ? `${bounded(visual.padding.top, 0, 80, 22)}px ${bounded(visual.padding.right, 0, 80, 22)}px ${bounded(visual.padding.bottom, 0, 80, 22)}px ${bounded(visual.padding.left, 0, 80, 22)}px`
+    : `${visual?.padding === undefined ? 22 : bounded(visual.padding, 0, 80, 22)}px`;
+  const scrimBlur = p.scrim && typeof p.scrim.blur === 'number' && Number.isFinite(p.scrim.blur) && p.scrim.blur >= 0 && p.scrim.blur <= 12 ? `backdrop-filter:blur(${p.scrim.blur}px);` : '';
+  const accessibleName = p.title ? ` aria-labelledby="${esc(titleId)}"` : ' aria-label="Dialog"';
   // 遮罩加深 0.62→0.9（owner 2026-06-28 两度反馈「弹层太透·看穿到本体」）：弹层须与背后大厅强分离·操作看得清。
   // 面板底叠一层不透明 bg0 兜底（防 t.bg1 在半透明主题下透出背景·如战斗皮肤 var(--panel)）→ 内容永远实底可读。
-  return `<div id="${esc(id)}"${scrimClose} style="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,0.9);${ls}"><div style="position:relative;width:${w}px;max-width:100%;max-height:88vh;overflow-y:auto;background:linear-gradient(${t.bg1},${t.bg1}),${t.bg0};border:1px solid ${t.line};border-radius:12px;padding:22px;box-shadow:0 24px 70px rgba(0,0,0,0.7)">${xBtn}${title}${body}</div></div>`;
+  return `<div id="${esc(id)}" data-modal-scrim${scrimClose} style="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,0.9);${scrimBlur}${ls}"><div data-modal-dialog role="dialog" aria-modal="true"${accessibleName} tabindex="-1" style="position:relative;box-sizing:border-box;width:${w}px;max-width:100%;${minHeight}max-height:88vh;overflow-y:auto;${frame}padding:${padding};box-shadow:0 24px 70px rgba(0,0,0,0.7)${outerRing}${enter}">${xBtn}${title}${body}</div></div>`;
 }
 
 // ── Card / Stepper / Segmented / Avatar / Accordion（P1·网格卡/数量/分段/头像/折叠）──────
@@ -1192,7 +1416,7 @@ function renderDialog(id: string, p: DialogProps, ls: string, t: UITheme): strin
     : '';
   // 台词正文借 Label 渲（打字机/emoji/字体一体·DRY）——构 inner Label 节点交 renderNode（同 Versus 借 PlayingCard）。
   const body = renderNode(
-    { type: 'Label', id: `${id}-tx`, props: { text: p.text ?? '', size: 'md', color: 'text', ...(p.typewriter ? { typewriter: p.typewriter } : {}) } },
+    { type: 'Label', id: `${id}-tx`, props: { text: p.text ?? '', size: 'md', color: 'text', ...(p.typewriter !== undefined && (p.typewriter > 0 || p.typewriterSignal) ? { typewriter: p.typewriter, ...(p.typewriterSignal ? { typewriterSignal: p.typewriterSignal } : {}) } : {}) } },
     t,
   );
   // 推进提示：line/check 可推进 → 整框可点 + ▶；choice 节点推进交给 choiceList → 不显、不发信号。
@@ -1204,7 +1428,7 @@ function renderDialog(id: string, p: DialogProps, ls: string, t: UITheme): strin
   const emo = p.emotion ? ` data-emotion="${esc(p.emotion)}"` : '';
   // 货架框：skin=画框皮（cover/9-slice·art 即框·压过底/边框）；否则实底 + edge 描边（金框/阵营框·缺省细线）。
   const border = p.edge ? edgeColor(t, p.edge) : t.line;
-  const frame = p.skin ? panelSkinCss(p.skin, p.skinSlice) : `background:${t.bg1};border:1px solid ${border};`;
+  const frame = p.skin ? panelSkinCss(p.skin, p.skinSlice, p.skinBorderWidth) : `background:${t.bg1};border:1px solid ${border};`;
   return `<div id="${esc(id)}"${action}${emo} style="position:relative;${frame}border-radius:12px;padding:14px 16px;font-family:${t.fontUi};${cursor}${ls}${shapeCss(p.shape)}">${speaker}${body}${hint}</div>`;
 }
 
@@ -1267,12 +1491,13 @@ export function renderNode(node: LayoutNode, theme: UITheme = SHELL): string {
   const html = renderDispatch(node, theme);
   const c = node.layout;
   const fxData = c?.fx?.length ? fxToCss(c.fx, theme).dataFx : ''; // sheen/flash 等叠层 token
-  if (c && (c.draggable || c.dropZone || c.anchor || c.allowOverlap || c.sheen || c.tilt3d || c.press3d || c.flyTo || fxData)) {
+  if (c && (c.draggable || c.dropZone || c.anchor || c.allowOverlap || c.sheen || c.tilt3d || c.press3d || c.flyTo || c.transformTransition || fxData)) {
     const a: string[] = [];
     if (c.draggable) a.push(`draggable="true" data-drag="${esc(node.id)}"`);
     if (c.dropZone)  a.push(`data-drop="${esc(c.dropZone)}"`);
     if (c.anchor)    a.push(`data-anchor="${esc(c.anchor)}"`); // 新手引导 spotlight 锚点（OnboardingOverlay 定位）
     if (c.allowOverlap) a.push('data-allow-overlap'); // 意图叠层（扇形手牌/牌堆）→ ui-audit 重叠豁免（A-007）
+    if (c.transformTransition) a.push('data-transform-transition'); // state chase→reduced-motion 可精确归零
     if (c.sheen)     a.push('data-sheen'); // 流光层（CSS 注入 ::after·apollo-sheen-sweep）
     if (c.tilt3d)    a.push('data-tilt3d'); // 交互 3D 倾斜（悬停立体抬起·CSS 注入 :hover 变换）
     if (c.press3d)   a.push('data-press3d'); // 按压 3D 反馈（按下沉 Z + 底唇·CSS 注入 :active·触屏可用）

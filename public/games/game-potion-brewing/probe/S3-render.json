@@ -1,0 +1,35 @@
+{
+  "slug": "game-potion-brewing",
+  "at": "2026-10-15T03:58:02.174Z",
+  "gameHash": "453f23a6b8e49673",
+  "ok": true,
+  "form": "compiled",
+  "assertions": {
+    "gameMounted": {
+      "pass": true,
+      "detail": "非卡带沿用既有三断言"
+    },
+    "nonBlank": {
+      "pass": true,
+      "variance": 5435.98,
+      "mean": 69.69,
+      "threshold": 15
+    },
+    "consoleErrors": {
+      "pass": true,
+      "count": 0,
+      "messages": []
+    },
+    "noUncaught": {
+      "pass": true,
+      "pageErrors": 0,
+      "overlay": false,
+      "messages": []
+    }
+  },
+  "screenshot": "public/games/game-potion-brewing/probe/S3-render.png",
+  "browser": {
+    "execPath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "via": "installed"
+  }
+}

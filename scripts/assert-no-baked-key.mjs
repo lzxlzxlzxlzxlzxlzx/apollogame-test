@@ -120,4 +120,4 @@ function main(argv) {
   console.log(`[assert-no-baked-key] PASS —— ${dir}（共 ${fileCount} 文件·文本扫 ${scanned} 个）零 key 字面量、零危险配置文件`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main(process.argv.slice(2));
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) main(process.argv.slice(2));

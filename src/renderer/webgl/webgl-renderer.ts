@@ -105,6 +105,9 @@ export class WebGLRenderer implements RendererBackend {
     this.gl = gl;
     this.program = linkProgram(gl, VERT, FRAG);
     this.uViewport = gl.getUniformLocation(this.program, 'u_viewport');
+    gl.useProgram(this.program);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.uniform1i(gl.getUniformLocation(this.program, 'u_tex'), 0); // 采样器绑 unit 0·常量·建一次（免每帧 getUniformLocation 查询·GL 查询会同步 stall）
     this.setupGeometry(gl);
     this.whiteTex = makeSolidTexture(gl, 255, 255, 255, 255); // 实心形状批用（不采样·占位绑定）
     gl.disable(gl.DEPTH_TEST);
@@ -150,8 +153,7 @@ export class WebGLRenderer implements RendererBackend {
     gl.useProgram(this.program);
     gl.uniform2f(this.uViewport, this.canvas!.width, this.canvas!.height);
     gl.bindVertexArray(this.vao);
-    gl.activeTexture(gl.TEXTURE0);
-    gl.uniform1i(gl.getUniformLocation(this.program, 'u_tex'), 0);
+    // 采样器 u_tex=unit0 + activeTexture(TEXTURE0) 已在 init 设一次（常量·不必每帧查 getUniformLocation）。
 
     let draws = 0;
     for (const b of plan.batches) {

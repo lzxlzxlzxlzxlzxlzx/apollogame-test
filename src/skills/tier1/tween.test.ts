@@ -22,7 +22,7 @@ describe('T1 tween — metadata', () => {
   it('id / 读 Tween / 只写 Transform+Color（逻辑数值不走 tween，Gemini Q6）', () => {
     expect(tweenCapability.id).toBe('t1-tween');
     expect(tweenCapability.components.reads).toEqual(['Tween']);
-    expect(tweenCapability.components.writes).toEqual(['Transform', 'Color']);
+    expect(tweenCapability.components.writes).toEqual(['Transform', 'Color', 'Tween']); // P1a 严格模式补齐：推进 elapsed / 播完摘掉 = 写自身
   });
 });
 
@@ -143,6 +143,24 @@ describe('T1 tween — BUG-005：duration<=0 不抖动', () => {
     w.tick();
     expect(w.getComponent<Transform>('e', 'Transform')!.x).toBe(10); // 即时终值
     expect(w.hasComponent('e', 'Tween')).toBe(false); // 已结束移除，不再每帧交换 from/to 抖动
+  });
+});
+
+// ── A2 遗留缺口腿：无效 target（「什么都没发生」分支·实测钉现状）──
+describe('T1 tween — 无效 target 不崩不误写', () => {
+  it("target 不在闭集（'Nope.x'）→ 不崩、零写入，计时照走、到点正常收尾移除（实测）", () => {
+    const w = worldWithTween();
+    w.createEntity('e');
+    w.addComponent('e', { type: 'Transform', x: 1, y: 2, rotation: 0, scaleX: 1, scaleY: 1 } as Transform);
+    w.addComponent('e', { type: 'Color', tint: 0xffffff, alpha: 0.5 } as Color);
+    addTween(w, 'e', { target: 'Nope.x' as Tween['target'], from: 0, to: 100, duration: 3 });
+    expect(() => { for (let i = 0; i < 5; i++) w.tick(); }).not.toThrow();
+    // 不误写别的组件：Transform/Color 逐字段原值（writeField 的 switch 对表外 target 是 no-op）。
+    expect(w.getComponent<Transform>('e', 'Transform')).toMatchObject({ x: 1, y: 2, rotation: 0, scaleX: 1, scaleY: 1 });
+    expect(w.getComponent<Color>('e', 'Color')).toMatchObject({ tint: 0xffffff, alpha: 0.5 });
+    // 收尾语义（实测钉现状）：计时不因 target 无效而停 → duration 到点按缺省 loop:none 移除组件，
+    // 不残留僵尸 Tween（静默拒收而非硬抛——与「未知 templateId 静默跳过」同口径）。
+    expect(w.hasComponent('e', 'Tween')).toBe(false);
   });
 });
 

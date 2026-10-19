@@ -10,6 +10,7 @@ import {
   type DialogueScript,
   type DialogueAdvance,
   type DialogueChoose,
+  type DialogueChoiceResult,
   type DialogueCheck,
 } from './dialogue.js';
 
@@ -20,7 +21,7 @@ const SCRIPT: DialogueGraph = {
     kind: 'choice',
     prompt: 'choose',
     options: [
-      { text: 'warm', effects: [{ resource: 'aff', amount: 5 }], setFlag: 'met', next: 'end' },
+      { id: 'warm', text: 'warm', effects: [{ resource: 'aff', amount: 5 }], setFlag: 'met', next: 'end' },
       { text: 'locked', requires: { kind: 'flag', id: 'gate' }, next: 'secret' },
     ],
   },
@@ -82,6 +83,7 @@ describe('T3 dialogue — 选择结算 / 条件门控', () => {
     const mod = w.getComponent<ResourceModify>('aff', 'ResourceModify');
     expect(mod).toBeTruthy();
     expect(mod!.amount).toBe(5);
+    expect(w.getComponent<DialogueChoiceResult>('dlg','DialogueChoiceResult')).toMatchObject({status:'applied',choiceId:'warm',index:0,fromNode:'pick',toNode:'end'});
   });
 
   it('选不满足 requires 的选项 → 拒绝（不跳转）', () => {
@@ -89,6 +91,7 @@ describe('T3 dialogue — 选择结算 / 条件门控', () => {
     w.addComponent('dlg', { type: 'DialogueChoose', index: 1 } as DialogueChoose);
     w.tick();
     expect(cur(w)).toBe('pick'); // 仍停在 pick
+    expect(w.getComponent<DialogueChoiceResult>('dlg','DialogueChoiceResult')).toMatchObject({status:'rejected',reason:'condition-failed',index:1,fromNode:'pick'});
   });
 
   it('门开后同一选项可选 → 跳到 secret', () => {
@@ -180,10 +183,12 @@ describe('T3 dialogue — check 结算 / 分支 / effects', () => {
 });
 
 describe('T3 dialogue — check 确定性 / RandomSeed', () => {
-  it('真骰子（dice:20）同 seed → 同结果（snapshot 重放一致）', () => {
+  it('真骰子（dice:20）同 seed → 同结果（snapshot 重放一致）；钉 golden + 存在翻转 seed', () => {
     const node: DialogueCheck = { ...baseCheck, difficulty: 11, dice: 20 }; // 结果取决于 roll
     const runOnce = (seed: number): string => cur(advanceReturn(loadCheck(node, { attr: 0, seed })));
     expect(runOnce(12345)).toBe(runOnce(12345)); // 确定性
+    expect(runOnce(12345)).toBe('win'); // golden（实跑取值）：seed 12345 掷出 ≥11
+    expect(runOnce(7)).toBe('lose');    // 分支可翻转（实跑取值）：seed 7 掷出 <11——恒 win/恒 lose 的假骰子在此转红
   });
 
   it('掷骰推进 RandomSeed.sequence（取数留痕）', () => {
@@ -275,6 +280,7 @@ describe('dialogue — 拒收路径（2026-08-22 测试大扫除补钉·「什�
     w.tick();
     expect(cur(w)).toBe('pick'); // 不崩·不乱跳
     expect(w.hasComponent('dlg', 'DialogueChoose')).toBe(false); // 坏请求也消费（不无限重试）
+    expect(w.getComponent<DialogueChoiceResult>('dlg','DialogueChoiceResult')).toMatchObject({status:'rejected',reason:'invalid-choice',index:99,fromNode:'pick'});
     w.addComponent('dlg', { type: 'DialogueChoose', index: 0 } as DialogueChoose);
     w.tick();
     expect(cur(w)).toBe('end'); // 拒收不留伤

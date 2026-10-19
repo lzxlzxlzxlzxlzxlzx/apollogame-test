@@ -16,6 +16,7 @@
 | 各角色开工清单 | `docs/workflow/finish/`（各角色 handoff·按需查目录） |
 | 生产线怎么做事 | `docs/playbooks/index.md` |
 | 引擎当前架构基线 | `@zerocraft/engine` 包名（`package.json` exports 十子路径）+ `scripts/zerocraft.mjs`（`run\|test\|build <game-dir>` 外部内容启动器，游戏可居仓外，file: 依赖接引擎）+ games/ 顶层目录（不在 src/ 下）——详见 git 历史 grep `REQ-PKG` |
+| 引擎底层评审与剩余清单 | `docs/design/engine-final-review-2026-09-10.md`（收尾·剩余清单按序）← `engine-base-tier-review-2026-09-06.md` ← `engine-architecture-review-2026-09-02.md`（各含施工记录） |
 | 门禁/验收怎么跑 | `node scripts/scoped-gate.mjs --run`（按改动面缩范围）；全量退出码见 `CLAUDE.md`「推送门禁」一节 |
 
 ## 交接纪律

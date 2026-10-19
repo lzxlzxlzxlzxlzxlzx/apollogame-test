@@ -4,6 +4,7 @@ import type { GameFlow, Resource, Flag, State, Tag, GroupCount } from '@engine/p
 import { flowCapability } from './flow.js';
 import { zoneOccupancyCapability } from '../tier2/zone-occupancy.js';
 import { groupCountCapability } from '../tier2/group-count.js';
+import { hashSnapshot } from '@net/determinism.js';
 
 function mk(flow: Omit<GameFlow, 'type'>): World {
   const w = new World();
@@ -74,9 +75,12 @@ describe('flow · 线性瀑布 + onEnter 边沿', () => {
 });
 
 describe('flow · 确定性', () => {
-  it('同数据同输入 → 同 current（snapshot 友好）', () => {
-    const build = () => { const w = mk({ id: 'f', current: 'a', states: [{ id: 'a', transitions: [{ when: { kind: 'always' }, to: 'b' }] }, { id: 'b' }] }); w.tick(); return w; };
-    expect(cur(build())).toBe(cur(build()));
+  it('同数据同输入 → 双世界整快照 hash 一致（升格：不只比 current，elapsed 等隐藏态一并背书）', () => {
+    const build = () => { const w = mk({ id: 'f', current: 'a', states: [{ id: 'a', transitions: [{ when: { kind: 'always' }, to: 'b' }] }, { id: 'b' }] }); w.tick(); w.tick(); return w; };
+    const w1 = build();
+    const w2 = build();
+    expect(cur(w1)).toBe('b'); // 钉具体终态（不只互等）
+    expect(hashSnapshot(w1.snapshot())).toBe(hashSnapshot(w2.snapshot())); // 整快照等价（lockstep/录放口径）
   });
   it('set-state 动作可驱动另一个 fsm（流程间联动）', () => {
     const w = mk({ id: 'f', current: 'go', states: [{ id: 'go', onEnter: [{ kind: 'set-state', targetId: 'other', value: 'opened' }] }] });

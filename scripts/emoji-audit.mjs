@@ -100,4 +100,4 @@ function run(argv) {
   console.log('Top 文件: ' + r.files.slice(0, 8).map((f) => `${f.file}(${f.count})`).join(' · '));
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) run(process.argv.slice(2));
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) run(process.argv.slice(2));

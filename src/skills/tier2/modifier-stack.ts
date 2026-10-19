@@ -2,6 +2,7 @@ import { defineCapability } from '@engine/core/define-capability.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { ConditionExpr, ModifierSource, ModifierTotals, ModifierOp } from '@engine/protocol/components.js';
 import { evaluateCondition, buildConditionLookup, type ConditionLookup } from './condition.js';
+import { cmpStr } from '@engine/math/scalar.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  modifier-stack —— 修正聚合栈（REQ-CAP 下沉·最难那件）的**确定性纯函数核 + Update 相位系统**。
@@ -73,7 +74,7 @@ export function aggregateModifiers(
   const active = rows
     .filter((r) => r.gate === undefined || ctx.gate(r.gate))
     .slice()
-    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || cmpStr(a.id, b.id));
 
   const byTarget = new Map<string, ModifierRow[]>();
   for (const r of active) {

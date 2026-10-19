@@ -1,0 +1,11 @@
+[
+  {
+    "id": "GAP-CARD-REVEAL-01",
+    "title": "信号触发的二维多段表现轨道：多实体并行 keyframe、暂停恢复、重播、跳过落统一终态。现有 t3-timeline 只管何时，t1-tween 同实体仅一段单通道；A=下沉通用 t2-presentation-track，B=批准 game-card-reveal 专属 presentation controller。Lead 推荐 A，裁决全文见 capability-plan.md §4.8。",
+    "priority": "P1",
+    "route": "engine",
+    "state": "delivered",
+    "ticket": "docs/design/game-card-reveal/requests.md#gap-card-reveal-01--t2-presentation-track",
+    "blocks": ["S3", "S4", "S5", "S8"]
+  }
+]

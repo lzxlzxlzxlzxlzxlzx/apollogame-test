@@ -218,10 +218,14 @@ describe('表达力缺口·钉死差异（v2 输入）', () => {
     // 线性可表达一例（per_boss，bosses=3）：
     const linear: ModifierRow[] = [{ id: 'rocket', target: 'money', op: 'add', valueFrom: { resourceId: 'bosses', scale: 2 } }];
     expect(aggregateModifiers(linear, staticCtx({ bosses: 3 }), {}).money).toBe(6);
-    // 非线性（interest）：valueFrom 直接 money(23)×0.2 = 4.6 ≠ floor(23/5)×1 = 4 → 缺口。
-    const wrong = 23 * 0.2;
-    const want = Math.floor(23 / 5) * 1;
-    expect(wrong).not.toBe(want);
+    // 非线性（interest）：由 aggregateModifiers **真实输出**取得（原断言是 23*0.2 纯字面算术，
+    // 与被测核无关·A2 遗留修正）——valueFrom 只有线性 current×scale，最接近的写法 money(23)×0.2
+    // 聚合出 4.6（浮点），≠ Balatro interest 语义 floor(23/5)×1 = 4 → 缺口真实存在。
+    const interest: ModifierRow[] = [{ id: 'interest', target: 'money', op: 'add', valueFrom: { resourceId: 'money', scale: 0.2 } }];
+    const got = aggregateModifiers(interest, staticCtx({ money: 23 }), {}).money;
+    expect(got).toBeCloseTo(4.6, 12);     // 实跑：线性 23×0.2（IEEE 4.6000…05）
+    const want = Math.floor(23 / 5) * 1;  // interest 真语义 = 4
+    expect(got).not.toBe(want);           // 聚合核真实输出 ≠ 整除语义 → 缺口钉死（floor-divide 缺失）
   });
 });
 

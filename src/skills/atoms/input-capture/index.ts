@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { t } from '@engine/core/schema.js';
 import type { RawInput } from '@engine/protocol/components.js';
 
 export type { RawInput };
@@ -18,6 +19,14 @@ export const inputCaptureCapability = defineCapability({
 
   components: {
     provides: {
+      // C 治理：InputQueue 是运行时真正注入的输入契约（Engine.step 每拍写·keybind/clickable/dialogue 读），此前零 provider。
+      // 在「输入契约」原子登记它（行为仍在运行时·同本原子的 RawInput 口径）；输入三原子重整归上一评审 P3。
+      InputQueue: {
+        category: 'intent',
+        describe: '本拍输入动作队列（单例·运行时每拍整体覆盖·不由 manifest 填写）。actions[] = { key, values?, x?, y?, … } 原始动作。',
+        fields: {},
+        schema: t.obj({ actions: t.arr(t.any('原始动作 RawInputData')) }),
+      },
       RawInput: {
         category: 'event',
         describe: '一帧原始输入信号，由运行时注入、被 action-map 消费。',

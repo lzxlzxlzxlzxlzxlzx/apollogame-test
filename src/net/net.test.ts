@@ -179,3 +179,22 @@ describe('Lockstep 双端 + 确定性守卫', () => {
     expect(ha).not.toBe(hb);
   });
 });
+
+describe('lockstep hash — 创建序盲区 canary（REQ-NETGAPS③·记档性钉子·非缺陷断言）', () => {
+  it('组件内容相同·创建序不同 → hashSnapshot 相等而 query 序不同（lockstep 对此分叉不可见·设计变更前本测钉住现状）', () => {
+    // world-restore-order.test 注释点名的「最阴的坑」：canonical 按 id 排序 → 两端内容同、创建序异
+    // 时永远 inSync，但 query 序不同、行为可随时间发散。存档线已用 hashWithOrder fail-closed
+    // （REQ-SAVEORDER），lockstep 仍纯 hashSnapshot——并 order 入 lockstep hash 属设计变更（另议·
+    // REQ-NETGAPS③）。谁把它修了，本测的「相等」断言会红 → 有意识地更新此钉，而非静默改语义。
+    const build = (order: 'ab' | 'ba'): World => {
+      const w = new World();
+      const add = (id: string): void => { w.createEntity(id); w.addComponent(id, { type: 'HexPos', q: id === 'a' ? 1 : 2, r: 0 } as never); };
+      if (order === 'ab') { add('a'); add('b'); } else { add('b'); add('a'); }
+      return w;
+    };
+    const w1 = build('ab');
+    const w2 = build('ba');
+    expect(w1.snapshotOrder()).not.toEqual(w2.snapshotOrder()); // 创建序真的不同（盲区非假设）
+    expect(hashSnapshot(w1.snapshot())).toBe(hashSnapshot(w2.snapshot())); // 而 hash 看不见它 = 盲区本体
+  });
+});

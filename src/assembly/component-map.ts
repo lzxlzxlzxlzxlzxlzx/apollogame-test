@@ -7,12 +7,16 @@
 import type {
   Acceleration,
   Action,
+  AngularGesture,
   Anim3D,
   Pivot3D,
   AnimState,
   AnimState3D,
   Billboard3D,
+  BlockGrid,
+  BlockTrayPiece,
   BoardCell,
+  Bounce,
   Bounds,
   Camera,
   Camera3D,
@@ -26,6 +30,10 @@ import type {
   Controllable,
   CraftRecipe,
   Decal3D,
+  DebugTrace,
+  DiscreteCombinationInput,
+  DiscreteCombinationReceipt,
+  DiscreteCombinationSession,
   DestroyRequest,
   Diegetic3D,
   DicePool,
@@ -34,10 +42,13 @@ import type {
   Effect,
   EventWhen,
   Facing,
+  FlowAgent,
+  FlowField,
   FaceDir,
   FaceRotate,
   Flag,
   Fog3D,
+  Group,
   Frame,
   GameFlow,
   Gauge,
@@ -55,6 +66,51 @@ import type {
   Joint3D,
   KeyBinding,
   Launch,
+  LifeActionResult,
+  LifeConstructionProject,
+  LifeItemCatalog,
+  LifeCropCatalog,
+  LifeCalendar,
+  LifeCalendarAdvanceResult,
+  LifeCalendarConfig,
+  LifeTimeAdvanceResult,
+  LifeCrop,
+  LifeHarvestActionResult,
+  LifeMilestoneCatalog,
+  LifeMilestoneLedger,
+  LifeResourceNode,
+  LifeSelectedTarget,
+  LifeGatherActionResult,
+  LifeDialogueCatalog,
+  LifeDialogueSession,
+  LifeTalkActionResult,
+  LifeQuestCatalog,
+  LifeQuestState,
+  LifeQuestProjection,
+  LifeRelationshipCatalog,
+  LifeRelationshipState,
+  LifeRelationshipProjection,
+  LifeGiftActionResult,
+  LifePlantActionResult,
+  LifeSelectedItem,
+  LifeFarmActionResult,
+  LifeFarmPlot,
+  LifeActivityContext,
+  LifeActor,
+  LifeContinuousMotion,
+  LifeMoveRequest,
+  LifePosition,
+  LifePlacement,
+  LifeNpcSchedule,
+  LifePlayerVisual,
+  LifeScene,
+  LifeSpawn,
+  LifeTileCatalog,
+  LifeWarp,
+  LifeWarpResult,
+  LifeWarpRequest,
+  LifeWorld,
+  LifeZone,
   Light3D,
   Line3D,
   Mass,
@@ -63,6 +119,7 @@ import type {
   MergeRule,
   MergeDrop,
   Order,
+  OrderedActionSession,
   DeliverDrop,
   Blocker,
   MergeEvent,
@@ -83,6 +140,12 @@ import type {
   PerCardRetrigger,
   Pickable3D,
   Post3D,
+  ProgressiveRiskInput,
+  ProgressiveRiskReceipt,
+  ProgressiveRiskSession,
+  RiskRevealInput,
+  RiskRevealReceipt,
+  RiskRevealWheel,
   Reflector3D,
   PerCardRule,
   PerCardScore,
@@ -122,6 +185,8 @@ import type {
   Tilemap,
   Timeline,
   TimelinePlayback,
+  PresentationTrack,
+  PresentationPlayback,
   Timer,
   TimerDone,
   Transform,
@@ -136,14 +201,36 @@ import type {
   Visibility,
   WeightedSpawn,
   WorldUI3D,
+  WorldUI2D,
+  LineWins,
+  Orbit,
+  Owner,
+  PathFollow,
+  PhysicsWorld3D,
+  PlaceBlockIntent,
+  QueueMember,
+  QueueSlots,
+  PullAnchor,
+  SlotMachine,
   Zone,
 } from '@engine/protocol/components.js';
-import type { DialogueScript, DialogueAdvance, DialogueChoose } from '@skills/tier3/dialogue.js';
+import type { RuntimeComponentName } from './component-universe.gen.js';
+import type { DialogueScript, DialogueAdvance, DialogueChoose, DialogueChoiceResult } from '@skills/tier3/dialogue.js';
+import type { NarrativePackage, StoryRuntime, NarrativeProjection, NarrativeHistory, NarrativeOutbox } from '@skills/tier3/narrative-director.js';
 import type { DuelMatrix, DuelIntent, DuelOutcome } from '@skills/tier2/matrix-duel.js';
+import type { TurnOrder } from '@skills/tier2/turn-order.js';
+import type { Cooldowns } from '@skills/tier2/cooldown.js';
+import type { DamageTable, Armor } from '@skills/tier2/damage-table.js';
+import type { Inventory } from '@skills/tier2/inventory.js';
+import type { ConveyorQueue } from '@skills/tier2/conveyor-queue.js';
+import type { Memory, MemoryRules } from '@skills/tier2/memory-core.js';
+import type { IntentBarrier, IntentInbox } from '@skills/tier2/intent-barrier-core.js';
+import type { Vfx2D } from '@atom-skills/vfx2d/index.js';
 
 export interface ComponentDataMap {
   Acceleration: Omit<Acceleration, 'type'>;
   Action: Omit<Action, 'type'>;
+  AngularGesture: Omit<AngularGesture, 'type'>;
   Anim3D: Omit<Anim3D, 'type'>;
   Pivot3D: Omit<Pivot3D, 'type'>;
   AnimState: Omit<AnimState, 'type'>;
@@ -192,6 +279,51 @@ export interface ComponentDataMap {
   Joint3D: Omit<Joint3D, 'type'>;
   KeyBinding: Omit<KeyBinding, 'type'>;
   Launch: Omit<Launch, 'type'>;
+  LifeActionResult: Omit<LifeActionResult, 'type'>;
+  LifeConstructionProject: Omit<LifeConstructionProject, 'type'>;
+  LifeItemCatalog: Omit<LifeItemCatalog, 'type'>;
+  LifeCropCatalog: Omit<LifeCropCatalog, 'type'>;
+  LifeCalendar: Omit<LifeCalendar, 'type'>;
+  LifeCalendarAdvanceResult: Omit<LifeCalendarAdvanceResult, 'type'>;
+  LifeCalendarConfig: Omit<LifeCalendarConfig, 'type'>;
+  LifeTimeAdvanceResult: Omit<LifeTimeAdvanceResult, 'type'>;
+  LifeCrop: Omit<LifeCrop, 'type'>;
+  LifeHarvestActionResult: Omit<LifeHarvestActionResult, 'type'>;
+  LifeMilestoneCatalog: Omit<LifeMilestoneCatalog, 'type'>;
+  LifeMilestoneLedger: Omit<LifeMilestoneLedger, 'type'>;
+  LifeResourceNode: Omit<LifeResourceNode, 'type'>;
+  LifeSelectedTarget: Omit<LifeSelectedTarget, 'type'>;
+  LifeGatherActionResult: Omit<LifeGatherActionResult, 'type'>;
+  LifeDialogueCatalog: Omit<LifeDialogueCatalog, 'type'>;
+  LifeDialogueSession: Omit<LifeDialogueSession, 'type'>;
+  LifeTalkActionResult: Omit<LifeTalkActionResult, 'type'>;
+  LifeQuestCatalog: Omit<LifeQuestCatalog, 'type'>;
+  LifeQuestState: Omit<LifeQuestState, 'type'>;
+  LifeQuestProjection: Omit<LifeQuestProjection, 'type'>;
+  LifeRelationshipCatalog: Omit<LifeRelationshipCatalog, 'type'>;
+  LifeRelationshipState: Omit<LifeRelationshipState, 'type'>;
+  LifeRelationshipProjection: Omit<LifeRelationshipProjection, 'type'>;
+  LifeGiftActionResult: Omit<LifeGiftActionResult, 'type'>;
+  LifePlantActionResult: Omit<LifePlantActionResult, 'type'>;
+  LifeSelectedItem: Omit<LifeSelectedItem, 'type'>;
+  LifeFarmActionResult: Omit<LifeFarmActionResult, 'type'>;
+  LifeFarmPlot: Omit<LifeFarmPlot, 'type'>;
+  LifeActivityContext: Omit<LifeActivityContext, 'type'>;
+  LifeActor: Omit<LifeActor, 'type'>;
+  LifeContinuousMotion: Omit<LifeContinuousMotion, 'type'>;
+  LifeMoveRequest: Omit<LifeMoveRequest, 'type'>;
+  LifePosition: Omit<LifePosition, 'type'>;
+  LifePlacement: Omit<LifePlacement, 'type'>;
+  LifeNpcSchedule: Omit<LifeNpcSchedule, 'type'>;
+  LifePlayerVisual: Omit<LifePlayerVisual, 'type'>;
+  LifeScene: Omit<LifeScene, 'type'>;
+  LifeSpawn: Omit<LifeSpawn, 'type'>;
+  LifeTileCatalog: Omit<LifeTileCatalog, 'type'>;
+  LifeWarp: Omit<LifeWarp, 'type'>;
+  LifeWarpResult: Omit<LifeWarpResult, 'type'>;
+  LifeWarpRequest: Omit<LifeWarpRequest, 'type'>;
+  LifeWorld: Omit<LifeWorld, 'type'>;
+  LifeZone: Omit<LifeZone, 'type'>;
   Light3D: Omit<Light3D, 'type'>;
   Line3D: Omit<Line3D, 'type'>;
   Mass: Omit<Mass, 'type'>;
@@ -219,6 +351,12 @@ export interface ComponentDataMap {
   Path3D: Omit<Path3D, 'type'>;
   PerCardRetrigger: Omit<PerCardRetrigger, 'type'>;
   Post3D: Omit<Post3D, 'type'>;
+  ProgressiveRiskInput: Omit<ProgressiveRiskInput, 'type'>;
+  ProgressiveRiskReceipt: Omit<ProgressiveRiskReceipt, 'type'>;
+  ProgressiveRiskSession: Omit<ProgressiveRiskSession, 'type'>;
+  RiskRevealInput: Omit<RiskRevealInput, 'type'>;
+  RiskRevealReceipt: Omit<RiskRevealReceipt, 'type'>;
+  RiskRevealWheel: Omit<RiskRevealWheel, 'type'>;
   Pickable3D: Omit<Pickable3D, 'type'>;
   Reflector3D: Omit<Reflector3D, 'type'>;
   PerCardRule: Omit<PerCardRule, 'type'>;
@@ -240,6 +378,7 @@ export interface ComponentDataMap {
   Sensor: Omit<Sensor, 'type'>;
   Shape: Omit<Shape, 'type'>;
   Signal: Omit<Signal, 'type'>;
+  OrderedActionSession: Omit<OrderedActionSession, 'type'>;
   Sky3D: Omit<Sky3D, 'type'>;
   Sound: Omit<Sound, 'type'>;
   SpatialIndex: Omit<SpatialIndex, 'type'>;
@@ -259,6 +398,8 @@ export interface ComponentDataMap {
   Tilemap: Omit<Tilemap, 'type'>;
   Timeline: Omit<Timeline, 'type'>;
   TimelinePlayback: Omit<TimelinePlayback, 'type'>;
+  PresentationTrack: Omit<PresentationTrack, 'type'>;
+  PresentationPlayback: Omit<PresentationPlayback, 'type'>;
   Timer: Omit<Timer, 'type'>;
   TimerDone: Omit<TimerDone, 'type'>;
   Transform: Omit<Transform, 'type'>;
@@ -273,11 +414,76 @@ export interface ComponentDataMap {
   Visibility: Omit<Visibility, 'type'>;
   WeightedSpawn: Omit<WeightedSpawn, 'type'>;
   WorldUI3D: Omit<WorldUI3D, 'type'>;
+  WorldUI2D: Omit<WorldUI2D, 'type'>;
   Zone: Omit<Zone, 'type'>;
   DialogueScript: Omit<DialogueScript, 'type'>;
   DialogueAdvance: Omit<DialogueAdvance, 'type'>;
   DialogueChoose: Omit<DialogueChoose, 'type'>;
+  DialogueChoiceResult: Omit<DialogueChoiceResult, 'type'>;
+  NarrativePackage: Omit<NarrativePackage, 'type'>;
+  StoryRuntime: Omit<StoryRuntime, 'type'>;
+  NarrativeProjection: Omit<NarrativeProjection, 'type'>;
+  NarrativeHistory: Omit<NarrativeHistory, 'type'>;
+  NarrativeOutbox: Omit<NarrativeOutbox, 'type'>;
   DuelMatrix: Omit<DuelMatrix, 'type'>;
   DuelIntent: Omit<DuelIntent, 'type'>;
   DuelOutcome: Omit<DuelOutcome, 'type'>;
+
+  // ── 2026-09-14 补登（REQ-111-ENG-04·game111 PE 报，实查发现范围比报的大得多）──────────
+  // 报的是 5 个，实查 28 个：本表长期落后于 registry。凡是「能力在 registry 登了、组件却没登进本表」
+  // 的，游戏在蓝图里**根本写不出那个组件名**（编译期就被闭集牙咬掉），只能退到宿主层手挂——
+  // 数据驱动宣言里最不该出现的形状。为什么一直没人发现：**此前没有任何一道门对这两张表**，
+  // 见文件末尾新增的编译期对账。
+  Armor: Omit<Armor, 'type'>;
+  BlockGrid: Omit<BlockGrid, 'type'>;
+  BlockTrayPiece: Omit<BlockTrayPiece, 'type'>;
+  Bounce: Omit<Bounce, 'type'>;
+  ConveyorQueue: Omit<ConveyorQueue, 'type'>;
+  Cooldowns: Omit<Cooldowns, 'type'>;
+  DamageTable: Omit<DamageTable, 'type'>;
+  DebugTrace: Omit<DebugTrace, 'type'>;
+  DiscreteCombinationInput: Omit<DiscreteCombinationInput, 'type'>;
+  DiscreteCombinationReceipt: Omit<DiscreteCombinationReceipt, 'type'>;
+  DiscreteCombinationSession: Omit<DiscreteCombinationSession, 'type'>;
+  FlowAgent: Omit<FlowAgent, 'type'>;
+  FlowField: Omit<FlowField, 'type'>;
+  Group: Omit<Group, 'type'>;
+  IntentBarrier: Omit<IntentBarrier, 'type'>;
+  IntentInbox: Omit<IntentInbox, 'type'>;
+  Inventory: Omit<Inventory, 'type'>;
+  LineWins: Omit<LineWins, 'type'>;
+  Memory: Omit<Memory, 'type'>;
+  MemoryRules: Omit<MemoryRules, 'type'>;
+  Orbit: Omit<Orbit, 'type'>;
+  Owner: Omit<Owner, 'type'>;
+  PathFollow: Omit<PathFollow, 'type'>;
+  PhysicsWorld3D: Omit<PhysicsWorld3D, 'type'>;
+  PlaceBlockIntent: Omit<PlaceBlockIntent, 'type'>;
+  PullAnchor: Omit<PullAnchor, 'type'>;
+  QueueMember: Omit<QueueMember, 'type'>;
+  QueueSlots: Omit<QueueSlots, 'type'>;
+  SlotMachine: Omit<SlotMachine, 'type'>;
+  TurnOrder: Omit<TurnOrder, 'type'>;
+  Vfx2D: Omit<Vfx2D, 'type'>;
 }
+
+// ── 编译期对账：本表 ⇔ 运行时组件全集，双向逐一相等（REQ-111-ENG-04 的**根因半边**）───────
+//
+// 病史：本表是**手维护**的闭集，而组件全集（component-universe.gen.ts）是从源码**生成**的。
+// 两者之间此前**没有任何一道门**——`build-component-map.test.mjs` 只守「生成物 vs 现算」，
+// registry 只守「能力 id ↔ loader」，谁都不管「组件进没进本表」。于是每下沉一件带新组件的能力，
+// 漏登一次没人知道，攒到 2026-09-14 被 game111 PE 撞上时已经积了 28 个。
+// 症状很隐蔽：门禁全绿、能力也真能跑，只是**游戏层在蓝图里写不出那个组件名**，被迫退回宿主层手挂。
+//
+// 为什么做成类型而不是跑时断言：这张表的价值就在编译期，守它的门也该在编译期——
+// 漏登的那一刻 `tsc` 就报错，并把缺的名字**列在错误信息里**，不必等谁去跑某个测试。
+// `scoped-gate` 任何一档都跑 tsc，所以这道门天然接在推送路径上。
+// 运行时那一半（给出可读清单 + 可撤修验红）在 `component-map.test.ts`。
+type MissingFromMap = Exclude<RuntimeComponentName, keyof ComponentDataMap>;
+type StaleInMap = Exclude<keyof ComponentDataMap, RuntimeComponentName>;
+/** T 必须是 never，否则编译期报错并列出差集。 */
+type AssertEmpty<T extends never> = T;
+/** 漏登：组件在源码里有、本表没登 → 游戏蓝图写不出它。补一行 `Xxx: Omit<Xxx,'type'>;` 即可。 */
+export type _NoMissingComponent = AssertEmpty<MissingFromMap>;
+/** 过期：本表登了一个源码里已不存在的组件 → 删掉那一行（组件被删/改名时咬）。 */
+export type _NoStaleComponent = AssertEmpty<StaleInMap>;

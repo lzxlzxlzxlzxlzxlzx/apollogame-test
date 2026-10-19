@@ -1,7 +1,8 @@
 import { defineCapability } from '@engine/core/define-capability.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
-import type { DicePool, RolledDice, RandomSeed, Signal } from '@engine/protocol/components.js';
+import type { DicePool, RolledDice, Signal } from '@engine/protocol/components.js';
+import { worldSeed, sortedIds } from '@engine/core/query.js';
 import { rollDicePool, applyBanFilter } from './dice.js';
 
 // ═══════════════════════════════════════════════════════════════
@@ -86,11 +87,10 @@ export const diceRollCapability = defineCapability({
         }
         if (signals.size === 0) return;
         // 世界单例 RNG（首个 RandomSeed 实体，同 effect-apply/card-scoring 惯例）。无 RNG → 无法确定性掷 → 静默不掷（fail-closed）。
-        let rng: RandomSeed | undefined;
-        for (const [rid] of world.query('RandomSeed')) { rng = world.getComponent<RandomSeed>(rid, 'RandomSeed'); break; }
+        const rng = worldSeed(world); // 黑板单例（P1b）·统一取法（B-3）
         if (!rng) return;
         // 多骰盅按实体 id 升序依次掷（共用世界 RNG，序列确定）。
-        const poolIds = world.query('DicePool').map(([id]) => id).sort();
+        const poolIds = sortedIds(world, 'DicePool');
         for (const id of poolIds) {
           const pool = world.getComponent<DicePool>(id, 'DicePool');
           if (!pool || !pool.rollOnSignal || !signals.has(pool.rollOnSignal)) continue;

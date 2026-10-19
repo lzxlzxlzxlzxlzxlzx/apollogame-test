@@ -95,7 +95,7 @@ LLM_PROVIDERS = {
     'deepseek': {
         'name': 'DeepSeek',
         'env_key': 'DEEPSEEK_API_KEY',
-        'models': ['deepseek-chat'],
+        'models': ['deepseek-v4-pro', 'deepseek-chat'],
     },
     'local': {
         'name': 'Local (Ollama)',

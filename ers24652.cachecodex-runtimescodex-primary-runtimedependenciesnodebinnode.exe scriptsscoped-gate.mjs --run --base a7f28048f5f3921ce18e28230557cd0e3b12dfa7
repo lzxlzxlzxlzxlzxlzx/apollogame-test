@@ -1,0 +1,38 @@
+warning: in the working copy of 'AGENTS.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/design/game-dice/capability-plan.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/design/game-dice/integration.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/design/game-rhetoric-duel/README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/design/game-rhetoric-duel/self-check/S5-alignment.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/sdk/dice-contracts-v1.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'games/game-dice/game-dice.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'games/game-rhetoric-duel/game-rhetoric-duel.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'games/game-rhetoric-duel/play-field.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'games/game-rhetoric-duel/presentation-controller.test.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'games/game-rhetoric-duel/presentation-controller.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'games/game-rhetoric-duel/presentation.test.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'games/game-rhetoric-duel/presentation.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'games/game-rhetoric-duel/ui.test.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'games/game-rhetoric-duel/ui.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'public/games/game-dice/art/index.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/engine/host/dice-overlay.test.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/engine/host/dice-overlay.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/engine/host/three-dice-overlay.ts', LF will be replaced by CRLF the next time Git touches it
+M	AGENTS.md
+M	docs/design/game-dice/capability-plan.md
+M	docs/design/game-dice/integration.md
+M	docs/design/game-rhetoric-duel/README.md
+M	docs/design/game-rhetoric-duel/self-check/S5-alignment.md
+M	docs/sdk/dice-contracts-v1.md
+M	games/game-dice/game-dice.ts
+M	games/game-rhetoric-duel/game-rhetoric-duel.ts
+M	games/game-rhetoric-duel/play-field.ts
+M	games/game-rhetoric-duel/presentation-controller.test.ts
+M	games/game-rhetoric-duel/presentation-controller.ts
+M	games/game-rhetoric-duel/presentation.test.ts
+M	games/game-rhetoric-duel/presentation.ts
+M	games/game-rhetoric-duel/ui.test.ts
+M	games/game-rhetoric-duel/ui.ts
+M	public/games/game-dice/art/index.json
+M	src/engine/host/dice-overlay.test.ts
+M	src/engine/host/dice-overlay.ts
+M	src/engine/host/three-dice-overlay.ts

@@ -8,7 +8,7 @@
 // 美术管线：台账/生成/替换走美术平台 library 线（manifestFile 已回退到 public/games/<slug>/manifest.json）。
 import { Engine } from '../runtime/engine.js';
 import { CanvasRenderer } from '@renderer/index.js';
-import { QueuedInputSource, canvasPointerToScreen } from '@net/index.js';
+import { QueuedInputSource, canvasPointerToScreen } from '@net/host/index.js';
 import { parseManifest } from '../assembly/manifest.js';
 import { resolveArtRefs } from '../assembly/resolve-art-refs.js';
 import { AssetManager, ImageAssetLoader, parseAssetIndex, registerAssetIndex, artlibRecords } from '@assets/index.js';

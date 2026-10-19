@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "tex/gal-dialogue-panel",
+      "type": "texture",
+      "description": "GAL V2 透明对话框皮；人名和台词由运行时绘制",
+      "status": "filled",
+      "path": "/games/gal-template/art/textures/ui/dialogue-panel-concept-v1.png",
+      "category": "ui.dialogue-skin",
+      "tags": ["gal-template", "ui", "dialogue", "skin"],
+      "source": "Codex built-in imagegen; GAL V2 design handoff",
+      "license": "Owner authorized for ZeroCraft GAL template development; external distribution rights unverified",
+      "spec": {"format": "png", "width": 2172, "height": 724, "transparent": true, "usage": "sprite", "colorSpace": "srgb"},
+      "provenance": {
+        "designSource": "docs/design/galgame/dialogue-panel-concept-v1.png",
+        "sha256": "61e6ba38bfafdde7b7150c786e6b85126b9bf5f26113ed5441025ae525776fd1",
+        "generator": "Codex built-in imagegen",
+        "promptRecord": "not preserved in design handoff",
+        "ownerAuthorization": "2026-10-11: use current demo assets for GAL template",
+        "visualStatus": "pending runtime consumption variant and V2 1:1 QA",
+        "distributionStatus": "unverified"
+      }
+    },
+    {
+      "id": "tex/gal-system-frame",
+      "type": "texture",
+      "description": "GAL V2 系统页面共用外框；设置、存读档、回想和画廊",
+      "status": "filled",
+      "path": "/games/gal-template/art/textures/ui/panel-frame-v1.png",
+      "category": "ui.panel-skin",
+      "tags": ["gal-template", "ui", "panel", "skin"],
+      "source": "Codex built-in imagegen; GAL V2 design handoff",
+      "license": "Owner authorized for ZeroCraft GAL template development; external distribution rights unverified",
+      "spec": {"format": "png", "width": 1536, "height": 1024, "transparent": true, "usage": "sprite", "colorSpace": "srgb"},
+      "provenance": {
+        "designSource": "docs/design/galgame/ui-parts/panel-frame-v1.png",
+        "sha256": "14d66a2d8c9cc97280e91d41daae8c0fbdccd594081539052d3a54dd87e4ae7c",
+        "generator": "Codex built-in imagegen",
+        "promptRecord": "not preserved in design handoff",
+        "ownerAuthorization": "2026-10-11: use current demo assets for GAL template",
+        "visualStatus": "pending runtime consumption variant and V2 1:1 QA",
+        "distributionStatus": "unverified"
+      }
+    },
+    {
+      "id": "tex/gal-button-default",
+      "type": "texture",
+      "description": "GAL V2 菜单、页签与动作键空白皮；按钮文字由运行时绘制",
+      "status": "filled",
+      "path": "/games/gal-template/art/textures/ui/button-default-v1.png",
+      "category": "ui.button-skin",
+      "tags": ["gal-template", "ui", "button", "skin"],
+      "source": "Codex built-in imagegen; GAL V2 design handoff",
+      "license": "Owner authorized for ZeroCraft GAL template development; external distribution rights unverified",
+      "spec": {"format": "png", "width": 2172, "height": 724, "transparent": true, "usage": "sprite", "colorSpace": "srgb"},
+      "provenance": {
+        "designSource": "docs/design/galgame/ui-parts/button-default-v1.png",
+        "sha256": "94a840914dd1fb5cbfb0c32db5f9d22cdbe4d3c19e42d6242c77b37448e7cd9a",
+        "generator": "Codex built-in imagegen",
+        "promptRecord": "not preserved in design handoff",
+        "ownerAuthorization": "2026-10-11: use current demo assets for GAL template",
+        "visualStatus": "pending runtime consumption variant and V2 1:1 QA",
+        "distributionStatus": "unverified"
+      }
+    },
+    {
+      "id": "tex/gal-save-slot",
+      "type": "texture",
+      "description": "GAL V2 紧凑 4×3 存档卡装饰；缩略图和元数据由运行时拼接",
+      "status": "filled",
+      "path": "/games/gal-template/art/textures/ui/save-slot-compact-v2.png",
+      "category": "ui.save-slot-skin",
+      "tags": ["gal-template", "ui", "save", "slot", "skin"],
+      "source": "Codex built-in imagegen; GAL V2 design handoff",
+      "license": "Owner authorized for ZeroCraft GAL template development; external distribution rights unverified",
+      "spec": {"format": "png", "width": 1633, "height": 963, "transparent": true, "usage": "sprite", "colorSpace": "srgb"},
+      "provenance": {
+        "designSource": "docs/design/galgame/ui-parts/save-slot-compact-v2.png",
+        "sha256": "77eec2817b2681308f9b79f28496bebd896595519639e0c51a1120aa6067ab51",
+        "generator": "Codex built-in imagegen",
+        "prompt": "约 1.7:1 的单个紧凑存档卡，透明外部，上部留缩略图、下部留元数据，深靛/珍珠金/月亮花饰，无烘焙文字",
+        "ownerAuthorization": "2026-10-11: use current demo assets for GAL template",
+        "visualStatus": "pending runtime consumption variant and V2 1:1 QA",
+        "distributionStatus": "unverified"
+      }
+    },
+    {
+      "id": "tex/gal-slider-knob",
+      "type": "texture",
+      "description": "GAL V2 月石滑杆手柄",
+      "status": "filled",
+      "path": "/games/gal-template/art/textures/ui/moonstone-knob-v1.png",
+      "category": "ui.slider-knob",
+      "tags": ["gal-template", "ui", "slider", "knob"],
+      "source": "Codex built-in imagegen; GAL V2 design handoff",
+      "license": "Owner authorized for ZeroCraft GAL template development; external distribution rights unverified",
+      "spec": {"format": "png", "width": 1265, "height": 1243, "transparent": true, "usage": "sprite", "colorSpace": "srgb"},
+      "provenance": {
+        "designSource": "docs/design/galgame/ui-parts/moonstone-knob-v1.png",
+        "sha256": "2d4b9188d2889da7519904bc5cd2a9fe0f85dcf031e2a9ad3b19b044c32569a7",
+        "generator": "Codex built-in imagegen",
+        "promptRecord": "not preserved in design handoff",
+        "ownerAuthorization": "2026-10-11: use current demo assets for GAL template",
+        "visualStatus": "pending runtime consumption variant and V2 1:1 QA",
+        "distributionStatus": "unverified"
+      }
+    },
+    {
+      "id": "tex/gal-demo-backdrop",
+      "type": "texture",
+      "description": "GAL 模板演示用月夜温室与湖畔背景；非首作正式背景",
+      "status": "filled",
+      "path": "/games/gal-template/art/textures/demo/moonlit-backdrop-v2.png",
+      "category": "background",
+      "tags": ["gal-template", "demo", "background", "moonlit"],
+      "source": "Codex built-in imagegen; GAL V2 design handoff",
+      "license": "Owner authorized for ZeroCraft GAL template development; external distribution rights unverified",
+      "spec": {"format": "png", "width": 1586, "height": 992, "transparent": false, "usage": "sprite", "colorSpace": "srgb"},
+      "provenance": {
+        "designSource": "docs/design/galgame/ui-parts/moonlit-backdrop-v2.png",
+        "sha256": "01343fe626b497162086a381cc0a5447353eb362fed6a4710d061a01ee3f3eb1",
+        "generator": "Codex built-in imagegen",
+        "prompt": "月夜学院温室与湖畔的背景-only 手绘场景，无人物、文字或 UI，中心/底部给叠层留空间",
+        "ownerAuthorization": "2026-10-11: use current demo assets for GAL template",
+        "contentStatus": "demo placeholder; no first-game story approval",
+        "distributionStatus": "unverified"
+      }
+    },
+    {
+      "id": "tex/gal-demo-portrait",
+      "type": "texture",
+      "description": "GAL 模板演示用成年女性立绘；非首作正式角色",
+      "status": "filled",
+      "path": "/games/gal-template/art/textures/demo/demo-portrait-v2.png",
+      "category": "character.portrait",
+      "tags": ["gal-template", "demo", "portrait", "character"],
+      "source": "Codex built-in imagegen; GAL V2 design handoff",
+      "license": "Owner authorized for ZeroCraft GAL template development; external distribution rights unverified",
+      "spec": {"format": "png", "width": 1024, "height": 1536, "transparent": true, "usage": "sprite", "colorSpace": "srgb"},
+      "provenance": {
+        "designSource": "docs/design/galgame/ui-parts/demo-portrait-v2.png",
+        "sha256": "53cea5573d1797e3542dc8da52341dd55c424553440ea9c8d1c392689ade1760",
+        "generator": "Codex built-in imagegen",
+        "prompt": "深紫发成年女性学院服三分之二身演示立绘，真实透明外部，无背景/文字",
+        "ownerAuthorization": "2026-10-11: use current demo assets for GAL template",
+        "contentStatus": "demo placeholder; no first-game character approval",
+        "distributionStatus": "unverified"
+      }
+    },
+    {
+      "id": "tex/gal-demo-cg",
+      "type": "texture",
+      "description": "GAL 模板演示用月夜旧书 CG；非首作正式 CG",
+      "status": "filled",
+      "path": "/games/gal-template/art/textures/demo/demo-cg-v2.png",
+      "category": "cg",
+      "tags": ["gal-template", "demo", "cg", "moonlit"],
+      "source": "Codex built-in imagegen; GAL V2 design handoff",
+      "license": "Owner authorized for ZeroCraft GAL template development; external distribution rights unverified",
+      "spec": {"format": "png", "width": 1672, "height": 941, "transparent": false, "usage": "sprite", "colorSpace": "srgb"},
+      "provenance": {
+        "designSource": "docs/design/galgame/ui-parts/demo-cg-v2.png",
+        "sha256": "eb6071c404953185e400637a112c09ae6c80613c9de39671dd734ae6c8dcfc69",
+        "generator": "Codex built-in imagegen",
+        "prompt": "月夜温室中同风格成年女性翻开微光旧书的独立 16:9 CG，无 UI 或文字",
+        "ownerAuthorization": "2026-10-11: use current demo assets for GAL template",
+        "contentStatus": "demo placeholder; no first-game CG approval",
+        "distributionStatus": "unverified"
+      }
+    }
+  ]
+}

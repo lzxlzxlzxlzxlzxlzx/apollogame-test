@@ -1,6 +1,7 @@
 node_modules/
 dist/
 dist-cartridge/
+dist-gal/
 platform-dist/
 release/
 apollo-*-rk3562.html

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>月影城堡 · 第一章剧情审阅</title>
+<style>
+  :root{--ink:#251b35;--paper:#fbf4e4;--violet:#4a2c6d;--moon:#f5d96d;--mint:#9bd5bc;--line:#866d9d}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#4c356d,#171326 62%);color:var(--ink);font-family:"Microsoft YaHei",sans-serif}.page{max-width:1320px;margin:auto;padding:36px 28px 64px}.mast{background:var(--paper);border:4px solid var(--moon);border-radius:22px;padding:24px 30px;box-shadow:0 12px 0 #271b3c}.eyebrow{color:#7b5a9d;font-weight:800;letter-spacing:.16em}h1{margin:6px 0;font-size:36px;color:var(--violet)}.mast p{margin:0;font-size:17px}.legend{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}.tag{padding:7px 11px;border-radius:99px;background:#ede2cb;font-weight:700}.tag.flag{background:#d7eddc}.tag.actor{background:#ddd3f3}.story{display:grid;grid-template-columns:1fr 74px 1fr 74px 1fr;align-items:stretch;margin-top:20px}.node{background:var(--paper);border:3px solid var(--moon);border-radius:18px;padding:22px;min-height:320px;box-shadow:0 8px 0 #281a3c}.step{color:#936b20;font-weight:900;letter-spacing:.1em}.node h2{margin:7px 0 10px;color:var(--violet)}.objective{font-weight:700;font-size:17px;line-height:1.6}.build{background:#e8d5a4;padding:9px;border-radius:9px;font-family:Consolas,monospace;margin:16px 0}.outcomes{border-top:1px dashed #b59cc5;padding-top:10px;line-height:1.75}.arrow{align-self:center;text-align:center;color:#f9e58b;font-size:44px;text-shadow:0 2px #3a2453}.talks{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:28px}.talk{background:#eee7fb;border:2px solid #b29ad2;border-radius:16px;padding:18px}.talk h3{margin:0 0 8px;color:var(--violet)}.talk ul{padding-left:20px;line-height:1.7;margin:0}.note{background:#d7eddc;border-left:7px solid #3b8c70;margin-top:24px;padding:14px 18px;border-radius:8px;line-height:1.65}@media(max-width:860px){.story{grid-template-columns:1fr;gap:14px}.arrow{transform:rotate(90deg);height:38px}.talks{grid-template-columns:1fr}}
+</style>
+</head>
+<body><main class="page">
+  <section class="mast"><div class="eyebrow">PLOT SLICE · OWNER REVIEW</div><h1>第一章：月影归城</h1><p>三个已批准的固定点建设动作，依次推进同一条严格 Quest 图；所有状态变化来自通用 <code>life-action: build</code>。</p></section>
+  <div class="legend"><span class="tag">触发：成功建设</span><span class="tag flag">结果：写入剧情 flag</span><span class="tag actor">附带：NPC 关系规则结算</span><span class="tag">素材仍待 Assets 阶段审批</span></div>
+  <section class="story">
+    <article class="node"><div class="step">节点 01 · 初始 active</div><h2>点亮王座厅</h2><div class="objective">收集 2 月木 + 1 影矿，修复庭院中的王座厅。</div><div class="build">build → throne-hall</div><div class="outcomes">✓ <code>flag.throne-lit = true</code><br>✓ 解锁「修复月庭温室」<br>♥ 石像鬼 +10；月井使者 +5</div></article><div class="arrow">→</div>
+    <article class="node"><div class="step">节点 02 · flag 条件</div><h2>修复月庭温室</h2><div class="objective">种出 2 月铃花，连同 1 月木修复温室。</div><div class="build">build → greenhouse-ruin<br>requires throne-lit</div><div class="outcomes">✓ <code>flag.greenhouse-restored = true</code><br>✓ 解锁「唤醒地底熔炉」<br>♥ 月井使者 +12</div></article><div class="arrow">→</div>
+    <article class="node"><div class="step">节点 03 · 章节终点</div><h2>唤醒地底熔炉</h2><div class="objective">提交 2 影矿 + 1 月木，让城堡恢复建造能力。</div><div class="build">build → forge-core<br>requires greenhouse-restored</div><div class="outcomes">✓ <code>flag.forge-awakened = true</code><br>✓ Quest 完成；雾门为后续章节预留<br>♥ 石像鬼 +15</div></article>
+  </section>
+  <section class="talks"><article class="talk"><h3>石像鬼工匠 · 条件对话</h3><ul><li>默认：王座厅的材料提示</li><li><code>throne-lit</code>：温室材料提示</li><li><code>greenhouse-restored</code>：熔炉材料提示</li></ul></article><article class="talk"><h3>月井使者 · 条件对话</h3><ul><li>默认：城堡沉睡的缘由</li><li><code>throne-lit</code>：灯火召回旧臣的承诺</li><li><code>forge-awakened</code>：北方雾门的后续方向</li></ul></article></section>
+  <aside class="note"><strong>审阅范围：</strong>本页是由 <code>plot.patch.json</code> 映射的可读图，不是运行时 UI。请确认三步叙事顺序、材料门槛、flag 解锁、NPC 好感反馈与对话口吻；批准后才进入素材候选与审批队列。</aside>
+</main></body></html>

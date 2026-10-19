@@ -2,6 +2,7 @@ import { defineCapability } from '@engine/core/define-capability.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { BlockGrid, BlockTrayPiece, PlaceBlockIntent, InputQueue, Transform, Shape } from '@engine/protocol/components.js';
+import { cellNearest } from '@engine/math/grid.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  grid-drag-square —— 方形网格拖放输入桥（REQ-CAP-grid-drag-square；Block Blast 核心机制②）。
@@ -22,10 +23,7 @@ import type { BlockGrid, BlockTrayPiece, PlaceBlockIntent, InputQueue, Transform
 
 /** 世界点吸附到方格：origin 为格 (0,0) 中心、cellSize 为边长 → 最近格 (col,row)。纯函数·导出供单测。 */
 export function squarePointToCell(originX: number, originY: number, cellSize: number, x: number, y: number): { col: number; row: number } {
-  return {
-    col: Math.round((x - originX) / cellSize),
-    row: Math.round((y - originY) / cellSize),
-  };
+  return cellNearest(x, y, originX, originY, cellSize);
 }
 
 // 命中托盘块（多块按 id 升序首中，确定）：起点落在某 BlockTrayPiece 实体的 Shape 命中体内。

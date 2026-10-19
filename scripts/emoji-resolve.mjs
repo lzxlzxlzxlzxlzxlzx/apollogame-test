@@ -91,4 +91,4 @@ function run(argv) {
   console.log(JSON.stringify(resolveEmoji(arg), null, 2)); // 单字符
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) run(process.argv.slice(2));
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) run(process.argv.slice(2));

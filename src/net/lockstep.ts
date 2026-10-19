@@ -1,7 +1,7 @@
 import type { World } from '@engine/core/world.js';
 import type { Command } from './commands.js';
 import { applyCommands } from './commands.js';
-import { hashSnapshot } from './determinism.js';
+import { hashWorld } from './world-hash.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  Lockstep 会话 — 内存版"多个对端"传输层
@@ -59,7 +59,7 @@ export class LockstepSession {
   private report(): StepReport {
     const peers: PeerHash[] = this.peers.map((p) => ({
       id: p.id,
-      hash: hashSnapshot(p.world.snapshot()),
+      hash: hashWorld(p.world), // P2c 增量·同值
     }));
     const first = peers[0].hash;
     const inSync = peers.every((p) => p.hash === first);

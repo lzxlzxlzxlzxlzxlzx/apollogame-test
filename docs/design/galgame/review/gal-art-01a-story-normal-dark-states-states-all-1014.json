@@ -1,0 +1,279 @@
+[
+  {
+    "id": "gal-story-history",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(16, 26, 54, 0.81)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(232, 232, 244)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgb(83, 92, 145)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.07)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgb(65, 75, 124)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(0.9)",
+      "transform": "matrix(1, 0, 0, 1, 0, 1)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-story-voice-replay",
+    "disabled": true,
+    "base": {
+      "background": "rgba(16, 26, 54, 0.36)",
+      "border": "rgba(228, 214, 170, 0.32)",
+      "color": "rgb(171, 176, 194)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-story-auto",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(16, 26, 54, 0.81)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(232, 232, 244)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgb(83, 92, 145)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.07)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgb(65, 75, 124)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(0.9)",
+      "transform": "matrix(1, 0, 0, 1, 0, 1)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-story-skip",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(16, 26, 54, 0.81)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(232, 232, 244)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgb(83, 92, 145)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.07)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgb(65, 75, 124)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(0.9)",
+      "transform": "matrix(1, 0, 0, 1, 0, 1)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-story-save",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(16, 26, 54, 0.81)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(232, 232, 244)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgb(83, 92, 145)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.07)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgb(65, 75, 124)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(0.9)",
+      "transform": "matrix(1, 0, 0, 1, 0, 1)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-story-load",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(16, 26, 54, 0.81)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(232, 232, 244)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgb(83, 92, 145)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.07)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgb(65, 75, 124)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(0.9)",
+      "transform": "matrix(1, 0, 0, 1, 0, 1)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-story-settings",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(16, 26, 54, 0.81)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(232, 232, 244)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgb(83, 92, 145)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.07)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgb(65, 75, 124)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(0.9)",
+      "transform": "matrix(1, 0, 0, 1, 0, 1)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-story-home",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(16, 26, 54, 0.81)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(232, 232, 244)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgb(83, 92, 145)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.07)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgb(65, 75, 124)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(0.9)",
+      "transform": "matrix(1, 0, 0, 1, 0, 1)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-story-advance",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(255, 255, 255, 0.03)",
+      "border": "rgba(232, 205, 138, 0.24)",
+      "color": "rgb(126, 140, 155)",
+      "filter": "none",
+      "transform": "matrix(1, 0, 0, 1, 0, 4)",
+      "shadow": "none",
+      "opacity": "0.35"
+    },
+    "hover": {
+      "background": "rgba(255, 255, 255, 0.03)",
+      "border": "rgba(232, 205, 138, 0.24)",
+      "color": "rgb(126, 140, 155)",
+      "filter": "brightness(1.07)",
+      "transform": "matrix(1, 0, 0, 1, 0, 4)",
+      "shadow": "none",
+      "opacity": "0.35"
+    },
+    "pressed": {
+      "background": "rgba(255, 255, 255, 0.03)",
+      "border": "rgba(232, 205, 138, 0.24)",
+      "color": "rgb(126, 140, 155)",
+      "filter": "brightness(0.9)",
+      "transform": "matrix(1, 0, 0, 1, 0, 4)",
+      "shadow": "none",
+      "opacity": "0.35"
+    }
+  }
+]

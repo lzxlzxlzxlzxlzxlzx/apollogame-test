@@ -1,0 +1,2703 @@
+{
+  "schema": 1,
+  "meta": {
+    "tickRate": 60
+  },
+  "presentation": {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "theme": "apolloOnyx",
+    "pointerFeedback": {
+      "tone": "gold",
+      "pressedMs": 145
+    },
+    "flags": {
+      "flow.idle": {
+        "kind": "flow-is",
+        "id": "investigation",
+        "value": "scene-idle"
+      },
+      "flow.flavor": {
+        "kind": "flow-is",
+        "id": "investigation",
+        "value": "flavor-result"
+      },
+      "flow.reveal": {
+        "kind": "flow-is",
+        "id": "investigation",
+        "value": "clue-reveal"
+      },
+      "flow.collected": {
+        "kind": "flow-is",
+        "id": "investigation",
+        "value": "clue-collected"
+      },
+      "flow.completed": {
+        "kind": "flow-is",
+        "id": "investigation",
+        "value": "completed"
+      },
+      "flow.exit": {
+        "kind": "flow-is",
+        "id": "investigation",
+        "value": "exit-confirm"
+      },
+      "flow.cancelled": {
+        "kind": "flow-is",
+        "id": "investigation",
+        "value": "cancelled"
+      },
+      "selected.lock": {
+        "kind": "resource-equals",
+        "id": "selected-object",
+        "value": 1
+      },
+      "selected.shelf": {
+        "kind": "resource-equals",
+        "id": "selected-object",
+        "value": 2
+      },
+      "selected.clock": {
+        "kind": "resource-equals",
+        "id": "selected-object",
+        "value": 3
+      },
+      "selected.cup": {
+        "kind": "resource-equals",
+        "id": "selected-object",
+        "value": 4
+      },
+      "selected.rug": {
+        "kind": "resource-equals",
+        "id": "selected-object",
+        "value": 5
+      },
+      "selected.prints": {
+        "kind": "resource-equals",
+        "id": "selected-object",
+        "value": 6
+      },
+      "selected.letter": {
+        "kind": "resource-equals",
+        "id": "selected-object",
+        "value": 7
+      }
+    },
+    "shortcuts": [
+      {
+        "key": "Escape",
+        "action": "investigation.close",
+        "when": "flow.flavor"
+      },
+      {
+        "key": "Escape",
+        "action": "investigation.close",
+        "when": "flow.reveal"
+      },
+      {
+        "key": "Escape",
+        "action": "investigation.exit",
+        "when": "flow.idle"
+      }
+    ],
+    "focusTargets": [
+      {
+        "entity": "object-lock",
+        "label": "调查：破损窗锁",
+        "action": "investigate.lock",
+        "when": "flow.idle"
+      },
+      {
+        "entity": "object-shelf",
+        "label": "调查：旧书架",
+        "action": "investigate.shelf",
+        "when": "flow.idle"
+      },
+      {
+        "entity": "object-clock",
+        "label": "调查：挂钟",
+        "action": "investigate.clock",
+        "when": "flow.idle"
+      },
+      {
+        "entity": "object-cup",
+        "label": "调查：冷茶杯",
+        "action": "investigate.cup",
+        "when": "flow.idle"
+      },
+      {
+        "entity": "object-rug",
+        "label": "调查：褪色地毯",
+        "action": "investigate.rug",
+        "when": "flow.idle"
+      },
+      {
+        "entity": "object-prints",
+        "label": "调查：桌上湿脚印",
+        "action": "investigate.prints",
+        "when": "flow.idle"
+      },
+      {
+        "entity": "object-letter",
+        "label": "调查：半烧毁信件",
+        "action": "investigate.letter",
+        "when": "flow.idle"
+      }
+    ],
+    "ui": {
+      "type": "Panel",
+      "id": "investigation-ui",
+      "props": {
+        "bare": true
+      },
+      "layout": {
+        "width": 1440,
+        "height": 900
+      },
+      "children": [
+        {
+          "type": "Panel",
+          "id": "case-heading",
+          "props": {
+            "bg": "ink",
+            "edge": "gold",
+            "glass": true
+          },
+          "layout": {
+            "x": 42,
+            "y": 36,
+            "width": 392,
+            "height": 138,
+            "padding": 16,
+            "direction": "column",
+            "gap": 5
+          },
+          "children": [
+            {
+              "type": "Label",
+              "id": "case-eyebrow",
+              "props": {
+                "text": "CASE / 07 · 现场调查",
+                "size": 14,
+                "color": "text",
+                "font": "ui"
+              }
+            },
+            {
+              "type": "Label",
+              "id": "case-title",
+              "props": {
+                "text": "雨夜档案室",
+                "size": "xxl",
+                "color": "text",
+                "bold": true,
+                "font": "cnwen"
+              }
+            },
+            {
+              "type": "Label",
+              "id": "case-goal",
+              "props": {
+                "text": "目标：找出入侵者留下的两项必要证物。",
+                "size": "md",
+                "color": "text"
+              }
+            }
+          ]
+        },
+        {
+          "type": "Panel",
+          "id": "case-progress",
+          "props": {
+            "bg": "ink",
+            "edge": "gold",
+            "glass": true
+          },
+          "layout": {
+            "x": 1192,
+            "y": 36,
+            "width": 206,
+            "height": 124,
+            "padding": 12,
+            "direction": "column",
+            "gap": 5
+          },
+          "children": [
+            {
+              "type": "Label",
+              "id": "progress-title",
+              "props": {
+                "text": "必需线索进度",
+                "size": "sm",
+                "color": "text"
+              }
+            },
+            {
+              "type": "Panel",
+              "id": "progress-count-row",
+              "props": {
+                "bare": true
+              },
+              "layout": {
+                "direction": "row",
+                "gap": 4,
+                "align": "center"
+              },
+              "children": [
+                {
+                  "type": "Label",
+                  "id": "progress-count",
+                  "props": {
+                    "bind": "required-collected",
+                    "size": "xxxl",
+                    "color": "text",
+                    "bold": true,
+                    "font": "cnwen"
+                  }
+                },
+                {
+                  "type": "Label",
+                  "id": "progress-total",
+                  "props": {
+                    "text": " / 2",
+                    "size": "xl",
+                    "color": "text",
+                    "font": "cnwen"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "ProgressBar",
+              "id": "progress-bar",
+              "props": {
+                "value": 0,
+                "max": 2,
+                "bind": "required-collected",
+                "tone": "gold",
+                "barHeight": 7
+              },
+              "layout": {
+                "width": 180
+              }
+            }
+          ]
+        },
+        {
+          "type": "Panel",
+          "id": "clue-ledger",
+          "visibleWhen": "records-open",
+          "props": {
+            "bg": "ink",
+            "edge": "gold",
+            "glass": true
+          },
+          "layout": {
+            "x": 42,
+            "y": 726,
+            "width": 300,
+            "height": 132,
+            "padding": 12,
+            "direction": "column",
+            "gap": 3
+          },
+          "children": [
+            {
+              "type": "Button",
+              "id": "ledger-title",
+              "props": {
+                "label": "▾ 线索清单",
+                "kind": "quiet",
+                "action": "records.close",
+                "labelColor": "text"
+              },
+              "layout": {
+                "width": 136,
+                "height": 30
+              }
+            },
+            {
+              "type": "Label",
+              "id": "ledger-lock-pending",
+              "visibleWhen": "!collected.lock",
+              "props": {
+                "text": "破损窗锁 · 未收录",
+                "size": "sm",
+                "color": "sub"
+              }
+            },
+            {
+              "type": "Label",
+              "id": "ledger-lock-found",
+              "visibleWhen": "collected.lock",
+              "props": {
+                "text": "破损窗锁 · 已收录",
+                "size": "sm",
+                "color": "gold"
+              }
+            },
+            {
+              "type": "Label",
+              "id": "ledger-prints-pending",
+              "visibleWhen": "!collected.prints",
+              "props": {
+                "text": "桌上湿脚印 · 未收录",
+                "size": "sm",
+                "color": "sub"
+              }
+            },
+            {
+              "type": "Label",
+              "id": "ledger-prints-found",
+              "visibleWhen": "collected.prints",
+              "props": {
+                "text": "桌上湿脚印 · 已收录",
+                "size": "sm",
+                "color": "gold"
+              }
+            },
+            {
+              "type": "Label",
+              "id": "ledger-letter-pending",
+              "visibleWhen": "!collected.letter",
+              "props": {
+                "text": "半烧毁信件 · 可选",
+                "size": "sm",
+                "color": "sub"
+              }
+            },
+            {
+              "type": "Label",
+              "id": "ledger-letter-found",
+              "visibleWhen": "collected.letter",
+              "props": {
+                "text": "半烧毁信件 · 已收录",
+                "size": "sm",
+                "color": "sub"
+              }
+            }
+          ]
+        },
+        {
+          "type": "Panel",
+          "id": "case-utility",
+          "visibleWhen": "flow.idle",
+          "props": {
+            "bg": "ink",
+            "edge": "gold",
+            "glass": true
+          },
+          "layout": {
+            "x": 1184,
+            "y": 798,
+            "width": 214,
+            "height": 60,
+            "padding": 8,
+            "direction": "row",
+            "gap": 8
+          },
+          "children": [
+            {
+              "type": "Button",
+              "id": "view-records",
+              "props": {
+                "label": "查看记录",
+                "kind": "ghost",
+                "action": "records.open"
+              },
+              "layout": {
+                "width": 94,
+                "height": 44
+              }
+            },
+            {
+              "type": "Button",
+              "id": "exit-investigation",
+              "props": {
+                "label": "退出调查",
+                "kind": "ghost",
+                "action": "investigation.exit"
+              },
+              "layout": {
+                "width": 94,
+                "height": 44
+              }
+            }
+          ]
+        },
+        {
+          "type": "Panel",
+          "id": "flavor-archive",
+          "visibleWhen": "flow.flavor",
+          "props": {
+            "bg": "ink",
+            "edge": "gold",
+            "glass": true
+          },
+          "layout": {
+            "x": 0,
+            "y": 722,
+            "width": 1440,
+            "height": 178,
+            "padding": 28,
+            "direction": "column",
+            "gap": 10,
+            "transformMotionMs": 220,
+            "transformFrom": {
+              "y": 744
+            }
+          },
+          "children": [
+            {
+              "type": "Label",
+              "id": "flavor-shelf-title",
+              "visibleWhen": "selected.shelf",
+              "props": {
+                "text": "现场记录 · 旧书架",
+                "size": "lg",
+                "color": "text",
+                "bold": true,
+                "font": "cnwen"
+              }
+            },
+            {
+              "type": "Label",
+              "id": "flavor-clock-title",
+              "visibleWhen": "selected.clock",
+              "props": {
+                "text": "现场记录 · 挂钟",
+                "size": "lg",
+                "color": "text",
+                "bold": true,
+                "font": "cnwen"
+              }
+            },
+            {
+              "type": "Label",
+              "id": "flavor-cup-title",
+              "visibleWhen": "selected.cup",
+              "props": {
+                "text": "现场记录 · 冷茶杯",
+                "size": "lg",
+                "color": "text",
+                "bold": true,
+                "font": "cnwen"
+              }
+            },
+            {
+              "type": "Label",
+              "id": "flavor-rug-title",
+              "visibleWhen": "selected.rug",
+              "props": {
+                "text": "现场记录 · 褪色地毯",
+                "size": "lg",
+                "color": "text",
+                "bold": true,
+                "font": "cnwen"
+              }
+            },
+            {
+              "type": "Label",
+              "id": "flavor-shelf",
+              "visibleWhen": "selected.shelf",
+              "props": {
+                "text": "书脊上有不久前留下的擦痕。",
+                "size": "lg",
+                "color": "text"
+              }
+            },
+            {
+              "type": "Label",
+              "id": "flavor-clock",
+              "visibleWhen": "selected.clock",
+              "props": {
+                "text": "钟摆停在 23:17，玻璃上有薄雾。",
+                "size": "lg",
+                "color": "text"
+              }
+            },
+            {
+              "type": "Label",
+              "id": "flavor-cup",
+              "visibleWhen": "selected.cup",
+              "props": {
+                "text": "杯沿留着一圈未干的水痕。",
+                "size": "lg",
+                "color": "text"
+              }
+            },
+            {
+              "type": "Label",
+              "id": "flavor-rug",
+              "visibleWhen": "selected.rug",
+              "props": {
+                "text": "边缘被匆忙掀起过。",
+                "size": "lg",
+                "color": "text"
+              }
+            },
+            {
+              "type": "Button",
+              "id": "flavor-continue",
+              "props": {
+                "label": "继续调查",
+                "kind": "hero",
+                "action": "investigation.close",
+                "labelColor": {
+                  "custom": "#0C1711"
+                }
+              },
+              "layout": {
+                "x": 1150,
+                "y": 94,
+                "width": 210,
+                "height": 58
+              }
+            }
+          ]
+        },
+        {
+          "type": "Modal",
+          "id": "clue-reveal-modal",
+          "visibleWhen": "flow.reveal",
+          "props": {
+            "title": "EVIDENCE / 现场证物",
+            "titleColor": "text",
+            "size": "xl",
+            "closeAction": "investigation.close"
+          },
+          "layout": {
+            "allowOverlap": true
+          },
+          "children": [
+            {
+              "type": "Panel",
+              "id": "evidence-structure",
+              "props": {
+                "bg": {
+                  "custom": "#D2C098"
+                },
+                "edge": "gold",
+                "shadow": {
+                  "y": 8,
+                  "color": "ink"
+                }
+              },
+              "layout": {
+                "direction": "column",
+                "gap": 14,
+                "padding": 8,
+                "radius": 2,
+                "transformMotionMs": 240,
+                "transformFrom": {
+                  "y": 22
+                }
+              },
+              "children": [
+                {
+                  "type": "Panel",
+                  "id": "evidence-heading",
+                  "props": {
+                    "bare": true
+                  },
+                  "layout": {
+                    "direction": "column",
+                    "gap": 2
+                  },
+                  "children": [
+                    {
+                      "type": "Label",
+                      "id": "evidence-lock-title",
+                      "visibleWhen": "selected.lock",
+                      "props": {
+                        "text": "破损窗锁",
+                        "size": "xxl",
+                        "color": {
+                          "custom": "#372A1E"
+                        },
+                        "bold": true,
+                        "font": "cnwen"
+                      }
+                    },
+                    {
+                      "type": "Label",
+                      "id": "evidence-prints-title",
+                      "visibleWhen": "selected.prints",
+                      "props": {
+                        "text": "桌上湿脚印",
+                        "size": "xxl",
+                        "color": {
+                          "custom": "#372A1E"
+                        },
+                        "bold": true,
+                        "font": "cnwen"
+                      }
+                    },
+                    {
+                      "type": "Label",
+                      "id": "evidence-letter-title",
+                      "visibleWhen": "selected.letter",
+                      "props": {
+                        "text": "半烧毁信件",
+                        "size": "xxl",
+                        "color": {
+                          "custom": "#372A1E"
+                        },
+                        "bold": true,
+                        "font": "cnwen"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "Panel",
+                  "id": "evidence-image-slot",
+                  "props": {
+                    "bg": {
+                      "custom": "#233B3D"
+                    },
+                    "edge": "gold",
+                    "pattern": "stripe"
+                  },
+                  "layout": {
+                    "width": 710,
+                    "height": 274,
+                    "align": "center",
+                    "justify": "center"
+                  },
+                  "children": [
+                    {
+                      "type": "Image",
+                      "id": "evidence-lock-image",
+                      "visibleWhen": "selected.lock",
+                      "props": {
+                        "src": "asset:game-clue-investigation/object/lock",
+                        "alt": "破损窗锁",
+                        "fit": "contain"
+                      },
+                      "layout": {
+                        "width": 708,
+                        "height": 272
+                      }
+                    },
+                    {
+                      "type": "Image",
+                      "id": "evidence-prints-image",
+                      "visibleWhen": "selected.prints",
+                      "props": {
+                        "src": "asset:game-clue-investigation/object/prints",
+                        "alt": "桌上湿脚印",
+                        "fit": "contain"
+                      },
+                      "layout": {
+                        "width": 708,
+                        "height": 272
+                      }
+                    },
+                    {
+                      "type": "Image",
+                      "id": "evidence-letter-image",
+                      "visibleWhen": "selected.letter",
+                      "props": {
+                        "src": "asset:game-clue-investigation/object/letter",
+                        "alt": "半烧毁信件",
+                        "fit": "contain"
+                      },
+                      "layout": {
+                        "width": 708,
+                        "height": 272
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "Panel",
+                  "id": "evidence-description",
+                  "props": {
+                    "bare": true
+                  },
+                  "layout": {
+                    "direction": "column",
+                    "gap": 2
+                  },
+                  "children": [
+                    {
+                      "type": "Label",
+                      "id": "evidence-lock-text",
+                      "visibleWhen": "selected.lock",
+                      "props": {
+                        "text": "锁扣内侧有新鲜撬痕。有人从室内先松开了它。",
+                        "size": "lg",
+                        "color": {
+                          "custom": "#372A1E"
+                        }
+                      }
+                    },
+                    {
+                      "type": "Label",
+                      "id": "evidence-prints-text",
+                      "visibleWhen": "selected.prints",
+                      "props": {
+                        "text": "鞋底纹沾着窗边的泥水，方向直指书桌。",
+                        "size": "lg",
+                        "color": {
+                          "custom": "#372A1E"
+                        }
+                      }
+                    },
+                    {
+                      "type": "Label",
+                      "id": "evidence-letter-text",
+                      "visibleWhen": "selected.letter",
+                      "props": {
+                        "text": "残留日期与陌生署名；它不改变必需证物的数量。",
+                        "size": "lg",
+                        "color": {
+                          "custom": "#372A1E"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "Panel",
+                  "id": "evidence-actions",
+                  "props": {
+                    "bare": true
+                  },
+                  "layout": {
+                    "direction": "row",
+                    "gap": 12,
+                    "justify": "end"
+                  },
+                  "children": [
+                    {
+                      "type": "Panel",
+                      "id": "lock-collect-controls",
+                      "visibleWhen": "selected.lock",
+                      "props": {
+                        "bare": true
+                      },
+                      "children": [
+                        {
+                          "type": "Button",
+                          "id": "lock-collect",
+                          "visibleWhen": "!collected.lock",
+                          "props": {
+                            "label": "收录线索",
+                            "kind": "hero",
+                            "action": "clue.collect",
+                            "labelColor": {
+                              "custom": "#0C1711"
+                            }
+                          },
+                          "layout": {
+                            "width": 225,
+                            "height": 58,
+                            "fx": [
+                              {
+                                "kind": "sheen-hover"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "type": "Label",
+                          "id": "lock-already-collected",
+                          "visibleWhen": "collected.lock",
+                          "props": {
+                            "text": "已收录 · 回看中",
+                            "size": "md",
+                            "color": {
+                              "custom": "#284A3B"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Panel",
+                      "id": "prints-collect-controls",
+                      "visibleWhen": "selected.prints",
+                      "props": {
+                        "bare": true
+                      },
+                      "children": [
+                        {
+                          "type": "Button",
+                          "id": "prints-collect",
+                          "visibleWhen": "!collected.prints",
+                          "props": {
+                            "label": "收录线索",
+                            "kind": "hero",
+                            "action": "clue.collect",
+                            "labelColor": {
+                              "custom": "#0C1711"
+                            }
+                          },
+                          "layout": {
+                            "width": 225,
+                            "height": 58,
+                            "fx": [
+                              {
+                                "kind": "sheen-hover"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "type": "Label",
+                          "id": "prints-already-collected",
+                          "visibleWhen": "collected.prints",
+                          "props": {
+                            "text": "已收录 · 回看中",
+                            "size": "md",
+                            "color": {
+                              "custom": "#284A3B"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Panel",
+                      "id": "letter-collect-controls",
+                      "visibleWhen": "selected.letter",
+                      "props": {
+                        "bare": true
+                      },
+                      "children": [
+                        {
+                          "type": "Button",
+                          "id": "letter-collect",
+                          "visibleWhen": "!collected.letter",
+                          "props": {
+                            "label": "收录线索（可选）",
+                            "kind": "hero",
+                            "action": "clue.collect",
+                            "labelColor": {
+                              "custom": "#0C1711"
+                            }
+                          },
+                          "layout": {
+                            "width": 225,
+                            "height": 58,
+                            "fx": [
+                              {
+                                "kind": "sheen-hover"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "type": "Label",
+                          "id": "letter-already-collected",
+                          "visibleWhen": "collected.letter",
+                          "props": {
+                            "text": "已收录 · 回看中",
+                            "size": "md",
+                            "color": {
+                              "custom": "#284A3B"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Button",
+                      "id": "evidence-close",
+                      "props": {
+                        "label": "返回现场",
+                        "kind": "quiet",
+                        "action": "investigation.close",
+                        "labelColor": {
+                          "custom": "#372A1E"
+                        }
+                      },
+                      "layout": {
+                        "width": 180,
+                        "height": 52
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Modal",
+          "id": "clue-collected-modal",
+          "visibleWhen": "flow.collected",
+          "props": {
+            "title": "EVIDENCE / 已归档",
+            "titleColor": "text",
+            "size": "xl",
+            "closable": false
+          },
+          "layout": {
+            "allowOverlap": true
+          },
+          "children": [
+            {
+              "type": "Panel",
+              "id": "collection-content",
+              "props": {
+                "bg": {
+                  "custom": "#D2C098"
+                },
+                "edge": "gold",
+                "shadow": {
+                  "y": 8,
+                  "color": "ink"
+                }
+              },
+              "layout": {
+                "direction": "column",
+                "gap": 14,
+                "padding": 8,
+                "radius": 2
+              },
+              "children": [
+                {
+                  "type": "Panel",
+                  "id": "collection-heading",
+                  "props": {
+                    "bare": true
+                  },
+                  "layout": {
+                    "direction": "row",
+                    "justify": "between",
+                    "align": "center"
+                  },
+                  "children": [
+                    {
+                      "type": "Panel",
+                      "id": "collection-object-name",
+                      "props": {
+                        "bare": true
+                      },
+                      "children": [
+                        {
+                          "type": "Label",
+                          "id": "collection-lock-title",
+                          "visibleWhen": "selected.lock",
+                          "props": {
+                            "text": "破损窗锁",
+                            "size": "xxl",
+                            "color": {
+                              "custom": "#372A1E"
+                            },
+                            "bold": true,
+                            "font": "cnwen"
+                          }
+                        },
+                        {
+                          "type": "Label",
+                          "id": "collection-prints-title",
+                          "visibleWhen": "selected.prints",
+                          "props": {
+                            "text": "桌上湿脚印",
+                            "size": "xxl",
+                            "color": {
+                              "custom": "#372A1E"
+                            },
+                            "bold": true,
+                            "font": "cnwen"
+                          }
+                        },
+                        {
+                          "type": "Label",
+                          "id": "collection-letter-title",
+                          "visibleWhen": "selected.letter",
+                          "props": {
+                            "text": "半烧毁信件",
+                            "size": "xxl",
+                            "color": {
+                              "custom": "#372A1E"
+                            },
+                            "bold": true,
+                            "font": "cnwen"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Label",
+                      "id": "collection-stamp",
+                      "props": {
+                        "text": "已收录",
+                        "size": "xxl",
+                        "color": {
+                          "custom": "#8D4233"
+                        },
+                        "bold": true,
+                        "font": "cnbrush"
+                      },
+                      "layout": {
+                        "transformMotionMs": 380,
+                        "transformFrom": {
+                          "scale": 1.18,
+                          "rotate": -8
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "Panel",
+                  "id": "collection-image-slot",
+                  "props": {
+                    "bg": {
+                      "custom": "#233B3D"
+                    },
+                    "edge": "gold",
+                    "pattern": "stripe"
+                  },
+                  "layout": {
+                    "width": 710,
+                    "height": 274,
+                    "align": "center",
+                    "justify": "center"
+                  },
+                  "children": [
+                    {
+                      "type": "Image",
+                      "id": "collection-lock-image",
+                      "visibleWhen": "selected.lock",
+                      "props": {
+                        "src": "asset:game-clue-investigation/object/lock",
+                        "alt": "破损窗锁",
+                        "fit": "contain"
+                      },
+                      "layout": {
+                        "width": 708,
+                        "height": 272
+                      }
+                    },
+                    {
+                      "type": "Image",
+                      "id": "collection-prints-image",
+                      "visibleWhen": "selected.prints",
+                      "props": {
+                        "src": "asset:game-clue-investigation/object/prints",
+                        "alt": "桌上湿脚印",
+                        "fit": "contain"
+                      },
+                      "layout": {
+                        "width": 708,
+                        "height": 272
+                      }
+                    },
+                    {
+                      "type": "Image",
+                      "id": "collection-letter-image",
+                      "visibleWhen": "selected.letter",
+                      "props": {
+                        "src": "asset:game-clue-investigation/object/letter",
+                        "alt": "半烧毁信件",
+                        "fit": "contain"
+                      },
+                      "layout": {
+                        "width": 708,
+                        "height": 272
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "Panel",
+                  "id": "collection-description",
+                  "props": {
+                    "bare": true
+                  },
+                  "children": [
+                    {
+                      "type": "Label",
+                      "id": "collection-lock-text",
+                      "visibleWhen": "selected.lock",
+                      "props": {
+                        "text": "锁扣内侧有新鲜撬痕。有人从室内先松开了它。",
+                        "size": "lg",
+                        "color": {
+                          "custom": "#372A1E"
+                        }
+                      }
+                    },
+                    {
+                      "type": "Label",
+                      "id": "collection-prints-text",
+                      "visibleWhen": "selected.prints",
+                      "props": {
+                        "text": "鞋底纹沾着窗边的泥水，方向直指书桌。",
+                        "size": "lg",
+                        "color": {
+                          "custom": "#372A1E"
+                        }
+                      }
+                    },
+                    {
+                      "type": "Label",
+                      "id": "collection-letter-text",
+                      "visibleWhen": "selected.letter",
+                      "props": {
+                        "text": "残留日期与陌生署名；它不改变必需证物的数量。",
+                        "size": "lg",
+                        "color": {
+                          "custom": "#372A1E"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "Label",
+                  "id": "collection-progress",
+                  "props": {
+                    "text": "必需线索 ",
+                    "bind": "required-collected",
+                    "size": "md",
+                    "color": {
+                      "custom": "#372A1E"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Modal",
+          "id": "exit-confirm-modal",
+          "visibleWhen": "flow.exit",
+          "props": {
+            "title": "离开调查现场？",
+            "size": "md",
+            "closeAction": "investigation.stay"
+          },
+          "layout": {
+            "allowOverlap": true
+          },
+          "children": [
+            {
+              "type": "Panel",
+              "id": "exit-confirm-content",
+              "props": {
+                "bare": true
+              },
+              "layout": {
+                "direction": "column",
+                "gap": 24
+              },
+              "children": [
+                {
+                  "type": "Label",
+                  "id": "exit-confirm-message",
+                  "props": {
+                    "text": "离开不会提交现场调查完成。",
+                    "size": "lg",
+                    "color": "text"
+                  }
+                },
+                {
+                  "type": "Panel",
+                  "id": "exit-buttons",
+                  "props": {
+                    "bare": true
+                  },
+                  "layout": {
+                    "direction": "row",
+                    "gap": 14
+                  },
+                  "children": [
+                    {
+                      "type": "Button",
+                      "id": "exit-stay",
+                      "props": {
+                        "label": "继续调查",
+                        "kind": "hero",
+                        "action": "investigation.stay",
+                        "labelColor": {
+                          "custom": "#0C1711"
+                        }
+                      },
+                      "layout": {
+                        "width": 174,
+                        "height": 56
+                      }
+                    },
+                    {
+                      "type": "Button",
+                      "id": "exit-confirm",
+                      "props": {
+                        "label": "确认退出",
+                        "kind": "ghost",
+                        "action": "investigation.cancel"
+                      },
+                      "layout": {
+                        "width": 174,
+                        "height": 56
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Modal",
+          "id": "investigation-completed-modal",
+          "visibleWhen": "flow.completed",
+          "props": {
+            "title": "调查结论",
+            "titleColor": "text",
+            "size": "lg",
+            "closable": false
+          },
+          "layout": {
+            "allowOverlap": true
+          },
+          "children": [
+            {
+              "type": "Panel",
+              "id": "completed-content",
+              "props": {
+                "bg": {
+                  "custom": "#102A29"
+                },
+                "edge": "gold",
+                "shadow": {
+                  "y": 8,
+                  "color": "ink"
+                }
+              },
+              "layout": {
+                "height": 370,
+                "direction": "column",
+                "align": "center",
+                "justify": "center",
+                "gap": 20,
+                "padding": 16,
+                "radius": 2,
+                "transformMotionMs": 600,
+                "transformFrom": {
+                  "y": 22
+                }
+              },
+              "children": [
+                {
+                  "type": "Label",
+                  "id": "completed-seal",
+                  "props": {
+                    "text": "✦",
+                    "size": 72,
+                    "color": "gold",
+                    "glow": true
+                  }
+                },
+                {
+                  "type": "Label",
+                  "id": "completed-eyebrow",
+                  "props": {
+                    "text": "INVESTIGATION COMPLETE",
+                    "size": 14,
+                    "color": {
+                      "custom": "#8CE6E5"
+                    },
+                    "font": "ui"
+                  }
+                },
+                {
+                  "type": "Label",
+                  "id": "completed-message",
+                  "props": {
+                    "text": "现场调查完成",
+                    "size": "xxxl",
+                    "color": {
+                      "custom": "#F3ECDD"
+                    },
+                    "bold": true,
+                    "font": "cnwen"
+                  }
+                },
+                {
+                  "type": "Label",
+                  "id": "completed-progress",
+                  "props": {
+                    "text": "两项必要证物已归档 · 必需线索 ",
+                    "bind": "required-collected",
+                    "size": "lg",
+                    "color": {
+                      "custom": "#F3ECDD"
+                    }
+                  }
+                },
+                {
+                  "type": "Button",
+                  "id": "completed-restart",
+                  "props": {
+                    "label": "重新检查现场",
+                    "kind": "hero",
+                    "action": "investigation.restart",
+                    "labelColor": {
+                      "custom": "#0C1711"
+                    }
+                  },
+                  "layout": {
+                    "width": 220,
+                    "height": 62
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Modal",
+          "id": "investigation-cancelled-modal",
+          "visibleWhen": "flow.cancelled",
+          "props": {
+            "title": "已离开调查现场",
+            "size": "md",
+            "closable": false
+          },
+          "layout": {
+            "allowOverlap": true
+          },
+          "children": [
+            {
+              "type": "Panel",
+              "id": "cancelled-content",
+              "props": {
+                "bare": true
+              },
+              "layout": {
+                "direction": "column",
+                "gap": 20
+              },
+              "children": [
+                {
+                  "type": "Label",
+                  "id": "cancelled-message",
+                  "props": {
+                    "text": "本次调查已取消，未提交完成结果。",
+                    "size": "lg",
+                    "color": "text"
+                  }
+                },
+                {
+                  "type": "Button",
+                  "id": "cancelled-restart",
+                  "props": {
+                    "label": "重新调查",
+                    "kind": "hero",
+                    "action": "investigation.restart",
+                    "labelColor": {
+                      "custom": "#0C1711"
+                    }
+                  },
+                  "layout": {
+                    "width": 220,
+                    "height": 58
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "capabilities": [
+    "a1-transform",
+    "c1-shape",
+    "l2-color",
+    "i1-input-capture",
+    "f1-resource",
+    "f2-flag",
+    "t2-clickable",
+    "t2-keybind",
+    "t2-effect-apply",
+    "t2-event-when",
+    "t3-flow",
+    "l1-sprite"
+  ],
+  "entities": {
+    "scene-background": {
+      "Transform": {
+        "x": 720,
+        "y": 450,
+        "rotation": 0,
+        "scaleX": 1,
+        "scaleY": 1
+      },
+      "Shape": {
+        "kind": "box",
+        "width": 1440,
+        "height": 900
+      },
+      "Color": {
+        "tint": 16777215,
+        "alpha": 1
+      },
+      "Sprite": {
+        "textureKey": "game-clue-investigation/scene/background",
+        "anchorX": 0.5,
+        "anchorY": 0.5,
+        "zOrder": 0,
+        "width": 1440,
+        "height": 900,
+        "fit": "cover"
+      }
+    },
+    "investigation-flow": {
+      "GameFlow": {
+        "id": "investigation",
+        "current": "scene-idle",
+        "states": [
+          {
+            "id": "scene-idle",
+            "onEnter": [
+              {
+                "kind": "set-flag",
+                "targetId": "interaction-enabled",
+                "value": true
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "records-open",
+                "value": true
+              }
+            ],
+            "transitions": [
+              {
+                "when": {
+                  "kind": "flag",
+                  "id": "exit-requested"
+                },
+                "to": "exit-confirm"
+              },
+              {
+                "when": {
+                  "kind": "and",
+                  "of": [
+                    {
+                      "kind": "resource",
+                      "id": "selected-object",
+                      "cmp": "gte",
+                      "value": 2
+                    },
+                    {
+                      "kind": "resource",
+                      "id": "selected-object",
+                      "cmp": "lte",
+                      "value": 5
+                    }
+                  ]
+                },
+                "to": "flavor-result"
+              },
+              {
+                "when": {
+                  "kind": "resource",
+                  "id": "selected-object",
+                  "cmp": "eq",
+                  "value": 1
+                },
+                "to": "clue-reveal"
+              },
+              {
+                "when": {
+                  "kind": "resource",
+                  "id": "selected-object",
+                  "cmp": "eq",
+                  "value": 6
+                },
+                "to": "clue-reveal"
+              },
+              {
+                "when": {
+                  "kind": "resource",
+                  "id": "selected-object",
+                  "cmp": "eq",
+                  "value": 7
+                },
+                "to": "clue-reveal"
+              }
+            ]
+          },
+          {
+            "id": "flavor-result",
+            "onEnter": [
+              {
+                "kind": "set-flag",
+                "targetId": "interaction-enabled",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "records-open",
+                "value": false
+              }
+            ],
+            "transitions": [
+              {
+                "when": {
+                  "kind": "resource",
+                  "id": "selected-object",
+                  "cmp": "eq",
+                  "value": 0
+                },
+                "to": "scene-idle"
+              }
+            ]
+          },
+          {
+            "id": "clue-reveal",
+            "onEnter": [
+              {
+                "kind": "set-flag",
+                "targetId": "interaction-enabled",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "clue-reveal-open",
+                "value": true
+              }
+            ],
+            "transitions": [
+              {
+                "when": {
+                  "kind": "resource",
+                  "id": "selected-object",
+                  "cmp": "eq",
+                  "value": 0
+                },
+                "to": "scene-idle"
+              },
+              {
+                "when": {
+                  "kind": "flag",
+                  "id": "collection-committed"
+                },
+                "to": "clue-collected"
+              }
+            ]
+          },
+          {
+            "id": "clue-collected",
+            "onEnter": [
+              {
+                "kind": "set-flag",
+                "targetId": "clue-reveal-open",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "collection-committed",
+                "value": false
+              }
+            ],
+            "transitions": [
+              {
+                "after": 42,
+                "when": {
+                  "kind": "flag",
+                  "id": "complete-ready"
+                },
+                "to": "completed"
+              },
+              {
+                "after": 42,
+                "to": "scene-idle",
+                "do": [
+                  {
+                    "kind": "modify-resource",
+                    "targetId": "selected-object",
+                    "op": "set",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "exit-confirm",
+            "onEnter": [
+              {
+                "kind": "set-flag",
+                "targetId": "interaction-enabled",
+                "value": false
+              }
+            ],
+            "transitions": [
+              {
+                "when": {
+                  "kind": "flag",
+                  "id": "cancelled"
+                },
+                "to": "cancelled"
+              },
+              {
+                "when": {
+                  "kind": "not",
+                  "of": {
+                    "kind": "flag",
+                    "id": "exit-requested"
+                  }
+                },
+                "to": "scene-idle"
+              }
+            ]
+          },
+          {
+            "id": "completed",
+            "onEnter": [
+              {
+                "kind": "set-flag",
+                "targetId": "interaction-enabled",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "restart-allowed",
+                "value": true
+              }
+            ],
+            "transitions": [
+              {
+                "when": {
+                  "kind": "flag",
+                  "id": "restart-requested"
+                },
+                "to": "resetting"
+              }
+            ]
+          },
+          {
+            "id": "cancelled",
+            "onEnter": [
+              {
+                "kind": "set-flag",
+                "targetId": "interaction-enabled",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "restart-allowed",
+                "value": true
+              }
+            ],
+            "transitions": [
+              {
+                "when": {
+                  "kind": "flag",
+                  "id": "restart-requested"
+                },
+                "to": "resetting"
+              }
+            ]
+          },
+          {
+            "id": "resetting",
+            "onEnter": [
+              {
+                "kind": "set-flag",
+                "targetId": "interaction-enabled",
+                "value": true
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "restart-allowed",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "restart-requested",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "records-open",
+                "value": true
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "exit-requested",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "cancelled",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "complete-ready",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "collection-committed",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "clue-reveal-open",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "collected.lock",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "collected.prints",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "collected.letter",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "viewed.lock",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "viewed.shelf",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "viewed.clock",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "viewed.cup",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "viewed.rug",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "viewed.prints",
+                "value": false
+              },
+              {
+                "kind": "set-flag",
+                "targetId": "viewed.letter",
+                "value": false
+              },
+              {
+                "kind": "modify-resource",
+                "targetId": "required-collected",
+                "op": "set",
+                "value": 0
+              },
+              {
+                "kind": "modify-resource",
+                "targetId": "selected-object",
+                "op": "set",
+                "value": 0
+              }
+            ],
+            "transitions": [
+              {
+                "to": "scene-idle"
+              }
+            ]
+          }
+        ],
+        "entered": false,
+        "elapsed": 0
+      }
+    },
+    "required-collected": {
+      "Resource": {
+        "id": "required-collected",
+        "current": 0,
+        "min": 0,
+        "max": 2
+      }
+    },
+    "required-total": {
+      "Resource": {
+        "id": "required-total",
+        "current": 2,
+        "min": 2,
+        "max": 2
+      }
+    },
+    "selected-object": {
+      "Resource": {
+        "id": "selected-object",
+        "current": 0,
+        "min": 0,
+        "max": 7
+      }
+    },
+    "interaction-enabled": {
+      "Flag": {
+        "id": "interaction-enabled",
+        "active": true
+      }
+    },
+    "records-open": {
+      "Flag": {
+        "id": "records-open",
+        "active": true
+      }
+    },
+    "clue-reveal-open": {
+      "Flag": {
+        "id": "clue-reveal-open",
+        "active": false
+      }
+    },
+    "collection-committed": {
+      "Flag": {
+        "id": "collection-committed",
+        "active": false
+      }
+    },
+    "exit-requested": {
+      "Flag": {
+        "id": "exit-requested",
+        "active": false
+      }
+    },
+    "cancelled": {
+      "Flag": {
+        "id": "cancelled",
+        "active": false
+      }
+    },
+    "complete-ready": {
+      "Flag": {
+        "id": "complete-ready",
+        "active": false
+      }
+    },
+    "restart-allowed": {
+      "Flag": {
+        "id": "restart-allowed",
+        "active": false
+      }
+    },
+    "restart-requested": {
+      "Flag": {
+        "id": "restart-requested",
+        "active": false
+      }
+    },
+    "complete-threshold": {
+      "EventWhen": {
+        "signal": "investigation.complete-ready",
+        "when": {
+          "kind": "resource",
+          "id": "required-collected",
+          "cmp": "gte",
+          "value": 2,
+          "vsResource": "required-total"
+        },
+        "mode": "edge",
+        "armed": false
+      }
+    },
+    "effect-complete-ready": {
+      "Effect": {
+        "onSignal": "investigation.complete-ready",
+        "kind": "set-flag",
+        "targetId": "complete-ready",
+        "value": true
+      }
+    },
+    "action-investigate-lock": {
+      "KeyBinding": {
+        "key": "investigate.lock",
+        "signal": "investigate.lock",
+        "phase": "action",
+        "when": {
+          "kind": "flag",
+          "id": "interaction-enabled"
+        }
+      }
+    },
+    "action-investigate-shelf": {
+      "KeyBinding": {
+        "key": "investigate.shelf",
+        "signal": "investigate.shelf",
+        "phase": "action",
+        "when": {
+          "kind": "flag",
+          "id": "interaction-enabled"
+        }
+      }
+    },
+    "action-investigate-clock": {
+      "KeyBinding": {
+        "key": "investigate.clock",
+        "signal": "investigate.clock",
+        "phase": "action",
+        "when": {
+          "kind": "flag",
+          "id": "interaction-enabled"
+        }
+      }
+    },
+    "action-investigate-cup": {
+      "KeyBinding": {
+        "key": "investigate.cup",
+        "signal": "investigate.cup",
+        "phase": "action",
+        "when": {
+          "kind": "flag",
+          "id": "interaction-enabled"
+        }
+      }
+    },
+    "action-investigate-rug": {
+      "KeyBinding": {
+        "key": "investigate.rug",
+        "signal": "investigate.rug",
+        "phase": "action",
+        "when": {
+          "kind": "flag",
+          "id": "interaction-enabled"
+        }
+      }
+    },
+    "action-investigate-prints": {
+      "KeyBinding": {
+        "key": "investigate.prints",
+        "signal": "investigate.prints",
+        "phase": "action",
+        "when": {
+          "kind": "flag",
+          "id": "interaction-enabled"
+        }
+      }
+    },
+    "action-investigate-letter": {
+      "KeyBinding": {
+        "key": "investigate.letter",
+        "signal": "investigate.letter",
+        "phase": "action",
+        "when": {
+          "kind": "flag",
+          "id": "interaction-enabled"
+        }
+      }
+    },
+    "action-close": {
+      "KeyBinding": {
+        "key": "investigation.close",
+        "signal": "investigation.close",
+        "phase": "action",
+        "when": {
+          "kind": "not",
+          "of": {
+            "kind": "flag",
+            "id": "interaction-enabled"
+          }
+        }
+      }
+    },
+    "action-exit": {
+      "KeyBinding": {
+        "key": "investigation.exit",
+        "signal": "investigation.exit",
+        "phase": "action",
+        "when": {
+          "kind": "flag",
+          "id": "interaction-enabled"
+        }
+      }
+    },
+    "action-stay": {
+      "KeyBinding": {
+        "key": "investigation.stay",
+        "signal": "investigation.stay",
+        "phase": "action",
+        "when": {
+          "kind": "flag",
+          "id": "exit-requested"
+        }
+      }
+    },
+    "action-cancel": {
+      "KeyBinding": {
+        "key": "investigation.cancel",
+        "signal": "investigation.cancel",
+        "phase": "action",
+        "when": {
+          "kind": "flag",
+          "id": "exit-requested"
+        }
+      }
+    },
+    "action-restart": {
+      "KeyBinding": {
+        "key": "investigation.restart",
+        "signal": "investigation.restart",
+        "phase": "action",
+        "when": {
+          "kind": "flag",
+          "id": "restart-allowed"
+        }
+      }
+    },
+    "action-records-open": {
+      "KeyBinding": {
+        "key": "records.open",
+        "signal": "records.open",
+        "phase": "action",
+        "when": {
+          "kind": "flag",
+          "id": "interaction-enabled"
+        }
+      }
+    },
+    "action-records-close": {
+      "KeyBinding": {
+        "key": "records.close",
+        "signal": "records.close",
+        "phase": "action",
+        "when": {
+          "kind": "flag",
+          "id": "interaction-enabled"
+        }
+      }
+    },
+    "action-collect-lock": {
+      "KeyBinding": {
+        "key": "clue.collect",
+        "signal": "clue.collect.lock",
+        "phase": "action",
+        "when": {
+          "kind": "and",
+          "of": [
+            {
+              "kind": "resource",
+              "id": "selected-object",
+              "cmp": "eq",
+              "value": 1
+            },
+            {
+              "kind": "flag",
+              "id": "clue-reveal-open"
+            },
+            {
+              "kind": "not",
+              "of": {
+                "kind": "flag",
+                "id": "collected.lock"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "action-collect-prints": {
+      "KeyBinding": {
+        "key": "clue.collect",
+        "signal": "clue.collect.prints",
+        "phase": "action",
+        "when": {
+          "kind": "and",
+          "of": [
+            {
+              "kind": "resource",
+              "id": "selected-object",
+              "cmp": "eq",
+              "value": 6
+            },
+            {
+              "kind": "flag",
+              "id": "clue-reveal-open"
+            },
+            {
+              "kind": "not",
+              "of": {
+                "kind": "flag",
+                "id": "collected.prints"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "action-collect-letter": {
+      "KeyBinding": {
+        "key": "clue.collect",
+        "signal": "clue.collect.letter",
+        "phase": "action",
+        "when": {
+          "kind": "and",
+          "of": [
+            {
+              "kind": "resource",
+              "id": "selected-object",
+              "cmp": "eq",
+              "value": 7
+            },
+            {
+              "kind": "flag",
+              "id": "clue-reveal-open"
+            },
+            {
+              "kind": "not",
+              "of": {
+                "kind": "flag",
+                "id": "collected.letter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "effect-lock-select": {
+      "Effect": {
+        "onSignal": "investigate.lock",
+        "kind": "modify-resource",
+        "targetId": "selected-object",
+        "op": "set",
+        "value": 1
+      }
+    },
+    "effect-shelf-select": {
+      "Effect": {
+        "onSignal": "investigate.shelf",
+        "kind": "modify-resource",
+        "targetId": "selected-object",
+        "op": "set",
+        "value": 2
+      }
+    },
+    "effect-clock-select": {
+      "Effect": {
+        "onSignal": "investigate.clock",
+        "kind": "modify-resource",
+        "targetId": "selected-object",
+        "op": "set",
+        "value": 3
+      }
+    },
+    "effect-cup-select": {
+      "Effect": {
+        "onSignal": "investigate.cup",
+        "kind": "modify-resource",
+        "targetId": "selected-object",
+        "op": "set",
+        "value": 4
+      }
+    },
+    "effect-rug-select": {
+      "Effect": {
+        "onSignal": "investigate.rug",
+        "kind": "modify-resource",
+        "targetId": "selected-object",
+        "op": "set",
+        "value": 5
+      }
+    },
+    "effect-prints-select": {
+      "Effect": {
+        "onSignal": "investigate.prints",
+        "kind": "modify-resource",
+        "targetId": "selected-object",
+        "op": "set",
+        "value": 6
+      }
+    },
+    "effect-letter-select": {
+      "Effect": {
+        "onSignal": "investigate.letter",
+        "kind": "modify-resource",
+        "targetId": "selected-object",
+        "op": "set",
+        "value": 7
+      }
+    },
+    "effect-lock-viewed": {
+      "Effect": {
+        "onSignal": "investigate.lock",
+        "kind": "set-flag",
+        "targetId": "viewed.lock",
+        "value": true
+      }
+    },
+    "effect-shelf-viewed": {
+      "Effect": {
+        "onSignal": "investigate.shelf",
+        "kind": "set-flag",
+        "targetId": "viewed.shelf",
+        "value": true
+      }
+    },
+    "effect-clock-viewed": {
+      "Effect": {
+        "onSignal": "investigate.clock",
+        "kind": "set-flag",
+        "targetId": "viewed.clock",
+        "value": true
+      }
+    },
+    "effect-cup-viewed": {
+      "Effect": {
+        "onSignal": "investigate.cup",
+        "kind": "set-flag",
+        "targetId": "viewed.cup",
+        "value": true
+      }
+    },
+    "effect-rug-viewed": {
+      "Effect": {
+        "onSignal": "investigate.rug",
+        "kind": "set-flag",
+        "targetId": "viewed.rug",
+        "value": true
+      }
+    },
+    "effect-prints-viewed": {
+      "Effect": {
+        "onSignal": "investigate.prints",
+        "kind": "set-flag",
+        "targetId": "viewed.prints",
+        "value": true
+      }
+    },
+    "effect-letter-viewed": {
+      "Effect": {
+        "onSignal": "investigate.letter",
+        "kind": "set-flag",
+        "targetId": "viewed.letter",
+        "value": true
+      }
+    },
+    "effect-close": {
+      "Effect": {
+        "onSignal": "investigation.close",
+        "kind": "modify-resource",
+        "targetId": "selected-object",
+        "op": "set",
+        "value": 0
+      }
+    },
+    "effect-exit": {
+      "Effect": {
+        "onSignal": "investigation.exit",
+        "kind": "set-flag",
+        "targetId": "exit-requested",
+        "value": true
+      }
+    },
+    "effect-stay": {
+      "Effect": {
+        "onSignal": "investigation.stay",
+        "kind": "set-flag",
+        "targetId": "exit-requested",
+        "value": false
+      }
+    },
+    "effect-cancel": {
+      "Effect": {
+        "onSignal": "investigation.cancel",
+        "kind": "set-flag",
+        "targetId": "cancelled",
+        "value": true
+      }
+    },
+    "effect-restart": {
+      "Effect": {
+        "onSignal": "investigation.restart",
+        "kind": "set-flag",
+        "targetId": "restart-requested",
+        "value": true
+      }
+    },
+    "effect-records-open": {
+      "Effect": {
+        "onSignal": "records.open",
+        "kind": "set-flag",
+        "targetId": "records-open",
+        "value": true
+      }
+    },
+    "effect-records-close": {
+      "Effect": {
+        "onSignal": "records.close",
+        "kind": "set-flag",
+        "targetId": "records-open",
+        "value": false
+      }
+    },
+    "effect-lock-collected": {
+      "Effect": {
+        "onSignal": "clue.collect.lock",
+        "kind": "set-flag",
+        "targetId": "collected.lock",
+        "value": true
+      }
+    },
+    "effect-prints-collected": {
+      "Effect": {
+        "onSignal": "clue.collect.prints",
+        "kind": "set-flag",
+        "targetId": "collected.prints",
+        "value": true
+      }
+    },
+    "effect-letter-collected": {
+      "Effect": {
+        "onSignal": "clue.collect.letter",
+        "kind": "set-flag",
+        "targetId": "collected.letter",
+        "value": true
+      }
+    },
+    "effect-lock-count": {
+      "Effect": {
+        "onSignal": "clue.collect.lock",
+        "kind": "modify-resource",
+        "targetId": "required-collected",
+        "value": 1
+      }
+    },
+    "effect-prints-count": {
+      "Effect": {
+        "onSignal": "clue.collect.prints",
+        "kind": "modify-resource",
+        "targetId": "required-collected",
+        "value": 1
+      }
+    },
+    "effect-lock-commit": {
+      "Effect": {
+        "onSignal": "clue.collect.lock",
+        "kind": "set-flag",
+        "targetId": "collection-committed",
+        "value": true
+      }
+    },
+    "effect-prints-commit": {
+      "Effect": {
+        "onSignal": "clue.collect.prints",
+        "kind": "set-flag",
+        "targetId": "collection-committed",
+        "value": true
+      }
+    },
+    "effect-letter-commit": {
+      "Effect": {
+        "onSignal": "clue.collect.letter",
+        "kind": "set-flag",
+        "targetId": "collection-committed",
+        "value": true
+      }
+    },
+    "object-lock": {
+      "Transform": {
+        "x": 246,
+        "y": 433,
+        "rotation": 0,
+        "scaleX": 1,
+        "scaleY": 1
+      },
+      "Shape": {
+        "kind": "box",
+        "width": 104,
+        "height": 126
+      },
+      "Color": {
+        "tint": 16777215,
+        "alpha": 1
+      },
+      "Clickable": {
+        "action": "investigate.lock",
+        "phase": "down",
+        "onlyFlag": "interaction-enabled",
+        "hitMaskKey": "game-clue-investigation/mask/lock"
+      },
+      "Sprite": {
+        "textureKey": "game-clue-investigation/object/lock",
+        "anchorX": 0.5,
+        "anchorY": 0.5,
+        "zOrder": 3,
+        "width": 104,
+        "height": 126,
+        "fit": "contain"
+      }
+    },
+    "viewed-lock": {
+      "Flag": {
+        "id": "viewed.lock",
+        "active": false
+      }
+    },
+    "collected-lock": {
+      "Flag": {
+        "id": "collected.lock",
+        "active": false
+      }
+    },
+    "object-shelf": {
+      "Transform": {
+        "x": 585,
+        "y": 366,
+        "rotation": 0,
+        "scaleX": 1,
+        "scaleY": 1
+      },
+      "Shape": {
+        "kind": "box",
+        "width": 362,
+        "height": 486
+      },
+      "Color": {
+        "tint": 16777215,
+        "alpha": 1
+      },
+      "Clickable": {
+        "action": "investigate.shelf",
+        "phase": "down",
+        "onlyFlag": "interaction-enabled",
+        "hitMaskKey": "game-clue-investigation/mask/shelf"
+      },
+      "Sprite": {
+        "textureKey": "game-clue-investigation/object/shelf",
+        "anchorX": 0.5,
+        "anchorY": 0.5,
+        "zOrder": 3,
+        "width": 362,
+        "height": 486,
+        "fit": "contain"
+      }
+    },
+    "viewed-shelf": {
+      "Flag": {
+        "id": "viewed.shelf",
+        "active": false
+      }
+    },
+    "object-clock": {
+      "Transform": {
+        "x": 1204.5,
+        "y": 184,
+        "rotation": 0,
+        "scaleX": 1,
+        "scaleY": 1
+      },
+      "Shape": {
+        "kind": "box",
+        "width": 185,
+        "height": 184
+      },
+      "Color": {
+        "tint": 16777215,
+        "alpha": 1
+      },
+      "Clickable": {
+        "action": "investigate.clock",
+        "phase": "down",
+        "onlyFlag": "interaction-enabled",
+        "hitMaskKey": "game-clue-investigation/mask/clock"
+      },
+      "Sprite": {
+        "textureKey": "game-clue-investigation/object/clock",
+        "anchorX": 0.5,
+        "anchorY": 0.5,
+        "zOrder": 3,
+        "width": 185,
+        "height": 184,
+        "fit": "contain"
+      }
+    },
+    "viewed-clock": {
+      "Flag": {
+        "id": "viewed.clock",
+        "active": false
+      }
+    },
+    "object-cup": {
+      "Transform": {
+        "x": 933,
+        "y": 557,
+        "rotation": 0,
+        "scaleX": 1,
+        "scaleY": 1
+      },
+      "Shape": {
+        "kind": "box",
+        "width": 102,
+        "height": 90
+      },
+      "Color": {
+        "tint": 16777215,
+        "alpha": 1
+      },
+      "Clickable": {
+        "action": "investigate.cup",
+        "phase": "down",
+        "onlyFlag": "interaction-enabled",
+        "hitMaskKey": "game-clue-investigation/mask/cup"
+      },
+      "Sprite": {
+        "textureKey": "game-clue-investigation/object/cup",
+        "anchorX": 0.5,
+        "anchorY": 0.5,
+        "zOrder": 3,
+        "width": 102,
+        "height": 90,
+        "fit": "contain"
+      }
+    },
+    "viewed-cup": {
+      "Flag": {
+        "id": "viewed.cup",
+        "active": false
+      }
+    },
+    "object-rug": {
+      "Transform": {
+        "x": 489,
+        "y": 774,
+        "rotation": 0,
+        "scaleX": 1,
+        "scaleY": 1
+      },
+      "Shape": {
+        "kind": "box",
+        "width": 780,
+        "height": 214
+      },
+      "Color": {
+        "tint": 16777215,
+        "alpha": 1
+      },
+      "Clickable": {
+        "action": "investigate.rug",
+        "phase": "down",
+        "onlyFlag": "interaction-enabled",
+        "hitMaskKey": "game-clue-investigation/mask/rug"
+      },
+      "Sprite": {
+        "textureKey": "game-clue-investigation/object/rug",
+        "anchorX": 0.5,
+        "anchorY": 0.5,
+        "zOrder": 3,
+        "width": 780,
+        "height": 214,
+        "fit": "contain"
+      }
+    },
+    "viewed-rug": {
+      "Flag": {
+        "id": "viewed.rug",
+        "active": false
+      }
+    },
+    "object-prints": {
+      "Transform": {
+        "x": 978,
+        "y": 638,
+        "rotation": 0,
+        "scaleX": 1,
+        "scaleY": 1
+      },
+      "Shape": {
+        "kind": "box",
+        "width": 250,
+        "height": 132
+      },
+      "Color": {
+        "tint": 16777215,
+        "alpha": 1
+      },
+      "Clickable": {
+        "action": "investigate.prints",
+        "phase": "down",
+        "onlyFlag": "interaction-enabled",
+        "hitMaskKey": "game-clue-investigation/mask/prints"
+      },
+      "Sprite": {
+        "textureKey": "game-clue-investigation/object/prints",
+        "anchorX": 0.5,
+        "anchorY": 0.5,
+        "zOrder": 3,
+        "width": 250,
+        "height": 132,
+        "fit": "contain"
+      }
+    },
+    "viewed-prints": {
+      "Flag": {
+        "id": "viewed.prints",
+        "active": false
+      }
+    },
+    "collected-prints": {
+      "Flag": {
+        "id": "collected.prints",
+        "active": false
+      }
+    },
+    "object-letter": {
+      "Transform": {
+        "x": 1167,
+        "y": 552.5,
+        "rotation": 0,
+        "scaleX": 1,
+        "scaleY": 1
+      },
+      "Shape": {
+        "kind": "box",
+        "width": 190,
+        "height": 145
+      },
+      "Color": {
+        "tint": 16777215,
+        "alpha": 1
+      },
+      "Clickable": {
+        "action": "investigate.letter",
+        "phase": "down",
+        "onlyFlag": "interaction-enabled",
+        "hitMaskKey": "game-clue-investigation/mask/letter"
+      },
+      "Sprite": {
+        "textureKey": "game-clue-investigation/object/letter",
+        "anchorX": 0.5,
+        "anchorY": 0.5,
+        "zOrder": 3,
+        "width": 190,
+        "height": 145,
+        "fit": "contain"
+      }
+    },
+    "viewed-letter": {
+      "Flag": {
+        "id": "viewed.letter",
+        "active": false
+      }
+    },
+    "collected-letter": {
+      "Flag": {
+        "id": "collected.letter",
+        "active": false
+      }
+    }
+  }
+}

@@ -1,0 +1,373 @@
+{
+  "version": 1,
+  "game": "game-potion-brewing",
+  "mode": "requirements",
+  "count": 8,
+  "instances": 8,
+  "artStyle": {
+    "stylePrompt": "Approved S1-P-06 potion bench: aged dark bronze and engraved gold cauldron, moon-and-star ornaments, luminous turquoise liquid, transparent isolated objects, parchment and dark wood UI; keep the cauldron rim opaque and the liquid independently colored",
+    "note": "Anchored to Owner-approved cauldron-three-quarter-v2.png and potion-bottle-v1.png; five ingredient SVG illustrations and the programmatic stirring-rod derivative come from Owner-approved S1-P-06 prototype.dc.html. Not a claim of a known AI model or generation prompt."
+  },
+  "rows": [
+    {
+      "no": "art-01",
+      "skinKey": "potion/cauldron",
+      "kind": "sprite",
+      "slot": {
+        "entity": "cauldron",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "query": "three-quarter ornate bronze cauldron with open oval rim",
+      "desc": "Three-quarter antique bronze cauldron, visible front belly and feet, open transparent oval mouth, engraved gold moon and stars, isolated RGBA subject",
+      "placeholder": {
+        "current": "cauldron Shape fallback while texture is unavailable",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "cauldron"
+        ]
+      },
+      "spec": {
+        "w": 1254,
+        "h": 1254,
+        "displayW": 398,
+        "displayH": 398,
+        "transparent": true
+      },
+      "context": "Main play-field pot; games/game-potion-brewing/blueprint.ts Sprite.textureKey consumes this exact key and preserves independently colored liquid inside the open mouth.",
+      "status": "approved",
+      "gen": {
+        "source": "approved-design-handoff",
+        "servedPath": "/games/game-potion-brewing/art/textures/cauldron-three-quarter-v2.png",
+        "mock": false
+      },
+      "provenance": {
+        "sourceFile": "docs/design/game-potion-brewing/ui-refs/cauldron-three-quarter-v2.png",
+        "sourceSha256": "2b20e0bcdef0de4ed4ba927c9ed46e5ed4646f2d70d73fe79380e5c894beceaf",
+        "license": "Owner approved AI-generated image for game-potion-brewing project use",
+        "approvalRecord": "docs/design/game-potion-brewing/art-approval-2026-10-13.md"
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "no": "art-02",
+      "skinKey": "potion/result-bottle",
+      "kind": "sprite",
+      "slot": {
+        "entity": "potion-result-bottle",
+        "component": "Image",
+        "field": "src"
+      },
+      "query": "turquoise moon potion in ornate gold glass bottle",
+      "desc": "Moon-and-stars turquoise potion bottle with ornate gilded glass frame, isolated RGBA subject; Moon Dew sample only",
+      "placeholder": {
+        "current": "result emoji fallback while texture is unavailable",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "potion-result-bottle"
+        ]
+      },
+      "spec": {
+        "w": 1145,
+        "h": 1374,
+        "displayW": 210,
+        "displayH": 230,
+        "transparent": true
+      },
+      "context": "Success result Image; game-potion-brewing.ts obtains descriptor from loaded potion/result-bottle key, then passes its URL to buildResultScreen. Host-supplied final product image may replace this later. This turquoise moon sample is not a bespoke red Ember bottle.",
+      "status": "approved",
+      "gen": {
+        "source": "approved-design-handoff",
+        "servedPath": "/games/game-potion-brewing/art/textures/potion-bottle-v1.png",
+        "mock": false
+      },
+      "provenance": {
+        "sourceFile": "docs/design/game-potion-brewing/ui-refs/potion-bottle-v1.png",
+        "sourceSha256": "5f005d805a795113c985b110e1c360bc7f0093facd1fdba661a4a9cf14fa9aa3",
+        "license": "Owner approved AI-generated image for game-potion-brewing project use",
+        "approvalRecord": "docs/design/game-potion-brewing/art-approval-2026-10-13.md"
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "no": "art-03",
+      "skinKey": "potion/ingredient/moon-herb",
+      "kind": "sprite",
+      "slot": {
+        "entity": "ingredient:moon-herb",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "query": "turquoise moon herb with tiny dew glint",
+      "desc": "Original S1-P-06 moon herb SVG on transparent canvas",
+      "placeholder": {
+        "current": "ingredient Shape fallback while texture is unavailable",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "ingredient:moon-herb"
+        ]
+      },
+      "spec": {
+        "w": 100,
+        "h": 100,
+        "displayW": 80,
+        "displayH": 88,
+        "transparent": true
+      },
+      "context": "The Moon Herb ingredient entity in the shelf; blueprint.ts Sprite.textureKey consumes this stable key.",
+      "status": "approved",
+      "gen": {
+        "source": "approved-prototype-extract",
+        "servedPath": "/games/game-potion-brewing/art/textures/ingredient-moon-herb.svg",
+        "mock": false
+      },
+      "provenance": {
+        "sourceFile": "docs/design/game-potion-brewing/prototype.dc.html",
+        "sourceSha256": "899e7d57c8e69971c25aff204fa89f620339950cde9940bb86bc2353d1ed0894",
+        "license": "Owner approved original S1-P-06 prototype illustration for game-potion-brewing project use",
+        "approvalRecord": "docs/design/game-potion-brewing/art-approval-2026-10-14.md"
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "no": "art-04",
+      "skinKey": "potion/ingredient/silver-leaf",
+      "kind": "sprite",
+      "slot": {
+        "entity": "ingredient:silver-leaf",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "query": "silvery pale green paired leaves",
+      "desc": "Original S1-P-06 silver leaf SVG on transparent canvas",
+      "placeholder": {
+        "current": "ingredient Shape fallback while texture is unavailable",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "ingredient:silver-leaf"
+        ]
+      },
+      "spec": {
+        "w": 100,
+        "h": 100,
+        "displayW": 80,
+        "displayH": 88,
+        "transparent": true
+      },
+      "context": "The Silver Leaf ingredient entity in the shelf; blueprint.ts Sprite.textureKey consumes this stable key.",
+      "status": "approved",
+      "gen": {
+        "source": "approved-prototype-extract",
+        "servedPath": "/games/game-potion-brewing/art/textures/ingredient-silver-leaf.svg",
+        "mock": false
+      },
+      "provenance": {
+        "sourceFile": "docs/design/game-potion-brewing/prototype.dc.html",
+        "sourceSha256": "899e7d57c8e69971c25aff204fa89f620339950cde9940bb86bc2353d1ed0894",
+        "license": "Owner approved original S1-P-06 prototype illustration for game-potion-brewing project use",
+        "approvalRecord": "docs/design/game-potion-brewing/art-approval-2026-10-14.md"
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "no": "art-05",
+      "skinKey": "potion/ingredient/red-berry",
+      "kind": "sprite",
+      "slot": {
+        "entity": "ingredient:red-berry",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "query": "three scarlet berries with small green leaves",
+      "desc": "Original S1-P-06 red berry SVG on transparent canvas",
+      "placeholder": {
+        "current": "ingredient Shape fallback while texture is unavailable",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "ingredient:red-berry"
+        ]
+      },
+      "spec": {
+        "w": 100,
+        "h": 100,
+        "displayW": 80,
+        "displayH": 88,
+        "transparent": true
+      },
+      "context": "The Red Berry ingredient entity in the shelf; blueprint.ts Sprite.textureKey consumes this stable key.",
+      "status": "approved",
+      "gen": {
+        "source": "approved-prototype-extract",
+        "servedPath": "/games/game-potion-brewing/art/textures/ingredient-red-berry.svg",
+        "mock": false
+      },
+      "provenance": {
+        "sourceFile": "docs/design/game-potion-brewing/prototype.dc.html",
+        "sourceSha256": "899e7d57c8e69971c25aff204fa89f620339950cde9940bb86bc2353d1ed0894",
+        "license": "Owner approved original S1-P-06 prototype illustration for game-potion-brewing project use",
+        "approvalRecord": "docs/design/game-potion-brewing/art-approval-2026-10-14.md"
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "no": "art-06",
+      "skinKey": "potion/ingredient/pepper-seed",
+      "kind": "sprite",
+      "slot": {
+        "entity": "ingredient:pepper-seed",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "query": "orange warm pepper pods and seed",
+      "desc": "Original S1-P-06 pepper seed SVG on transparent canvas",
+      "placeholder": {
+        "current": "ingredient Shape fallback while texture is unavailable",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "ingredient:pepper-seed"
+        ]
+      },
+      "spec": {
+        "w": 100,
+        "h": 100,
+        "displayW": 80,
+        "displayH": 88,
+        "transparent": true
+      },
+      "context": "The Pepper Seed ingredient entity in the shelf; blueprint.ts Sprite.textureKey consumes this stable key.",
+      "status": "approved",
+      "gen": {
+        "source": "approved-prototype-extract",
+        "servedPath": "/games/game-potion-brewing/art/textures/ingredient-pepper-seed.svg",
+        "mock": false
+      },
+      "provenance": {
+        "sourceFile": "docs/design/game-potion-brewing/prototype.dc.html",
+        "sourceSha256": "899e7d57c8e69971c25aff204fa89f620339950cde9940bb86bc2353d1ed0894",
+        "license": "Owner approved original S1-P-06 prototype illustration for game-potion-brewing project use",
+        "approvalRecord": "docs/design/game-potion-brewing/art-approval-2026-10-14.md"
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "no": "art-07",
+      "skinKey": "potion/ingredient/dawn-petal",
+      "kind": "sprite",
+      "slot": {
+        "entity": "ingredient:dawn-petal",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "query": "golden four-petal dawn flower",
+      "desc": "Original S1-P-06 dawn petal SVG on transparent canvas",
+      "placeholder": {
+        "current": "ingredient Shape fallback while texture is unavailable",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "ingredient:dawn-petal"
+        ]
+      },
+      "spec": {
+        "w": 100,
+        "h": 100,
+        "displayW": 80,
+        "displayH": 88,
+        "transparent": true
+      },
+      "context": "The Dawn Petal ingredient entity in the shelf; blueprint.ts Sprite.textureKey consumes this stable key.",
+      "status": "approved",
+      "gen": {
+        "source": "approved-prototype-extract",
+        "servedPath": "/games/game-potion-brewing/art/textures/ingredient-dawn-petal.svg",
+        "mock": false
+      },
+      "provenance": {
+        "sourceFile": "docs/design/game-potion-brewing/prototype.dc.html",
+        "sourceSha256": "899e7d57c8e69971c25aff204fa89f620339950cde9940bb86bc2353d1ed0894",
+        "license": "Owner approved original S1-P-06 prototype illustration for game-potion-brewing project use",
+        "approvalRecord": "docs/design/game-potion-brewing/art-approval-2026-10-14.md"
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    },
+    {
+      "no": "art-08",
+      "skinKey": "potion/stirring-rod",
+      "kind": "sprite",
+      "slot": {
+        "entity": "rod",
+        "component": "Sprite",
+        "field": "textureKey"
+      },
+      "query": "carved wooden stirring rod with rounded knob and submerged tip",
+      "desc": "Owner-approved S1-P-06 prototype-derived wooden stirring rod: round gold-brown head, shaded narrow shaft, faded submerged end",
+      "placeholder": {
+        "current": "rod Shape fallback while texture is unavailable",
+        "source": "procedural",
+        "count": 1,
+        "instances": [
+          "rod"
+        ]
+      },
+      "spec": {
+        "w": 58,
+        "h": 205,
+        "displayW": 58,
+        "displayH": 205,
+        "transparent": true
+      },
+      "context": "The rod Sprite.textureKey in blueprint.ts consumes this key; its angular gesture remains the same gameplay component. The SVG is a programmatic visual derivative of the finalized prototype, not a claim of separate Art Platform approval.",
+      "status": "approved",
+      "gen": {
+        "source": "prototype-derived-programmatic-svg",
+        "servedPath": "/games/game-potion-brewing/art/textures/stirring-rod.svg",
+        "mock": false
+      },
+      "provenance": {
+        "sourceFile": "docs/design/game-potion-brewing/prototype.dc.html",
+        "sourceSha256": "899e7d57c8e69971c25aff204fa89f620339950cde9940bb86bc2353d1ed0894",
+        "license": "Original programmatic derivative of Owner-approved S1-P-06 prototype; game-potion-brewing project use",
+        "humanArtPlatformReview": "pending"
+      },
+      "history": [
+        {
+          "action": "approve"
+        }
+      ]
+    }
+  ]
+}

@@ -34,7 +34,7 @@ describe('② fx kind fade —— 半透明淡出消失', () => {
 });
 
 describe('③ ensureUiKeyframes —— renderNode-only 屏自注入关键帧（幂等·含 fx CSS）', () => {
-  it('幂等注入一次 + 内容含 fx/anim 关键帧（fade/flash/sheen）', () => {
+  it('幂等注入一次 + 内容含 fx/anim 关键帧与皮肤 Slider 的 reduced-motion 覆盖', () => {
     const made: Array<{ id: string; textContent: string }> = [];
     const byId: Record<string, { id: string; textContent: string }> = {};
     const fakeDoc = {
@@ -48,5 +48,7 @@ describe('③ ensureUiKeyframes —— renderNode-only 屏自注入关键帧（�
     expect(made[0]!.textContent).toContain('apollo-fx-fade');
     expect(made[0]!.textContent).toContain('apollo-fx-flash');
     expect(made[0]!.textContent).toContain('data-fx~="sheen"');
+    expect(made[0]!.textContent).toContain('prefers-reduced-motion:reduce');
+    expect(made[0]!.textContent).toContain('[data-skin-slider-thumb]');
   });
 });

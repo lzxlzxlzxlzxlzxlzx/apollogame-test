@@ -1,0 +1,57 @@
+{
+  "slug": "game-potion-brewing",
+  "form": "compiled-canvas",
+  "exit": 0,
+  "summary": "✓ Canvas 真手势打穿（2 项 · Engine.step 输入与可见变化同证 · 零控制台 error）",
+  "gestures": [
+    {
+      "device": "mouse",
+      "kind": "drag",
+      "input": {
+        "key": "drag",
+        "phase": "drag"
+      },
+      "reachable": true,
+      "inputMatched": true,
+      "visibleChanged": true,
+      "before": "BREWING STEPS · 第 1 / 4 步",
+      "after": "BREWING STEPS · 第 2 / 4 步",
+      "engineProbe": {
+        "steps": 12,
+        "actions": [],
+        "inputs": [
+          {
+            "key": "drag",
+            "phase": "drag",
+            "tick": 39
+          }
+        ]
+      }
+    },
+    {
+      "device": "touch",
+      "kind": "drag",
+      "input": {
+        "key": "drag",
+        "phase": "drag"
+      },
+      "reachable": true,
+      "inputMatched": true,
+      "visibleChanged": true,
+      "before": "BREWING STEPS · 第 1 / 4 步",
+      "after": "BREWING STEPS · 第 2 / 4 步",
+      "engineProbe": {
+        "steps": 17,
+        "actions": [],
+        "inputs": [
+          {
+            "key": "drag",
+            "phase": "drag",
+            "tick": 50
+          }
+        ]
+      }
+    }
+  ],
+  "consoleErrors": []
+}

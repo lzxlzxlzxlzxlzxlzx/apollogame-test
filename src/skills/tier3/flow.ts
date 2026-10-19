@@ -1,8 +1,12 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { defineComponent } from '@engine/core/define-component.js';
+import { t } from '@engine/core/schema.js';
+import { FlowStateSchema } from '@engine/protocol/schemas/logic.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
-import type { GameFlow, FlowState, FlowAction, Resource, Flag, State } from '@engine/protocol/components.js';
+import type { GameFlow, FlowState, FlowAction } from '@engine/protocol/components.js';
 import { evaluateCondition, buildConditionLookup } from '@skills/tier2/condition.js';
+import { applyWrite, ctxOf, writeTargetOf } from '@engine/logic/index.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  flow —— 声明式「游戏流程状态机」解释器（REQ-020；Tier3 解释器型，与 dialogue 同构）。
@@ -21,29 +25,10 @@ import { evaluateCondition, buildConditionLookup } from '@skills/tier2/condition
 //  确定性：转移按声明序短路、动作就地施加、条件树确定；entered 进 snapshot → 录放一致。
 // ═══════════════════════════════════════════════════════════════
 
-// 施加一条流程动作（复用 condition 的 id 索引；动词=Effect 子集 set-flag/set-state/modify-resource）。
+// 施加一条流程动作（动词=Effect 子集 set-flag/set-state/modify-resource）。P2a：走规则内核 applyWrite（global 寻址·
+// 唯一的一份 clamp）；lookup 复用同一 tick 的 id 索引。
 function applyAction(world: IWorld, lookup: ReturnType<typeof buildConditionLookup>, a: FlowAction): void {
-  switch (a.kind) {
-    case 'set-flag': {
-      const f = lookup.flag(a.targetId);
-      if (f) f.active = a.value === true || a.value === 'true';
-      break;
-    }
-    case 'set-state': {
-      const s = lookup.state(a.targetId);
-      if (s) s.current = String(a.value);
-      break;
-    }
-    case 'modify-resource': {
-      const r = lookup.resource(a.targetId);
-      if (r) {
-        const v = Number(a.value);
-        const next = a.op === 'set' ? v : r.current + v; // add(默认) | set
-        r.current = next < r.min ? r.min : next > r.max ? r.max : next;
-      }
-      break;
-    }
-  }
+  applyWrite(ctxOf(world, lookup), { to: writeTargetOf(a.kind, a.targetId), op: a.op, value: a.value });
 }
 
 export const flowCapability = defineCapability({
@@ -64,18 +49,18 @@ export const flowCapability = defineCapability({
 
   components: {
     provides: {
-      GameFlow: {
+      GameFlow: defineComponent('GameFlow', {
+        id: t.str('flow 标识（多 flow 区分）'),
+        current: t.str('当前状态 id'),
+        states: t.arr(FlowStateSchema, 'FlowState[]：{id,onEnter?:FlowAction[],transitions?:[{when?:ConditionExpr,after?,to,do?:FlowAction[]}]}'),
+        entered: t.opt(t.bool('内部：当前状态 onEnter 是否已跑（转移后置 false）')),
+        elapsed: t.opt(t.num('内部：进入当前状态后经过的 tick 数（after 时序门）')),
+      }, {
         category: 'config',
         describe: '声明式流程状态机（数据）。current=当前状态 id；states=状态列表（onEnter 动作 + 带 when 条件的转移）。',
-        fields: {
-          id: { type: 'string', describe: 'flow 标识（多 flow 区分）' },
-          current: { type: 'string', describe: '当前状态 id' },
-          states: { type: 'string', describe: 'FlowState[]：{id,onEnter?:FlowAction[],transitions?:[{when:ConditionExpr,to,do?:FlowAction[]}]}' },
-          entered: { type: 'boolean', describe: '内部：当前状态 onEnter 是否已跑（转移后置 false）' },
-        },
-      },
+      }),
     },
-    reads: ['GameFlow', 'Resource', 'Flag', 'State'],
+    reads: ['GameFlow', 'Resource', 'Flag', 'State', 'Cooldowns', 'Timer', 'StringVar'], // Timer/StringVar：条件树 kind:'timer'/'string' 经 engine/logic 读（P1a 严格模式漏报·game-f 慢车道 2026-09-10 抓出）
     writes: ['GameFlow', 'Resource', 'Flag', 'State'],
     consumes: [],
   },
@@ -92,7 +77,7 @@ export const flowCapability = defineCapability({
       // 显式 runsAfter 覆盖反向组件推断边破环（同 REQ-F-025）。语义：先数清占位/羁绊等派生事实，
       // flow 再据此判阶段转移。与上方 runsBefore 合成一致偏序：zone-occupancy/group-count → flow → event-when/resource-apply。
       runsAfter: ['zone-occupancy', 'group-count'],
-      reads: ['GameFlow', 'Resource', 'Flag', 'State'],
+      reads: ['GameFlow', 'Resource', 'Flag', 'State', 'Cooldowns', 'Timer', 'StringVar'], // Timer/StringVar：条件树 kind:'timer'/'string' 经 engine/logic 读（P1a 严格模式漏报·game-f 慢车道 2026-09-10 抓出）
       writes: ['GameFlow', 'Resource', 'Flag', 'State'],
       consumes: [],
       execute(world: IWorld) {

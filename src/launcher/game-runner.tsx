@@ -1,6 +1,8 @@
 // launcher.tsx 拆分而来（2026-07-16 纯搬运·行为不变）：游戏运行时 —— GameOverlayMenu / GameRunner / BareListRetry。
 import React, { useState, useEffect } from 'react';
 import { SHELL, sGearBtn, sMenuPanel, sMenuItem } from '../ui/shell-theme.js';
+import { LIFE_LAUNCHER_ID_PREFIX } from './life-launcher-catalog.js';
+import { LifeGameRunner } from './life-game-runner.js';
 
 // ══════════════════════════════════════
 //  Game Runtime
@@ -71,12 +73,36 @@ function installZcProbe(gameId: string, host: HTMLElement): void {
 function teardownZcProbe(): void { delete window.__zcProbe; }
 
 export function GameRunner({ gameId, onBack }: { gameId: string; onBack: () => void }) {
+  const installProbe = React.useCallback((host: HTMLElement) => {
+    if (import.meta.env.DEV) installZcProbe(gameId, host);
+  }, [gameId]);
+  useEffect(() => () => { teardownZcProbe(); }, [gameId]);
+
+  if (gameId.startsWith(LIFE_LAUNCHER_ID_PREFIX)) {
+    return (
+      <div style={{ position: 'absolute', inset: 0, background: SHELL.bg0 }}>
+        <GameOverlayMenu items={[{ label: '⟵ 返回主界面', onClick: onBack }]} />
+        <LifeGameRunner gameId={gameId} onBack={onBack} onReady={installProbe} />
+      </div>
+    );
+  }
+  return <BuiltInGameRunner gameId={gameId} onBack={onBack} />;
+}
+
+function BuiltInGameRunner({ gameId, onBack }: { gameId: string; onBack: () => void }) {
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
     // mount 第二参 host（可选·向后兼容）：把壳层「退出到游戏库」钩子传给游戏，让游戏可把退出收进自己的设置菜单（owner 2026-06-21）。
     const loaders: Record<string, () => Promise<{ mount: (el: HTMLElement, host?: { exit: () => void }) => () => void }>> = {
+      'game-rhetoric-duel': () => import('@games/game-rhetoric-duel/game-rhetoric-duel.js'),
+      'game-dice': () => import('@games/game-dice/game-dice.js'),
+      'game-lockpick': () => import('@games/game-lockpick/game-lockpick.js'),
+      'game-potion-brewing': () => import('@games/game-potion-brewing/game-potion-brewing.js'),
+      'game-loot-chest': () => import('@games/game-loot-chest/game-loot-chest.js'),
+      'game-theft': () => import('@games/game-theft/game-theft.js'),
+      'game-simlife': () => import('@games/game-simlife/game-simlife.js'),
       'game-e': () => import('@games/game-e/game-e.js'),
       'game-d': () => import('@games/game-d/game-d.js'),
       'game-f': () => import('@games/game-f/game-f.js'),
@@ -91,6 +117,10 @@ export function GameRunner({ gameId, onBack }: { gameId: string; onBack: () => v
       'game102': () => import('@games/game102/game102.js'),
       'game108': () => import('@games/game108/game108.js'),
       'game211': () => import('@games/game211/game211.js'),
+      'game111': () => import('@games/game111/game111.js'),
+      /* AI START */
+      'manor-escape': () => import('../services/gal-ui/manor-escape-play.js'),
+      /* AI END */
     };
     const loader = loaders[gameId];
     if (!loader) return;
@@ -105,13 +135,13 @@ export function GameRunner({ gameId, onBack }: { gameId: string; onBack: () => v
       else if (import.meta.env.DEV) installZcProbe(gameId, containerRef.current);
     });
     return () => { disposed = true; cleanup?.(); teardownZcProbe(); };
-  }, [gameId]);
+  }, [gameId, onBack]);
 
   return (
-    <div style={{ position: 'absolute', inset: 0, background: SHELL.bg0 }}>
+    <div style={{ position: 'absolute', inset: 0, background: gameId === 'game-potion-brewing' ? 'transparent' : SHELL.bg0 }}>
       {/* 全游戏统一的壳层菜单（齿轮 → 收纳「返回主界面」等全局动作；游戏代码不掺和）—— 视觉基调见 ui/shell-theme.ts。
           game-g 已把退出收进自己的设置菜单（owner 2026-06-21「去掉右上角返回·收进设置」，经 mount(el,{exit}) 接走）→ 壳层不再为它叠这颗。 */}
-      {gameId !== 'game-g' && (
+      {gameId !== 'game-g' && gameId !== 'game-potion-brewing' && (
         <GameOverlayMenu items={[{ label: '⟵ 返回主界面', onClick: onBack }]} />
       )}
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />

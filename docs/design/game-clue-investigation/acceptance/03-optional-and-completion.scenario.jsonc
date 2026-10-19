@@ -1,0 +1,47 @@
+// author: GD
+// S4 条款：半烧毁信件是可选线索；收录它不推进。仅窗锁与湿脚印两条必需线索齐备后完成。
+// UI 对账：investigate.letter|lock|prints = 场景热点；clue.collect = 特写“收录线索”。
+// 对抗目标：把可选项误算必需、收录第一条就提前完成、第二条收录后永不完成，均须转红。
+{
+  "name": "可选线索不推进且两条必需线索闭合完成",
+  "game": "game-clue-investigation",
+  "seed": 4103,
+  "steps": [
+    { "expect": [
+      { "res": "required-collected", "eq": 0 },
+      { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" }
+    ] },
+    { "signal": "investigate.letter" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "clue-reveal" } ], "cap": 30 },
+    { "signal": "clue.collect" },
+    { "waitUntil": [
+      { "flag": "collected.letter", "eq": true },
+      { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "clue-collected" }
+    ], "cap": 30 },
+    { "expect": [ { "res": "required-collected", "eq": 0 } ] },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 180 },
+    { "signal": "investigate.lock" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "clue-reveal" } ], "cap": 30 },
+    { "signal": "clue.collect" },
+    { "waitUntil": [
+      { "flag": "collected.lock", "eq": true },
+      { "res": "required-collected", "eq": 1 }
+    ], "cap": 30 },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 180 },
+    { "expect": [ { "res": "required-collected", "eq": 1 } ] },
+    { "signal": "investigate.prints" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "clue-reveal" } ], "cap": 30 },
+    { "signal": "clue.collect" },
+    { "waitUntil": [
+      { "flag": "collected.prints", "eq": true },
+      { "res": "required-collected", "eq": 2 },
+      { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "clue-collected" }
+    ], "cap": 30 },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "completed" } ], "cap": 180 },
+    { "expect": [
+      { "res": "required-collected", "eq": 2 },
+      { "res": "required-total", "eq": 2 },
+      { "flag": "collected.letter", "eq": true }
+    ] }
+  ]
+}

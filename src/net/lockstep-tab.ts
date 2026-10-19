@@ -1,7 +1,7 @@
 import { World } from '@engine/core/world.js';
 import { applyCommands } from './commands.js';
 import type { Command } from './commands.js';
-import { hashSnapshot } from './determinism.js';
+import { hashWorld, scheduleFingerprint } from './world-hash.js';
 import { FixedStepClock } from './fixed-step.js';
 import { buildMpWorld, addPlayer, playerEntityId, renderEnts, PLAYER_COLORS } from './mp-world.js';
 import type { RenderEnt } from './mp-world.js';
@@ -14,7 +14,7 @@ export interface Dir {
 
 // 对端之间交换的报文（经 BroadcastChannel / 任意 Channel 传输）。
 export type NetMsg =
-  | { t: 'hello'; peer: string }
+  | { t: 'hello'; peer: string; sched?: string } // sched（P2d）：调度指纹（系统序 + tickRate）·不一致的对端不入 epoch
   | { t: 'bye'; peer: string }
   | { t: 'input'; peer: string; epoch: string; tick: number; dx: number; dy: number; jump?: number }
   | { t: 'hash'; peer: string; epoch: string; tick: number; hash: string };
@@ -64,6 +64,8 @@ export interface LockstepOptions {
   buildWorld?: (playerIds: string[]) => World;
   // 首次确认分叉时回调一次（每 epoch 至多一次·与 console.error 大声报告同刻）。不传则只有 console.error。
   onDesync?: (info: DesyncInfo) => void;
+  // 调度指纹不一致的对端（P2d）：每个对端至多回调一次；该对端不入 epoch（不与它组局）。不传则只有 console.error。
+  onIncompatible?: (info: { peer: string; theirs: string; mine: string }) => void;
 }
 
 const HEARTBEAT_MS = 250;
@@ -110,6 +112,10 @@ export class LockstepClient {
   private lastComparedTick: number | null = null; // 本 epoch 是否真比过至少一拍（null = 无凭据，不得报 synced）
   private desyncInfo: DesyncInfo | null = null; // 首次确认的分叉（本 epoch 内不清、不重复报告）
   private readonly onDesync?: (info: DesyncInfo) => void;
+  private readonly onIncompatible?: LockstepOptions['onIncompatible'];
+  private readonly tickRate: number;
+  private sched = ''; // 本端调度指纹（世界建好后算）
+  private readonly incompatible = new Set<string>();
 
   constructor(opts: LockstepOptions) {
     this.peerId = opts.peerId;
@@ -117,6 +123,9 @@ export class LockstepClient {
     this.getInput = opts.getInput;
     this.buildWorld = opts.buildWorld ?? defaultBuildWorld;
     this.onDesync = opts.onDesync;
+    this.onIncompatible = opts.onIncompatible;
+    this.tickRate = opts.tickRate ?? 30;
+    // eslint-disable-next-line zerocraft/no-wall-clock -- 宿主时钟缺省值·可注入（opts.now·测试注入假钟）·只喂 FixedStepClock 的帧间隔，不进 sim/hash
     this.now = opts.now ?? (() => (typeof performance !== 'undefined' ? performance.now() : Date.now()));
     this.inputDelay = Math.max(1, opts.inputDelay ?? 4);
     this.clock = new FixedStepClock(opts.tickRate ?? 30, { maxSteps: 8 });
@@ -127,7 +136,7 @@ export class LockstepClient {
 
   // 渲染 / HUD 读取的当前视图。
   view(): ClientView {
-    const hash = hashSnapshot(this.world.snapshot());
+    const hash = hashWorld(this.world); // P2c 增量·同值于 hashSnapshot(snapshot)
     // 三态判定（REQ-DESYNC①）：旧实现只看 peerHashAt.get(simTick)、缺数据默认 true——
     // 领先端本 tick 永远等不到对端 hash，60/60 拍全分叉也显示同步。现在：
     // 没有真比过一拍 = pending（不谎报）；确认过分叉 = desynced（本 epoch 内不摘牌）。
@@ -158,7 +167,7 @@ export class LockstepClient {
     const t = this.now();
     if (t - this.lastHeartbeat >= HEARTBEAT_MS) {
       this.lastHeartbeat = t;
-      this.channel.post({ t: 'hello', peer: this.peerId });
+      this.channel.post({ t: 'hello', peer: this.peerId, sched: this.sched });
     }
     this.recomputeEpoch();
 
@@ -198,6 +207,7 @@ export class LockstepClient {
     this.membership = members;
     this.slotOf = new Map(members.map((id, i) => [id, i]));
     this.world = this.buildWorld(members.map((_, i) => playerIdForSlot(i)));
+    this.sched = scheduleFingerprint(this.world, this.tickRate); // P2d：握手指纹随世界重建刷新
     this.simTick = 0;
     this.committedInputTick = this.inputDelay; // 前 inputDelay 个 tick 视为零输入热身
     // 保留本 epoch 已缓存的输入（错峰期间对端先发来的那几拍就在这里，正是 P0 修复的关键：
@@ -216,6 +226,16 @@ export class LockstepClient {
     if ('peer' in m && m.peer === this.peerId) return; // 忽略自身回声
     switch (m.t) {
       case 'hello':
+        // P2d：调度指纹握手——对端系统序/tickRate 与本端不同 = 两份不同的引擎/数据，组局必分叉 → 开局即拒。
+        // 旧版对端（无 sched）照旧接纳（兼容）。
+        if (m.sched !== undefined && this.sched && m.sched !== this.sched) {
+          if (!this.incompatible.has(m.peer)) {
+            this.incompatible.add(m.peer);
+            console.error(`[lockstep] 对端 ${m.peer} 调度指纹 ${m.sched} ≠ 本端 ${this.sched}（系统序/tickRate 不同）——不与它组局。`);
+            this.onIncompatible?.({ peer: m.peer, theirs: m.sched, mine: this.sched });
+          }
+          break;
+        }
         this.lastSeen.set(m.peer, this.now());
         this.recomputeEpoch();
         break;
@@ -314,7 +334,7 @@ export class LockstepClient {
     applyCommands(this.world, cmds);
     this.world.tick();
     this.simTick = tick;
-    const hash = hashSnapshot(this.world.snapshot());
+    const hash = hashWorld(this.world); // P2c 增量·同值于 hashSnapshot(snapshot)
     this.myHashAt.set(tick, hash);
     // 落后端视角：对端 hash 已先到、本端刚拍到这一拍 → 立刻比（最近可比拍判定的另一半）。
     const bt = this.peerHashAt.get(tick);

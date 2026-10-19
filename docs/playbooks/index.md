@@ -1,21 +1,23 @@
 # ZeroCraft 生产线手册总目录（Playbooks · 唯一导航）
 
-> 2026-07-03 立（owner 拍板）· 主程维护。**任何 session、任何模型档位，动手做生产任务前，先到这里找对应线的手册。**
+> 2026-07-03 立（owner 拍板）· 主程维护。**生产任务开工前，先来这里找对应线手册。**
 > 定位：手册 = 「在**本引擎**里做 X，该用哪个基座件、数据长什么样」的**接线图**；
 > 与 `wiki/skills/`（行业知识，建新能力才读）、`capability-registry`（机读字典）分层不重复。
 
 ## 使用铁律（工作流）
 
 1. **先查后做**：接到任务 → 按下表找到生产线 → 读该线手册 → **手册里查得到的做法必须用基座件**。
-2. **查不到先 `git pull` 再查**：档案每天在长，旧树查新知必然空手（2026-08-13 108 session 实证）。**查不到 ≠ 自造**：手册没覆盖的做法 → 去 `docs/workflow/requests.md` 提缺口，走 **⚖ 缺口裁决协议三步**（①先查留原文 → ②摆 A/B 两条路各附代价 → ③owner 判·Lead 不自裁·全文见 CLAUDE.md）→ **等裁决，绝不绕开基座自己发明**。
+2. **查不到先 `git pull` 再查**：旧树查不到新知。**查不到 ≠ 自造**：手册未覆盖 → 去 `docs/workflow/requests.md` 提缺口，走 **⚖ 缺口裁决协议三步**（①实查留原文 → ②摆 A/B 及代价 → ③owner 判·Lead 不自裁；全文见 CLAUDE.md）→ **等裁决，不绕基座**。
 3. **手册对产出游戏负全责**：查不到即手册的 bug——提缺口同时就是在修手册；主程裁决后把答案回填对应手册。
 4. 交付前自检：跑 `node scripts/game-skill-audit.mjs <game>`（红旗=裸 Math.random/innerHTML/createElement/零能力接入/零测试）；UI 线另跑 `/check-ui`。
 
 ## 生产线 → 手册 → 负责角色
 
+> 每条线已配 `/module-*` skill；主 agent=`game-dev`（`.claude/`）。
+
 | 生产线 | 手册 | 基座核心 | 负责角色/agent |
 |---|---|---|---|
-| **游戏生产总线（八阶段流程板）** | `playbooks/game-production.md` | 生产流程板 pipeline.json · 每步三门（机器+复查+人）· `scripts/game-pipeline.mjs` | **全员（任何新游戏/续做先看板）**；判官=Lead |
+| **游戏生产总线（八阶段流程板）** | `playbooks/game-production.md` + `playbooks/game-requests.md` | 流程板 · 三门 · 当前需求单/归档纪律 | **全员（任何新游戏/续做先读）**；判官=Lead |
 | **流程验收问题层（每步答 YES 才过）** | `playbooks/game-flow-questions.md` | 八阶段的**验收问题层**·**T2 闭环竖切**（验收剧本 conformance 机器证「环跑通」）为第一强制门 | **全员（防「门绿但环不闭」）**；判官=Lead |
 | **超休闲/休闲工具箱（速查·2D+3D 汇总）** | `playbooks/casual-toolkit.md` | 按「你要做什么」汇 Juice/3D UI/卡通观感/手感/物理玩具/世界 UI · 活范例=game-i | **做休闲/超休闲游戏先看**（UI 细则→ui.md·3D 细则→3d.md） |
 | **按玩法选件（决策树一页）** | `playbooks/pick-list.md` | 玩法→基座件实名速查（卡牌/三消/波次/剧情…）·查不到走 capgap CLI | **全员（新游戏/新玩法开工第一站·8/4 评审 Q1 件）** |
@@ -29,6 +31,7 @@
 | 战斗 | `playbooks/combat.md` | hitbox/mortal/stats/over-time/aggro/dice 族/opposedRoll | 甲（game-g 战斗核先例） |
 | 对手/敌人 AI | `playbooks/opponent-ai.md` | behavior-tree/event-when+flow 相位门/State 心态机/Effect.chance 种子骰/aggro；AI 设定必填（§4.65） | 各游戏 PE；正样例=game108 大师 v5 / game-a BT |
 | 卡牌 | `playbooks/cards.md` | card-pile/card-play/poker-hand(wild)/card-scoring | 各游戏 PE；正样例=game-e 计分核 |
+| **底层功能库与共享件** | `playbooks/base-lib.md` | `@engine/math` · `byId/sortedIds` · 事件总线 · 随机派生 · 数据糖 · event-log/persist/牌码 | **全员（先查后写·手写同形=红旗）** |
 | 随机与确定性 | `playbooks/randomness.md` | RandomSeed/nextRandom/seededShuffle · **裸 Math.random=红线** | 全员必读（最短的一本） |
 | 资产 | `playbooks/assets.md` | art:检索/AssetManifest/asset-index | **asset-manager agent** / resource-manager 技能 |
 | **美术管线（配美术/换皮）** | `playbooks/art-pipeline.md` | 美术平台+台账 art-NN+风格包+批量生成/写回（终态档=唯一权威） | 全员（做游戏必读）；平台=PST |
@@ -37,6 +40,7 @@
 | **DokiWorld 出包** | `playbooks/dokiworld-pack.md` | 产物→DokiWorld App（manifest/SDK/自包含 dist） | 出包前必读 |
 | ~~外部引擎交付（DokiWorld 卡带）~~ | `playbooks/dokiworld-export.md` | **已退役 2026-08-13**——旧协议桥形态·对方不再收 | 用上一行的出包线 |
 | 平台角色卡桥（外部数据→席位） | `playbooks/character-card.md` | `services/character-card`（normalizeCharacterCard/toSeatCard/isCardUsable）· 媒体取优 · 成年硬闸 · passthrough 对账 | 各游戏 PE（a/b/c 接卡）；桥=引擎 services |
+| **角色仓库（作者档案→百科页）** | `playbooks/character-library.md` | `characters/<id>/catalog.json` · `inspectCharacter` · 条目顺序即排版 | 编辑角色档案的 AI / 工作台；先读手册 |
 | **测试与验收** | `playbooks/testing.md` | vitest·registry-guard·ZeroCraftBench·数值 sim·e2e·smoke·game-skill-audit | **全员（交付前必过）**；验收纪律=Lead |
 | **视觉验收/出货门** | `playbooks/visual-scorecard.md` | 8 维 0-3 分·premium=全维≥2·证据台账·反捷径工艺律 | 判官=Lead/P3D；PS 出货内门（TGS 吸收·owner 2026-07-06 批） |
 

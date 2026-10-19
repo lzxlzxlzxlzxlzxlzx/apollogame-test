@@ -5,7 +5,7 @@ import re
 import threading
 
 from .paths import _valid_slug
-from .sysutil import ROOT, _spawn, c
+from .sysutil import ROOT, _node_spawn, c
 
 # ── 生产流程板（owner 2026-07-10「N 步拆分·每步 review·不能只靠手册」）────────────
 # 大脑在 scripts/game-pipeline.mjs（八阶段·机器门证据带内容指纹·人门 signoff 落账）；
@@ -16,9 +16,11 @@ _PIPE_STAGE_RE = re.compile(r'S[1-8]')
 def _pipeline_cli(args: list, timeout: int = 120) -> dict:
     """shell scripts/game-pipeline.mjs → 解析末行 JSON。"""
     try:
-        proc = subprocess.run(**_spawn(['node', 'scripts/game-pipeline.mjs', *args]), cwd=ROOT, capture_output=True, timeout=timeout)
+        proc = subprocess.run(**_node_spawn(['scripts/game-pipeline.mjs', *args]), cwd=ROOT, capture_output=True, timeout=timeout)
     except subprocess.TimeoutExpired:
         return {'ok': False, 'error': '生产流程板执行超时'}
+    except OSError as e:
+        return {'ok': False, 'error': f'生产流程板无法启动: {e}'}
     out = proc.stdout.decode('utf-8', 'replace').strip()
     line = out.splitlines()[-1] if out else ''
     try:
@@ -91,10 +93,12 @@ def handle_pipeline_signoff(body: dict) -> dict:
 def _orch_cli_sync(args: list, timeout: int = 20) -> dict:
     """短活命令（status/abort）：shell → 末行 JSON + 退出码。永不抛。"""
     try:
-        proc = subprocess.run(**_spawn(['node', 'scripts/pipeline-orchestrator.mjs', *args, '--json']),
+        proc = subprocess.run(**_node_spawn(['scripts/pipeline-orchestrator.mjs', *args, '--json']),
                                cwd=ROOT, capture_output=True, timeout=timeout)
     except subprocess.TimeoutExpired:
         return {'ok': False, 'error': '编排器命令执行超时', '_exit': None}
+    except OSError as e:
+        return {'ok': False, 'error': f'编排器无法启动: {e}', '_exit': None}
     out = proc.stdout.decode('utf-8', 'replace').strip()
     line = out.splitlines()[-1] if out else ''
     try:
@@ -129,7 +133,7 @@ def _orch_dispatch_kickoff(slug: str, stage: str, quick_wait: float = 2.5) -> di
     LLM 会话（分钟级·图纸未定绝对上限）——不等，交子进程在后台自己跑完；编排器自己落台账+放锁，
     前端改轮询 status。子进程仍是本进程的子进程（非 daemon 分离）：起个收尸线程等它退出，防僵尸。"""
     try:
-        proc = subprocess.Popen(**_spawn(['node', 'scripts/pipeline-orchestrator.mjs', 'dispatch', slug, stage, '--json']),
+        proc = subprocess.Popen(**_node_spawn(['scripts/pipeline-orchestrator.mjs', 'dispatch', slug, stage, '--json']),
                                  cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     except Exception as e:
         return {'quick': True, 'ok': False, 'code': 'SPAWN_ERROR', 'reason': f'编排器子进程起不来: {e}'}

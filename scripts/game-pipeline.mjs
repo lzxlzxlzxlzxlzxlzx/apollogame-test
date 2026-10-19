@@ -25,11 +25,12 @@
 //  线手册：docs/playbooks/game-production.md + docs/playbooks/review-gates.md（三门制·复查清单）。
 // ═══════════════════════════════════════════════════════════════
 
-import { readFileSync, writeFileSync, existsSync, readdirSync, statSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync, statSync, mkdirSync, renameSync, unlinkSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createHash } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
+import { artRoot } from './art-paths.mjs';
 // R3（REQ-RENDERCHECK·标准照比对）门读码只要「有没有 blessed 基准」这一个纯 fs 判断——从
 // scripts/lib/golden-ledger.mjs（而非 golden-shot.mjs 本体）import，避免跟 golden-shot.mjs
 // （它反过来要 import 本文件的 detectForm/gameHash）互相 import 成环。
@@ -46,22 +47,75 @@ const ROOT = process.env.ZEROCRAFT_PIPELINE_ROOT || process.env.APOLLO_PIPELINE_
 const SANDBOXED = ROOT !== REAL_ROOT;
 
 const readJson = (f, fb) => { try { return JSON.parse(readFileSync(f, 'utf8')); } catch { return fb; } };
-const writeJson = (f, v) => { mkdirSync(dirname(f), { recursive: true }); writeFileSync(f, JSON.stringify(v, null, 2) + '\n'); };
+const PIPELINE_EMPTY = (slug) => ({ version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
+const readPipeline = (root, slug, fallback = PIPELINE_EMPTY(slug)) => {
+  const file = pipelineFile(root, slug);
+  let content;
+  try { content = readFileSync(file, 'utf8'); }
+  catch (error) {
+    if (error?.code === 'ENOENT') return fallback;
+    throw error; // 文件占用/权限错误绝不能被当成空板再覆盖。
+  }
+  return JSON.parse(content); // 坏板同样 fail-closed，保留原字节供诊断。
+};
+const transientWriteErrors = new Set(['UNKNOWN', 'EBUSY', 'EPERM', 'EACCES']);
+const retryPause = new Int32Array(new SharedArrayBuffer(4));
+const retryTransientWrite = (fn) => {
+  for (let attempt = 0; ; attempt++) {
+    try { return fn(); }
+    catch (error) {
+      if (attempt >= 5 || !transientWriteErrors.has(error?.code)) throw error;
+      Atomics.wait(retryPause, 0, 0, 20 * 2 ** attempt);
+    }
+  }
+};
+export const writePipelineJson = (file, value) => {
+  mkdirSync(dirname(file), { recursive: true });
+  const temporary = `${file}.${process.pid}.${randomUUID()}.tmp`;
+  try {
+    // 永远先完成旁路文件；失败时不截断正式流程板。临时文件与目标同目录，rename 不跨卷。
+    retryTransientWrite(() => writeFileSync(temporary, JSON.stringify(value, null, 2) + '\n', { flag: 'wx' }));
+    retryTransientWrite(() => renameSync(temporary, file));
+  } finally {
+    if (existsSync(temporary)) unlinkSync(temporary);
+  }
+};
 
 export const pipelineFile = (root, slug) => join(root, 'public', 'games', slug, 'pipeline.json');
 
 // 游戏形态：cart=创作台卡带（library/）· builtin=内置纯数据（public/games/<slug>/manifest.json tracked）· compiled=编译期（games/）。
+/**
+ * 游戏形态。四种，**`design` 是 2026-09-12 补的第四种**（独立审查打回的鸡生蛋）：
+ * S1/S2 是**设计阶段**，按流程它们必须先过，实现体才被允许出现；可此前 detectForm 只认
+ * 「library / public/games / games 三处之一有实现体」，于是新立项的游戏（只有 `docs/design/<slug>/`）
+ * 一上板就 `未知游戏, exit 1` —— **要过 S2 得先有实现体，要有实现体得先过 S2**。实撞：game110 / game111。
+ * 补 `design` 形态后：S1/S2 照常跑（它们的门本来就是纯 fs），S3+ 明说「还没有实现体」而不是「不认识你」。
+ * 顺序要紧：实现体优先——设计档一直在，它只能当**最后的兜底**，否则已实现的游戏会被误判成设计态。
+ */
 export function detectForm(root, slug) {
   if (existsSync(join(root, 'library', slug, 'manifest.json'))) return 'cart';
   if (existsSync(join(root, 'public', 'games', slug, 'manifest.json'))) return 'builtin';
   if (existsSync(join(root, 'games', slug))) return 'compiled';
+  if (existsSync(join(root, 'docs', 'design', slug))) return 'design';
   return null;
 }
+
+/** 还没有实现体（只有设计档）——S3 及以后的关无从谈起。 */
+export const isDesignOnly = (form) => form === 'design';
+/** 设计态在 S3+ 的统一说法（板上/门上同一只嘴，免得两处各说各话）。 */
+const DESIGN_ONLY_NOTE = (slug) =>
+  `设计态（只有 docs/design/${slug}/·还没有实现体）：先把 manifest 或 games/${slug}/ 源码落地，本关才有东西可跑`;
 
 const manifestPath = (root, slug, form) =>
   form === 'cart' ? join(root, 'library', slug, 'manifest.json')
     : form === 'builtin' ? join(root, 'public', 'games', slug, 'manifest.json')
       : null;
+
+const cartArtArgs = (root, slug, form) => {
+  if (form !== 'cart') return [];
+  const path = join(root, 'library', slug, 'art', 'index.json');
+  return existsSync(path) ? ['--art-index', path] : [];
+};
 
 /** 游戏内容指纹：只哈希**这款游戏自己的**输入（manifest/源码/美术/设计档），引擎全局变化由 S8 的 git HEAD 兜。
  *  排除 pipeline.json 自身（记证据不得自我过期）、gen/mock/（mock 预览物不影响出货内容）
@@ -75,7 +129,7 @@ const manifestPath = (root, slug, form) =>
  *  流程板上是一串永远追不上的 ⚠。这跟当年 pipeline.json 自我过期是同一个形状，只是漏了这个孪生目录。 */
 const EVIDENCE_DIRS = new Set(['mock', 'probe', 'golden', 'self-check', 'review']);
 
-export function gameHash(root, slug) {
+const gameInputFiles = (root, slug) => {
   const roots = [
     join(root, 'library', slug),
     join(root, 'public', 'games', slug),
@@ -104,10 +158,59 @@ export function gameHash(root, slug) {
     }
   };
   for (const r of roots) walk(r);
+  return files;
+};
+
+const stableHash = (root, files) => {
   const h = createHash('sha256');
   for (const f of files) { h.update(relative(root, f)); h.update('\0'); h.update(readFileSync(f)); h.update('\0'); }
   return h.digest('hex').slice(0, 16);
+};
+
+/**
+ * 分域内容指纹。完整哈希仍保留给最终交付；阶段门不再把一笔纯视觉改动误判为玩法重写。
+ *
+ * rules：规则、输入/输出合同、验收剧本与能力计划；S2/S3/S4 的证据只绑定它。
+ * ui：声明式屏幕、主题、原型等可见结构；S5 绑定它。
+ * assets：真实美术/字体资源；S6 的台账与视觉复查绑定它。
+ * visual：ui + assets；S7 品质评分绑定它。
+ * sdk：manifest 与接入说明；出包/宿主接入可单独绑定它。
+ * full：所有游戏输入；只给最终交付和旧记录兼容使用。
+ *
+ * `screen.ts` 被视为视觉域的前提是视觉补丁不得改变 action、热区或输入路由；此项由 VP
+ * 独立复查核对。若碰这些语义，施工者必须把改动移入规则/交互文件或按 S4 重验，不能借命名逃生。
+ */
+export function gameHashes(root, slug) {
+  const files = gameInputFiles(root, slug);
+  const rel = (file) => relative(root, file).replaceAll('\\', '/');
+  const isAsset = (path) => /\/(?:art|assets)\//.test(path)
+    || /\.(?:png|jpe?g|webp|gif|svg|mp3|ogg|wav|woff2?)$/i.test(path);
+  const isUi = (path) => /\/(?:screen|presentation|theme|style)\.(?:ts|tsx|js|jsx|css|json)$/i.test(path)
+    || /\/(?:ui|ui-refs)\//.test(path) || /\/prototype\.dc\.html$/i.test(path);
+  const isSdk = (path) => /\/(?:manifest|app\.manifest)\.json$/i.test(path)
+    || /dokiworld|integration/i.test(path);
+  const domains = { full: [], rules: [], ui: [], assets: [], sdk: [] };
+  for (const file of files) {
+    const path = rel(file);
+    const visualOnly = isUi(path) || isAsset(path);
+    domains.full.push(file);
+    if (!visualOnly) domains.rules.push(file);
+    if (isUi(path)) domains.ui.push(file);
+    if (isAsset(path)) domains.assets.push(file);
+    if (isSdk(path)) domains.sdk.push(file);
+  }
+  const hashes = Object.fromEntries(Object.entries(domains).map(([key, value]) => [key, stableHash(root, value)]));
+  hashes.visual = stableHash(root, [...domains.ui, ...domains.assets].sort());
+  return hashes;
 }
+
+/** 旧调用的完整指纹别名。新阶段门应使用 stageHash(gameHashes(...))。 */
+export function gameHash(root, slug) {
+  return gameHashes(root, slug).full;
+}
+
+export const STAGE_HASH_DOMAIN = Object.freeze({ S2: 'rules', S3: 'rules', S4: 'rules', S5: 'ui', S6: 'assets', S7: 'visual', S8: 'full' });
+export const stageHash = (stage, hashes) => hashes?.[STAGE_HASH_DOMAIN[stage] || 'full'] || hashes?.full || '';
 
 // ── 阶段表（id·名·手册·机器门语义）。手册列=该步开工前唯一必读（每本 ≤80 行）。──
 export const STAGES = [
@@ -125,7 +228,7 @@ export const STAGES = [
 ];
 export const GATE_STAGES = STAGES.filter((s) => s.gate).map((s) => s.id);
 
-const led = (root, slug) => readJson(join(root, 'public', 'games', slug, 'art', 'art-ledger.json'), null);
+const led = (root, slug) => readJson(join(artRoot(root, slug), 'art-ledger.json'), null);
 
 // ── 验收剧本存在性（REQ-ACCEPT·图纸④·「绿门不可玩」复盘）─────────────────
 // S4 门在原 walkthrough/bench 之上加一道：GD 写的验收剧本 ≥3 场景才许过（防零剧本空转）。
@@ -276,10 +379,15 @@ export function selfCheckBlock(a, stage) {
 
 /** 板上自证提示（图纸②·新鲜度绑 gameHash）：产物缺=✗ 点名；产物在档但上次自证时的指纹已变=⚠ 过期
  *  **提示**（不硬拦——图可能真没变，重玩重截或在对齐单注明即可）；否则 ✓。导出供单测。 */
-export function selfCheckNote(root, slug, stage, rec, freshHash) {
+const hashDomain = (stageOrDomain) => STAGE_HASH_DOMAIN[stageOrDomain] || stageOrDomain || 'full';
+const freshDomainHash = (fresh, stageOrDomain) => typeof fresh === 'string' ? fresh : fresh?.[hashDomain(stageOrDomain)] || fresh?.full || '';
+const recordedDomainHash = (record, stageOrDomain) => record?.hashes?.[hashDomain(stageOrDomain)] || record?.gameHash;
+
+export function selfCheckNote(root, slug, stage, rec, fresh, domain = stage) {
   const a = selfCheckArtifacts(root, slug, stage);
   if (!a.ok) return `自证 ✗ 未做（${a.hasAlignment ? `截图 ${a.shots}/${MIN_SELFCHECK_SHOTS}` : `缺 ${a.alignment}`} · 见 ${SELFCHECK_HANDBOOK}）`;
-  if (rec?.gameHash && rec.gameHash !== freshHash) return `自证 ⚠ 对齐单可能过期（游戏文件已变动·重玩重截或在单中注明未变）`;
+  const expected = freshDomainHash(fresh, domain);
+  if (recordedDomainHash(rec, domain) && recordedDomainHash(rec, domain) !== expected) return `自证 ⚠ 对齐单可能过期（${STAGE_HASH_DOMAIN[domain] || domain} 域已变动·重玩重截或在单中注明未变）`;
   return `自证 ✓（对齐单 + ${a.shots} 图${rec?.at ? ` @ ${String(rec.at).slice(0, 10)}` : ''}）`;
 }
 
@@ -292,12 +400,12 @@ export function mockDebt(root, slug) {
 
 /** 立项卡写入（字段级合并·只覆盖出现的字段）。CLI concept 与 /api/pipeline/concept 共用。 */
 export function writeConcept(root, slug, fields) {
-  const pf = readJson(pipelineFile(root, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
+  const pf = readPipeline(root, slug);
   for (const k of ['name', 'pitch', 'refs', 'style', 'planWaiver']) {
     if (fields[k] !== undefined) pf.concept[k] = fields[k];
   }
   (pf.history ||= []).push({ action: 'concept', at: new Date().toISOString() });
-  writeJson(pipelineFile(root, slug), pf);
+  writePipelineJson(pipelineFile(root, slug), pf);
   return pf.concept;
 }
 
@@ -322,8 +430,10 @@ export function artSubState(root, slug) {
 export const REVIEW_STAGES = ['S2', 'S3', 'S4', 'S5', 'S8'];
 export const REVIEW_CHECKLISTS = {
   S2: ['能力清单逐条对 registry 实名核真（无幻觉能力）', '规则面全有现成解释器（无「数据表+待写解释器」虚胖）', '游戏层代码例外逐条有 Lead 裁决', '§4.5 美术接入已答（纯程序化须申请例外）'],
-  S3: ['manifest 纯 JSON（无代码走私）', '实体/组件用途与 plan 一致（无 plan 外私加系统性机制）', '落盘门真跑过（load+2tick 证据新鲜）', '组件字段无「填了但没人解释」的死数据'],
-  S4: ['走查测试断言的是行为而非常量（假信心自查：故意改坏被测逻辑应变红）', '核心循环闭环：开局→行动→反馈→终局→可重开', '失败路径有测试（非法输入被拒/终局判定不误报）', '确定性：同 seed 同结果有断言', '验收剧本作者=GD 非 PE：每本剧本首注释行 `// author: <角色>`（REQ-C-108④ Lead 2026-08-18 裁——全 session 同 git 署名下 blame 分不出角色，author 行=归属唯一凭据；新写/改动的剧本缺行=打回·存量随下次改动补齐；PE 自写剧本=FAIL·REQ-ACCEPT 循环律）', '附真浏览器试玩截图序列（开局→N 步→终局→重开·非仅 CLI 绿）', '自证对齐单抽样重走 ≥3 条（含 ⚠降格行的裁决去向核对）+ 好玩三问已作答非敷衍（docs/playbooks/self-check.md）', '**玩家视角复核八问**已逐条作答（含第 8 问归属+时效：屏上每样东西玩家知道是谁的、哪一刻的·docs/playbooks/self-check.md）', '**递归复核**跑过且零裸奔（逐条款打坏实现→必须有剧本转红·无人红的条款=剧本是摆设·docs/playbooks/testing.md）', 'UI 货架**选型**逛过（house 主题 / @ui/starters / 按品类挑成熟件）——选型定信息层级属结构归 S4，观感精修归 S5（owner 2026-08-07·两层 1:1 律）', '有对手/敌人 AI 的游戏：**AI 设定在档**（capability-plan §4.65 摘要 + docs/design/<slug>/ 详设·初版可基本·迭代同步更新·owner 2026-08-10「有 AI 必须有 AI 设定」）+ AI 行为有点名测试（手册 docs/playbooks/opponent-ai.md）'],
+  S3: ['manifest 纯 JSON（无代码走私）',
+    '参考样例只用来学结构：说得出读了**哪几个文件、为什么读**（学蓝图组织/数据形状/测试写法），且蓝图里**没有从样例继承来的玩法**——抄结构可以、抄玩法不行；「没有同品类样例」不是缺件也不是缩减需求的理由（index.md 使用铁律 5）', '实体/组件用途与 plan 一致（无 plan 外私加系统性机制）', '落盘门真跑过（load+2tick 证据新鲜）', '组件字段无「填了但没人解释」的死数据'],
+  S4: ['走查测试断言的是行为而非常量（假信心自查：故意改坏被测逻辑应变红）',
+    '玩法来自本作需求而非样例：说得出参考过哪几个文件、为什么读；核心循环里没有「因为样例这么做」才存在的机制（index.md 使用铁律 5）', '核心循环闭环：开局→行动→反馈→终局→可重开', '失败路径有测试（非法输入被拒/终局判定不误报）', '确定性：同 seed 同结果有断言', '验收剧本作者=GD 非 PE：每本剧本首注释行 `// author: <角色>`（REQ-C-108④ Lead 2026-08-18 裁——全 session 同 git 署名下 blame 分不出角色，author 行=归属唯一凭据；新写/改动的剧本缺行=打回·存量随下次改动补齐；PE 自写剧本=FAIL·REQ-ACCEPT 循环律）', '附真浏览器试玩截图序列（开局→N 步→终局→重开·非仅 CLI 绿）', '自证对齐单抽样重走 ≥3 条（含 ⚠降格行的裁决去向核对）+ 好玩三问已作答非敷衍（docs/playbooks/self-check.md）', '**玩家视角复核八问**已逐条作答（含第 8 问归属+时效：屏上每样东西玩家知道是谁的、哪一刻的·docs/playbooks/self-check.md）', '**递归复核**跑过且零裸奔（逐条款打坏实现→必须有剧本转红·无人红的条款=剧本是摆设·docs/playbooks/testing.md）', 'UI 货架**选型**逛过（house 主题 / @ui/starters / 按品类挑成熟件）——选型定信息层级属结构归 S4，观感精修归 S5（owner 2026-08-07·两层 1:1 律）', '有对手/敌人 AI 的游戏：**AI 设定在档**（capability-plan §4.65 摘要 + docs/design/<slug>/ 详设·初版可基本·迭代同步更新·owner 2026-08-10「有 AI 必须有 AI 设定」）+ AI 行为有点名测试（手册 docs/playbooks/opponent-ai.md）'],
   S5: ['UI 全走 LayoutNode/引擎渲染（无手写 DOM 逃生）', 'audit 零新增红旗（棘轮绿）', '/check-ui 四关过（重叠/对比度/透明度/布局）', '交互可发现（按钮可见可点·不靠猜）', '**只换皮不动布局**——布局在 S4 已冻结；S5 动布局=返工（owner 2026-08-07·两层 1:1 律）', '自证对齐单抽样重走 ≥3 条（含 ⚠降格行的裁决去向核对）+ 好玩三问已作答非敷衍（docs/playbooks/self-check.md）'],
   S8: ['三绿证据绑当前 HEAD 且净树', '本游戏走查在全量并发下仍绿（非单跑侥幸）', '复盘：本次撞到的手册缺口已回填或提单'],
 };
@@ -331,10 +441,12 @@ export const REVIEW_CHECKLISTS = {
 export const SCORECARD_DIMS = ['艺术方向', '主角面', '世界密度', '材质', '渲染管线', 'VFX', 'UI美术', '性能证据'];
 
 /** 复查记录评估：无=dim；FAIL=fail；指纹过期=stale；CONCERNS=有条件过（ok·⚠标注）；PASS=ok。导出供单测。 */
-export function evalReview(rv, freshHash, freshGapsHash) {
+export function evalReview(rv, fresh, freshGapsHash, domain = 'S4') {
   if (!rv) return { state: 'dim', detail: '未复查（checklist 打单 → 另开 session 复核 → review 落账）' };
   const when = (rv.at || '').slice(0, 16).replace('T', ' ');
-  if (rv.gameHash && rv.gameHash !== freshHash) return { state: 'stale', detail: `⚠ 复查过期（游戏文件已变动·须重查）· 上次 ${rv.verdict} @ ${when}` };
+  const expected = freshDomainHash(fresh, domain);
+  const recorded = recordedDomainHash(rv, domain);
+  if (recorded && recorded !== expected) return { state: 'stale', detail: `⚠ 复查过期（${STAGE_HASH_DOMAIN[domain] || domain} 域已变动·须重查）· 上次 ${rv.verdict} @ ${when}` };
   // 缺口台账变动 → S2 复查过期（台账不入 gameHash·见 gapsHash 注释）。旧复查记录无该字段=不判过期（零回归）。
   if (freshGapsHash !== undefined && rv.gapsHash !== undefined && rv.gapsHash !== freshGapsHash) {
     return { state: 'stale', detail: `⚠ 复查过期（**缺口台账已变动**·须重查——改一条 state 就能解开缺口锁，故复查必须重来）· 上次 ${rv.verdict} @ ${when}` };
@@ -345,10 +457,12 @@ export function evalReview(rv, freshHash, freshGapsHash) {
 }
 
 /** 评分卡评估（S7 机器门）：未打=dim；过期=stale；任一维 0=fail；全维≥2=ok(PREMIUM YES)；否则 warn。导出供单测。 */
-export function evalScorecard(sc, freshHash) {
+export function evalScorecard(sc, fresh) {
   if (!sc || !sc.scores) return { state: 'dim', detail: '评分卡未打（scorecard 子命令·由复查人执行·八维 0-3·无证据不给分）' };
   const when = (sc.at || '').slice(0, 16).replace('T', ' ');
-  if (sc.gameHash && sc.gameHash !== freshHash) return { state: 'stale', detail: `⚠ 评分过期（游戏文件已变动·须重评）· 上次 ${sc.total}/24 @ ${when}` };
+  const expected = freshDomainHash(fresh, 'S7');
+  const recorded = recordedDomainHash(sc, 'S7');
+  if (recorded && recorded !== expected) return { state: 'stale', detail: `⚠ 评分过期（视觉域已变动·须重评）· 上次 ${sc.total}/24 @ ${when}` };
   const vals = SCORECARD_DIMS.map((d) => sc.scores[d] ?? 0);
   const total = vals.reduce((a, b) => a + b, 0);
   const zeros = SCORECARD_DIMS.filter((d) => (sc.scores[d] ?? 0) === 0);
@@ -360,11 +474,13 @@ export function evalScorecard(sc, freshHash) {
 }
 
 /** 机器门证据评估：无证据=dim；exit≠0=fail；指纹过期=stale；否则 ok。 */
-function evalEvidence(ev, freshHash, headNow) {
+function evalEvidence(ev, fresh, headNow, domain = 'S4') {
   if (!ev) return { state: 'dim', detail: '未跑（gate 跑一次落证据）' };
   const when = (ev.at || '').slice(0, 16).replace('T', ' ');
   if (ev.exit !== 0) return { state: 'fail', detail: `✗ 未过（exit ${ev.exit} @ ${when}）${ev.summary ? ' · ' + ev.summary : ''}` };
-  if (ev.gameHash && ev.gameHash !== freshHash) return { state: 'stale', detail: `⚠ 证据过期（游戏文件已变动·须重跑）· 上次绿 @ ${when}` };
+  const expected = freshDomainHash(fresh, domain);
+  const recorded = recordedDomainHash(ev, domain);
+  if (recorded && recorded !== expected) return { state: 'stale', detail: `⚠ 证据过期（${STAGE_HASH_DOMAIN[domain] || domain} 域已变动·须重跑）· 上次绿 @ ${when}` };
   if (ev.head && (ev.head !== headNow || ev.dirty)) return { state: 'stale', detail: `⚠ 证据过期（${ev.dirty ? '跑时工作树不净' : '仓库已前进'}）· 上次绿 @ ${when}` };
   return { state: 'ok', detail: `✓ 过（@ ${when}）${ev.summary ? ' · ' + ev.summary : ''}` };
 }
@@ -372,14 +488,21 @@ function evalEvidence(ev, freshHash, headNow) {
 /** 看板推导（读盘+轻推导·不跑重活）。绿=机器 ok/免 + 人门 ok；任何一边欠=黄；机器 fail=红。 */
 export function boardFor(root, slug) {
   const form = detectForm(root, slug);
-  if (!form) return { ok: false, error: `未知游戏: ${slug}（library/public/src 三处均无）` };
-  const pf = readJson(pipelineFile(root, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
-  const hashNow = gameHash(root, slug);
+  if (!form) return { ok: false, error: `未知游戏: ${slug}（library/ · public/games/ · games/ · docs/design/ 四处均无）` };
+  const pf = readPipeline(root, slug);
+  const hashesNow = gameHashes(root, slug);
+  const hashNow = hashesNow.full;
   const head = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).stdout?.trim() || '';
   const c = pf.concept || {};
   const hasTests = form !== 'cart' && existsSync(join(root, 'games', slug))
     && readdirSync(join(root, 'games', slug)).some((f) => f.endsWith('.test.ts'));
   const planFile = join(root, 'docs', 'design', slug, 'capability-plan.md');
+  // ⚠ **设计文档有两个落点**（独立审查 2026-09-12 打回的 P0）：创作台的 DesignStudio 把设计稿写进
+  // `library/<slug>/design/`（`design_flow.py` → `_game_dir`），而本流水线只读 `docs/design/<slug>/`。
+  // 后果是作者在创作台把设计做完了，S2 这边照样报「无能力计划」——**而且报得像是他没做**。
+  // 统一存储是迁移级决定（owner 判），但**沉默是不可接受的**：这里先把"另一处有"这件事说出来。
+  const studioPlanFile = join(root, 'library', slug, 'design', 'capability-plan.md');
+  const planSplit = !existsSync(planFile) && existsSync(studioPlanFile);
   // 缺口台账（REQ-S18PANEL②③）：**板上现算**（不读证据）——缺口台账已被排除出 gameHash，
   // 若改走证据就再没有东西替它标过期；现算则「把缺口标 delivered」下一次 board 立刻反映。
   const gapsRes = readCapabilityGaps(root, slug);
@@ -400,43 +523,52 @@ export function boardFor(root, slug) {
         const planDetail = existsSync(planFile) ? 'capability-plan.md 在档'
           : c.planWaiver ? `纯数据卡带免正式 plan（裁决在案：${String(c.planWaiver).slice(0, 40)}）` : null;
         machine = planDetail === null
-          ? { state: 'dim', detail: '无能力计划也无免 plan 裁决（模板见手册列）' }
+          ? (planSplit
+            // 两套事实源撞上了：别报「没做」，报「做在另一处」并给出搬运命令——这是作者能自救的唯一信息。
+            ? { state: 'warn', detail: `能力计划在 **library/${slug}/design/**（创作台落点），而流水线只读 docs/design/${slug}/`
+                + ` —— 两套事实源（P0·待 owner 判统一方向）。暂行：cp -r library/${slug}/design/* docs/design/${slug}/` }
+            : { state: 'dim', detail: '无能力计划也无免 plan 裁决（模板见手册列）' })
           : { state: gapEval.state, detail: `${planDetail} · ${gapEval.detail}` };
         break;
       }
       case 'S3':
         // R1（REQ-RENDERCHECK）：编译期游戏免 manifest 校验，但 gate 现在追加跑渲染探针——
         // 有证据（跑过）就照实证据走（ok/fail/stale）；从未跑过才显示「免」的旧提示（未跑≠免责）。
-        machine = evalEvidence(pf.evidence?.S3, hashNow, head);
-        if (machine.state === 'dim' && !manifestPath(root, slug, form)) {
+        machine = evalEvidence(pf.evidence?.S3, hashesNow, head, 'S3');
+        if (machine.state === 'dim' && isDesignOnly(form)) machine.detail = DESIGN_ONLY_NOTE(slug);
+        else if (machine.state === 'dim' && !manifestPath(root, slug, form)) {
           machine.detail = '编译期游戏免 manifest 校验·渲染探针未跑（gate 跑一次落证据）';
         }
         break;
       case 'S4': {
-        machine = evalEvidence(pf.evidence?.S4, hashNow, head);
+        machine = evalEvidence(pf.evidence?.S4, hashesNow, head, 'S4');
         const nScen = acceptanceScenarioCount(root, slug);
         const scenNote = `验收剧本 ${nScen}/${MIN_ACCEPTANCE_SCENARIOS}${nScen < MIN_ACCEPTANCE_SCENARIOS ? '（GD 补）' : ' ✓'}`;
-        if (machine.state === 'dim') machine.detail = form === 'cart' ? `未跑（gate=bench 五轴 + ${scenNote}）` : hasTests ? `未跑（gate=该游戏 vitest + ${scenNote}）` : `✗ 无 walkthrough 测试（testing.md：先补测试再谈玩法完成）· ${scenNote}`;
-        if (machine.state === 'dim' && form !== 'cart' && !hasTests) machine.state = 'fail';
-        machine.detail += ` · ${selfCheckNote(root, slug, 'S4', pf.selfCheck?.S4, hashNow)}`;
+        if (machine.state === 'dim') machine.detail = isDesignOnly(form) ? `${DESIGN_ONLY_NOTE(slug)} · ${scenNote}`
+          : form === 'cart' ? `未跑（gate=bench 五轴 + ${scenNote}）` : hasTests ? `未跑（gate=该游戏 vitest + ${scenNote}）` : `✗ 无 walkthrough 测试（testing.md：先补测试再谈玩法完成）· ${scenNote}`;
+        // 设计态不判红：「还没写测试」对一个还没有实现体的立项不是缺陷，是进度。红只留给真有实现体却无测试的。
+        if (machine.state === 'dim' && form !== 'cart' && !isDesignOnly(form) && !hasTests) machine.state = 'fail';
+        if (!isDesignOnly(form)) machine.detail += ` · ${selfCheckNote(root, slug, 'S4', pf.selfCheck?.S4, hashesNow)}`;
         break;
       }
       case 'S5':
         machine = form === 'cart'
           ? { state: 'ok', detail: '纯数据卡带无游戏层代码（LayoutNode 纪律天然满足）' }
-          : evalEvidence(pf.evidence?.S5, hashNow, head);
+          : evalEvidence(pf.evidence?.S5, hashesNow, head, 'S5');
+        if (isDesignOnly(form) && machine.state === 'dim') machine.detail = DESIGN_ONLY_NOTE(slug);
         // 卡带 S5 本就免审计（无游戏层代码）→ 不加自证前置；其余形态板上常显自证态（缺=✗·陈旧=⚠）。
-        if (form !== 'cart') machine.detail += ` · ${selfCheckNote(root, slug, 'S5', pf.selfCheck?.S5, hashNow)}`;
+        if (form !== 'cart' && !isDesignOnly(form)) machine.detail += ` · ${selfCheckNote(root, slug, 'S5', pf.selfCheck?.S5, hashesNow)}`;
         break;
       case 'S6':
         machine = artSubState(root, slug);
         break;
       case 'S7':
-        machine = evalScorecard(pf.scorecard, hashNow); // 品质关机器牙齿=评分卡落账（REQ-QC-三门）
+        machine = evalScorecard(pf.scorecard, hashesNow); // 品质关机器牙齿=评分卡落账（REQ-QC-三门）
         break;
       case 'S8':
-        machine = evalEvidence(pf.evidence?.S8, hashNow, head);
-        if (machine.state === 'dim') machine.detail = form === 'cart' ? '未跑（gate=manifest-check+bench+MOCK 清账·卡带轻量终检）' : '未跑（gate=tsc+vitest+build 三绿）';
+        machine = evalEvidence(pf.evidence?.S8, hashesNow, head, 'S8');
+        if (machine.state === 'dim') machine.detail = isDesignOnly(form) ? DESIGN_ONLY_NOTE(slug)
+          : form === 'cart' ? '未跑（gate=manifest-check+bench+MOCK 清账·卡带轻量终检）' : '未跑（gate=tsc+vitest+build 三绿）';
         break;
       default:
         machine = { state: 'dim', detail: '' };
@@ -445,7 +577,7 @@ export function boardFor(root, slug) {
     const review = st.id === 'S1' ? { state: 'ok', detail: '免（立项=owner 亲提·无需复查）' }
       : st.id === 'S6' ? { state: 'ok', detail: '免（复核已内嵌美术平台逐行 ☑）' }
         : st.id === 'S7' ? { state: machine.state === 'ok' || machine.state === 'warn' ? 'ok' : 'dim', detail: '复查形态=评分卡本身（复查人打分·机器门即其判词）' }
-          : evalReview(pf.reviews?.[st.id], hashNow, st.id === 'S2' ? gapsNow : undefined);
+          : evalReview(pf.reviews?.[st.id], hashesNow, st.id === 'S2' ? gapsNow : undefined, st.id);
     const so = pf.signoffs?.[st.id];
     // S6 人门已内嵌美术平台逐行 approve（不设重复签核）；其余阶段一律要 signoff。
     const human = st.id === 'S6'
@@ -468,7 +600,7 @@ export function boardFor(root, slug) {
   const next = stages.find((s) => s.status !== 'ok');
   // gaps/gapErrors 上板供面板直接渲染（「展示 + 跳转到工单」——面板不做缺口的编辑/裁决 UI，
   // 裁决仍走既有协议）。旧游戏无台账 → gaps=[]·gapErrors=[]（零回归）。
-  return { ok: true, slug, form, gameHash: hashNow, concept: c, stages, gaps: gapsRes.gaps, gapErrors: gapsRes.errors, next: next ? next.id : null };
+  return { ok: true, slug, form, gameHash: hashNow, hashes: hashesNow, concept: c, stages, gaps: gapsRes.gaps, gapErrors: gapsRes.errors, next: next ? next.id : null };
 }
 
 // ── 阶段顺序闸（F·REQ-GATE-硬化·owner「跳关可以，但从悄悄跳变记录在案」）─────────────
@@ -525,7 +657,17 @@ export function orderGate(board, stage, reason) {
 }
 
 // ── 机器门执行（gate 子命令·真跑·记证据）──────────────────────────────
-const run = (cmd, args, opts = {}) => spawnSync(cmd, args, { cwd: ROOT, encoding: 'utf8', timeout: 900_000, ...opts });
+const LOCAL_CLI = {
+  'vite-node': 'node_modules/vite-node/vite-node.mjs',
+  vitest: 'node_modules/vitest/vitest.mjs',
+  tsc: 'node_modules/typescript/bin/tsc',
+};
+const run = (cmd, args, opts = {}) => {
+  const local = cmd === 'npx' ? LOCAL_CLI[args[0]] : undefined;
+  return local
+    ? spawnSync(process.execPath, [join(REAL_ROOT, local), ...args.slice(1)], { cwd: ROOT, encoding: 'utf8', timeout: 900_000, ...opts })
+    : spawnSync(cmd, args, { cwd: ROOT, encoding: 'utf8', timeout: 900_000, ...opts });
+};
 
 /** R1 探针门读码（REQ-RENDERCHECK）：探针 exit 0=过·3=环境无浏览器（不算红·权威判定以有浏览器
  *  环境为准）·其余（1/2/…）=红。纯函数（不碰盘/不 spawn）——导出供单测直接灌各退出码，
@@ -560,10 +702,33 @@ export function interpretGoldenCompare(baseSummary, compareExit, compareTail) {
  *  纯函数（不碰盘/不 spawn）——导出供单测直接灌各退出码。判红只认「真出错」（装载失败/驱动点击后
  *  控制台 error/未捕获异常/零验收剧本）——UI 可驱动率低是诚实发现（剧本 signal 词表与 UI 词表本就
  *  不同源），不拿它当红线（同 spec-trace-guard.mjs「human 型占比」先例：报告不设阈值门）。 */
-export function interpretUiWalkthrough(baseSummary, probeExit, probeTail) {
+/**
+ * UI 走查结果 → 门判词。
+ *
+ * ⚠ **可驱动率目前只报不拦，而且这件事必须写在脸上**（2026-09-17 实证）：此前判词只写
+ * 「✓ UI 走查过（可驱动率见 …json）」，于是 game108 的板上挂着一个 ✓，而那份 json 里
+ * 躺着 **0/74**——74 个剧本动作没有一个能在真界面上点出来。量到了、落盘了、然后不用它判，
+ * 板上还显绿：这正是本仓最警惕的「写了不查」，只不过这次是我们自己犯的。
+ * 治本（把低可驱动率判红、阈值定多少、存量游戏怎么办）是有代价的口径改动 → 等 owner 裁。
+ * 在那之前至少**把数字摆到判词里**，别让人以为绿灯等于「真玩得动」。
+ * @param rate 可驱动率（0-1）；探针没给就 undefined，判词退回旧措辞。
+ */
+export function interpretUiWalkthrough(baseSummary, probeExit, probeTail, rate) {
   if (probeExit === 3) return { exit: 0, summary: `${baseSummary} · ⚠ UI 走查未跑·环境无浏览器（权威判定以有浏览器环境为准）` };
-  if (probeExit === 0) return { exit: 0, summary: `${baseSummary} · ✓ UI 走查过（可驱动率见 public/games/<slug>/probe/S4-uiwalk.json）` };
+  if (probeExit === 0) {
+    const pct = typeof rate === 'number' && Number.isFinite(rate) ? `${Math.round(rate * 100)}%` : '见 probe/S4-uiwalk.json';
+    const flag = typeof rate === 'number' && rate === 0 ? '（⚠ 零可驱动：剧本动作一个都点不出来·当前只报不拦）' : '';
+    return { exit: 0, summary: `${baseSummary} · ✓ UI 走查过·可驱动率 ${pct}${flag}` };
+  }
   return { exit: 1, summary: `${baseSummary} · ✗ UI 走查未过${probeTail ? ' · ' + probeTail : ''}` };
+}
+
+/** 读探针落盘的可驱动率（读不到 → undefined·判词自动退回旧措辞·零回归）。导出供接线测试。 */
+export function uiWalkRate(root, slug) {
+  const f = join(root, 'public', 'games', slug, 'probe', 'S4-uiwalk.json');
+  const r = readJson(f, null);
+  const v = r && r.uiDrivableRate;
+  return typeof v === 'number' && Number.isFinite(v) ? v : undefined;
 }
 
 /** S4 门收尾（REQ-RENDERCHECK R2b）：conformance（+ bench/walkthrough）已绿才追加真界面走查——
@@ -574,7 +739,7 @@ function withUiWalkthroughGate(slug, base) {
   const script = join(dirname(fileURLToPath(import.meta.url)), 'ui-walkthrough-probe.mjs');
   const probe = run('node', [script, '--game', slug]);
   const tail = (probe.stdout || probe.stderr || '').trim().split('\n').slice(-2).join(' / ').slice(0, 200);
-  return interpretUiWalkthrough(base.summary, probe.status ?? 1, tail);
+  return interpretUiWalkthrough(base.summary, probe.status ?? 1, tail, uiWalkRate(ROOT, slug));
 }
 
 /** S5/S8 门收尾（REQ-RENDERCHECK R3）：base 门（audit/三绿等）已过才追加标准照比对——base 已红
@@ -596,7 +761,7 @@ function gateRun(slug, stage, form) {
   if (stage === 'S2') {
     // gap-check（REQ-S18PANEL②）：纯 fs·秒回·不 spawn 任何重活。与 board 的 S2 分支同一只嘴
     // （evalCapabilityGaps），故「面板上按一下」与「板上看一眼」永远不会给出两种说法。
-    const pf = readJson(pipelineFile(ROOT, slug), {});
+    const pf = readPipeline(ROOT, slug, {});
     const hasPlan = existsSync(join(ROOT, 'docs', 'design', slug, 'capability-plan.md'));
     if (!hasPlan && !pf.concept?.planWaiver) {
       return { exit: 1, summary: '✗ 无能力计划也无免 plan 裁决（模板 docs/design/capability-plan-template.md·纯数据卡带走 concept --plan-waiver）' };
@@ -609,7 +774,7 @@ function gateRun(slug, stage, form) {
     const mf = manifestPath(ROOT, slug, form);
     let baseSummary;
     if (mf) {
-      const r = run('npx', ['vite-node', 'scripts/manifest-check.mjs'], { input: readFileSync(mf, 'utf8') });
+      const r = run('npx', ['vite-node', 'scripts/manifest-check.mjs', ...cartArtArgs(ROOT, slug, form)], { input: readFileSync(mf, 'utf8') });
       if ((r.status ?? 1) !== 0) return { exit: r.status ?? 1, summary: (r.stderr || r.stdout || '').trim().slice(0, 300) };
       baseSummary = 'parse+引擎装载（load+2tick）零 error';
     } else {
@@ -654,7 +819,7 @@ function gateRun(slug, stage, form) {
     if ((acc.status ?? 1) !== 0) return { exit: acc.status ?? 1, summary: `✗ 验收剧本 conformance 未过（${nScen} 场景）· ${accTail}` };
     if (form === 'cart') {
       const mf = manifestPath(ROOT, slug, form);
-      const r = run('npx', ['vite-node', 'scripts/bench-manifest.mjs'], { input: readFileSync(mf, 'utf8') });
+      const r = run('npx', ['vite-node', 'scripts/bench-manifest.mjs', ...cartArtArgs(ROOT, slug, form)], { input: readFileSync(mf, 'utf8') });
       let pass = false, score = '?';
       try { const j = JSON.parse((r.stdout || '').trim().split('\n').pop()); pass = !!j.pass; score = j.score; } catch { /* 输出非 JSON 即失败 */ }
       if (!pass) return { exit: 1, summary: `✗ bench 五轴 score=${score}` };
@@ -685,9 +850,9 @@ function gateRun(slug, stage, form) {
       const debt = mockDebt(ROOT, slug);
       if (debt > 0) return { exit: 1, summary: `✗ MOCK 债 ${debt} 行未清（mock 不算真图·重生成或清账后再终检）` };
       const mf = manifestPath(ROOT, slug, form);
-      const chk = run('npx', ['vite-node', 'scripts/manifest-check.mjs'], { input: readFileSync(mf, 'utf8') });
+      const chk = run('npx', ['vite-node', 'scripts/manifest-check.mjs', ...cartArtArgs(ROOT, slug, form)], { input: readFileSync(mf, 'utf8') });
       if ((chk.status ?? 1) !== 0) return { exit: chk.status ?? 1, summary: `✗ manifest-check · ${(chk.stderr || chk.stdout || '').trim().slice(0, 200)}` };
-      const b = run('npx', ['vite-node', 'scripts/bench-manifest.mjs'], { input: readFileSync(mf, 'utf8') });
+      const b = run('npx', ['vite-node', 'scripts/bench-manifest.mjs', ...cartArtArgs(ROOT, slug, form)], { input: readFileSync(mf, 'utf8') });
       let pass = false, score = '?';
       try { const j = JSON.parse((b.stdout || '').trim().split('\n').pop()); pass = !!j.pass; score = j.score; } catch { /* 输出非 JSON 即失败 */ }
       if (!pass) return { exit: 1, summary: `✗ bench 五轴 score=${score}` };
@@ -719,7 +884,7 @@ if (isMain) {
   const opt = (name) => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 1] : undefined; };
   if (!cmd || !slug) { console.error('用法: game-pipeline.mjs <board|gate|checklist|review|scorecard|signoff|concept> <slug> …（头注有全表）'); process.exit(1); }
   const form = detectForm(ROOT, slug);
-  if (!form) { console.error(`未知游戏: ${slug}`); process.exit(1); }
+  if (!form) { console.error(`未知游戏: ${slug}（library/ · public/games/ · games/ · docs/design/ 四处均无）`); process.exit(1); }
 
   if (cmd === 'board') {
     const b = boardFor(ROOT, slug);
@@ -772,13 +937,14 @@ if (isMain) {
     if (!['PASS', 'CONCERNS', 'FAIL'].includes(verdict)) { console.error('复查判词限 PASS|CONCERNS|FAIL（闭集）'); process.exit(1); }
     if (!note || !note.trim()) { console.error('复查必须带 --note（逐条结论落账·不许空查）'); process.exit(1); }
     if (!by || !by.trim()) { console.error('复查必须带 --by（复查人身份·复查人≠施工人）'); process.exit(1); }
-    const pf = readJson(pipelineFile(ROOT, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
-    const rv = { verdict, note: note.trim().slice(0, 500), by: by.trim(), at: new Date().toISOString(), gameHash: gameHash(ROOT, slug),
+    const pf = readPipeline(ROOT, slug);
+    const hashes = gameHashes(ROOT, slug);
+    const rv = { verdict, note: note.trim().slice(0, 500), by: by.trim(), at: new Date().toISOString(), gameHash: hashes.full, hashes,
       // S2 的复查对象里有缺口台账（不入 gameHash）——单独记一枚，台账一动这条复查即过期。
       ...(stage === 'S2' ? { gapsHash: gapsHash(ROOT, slug) } : {}) };
     pf.reviews = { ...(pf.reviews || {}), [stage]: rv };
     (pf.history ||= []).push({ action: 'review', stage, verdict, at: rv.at });
-    writeJson(pipelineFile(ROOT, slug), pf);
+    writePipelineJson(pipelineFile(ROOT, slug), pf);
     console.log(JSON.stringify({ ok: true, slug, stage, ...rv }));
     process.exit(0);
   }
@@ -799,16 +965,27 @@ if (isMain) {
     if (missing.length) { console.error(`缺维度: ${missing.join('/')}（八维必须全打·不适配的维走 requests.md 裁豁免·不得自行跳维）`); process.exit(1); }
     const total = SCORECARD_DIMS.reduce((a, d) => a + scores[d], 0);
     const premium = SCORECARD_DIMS.every((d) => scores[d] >= 2);
-    const pf = readJson(pipelineFile(ROOT, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
-    pf.scorecard = { scores, total, premium, by: by.trim(), note: note.trim().slice(0, 500), at: new Date().toISOString(), gameHash: gameHash(ROOT, slug) };
+    const pf = readPipeline(ROOT, slug);
+    const hashes = gameHashes(ROOT, slug);
+    pf.scorecard = { scores, total, premium, by: by.trim(), note: note.trim().slice(0, 500), at: new Date().toISOString(), gameHash: hashes.full, hashes };
     (pf.history ||= []).push({ action: 'scorecard', total, premium, at: pf.scorecard.at });
-    writeJson(pipelineFile(ROOT, slug), pf);
+    writePipelineJson(pipelineFile(ROOT, slug), pf);
     console.log(JSON.stringify({ ok: true, slug, verdict: `VISUAL: ${total}/24 · PREMIUM: ${premium ? 'YES' : 'NO'}`, ...pf.scorecard }));
     process.exit(0);
   }
   if (cmd === 'gate') {
     const stage = a3;
     if (!GATE_STAGES.includes(stage)) { console.error(`gate 只认 ${GATE_STAGES.join('/')}（其余阶段是纯推导或纯人门）`); process.exit(1); }
+    // 设计态（只有 docs/design/<slug>/·没有实现体）跑 S3+ 的门：**当场拒绝，不落证据，排在顺序闸之前**。
+    // · 排在顺序闸之前：「你还没有实现体」比「前面几关没绿」更根本，先说那句才有用——
+    //   否则作者看到的是一串顺序闸欠项，照着去补，补完再撞这道，白跑一趟。
+    // · 不落证据：落一条红证据等于说「这关跑过而且没过」，可它根本无从跑起；那条红还会一直挂在板上逼人日后手动清。
+    // · exit 2（用法错）与真·门失败（exit 1）区分开，编排器据此不把它当「门红」重派会话。
+    if (isDesignOnly(form) && stage !== 'S2') {
+      console.error(`✗ ${DESIGN_ONLY_NOTE(slug)}`);
+      console.error(`  → 现在能跑的是 S1（立项卡 concept）与 S2（能力计划 gap-check）；实现体落地后本关自然可跑。`);
+      process.exit(2);
+    }
     // F·阶段顺序闸：前置阶段（S1..S(N-1)）非全绿则拒跑，除非带 --out-of-order "<理由>" 记账放行。
     const oooReason = opt('--out-of-order');
     // **S2 不过顺序闸**（独立复查 2026-08-16 P0：接上顺序闸后 game-d/game102 的 `verifyStage('S2')`
@@ -839,28 +1016,29 @@ if (isMain) {
       process.exit(1);
     }
     const res = gateRun(slug, stage, form);
-    const pf = readJson(pipelineFile(ROOT, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
+    const pf = readPipeline(ROOT, slug);
     if (decision.outOfOrder) {
       (pf.outOfOrder ||= []).push(decision.outOfOrder);
       (pf.history ||= []).push({ action: 'out-of-order', stage, reason: decision.outOfOrder.reason, at: decision.outOfOrder.at });
     }
-    const ev = { exit: res.exit, summary: res.summary, at: new Date().toISOString() };
+    const hashes = gameHashes(ROOT, slug);
+    const ev = { exit: res.exit, summary: res.summary, at: new Date().toISOString(), hashes };
     if (stage === 'S8' && form !== 'cart') {
       // 全仓门证据绑仓库位置（引擎一动即过期）；cart 轻量门只看游戏自身内容 → 绑 gameHash（C2）
       ev.head = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).stdout?.trim() || '';
       ev.dirty = (spawnSync('git', ['status', '--porcelain'], { cwd: ROOT, encoding: 'utf8' }).stdout || '').trim().length > 0;
     } else {
-      ev.gameHash = gameHash(ROOT, slug);
+      ev.gameHash = hashes.full;
     }
     // 自证快照（REQ-SELFCHECK·图纸②）：产物齐活时记下**当时的游戏指纹**——此后游戏文件一动，
     // 板上自证提示转 ⚠过期（提示不硬拦：图可能真没变）。产物不齐时不记（无快照=板显 ✗ 未做）。
     if (stage === 'S4' || stage === 'S5') {
       const a = selfCheckArtifacts(ROOT, slug, stage);
-      if (a.ok) pf.selfCheck = { ...(pf.selfCheck || {}), [stage]: { at: ev.at, shots: a.shots, gameHash: ev.gameHash || gameHash(ROOT, slug) } };
+      if (a.ok) pf.selfCheck = { ...(pf.selfCheck || {}), [stage]: { at: ev.at, shots: a.shots, gameHash: ev.gameHash || hashes.full, hashes } };
     }
     pf.evidence = { ...(pf.evidence || {}), [stage]: ev };
     (pf.history ||= []).push({ action: 'gate', stage, exit: res.exit, at: ev.at });
-    writeJson(pipelineFile(ROOT, slug), pf);
+    writePipelineJson(pipelineFile(ROOT, slug), pf);
     console.log(JSON.stringify({ ok: res.exit === 0, slug, stage, ...ev }));
     process.exit(res.exit === 0 ? 0 : 1);
   }
@@ -869,11 +1047,11 @@ if (isMain) {
     const note = opt('--note');
     if (!STAGES.some((s) => s.id === stage) || stage === 'S6') { console.error('signoff 阶段非法（S6 人门=美术平台逐行复核·不另签）'); process.exit(1); }
     if (!note || !note.trim()) { console.error('人门必须带 --note（review 内容落账·不许空签）'); process.exit(1); }
-    const pf = readJson(pipelineFile(ROOT, slug), { version: 1, slug, concept: {}, signoffs: {}, evidence: {} });
+    const pf = readPipeline(ROOT, slug);
     const so = { by: opt('--by') || 'owner', note: note.trim().slice(0, 500), at: new Date().toISOString() };
     pf.signoffs = { ...(pf.signoffs || {}), [stage]: so };
     (pf.history ||= []).push({ action: 'signoff', stage, at: so.at });
-    writeJson(pipelineFile(ROOT, slug), pf);
+    writePipelineJson(pipelineFile(ROOT, slug), pf);
     console.log(JSON.stringify({ ok: true, slug, stage, ...so }));
     process.exit(0);
   }

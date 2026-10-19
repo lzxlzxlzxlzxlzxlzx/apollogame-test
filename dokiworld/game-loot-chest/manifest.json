@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 3,
+  "id": "game-loot-chest",
+  "version": "1.2.0",
+  "entry": "index.html",
+  "context": {
+    "requiredScopes": [],
+    "optionalScopes": []
+  },
+  "locales": {
+    "en": {
+      "name": "Loot Chest",
+      "description": "Watch a deterministic reward chest open and claim its rewards."
+    },
+    "zh-cn": {
+      "name": "开启宝箱",
+      "description": "展示由宿主提供掉落表的确定性奖励宝箱开启流程并领取奖励。"
+    }
+  },
+  "documentation": {
+    "zh-cn": {
+      "title": "开启宝箱调用文档",
+      "path": "docs/integration.zh-CN.md"
+    }
+  },
+  "runtime": {
+    "protocol": "dokiworld.app",
+    "protocolVersion": 2,
+    "input": {
+      "contract": "doki.game.chest-input",
+      "version": 2
+    },
+    "outputs": [
+      {
+        "contract": "doki.game.chest-result",
+        "version": 2
+      }
+    ],
+    "modules": []
+  }
+}

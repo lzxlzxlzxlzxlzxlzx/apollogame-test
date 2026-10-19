@@ -5,7 +5,8 @@
 //   readWorld(world) → worldLike（投影机读态：把 GameFlow.current 投成 StringVar 'flow'；其余 Resource 直读）
 // 动作/机读态词表见 docs/design/game102/acceptance/README.md。规则真相全在 blueprint（本文件零规则判断）。
 import { Engine } from '@zerocraft/engine/runtime/engine.js';
-import { applyCommands, QueuedInputSource } from '@zerocraft/engine/net/index.js';
+import { applyCommands } from '@zerocraft/engine/net/index.js';
+import { QueuedInputSource } from '@zerocraft/engine/net/host/index.js';
 import type { IWorld } from '@zerocraft/engine/engine/core/types.js';
 import type { Transform, Tag, GameFlow } from '@zerocraft/engine/engine/protocol/components.js';
 import { buildBlueprint } from './blueprint.js';

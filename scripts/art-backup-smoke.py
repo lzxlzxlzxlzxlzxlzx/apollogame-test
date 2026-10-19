@@ -31,6 +31,7 @@
 """
 import base64
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -80,7 +81,7 @@ def backup_body():
 
 def reset_world(gen_served=f'{PREFIX}gen/{NO}.png', skin_path=None, with_orig=False):
     """重搭一个「槽已 filled·线上是 gen/art-59.png」的世界。"""
-    subprocess.run(['rm', '-rf', str(ART)], timeout=30)
+    shutil.rmtree(ART, ignore_errors=True)
     (ART / 'gen').mkdir(parents=True)
     if gen_served:
         f = ART / gen_served[len(PREFIX):]
@@ -162,6 +163,19 @@ try:
     check(skin and skin.get('path') == served, '④ 皮肤别名同步指回（工作台预览也回来）', skin)
     check(backup_body() == 'TRUE-ORIGINAL', '④ 备份区仍在·内容没被动（orig/ 只进不出）')
 
+    # F3 覆盖式夹具：正常 upload 只写 -up 文件，无法证明 restore 的 copyfile 真会复原
+    # 原服务路径。这里刻意把它盖成替换内容；撤掉 copyfile 后，下一条必须精确转红。
+    reset_world()
+    upload(b'REPLACEMENT-F3-UPLOAD')
+    target_served = f'{PREFIX}gen/{NO}.png'
+    target = ART / 'gen' / f'{NO}.png'
+    target.write_bytes(png(b'REPLACEMENT-F3-OVERWRITE'))
+    check(body(target_served) == 'REPLACEMENT-F3-OVERWRITE', 'F3 前置：原服务路径确已被替换内容覆盖', body(target_served))
+    rs = T.handle_art_restore({'slug': 'g', 'no': NO})
+    check(rs.get('success'), 'F3 覆盖式还原成功', rs.get('error'))
+    check(body(target_served) == 'TRUE-ORIGINAL', 'F3 **restore 真把原图内容拷回原服务路径**', body(target_served))
+    check(backup_body() == 'TRUE-ORIGINAL', 'F3 备份区仍在且保持真原图', backup_body())
+
     # ⑤ 还原后再替换 → 不炸（旧版此处 SameFileError 抛成 500）·备份仍是真原图
     r = upload(b'REPLACEMENT-AFTER-RESTORE')
     check(r.get('success'), '⑤ 还原后再上传不炸（旧版 SameFileError 500）', r.get('error'))
@@ -190,9 +204,9 @@ try:
     (js_root / 'library' / 'g' / 'manifest.json').write_text('{}')
     (js_root / 'library' / 'g' / 'art' / 'gen' / f'{NO}.png').write_bytes(TRUE_ORIG)
     js = subprocess.run(['node', '--input-type=module', '-e', f'''
-      import {{ backupOrigFile }} from '{ROOT}/scripts/art-replace.mjs';
+      import {{ backupOrigFile }} from {json.dumps((ROOT / 'scripts' / 'art-replace.mjs').as_uri())};
       import {{ writeFileSync, readFileSync }} from 'node:fs';
-      const root = '{js_root}', pre = '/games/g/art/';
+      const root = {json.dumps(str(js_root))}, pre = '/games/g/art/';
       const a = backupOrigFile(root, 'g', '{NO}', pre + 'gen/{NO}.png');       // 首次 → 拷真原图
       writeFileSync(root + '/library/g/art/gen/{NO}-up.png', Buffer.from('REPL'));
       const b = backupOrigFile(root, 'g', '{NO}', pre + 'gen/{NO}-up.png');    // 闸①：已有备份 → 不重拷
@@ -208,7 +222,7 @@ try:
     check(out.get('c') == f'{PREFIX}orig/{NO}.png', '⑦ JS 源=备份自己 → 仍返回在案备份·不自拷', out.get('c'))
 finally:
     T.art_root, T.LIBRARY_DIR = _orig
-    subprocess.run(['rm', '-rf', str(TMP)], timeout=60)
+    shutil.rmtree(TMP, ignore_errors=True)
 
 print(f"\n原图备份冒烟：\033[32m{PASS} 通过\033[0m，" + (f"\033[31m{FAIL} 失败\033[0m" if FAIL else "0 失败"))
 sys.exit(1 if FAIL else 0)

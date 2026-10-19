@@ -544,9 +544,21 @@ describe('matrix-duel — 伤害缩放（REQ-108-ENG-01）', () => {
     const w = charged('charge', 4);       // 蓄力值故意非零，证明它只影响缩放式那一手
     const r = duel(w, 'paper', 'rock');   // paper 胜：p2 出 rock 落败，挨缩放伤 = 2 + 4×3 = 14
     expect(r.p2).toBe(20 - 14);
-    const w2 = charged('charge', 4);
-    // 固定伤害那手取胜的路径：让 rock 赢不了 paper，故直接查表断言固定值不被缩放污染
-    expect(w2.getComponent<DuelMatrix>('duel', 'DuelMatrix')!.payoff['rock']!.damage).toBe(5);
+    // 固定伤那手**真取胜的一局**（A1 遗留加强：原来只查自构表数据，等于没测结算路径）：
+    // 换一张 rock 能赢的表，蓄力仍非零 → 5 点固定伤经 resolveDamage→ResourceModify→resource-apply
+    // 真落到 hp，且不被 charge 污染（若固定伤被误缩放将是 5+4×3=17 → p2=3，可分辨）。
+    const w2 = table({
+      hpResource: 'hp',
+      throws: ['rock', 'paper'],
+      beats: { rock: ['paper'], paper: [] },
+      payoff: { rock: { damage: 5 }, paper: { damage: { base: 2, scaleByResource: 'charge', step: 3 } } },
+      tie: { selfDamage: 0 },
+    });
+    w2.createEntity('chargeSlot');
+    w2.addComponent('chargeSlot', { type: 'Resource', id: 'charge', current: 4, min: 0, max: 9 } as Resource);
+    const r2 = duel(w2, 'rock', 'paper'); // rock 胜：p2 挨固定 5 伤
+    expect(r2.p2).toBe(15);               // 实跑 golden：20 − 5
+    expect(r2.p1).toBe(20);               // 败方 paper 不反伤
   });
 
   it('缩放资源不存在 → 退化成 base，绝不 NaN 污染 hp', () => {
@@ -792,7 +804,7 @@ describe('matrix-duel — 输入接缝 intentSignals（REQ-108-ENG-02）', () =>
   it('接缝系统的契约：Commit 相位 · 诚实 reads·writes · 排在播报之后', () => {
     const seam = matrixDuelCapability.systems.find((s) => s.id === 'matrix-duel-intent')!;
     expect(seam.phase).toBe(SystemPhase.Commit); // 放 Update 会与 event-when 合围成环（下条实测）
-    expect(seam.reads).toEqual(['DuelMatrix', 'Signal', 'Flag']);
+    expect(seam.reads).toEqual(['DuelMatrix', 'Signal', 'Flag', 'Resource']); // P1a：hasComponent(side,'Resource') 判对局侧 = 读
     expect(seam.writes).toEqual(['DuelIntent']);
     expect(seam.runsAfter).toEqual(['matrix-duel-announce']); // 播报的胜负信号不得被当成出招输入
   });

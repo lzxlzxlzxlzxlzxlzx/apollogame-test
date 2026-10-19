@@ -12,6 +12,12 @@
     "isolatedModules": true,
     "noEmit": true,
     "paths": {
+      "@engine/host/life-game-host.js": ["./src/assembly/life-host/life-game-host.ts"],
+      "@engine/host/life-save.js": ["./src/assembly/life-host/life-save.ts"],
+      "@engine/host/life-presenter.js": ["./src/assembly/life-host/life-presenter.ts"],
+      "@engine/host/life-interaction.js": ["./src/assembly/life-host/life-interaction.ts"],
+      "@engine/host/life-hud.js": ["./src/assembly/life-host/life-hud.ts"],
+      "@engine/host/life-hud-overlay.js": ["./src/assembly/life-host/life-hud-overlay.ts"],
       "@engine/*": ["./src/engine/*"],
       "@skills/*": ["./src/skills/*"],
       "@atom-skills/*": ["./src/skills/atoms/*"],
@@ -23,9 +29,16 @@
       "@runtime/*": ["./src/runtime/*"],
       "@assembly/*": ["./src/assembly/*"],
       "@games/*": ["./games/*"],
+      "dokiworlds-app-sdk": ["./vendor/dokiworlds-app-sdk/src/index.d.ts"],
       // REQ-PKG-位置无关与正名：games/** 消费面走包名（self-reference·外部内容用真 npm 解析，
       // 这里是仓内 tsc 的 paths 兜底）。src/ 内部相互引用不改，仍用上面的旧别名。
       "@zerocraft/engine/engine/*": ["./src/engine/*"],
+      "@zerocraft/engine/engine/host/life-game-host.js": ["./src/assembly/life-host/life-game-host.ts"],
+      "@zerocraft/engine/engine/host/life-save.js": ["./src/assembly/life-host/life-save.ts"],
+      "@zerocraft/engine/engine/host/life-presenter.js": ["./src/assembly/life-host/life-presenter.ts"],
+      "@zerocraft/engine/engine/host/life-interaction.js": ["./src/assembly/life-host/life-interaction.ts"],
+      "@zerocraft/engine/engine/host/life-hud.js": ["./src/assembly/life-host/life-hud.ts"],
+      "@zerocraft/engine/engine/host/life-hud-overlay.js": ["./src/assembly/life-host/life-hud-overlay.ts"],
       "@zerocraft/engine/skills/*": ["./src/skills/*"],
       "@zerocraft/engine/atom-skills/*": ["./src/skills/atoms/*"],
       "@zerocraft/engine/assets/*": ["./src/assets/*"],
@@ -34,7 +47,9 @@
       "@zerocraft/engine/ui/*": ["./src/ui/*"],
       "@zerocraft/engine/net/*": ["./src/net/*"],
       "@zerocraft/engine/runtime/*": ["./src/runtime/*"],
-      "@zerocraft/engine/assembly/*": ["./src/assembly/*"]
+      "@zerocraft/engine/assembly/*": ["./src/assembly/*"],
+      "@zerocraft/engine/authoring/*": ["./src/authoring/*"],
+      "@zerocraft/engine/launcher/life-launcher-catalog-core.js": ["./src/launcher/life-launcher-catalog-core.ts"]
     }
   },
   "include": ["src", "games"],

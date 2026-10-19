@@ -57,6 +57,9 @@
 - 地面标记：`Decal3D`（blob 软阴影 / ring 目标环 / disc 落点 splat）。
 - 广告牌：`Billboard3D`（金币 / 图标 / 拾取物·始终朝相机·参与深度排序会被遮挡）。
 
+## 七、阅读 / 翻页滚轮（2D UI）
+- 剧情、画廊等非滚动面：`Panel.wheel:{upAction?,downAction?}`——真实 `WheelEvent` 由 `mountUI` 统一归一化后经 `ActionSink` 入队；内层 `Panel.scroll`/`VirtualList` 优先，模态框会挡住背景面。禁游戏层自挂 wheel DOM 监听；活范例=game-i `t-wheel`。
+
 ## 红线 & 缺口怎么办
 - **纯数据**：以上全是 LayoutNode / 组件数据，写世界靠 `action` 信号（handler 绝不塞自由逻辑/CSS/DOM）；3D render-only 组件绝不被 Condition 读、不进 hash。
 - **游戏层禁**：裸 `Math.random`（用引擎种子 PRNG）· `innerHTML`/`createElement` 手写 DOM（走 LayoutNode）· 手写 Three.js（走 3D 组件数据）。

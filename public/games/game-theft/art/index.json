@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "game-theft/ui/overlay-frame", "type": "texture", "status": "filled",
+      "description": "青铜与深蓝珐瑯的不规则悬浮偷窃画框，中央透空轮盘槽",
+      "path": "/games/game-theft/art/textures/theft-overlay-frame.png", "category": "ui.frame",
+      "tags": ["skin", "game-theft", "frame", "bronze", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; 2026-09-29", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1024, "height": 1536, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-overlay-frame-v1", "generatedAt": "2026-09-29", "sha256": "1bffe6782ebf18eca0ead0300b6963cd30a4f533482c3b0f92c82df365ec4bb1" }
+    },
+    {
+      "id": "game-theft/ui/wheel-dial", "type": "texture", "status": "filled",
+      "description": "外十二槽内四槽的深蓝黄铜双环机械转盘",
+      "path": "/games/game-theft/art/textures/theft-wheel-dial.png", "category": "ui.dial",
+      "tags": ["skin", "game-theft", "wheel", "dial", "bronze", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; 2026-09-29", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1254, "height": 1254, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-wheel-dial-v1", "generatedAt": "2026-09-29", "sha256": "eb7453a486aa891c73ae26ccd38ecd6723f309b08b8983877eb14b2108e62131" }
+    },
+    {
+      "id": "game-theft/ui/qte-core", "type": "texture", "status": "filled",
+      "description": "圆形黑曜石黄铜精准锁芯与金色完美区",
+      "path": "/games/game-theft/art/textures/theft-qte-core.png", "category": "ui.control",
+      "tags": ["skin", "game-theft", "qte", "lock", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; 2026-09-29", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1254, "height": 1254, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-qte-core-v1", "generatedAt": "2026-09-29", "sha256": "f3e59bd62da6629b7fb6c17a3f3f3f252bf8448f855dbcfc0f5e94daed24f188" }
+    },
+    {
+      "id": "game-theft/ui/qte-target-ring", "type": "texture", "status": "filled",
+      "description": "细黄铜刻度 QTE 校准环与顶部金色完美刻度",
+      "path": "/games/game-theft/art/textures/theft-qte-target-ring.png", "category": "ui.control",
+      "tags": ["skin", "game-theft", "qte", "target", "ring", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; 2026-09-29", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1254, "height": 1254, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-qte-target-ring-v1", "generatedAt": "2026-09-29", "sha256": "e7767b9febe7b5e8398c894394a4243948bfe5e941f9999ee073740ff602eaca" }
+    },
+    {
+      "id": "game-theft/ui/slot-token", "type": "texture", "status": "filled",
+      "description": "小型圆形深蓝珐瑯锁孔槽位牌",
+      "path": "/games/game-theft/art/textures/theft-slot-token.png", "category": "ui.button-skin",
+      "tags": ["skin", "game-theft", "slot", "token", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; 2026-09-29", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1254, "height": 1254, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-slot-token-v1", "generatedAt": "2026-09-29", "sha256": "4002c4413ce3c91c9e6ebb2720828ebf340d44b1790f8fe5d3eb370c0be09d67" }
+    },
+    {
+      "id": "game-theft/ui/loot-tray", "type": "texture", "status": "filled",
+      "description": "深红皮革与黄铜花饰的横向战利品托盘",
+      "path": "/games/game-theft/art/textures/theft-loot-tray.png", "category": "ui.panel-skin",
+      "tags": ["skin", "game-theft", "loot", "tray", "transparent"], "style": "dark-fantasy.bronze-leather",
+      "source": "OpenAI image generation; original project prompt; 2026-09-29", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 2172, "height": 724, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-loot-tray-v1", "generatedAt": "2026-09-29", "sha256": "06d23b4a9b9e5fabd406215f7fb694e855996571b64648b5b8d181bf44e769e5" }
+    },
+    {
+      "id": "game-theft/ui/withdraw-button", "type": "texture", "status": "filled",
+      "description": "深蓝珐瑯、黄铜与暗红饰端的撤退按钮皮",
+      "path": "/games/game-theft/art/textures/theft-withdraw-button.png", "category": "ui.button-skin",
+      "tags": ["skin", "game-theft", "withdraw", "button", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; 2026-09-29", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 2172, "height": 724, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-withdraw-button-v1", "generatedAt": "2026-09-29", "sha256": "7faa034ba9f4bcb1574836986e4e11f64972ac71657c938a55d07f9b3fe427af" }
+    },
+    {
+      "id": "game-theft/ui/qte-dial", "type": "texture", "status": "filled",
+      "description": "无指针的深蓝珐瑯黄铜 QTE 表盘，顶部金色完美扇区",
+      "path": "/games/game-theft/art/textures/theft-qte-dial.png", "category": "ui.control",
+      "tags": ["skin", "game-theft", "qte", "dial", "success-sector", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; 2026-09-29", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1254, "height": 1254, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-qte-dial-v1", "generatedAt": "2026-09-29", "sha256": "ca5cd5f87a01b5a4b21204c60e3e1d4dad52f1958f14f34a2b651780a8a16146" }
+    },
+    {
+      "id": "game-theft/ui/qte-pointer", "type": "texture", "status": "filled",
+      "description": "轴心居中的独立黄铜翡翠 QTE 可旋转指针，初始指向十二点",
+      "path": "/games/game-theft/art/textures/theft-qte-pointer.png", "category": "ui.control",
+      "tags": ["skin", "game-theft", "qte", "pointer", "rotating", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; centered transparent-canvas preparation; 2026-09-29", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1476, "height": 1476, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-qte-pointer-v2", "generatedAt": "2026-09-29", "sha256": "babeb92f26f1b350be82ab766e1fe7a24fa3435cfdbdb53a013e1b6463245edd" }
+    },
+    {
+      "id": "game-theft/ui/door-locked", "type": "texture", "status": "filled",
+      "description": "严格圆形的深蓝珐瑯黄铜关闭锁门牌与实体锁孔",
+      "path": "/games/game-theft/art/textures/theft-door-locked.png", "category": "ui.button-skin",
+      "tags": ["skin", "game-theft", "door", "locked", "opaque", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; 2026-09-29", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1254, "height": 1254, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-door-locked-v2-round", "generatedAt": "2026-09-29", "sha256": "6d7f67ab401a464dc8eeae190da3b2da7d85ac3baeee41caedec322b4eca3f9c" }
+    },
+    {
+      "id": "game-theft/ui/door-open", "type": "texture", "status": "filled",
+      "description": "严格圆形的已开启门牌，门后以暖金光表现财宝空间",
+      "path": "/games/game-theft/art/textures/theft-door-open.png", "category": "ui.button-skin",
+      "tags": ["skin", "game-theft", "door", "open", "treasure", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; 2026-09-29", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1254, "height": 1254, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-door-open-v2-round", "generatedAt": "2026-09-29", "sha256": "5c576c3465aa7f793dbd51f17457ea716b91f3633616df9bba182da4f447106c" }
+    },
+    {
+      "id": "game-theft/ui/door-sealed", "type": "texture", "status": "filled",
+      "description": "严格圆形的永久封死槽位：深蓝石砖砌满黄铜环，不能开启",
+      "path": "/games/game-theft/art/textures/theft-door-sealed.png", "category": "ui.button-skin",
+      "tags": ["skin", "game-theft", "door", "sealed", "blocked", "stone", "opaque", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; 2026-09-30", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1261, "height": 1247, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-door-sealed-v1-bricked", "generatedAt": "2026-09-30", "sha256": "30d80e873e9b24a0dec06222310a9a89733ca405e13caa06e56d44a45a555500" }
+    },
+    {
+      "id": "game-theft/ui/door-sealed-v2", "type": "texture", "status": "filled",
+      "description": "严格圆形、完全不透明且清晰的蓝黑石砖封墙槽位，整面砌满、无锁孔、不能开启",
+      "path": "/games/game-theft/art/textures/theft-door-sealed-v2.png", "category": "ui.button-skin",
+      "tags": ["skin", "game-theft", "door", "sealed", "blocked", "stone", "opaque", "crisp", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; 2026-09-30", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1278, "height": 1230, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-door-sealed-v2-crisp-masonry", "generatedAt": "2026-09-30", "sha256": "52d3500d096c131425dc7a188a2eb827b645f1a4a017ae32a97945fe32408929" }
+    },
+    {
+      "id": "game-theft/item/pocketwatch-letter", "type": "texture", "status": "filled",
+      "description": "银质怀表与蜡封信件组成的演示用宝物图标，适合飞入战利品托盘",
+      "path": "/games/game-theft/art/textures/theft-loot-pocketwatch.png", "category": "item.treasure",
+      "tags": ["skin", "game-theft", "loot", "pocketwatch", "letter", "item", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; 2026-09-30", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1254, "height": 1254, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-loot-pocketwatch-letter-v1", "generatedAt": "2026-09-30", "sha256": "159588d01d0df3ecda300b9f783ef7f9c9e14279497675ca7fd0f8e57e7b988a" }
+    },
+    {
+      "id": "game-theft/ui/door-unopened", "type": "texture", "status": "filled",
+      "description": "严格圆形、完整尺寸的深蓝珐瑯黄铜未开门，中央实体钥匙孔表示获得机会后可开启",
+      "path": "/games/game-theft/art/textures/theft-door-unopened.png", "category": "ui.button-skin",
+      "tags": ["skin", "game-theft", "door", "unopened", "unlockable", "keyhole", "opaque", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; 2026-09-30", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1287, "height": 1222, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-door-unopened-v1-full-lock", "generatedAt": "2026-09-30", "sha256": "5a42b85a7425590b7fd472a1a3fe79628f1c642b95a3164394b4fcd7e9608d45" }
+    },
+    {
+      "id": "game-theft/ui/reveal-key", "type": "texture", "status": "filled",
+      "description": "高对比黄铜翡翠钥匙图标，用于显示已获得的翻门机会",
+      "path": "/games/game-theft/art/textures/theft-reveal-key.png", "category": "ui.icon",
+      "tags": ["skin", "game-theft", "key", "reveal-credit", "brass", "jade", "transparent"], "style": "dark-fantasy.bronze-enamel",
+      "source": "OpenAI image generation; original project prompt; 2026-09-30", "license": "project-original",
+      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 1536, "height": 1536, "transparent": true },
+      "provenance": { "method": "ai-generated-original", "generator": "OpenAI imagegen", "promptId": "theft-reveal-key-v1-brass-jade", "generatedAt": "2026-09-30", "sha256": "a8fb018fcc84d1dd0158d2ced9102609e35975472e53888c9c90ad779c0fd6ba" }
+    }
+  ]
+}

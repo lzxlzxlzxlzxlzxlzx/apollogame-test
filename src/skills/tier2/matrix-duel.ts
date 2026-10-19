@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import { SystemPhase, type Component, type EntityId, type IWorld } from '@engine/core/types.js';
 import type { Flag, Resource, ResourceModify, Signal, StringSet } from '@engine/protocol/components.js';
 import type { DebugTrace } from '@engine/protocol/components.js';
@@ -619,9 +620,9 @@ export const matrixDuelCapability = defineCapability({
       consumes: [],
       runsBefore: ['resource-apply', 'self-rule'],
       execute(world: IWorld) {
-        const matrixIds = world.query('DuelMatrix').map(([id]) => id).sort();
+        const matrixIds = sortedIds(world, 'DuelMatrix');
         if (matrixIds.length === 0) return;
-        const intentIds = world.query('DuelIntent').map(([id]) => id).sort();
+        const intentIds = sortedIds(world, 'DuelIntent');
 
         // 日志基准守则（owner 2026-08-06）：opt-in——世界没挂 DebugTrace 时 `tr` 为 undefined，
         // 下面全部 appendTrace 都是 no-op（零开销）。拍号由宿主推进（禁墙钟）。
@@ -816,7 +817,7 @@ export const matrixDuelCapability = defineCapability({
       consumes: ['DuelOutcome'],
       runsBefore: ['effect-apply'], // 组件拓扑（写 Signal → effect-apply 读）本已排前，显式加固
       execute(world: IWorld) {
-        const ids = world.query('DuelOutcome').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'DuelOutcome');
         if (ids.length === 0) return;
         // 结算与播报之间隔着整个 Update 尾段（mortal/destroy 可能已收走某一侧实体）→ 先取存活集合。
         const alive = new Set(world.getAllEntities());
@@ -876,14 +877,14 @@ export const matrixDuelCapability = defineCapability({
       // 读 `Flag` 是给结算门用的（REQ-108-ENG-06）。**为什么门判在这儿**：Update 的结算系统
       // 加任何读面都成环（实测 `Flag` 当场闭合 `[resource-apply, self-rule, matrix-duel]`），
       // 而本系统在 Commit，读 Flag 实测不成环（定序用例覆盖）。
-      reads: ['DuelMatrix', 'Signal', 'Flag'],
+      reads: ['DuelMatrix', 'Signal', 'Flag', 'Resource'], // Resource：`hasComponent(side,'Resource')` 判信号源是不是对局侧（P1a 严格模式补齐·此前漏报）
       writes: ['DuelIntent'],
       consumes: [],
       runsAfter: ['matrix-duel-announce'], // 播报的胜负信号绝不该被当成出招输入（同拍两者都在 Commit）
       execute(world: IWorld) {
         const tr = findDebugTrace(world); // opt-in·没挂 DebugTrace 就全程 no-op（日志基准守则）
         const tk = tr?.tick ?? 0;
-        const matrixIds = world.query('DuelMatrix').map(([id]) => id).sort();
+        const matrixIds = sortedIds(world, 'DuelMatrix');
         if (matrixIds.length === 0) return;
         for (const mid of matrixIds) {
           const md = world.getComponent<DuelMatrix>(mid, 'DuelMatrix');
@@ -892,11 +893,8 @@ export const matrixDuelCapability = defineCapability({
           // ── 结算门 arming（REQ-108-ENG-06）：门开着就把本场双方的 intent 标成"可结算"。
           // 下一拍 Update 的结算系统只认这个标记（它读不了 Flag，见上面 reads 注释）。
           if (md.settleWhenFlag) {
-            let open = false;
-            for (const [fe] of world.query('Flag')) {
-              const f = world.getComponent<Flag>(fe, 'Flag');
-              if (f && f.id === md.settleWhenFlag) { open = f.active; break; }
-            }
+            const fe = world.byId('Flag', 'id', md.settleWhenFlag); // B-3：索引取首个（= 旧 for…break）
+            const open = fe === undefined ? false : (world.getComponent<Flag>(fe, 'Flag')?.active ?? false);
             const key = md.duelId ?? '';
             for (const [iid] of world.query('DuelIntent')) {
               const it = world.getComponent<DuelIntent>(iid, 'DuelIntent');

@@ -9,7 +9,6 @@ import {
   path3dBlueprint, spring3dBlueprint, particle3dBlueprint,
 } from './three3d.js';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ents = (bp: { entities: Record<string, unknown> }): any => bp.entities;
 
 describe('3D 展台 · 现场调参台接线（旋钮改一档 → 蓝图字段真变）', () => {

@@ -115,4 +115,4 @@ function main() {
   console.log(json ? JSON.stringify(r) : `✓ ${r.out}  透明 ${(r.transparentBefore * 100).toFixed(1)}%→${(r.transparentAfter * 100).toFixed(1)}%（base=${r.base ?? '无'}·bg=${r.bg}）`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) main();

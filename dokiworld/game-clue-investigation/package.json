@@ -1,0 +1,14 @@
+{
+  "name": "dokiworld-game-clue-investigation",
+  "version": "0.2.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:runtime": "vitest run --config vitest.config.ts"
+  },
+  "dependencies": {
+    "dokiworlds-app-sdk": "file:../../vendor/dokiworlds-app-sdk"
+  }
+}

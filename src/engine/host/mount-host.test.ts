@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 // mount-host 宿主骨架 helper 的契约测试（REQ-AUDIT-守门 C 件）：容器结构 / 定尺缩放 / teardown。
 import { describe, it, expect, beforeEach } from 'vitest';
-import { mountHost, resolveSceneBg } from './mount-host.js';
+import { mountExternalAppFrame, mountHost, resolveSceneBg } from './mount-host.js';
 
 function makeContainer(w?: number, h?: number): HTMLElement {
   const c = document.createElement('div');
@@ -70,6 +70,26 @@ describe('mountHost（引擎公用宿主骨架）', () => {
     const c2 = makeContainer(600, 600);
     const h2 = mountHost(c2, { fieldW: 800, fieldH: 400 });
     expect(h2.scene.style.transform).toBe('scale(0.75)');
+  });
+
+  it('responsive viewport 明确 opt-in：scene 满容器、play-field/overlay 扣除 HUD，fixed 默认逐位不变', () => {
+    const fixed = mountHost(makeContainer(640, 720), { fieldW: 900, fieldH: 620, topBarH: 52 });
+    expect(fixed.playfieldHost).toBe(fixed.scene);
+    expect(fixed.scene.style.width).toBe('900px');
+    expect(fixed.scene.style.transform).toBe('scale(0.7111111111111111)');
+
+    const responsive = mountHost(makeContainer(640, 720), {
+      fieldW: 900, fieldH: 620, topBarH: 52, bottomBarH: 20, viewportMode: 'responsive',
+    });
+    expect(responsive.playfieldHost).not.toBe(responsive.scene);
+    expect(responsive.playfieldHost.parentElement).toBe(responsive.scene);
+    expect(responsive.scene.style.width).toBe('100%');
+    expect(responsive.scene.style.height).toBe('100%');
+    expect(responsive.scene.style.transform).toBe('none');
+    expect(responsive.playfieldHost.style.top).toBe('52px');
+    expect(responsive.playfieldHost.style.bottom).toBe('20px');
+    expect(responsive.overlayHost.style.top).toBe('52px');
+    expect(responsive.overlayHost.style.bottom).toBe('20px');
   });
 
   it('缩放回退：容器 0 尺寸（未布局）→ 用场景定尺兜底 → scale(1)', () => {
@@ -167,5 +187,32 @@ describe('mountHost（引擎公用宿主骨架）', () => {
     Object.defineProperty(container, 'clientHeight', { value: 150, configurable: true });
     window.dispatchEvent(new Event('resize'));
     expect(h.scene.style.transform).toBe('scale(1)');
+  });
+});
+
+describe('mountExternalAppFrame（外部 Web App 预览宿主）', () => {
+  beforeEach(() => { document.body.innerHTML = ''; });
+
+  it('由引擎宿主创建 iframe，游戏层只提供声明式 URL 与标题', () => {
+    const container = makeContainer();
+    const teardown = mountExternalAppFrame(container, {
+      src: '/apps/game-loot-chest/index.html',
+      title: '开启宝箱 · Loot Chest',
+    });
+    const frame = container.querySelector('iframe');
+    expect(frame?.title).toBe('开启宝箱 · Loot Chest');
+    expect(frame?.getAttribute('src')).toBe('/apps/game-loot-chest/index.html');
+    expect(frame?.allow).toBe('fullscreen');
+    teardown();
+    expect(container.children).toHaveLength(0);
+  });
+
+  it('拒绝脚本/data 等非可信 URL，并允许显式 sandbox', () => {
+    const container = makeContainer();
+    expect(() => mountExternalAppFrame(container, { src: 'javascript:alert(1)', title: 'bad' })).toThrow(/root-relative or HTTPS/);
+    mountExternalAppFrame(container, {
+      src: 'https://example.com/app', title: 'Hosted App', sandbox: 'allow-scripts allow-same-origin',
+    });
+    expect(container.querySelector('iframe')?.getAttribute('sandbox')).toBe('allow-scripts allow-same-origin');
   });
 });

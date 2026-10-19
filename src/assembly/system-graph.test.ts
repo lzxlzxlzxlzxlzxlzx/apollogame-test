@@ -64,6 +64,18 @@ describe('system-graph — 与引擎 topo-sort fidelity', () => {
     warn.mockRestore();
   });
 
+  it('事件推断边（P1b）：emitter→listener 与引擎同向；互 emit/listens 成 SCC 且点名 event:<E>', () => {
+    const P = cap('p', [{ id: 'P', reads: [], writes: [], consumes: [], emits: ['ev'], listens: ['ack'], execute() {} }]);
+    const L = cap('l', [{ id: 'L', reads: [], writes: [], consumes: [], emits: ['ack'], listens: ['ev'], execute() {} }]);
+    const rep = analyzeSystemGraph([P, L]);
+    expect(rep.sccs.length).toBe(1);
+    expect(rep.sccs[0].viaComponents).toEqual(['event:ack', 'event:ev']);
+    // 引擎：软环 → 平局裁决不抛，且单向时严格按 emitter→listener
+    expect(() => topologicalSort([...P.systems, ...L.systems])).not.toThrow();
+    const onlyL = cap('l2', [{ id: 'L2', reads: [], writes: [], consumes: [], listens: ['ev'], execute() {} }]);
+    expect(topologicalSort([...onlyL.systems, ...P.systems]).map((s) => s.id)).toEqual(['P', 'L2']);
+  });
+
   it('显式 runsBefore 破环：analyzer 无 SCC 且引擎不抛', () => {
     const A = sys('A', { reads: ['X'], writes: ['X'], runsBefore: ['B'] });
     const B = sys('B', { reads: ['X'], writes: ['X'] });

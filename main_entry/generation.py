@@ -84,7 +84,12 @@ def _generate_with_autofix(provider: str, api_key: str, model: str, system: str,
                  validation='pass' if ok else 'fail', errors=[] if ok else [msg],
                  prompt_full=cur_system, response_full=text)
         if ok:
-            warnings = _validate_blueprint(manifest)
+            # ⚠ `msg` 在 ok 分支**也可能有内容**（`_run_manifest_check` 成功时回的是 stderr = 引擎告警：
+            # 软环 / 降级 / 兼容性）。首版只取 `_validate_blueprint` 就把它整段丢了，于是作者只看到
+            # 「创建成功」——独立审查 2026-09-12 打回。告警不是错误，但**不许静默**：合进同一条 warnings。
+            warnings = list(_validate_blueprint(manifest))
+            if msg and msg.strip():
+                warnings.extend(f'引擎校验告警：{ln}' for ln in msg.strip().splitlines() if ln.strip())
             return {'success': True, 'error': None, 'blueprint': manifest, 'manifest': manifest,
                     'warnings': warnings, 'attempts': attempts, 'fixed_errors': fixed_errors,
                     'fix_instructions': fix_instructions, 'tokens': total_tokens}

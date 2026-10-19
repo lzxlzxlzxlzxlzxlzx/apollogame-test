@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "zerocraft.life-generation-patch.v1",
+  "baseWorld": "world.life.json",
+  "requiresSlices": ["actors.patch.json"],
+  "operations": [
+    {
+      "op": "add",
+      "path": "/logic/flags",
+      "value": [
+          { "id": "flag.throne-lit", "initial": false },
+          { "id": "flag.greenhouse-restored", "initial": false },
+          { "id": "flag.forge-awakened", "initial": false }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/constructionProjects",
+      "value": [
+        {
+          "id": "restore-throne-hall",
+          "placementId": "throne-hall",
+          "materials": [{ "itemId": "resource.moonwood", "count": 2 }, { "itemId": "resource.shadow-ore", "count": 1 }],
+          "completedSkinKey": "art:demon-castle:building:throne-hall-restored"
+        },
+        {
+          "id": "restore-greenhouse",
+          "placementId": "greenhouse-ruin",
+          "materials": [{ "itemId": "crop.moonbell", "count": 2 }, { "itemId": "resource.moonwood", "count": 1 }],
+          "requires": { "kind": "flag", "id": "flag.throne-lit", "equals": true },
+          "completedSkinKey": "art:demon-castle:building:greenhouse-restored"
+        },
+        {
+          "id": "awaken-forge-core",
+          "placementId": "forge-core",
+          "materials": [{ "itemId": "resource.shadow-ore", "count": 2 }, { "itemId": "resource.moonwood", "count": 1 }],
+          "requires": { "kind": "flag", "id": "flag.greenhouse-restored", "equals": true },
+          "completedSkinKey": "art:demon-castle:building:forge-core-awakened"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "id": "GAP-110-01",
+    "title": "局中牌池可变性：条件满足时把一张卡送进当前手牌/牌库顶（概念图②机会卡出现·⑥解读新卡）。实查：Effect.kind 十种闭集无一能写 CardPile.deck/hand/handSize；现成途径只有 card-pile 自带 returnOnSignal+returnCodeResource（一拍一张·插袋底）与 refreshOnSignal（全手牌回袋重抽）。A=给 card-pile 加数据算子 injectOnSignals（引擎面·碰定序·归主程·通用性高）/ B=用现有算子做语义降格（零引擎改动·机会卡落袋底当局可能抽不到）。Lead 推荐先 B 后 A（不锁最小闭环·按 rule-of-three 等第二消费方）——待 owner 判。裁决摆盘全文见 capability-plan.md §4.8",
+    "priority": "P2",
+    "route": "engine",
+    "state": "open",
+    "blocks": []
+  }
+]

@@ -10,12 +10,73 @@
 
 import type { LayoutNode, LabelProps, ProgressBarProps, ImageProps, DialogProps, ChoiceListProps, PortraitProps } from './types.js';
 
-/** 注入式世界数据源（游戏/引擎提供一份·解耦 ECS）：resource 读数值资源，value 读字符串变量，flag 读布尔旗标。 */
+/** 列表项：标量字段表（`{{item.字段}}` 代入源）。`id` 约定为条目唯一键（世界投影时 = 实体 id）。 */
+export type UIListItem = Readonly<Record<string, string | number | boolean>>;
+
+/** 注入式世界数据源（游戏/引擎提供一份·解耦 ECS）：resource 读数值资源，value 读字符串变量，flag 读布尔旗标，list 读集合。 */
 export interface UIDataSource {
   resource?(id: string): { current: number; max?: number } | undefined;
   value?(id: string): string | undefined;
   /** 读布尔旗标（通常映射世界 Flag 组件）：LayoutNode.visibleWhen 条件显隐求值用。游戏/引擎注入。 */
   flag?(id: string): boolean | undefined;
+  /** 读集合（P2b·LayoutNode.repeat 的数据源）：按列表 id 给出条目数组（顺序即渲染序·须确定）。 */
+  list?(id: string): ReadonlyArray<UIListItem> | undefined;
+}
+
+// ── repeat 展开（P2b）────────────────────────────────────────────────────────────────
+const PLACEHOLDER = /\{\{\s*(item\.([A-Za-z0-9_-]+)|index|count)\s*\}\}/g;
+const WHOLE = /^\{\{\s*(item\.([A-Za-z0-9_-]+)|index|count)\s*\}\}$/;
+
+function lookupPlaceholder(name: string, field: string | undefined, item: UIListItem, index: number, count: number): string | number | boolean | undefined {
+  if (name === 'index') return index;
+  if (name === 'count') return count;
+  return field !== undefined ? item[field] : undefined;
+}
+
+/** 深代入：字符串整串恰为一个占位符 → 按原类型代入；含占位符 → 拼接（缺字段 → 空串）；对象/数组递归；其余原样。 */
+function substitute(v: unknown, item: UIListItem, index: number, count: number): unknown {
+  if (typeof v === 'string') {
+    const whole = WHOLE.exec(v);
+    if (whole) {
+      const r = lookupPlaceholder(whole[1].startsWith('item.') ? 'item' : whole[1], whole[2], item, index, count);
+      return r === undefined ? '' : r;
+    }
+    return v.replace(PLACEHOLDER, (_m, name: string, field?: string) => {
+      const r = lookupPlaceholder(name.startsWith('item.') ? 'item' : name, field, item, index, count);
+      return r === undefined ? '' : String(r);
+    });
+  }
+  if (Array.isArray(v)) return v.map((x) => substitute(x, item, index, count));
+  if (v !== null && typeof v === 'object') {
+    const out: Record<string, unknown> = {};
+    for (const [k, x] of Object.entries(v as Record<string, unknown>)) out[k] = substitute(x, item, index, count);
+    return out;
+  }
+  return v;
+}
+
+/** 按列表把 template 克隆 N 份（id 带 `#key` 后缀·全树代入占位符）。 */
+function expandRepeat(node: LayoutNode, ds: UIDataSource): LayoutNode[] {
+  const rp = node.repeat!;
+  const items = ds.list?.(rp.source);
+  if (!items) return [];
+  const slice = rp.limit !== undefined ? items.slice(0, Math.max(0, rp.limit)) : items;
+  if (slice.length === 0) return rp.empty ? [rp.empty] : [];
+  const count = slice.length;
+  return slice.map((item, index) => {
+    const keyRaw = rp.key !== undefined ? item[rp.key] : undefined;
+    const key = keyRaw === undefined ? String(index) : String(keyRaw);
+    const clone = substitute(rp.template, item, index, count) as LayoutNode;
+    return suffixIds(clone, `#${key}`);
+  });
+}
+
+/** 给克隆子树的每个 id 加后缀（保 mountUI diff / 引导锚点的唯一性）。 */
+function suffixIds(node: LayoutNode, suffix: string): LayoutNode {
+  const out: LayoutNode = { ...node, id: `${node.id}${suffix}` };
+  if (node.children) out.children = node.children.map((c) => suffixIds(c, suffix));
+  if (node.repeat) out.repeat = { ...node.repeat, template: suffixIds(node.repeat.template, suffix) };
+  return out;
 }
 
 /**
@@ -60,8 +121,16 @@ export function resolveBindings(node: LayoutNode, ds: UIDataSource): LayoutNode 
     }
   }
 
+  // repeat（P2b）：本节点是容器 → 静态 children ++ 按列表克隆的 template；克隆后的节点与静态节点同等对待
+  //（visibleWhen 剔除 → 递归解析绑定），故模板里 `visibleWhen:'{{item.flag}}'`/`bind:'{{item.res}}'` 代入后照常生效。
+  const staticKids = node.children ?? [];
+  const kids = node.repeat ? [...staticKids, ...expandRepeat(node, ds)] : staticKids;
   // visibleWhen 不满足的子节点先从 children 里剔除（连同子树·替代游戏用代码 if/else 重建树），再递归解析绑定。
-  const children = node.children?.filter((ch) => isVisible(ch, ds)).map((ch) => resolveBindings(ch, ds));
+  const children = (node.children || node.repeat) ? kids.filter((ch) => isVisible(ch, ds)).map((ch) => resolveBindings(ch, ds)) : undefined;
+  if (node.repeat) {
+    const { repeat: _r, ...rest } = node; // 展开后的树不再带 repeat（渲染/校验只见字面节点）
+    return children ? { ...rest, props, children } : { ...rest, props };
+  }
   return children ? { ...node, props, children } : { ...node, props };
 }
 

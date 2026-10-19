@@ -16,6 +16,12 @@ export type ComponentType =
   | 'Float' | 'Connector'
   | 'dialog' | 'choiceList' | 'portrait';
 
+/** A render-only 2D pose used as the start of a state-transform motion.
+ * The node's ordinary `layout.x/y/rotate/scale` remains the terminal pose. */
+export type TransformPose = Readonly<{ x?: number; y?: number; rotate?: number; scale?: number }>;
+/** A DOM-preserving transform chase between two same-id LayoutNode states. */
+export type TransformTransition = Readonly<{ ms?: number; easing?: 'linear' | 'ease-out' | 'ease-in-out' }>;
+
 /** 布局约束：坐标/尺寸/弹性。x/y 触发绝对定位；flex 在父 Panel/Screen 内生效。 */
 export interface LayoutConstraints {
   x?: number;
@@ -72,6 +78,17 @@ export interface LayoutConstraints {
   animFrom?: 'left' | 'right' | 'top' | 'bottom';
   /** 入场位移幅度 px（配 anim:'flyIn'·缺省 24）。走道/大幅伸入填大值（如 120）——治「写死 24px 只够轻微入场」。 */
   animDist?: number;
+  /** 一次性二维状态变换的起点。终点固定读取本节点的 x/y/rotate/scale，故游戏只声明两个姿态、不写 DOM/CSS。
+   * 仅生成 transform 关键帧；**绝不改变 opacity**。适合门、锁梁、宝箱盖、机械臂等从已有姿态开到终态的部件。
+   * omitted = 零回归。 */
+  transformFrom?: TransformPose;
+  /** transformFrom 的一次性时长 ms（缺省 800；reduced-motion 下缩为 0）。 */
+  transformMotionMs?: number;
+  /** transformFrom 的缓动闭集；不接收自由 CSS easing。 */
+  transformMotionEasing?: 'linear' | 'ease-out' | 'ease-in-out';
+  /** 连续状态变换：同 id 节点经 mountUI.update() 改变 x/y/rotate/scale 时，保留 DOM 并让浏览器从当前 transform 追到终态。
+   * 初次渲染直接落终态；非 transform 字段变化仍安全重建。仅动画 transform，绝不改变 opacity。 */
+  transformTransition?: TransformTransition;
   /** 可拖拽：渲染加 draggable + data-drag(=节点 id 作载荷)；mountUI 收 dragstart。 */
   draggable?: boolean;
   /** 放置区：信号名·渲染加 data-drop；mountUI 在此 drop 时调 handlers[信号](被拖节点 id)。 */
@@ -105,6 +122,7 @@ export interface LayoutConstraints {
 // **新特效 = 加一个 kind（评审过的确定性 CSS），绝不再加布尔旗标。** 这就是替代 sheen?/glow?/… 开关爆炸的抽象。
 export type EffectKind =
   | 'pulse'   // 呼吸（缩放/透明·低血量警示/选中强调/待办催促）
+  | 'cue'     // 提示节拍：两端不透明，半程淡至 .35 并下移 4px
   | 'float'   // 上下浮动（漂浮/待命）
   | 'shake'   // 抖动（受击/错误/拒绝·intensity=抖幅·once=单次）
   | 'pop'     // 弹一下（出现/数值跳/强调·一次性）
@@ -146,14 +164,44 @@ export type FillPreset = 'jade-sheen' | 'gold-sheen' | 'ink-deep' | 'steel' | 'b
  *  `(string & {})` = 遗留裸串 back-compat（不破坏存量·裸串由 game-skill-audit 标记建议迁 token/preset/custom·**phase-1 非硬拦**）。 */
 export type PanelFill = SurfaceToken | FillPreset | { custom: string } | (string & {});
 
-export interface ButtonProps {
+/** 无九宫格贴图层的受限尺度合同：百分比尺寸、居中定位、对称外扩；不用自由 CSS。 */
+export interface SkinLayerProps {
+  /** 背景图相对盒子的百分比尺寸；两轴须同时给，范围由校验器限制。 */
+  skinSize?: { x: number; y: number };
+  /** 当前闭集只提供居中，避免自由 background-position。 */
+  skinPosition?: 'center';
+  /** 对称外扩 px；x 对应左右、y 对应上下（Button 以受控子层实现）。 */
+  skinOutset?: { x: number; y: number };
+}
+
+export interface ButtonProps extends SkinLayerProps {
   label: string;
+  /** Native label typography; omitted keeps each kind's old defaults. */
+  labelSize?: number;
+  labelWeight?: 400 | 600 | 700;
+  /** 按钮内建文字色；复用 LabelColor 的 token / 受限 custom 合同。缺省保留各 kind / 贴图皮原有字色。 */
+  labelColor?: LabelColor;
+  /** 四态面色闭集；只用于无贴图皮按钮。每态必须给底和边，文字色可选并回退 labelColor/kind。
+   * 缺省完全保留旧 Button 的 HTML/CSS；不接自由 CSS 或状态脚本。 */
+  stateColors?: ButtonStateColors;
+  /** Opt-in solid border width for non-skinned buttons; old kinds remain 1px. */
+  borderWidth?: number;
+  /** Keep keyboard focus visible while choosing a bounded color/width/offset. */
+  focusRingVisual?: { color: LabelColor; width: number; offset: number };
+  /** Opt-in visual feedback only for a resolved image skin; no free CSS or action changes. */
+  skinFeedback?: ButtonSkinFeedback;
   kind?: 'primary' | 'ghost' | 'quiet' | 'hero'; // hero=金色倒角 sheen 大 CTA（下沉自 game-g 出征键·owner 2026-06-25）
   disabled?: boolean;
+  /** 键盘焦点环；缺省 true。仅视觉已明确标出焦点/命中区的透明热区可关闭，避免额外矩形描边污染画面。 */
+  focusRing?: boolean;
   action?: string;
   actionArg?: string;
   sub?: string; // hero 键副标（小字第二行·如「挑战 曹操 · 难度 ★★」）
   icon?: string; // 键首内联图标（已解析 URL·1em 随字号·居 label 前）。批32「图标统一升级」：'⚔ 出征' 的 emoji 记号可换成套装美术图标。缺省无=纯文字零变。
+  /** 原生图标按钮；图成功加载后隐藏可见 label，失败时文字回退。 */
+  iconOnly?: { size: number }; // 24..64px；缺省旧图文按钮不变
+  /** Opt-in, image-layer-only icon feedback; requires iconOnly and leaves the button hit box still. */
+  iconFeedback?: ButtonIconFeedback;
   /** 异形轮廓（闭集 ShapeToken·如 hexagon/diamond/shield）。缺省=矩形。命中区：clip-path 多边形**按形裁**（透明角点击穿透·不误触）；
    *  pill 走 border-radius=矩形包围盒。（P3D 复核更正原「命中区=包围盒」旧注·2026-07-15。） */
   shape?: ShapeToken;
@@ -163,6 +211,23 @@ export interface ButtonProps {
   /** 9-slice 无损缩放（源图四边保留边距·px）。设了则 skin 走 border-image 九宫格：四角固定·边中拉伸——
    *  按钮任意尺寸皮都不变形（治好 cover 的拉伸/裁切）。商业 UI 皮标配。缺省=cover。owner 2026-07-07。 */
   skinSlice?: number;
+  /** 9-slice 显示边宽 px；缺省沿用 skinSlice，令旧皮 HTML/CSS 零变化。 */
+  skinBorderWidth?: number;
+}
+
+export interface ButtonSkinFeedback {
+  hoverBrightness: number;
+  pressedBrightness: number;
+  glowRadius: number;
+  glowColor: LabelColor;
+  transitionMs: number;
+}
+
+export interface ButtonIconFeedback {
+  hover: { translateY: number; brightness: number; glowRadius: number; glowColor: LabelColor };
+  pressed: { translateY: number; brightness: number };
+  disabled: { opacity: number; grayscale: number };
+  transitionMs: number;
 }
 
 /** 文字色令牌（闭集·主题解析·换皮自适应）。`{custom:'#hex'}` 逃生仅"创作者特别指定"用——
@@ -172,11 +237,24 @@ export interface ButtonProps {
 export type ColorToken = 'text' | 'sub' | 'dim' | 'jade' | 'gold' | 'ok' | 'warn' | 'danger' | 'mine' | 'foe' | 'ink';
 export type LabelColor = ColorToken | { custom: string };
 
+/** 状态底色只用主题面令牌或受限实色（#hex / rgb / rgba）；不接渐变或自由 CSS。 */
+export type ButtonStateFill = SurfaceToken | { custom: string };
+export interface ButtonStateColor {
+  background: ButtonStateFill;
+  border: LabelColor;
+  text?: LabelColor;
+}
+export type ButtonStateColors = Readonly<Record<'default' | 'hover' | 'pressed' | 'disabled', ButtonStateColor>>;
+
 export interface LabelProps {
   text?: string; // 可选：spans / tween / bind 提供内容时可省（缺省空串）
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'xxxl' | number; // 具名档(xs10..xxxl34) 或裸 px 数字(复刻精确档·8→任意大·REQ-UI-Label字阶裸数字)
   color?: LabelColor;
   bold?: boolean;
+  /** 精确多行基线间距，px；缺省保留浏览器/主题原行高。 */
+  lineHeight?: number;
+  /** 受限字重；显式值覆盖 bold，缺省仍沿用 bold=700。 */
+  weight?: 400 | 600 | 700 | 900;
   mono?: boolean;
   /** 具名字体槽（闭集·换艺术字体）。基础槽：ui=主字体 / mono=等宽 / pixel=像素点阵 / display=数码管展示字 /
    *  serif=衬线槽(UITheme.fontSerif·标题/logo 衬线、正文仍 sans)。
@@ -207,6 +285,8 @@ export interface LabelProps {
   bind?: string;
   /** 打字机(收编 VN DialogBox 逐字显)：每字毫秒(>0 开)。mountUI 挂载时逐字揭示·teardown 清定时器。 */
   typewriter?: number;
+  /** 受限逐字完成信号：token 是宿主提供的当前剧情引用/世代不透明键；末字或首次点击显全只发一次 action(arg=token)，typewriter:0 即时完成。 */
+  typewriterSignal?: { token: string; action: string };
   /** 数字滚动补间(render-only·掷骰滚到命点/筹码倍率分数跳动)：from→to 在 ms(缺省 600) 内由 mountUI 定时器动画到位；
    *  decimals=小数位(倍率用·缺省 0)。纯表现·不进 sim hash(同 typewriter)。弱模型只填 {from,to,ms} 数字。
    *  scale=**tween 期间字号同步缩放**(REQ-UIFX ⑤·定稿「伤害跳数字号 .82→1」)：起始缩放倍率·随补间进度回到 1。 */
@@ -244,10 +324,18 @@ export interface InputProps {
   action?: string;
 }
 
-export interface PanelProps {
+/** 受限滚轮输入：只声明两个具名 action；事件捕获、归一化与 ActionSink 入队由 mountUI 统一实现。 */
+export interface WheelBinding {
+  upAction?: string;
+  downAction?: string;
+}
+
+export interface PanelProps extends SkinLayerProps {
   title?: string;
   titleIcon?: string; // 标题前内联图标（已解析 URL·1.05em 随字号·REQ-UI-标题图标槽）。缺省无=纯文字标题零变。
   scroll?: boolean;
+  /** 当前 Panel 及其非滚动子区的 WheelEvent 映射。上/下只走 ActionSink，不接受 DOM 回调或自由脚本。 */
+  wheel?: WheelBinding;
   /** 面填充（三态·色库优先）：`SurfaceToken` 语义令牌(换皮自适应·如 'raised') / `FillPreset` 预设配色(如 'jade-sheen') /
    *  `{custom}` 显式自定义色(创作者特别指定才用)。缺省=主题 bg1。裸 hex 串仍收(back-compat)但 audit 会标建议迁令牌。 */
   bg?: PanelFill;
@@ -267,6 +355,8 @@ export interface PanelProps {
   skin?: string;
   /** skin 的 9-slice 源边距 px（画框式框皮·四角固定/边中拉伸·任意尺寸不糊·同 Button.skinSlice）。不填=整图 cover。 */
   skinSlice?: number;
+  /** 9-slice 显示边宽 px；与 skinSlice 分离时保持大源图角花而不挤内容。 */
+  skinBorderWidth?: number;
   /** 图片贴图层（平铺·同 Screen.bgTexture）：贴图 URL → repeat 平铺叠在面板底上、可被 bgScroll 滚动。 */
   bgTexture?: string;
   /** 贴图平铺单元尺寸 px（配 bgTexture·缺省=图原始尺寸）。 */
@@ -283,6 +373,8 @@ export interface PanelProps {
   /** 描边语义色（REQ-UI-容器描边形·闭集枚举·主题解析·非自由 hex）：阵营框(mine/foe)/金边界格(gold)/
    *  告警框(danger/warn/ok)/翠框(jade)。覆盖默认细线边·复用面：棋盘格/战棋位/卡牌位/堡垒框。 */
   edge?: EdgeColor;
+  /** 透明中心印章等精确描边；仅非 bare、无 skin 面板，缺省仍用 1px 主题边。 */
+  border?: { width: number; color: LabelColor };
   /** 虚线描边（空格落点圈/占位/拖放目标框）：true → border-style:dashed。配 edge 取色 + radius 取圆。 */
   dashed?: boolean;
   /** 异形容器轮廓（闭集 ShapeToken·复用 Button 同一套 render.ts SHAPE_CSS·**非自由 clip-path 坐标**·REQ-UI-异型容器①·
@@ -306,10 +398,30 @@ export interface CheckboxProps {
 }
 
 /** 药丸形开关（Toggle Switch）。handler 收到 'true' | 'false'。 */
+/** Optional measured switch skin. All geometry is px; colors are theme tokens or explicit safe colors. */
+export interface ToggleVisual {
+  /** Hide only the visible text; p.label remains the native checkbox's accessible name. */
+  showLabel?: boolean;
+  width: number;
+  height: number;
+  knobSize: number;
+  knobOffLeft: number;
+  knobOnLeft: number;
+  knobTop: number;
+  offBackground: ButtonStateFill;
+  onBackground: ButtonStateFill;
+  border: LabelColor;
+  offKnob: LabelColor;
+  onKnob: LabelColor;
+}
 export interface ToggleProps {
   label: string;
   checked?: boolean;
   action?: string;
+  /** Keeps the selected visual state while removing keyboard, pointer, and signal input. */
+  disabled?: boolean;
+  /** Opt-in measured visual only; absent means the legacy 36×20 Toggle, byte for byte. */
+  visual?: ToggleVisual;
 }
 
 /** 互斥单选组。name 用于分组；handler 收到所选 value。 */
@@ -320,12 +432,28 @@ export interface RadioGroupProps {
   action?: string;
 }
 
+/** 信号灯发光模式。全部只处理 alpha 轮廓 drop-shadow，绝不改变图片 opacity。 */
+export type SignalEmission = 'off' | 'steady' | 'once' | 'loop';
+
 /** 图片/图标。fit 控制 object-fit；radius 为圆角 px。 */
 export interface ImageProps {
   src: string;
   alt?: string;
   fit?: 'cover' | 'contain' | 'fill';
+  /** Closed object-position; top anchors a cover crop to the upper edge. */
+  position?: 'center' | 'top';
   radius?: number;
+  /** Render-only Gaussian blur in px. */
+  blur?: number;
+  /**
+   * Semantic tint for a neutral, single-source image. `signal` maps progress
+   * 0..1 from red through amber to green. `emission` is a closed render-only
+   * state: off=no glow, steady=fixed alpha-shaped glow, once=one filter-only
+   * warm-gold-to-target filter-only transition, loop=continuous filter-only
+   * glow pulse. Legacy `pulse:true` remains equivalent to `emission:'loop'`.
+   * Neither form changes opacity.
+   */
+  tint?: { kind: 'signal'; progress: number; emission?: SignalEmission; pulse?: boolean };
   /** 世界绑定(收编 GameShell image bind)：StringVar id·resolveBindings 时 src 取自其 value。 */
   bind?: string;
 }
@@ -362,6 +490,20 @@ export interface SliderProps {
   value?: number;
   label?: string;
   action?: string;
+  /** Keeps the current value visible while removing keyboard, pointer, and signal input. */
+  disabled?: boolean;
+  /** Optional resolved UI URLs: fixed rail and value-bound visual thumb. */
+  trackSkin?: string;
+  thumbSkin?: string;
+  thumbSize?: number;
+  /** Optional fixed pixel rail height; use with a matching LayoutNode width to preserve art aspect ratio. */
+  trackHeight?: number;
+  /** Inner left/right rail padding in px; aligns a visual thumb to art whose stops are inset from its bitmap edges. */
+  thumbInset?: number;
+  /** Keep a skinned thumb following the pointer, then commit the nearest step on release. */
+  releaseSnap?: boolean;
+  /** Render-only thumb travel/snap duration. */
+  motionMs?: number;
 }
 
 // ── Table（数据表 / 榜单 / 数值表）：列定义 + 行数据。游戏只填 columns + rows（最弱 LLM 能填）。 ──
@@ -386,6 +528,8 @@ export interface ProgressBarProps {
   value: number; max?: number;
   tone?: 'accent' | 'gold' | 'ok' | 'warn' | 'danger';
   label?: string; showValue?: boolean;
+  /** 线性条轨道高度 px；缺省 8，供血条/暴露条等需要厚轨道的界面使用。 */
+  barHeight?: number;
   /** 形态(缺省 bar=线性条·向后兼容)：ring=环形/径向进度(conic 弧·体力/耐力/每日目标/冷却环)；
    *  liquid=**液面杯**(REQ-UIFX·value=水位·会晃的水面+气泡·杯体=本节点盒 layout.width/height)。中心显 value/label。 */
   shape?: 'bar' | 'ring' | 'liquid';
@@ -393,8 +537,10 @@ export interface ProgressBarProps {
   size?: number;
   /** 液面杯体圆角 px（shape:'liquid'·按盒圆角裁水体·缺省 14）。杯底圆角靠它，异形杯配 layout.radius 同轴覆盖。 */
   radius?: number;
-  /** 液体色（shape:'liquid'·CSS 色·净化后插样式·如 '#31b7f2'）。缺省按 tone 令牌取色。 */
+  /** 填充色（CSS 色·净化后插样式·如 '#31b7f2'）：bar/ring/liquid 都可用；缺省按 tone 令牌取色。 */
   fillColor?: string;
+  /** 线性条填充向外投同色柔光；缺省 false，适合风险、蓄力等需要把当前色延展到轨道边缘的读条。 */
+  fillGlow?: boolean;
   /** 液面波动（shape:'liquid'·缺省 true）：主脊 900ms scaleY 1↔.5 荡 ±3% + 副脊 1250ms 反向（两条错频才有晃动感）
    *  + 整杯以杯底为轴 ±1.6° slosh(1300ms)。false=静水（只留静态水面脊）。 */
   wave?: boolean;
@@ -502,9 +648,41 @@ export interface TagProps {
 }
 
 // ── Modal（居中模态浮层 + 遮罩 + 关闭语义）：children = 弹窗体。──
-// closable 显示右上 ×（缺省 true）；closeAction = 点 × / 点遮罩本身 时触发的信号（遮罩关闭由 mountUI 内建）。
+// closable 显示右上 ×（缺省 true）；closeAction = 点 × / 点遮罩 / Escape 时触发的信号（焦点与遮罩由 mountUI 内建）。
 export interface ModalProps {
-  title?: string; size?: 'sm' | 'md' | 'lg'; closable?: boolean; closeAction?: string;
+  title?: string;
+  /** 内建标题色；复用 LabelColor 的 token / 受限 custom 合同，缺省仍使用主题 text。 */
+  titleColor?: LabelColor;
+  /** Opt-in constrained inner-frame typography/geometry; omitted keeps legacy HTML unchanged. */
+  visual?: ModalVisual;
+  /** Scrim opacity stays 0.9; only a bounded background blur is configurable. */
+  scrim?: { blur: number };
+  /** 固定闭集尺寸：sm/md/lg 保持旧宽；xl=800 确认框，wide=1080×至少610 的历史/画廊框。 */
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'wide';
+  closable?: boolean;
+  closeAction?: string;
+  /** 已解析的框皮 URL；配 skinSlice 使用九宫格，禁止自由 CSS。 */
+  skin?: string;
+  skinSlice?: number;
+  /** 9-slice 显示边宽 px；缺省沿用 skinSlice。 */
+  skinBorderWidth?: number;
+}
+
+export interface ModalVisual {
+  width?: number;
+  minHeight?: number;
+  padding?: number | { top: number; right: number; bottom: number; left: number };
+  radius?: number;
+  /** Opaque solid or fixed 145-degree two-stop gradient; no arbitrary CSS. */
+  fill?: { color: string } | { gradient: { from: string; to: string } };
+  border?: { width: number; color: string };
+  /** Transparent outside-only ring, separate from the opaque content frame. */
+  outerRing?: { width: number; color: string };
+  /** Fixed dialog-only lift/fade presets; scrim stays still. */
+  enter?: 'lift-240' | 'lift-600';
+  titleSize?: number;
+  titleAlign?: 'left' | 'center';
+  contentAlign?: 'left' | 'center';
 }
 
 // ── Toast（飘字提示·非模态）：tone 着色的小药丸。──
@@ -661,8 +839,10 @@ export interface DialogProps {
   kind?: 'line' | 'choice' | 'check'; // 当前节点种类（投影填）：choice 节点隐推进提示（推进交给 choiceList）
   advanceAction?: string;    // 推进信号名（缺省 dialogue.advance）
   typewriter?: number;       // 打字机每字 ms（复用 Label 逐字揭示·render-only 不进 sim）
+  typewriterSignal?: { token: string; action: string }; // 当前剧情引用/世代键；完成或首次点击显全只通知一次
   skin?: string;             // 台词框画框皮（已解析图 URL·同 Panel.skin·art 即框·压过底/边框）
   skinSlice?: number;        // skin 9-slice 源边距 px（画框式无损缩放·不填=cover）
+  skinBorderWidth?: number;  // 9-slice 显示边宽 px；缺省沿用 skinSlice
   shape?: ShapeToken;        // 异形轮廓（闭集·复用 Panel/Button 同套 clip-path·缺省=矩形）
   edge?: EdgeColor;          // 描边语义/阵营色（覆盖默认线·金框/阵营框）
   bind?: string;             // 对话实体 id（resolveDialogue 投影 speaker/text/emotion/kind）
@@ -717,6 +897,29 @@ export interface LayoutNode {
    * 注：**树根**的 visibleWhen 不被求值（根恒渲染）——把条件内容放进某个子节点；若确需按根判可见用 isVisible()。
    */
   visibleWhen?: string;
+  /**
+   * 集合迭代（P2b · engine-architecture-review-2026-09-02 D8）：数据替代「TS builder 每帧整树重建」。
+   * 本节点成为容器：children = 静态 children ++ 按 UIDataSource.list(source) 的每一项克隆一份 template。
+   * 模板里任何字符串属性可写 `{{item.字段}}` / `{{index}}` / `{{count}}`（整串恰为一个占位符 → 按原类型代入，
+   * 数值/布尔不变成字符串；含在文本里 → 拼接）；id 自动带 `#key` 后缀保唯一（key 缺省 index）。
+   * `visibleWhen` / `bind` / `action` / `actionArg` 里也可用占位符 → 逐项条件显隐与逐项动作参数纯数据可表达。
+   * 红线同 bind：source 只是一个 **列表 id 字符串**，列表内容由引擎/游戏注入（世界侧 createWorldDataSource 按纯数据
+   * UIListSpec 从 ECS 投影），UI 不碰 ECS；占位符只做标量代入，不收表达式。
+   */
+  repeat?: RepeatSpec;
+}
+
+export interface RepeatSpec {
+  /** 列表 id（UIDataSource.list 的键）。 */
+  source: string;
+  /** 每一项克隆的节点模板（其 id 会带 `#<key>` 后缀）。 */
+  template: LayoutNode;
+  /** 用哪个 item 字段做唯一键后缀（缺省下标）。 */
+  key?: string;
+  /** 列表为空时放一个占位节点（可选）。 */
+  empty?: LayoutNode;
+  /** 最多展开多少项（可选·防超长列表）。 */
+  limit?: number;
 }
 
 export type Handler = (arg?: string) => void;
@@ -731,6 +934,37 @@ export type HandlerMap = Record<string, Handler>;
  */
 export interface ActionSink {
   enqueueAction(name: string, value?: { arg?: string }): void;
+}
+
+/**
+ * 每次 mount 的作品级表现偏好（render-only）。
+ *
+ * 这不是 LayoutNode 字段，也不进入 World/hash：宿主可从自己的 Profile
+ * 投影它，并在 `MountHandle.update()` 时热更新。`true` 与操作系统的
+ * `prefers-reduced-motion: reduce` 取并集；缺省/false 保持旧作品行为。
+ */
+export interface UIMotionPolicy {
+  reducedMotion?: boolean;
+}
+
+/** Closed work-level UI scale choices.  These are presentation tokens, not a
+ * free percentage field: hosts persist one token and project it at mount time. */
+export const UI_SCALE_OPTIONS = ['90', '100', '110'] as const;
+export type UIScale = typeof UI_SCALE_OPTIONS[number];
+
+/**
+ * Per-work accessibility projection.  It stays outside LayoutNode and World:
+ * a host may update it from its own preference storage without changing
+ * actions, snapshots, focus order, or deterministic state.
+ *
+ * `highContrast` replaces semantic UITheme tokens with the PUI contrast
+ * palette.  Explicit custom colors and image skins remain author-controlled;
+ * consumers that need them must provide their own readable art rather than
+ * treating this flag as a CSS-filter escape hatch.
+ */
+export interface UIAccessibilityPolicy {
+  highContrast?: boolean;
+  scale?: UIScale;
 }
 
 /**
@@ -801,7 +1035,7 @@ export interface UITheme {
   /** 主题级按钮皮槽（owner 07-15 批29「按键/背景/牌面都可换」）：kind → 贴图皮（skin=已解析图 URL·
    *  skinSlice=源边 px 走 9-slice 无损缩放，缺省整图 cover）。一个 kind 一张皮、全游戏按钮一体换——
    *  node 级 ButtonProps.skin 优先（含 skin:'' 显式关皮逃生）；缺省无 = 原 kind 底（老主题零变化）。 */
-  buttonSkins?: Partial<Record<'hero' | 'primary' | 'ghost' | 'quiet', { skin: string; skinSlice?: number }>>;
+  buttonSkins?: Partial<Record<'hero' | 'primary' | 'ghost' | 'quiet', { skin: string; skinSlice?: number; skinBorderWidth?: number; skinSize?: { x: number; y: number }; skinOutset?: { x: number; y: number } }>>;
   /** emoji 自动图渲配置（REQ-UI-emoji图渲·render-only）：设了则 Label/Button.label/spans/Tag/Badge 等显示文本里的
    *  emoji 字形自动内联成 `<img src=`${base}/<cp>.png``>`（1em 随字号）。不设=文本 emoji 保字形（零回归）。
    *  资产可达：base 指向 served 目录（vendor 进本地 `/games/<g>/art/emoji` 或共享 `/assets/emoji`）。逐 Label 可 `raw:true` 逃生。 */

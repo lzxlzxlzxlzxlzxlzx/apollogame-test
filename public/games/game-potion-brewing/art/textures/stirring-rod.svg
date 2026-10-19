@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="58" height="205" viewBox="0 0 58 205" role="img" aria-label="渐变木质搅拌棒">
+  <defs>
+    <linearGradient id="wood" x1="0" x2="1">
+      <stop offset="0" stop-color="#533225"/>
+      <stop offset="0.42" stop-color="#d7a45f"/>
+      <stop offset="0.74" stop-color="#ad7544"/>
+      <stop offset="1" stop-color="#684528"/>
+    </linearGradient>
+    <linearGradient id="head" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eee1ad"/>
+      <stop offset="0.36" stop-color="#d4c893"/>
+      <stop offset="1" stop-color="#715333"/>
+    </linearGradient>
+    <linearGradient id="submerge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="white"/>
+      <stop offset="0.76" stop-color="white"/>
+      <stop offset="0.91" stop-color="#ffffff88"/>
+      <stop offset="1" stop-color="#ffffff00"/>
+    </linearGradient>
+    <mask id="fade"><rect width="58" height="205" fill="url(#submerge)"/></mask>
+  </defs>
+  <g mask="url(#fade)">
+    <rect x="21" y="28" width="16" height="185" rx="8" fill="url(#wood)" stroke="#49291b" stroke-width="2"/>
+    <path d="M27 50v111" stroke="#f1ce8c" stroke-opacity=".31" stroke-width="2" stroke-linecap="round"/>
+    <path d="M29 4c11 0 19 7 19 18 0 13-9 23-19 23S10 35 10 22C10 11 18 4 29 4Z" fill="url(#head)" stroke="#42321c" stroke-width="3"/>
+    <path d="M16 20c2-7 7-11 14-11" fill="none" stroke="#fff3c9" stroke-opacity=".58" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>

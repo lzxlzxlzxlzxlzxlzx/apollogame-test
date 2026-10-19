@@ -328,6 +328,16 @@ def _assert_doki_dist_hygiene(dist, files) -> None:
             if m:
                 raise RuntimeError(f'产物卫生：{rel.as_posix()} 疑似含密钥（{m.group(0)[:10]}…）——拒绝出包')
 
+def _write_doki_checksums(dist) -> None:
+    """发布屏在所有闭包步骤之后重建最终校验清单，避免后复制的文档漏签。"""
+    sums = []
+    for p in sorted(path for path in dist.rglob('*') if path.is_file()):
+        rel = p.relative_to(dist).as_posix()
+        if rel == 'SHA256SUMS.txt':
+            continue
+        sums.append(f'{hashlib.sha256(p.read_bytes()).hexdigest().upper()}  {rel}')
+    (dist / 'SHA256SUMS.txt').write_text('\n'.join(sums) + '\n', encoding='utf-8')
+
 _DOKI_STAMP = '.doki-install-stamp'
 
 def _doki_deps_stale(app):
@@ -368,22 +378,35 @@ def _pkg_build_dokiworld_app(slug: str):
     app = DOKIWORLD_DIR / slug
     if not (app / 'package.json').is_file():
         raise RuntimeError(f'{slug} {_DOKI_GUIDE}')
+    # Python subprocess does not resolve Windows .cmd shims from a bare `npm`.
+    # Keep one command selection for dependency install and the actual build.
+    npm = shutil.which('npm.cmd' if os.name == 'nt' else 'npm') or ('npm.cmd' if os.name == 'nt' else 'npm')
     stale = _doki_deps_stale(app)
     if stale:
-        r = subprocess.run(['npm', 'ci', '--no-audit', '--no-fund'], cwd=app, capture_output=True, text=True)
+        r = subprocess.run([npm, 'ci', '--no-audit', '--no-fund'], cwd=app, capture_output=True, text=True,
+                           encoding='utf-8', errors='replace')
         if r.returncode != 0:
             raise RuntimeError(f'npm ci 失败（{stale}·退出码 {r.returncode}）：{_proc_tail(r)}')
         lock = app / 'package-lock.json'
         if lock.is_file():
             (app / 'node_modules' / _DOKI_STAMP).write_text(
                 hashlib.sha256(lock.read_bytes()).hexdigest(), encoding='utf-8')
-    b = subprocess.run(['npm', 'run', 'build'], cwd=app, capture_output=True, text=True)
+    b = subprocess.run([npm, 'run', 'build'], cwd=app, capture_output=True, text=True,
+                       encoding='utf-8', errors='replace')
     if b.returncode != 0:
         raise RuntimeError(f'npm run build 失败（退出码 {b.returncode}）：{_proc_tail(b)}')
+    # schemaVersion 3 的调用说明由源码 manifest 单一清单统一刷新进 dist。
+    # 这一步故意放在每个 App 自身 build 之后：即使新 App 忘了在 build.mjs 手写复制，发布屏也不会产出旧文档。
+    docs = subprocess.run(
+        ['node', str(ROOT / 'scripts' / 'dokiworld-docs-export.mjs'), slug],
+        cwd=ROOT, capture_output=True, text=True, encoding='utf-8', errors='replace')
+    if docs.returncode != 0:
+        raise RuntimeError(f'调用说明文档闭包失败（退出码 {docs.returncode}）：{_proc_tail(docs)}')
     dist = app / 'dist'
     missing = [f for f in ('index.html', 'manifest.json') if not (dist / f).is_file()]
     if not dist.is_dir() or missing:
         raise RuntimeError(f'构建完成但 dist/ 缺 {"、".join(missing) or "目录"}（见服务端日志）')
+    _write_doki_checksums(dist)
     files = sorted(p for p in dist.rglob('*') if p.is_file())
     _assert_doki_dist_hygiene(dist, files)
     out_dir = ROOT / 'release' / slug

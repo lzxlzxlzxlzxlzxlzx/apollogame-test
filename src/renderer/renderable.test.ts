@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { screenToWorld, chooseRenderMode, resolveRotation2D, spriteAnchorOffset } from './renderable.js';
+import { screenToWorld, chooseRenderMode, resolveRotation2D, spriteAnchorOffset, planSpriteDraw } from './renderable.js';
 import type { CameraView, Renderable } from './renderable.js';
 import type { Shape, Sprite, Text, FaceDir } from '@engine/protocol/components.js';
 
@@ -95,3 +95,54 @@ describe('spriteAnchorOffset — Sprite 锚点真被消费（契约兑现）', (
   });
 });
 
+describe('planSpriteDraw — 通用 Sprite 目标框等比投影', () => {
+  const sprite = (extra: Partial<Sprite>): Sprite => ({ type: 'Sprite', textureKey: 't', anchorX: 0.5, anchorY: 0.5, zOrder: 0, ...extra });
+
+  it('新字段全省略 → 原生 source/destination 与旧路径逐参数一致', () => {
+    expect(planSpriteDraw(sprite({}), { sx: 7, sy: 11, sw: 80, sh: 120 })).toEqual({
+      source: { x: 7, y: 11, width: 80, height: 120 },
+      destination: { x: -40, y: -60, width: 80, height: 120 },
+    });
+  });
+
+  it('横图进竖框 cover：居中裁左右并铺满目标框', () => {
+    expect(planSpriteDraw(sprite({ width: 100, height: 200, fit: 'cover' }), { sx: 10, sy: 20, sw: 400, sh: 200 })).toEqual({
+      source: { x: 160, y: 20, width: 100, height: 200 },
+      destination: { x: -50, y: -100, width: 100, height: 200 },
+    });
+  });
+
+  it('竖图进竖框 cover：同宽高比时保留完整源图', () => {
+    expect(planSpriteDraw(sprite({ width: 100, height: 200, fit: 'cover' }), { sx: 10, sy: 20, sw: 100, sh: 200 })).toEqual({
+      source: { x: 10, y: 20, width: 100, height: 200 },
+      destination: { x: -50, y: -100, width: 100, height: 200 },
+    });
+  });
+
+  it('contain：完整源图在目标框居中，剩余区域保持透明', () => {
+    expect(planSpriteDraw(sprite({ width: 100, height: 200, fit: 'contain' }), { sx: 0, sy: 0, sw: 400, sh: 200 })).toEqual({
+      source: { x: 0, y: 0, width: 400, height: 200 },
+      destination: { x: -50, y: -25, width: 100, height: 50 },
+    });
+  });
+
+  it('非中心 anchor 锚定最终目标框，而非 contain 后的图像尺寸', () => {
+    expect(planSpriteDraw(sprite({ anchorX: 1, anchorY: 1, width: 100, height: 200, fit: 'contain' }), { sx: 0, sy: 0, sw: 400, sh: 200 }).destination)
+      .toEqual({ x: -100, y: -125, width: 100, height: 50 });
+  });
+
+  it('atlas Frame source rect 是 cover/contain 的唯一采样边界', () => {
+    const source = { sx: 100, sy: 50, sw: 400, sh: 200 };
+    expect(planSpriteDraw(sprite({ width: 100, height: 200, fit: 'cover' }), source).source).toEqual({ x: 250, y: 50, width: 100, height: 200 });
+    expect(planSpriteDraw(sprite({ width: 100, height: 200, fit: 'contain' }), source).source).toEqual({ x: 100, y: 50, width: 400, height: 200 });
+  });
+
+  it('多实例只返回新 plan，不共享可变 source/destination 状态', () => {
+    const first = planSpriteDraw(sprite({ width: 100, height: 200, fit: 'cover' }), { sx: 0, sy: 0, sw: 400, sh: 200 });
+    const second = planSpriteDraw(sprite({ width: 200, height: 100, fit: 'contain' }), { sx: 20, sy: 30, sw: 100, sh: 400 });
+    expect(first).not.toBe(second);
+    expect(first.source).not.toBe(second.source);
+    expect(first.destination).not.toBe(second.destination);
+    expect(first).toEqual({ source: { x: 150, y: 0, width: 100, height: 200 }, destination: { x: -50, y: -100, width: 100, height: 200 } });
+  });
+});

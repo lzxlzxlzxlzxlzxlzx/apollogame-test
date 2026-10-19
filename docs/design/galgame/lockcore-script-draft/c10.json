@@ -1,0 +1,1027 @@
+{
+  "id": "c10",
+  "title": {
+    "zh-CN": "收尾"
+  },
+  "start": "c10_n0001",
+  "nodes": {
+    "c10_n0001": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "暑假过到尾巴上，天还热，人却懒了。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0002"
+      }
+    },
+    "c10_n0002": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡和特蕾西黏在一起的时间越来越多，多到朋友都看不下去。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0003"
+      }
+    },
+    "c10_n0003": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "这天傍晚，几个人在艾玛的花店门口支了张折叠桌吃西瓜。威廉刚把一个瓜拍开，抬头就看见那两个人走过来——特蕾西的手搭在卢卡的小臂上，卢卡空着的那只手，还拎着她的护目镜，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0004"
+      }
+    },
+    "c10_n0004": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "也不知道是什么时候帮她摘下来的，就提在手里晃。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0005"
+      }
+    },
+    "c10_n0005": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "来了来了，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0006"
+      },
+      "speaker": "william"
+    },
+    "c10_n0006": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "威廉拿西瓜皮敲桌子，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0007"
+      }
+    },
+    "c10_n0007": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "模范情侣又来了。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0008"
+      },
+      "speaker": "william"
+    },
+    "c10_n0008": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西耳尖一红，把手抽回来，又觉得抽回来更显得心虚，僵在原地。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0009"
+      }
+    },
+    "c10_n0009": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你俩能不能收敛点。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0010"
+      },
+      "speaker": "emma"
+    },
+    "c10_n0010": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "艾玛翻了个白眼，递过去两瓣西瓜，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0011"
+      }
+    },
+    "c10_n0011": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "上回我去工坊找你，推门看见你俩……算了，我不说了。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0012"
+      },
+      "speaker": "emma"
+    },
+    "c10_n0012": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我们什么都没干。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0013"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0013": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西瞪她。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0014"
+      }
+    },
+    "c10_n0014": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "是是是，你们什么都没干，就抱在一起看图纸。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0015"
+      },
+      "speaker": "emma"
+    },
+    "c10_n0015": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "艾玛说。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0016"
+      }
+    },
+    "c10_n0016": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "海伦娜坐在一旁，安静地笑，眼睛没往谁那儿看，只慢悠悠地开口："
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0017"
+      }
+    },
+    "c10_n0017": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡，你手里那副护目镜，可以还给人家了。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0018"
+      },
+      "speaker": "helena"
+    },
+    "c10_n0018": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡这才低头，看见自己还拎着特蕾西的护目镜，愣了一下，递回去。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0019"
+      }
+    },
+    "c10_n0019": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "谢了。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0020"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0020": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西接过去戴上，把脸遮了小半。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0021"
+      }
+    },
+    "c10_n0021": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你看你看，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0022"
+      },
+      "speaker": "william"
+    },
+    "c10_n0022": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "威廉起哄，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0023"
+      }
+    },
+    "c10_n0023": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "还脸红。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0024"
+      },
+      "speaker": "william"
+    },
+    "c10_n0024": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我没有。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0025"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0025": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西说。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0026"
+      }
+    },
+    "c10_n0026": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "艾米丽给每个人分纸巾："
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0027"
+      }
+    },
+    "c10_n0027": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "行了，让他俩吃瓜，别老欺负人。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0028"
+      },
+      "speaker": "emily"
+    },
+    "c10_n0028": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "奈布从头到尾没说话，等大家闹完，才从冰桶里拎出两瓶可乐，一瓶放卢卡面前，一瓶放特蕾西面前，瓶身上还凝着水珠。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0029"
+      }
+    },
+    "c10_n0029": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "谢了。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0030"
+      },
+      "speaker": "luca"
+    },
+    "c10_n0030": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡说。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0031"
+      }
+    },
+    "c10_n0031": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "奈布"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0032"
+      }
+    },
+    "c10_n0032": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "嗯"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0033"
+      },
+      "speaker": "naib"
+    },
+    "c10_n0033": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "了一声，又坐回去。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0034"
+      }
+    },
+    "c10_n0034": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "西瓜吃完，天擦黑，人陆续散了。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0035"
+      }
+    },
+    "c10_n0035": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "艾玛走的时候拉着特蕾西说了几句悄悄话，说得特蕾西直点头，末了艾玛拍拍她："
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0036"
+      }
+    },
+    "c10_n0036": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "有事喊我，我罩你。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0037"
+      },
+      "speaker": "emma"
+    },
+    "c10_n0037": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "知道了。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0038"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0038": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西说。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0039"
+      }
+    },
+    "c10_n0039": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "海伦娜路过卢卡身边，脚步顿了顿："
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0040"
+      }
+    },
+    "c10_n0040": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她今天心情好，你别惹她。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0041"
+      },
+      "speaker": "luca"
+    },
+    "c10_n0041": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "没等卢卡回答，就走了。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0042"
+      }
+    },
+    "c10_n0042": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "威廉最后一个走，走前还冲他俩挤眉弄眼："
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0043"
+      }
+    },
+    "c10_n0043": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "明天还来啊，我买了个新的拍子——不对，你们玩你们的。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0044"
+      },
+      "speaker": "william"
+    },
+    "c10_n0044": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "说完自己笑成一团，被艾米丽拎着后领拽走了。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0045"
+      }
+    },
+    "c10_n0045": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡和特蕾西站在花店门口，看着他们走远。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0046"
+      }
+    },
+    "c10_n0046": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "走吧。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0047"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0047": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西说。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0048"
+      }
+    },
+    "c10_n0048": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "两人并肩往家走。路灯一盏盏亮起来。特蕾西的手很自然地伸过来，卢卡也很自然地握住，十指扣上。谁也没说话，谁也没觉得需要说话。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0049"
+      }
+    },
+    "c10_n0049": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "跟暑假第一天过马路时、手心全是汗的那次不一样了。现在牵手，平常得跟呼吸一样。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0050"
+      }
+    },
+    "c10_n0050": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0051"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0051": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西忽然说。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0052"
+      }
+    },
+    "c10_n0052": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "嗯。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0053"
+      },
+      "speaker": "luca"
+    },
+    "c10_n0053": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "大学，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0054"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0054": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她顿了顿，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0055"
+      }
+    },
+    "c10_n0055": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你报哪儿。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0056"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0056": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "跟你一起。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0057"
+      },
+      "speaker": "luca"
+    },
+    "c10_n0057": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡说，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0058"
+      }
+    },
+    "c10_n0058": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你报哪儿，我报哪儿。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0059"
+      },
+      "speaker": "luca"
+    },
+    "c10_n0059": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你专业怎么办。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0060"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0060": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西说，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0061"
+      }
+    },
+    "c10_n0061": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你那个物理，要好的学校。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0062"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0062": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "能跟你一个城市就行。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0063"
+      },
+      "speaker": "luca"
+    },
+    "c10_n0063": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡说，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0064"
+      }
+    },
+    "c10_n0064": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我想跟你待着。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0065"
+      },
+      "speaker": "luca"
+    },
+    "c10_n0065": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西别过脸，没说话，只把他的手握得更紧了些。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0066"
+      }
+    },
+    "c10_n0066": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "过了好一会儿，她才开口："
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0067"
+      }
+    },
+    "c10_n0067": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "那，一起。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0068"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0068": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "快到特蕾西家门口的时候，她忽然停住。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0069"
+      }
+    },
+    "c10_n0069": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "去工坊待会儿吧。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0070"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0070": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她说，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0071"
+      }
+    },
+    "c10_n0071": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我想听音乐盒。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0072"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0072": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "两人拐进工坊。特蕾西开了灯，走到工作台前，从架子上拿下那个黄铜的音乐盒——擦得干干净净，一点灰都没有。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0073"
+      }
+    },
+    "c10_n0073": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她上了发条，音乐慢慢流出来。是那段很慢的调子。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0074"
+      }
+    },
+    "c10_n0074": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "两人并排坐在那张旧沙发上。特蕾西把头靠在他肩上。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0075"
+      }
+    },
+    "c10_n0075": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "暑假快过完了。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0076"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0076": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她说。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0077"
+      }
+    },
+    "c10_n0077": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "嗯。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0078"
+      },
+      "speaker": "luca"
+    },
+    "c10_n0078": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "这两个月，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0079"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0079": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她顿了顿，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0080"
+      }
+    },
+    "c10_n0080": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "跟做梦一样。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0081"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0081": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "不是梦。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0082"
+      },
+      "speaker": "luca"
+    },
+    "c10_n0082": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡说，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0083"
+      }
+    },
+    "c10_n0083": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "是真的。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0084"
+      },
+      "speaker": "luca"
+    },
+    "c10_n0084": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我知道。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0085"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0085": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西说，又往他肩上靠了靠，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0086"
+      }
+    },
+    "c10_n0086": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "就是，太开心了，有点不真实。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0087"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0087": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她伸手，戳了戳音乐盒上那个外露的齿轮，看着它一下一下地转。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0088"
+      }
+    },
+    "c10_n0088": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "以后，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0089"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0089": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她说，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0090"
+      }
+    },
+    "c10_n0090": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我们还有好多好多这样的暑假。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0091"
+      },
+      "speaker": "tracy"
+    },
+    "c10_n0091": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡低头，亲了亲她的发顶。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0092"
+      }
+    },
+    "c10_n0092": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "嗯。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0093"
+      },
+      "speaker": "luca"
+    },
+    "c10_n0093": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "他说，"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0094"
+      }
+    },
+    "c10_n0094": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "慢慢来。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0095"
+      },
+      "speaker": "luca"
+    },
+    "c10_n0095": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "音乐盒转着，转到第三分钟，发条走完，声音渐渐弱下去，最后停住。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0096"
+      }
+    },
+    "c10_n0096": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西坐起来，重新上满发条。音乐又响起来。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0097"
+      }
+    },
+    "c10_n0097": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "窗外，天已经黑透了，工坊的灯亮着，暖黄的一片。两个人靠在一起，谁也没再说要回家。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_ending"
+      }
+    },
+    "c10_ending": {
+      "kind": "ending",
+      "ending": "summer_together"
+    }
+  }
+}

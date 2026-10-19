@@ -54,6 +54,7 @@ export function mountOnboardingOverlay(host: HTMLElement, world: IWorld, anchorR
         `background:#1b1822;border:1px solid #e0973a;border-radius:10px;color:#ece6f5;font:14px/1.5 sans-serif;padding:10px 14px;box-sizing:border-box;` +
         `box-shadow:0 8px 24px #0009;pointer-events:none">${escapeHtml(m.text)}</div>`;
     }
+    // eslint-disable-next-line zerocraft/no-html-injection -- 债（评审 2026-09-02 D8）：手拼 HTML 游离于 LayoutNode 外 → P2b 改 Float/Panel 数据·PUI 域
     layer.innerHTML = html;
   };
 

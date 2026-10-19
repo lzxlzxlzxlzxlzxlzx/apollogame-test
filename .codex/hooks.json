@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[规则] 完整阅读并遵守 AGENTS.md；生产任务先查 docs/playbooks/index.md；新游戏先过 S1-P HTML 原型人门；Git/数据库/服务命令只交 owner 执行。'"
+          }
+        ]
+      }
+    ]
+  }
+}

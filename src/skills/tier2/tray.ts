@@ -2,6 +2,7 @@ import { defineCapability } from '@engine/core/define-capability.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Tray, TraySeat, Tag, Transform, HexPos } from '@engine/protocol/components.js';
+import { inCircle } from '@engine/math/vec2.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  tray —— 托盘落座（REQ-F-055；自走棋备战席/手牌排/背包栏通用原语）。
@@ -120,8 +121,7 @@ export const trayCapability = defineCapability({
             if (idx === undefined) continue;
             const tr = world.getComponent<Transform>(eid, 'Transform')!;
             const own = slotPos(t, idx);
-            const dx = tr.x - own.x, dy = tr.y - own.y;
-            if (dx * dx + dy * dy <= (t.gap / 2) * (t.gap / 2)) continue; // 没动（或微动）
+            if (inCircle(tr.x, tr.y, own.x, own.y, t.gap / 2)) continue; // 没动（或微动）
             // 落点是否在托盘带上：y 半距内 且 x 在槽排范围。
             const k = Math.round((tr.x - t.originX) / t.gap);
             const onBand = Math.abs(tr.y - t.originY) <= t.gap * 0.75 && k >= 0 && k < t.capacity;

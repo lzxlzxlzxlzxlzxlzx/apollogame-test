@@ -25,6 +25,9 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const SLOW_TARGETS = [
   { id: 'game-f', test: 'games/game-f/', subjects: ['games/game-f/'] },
   { id: 'flow-walk', test: 'games/game-g/flow-walk.test.ts', subjects: ['games/game-g/'] },
+  { id: 'flow-walk-211', test: 'games/game211/flow-walk.test.ts', subjects: ['games/game211/'] },
+  { id: 'pathfind-scale', test: 'games/game211/pathfind-scale.bench.test.ts', subjects: ['games/game211/', 'src/skills/tier2/pathfind.ts', 'src/skills/tier2/flow-field.ts', 'src/skills/tier2/flow-field-core.ts'] },
+  { id: 'slg-scale', test: 'games/game211/slg-scale.bench.test.ts', subjects: ['games/game211/', 'src/skills/tier2/flow-field.ts', 'src/skills/tier2/flow-field-core.ts'] },
   { id: 'manifest-check', test: 'scripts/manifest-check.test.mjs', subjects: ['scripts/manifest-check.mjs', 'library/'] },
   { id: 'acceptance', test: 'scripts/acceptance.test.mjs', subjects: ['scripts/acceptance-run.mjs', 'scripts/acceptance-schema.mjs'] },
   { id: 'game-pipeline', test: 'scripts/game-pipeline.test.mjs', subjects: ['scripts/game-pipeline.mjs', 'scripts/pipeline-orchestrator.mjs'] },
@@ -45,7 +48,8 @@ export function classify(results, baseline) {
 }
 
 function runTarget(t) {
-  const r = spawnSync('npx', ['vitest', 'run', t.test], {
+  const vitest = join(ROOT, 'node_modules/vitest/vitest.mjs');
+  const r = spawnSync(process.execPath, [vitest, 'run', t.test], {
     cwd: ROOT, encoding: 'utf8', env: { ...process.env, ZEROCRAFT_DEEP: '1' }, stdio: ['ignore', 'pipe', 'pipe'],
   });
   return { id: t.id, pass: r.status === 0, tail: (r.stdout || '').split('\n').filter((l) => /Tests|failed/.test(l)).slice(-2).join(' · ') };

@@ -1,0 +1,6 @@
+/* Do not advertise a dark document canvas: Chromium otherwise paints the transparent
+ * iframe canvas black before/behind the game UI. Local panels provide their own skin. */
+:root { color-scheme: normal; background: transparent !important; }
+html, body, #app { width: 100%; height: 100%; min-height: 100%; margin: 0; background: transparent !important; }
+* { box-sizing: border-box; }
+body { min-width: 280px; overflow: hidden; }

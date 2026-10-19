@@ -4,6 +4,7 @@ import {
   gameArtIndexUrl, loadGameArtInto, loadGameArtOverrides, pickArtOverrides, createArtAssets,
 } from './game-art-load.js';
 import { AssetManager, StubAssetLoader } from './asset-manager.js';
+import type { AssetDescriptor } from './asset-types.js';
 
 const INDEX = {
   version: 1,
@@ -45,6 +46,35 @@ describe('game-art-load（游戏本地美术索引装载·REQ-SHELL ②）', () 
     await loadGameArtInto(new AssetManager(new StubAssetLoader()), 'sample-game');
     expect(calls[0][0]).toBe('/games/sample-game/art/index.json');
     expect(calls[0][1]).toEqual({ cache: 'no-store' });
+  });
+
+  it('形态①：onlyKeys 只加载指定 key，去重且保持请求顺序；其余资产仍已登记', async () => {
+    stubFetch(() => okJson(INDEX));
+    const loaded: string[] = [];
+    const mgr = new AssetManager({ async load(descriptor: AssetDescriptor) {
+      loaded.push(descriptor.key);
+      return { handle: {}, width: 1, height: 1 };
+    } });
+    expect(await loadGameArtInto(mgr, 'sample-game', {
+      onlyKeys: ['sample-game/creep', 'sample-game/tower-pulse', 'sample-game/creep'],
+    })).toBe(true);
+    expect(loaded).toEqual(['sample-game/creep', 'sample-game/tower-pulse']);
+    expect(mgr.has('sample-game/vendored-bg')).toBe(true);
+    expect(mgr.get('sample-game/vendored-bg')).toBeUndefined();
+  });
+
+  it('形态①：未知 onlyKey 或单项加载失败返回 false，不暗加载其他条目', async () => {
+    stubFetch(() => okJson(INDEX));
+    const loaded: string[] = [];
+    const mgr = new AssetManager({ async load(descriptor: AssetDescriptor) {
+      loaded.push(descriptor.key);
+      if (descriptor.key === 'sample-game/creep') throw new Error('failed');
+      return { handle: {}, width: 1, height: 1 };
+    } });
+    expect(await loadGameArtInto(mgr, 'sample-game', { onlyKeys: ['sample-game/missing'] })).toBe(false);
+    expect(loaded).toEqual([]);
+    expect(await loadGameArtInto(mgr, 'sample-game', { onlyKeys: ['sample-game/creep'] })).toBe(false);
+    expect(loaded).toEqual(['sample-game/creep']);
   });
 
   it('形态②：只收真图替换条目（skinKey 前缀 + gen:/vendored/tags:skin 正向信号）', async () => {

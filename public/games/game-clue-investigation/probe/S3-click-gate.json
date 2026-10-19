@@ -1,0 +1,55 @@
+{
+  "slug": "game-clue-investigation",
+  "form": "cart",
+  "exit": 0,
+  "summary": "✓ Canvas 点击打穿（14 个候选 · 2 个具名 Signal 真入世界 · mask透明反例 2 个 · 零控制台 error）",
+  "candidates": 14,
+  "hits": [
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "id": "object-clock",
+      "action": "investigate.clock",
+      "x": 1065,
+      "y": 90,
+      "signalMatched": true
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "id": "object-clock",
+      "action": "investigate.clock",
+      "x": 852,
+      "y": 136,
+      "signalMatched": true
+    }
+  ],
+  "viewportResults": [
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "candidates": 7,
+      "positive": true,
+      "negative": true
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "candidates": 7,
+      "positive": true,
+      "negative": true
+    }
+  ],
+  "transparentExpected": true,
+  "transparentChecked": 2,
+  "transparentFailures": 0,
+  "consoleErrors": []
+}

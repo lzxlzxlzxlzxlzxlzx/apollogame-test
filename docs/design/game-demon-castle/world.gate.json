@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "zerocraft.life-generation-gate.v1",
+  "stage": "world",
+  "inputHash": "sha256:3133846969f8fe03fb28b4f6f1133ae1491a35e946bc3a1203cd358d549e33e9",
+  "selfCheck": {
+    "status": "pass",
+    "diagnostics": [],
+    "evidence": {
+      "validator": "validateLifeGamePackage",
+      "compiler": "compileAndParseLifeGamePackage",
+      "scenes": ["moon-courtyard", "moonshadow-forest", "undercrypt-workshop"],
+      "rleCellsPerScene": [280, 280, 280],
+      "tileVisualKeys": ["art:demon-castle:tile:moon-courtyard", "art:demon-castle:tile:moonshadow-forest", "art:demon-castle:tile:undercrypt-workshop"]
+    }
+  },
+  "visualArtifacts": [
+    { "kind": "collision-zone-map", "ref": "docs/design/game-demon-castle/world-map.html" },
+    { "kind": "world-package", "ref": "docs/design/game-demon-castle/world.life.json" }
+  ],
+  "ownerDecision": "approved"
+}

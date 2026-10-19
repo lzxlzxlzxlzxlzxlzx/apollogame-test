@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "assetEntries": 10,
+  "assetFiles": 10,
+  "extraFiles": 0,
+  "portableIndex": "games/game-card-reveal/art/index.json",
+  "files": [
+    {
+      "kind": "asset",
+      "id": "card.fallback",
+      "path": "games/game-card-reveal/art/cards/fallback.svg"
+    },
+    {
+      "kind": "asset",
+      "id": "card.preview.0",
+      "path": "games/game-card-reveal/art/cards/preview-0.svg"
+    },
+    {
+      "kind": "asset",
+      "id": "card.preview.1",
+      "path": "games/game-card-reveal/art/cards/preview-1.svg"
+    },
+    {
+      "kind": "asset",
+      "id": "card.preview.2",
+      "path": "games/game-card-reveal/art/cards/preview-2.svg"
+    },
+    {
+      "kind": "asset",
+      "id": "card.preview.3",
+      "path": "games/game-card-reveal/art/cards/preview-3.svg"
+    },
+    {
+      "kind": "asset",
+      "id": "card.preview.4",
+      "path": "games/game-card-reveal/art/cards/preview-4.svg"
+    },
+    {
+      "kind": "asset",
+      "id": "pack.back",
+      "path": "games/game-card-reveal/art/textures/pack-back.png"
+    },
+    {
+      "kind": "asset",
+      "id": "pack.front",
+      "path": "games/game-card-reveal/art/textures/pack-front.png"
+    },
+    {
+      "kind": "asset",
+      "id": "pack.tearBody",
+      "path": "games/game-card-reveal/art/textures/pack-tear-body.png"
+    },
+    {
+      "kind": "asset",
+      "id": "pack.tearTop",
+      "path": "games/game-card-reveal/art/textures/pack-tear-top.png"
+    }
+  ]
+}

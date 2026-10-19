@@ -1,0 +1,34 @@
+{
+  "_doc": "能力形状在案基线（skill-shape-guard.mjs 消费·owner 2026-09-05 令「避免超大 skill·底层要沉淀」立门当天的现状快照）。棘轮只紧不松：新超标件不得自写条目（先拆核·拆不动再走 requests.md 请裁）；条目达标后必须同提交删掉（守卫会硬红提醒）。remedy 字段写死「怎么还」——不写清楚的债等于赖账。",
+  "_measured": "立门当天：71 件能力壳中位 98 行；flow-field 已按本门示范拆核（581 → 224 行·核落 flow-field-core.ts·71 测零改动全绿），故不在本表。",
+  "oversized": [
+    {
+      "file": "src/skills/tier2/matrix-duel.ts",
+      "date": "2026-09-05",
+      "shape": "壳 654 行 · 组件字段 22",
+      "reason": "立门当天现状快照（非豁免·是记账）。收益矩阵结算 + 三系统接线全在一个壳里。",
+      "remedy": "把「查表定胜负 → 按 payoff 结算」的纯判定搬进 matrix-duel-core.ts（同 flow-field 先例）；字段面 22 → 拆 DuelIntent/DuelMatrix 两组件的描述面。"
+    },
+    {
+      "file": "src/skills/tier3/match3-board.ts",
+      "date": "2026-09-05",
+      "shape": "壳 647 行 · 组件字段 26",
+      "reason": "立门当天现状快照。config 驱动的相位状态机（交换/找连/消除/重力/补块/连锁/特殊糖/格层/目标）整台机在壳里。",
+      "remedy": "相位状态机是**天然的纯函数核**（输入棋盘 + config → 输出下一棋盘 + 事件），搬走后壳只剩读写组件；字段 26 是本表最大的数据面，按「基础消除 / 特殊糖 / 目标」三组拆。"
+    },
+    {
+      "file": "src/skills/tier3/poker-hand.ts",
+      "date": "2026-09-05",
+      "shape": "壳 268 行",
+      "reason": "立门当天现状快照。牌型评估器（高牌…同花五）与 rankingTable 结算在同一壳。",
+      "remedy": "评估器搬 poker-hand-core.ts —— 它本来就是纯函数（牌 → 牌型），且 t3-hand-pattern 已有同形先例（389 行 0 system 的纯核）。"
+    },
+    {
+      "file": "src/skills/tier3/slot-payout.ts",
+      "date": "2026-09-05",
+      "shape": "组件字段 26",
+      "reason": "立门当天现状快照。壳本身 198 行达标，只有数据面超标：连线赔付 + 老虎机经济的字段全摊在一层。",
+      "remedy": "按「连线定义 / 赔付表 / 经济（投注·余额·免费旋）」三组拆组件；壳不用动。"
+    }
+  ]
+}

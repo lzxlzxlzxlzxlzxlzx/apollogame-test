@@ -10,7 +10,7 @@ import { ThreeRenderer } from '@zerocraft/engine/renderer/three-renderer.js';
 import { buildVoxelScene } from './voxel.js';
 import { mountVoxelProto } from './voxel-proto.js';
 import { AssetManager, ImageAssetLoader, registerAssetIndex, parseAssetIndex } from '@zerocraft/engine/assets/index.js';
-import { QueuedInputSource, canvasPointerToScreen } from '@zerocraft/engine/net/index.js';
+import { QueuedInputSource, canvasPointerToScreen } from '@zerocraft/engine/net/host/index.js';
 import { mountHost } from '@zerocraft/engine/engine/host/mount-host.js';
 import { buildBlueprint } from './blueprint.js';
 import { LEVEL_1 } from './levels.js';

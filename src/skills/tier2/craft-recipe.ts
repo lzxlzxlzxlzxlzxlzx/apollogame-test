@@ -1,7 +1,9 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { Signal, CraftRecipe } from '@engine/protocol/components.js';
 import { buildConditionLookup } from './condition.js';
+import { clamp } from '@engine/math/scalar.js';
 
 // craft-recipe —— 经济/批量改值：信号到达且所有 costs 可负担 → 原子成交（REQ-C-003 + R14 归一）。
 //
@@ -73,7 +75,7 @@ export const craftRecipeCapability = defineCapability({
 
         const lookup = buildConditionLookup(world);
         // 确定性顺序：多配方同 tick 触发时按实体 id 升序结算（lookup 返回活引用，原地改 → 顺序可见）。
-        const recipeIds = world.queryEntities('CraftRecipe').sort();
+        const recipeIds = sortedIds(world, 'CraftRecipe');
 
         for (const eid of recipeIds) {
           const rc = world.getComponent<CraftRecipe>(eid, 'CraftRecipe');
@@ -95,14 +97,14 @@ export const craftRecipeCapability = defineCapability({
             const r = lookup.resource(c.id);
             if (r) {
               const next = r.current - c.amount;
-              r.current = next < r.min ? r.min : next > r.max ? r.max : next;
+              r.current = clamp(next, r.min, r.max);
             }
           }
           for (const g of rc.gains ?? []) {
             const r = lookup.resource(g.id);
             if (r) {
               const next = r.current + g.amount;
-              r.current = next < r.min ? r.min : next > r.max ? r.max : next;
+              r.current = clamp(next, r.min, r.max);
             }
           }
           if (rc.grantsFlag) {

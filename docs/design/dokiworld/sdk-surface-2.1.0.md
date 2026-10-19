@@ -1,5 +1,9 @@
 # @dokiworld/app-sdk 2.1.0 · 接口面实查清单
 
+> **归档接口面。** 当前本机 `public/apps` 接入以
+> [`../../sdk/dokiworlds-app-sdk-0.1.0.md`](../../sdk/dokiworlds-app-sdk-0.1.0.md)
+> 为准；包名和 API 不兼容。
+
 > 归档件（owner 2026-08-13 令「读一下列出来」）。来源=**真安装包 d.ts/js 实查**（`dokiworld/game108/node_modules/@dokiworld/app-sdk`），非文档手抄；SDK 升版后以新包实查为准。协议语义见规范快照 `app-sdk-app-development.zh-CN.md`。
 
 ## 核心（`@dokiworld/app-sdk` 主入口）

@@ -9,7 +9,7 @@ import { spawnSync } from 'node:child_process';
 
 const __dirnameCli = dirname(fileURLToPath(import.meta.url)); // 起子进程验 CLI 分支（见文件末）
 import { deriveLedger, batchGenerate, applyReplacements, dialectPrompt, cacheKey, paletteSnapRgb, deriveRequirements, resetRow, swapSlot, mergeLedger, deriveForGame, sizeForSpec, genSizeForTarget, resizeImageTo, errText, isPngBuffer, sniffImageFmt, backupOrigFile } from './art-replace.mjs';
-import { encodePng } from './ai-gen.mjs';
+import { ADAPTERS, encodePng, listPending, mockImage } from './ai-gen.mjs';
 import { decodePng } from './asset-matte.mjs';
 import { STYLE_PACKS, STYLE_PACK_IDS } from './style-packs.mjs';
 
@@ -69,6 +69,22 @@ describe('T1 ③④ 风格方言 + 缓存 + palette-snap', () => {
     paletteSnapRgb(rgb, pal);
     expect([...rgb]).toEqual([0, 0, 0, 255, 255, 255]);
   });
+});
+
+describe('SIMLIFE-ENG-14A 真生成唯一 pending 审门', () => {
+  it('art-replace 真产物只落 pending，不写最终文件/index/skinKey alias', () => withRoot(async (root) => {
+    const ledger = deriveLedger({ entities: { hero: MANIFEST.entities.hero } }, { game: 'g' });
+    const original = ADAPTERS.qwen.generate;
+    ADAPTERS.qwen.generate = async (prompt) => ({ ...mockImage(prompt, 128), model: 'fake-real', mock: false, spec: { format: 'png', width: 128, height: 128, usage: 'sprite' } });
+    try {
+      const result = await batchGenerate(ledger, 'pixel-retro', { root, game: 'g', mock: false, env: { DASHSCOPE_API_KEY: 'test-key' }, provider: 'qwen' });
+      expect(result.summary).toMatchObject({ generated: 1, pending: 1 });
+      expect(ledger.rows[0]).toMatchObject({ status: 'pending', gen: { pending: true } });
+      expect(listPending({ root, game: 'g' })).toHaveLength(1);
+      expect(existsSync(join(root, 'public/games/g/art/index.json'))).toBe(false);
+      expect(existsSync(join(root, 'public/games/g/art/gen/art-01.png'))).toBe(false);
+    } finally { ADAPTERS.qwen.generate = original; }
+  }));
 });
 
 describe('T2I 尺寸 + debug 回显（owner 2026-07-22「按钮渲成整场景·要知道传了什么」）', () => {

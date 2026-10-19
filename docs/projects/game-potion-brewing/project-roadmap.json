@@ -1,0 +1,594 @@
+{
+  "schemaVersion": "zerocraft.project-roadmap.v1",
+  "project": {
+    "id": "game-potion-brewing",
+    "title": "坩埚炼药小游戏",
+    "summary": "DokiWorld 为本局指定唯一公开配方和目标成品，玩家直接按顺序投料并按方向搅拌；透明背景叠入宿主，全部正确成功，明确错误立即失败，宿主权威处理材料与成品。",
+    "status": "active"
+  },
+  "milestones": [
+    {
+      "id": "s1-project-and-prototype",
+      "title": "S1 立项与 HTML 原型定稿",
+      "track": "策划与原型",
+      "description": "S1-P-06 按 Owner 反馈改为单一宿主指定配方直入、透明背景、三栏布局，移除选方和多余按钮/提示/棒头蓝点；失败只使药液变紫、锅静止。隔离浏览器已核透明 alpha、真实拖动成功链、静止失败帧及 F2 审阅样例。Owner 已于 2026-10-12 在本会话确认 S1-P-06 原型定稿；自验实证见 prototype-notes.md，独立关键路径复查 PASS，控制台 Owner 人门已于 2026-10-12 通过。",
+      "status": "done",
+      "dependsOn": [],
+      "acceptance": [
+        "立项简报冻结 add/stir 两种步骤、错误边界与宿主权威",
+        "HTML 原型覆盖宿主指定配方直入、投料、搅拌、成功、失败和取消，常态背景透明",
+        "Owner 真机目击并明确给出原型定稿判词"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/brief.md",
+          "label": "S1 立项简报"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/requests.md",
+          "label": "S1-P Demo 施工单"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/prototype.dc.html",
+          "label": "S1-P-06 可交互视觉原型"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/prototype-notes.md",
+          "label": "S1-P-06 视觉与验收说明"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/19-clear-water-and-ai-cauldron.png",
+          "label": "清水与 AI 坩埚实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/20-ai-bottle-result-moon.png",
+          "label": "月露成品结算实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/23-three-quarter-clear-water.png",
+          "label": "S1-P-03 斜俯视坩埚与清水实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/24-rod-drag-stirring.png",
+          "label": "S1-P-04 抓棒入汤搅拌实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/25-material-selected-no-pot-glow.png",
+          "label": "S1-P-04 材料选中锅身不发光实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/26-rod-in-water-initial.png",
+          "label": "S1-P-05 棒常驻清水与入水遮挡实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/27-rod-track-drag.png",
+          "label": "S1-P-05 抓棒单角度轨道搅拌实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/28-angular-stir-success.png",
+          "label": "S1-P-05 真实拖动完成结算实拍"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/29-transparent-fixed-recipe.png",
+          "label": "S1-P-06 透明背景单配方直入截图"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/30-purple-static-failure.png",
+          "label": "S1-P-06 紫色药液静止锅失败截图"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/ui-refs/31-transparent-success.png",
+          "label": "S1-P-06 单配方结算截图"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/S1-P-06-review.md",
+          "label": "S1-P-06 independent prototype review: key-path PASS"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "approved"
+      }
+    },
+    {
+      "id": "s2-capability-and-contract",
+      "title": "S2 能力计划与 DokiWorld 合同冻结",
+      "track": "架构与接入",
+      "description": "S2 能力计划与 DokiWorld 单配方合同已由非施工者独立复查 PASS，Owner 已在项目控制台通过人门。G1–G3 经 Owner 选择 A、G4 另获 A；当时四项仅 accepted，后于 2026-10-13 按本项目范围独立复查完成并改 delivered。S2 通过不代替正式游戏 S3/S4 验收。",
+      "status": "done",
+      "dependsOn": [
+        "s1-project-and-prototype"
+      ],
+      "acceptance": [
+        "capability-plan 实名列出能力、数据表和例外",
+        "配方解释、步骤判定和圆周手势不存在未裁决游戏层解释器",
+        "输入输出、权威与 success/failure/cancelled 语义冻结"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/requests.md",
+          "label": "S2 Owner A adjudication and three engine capability specs"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/capability-plan.md",
+          "label": "S2 capability plan draft"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/contract-v1.md",
+          "label": "S2 DokiWorld contract v1 draft"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/capability-gaps.json",
+          "label": "S2 four Owner A decisions: accepted, not delivered"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/S2-review.md",
+          "label": "S2 independent review PASS: documents/adjudication only"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/G1-G4-scoped-release-2026-10-13.md",
+          "label": "S2 之后 G1–G4 通用能力的项目范围独立交付复查"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "approved"
+      }
+    },
+    {
+      "id": "s3-s4-playable-slice",
+      "title": "S3–S4 骨架与完整可玩炼药链",
+      "track": "玩法",
+      "description": "S3 骨架机器门、非施工者复查与 Owner 人门已通过。S4 固定配方、真实鼠标/触屏投料和椭圆搅拌、汤色、成败结算、重开与退出已接通；G5 通用步骤完成信号经项目范围独立复查 PASS 并从公共池释放，材料库存 2→1→0 与耗尽禁投由真实引擎和浏览器核证。S4 对齐单 7 项通过、1 项 S5/S6 正式美术去向；GD 5/5 剧本、定向 29/29、1440×900 真浏览器 12 帧零错误。最新游戏指纹 2b771b62aca79e68 上 S2/S3 三门绿，S4 机器门与非施工者复查 PASS，Owner S4 人门已于 2026-10-13 通过；不代签 S5/S6。全库 scoped-gate 仍因并行 Life 项目 32 条 depcruise 违规失败，本项目新增依赖违规为零；不宣称全库绿。",
+      "status": "done",
+      "dependsOn": [
+        "s2-capability-and-contract"
+      ],
+      "acceptance": [
+        "两份以上 fixture 覆盖重复材料、双方向和多圈搅拌",
+        "错误提交立即失败，未提交拖拽和无效轨迹不误杀",
+        "验收剧本、确定性、UI 审计、真手势目击与独立复查通过"
+      ],
+      "evidence": [
+        {
+          "kind": "issue",
+          "ref": "docs/design/game-potion-brewing/capability-gaps.json",
+          "label": "G1–G5 均 delivered；正式游戏各阶段仍独立验收"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/skills/tier2/ordered-action-session.ts",
+          "label": "G1 通用有序动作能力已按项目范围交付"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/skills/tier2/ordered-action-session.test.ts",
+          "label": "G1 有序动作点名测试施工自检"
+        },
+        {
+          "kind": "issue",
+          "ref": "docs/workflow/requests.md",
+          "label": "G1–G4 已从公共池释放；历史工单可由 git 追溯"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/self-check/REQ-POTION-ORDERED-ACTION.md",
+          "label": "G1 施工自检与门禁阻断证据"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/REQ-POTION-ORDERED-ACTION.md",
+          "label": "G1 独立复查 CONCERNS：本体通过、全库门禁未绿"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/skills/tier2/angular-gesture.ts",
+          "label": "G2 单角度手势能力施工"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/skills/tier2/drop-zone-hit.ts",
+          "label": "G3 共享投放命中与代发前置门"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/runtime/drag-preview.ts",
+          "label": "G4 宿主侧 render-only 拖动预览"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/REQ-POTION-ANGULAR-GESTURE.md",
+          "label": "G2 独立复查 CONCERNS：局部通过、全项未闭"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/REQ-POTION-ELLIPSE-DROPZONE.md",
+          "label": "G3 独立复查 CONCERNS：局部通过、全项未闭"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/REQ-POTION-DRAG-PREVIEW.md",
+          "label": "G4 独立复查 CONCERNS：局部通过、全项未闭"
+        },
+        {
+          "kind": "test",
+          "ref": "scripts/potion-engine-browser-e2e.mjs",
+          "label": "G1-G4 isolated real-browser engine integration test"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/g2-g4-browser-held.png",
+          "label": "DPR2 real-browser visible held material preview"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/self-check/G1-G4-browser-engine-integration.md",
+          "label": "G1-G4 browser bridge construction self-check"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/G2-G4-browser-engine-integration.md",
+          "label": "Independent browser bridge review: local PASS, overall CONCERNS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/G1-G4-scoped-release-2026-10-13.md",
+          "label": "G1–G4 通用引擎能力项目范围独立 PASS；非正式游戏 S4 验收"
+        },
+        {
+          "kind": "artifact",
+          "ref": "games/game-potion-brewing/blueprint.ts",
+          "label": "S3 正式游戏数据蓝图"
+        },
+        {
+          "kind": "artifact",
+          "ref": "games/game-potion-brewing/game-potion-brewing.ts",
+          "label": "S3 本地正式挂载入口"
+        },
+        {
+          "kind": "artifact",
+          "ref": "public/games/game-potion-brewing/probe/S3-render.png",
+          "label": "S3 真浏览器骨架截图，非 S4 1:1"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/self-check/S3-skeleton-2026-10-13.md",
+          "label": "S3 施工自检与未完成边界"
+        },
+        {
+          "kind": "artifact",
+          "ref": "public/games/game-potion-brewing/pipeline.json",
+          "label": "S2/S3 三门绿；S4 机器门与独立复查 PASS，Owner 人门待审"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/S3-skeleton-2026-10-13.md",
+          "label": "S3 骨架独立 PASS；S4 与最终透明仍待验"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/POTION-LIST-01.md",
+          "label": "多段游戏 slug 枚举修复独立 PASS；运行中 API 待重启"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/self-check/S4-alignment.md",
+          "label": "S4 自证对齐 7 通过、1 项 S5/S6 去向，八问与好玩三问在档"
+        },
+        {
+          "kind": "issue",
+          "ref": "docs/design/game-potion-brewing/self-check/S4-stock-gap-2026-10-13.md",
+          "label": "S4 材料份数 A/B 实查与真引擎验红"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/S4-12-touch-stir.png",
+          "label": "S4 隔离真触屏搅拌截图"
+        },
+        {
+          "kind": "test",
+          "ref": "docs/design/game-potion-brewing/acceptance/05-repeat-material.scenario.jsonc",
+          "label": "S4 重复材料有序步骤剧本"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/GAP-POTION-05.md",
+          "label": "G5 通用步骤完成信号与材料份数独立复查 PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/S4-independent-2026-10-13.md",
+          "label": "S4 玩法结构独立复查 PASS，含四类撤修验红和真浏览器"
+        },
+        {
+          "kind": "test",
+          "ref": "public/games/game-potion-brewing/probe/S4-uiwalk.json",
+          "label": "S4 机器门 UI 走查；DOM 直接驱动率 12% 的范围限制已复核"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/S4-05-success.png",
+          "label": "S4 真浏览器成功结算截图"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/S2-S5-stale-recheck-2026-10-13.md",
+          "label": "S5 fingerprint S2 independent recheck PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/S3-S5-stale-recheck-2026-10-13.md",
+          "label": "S5 fingerprint S3 independent recheck PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/S4-S5-stale-recheck-2026-10-13.md",
+          "label": "S5 fingerprint S4 independent recheck PASS"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "approved"
+      }
+    },
+    {
+      "id": "s5-s6-visual-performance",
+      "title": "S5–S6 炼药台美术、音频与演出 1:1",
+      "track": "视觉与演出",
+      "description": "S5 历史人门已通过。2026-10-14 Owner 确认 S1-P-07 无限取料及 S1-P-08 棒身全段可抓、取消 Q/E/局内重开、失败单个小烟云。S6 当前候选已完成 15 帧隔离真浏览器自玩、药液特效/紫汤/触控/宽屏、31 项定向测试、UI 审计和对齐单收敛；通用棒身能力含快照确定性修复，经异人独立复查 PASS 并释放公共工单。S6 整体终复查、Owner 美术平台逐行复核及 Owner 人门仍未通过；不沿用旧指纹判词。 2026-10-14 local S6 UI follow-up: result modal centered on stage, rack hover sheen and larger hit region, liquid-only add/stir glow. Independent reviewer reran 17-frame browser probe (0 errors), 10 focused tests, and UI audit; partial PASS only. Full S6 review, Owner art review and Owner gate remain pending. 2026-10-14 Owner 5173 visual follow-up: liquid-only high-contrast cue lasting 1400ms including static reduced-motion feedback; live 5173 browser probe 18 frames, zero errors, centered modal in 1135/1440/2500 viewports; independent partial review PASS. Owner visual confirmation and S6 full gate remain pending. 2026-10-15 local continuity candidate: add/stir liquid now crossfades old color for 750ms, glow attacks 180ms and decays 720ms; 20-frame isolated browser probe, 10 focused tests, 569 UI tests, UI audit and build PASS. Owner visual confirmation and full S6 gate remain pending. Direct Owner-running localhost:5173 probe also PASS, 20 frames/0 errors; separate reviewer partial PASS for ordinary liquid continuity, rapid sub-180ms repeated events unverified. 2026-10-15：当前分域流程板 S2–S5 机器门与异人复查均 PASS；S6 板显示台账 8/8 与平台复核 8/8，Owner 本会话称 S6 已完成。art-08 provenance 仍为 pending，须与平台记录核对；项目控制台 Owner 人门不由 agent 代签。",
+      "status": "active",
+      "dependsOn": [
+        "s3-s4-playable-slice"
+      ],
+      "acceptance": [
+        "所有视觉实体有消费槽且资产索引无孤儿",
+        "原型与真实游戏同画布、关键帧与时序差异清零或有裁决",
+        "资源失败、音频无设备与 reduced-motion 均可安全降级"
+      ],
+      "evidence": [
+        {
+          "kind": "artifact",
+          "ref": "games/game-potion-brewing/screen.ts",
+          "label": "S5 LayoutNode UI skin"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/self-check/S5-alignment.md",
+          "label": "S5 alignment: six matched, two routed to S6/Owner"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/S5-01-start.png",
+          "label": "S5 browser opening frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/S5-05-success.png",
+          "label": "S5 browser success frame"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/S5-independent-2026-10-13.md",
+          "label": "S5 independent UI review PASS; S6 visual caveats explicit"
+        },
+        {
+          "kind": "artifact",
+          "ref": "public/games/game-potion-brewing/pipeline.json",
+          "label": "S5 machine/review ok at fingerprint; Owner human pending"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/S5-06-failure.png",
+          "label": "S5 browser failure frame"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/art-approval-2026-10-13.md",
+          "label": "Owner approved two specific AI PNG candidates for project use"
+        },
+        {
+          "kind": "artifact",
+          "ref": "public/games/game-potion-brewing/art/index.json",
+          "label": "S6 local AssetIndex: cauldron and moon-dew bottle"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/self-check/S6-alignment.md",
+          "label": "S6 current alignment 9 pass 1 Owner-routed warning 0 missing"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/S6-05-success.png",
+          "label": "S6 browser success frame with approved bottle"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/S6-13-reduced-motion.png",
+          "label": "S6 browser reduced-motion frame"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/art-approval-2026-10-14.md",
+          "label": "Owner 批准五张 S1-P-06 原型原创材料图用于本项目"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/S6-01-start.png",
+          "label": "S6 七图与卷轴/木架装饰真浏览器开局帧"
+        },
+        {
+          "kind": "artifact",
+          "ref": "public/games/game-potion-brewing/art/art-ledger.json",
+          "label": "S6 七行真实消费槽台账；待 Owner 平台逐行复核"
+        },
+        {
+          "kind": "artifact",
+          "ref": "public/games/game-potion-brewing/art/textures/stirring-rod.svg",
+          "label": "Prototype-derived rounded wooden stirring rod; platform art review pending"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/prototype-notes.md",
+          "label": "Owner-confirmed S1-P-07 unlimited materials"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/S6-06-purple-before-result.png",
+          "label": "Visible purple cauldron before failure modal"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/S6-14-wide-centered.png",
+          "label": "2500x1250 centered stage browser frame"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/POTION-SMOOTH-UNLIMITED-2026-10-14.md",
+          "label": "Independent targeted Sprite and unlimited-material review"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/REQ-POTION-ROD-GRAB-01.md",
+          "label": "棒身握持及满圈快照恢复的独立 PASS"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/S6-15-material-hover.png",
+          "label": "S6 rack hover true-browser frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/S6-16-wide-result-centered.png",
+          "label": "S6 wide result centered true-browser frame"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/self-check/S6-alignment.md",
+          "label": "S6 current 16 pass, 1 Owner-routed warning, 0 missing"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/owner-5173/S6-02-add.png",
+          "label": "Live 5173 add cue visible in liquid"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/owner-5173/S6-03-stir.png",
+          "label": "Live 5173 stir cue visible in liquid"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/owner-5173/S6-17-narrow-result-centered.png",
+          "label": "Live 5173 narrow viewport result centered"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/S6-02b-add-fade-middle.png",
+          "label": "S6 ingredient liquid color and glow midpoint browser frame 2026-10-15"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/S6-liquid-continuity-2026-10-15.md",
+          "label": "S6 liquid continuity independent partial review PASS; rapid-input boundary noted"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-potion-brewing/self-check/shots/owner-5173/S6-02b-add-fade-middle.png",
+          "label": "Owner localhost:5173 direct ingredient glow midpoint frame"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/S5-current-ui-domain-2026-10-15.md",
+          "label": "S5 当前 UI 域独立复查 PASS，golden 基准缺失已披露"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "s7-s8-dokiworld-delivery",
+      "title": "S7–S8 DokiWorld 联调与交付",
+      "track": "SDK 与发行",
+      "description": "S7 候选已落 schema 3 manifest、v1 严格输入输出 parser、十二章调用说明、资源闭包与便携 dist；真 SDK 假宿主 success/failure/rejected/preview 四路径完成且无重复回执。真实 DokiWorld 部署环境联调、资源降级、独立复查与 Owner 人门仍待；因依赖 S6 未 done，本里程碑保持 planned。 2026-10-15：标准 Windows 本地出包候选已生成并独立校验 22 文件 SHA/卫生，真 SDK 假宿主四路径与子路径预览通过；S7 评分、真实宿主联调、S8 全量门/独立复查及 Owner 人门尚未完成，故仍为 planned。 2026-10-15：S7 异人视觉评分已合法落账 16/24、PREMIUM:NO（透明宿主世界密度 1），Owner signoff 未签。真实 dist+vendored SDK 假宿主 success/failure/rejected/preview/非法输入/确认取消均通过；后两者 requestExit 一次且 complete 零次。标准本地 zip SHA-256 为 1D56169B8779AADD6B5F4B20105A4A229930B2A1A5C265AE8BC0404A27774894；真实宿主、净树 S8 终检与 Owner 人门仍待。 2026-10-15 全库复跑未达 S8 三绿：tsc/build 均被并行 narrative-transition-policy.ts:76 类型错误阻断，Vitest 683 文件通过、21 文件失败（34 用例失败、6 snapshot 失败）；共享工作区非净树，正式 S8 gate/review 不落账。 2026-10-15：宿主材料图 URL 按材料 ID 接入 render-only AssetManager，recipe.name 作为唯一药剂名；定向 24/24、合同 3/3、双图真浏览器探针与范围独立复查 PASS。最新本地 zip SHA-256 7F389FADE24E9B56C06000D1C445416FFA7B279BFACF33601B7AA6DF515F8A7B；真实宿主 CSP/图片可达性、S2-S4 变更后门禁刷新、全库 S8、S7/S8 Owner 人门仍待，故保持 planned。",
+      "status": "planned",
+      "dependsOn": [
+        "s5-s6-visual-performance"
+      ],
+      "acceptance": [
+        "合法输入唯一 complete，错误动作返回 failure，主动退出为 cancelled",
+        "preview 不结算，宿主图片失败不改变规则判定",
+        "dist 文档、资产、SHA、新鲜度、独立复查与 Owner 人门全部通过"
+      ],
+      "evidence": [
+        {
+          "kind": "artifact",
+          "ref": "dokiworld/game-potion-brewing/manifest.json",
+          "label": "DokiWorld v1 manifest 候选"
+        },
+        {
+          "kind": "document",
+          "ref": "dokiworld/game-potion-brewing/docs/integration.zh-CN.md",
+          "label": "DokiWorld 调用说明候选"
+        },
+        {
+          "kind": "test",
+          "ref": "scripts/potion-doki-smoke.mjs",
+          "label": "SDK 假宿主四路径测试"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-potion-brewing/self-check/S8-dokiworld-local-package-2026-10-15.md",
+          "label": "本地 DokiWorld 出包候选与独立 ZIP 校验，非发布"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/S7-visual-scorecard-2026-10-15.md",
+          "label": "S7 独立评分 16/24，PREMIUM:NO，Owner signoff 待定"
+        },
+        {
+          "kind": "test",
+          "ref": "docs/design/game-potion-brewing/self-check/S7-host-image-urls-2026-10-15.md",
+          "label": "宿主材料 URL 双图真浏览器与定向测试自证"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-potion-brewing/review/S7-host-image-urls-2026-10-15.md",
+          "label": "宿主图片 URL 接线范围独立复查 PASS，非 S7/S8 整关"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "required"
+      }
+    }
+  ]
+}

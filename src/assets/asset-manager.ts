@@ -64,7 +64,18 @@ export class AssetManager {
 
   /** 注册单个描述符(覆盖同 key)。注册不触发加载。 */
   register(descriptor: AssetDescriptor): void {
+    closeImageHandle(this.loaded.get(descriptor.key)?.handle);
+    this.loaded.delete(descriptor.key);
+    this.inflight.delete(descriptor.key);
     this.descriptors.set(descriptor.key, descriptor);
+  }
+
+  /** Remove one session-owned asset without disturbing unrelated registrations. */
+  unregister(key: string): void {
+    closeImageHandle(this.loaded.get(key)?.handle);
+    this.descriptors.delete(key);
+    this.loaded.delete(key);
+    this.inflight.delete(key);
   }
 
   /** 注册一份清单(数据驱动，可来自 JSON)。 */
@@ -101,13 +112,15 @@ export class AssetManager {
       .load(descriptor)
       .then(({ handle, width, height }) => {
         const asset: LoadedAsset = { descriptor, handle, width, height };
-        this.loaded.set(key, asset);
-        this.inflight.delete(key);
+        if (this.descriptors.get(key) === descriptor && this.inflight.get(key) === promise) {
+          this.loaded.set(key, asset);
+          this.inflight.delete(key);
+        } else closeImageHandle(handle);
         return asset;
       })
       .catch((err) => {
         // 失败也要清 inflight，否则 rejected promise 永久占位，该 key 整局再也加载不了（Gemini code review）。
-        this.inflight.delete(key);
+        if (this.inflight.get(key) === promise) this.inflight.delete(key);
         throw err;
       });
     this.inflight.set(key, promise);
@@ -122,6 +135,32 @@ export class AssetManager {
   /** 取已加载资产(未加载返回 undefined)。 */
   get(key: string): LoadedAsset | undefined {
     return this.loaded.get(key);
+  }
+
+  /**
+   * Synchronously move one loaded asset into an already drawable stable key.
+   * The source loses ownership; the target keeps resolving throughout the call.
+   * Invalid/stale registrations fail without mutating either key.
+   */
+  adoptLoaded(sourceKey: string, targetKey: string): boolean {
+    if (sourceKey === targetKey || this.animations.has(sourceKey) || this.animations.has(targetKey)) return false;
+    const source = this.loaded.get(sourceKey);
+    const target = this.loaded.get(targetKey);
+    if (!source || !target || source.handle === target.handle) return false;
+    if (this.descriptors.get(sourceKey) !== source.descriptor || this.descriptors.get(targetKey) !== target.descriptor) return false;
+    if (source.descriptor.kind !== target.descriptor.kind) return false;
+
+    const descriptor = { ...source.descriptor, key: targetKey } as AssetDescriptor;
+    const adopted: LoadedAsset = { descriptor, handle: source.handle, width: source.width, height: source.height };
+    // No await/intermediate callback: delete source ownership, publish target, then close old target.
+    this.loaded.delete(sourceKey);
+    this.descriptors.delete(sourceKey);
+    this.inflight.delete(sourceKey);
+    this.descriptors.set(targetKey, descriptor);
+    this.loaded.set(targetKey, adopted);
+    this.inflight.delete(targetKey);
+    closeImageHandle(target.handle);
+    return true;
   }
 
   /**
@@ -178,8 +217,15 @@ export class AssetManager {
   /** 清空缓存与注册(不影响进行中的加载承诺解析，但其结果不再被缓存复用)。 */
   clear(): void {
     this.descriptors.clear();
+    for (const asset of this.loaded.values()) closeImageHandle(asset.handle);
     this.loaded.clear();
     this.inflight.clear();
     this.animations.clear();
   }
+}
+
+function closeImageHandle(handle: unknown): void {
+  if (!handle || typeof handle !== 'object' || !('image' in handle)) return;
+  const image = handle.image;
+  if (image && typeof image === 'object' && 'close' in image && typeof image.close === 'function') image.close();
 }

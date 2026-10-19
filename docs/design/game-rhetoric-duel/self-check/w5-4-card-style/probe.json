@@ -1,0 +1,104 @@
+{
+  "card": {
+    "x": 554,
+    "y": 615.5,
+    "width": 140,
+    "height": 203,
+    "right": 694,
+    "bottom": 818.5
+  },
+  "frame": {
+    "x": 549,
+    "y": 610.5,
+    "width": 150,
+    "height": 218,
+    "right": 699,
+    "bottom": 828.5,
+    "backgroundImage": "url(\"http://127.0.0.1:5173/games/game-rhetoric-duel/art/card/frame.svg\")",
+    "skinned": false
+  },
+  "art": {
+    "rect": {
+      "x": 563,
+      "y": 624.5,
+      "width": 122,
+      "height": 61,
+      "right": 685,
+      "bottom": 685.5
+    },
+    "fontSize": "16px",
+    "color": "rgb(0, 0, 0)",
+    "opacity": "1",
+    "text": ""
+  },
+  "cost": {
+    "rect": {
+      "x": 564.09375,
+      "y": 618.5,
+      "width": 8.8125,
+      "height": 23,
+      "right": 572.90625,
+      "bottom": 641.5
+    },
+    "fontSize": "16px",
+    "color": "rgb(241, 212, 154)",
+    "opacity": "1",
+    "text": "2"
+  },
+  "name": {
+    "rect": {
+      "x": 598,
+      "y": 691.5,
+      "width": 52,
+      "height": 19,
+      "right": 650,
+      "bottom": 710.5
+    },
+    "fontSize": "13px",
+    "color": "rgb(45, 35, 26)",
+    "opacity": "1",
+    "text": "钉住细节"
+  },
+  "source": {
+    "rect": {
+      "x": 614,
+      "y": 710.5,
+      "width": 20,
+      "height": 15,
+      "right": 634,
+      "bottom": 725.5
+    },
+    "fontSize": "10px",
+    "color": "rgb(45, 35, 26)",
+    "opacity": "1",
+    "text": "言弹"
+  },
+  "effect": {
+    "rect": {
+      "x": 605.328125,
+      "y": 741.5,
+      "width": 37.328125,
+      "height": 16,
+      "right": 642.65625,
+      "bottom": 757.5
+    },
+    "fontSize": "11px",
+    "color": "rgb(45, 35, 26)",
+    "opacity": "1",
+    "text": "进度 +3"
+  },
+  "hotkey": {
+    "rect": {
+      "x": 682,
+      "y": 803.5,
+      "width": 4.953125,
+      "height": 13,
+      "right": 686.953125,
+      "bottom": 816.5
+    },
+    "fontSize": "9px",
+    "color": "rgb(45, 35, 26)",
+    "opacity": "0.5",
+    "text": "2"
+  }
+}

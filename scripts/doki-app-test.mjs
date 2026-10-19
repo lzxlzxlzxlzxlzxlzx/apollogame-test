@@ -10,6 +10,8 @@ const app = process.argv[2];
 if (!app || !/^[a-z0-9-]+$/.test(app)) { console.error(`用法: doki-app-test.mjs <app>（小写/数字/连字符）·收到 ${JSON.stringify(app)}`); process.exit(1); }
 const dir = join('dokiworld', app);
 if (!existsSync(join(dir, 'package.json'))) { console.error(`✗ ${dir}/package.json 不存在（不是 app 目录）`); process.exit(1); }
+const docs = spawnSync(process.execPath, ['scripts/dokiworld-docs-guard.mjs', app], { stdio: 'inherit' });
+if ((docs.status ?? 1) !== 0) { console.error(`✗ 调用文档闭包失败（${dir}）`); process.exit(docs.status ?? 1); }
 if (!existsSync(join(dir, 'node_modules'))) {
   const ci = spawnSync('npm', ['ci', '--no-audit', '--no-fund'], { cwd: dir, stdio: 'inherit' });
   if ((ci.status ?? 1) !== 0) { console.error(`✗ npm ci 失败（${dir}）`); process.exit(ci.status ?? 1); }

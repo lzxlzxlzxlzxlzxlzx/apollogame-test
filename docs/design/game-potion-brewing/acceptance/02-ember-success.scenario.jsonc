@@ -1,0 +1,28 @@
+// author: GD /root/potion_s4_gd
+// 赤焰：两次连续投料后逆时针两有效圈，再投花瓣与顺时针一圈；两配方互斥，不出现选方步骤。
+{
+  "name": "赤焰五步闭环：连续材料与逆顺双方向",
+  "game": "game-potion-brewing",
+  "seed": 211,
+  "config": { "fixture": "ember" },
+  "steps": [
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "active" }], "cap": 3 },
+    { "signal": "brew.add.red-berry" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 1 }], "cap": 3 },
+    { "signal": "brew.add.pepper-seed" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 2 }], "cap": 3 },
+    { "signal": "brew.stir.counterclockwise" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "confirmedCount" }, "eq": 1 }], "cap": 3 },
+    { "expect": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 2 }] },
+    { "signal": "brew.stir.counterclockwise" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 3 }], "cap": 3 },
+    { "signal": "brew.add.dawn-petal" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 4 }], "cap": 3 },
+    { "signal": "brew.stir.clockwise" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "success" }], "cap": 3 },
+    { "expect": [
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 5 },
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "confirmedCount" }, "eq": 0 }
+    ] }
+  ]
+}

@@ -1,0 +1,41 @@
+import { describe, expect, it } from 'vitest';
+import { parseGalPackage, validateGalPackage } from './gal-package.js';
+
+const pkg=()=>({
+  schemaVersion:1,id:'sample',title:{'zh-CN':'样例'},defaultLocale:'zh-CN',locales:['zh-CN'],entry:{chapterId:'a',nodeId:'start'},
+  ui:{template:'gal-template'}, preferences:{textSpeedMsPerChar:30,autoDelayMs:800,skipMode:'read-only',bgmVolume:0.8,sfxVolume:0.8,voiceVolume:0.8,muted:false},
+  characters:{hero:{id:'hero',name:{'zh-CN':'主角'},portraits:{neutral:'art:hero-neutral',expressions:{happy:'art:hero-happy'},fallback:'neutral'}},friend:{id:'friend',name:{'zh-CN':'朋友'},portraits:{neutral:'art:friend-neutral',expressions:{},fallback:'silhouette'}}},
+  media:{backgrounds:{room:{image:'art:room',title:{'zh-CN':'房间'}}},cg:{smile:{image:'art:smile',title:{'zh-CN':'笑容'},unlock:{kind:'reach-ending',ending:'good'}}},audio:{bgm:{theme:{asset:'audio:theme',loop:true}},sfx:{click:{asset:'audio:click'}},voice:{hero1:{asset:'audio:hero1',charId:'hero',text:{'zh-CN':'你好'}}}},video:{intro:{asset:'video:intro',skippable:true,audioPolicy:'embedded'}}},
+  scenes:{room:{id:'room',background:'room',ambience:{bgm:'theme',volume:0.5},cast:{hero:{visible:true,emotion:'happy'}},uiVariant:'default'}},
+  endings:{good:{title:{'zh-CN':'好结局'}},bad:{title:{'zh-CN':'坏结局'}}}, gallery:{memories:{intro:{title:{'zh-CN':'开端'},entry:{chapterId:'a',nodeId:'start'},unlock:{kind:'reach-node',ref:{chapterId:'a',nodeId:'start'}}}},music:{theme:{unlock:{kind:'explicit'}}}},
+  chapters:{
+    a:{id:'a',title:{'zh-CN':'A'},scene:'room',start:'start',nodes:{start:{kind:'line',speaker:'hero',text:{'zh-CN':'hi'},voice:'hero1',presentation:{background:'room',sfx:['click'],transition:'fade'},enter:[{kind:'flag',id:'met',value:true}],next:{chapterId:'b',nodeId:'pick'}}}},
+    b:{id:'b',title:{'zh-CN':'B'},start:'pick',nodes:{pick:{kind:'choice',prompt:{'zh-CN':'选'},options:[{id:'go',text:{'zh-CN':'go'},when:{kind:'always'},effects:[{kind:'resource',id:'affection',op:'add',value:1}],next:{chapterId:'b',nodeId:'check'}}]},check:{kind:'check',check:{attribute:'affection',difficulty:2,dice:6},pass:{effects:[{kind:'unlockCg',id:'smile'}],next:{chapterId:'b',nodeId:'good'}},fail:{next:{chapterId:'b',nodeId:'bad'}},},good:{kind:'ending',ending:'good'},bad:{kind:'ending',ending:'bad'}}}
+  }
+});
+const assets=new Set(['art:hero-neutral','art:hero-happy','art:friend-neutral','art:room','art:smile','audio:theme','audio:click','audio:hero1','video:intro']);
+describe('GalPackage V1 contract',()=>{
+  it('accepts a complete two-chapter package and clones it',()=>{const p=pkg();expect(validateGalPackage(p,{resolveAsset:key=>assets.has(key)})).toEqual({ok:true,issues:[]});expect(parseGalPackage(p)).not.toBe(p);});
+  it('accepts optional memory art keys without changing old packages and rejects unsafe or missing keys',()=>{
+    const p:any=pkg();
+    expect(validateGalPackage(p,{resolveAsset:key=>assets.has(key)}).ok).toBe(true);
+    p.gallery.memories.intro.previewImage='art:memory-preview';
+    p.gallery.memories.intro.lockedImage='art:memory-lock';
+    const resolveAsset=(key:string)=>new Set([...assets,'art:memory-preview','art:memory-lock']).has(key);
+    expect(validateGalPackage(p,{resolveAsset}).issues).toEqual([]);
+    expect(parseGalPackage(p,{resolveAsset}).gallery.memories.intro).toMatchObject({
+      previewImage:'art:memory-preview',lockedImage:'art:memory-lock' });
+    p.gallery.memories.intro.previewImage='https://external.invalid/spoiler.png';
+    p.gallery.memories.intro.lockedImage='art:unknown';
+    expect(validateGalPackage(p,{resolveAsset}).issues.map(issue=>issue.path)).toEqual(expect.arrayContaining([
+      '$.gallery.memories.intro.previewImage','$.gallery.memories.intro.lockedImage']));
+    for(const scheme of ['file:///secret.png','javascript:alert(1)','data:image/png;base64,x']) {
+      p.gallery.memories.intro.previewImage=scheme;
+      expect(validateGalPackage(p).issues.map(issue=>issue.path)).toContain('$.gallery.memories.intro.previewImage');
+    }
+  });
+  it('rejects unsupported schemas instead of inventing a V0 migration',()=>{const p:any=pkg();p.schemaVersion=0;expect(()=>parseGalPackage(p)).toThrow('unsupported schema version 0');});
+  it('reports stable story, catalog, media, gallery, presentation and effect references',()=>{const p:any=pkg();p.characters.hero.id='other';p.scenes.room.background='missing';p.media.audio.voice.hero1.charId='nobody';p.gallery.memories.intro.entry={chapterId:'x',nodeId:'y'};p.chapters.a.nodes.start.presentation.sfx=['none'];p.chapters.b.nodes.check.pass.effects=[{kind:'unlockCg',id:'none'}];p.chapters.b.nodes.good.ending='none';const paths=validateGalPackage(p).issues.map(x=>x.path);expect(paths).toEqual(expect.arrayContaining(['$.characters.hero.id','$.scenes.room.background','$.media.audio.voice.hero1.charId','$.gallery.memories.intro.entry','$.chapters.a.nodes.start.presentation.sfx[0]','$.chapters.b.nodes.check.pass.effects[0].id','$.chapters.b.nodes.good.ending']));});
+  it('validates closed presentation/effect/condition/check schemas without throwing',()=>{const p:any=pkg();p.chapters.a.nodes.start.presentation.transition='css';p.chapters.a.nodes.start.enter=[{kind:'script',code:'x'}];p.chapters.b.nodes.pick.options[0].when={kind:'eval',source:'x'};delete p.chapters.b.nodes.check.check.attribute;p.preferences.textSpeedMsPerChar=501;expect(()=>validateGalPackage(p)).not.toThrow();const paths=validateGalPackage(p).issues.map(x=>x.path);expect(paths).toEqual(expect.arrayContaining(['$.chapters.a.nodes.start.presentation.transition','$.chapters.a.nodes.start.enter[0].kind','$.chapters.b.nodes.pick.options[0].when','$.chapters.b.nodes.check.check','$.preferences.textSpeedMsPerChar']));});
+  it('is deterministic, pure, and diagnoses missing mandatory directories',()=>{const p:any=pkg();const before=JSON.stringify(p);expect(JSON.stringify(validateGalPackage(p))).toBe(JSON.stringify(validateGalPackage(p)));expect(JSON.stringify(p)).toBe(before);delete p.media;delete p.characters;const report=validateGalPackage(p);expect(report.ok).toBe(false);expect(report.issues.map(x=>x.path)).toEqual(expect.arrayContaining(['$.media','$.characters']));});
+});

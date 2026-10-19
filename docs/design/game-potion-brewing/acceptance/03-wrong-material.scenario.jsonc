@@ -1,0 +1,24 @@
+// author: GD /root/potion_s4_gd
+// 月露首步要求月露草：错误材料只有真正投入锅口才失败；终局后正确材料也不得复活会话。
+{
+  "name": "错误材料提交立即失败且终局冻结",
+  "game": "game-potion-brewing",
+  "seed": 303,
+  "config": { "fixture": "moon" },
+  "steps": [
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "active" }], "cap": 3 },
+    { "signal": "brew.add.red-berry" },
+    { "waitUntil": [{ "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "failure" }], "cap": 3 },
+    { "expect": [
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 0 },
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "failureExpected" }, "eq": "brew.add.moon-herb" },
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "lastAction" }, "eq": "brew.add.red-berry" }
+    ] },
+    { "signal": "brew.add.moon-herb" },
+    { "tick": 1 },
+    { "expect": [
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "status" }, "eq": "failure" },
+      { "comp": { "entity": "cauldron", "component": "OrderedActionSession", "field": "stepIndex" }, "eq": 0 }
+    ] }
+  ]
+}

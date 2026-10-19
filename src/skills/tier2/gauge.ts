@@ -79,19 +79,8 @@ export const gaugeCapability = defineCapability({
       writes: ['Shape', 'Hierarchy'],
       consumes: [],
       execute(world: IWorld) {
-        // 全局 id→Resource 首个匹配（实体插入序，确定）。lazy：仅存在非 fromParent 的 gauge 时构建一次。
-        let globalRes: Map<string, Resource> | null = null;
-        const globalLookup = (): Map<string, Resource> => {
-          if (!globalRes) {
-            globalRes = new Map();
-            for (const [rid] of world.query('Resource')) {
-              const r = world.getComponent<Resource>(rid, 'Resource')!;
-              if (!globalRes.has(r.id)) globalRes.set(r.id, r);
-            }
-          }
-          return globalRes;
-        };
-
+        // 全局 id → Resource 首个匹配：走 World.byId 索引（B-3·创建序首个·与旧懒建 Map 同义）。
+        const globalRes = (id: string): Resource | undefined => { const e = world.byId('Resource', 'id', id); return e === undefined ? undefined : world.getComponent<Resource>(e, 'Resource'); };
         for (const [eid] of world.query('Gauge')) {
           const g = world.getComponent<Gauge>(eid, 'Gauge')!;
           const shape = world.getComponent<Shape>(eid, 'Shape');
@@ -104,7 +93,7 @@ export const gaugeCapability = defineCapability({
             res = h.parentId ? world.getComponent<Resource>(h.parentId, 'Resource') : undefined;
           } else {
             res = world.getComponent<Resource>(eid, 'Resource');
-            if (!res || res.id !== g.resourceId) res = globalLookup().get(g.resourceId);
+            if (!res || res.id !== g.resourceId) res = globalRes(g.resourceId);
           }
           if (!res || res.id !== g.resourceId) continue; // 资源缺失/对不上 → 本拍不动
 

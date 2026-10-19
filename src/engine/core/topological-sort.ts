@@ -15,19 +15,34 @@ import type { SystemDeclaration, ComponentType } from './types.js';
 // 于是：**纯组件推断成的环**（环内零显式边参与）不再炸装载，改为「确定性平局裁决 + console.warn 留痕」；
 // **只要环上有任何一条显式申报边参与，照旧抛**（那是真申报 bug，必须拦）。
 // 正解仍是相位化（能力按语义分 phase 跨桶天然无环，REQ-CYCLEHAZ 方案 C），B 只是安全网。
-export function topologicalSort(systems: SystemDeclaration[]): SystemDeclaration[] {
+// ── P2d（engine-architecture-review-2026-09-02 D2b）：平局键 = **系统 id 字典序**，不再是注册下标。────────────
+// 此前 Kahn 按下标出队、环内也按下标裁决，而下标 = Engine.load 遍历 manifest `capabilities[]` 的顺序（未声明时
+// = JSON 键序）——系统执行序成了游戏数据的一部分：两端 capabilities 列序不同 → 环内系统换序 → 状态分叉。
+// 现在无约束系统之间与软环内部一律按 id 字典序（最小字典序拓扑序），与 manifest / 注册序 / JSON 键序全部无关。
+// 申报完整（P1a 严格模式已实证）意味着无边的系统之间真的互不相关 → 换序不改行为；黄金 hash 全绿是判据。
+export interface SortOptions {
+  /** 软环（纯组件推断边闭合）的处置：warn = 平局裁决 + console.warn（生产缺省）；throw = 抛（严格模式/门禁·新软环在 CI 即红）。 */
+  softCycle?: 'warn' | 'throw';
+}
+
+export function topologicalSort(systems: SystemDeclaration[], opts: SortOptions = {}): SystemDeclaration[] {
   const phases = Array.from(new Set(systems.map((s) => s.phase ?? 0))).sort((a, b) => a - b);
-  if (phases.length <= 1) return sortWithinPhase(systems, phases[0] ?? 0); // 全缺省 → 与原行为完全一致
+  if (phases.length <= 1) return sortWithinPhase(systems, phases[0] ?? 0, opts);
 
   const result: SystemDeclaration[] = [];
   for (const phase of phases) {
-    result.push(...sortWithinPhase(systems.filter((s) => (s.phase ?? 0) === phase), phase));
+    result.push(...sortWithinPhase(systems.filter((s) => (s.phase ?? 0) === phase), phase, opts));
   }
   return result;
 }
 
+/** 系统 id 字典序（平局键·与注册序无关）。 */
+function idOrder(systems: SystemDeclaration[]): number[] {
+  return systems.map((_, i) => i).sort((a, b) => (systems[a].id < systems[b].id ? -1 : systems[a].id > systems[b].id ? 1 : 0));
+}
+
 // 单个阶段内的拓扑排序（Kahn 算法），边 = 组件推断边（经显式定序覆盖后）+ 显式定序边。
-function sortWithinPhase(systems: SystemDeclaration[], phase: number): SystemDeclaration[] {
+function sortWithinPhase(systems: SystemDeclaration[], phase: number, opts: SortOptions): SystemDeclaration[] {
   const n = systems.length;
   const idToIndex = new Map<string, number>();
   for (let i = 0; i < n; i++) idToIndex.set(systems[i].id, i);
@@ -47,6 +62,21 @@ function sortWithinPhase(systems: SystemDeclaration[], phase: number): SystemDec
       const writers = writersOf.get(dep);
       if (!writers) continue;
       for (const w of writers) if (w !== i) componentEdges[w].add(i);
+    }
+  }
+  // 1b) 事件推断边（P1b 总线）：emitter(E) → listener(E)。与组件推断边同等（软边·可被显式边覆盖·可平局裁决）。
+  const emittersOf = new Map<string, number[]>();
+  for (let i = 0; i < n; i++) {
+    for (const e of systems[i].emits ?? []) {
+      if (!emittersOf.has(e)) emittersOf.set(e, []);
+      emittersOf.get(e)!.push(i);
+    }
+  }
+  for (let i = 0; i < n; i++) {
+    for (const e of systems[i].listens ?? []) {
+      const ems = emittersOf.get(e);
+      if (!ems) continue;
+      for (const w of ems) if (w !== i) componentEdges[w].add(i);
     }
   }
 
@@ -71,8 +101,9 @@ function sortWithinPhase(systems: SystemDeclaration[], phase: number): SystemDec
   for (let u = 0; u < n; u++) for (const v of componentEdges[u]) adj[u].add(v);
   for (const [u, v] of explicitEdges) adj[u].add(v);
 
-  // 5) Kahn 快车道：无环即到此为止，与改动前**逐位同序**（零回归面）。
-  let order = kahn(adj, n);
+  // 5) Kahn 快车道：无环即到此为止。出队按 id 字典序（P2d）。
+  const rank = idOrder(systems);
+  let order = kahn(adj, n, rank);
   if (order.length === n) return order.map((i) => systems[i]);
 
   // 6) 有环 → 精确切出最小 SCC，按「环是不是**申报自相矛盾**」分流（方案 B）。
@@ -127,12 +158,12 @@ function sortWithinPhase(systems: SystemDeclaration[], phase: number): SystemDec
         if (inCycle.has(v) && !explicitKeys.has(`${u}->${v}`)) adj[u].delete(v);
       }
     }
-    const members = orderCycleMembers(cycle, adj);
+    const members = orderCycleMembers(cycle, adj, systems);
     for (let k = 0; k + 1 < members.length; k++) adj[members[k]].add(members[k + 1]);
-    warnTieBreak(phase, members, systems);
+    warnTieBreak(phase, members, systems, opts.softCycle ?? 'warn');
   }
 
-  order = kahn(adj, n);
+  order = kahn(adj, n, rank);
   if (order.length !== n) {
     // 兜底：破环后仍排不出（理论不可达——SCC 全部拆过即为 DAG）。宁可炸也不静默出半张表。
     const stuck = systems.filter((_, i) => !order.includes(i)).map((s) => s.id);
@@ -144,21 +175,20 @@ function sortWithinPhase(systems: SystemDeclaration[], phase: number): SystemDec
   return order.map((i) => systems[i]);
 }
 
-// Kahn 算法（按 index 顺序入队 → 确定性、稳定）。返回可排出的节点下标序；长度 < n 即有环。
-function kahn(adj: Set<number>[], n: number): number[] {
+// Kahn 算法（P2d：每步取**入度 0 中 id 字典序最小**者 → 最小字典序拓扑序·确定、与注册序无关）。
+// 返回可排出的节点下标序；长度 < n 即有环。n ≤ 百余系统，线性挑选足够。
+function kahn(adj: Set<number>[], n: number, rank: number[]): number[] {
   const inDegree = new Array(n).fill(0);
   for (let u = 0; u < n; u++) for (const v of adj[u]) inDegree[v]++;
-
-  const queue: number[] = [];
-  for (let i = 0; i < n; i++) if (inDegree[i] === 0) queue.push(i);
-
+  const done = new Array<boolean>(n).fill(false);
   const out: number[] = [];
-  for (let head = 0; head < queue.length; head++) {
-    const idx = queue[head];
-    out.push(idx);
-    for (const neighbor of adj[idx]) {
-      if (--inDegree[neighbor] === 0) queue.push(neighbor);
-    }
+  for (;;) {
+    let pick = -1;
+    for (const i of rank) if (!done[i] && inDegree[i] === 0) { pick = i; break; }
+    if (pick === -1) break;
+    done[pick] = true;
+    out.push(pick);
+    for (const v of adj[pick]) inDegree[v]--;
   }
   return out;
 }
@@ -218,8 +248,8 @@ function intraEdges(cycle: number[], adj: Set<number>[]): Array<[number, number]
  * 做法 = 只在环内跑一次 Kahn，每步取**入度 0 中下标最小**者（环规模极小，线性挑选足够）。
  * 显式子图已在 6a 验过无环 → 必能全部取出；兜底把万一漏下的按键序补尾，绝不丢成员。
  */
-function orderCycleMembers(cycle: number[], adj: Set<number>[]): number[] {
-  const members = [...cycle].sort((a, b) => a - b); // 平局键升序
+function orderCycleMembers(cycle: number[], adj: Set<number>[], systems: SystemDeclaration[]): number[] {
+  const members = [...cycle].sort((a, b) => (systems[a].id < systems[b].id ? -1 : systems[a].id > systems[b].id ? 1 : 0)); // 平局键 = id 字典序（P2d）
   const remaining = new Set(members);
   const indeg = new Map<number, number>(members.map((m) => [m, 0]));
   for (const u of members) for (const v of adj[u]) if (remaining.has(v)) indeg.set(v, indeg.get(v)! + 1);
@@ -242,7 +272,7 @@ function sortedIds(cycle: number[], systems: SystemDeclaration[]): string[] {
 
 // 留痕：点名环成员 + 闭环组件 + 裁决出的顺序 + 「显式申报可覆盖」提示。
 // （warn 只是旁路输出，不参与定序 → 不影响确定性。）
-function warnTieBreak(phase: number, members: number[], systems: SystemDeclaration[]): void {
+function warnTieBreak(phase: number, members: number[], systems: SystemDeclaration[], mode: 'warn' | 'throw'): void {
   const via = new Set<ComponentType>();
   for (const u of members) {
     for (const v of members) {
@@ -252,12 +282,13 @@ function warnTieBreak(phase: number, members: number[], systems: SystemDeclarati
     }
   }
   const ids = members.map((i) => systems[i].id);
-  console.warn(
+  const msg =
     `[topological-sort] phase ${phase}：检测到由**组件推断边**闭合的定序环 ` +
-      `[${[...members].sort((a, b) => a - b).map((i) => systems[i].id).join(', ')}]` +
+      `[${[...members].map((i) => systems[i].id).sort().join(', ')}]` +
       `（闭环组件：${[...via].sort().join(', ') || '—'}）。环上无自相矛盾的显式申报 → 按确定性平局裁决` +
-      `（注册序/tier 序·已服从既有 runsAfter/runsBefore）定序为：${ids.join(' → ')}。` +
+      `（系统 id 字典序·已服从既有 runsAfter/runsBefore）定序为：${ids.join(' → ')}。` +
       `此顺序仅保证可复现、不保证合语义：要指定先后请用 runsAfter/runsBefore 显式申报覆盖，` +
-      `或按语义把系统拆到不同 phase（REQ-CYCLEHAZ）。`,
-  );
+      `或按语义把系统拆到不同 phase（REQ-CYCLEHAZ）。`;
+  if (mode === 'throw') throw new Error(msg + '（严格模式：软环即错——请申报 runsAfter/runsBefore 或拆相位）');
+  console.warn(msg);
 }

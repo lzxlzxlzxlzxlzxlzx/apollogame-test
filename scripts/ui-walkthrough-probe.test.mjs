@@ -1,5 +1,5 @@
 // scripts/ui-walkthrough-probe.test.mjs —— REQ-RENDERCHECK R2b 自检：
-//   ① classifyStep（剧本步骤三态分类·纯函数）
+//   ① classifyStep（剧本步骤四态分类·纯函数）
 //   ② signalArgForClick（args→单值 data-arg 可表达性判定·纯函数）
 //   ③ findMatchingAction（活体动作清单匹配·纯函数·喂假清单）
 //   ④ summarizeWalk / aggregateSummaries（UI 可驱动率算法·纯函数）
@@ -15,17 +15,20 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import {
-  classifyStep, signalArgForClick, findMatchingAction, summarizeWalk, aggregateSummaries,
+  classifyStep, signalArgForClick, findMatchingAction, summarizeWalk, aggregateSummaries, assessWalkResult, walkScenario,
 } from './ui-walkthrough-probe.mjs';
 import { interpretUiWalkthrough } from './game-pipeline.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const CLI = join(HERE, 'ui-walkthrough-probe.mjs');
 
-// ═══ ① classifyStep（剧本步骤三态分类·不碰 DOM/浏览器）═══
-describe('classifyStep（signal/tick/expect 三态·纯函数）', () => {
+// ═══ ① classifyStep（剧本步骤四态分类·不碰 DOM/浏览器）═══
+describe('classifyStep（signal/tick/waitUntil/expect 四态·纯函数）', () => {
   it('tick 步骤 → kind=tick（装配/时间推进类·非「动作」）', () => {
-    expect(classifyStep({ tick: 3 })).toEqual({ kind: 'tick' });
+    expect(classifyStep({ tick: 3 })).toEqual({ kind: 'tick', ticks: 3 });
+  });
+  it('waitUntil 条件等待不是 signal，不能虚增可驱动率分母', () => {
+    expect(classifyStep({ waitUntil: [{ flag: 'ready', eq: true }], cap: 30 })).toEqual({ kind: 'waitUntil', cap: 30 });
   });
   it('expect 步骤 → kind=expect + 断言条数（非「动作」）', () => {
     expect(classifyStep({ expect: [{ res: 'hp', eq: 10 }, { flag: 'dead', eq: false }] })).toEqual({ kind: 'expect', count: 2 });
@@ -122,6 +125,10 @@ describe('summarizeWalk（只数 signal 步骤入分母·tick/expect 不算「�
     const s = summarizeWalk([{ kind: 'signal', driven: false }, { kind: 'signal', driven: false }]);
     expect(s.uiDrivableRate).toBe(0);
   });
+  it('waitUntil 不进 signal 分母而单独计数', () => {
+    const s = summarizeWalk([{ kind: 'signal', driven: true }, { kind: 'waitUntil', driven: false }]);
+    expect(s).toMatchObject({ signalSteps: 1, drivenSteps: 1, waitUntilSteps: 1, uiDrivableRate: 1 });
+  });
 });
 describe('aggregateSummaries（多剧本合计）', () => {
   it('跨剧本累加 signalSteps/drivenSteps → 合计 rate 按总数算(非逐剧本平均)', () => {
@@ -133,6 +140,22 @@ describe('aggregateSummaries（多剧本合计）', () => {
   });
   it('空数组 → rate=1（同零分母约定）', () => {
     expect(aggregateSummaries([]).uiDrivableRate).toBe(1);
+  });
+});
+describe('卡带走查不得假绿', () => {
+  it('动作口在走查中消失时抛错，不留下未驱动的假成功', async () => {
+    await expect(walkScenario({ evaluate: async () => null }, { steps: [{ signal: 'investigate.cup' }] }))
+      .rejects.toThrow('__zcProbe 在步骤 0 消失');
+  });
+  it('0/N 真实动作是卡带红，不把 __zcProbe 缺失的旧 0/91 当通过', () => {
+    expect(assessWalkResult('cart', { signalSteps: 42, drivenSteps: 0 }, [], [], [])).toMatchObject({ ok: false, reason: expect.stringContaining('零可驱动') });
+  });
+  it('部分可驱动仍如实报告率，不强加 100% 阈值', () => {
+    expect(assessWalkResult('cart', { signalSteps: 42, drivenSteps: 12 }, [], [], [])).toEqual({ ok: true });
+  });
+  it('schema 失败与浏览器异常不可随 0/N 之外的结果假绿', () => {
+    expect(assessWalkResult('cart', { signalSteps: 1, drivenSteps: 1 }, [{ ok: false }], [], []).ok).toBe(false);
+    expect(assessWalkResult('cart', { signalSteps: 1, drivenSteps: 1 }, [], ['boom'], []).ok).toBe(false);
   });
 });
 
@@ -158,8 +181,19 @@ describe('interpretUiWalkthrough（S4 门怎么读 UI 走查探针退出码）',
   it('探针非常规退出码（如 137·被 kill）同样门红（非白名单一律红）', () => {
     expect(interpretUiWalkthrough('base', 137, '').exit).toBe(1);
   });
-  it('低 UI 可驱动率不是这里的判红依据——签名只吃退出码不吃 rate（防手滑拿百分比当阈值）', () => {
-    expect(interpretUiWalkthrough.length).toBe(3); // (baseSummary, probeExit, probeTail)
+  // 2026-09-17 换机制不换意图。原钉法是 `interpretUiWalkthrough.length === 3`——拿**参数个数**
+  // 当「低可驱动率不判红」的证据。意图完全正确且保留，但参数个数不是那条不变量本身：
+  // 判词现在要把率显示出来（此前 game108 板上挂 ✓、产物里躺着 0/74·量了不用还显绿），
+  // 因此多收一个 rate 参数，数参数个数当场误报。改成**直接断言那条不变量**：不论率是多少，
+  // 只要探针退出码是 0，门就绿——比数参数严（数参数拦不住「收了 rate 又拿它判红」）。
+  it('低 UI 可驱动率不是这里的判红依据——任何率下 exit 恒随探针退出码（防手滑拿百分比当阈值）', () => {
+    for (const rate of [0, 0.01, 0.5, 1, undefined, Number.NaN]) {
+      expect(interpretUiWalkthrough('base', 0, '', rate).exit).toBe(0);   // 率再低也不在这里判红
+      expect(interpretUiWalkthrough('base', 1, 'boom', rate).exit).toBe(1); // 红只由探针退出码来
+    }
+    // 率要显示出来（不许再退回一个干净的 ✓·那正是 game108 挂着绿灯的原因）
+    expect(interpretUiWalkthrough('base', 0, '', 0).summary).toContain('0%');
+    expect(interpretUiWalkthrough('base', 0, '', 0).summary).toContain('零可驱动');
   });
 });
 

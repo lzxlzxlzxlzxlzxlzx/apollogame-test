@@ -1,0 +1,2234 @@
+{
+  "meta": {
+    "schema": 1,
+    "id": "little-valley",
+    "title": "小山谷",
+    "tickRate": 12
+  },
+  "world": {
+    "startSceneId": "little-valley"
+  },
+  "visualSemantics": {
+    "schema": 1,
+    "farm": {
+      "tilledDrySkinKey": "art:little-valley:tile:tilled-soil",
+      "wateredSkinKey": "art:little-valley:tile:watered-soil"
+    }
+  },
+  "movement": {
+    "speed": 0.3
+  },
+  "interaction": {
+    "nearbyRange": 1,
+    "dialogueSessionPolicy": "proximity"
+  },
+  "camera": { "profile": "life-standard-v1" },
+  "playerVisual": {
+    "skinKey": "art:little-valley:player:farmer",
+    "anchor": "bottom-center"
+  },
+  "tileCatalog": {
+    "grass": {
+      "tags": [
+        "walkable"
+      ],
+      "visual": {
+        "skinKey": "art:little-valley:tile:meadow-grass",
+        "surface": "ground"
+      }
+    },
+    "soil": {
+      "tags": [
+        "walkable",
+        "plantable"
+      ],
+      "visual": {
+        "skinKey": "art:little-valley:tile:farmable-earth",
+        "surface": "plantable"
+      }
+    },
+    "path": {
+      "tags": [
+        "walkable"
+      ],
+      "visual": {
+        "skinKey": "art:little-valley:tile:ochre-path",
+        "surface": "ground"
+      }
+    },
+    "bridge": {
+      "tags": [
+        "walkable"
+      ],
+      "visual": {
+        "skinKey": "art:little-valley:tile:river-bridge",
+        "surface": "ground"
+      }
+    },
+    "water": {
+      "tags": [
+        "water"
+      ],
+      "visual": {
+        "skinKey": "art:little-valley:tile:river-water",
+        "surface": "water"
+      }
+    },
+    "forage-ground": {
+      "tags": [
+        "walkable",
+        "forage"
+      ],
+      "visual": {
+        "skinKey": "art:little-valley:tile:forest-floor",
+        "surface": "forage"
+      }
+    },
+    "mine-ground": {
+      "tags": [
+        "walkable",
+        "mineable"
+      ],
+      "visual": {
+        "skinKey": "art:little-valley:tile:mine-approach",
+        "surface": "mineable"
+      }
+    },
+    "clear": {
+      "tags": []
+    },
+    "solid": {
+      "tags": [
+        "blocked"
+      ],
+      "visual": {
+        "skinKey": "art:little-valley:placement:scenery-solid",
+        "surface": "blocked"
+      }
+    },
+    "blocked-ground": {
+      "tags": [
+        "blocked"
+      ],
+      "visual": {
+        "skinKey": "art:little-valley:placement:scenery-solid",
+        "surface": "blocked"
+      }
+    }
+  },
+  "itemCatalog": [
+    {
+      "id": "seed.turnip",
+      "kind": "seed",
+      "skinKey": "art:little-valley:item:turnip-seed"
+    },
+    {
+      "id": "crop.turnip",
+      "kind": "crop",
+      "skinKey": "art:little-valley:item:turnip"
+    },
+    {
+      "id": "resource.berry",
+      "kind": "resource",
+      "skinKey": "art:little-valley:item:berry"
+    },
+    {
+      "id": "resource.ore",
+      "kind": "resource",
+      "skinKey": "art:little-valley:item:ore"
+    }
+  ],
+  "playerInventory": {
+    "slots": 8,
+    "maxStack": 99,
+    "items": [
+      {
+        "itemId": "seed.turnip",
+        "count": 3
+      }
+    ]
+  },
+  "cropCatalog": [
+    {
+      "id": "turnip",
+      "seedItemId": "seed.turnip",
+      "harvestItemId": "crop.turnip",
+      "growthDays": 2,
+      "visual": {
+        "seededSkinKey": "art:little-valley:crop:turnip-seeded",
+        "growingSkinKey": "art:little-valley:crop:turnip-growing",
+        "matureSkinKey": "art:little-valley:crop:turnip-mature"
+      }
+    }
+  ],
+  "calendar": {
+    "seasons": [
+      {
+        "id": "spring",
+        "lengthDays": 7
+      },
+      {
+        "id": "summer",
+        "lengthDays": 7
+      }
+    ],
+    "initialSeasonId": "spring",
+    "initialDayOfSeason": 1,
+    "slots": [
+      "morning",
+      "afternoon"
+    ],
+    "initialSlot": "morning"
+  },
+  "logic": {
+    "flags": [
+      {
+        "id": "flag.story.first_harvest",
+        "initial": false
+      },
+      {
+        "id": "flag.story.first_harvest_reported",
+        "initial": false
+      }
+    ]
+  },
+  "milestones": [
+    {
+      "id": "story.first-turnip-harvest",
+      "trigger": "harvest.applied",
+      "cropId": "turnip",
+      "itemId": "crop.turnip",
+      "repeat": "once",
+      "effects": {
+        "flags": [
+          {
+            "id": "flag.story.first_harvest",
+            "value": true
+          }
+        ]
+      }
+    }
+  ],
+  "dialogueCatalog": [
+    {
+      "id": "mayor.welcome",
+      "graph": {
+        "start": {
+          "kind": "choice",
+          "speaker": "梅尔镇长",
+          "prompt": "需要什么建议？",
+          "options": [
+            {
+              "text": "我该从哪里开始？",
+              "next": "welcome"
+            },
+            {
+              "id": "report-first-harvest",
+              "text": "我已经完成第一季收获。",
+              "requires": {
+                "kind": "flag",
+                "id": "flag.story.first_harvest",
+                "equals": true
+              },
+              "setFlag": "flag.story.first_harvest_reported",
+              "next": "harvested"
+            },
+            {
+              "id": "friendly-advice",
+              "text": "我们已经是朋友了，给我一点特别建议吧。",
+              "requires": {
+                "kind": "relationship",
+                "npcId": "mayor",
+                "levelId": "friendly"
+              },
+              "next": "friendly"
+            }
+          ]
+        },
+        "welcome": {
+          "kind": "line",
+          "speaker": "梅尔镇长",
+          "text": "田地在西边，先试着收获一株芜菁吧。",
+          "next": "hint"
+        },
+        "hint": {
+          "kind": "line",
+          "speaker": "梅尔镇长",
+          "text": "林地可采浆果，过桥后的矿口可采矿石。",
+          "next": null
+        },
+        "harvested": {
+          "kind": "line",
+          "speaker": "梅尔镇长",
+          "text": "你已经完成第一季收获了！小山谷会记住这份丰收。去矿洞看看吧。",
+          "next": null
+        },
+        "friendly": {
+          "kind": "line",
+          "speaker": "梅尔镇长",
+          "text": "朋友，矿洞深处的矿脉会回应耐心的人。",
+          "next": null
+        }
+      }
+    },
+    {
+      "id": "merchant.daily",
+      "graph": {
+        "start": {
+          "kind": "line",
+          "speaker": "商贩莱娜",
+          "text": "早晚的摊位不同，但好货总会准时出现。",
+          "next": null
+        }
+      }
+    }
+  ],
+  "quests": [
+    {
+      "id": "chapter.first-season",
+      "titleKey": "第一季的脚步",
+      "quests": [
+        {
+          "id": "quest.first-season",
+          "chapterId": "chapter.first-season",
+          "priority": 100,
+          "initialNodeId": "harvest-turnip",
+          "terminalNodeIds": [
+            "mine-ore"
+          ],
+          "nodes": [
+            {
+              "id": "harvest-turnip",
+              "titleKey": "第一次收获",
+              "objectiveKey": "收获一份成熟芜菁",
+              "trigger": {
+                "kind": "harvest",
+                "cropId": "turnip",
+                "itemId": "crop.turnip"
+              },
+              "when": {
+                "kind": "inventory",
+                "inventoryId": "bag:life:player",
+                "itemId": "crop.turnip",
+                "count": 1
+              },
+              "effects": [
+                {
+                  "kind": "set-node-state",
+                  "questId": "quest.first-season",
+                  "nodeId": "harvest-turnip",
+                  "state": "completed"
+                },
+                {
+                  "kind": "set-node-state",
+                  "questId": "quest.first-season",
+                  "nodeId": "report-to-mayor",
+                  "state": "active"
+                }
+              ]
+            },
+            {
+              "id": "report-to-mayor",
+              "titleKey": "向镇长汇报",
+              "objectiveKey": "选择向梅尔镇长汇报第一次收获",
+              "trigger": {
+                "kind": "talk-choice",
+                "dialogueId": "mayor.welcome",
+                "choiceId": "report-first-harvest"
+              },
+              "when": {"kind":"milestone","id":"story.first-turnip-harvest"},
+              "effects": [
+                {
+                  "kind": "set-node-state",
+                  "questId": "quest.first-season",
+                  "nodeId": "report-to-mayor",
+                  "state": "completed"
+                },
+                {
+                  "kind": "set-node-state",
+                  "questId": "quest.first-season",
+                  "nodeId": "mine-ore",
+                  "state": "active"
+                },
+                {
+                  "kind": "unlock",
+                  "flagId": "flag.story.first_harvest_reported"
+                }
+              ]
+            },
+            {
+              "id": "mine-ore",
+              "titleKey": "矿洞初探",
+              "objectiveKey": "在矿洞采集一份矿石",
+              "trigger": {
+                "kind": "gather",
+                "action": "mine",
+                "placementId": "ore-vein",
+                "itemId": "resource.ore"
+              },
+              "when": {
+                "kind": "resource-node",
+                "placementId": "ore-vein",
+                "cmp": "lte",
+                "value": 1
+              },
+              "effects": [
+                {
+                  "kind": "set-node-state",
+                  "questId": "quest.first-season",
+                  "nodeId": "mine-ore",
+                  "state": "completed"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "npcId": "mayor",
+      "min": 0,
+      "max": 100,
+      "initial": 0,
+      "levels": [
+        {"id":"neutral","min":0,"titleKey":"相识"},
+        {"id":"friendly","min":5,"titleKey":"友好"},
+        {"id":"trusted","min":30,"titleKey":"信赖"}
+      ],
+      "dailyCaps": {"talk":2,"gift":5,"action":10},
+      "rules": [
+        {"id":"mayor.daily-greeting","priority":100,"trigger":{"kind":"talk-opened"},"effect":{"kind":"relationship-delta","amount":2}},
+        {"id":"mayor.turnip-gift","priority":100,"trigger":{"kind":"gift","itemId":"crop.turnip","count":1},"effect":{"kind":"relationship-delta","amount":5}}
+      ]
+    },
+    {
+      "npcId": "merchant",
+      "min": 0,
+      "max": 100,
+      "initial": 0,
+      "levels": [
+        {"id":"neutral","min":0,"titleKey":"相识"},
+        {"id":"friendly","min":5,"titleKey":"熟客"}
+      ],
+      "dailyCaps": {"talk":1,"gift":3,"action":5},
+      "rules": [
+        {"id":"merchant.daily-greeting","priority":100,"trigger":{"kind":"talk-opened"},"effect":{"kind":"relationship-delta","amount":1}}
+      ]
+    }
+  ],
+  "scenes": [
+    {
+      "id": "little-valley",
+      "width": 36,
+      "height": 26,
+      "layers": [
+        {
+          "name": "ground",
+          "tiles": [
+            {
+              "tileId": "grass",
+              "count": 39
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 8
+            },
+            {
+              "tileId": "grass",
+              "count": 28
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 8
+            },
+            {
+              "tileId": "grass",
+              "count": 6
+            },
+            {
+              "tileId": "path",
+              "count": 9
+            },
+            {
+              "tileId": "grass",
+              "count": 13
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 8
+            },
+            {
+              "tileId": "grass",
+              "count": 6
+            },
+            {
+              "tileId": "path",
+              "count": 8
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 1
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 6
+            },
+            {
+              "tileId": "grass",
+              "count": 3
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "soil",
+              "count": 10
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "grass",
+              "count": 4
+            },
+            {
+              "tileId": "path",
+              "count": 8
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 1
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 3
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 1
+            },
+            {
+              "tileId": "grass",
+              "count": 3
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "soil",
+              "count": 10
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "grass",
+              "count": 4
+            },
+            {
+              "tileId": "path",
+              "count": 8
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 1
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 3
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 1
+            },
+            {
+              "tileId": "grass",
+              "count": 3
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "soil",
+              "count": 10
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "grass",
+              "count": 4
+            },
+            {
+              "tileId": "path",
+              "count": 8
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 1
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 3
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 1
+            },
+            {
+              "tileId": "grass",
+              "count": 3
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "soil",
+              "count": 10
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "grass",
+              "count": 4
+            },
+            {
+              "tileId": "path",
+              "count": 8
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 1
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 3
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 1
+            },
+            {
+              "tileId": "grass",
+              "count": 3
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "soil",
+              "count": 10
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "grass",
+              "count": 4
+            },
+            {
+              "tileId": "path",
+              "count": 8
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 9
+            },
+            {
+              "tileId": "grass",
+              "count": 3
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "soil",
+              "count": 10
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "grass",
+              "count": 4
+            },
+            {
+              "tileId": "path",
+              "count": 8
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 9
+            },
+            {
+              "tileId": "grass",
+              "count": 3
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "soil",
+              "count": 10
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "grass",
+              "count": 4
+            },
+            {
+              "tileId": "path",
+              "count": 8
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 9
+            },
+            {
+              "tileId": "grass",
+              "count": 3
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "soil",
+              "count": 10
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "grass",
+              "count": 4
+            },
+            {
+              "tileId": "path",
+              "count": 8
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 9
+            },
+            {
+              "tileId": "grass",
+              "count": 2
+            },
+            {
+              "tileId": "path",
+              "count": 25
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 9
+            },
+            {
+              "tileId": "grass",
+              "count": 2
+            },
+            {
+              "tileId": "path",
+              "count": 25
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 9
+            },
+            {
+              "tileId": "grass",
+              "count": 19
+            },
+            {
+              "tileId": "path",
+              "count": 8
+            },
+            {
+              "tileId": "forage-ground",
+              "count": 9
+            },
+            {
+              "tileId": "grass",
+              "count": 19
+            },
+            {
+              "tileId": "path",
+              "count": 9
+            },
+            {
+              "tileId": "grass",
+              "count": 27
+            },
+            {
+              "tileId": "path",
+              "count": 9
+            },
+            {
+              "tileId": "grass",
+              "count": 27
+            },
+            {
+              "tileId": "path",
+              "count": 9
+            },
+            {
+              "tileId": "grass",
+              "count": 10
+            },
+            {
+              "tileId": "water",
+              "count": 17
+            },
+            {
+              "tileId": "bridge",
+              "count": 4
+            },
+            {
+              "tileId": "water",
+              "count": 32
+            },
+            {
+              "tileId": "bridge",
+              "count": 4
+            },
+            {
+              "tileId": "water",
+              "count": 15
+            },
+            {
+              "tileId": "grass",
+              "count": 25
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 10
+            },
+            {
+              "tileId": "grass",
+              "count": 26
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 10
+            },
+            {
+              "tileId": "grass",
+              "count": 26
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 2
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 4
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 4
+            },
+            {
+              "tileId": "grass",
+              "count": 26
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 2
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 4
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 4
+            },
+            {
+              "tileId": "grass",
+              "count": 26
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 10
+            },
+            {
+              "tileId": "grass",
+              "count": 37
+            }
+          ]
+        },
+        {
+          "name": "collision",
+          "tiles": [
+            {
+              "tileId": "clear",
+              "count": 39
+            },
+            {
+              "tileId": "solid",
+              "count": 8
+            },
+            {
+              "tileId": "clear",
+              "count": 28
+            },
+            {
+              "tileId": "solid",
+              "count": 8
+            },
+            {
+              "tileId": "clear",
+              "count": 28
+            },
+            {
+              "tileId": "solid",
+              "count": 8
+            },
+            {
+              "tileId": "clear",
+              "count": 15
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 9
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 10
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 13
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 3
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 4
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 10
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 13
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 3
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 4
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 10
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 13
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 3
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 4
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 10
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 13
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 3
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 4
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 10
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 24
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 10
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 24
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 10
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 24
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 10
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 239
+            },
+            {
+              "tileId": "solid",
+              "count": 17
+            },
+            {
+              "tileId": "clear",
+              "count": 4
+            },
+            {
+              "tileId": "solid",
+              "count": 32
+            },
+            {
+              "tileId": "clear",
+              "count": 4
+            },
+            {
+              "tileId": "solid",
+              "count": 15
+            },
+            {
+              "tileId": "clear",
+              "count": 99
+            },
+            {
+              "tileId": "solid",
+              "count": 4
+            },
+            {
+              "tileId": "clear",
+              "count": 32
+            },
+            {
+              "tileId": "solid",
+              "count": 4
+            },
+            {
+              "tileId": "clear",
+              "count": 77
+            }
+          ]
+        },
+        {
+          "name": "interaction",
+          "tiles": [
+            {
+              "tileId": "clear",
+              "count": 936
+            }
+          ]
+        }
+      ],
+      "spawnPoints": [
+        {
+          "id": "player",
+          "kind": "player",
+          "x": 7,
+          "y": 13
+        }
+      ],
+      "warps": [
+        {
+          "id": "mine-gate",
+          "label": "进入矿洞",
+          "landmarkPlacementId": "mine-entrance",
+          "at": {
+            "x": 34,
+            "y": 20
+          },
+          "toSceneId": "mine-interior",
+          "toSpawnId": "mine-entrance",
+          "requires": {
+            "kind": "flag",
+            "id": "flag.story.first_harvest_reported",
+            "equals": true
+          }
+        }
+      ],
+      "zones": [
+        {
+          "id": "farm-field",
+          "kind": "farm",
+          "rect": {
+            "x": 2,
+            "y": 4,
+            "width": 10,
+            "height": 8
+          },
+          "allowedActions": [
+            "till",
+            "water",
+            "plant",
+            "harvest"
+          ]
+        },
+        {
+          "id": "town-plaza",
+          "kind": "town",
+          "rect": {
+            "x": 17,
+            "y": 2,
+            "width": 9,
+            "height": 16
+          },
+          "allowedActions": [
+            "talk",
+            "gift"
+          ]
+        },
+        {
+          "id": "forest-grove",
+          "kind": "forage",
+          "rect": {
+            "x": 28,
+            "y": 8,
+            "width": 6,
+            "height": 7
+          },
+          "allowedActions": [
+            "forage"
+          ]
+        },
+        {
+          "id": "mine-mouth",
+          "kind": "mining",
+          "rect": {
+            "x": 31,
+            "y": 20,
+            "width": 4,
+            "height": 2
+          },
+          "allowedActions": [
+            "mine"
+          ]
+        }
+      ],
+      "placements": [
+        {
+          "id": "farmhouse",
+          "kind": "building",
+          "x": 3,
+          "y": 1,
+          "width": 8,
+          "height": 3,
+          "prefabRef": "building.farmhouse",
+          "skinKey": "art:little-valley:placement:farmhouse"
+        },
+        {
+          "id": "mayor",
+          "kind": "npc",
+          "x": 20,
+          "y": 8,
+          "width": 1,
+          "height": 1,
+          "prefabRef": "npc.mayor",
+          "skinKey": "art:little-valley:placement:mayor",
+          "npcDialogue": {
+            "dialogueId": "mayor.welcome"
+          },
+          "schedule": [
+            {
+              "slot": "morning",
+              "sceneId": "little-valley",
+              "x": 20,
+              "y": 8,
+              "visible": true,
+              "interactive": true
+            },
+            {
+              "slot": "afternoon",
+              "sceneId": "little-valley",
+              "x": 22,
+              "y": 8,
+              "visible": true,
+              "interactive": true
+            }
+          ]
+        },
+        {
+          "id": "merchant",
+          "kind": "npc",
+          "x": 22,
+          "y": 8,
+          "width": 1,
+          "height": 1,
+          "prefabRef": "npc.merchant",
+          "skinKey": "art:little-valley:player:farmer",
+          "npcDialogue": {
+            "dialogueId": "merchant.daily"
+          },
+          "schedule": [
+            {
+              "slot": "morning",
+              "sceneId": "little-valley",
+              "x": 22,
+              "y": 8,
+              "visible": true,
+              "interactive": true
+            },
+            {
+              "slot": "afternoon",
+              "sceneId": "little-valley",
+              "x": 20,
+              "y": 8,
+              "visible": true,
+              "interactive": true
+            }
+          ]
+        },
+        {
+          "id": "berry-bush",
+          "kind": "resource",
+          "x": 28,
+          "y": 9,
+          "width": 1,
+          "height": 1,
+          "prefabRef": "resource.berry",
+          "skinKey": "art:little-valley:placement:berry-bush",
+          "resourceNode": {
+            "action": "forage",
+            "itemId": "resource.berry",
+            "quantity": 3
+          }
+        },
+        {
+          "id": "mine-entrance",
+          "kind": "decoration",
+          "x": 33,
+          "y": 20,
+          "width": 2,
+          "height": 2,
+          "prefabRef": "decoration.mine-entrance",
+          "skinKey": "art:little-valley:placement:mine-entrance",
+          "interactionRange": 0
+        }
+      ]
+    },
+    {
+      "id": "mine-interior",
+      "width": 36,
+      "height": 26,
+      "layers": [
+        {
+          "name": "ground",
+          "tiles": [
+            {
+              "tileId": "blocked-ground",
+              "count": 37
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 34
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 34
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 34
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 11
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 22
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 11
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 22
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 11
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 22
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 11
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 5
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 5
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 1
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 5
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 6
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 11
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 22
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 34
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 11
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 22
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 11
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 22
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 11
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 22
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 11
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 22
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 11
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 13
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 5
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 4
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 25
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 5
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 4
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 25
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 1
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 4
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 25
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 5
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 4
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 5
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 4
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 16
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 5
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 4
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 5
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 4
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 25
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 5
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 1
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 1
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 25
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 5
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 4
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 25
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 34
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 34
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 2
+            },
+            {
+              "tileId": "mine-ground",
+              "count": 34
+            },
+            {
+              "tileId": "blocked-ground",
+              "count": 37
+            }
+          ]
+        },
+        {
+          "name": "collision",
+          "tiles": [
+            {
+              "tileId": "solid",
+              "count": 37
+            },
+            {
+              "tileId": "clear",
+              "count": 34
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 34
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 34
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 11
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 22
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 11
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 22
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 11
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 22
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 11
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 5
+            },
+            {
+              "tileId": "solid",
+              "count": 5
+            },
+            {
+              "tileId": "clear",
+              "count": 1
+            },
+            {
+              "tileId": "solid",
+              "count": 5
+            },
+            {
+              "tileId": "clear",
+              "count": 6
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 11
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 22
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 34
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 11
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 22
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 11
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 22
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 11
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 22
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 11
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 22
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 11
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 13
+            },
+            {
+              "tileId": "solid",
+              "count": 5
+            },
+            {
+              "tileId": "clear",
+              "count": 4
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 25
+            },
+            {
+              "tileId": "solid",
+              "count": 5
+            },
+            {
+              "tileId": "clear",
+              "count": 4
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 25
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 1
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 4
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 25
+            },
+            {
+              "tileId": "solid",
+              "count": 5
+            },
+            {
+              "tileId": "clear",
+              "count": 4
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 5
+            },
+            {
+              "tileId": "solid",
+              "count": 4
+            },
+            {
+              "tileId": "clear",
+              "count": 16
+            },
+            {
+              "tileId": "solid",
+              "count": 5
+            },
+            {
+              "tileId": "clear",
+              "count": 4
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 5
+            },
+            {
+              "tileId": "solid",
+              "count": 4
+            },
+            {
+              "tileId": "clear",
+              "count": 25
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 5
+            },
+            {
+              "tileId": "solid",
+              "count": 1
+            },
+            {
+              "tileId": "clear",
+              "count": 1
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 25
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 5
+            },
+            {
+              "tileId": "solid",
+              "count": 4
+            },
+            {
+              "tileId": "clear",
+              "count": 25
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 34
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 34
+            },
+            {
+              "tileId": "solid",
+              "count": 2
+            },
+            {
+              "tileId": "clear",
+              "count": 34
+            },
+            {
+              "tileId": "solid",
+              "count": 37
+            }
+          ]
+        },
+        {
+          "name": "interaction",
+          "tiles": [
+            {
+              "tileId": "clear",
+              "count": 936
+            }
+          ]
+        }
+      ],
+      "spawnPoints": [
+        {
+          "id": "mine-entrance",
+          "kind": "warp",
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "warps": [
+        {
+          "id": "mine-exit",
+          "label": "返回小山谷",
+          "landmarkPlacementId": "mine-exit-stairs",
+          "at": {
+            "x": 1,
+            "y": 1
+          },
+          "toSceneId": "little-valley",
+          "toSpawnId": "player"
+        }
+      ],
+      "zones": [
+        {
+          "id": "deep-mine-vein",
+          "kind": "mining",
+          "rect": {
+            "x": 23,
+            "y": 1,
+            "width": 5,
+            "height": 2
+          },
+          "allowedActions": [
+            "mine"
+          ]
+        }
+      ],
+      "placements": [
+        {
+          "id": "mine-exit-stairs",
+          "kind": "decoration",
+          "x": 0,
+          "y": 0,
+          "width": 2,
+          "height": 2,
+          "prefabRef": "decoration.mine-exit-stairs",
+          "skinKey": "art:little-valley:placement:mine-entrance"
+        },
+        {
+          "id": "ore-vein",
+          "kind": "resource",
+          "x": 25,
+          "y": 1,
+          "width": 1,
+          "height": 1,
+          "prefabRef": "resource.ore",
+          "skinKey": "art:little-valley:placement:ore-vein",
+          "resourceNode": {
+            "action": "mine",
+            "itemId": "resource.ore",
+            "quantity": 2
+          }
+        }
+      ]
+    }
+  ]
+}

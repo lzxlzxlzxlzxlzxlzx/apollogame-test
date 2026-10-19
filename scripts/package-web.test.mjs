@@ -1,10 +1,10 @@
 // package-web.mjs 纯函数单测（REQ-PKG）：内联注入 / 自包含体检 / 卡带读取。
 // 不跑真 vite 构建（重·见 scripts/package-web-smoke.mjs 端到端）；只钉纯变换正确性。
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { injectInline, scanSelfContainment, readCartManifest, readCartMeta } from './package-web.mjs';
+import { injectInline, scanSelfContainment, readCartManifest, readCartMeta, readCartArtBundle, resolveCartCapabilities, packageWeb } from './package-web.mjs';
 
 const SHELL = '<!doctype html><html><head><title>ZeroCraft OS</title></head><body><script type="module">/*bundle*/console.log("run")</script></body></html>';
 
@@ -36,6 +36,14 @@ describe('injectInline · 注入内联卡带 globals', () => {
     expect(withAssets).toContain('__APOLLO_INLINE_ASSETS__');
     const noAssets = injectInline(SHELL, { cart: {}, assets: {} });
     expect(noAssets).not.toContain('__APOLLO_INLINE_ASSETS__');
+  });
+
+  it('有本地索引时先于 bundle 注入索引与 slug，像素以同一 URL key 内联', () => {
+    const out = injectInline(SHELL, { cart: {}, slug: 'demo-cart', artIndex: { version: 1, assets: [] }, assets: { '/games/demo-cart/art/a.png': 'data:image/png;base64,AAAA' } });
+    expect(out).toContain('window.__APOLLO_INLINE_ART_INDEX__=');
+    expect(out).toContain('window.__APOLLO_INLINE_SLUG__="demo-cart"');
+    expect(out).toContain('"/games/demo-cart/art/a.png":"data:image/png;base64,AAAA"');
+    expect(out.indexOf('__APOLLO_INLINE_ART_INDEX__')).toBeLessThan(out.indexOf('type="module"'));
   });
 
   it('外壳缺 </head> → 明确抛错', () => {
@@ -89,4 +97,77 @@ describe('readCartManifest / readCartMeta · 卡带读取（临时 fixture）', 
   it('无 meta.json → 回退 slug', () => {
     expect(readCartMeta(root, 'unknown-slug').title).toBe('unknown-slug');
   });
+});
+
+describe('readCartArtBundle · local cartridge closure', () => {
+  let root;
+  beforeAll(() => {
+    root = mkdtempSync(join(tmpdir(), 'cart-art-pkg-'));
+    const art = join(root, 'library', 'demo-cart', 'art');
+    mkdirSync(art, { recursive: true });
+    const png = Buffer.alloc(24);
+    Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]).copy(png);
+    png.writeUInt32BE(2, 16);
+    png.writeUInt32BE(2, 20);
+    writeFileSync(join(art, 'lock.png'), png);
+    writeFileSync(join(art, 'index.json'), JSON.stringify({ version: 1, assets: [
+      { id: 'demo-cart/lock', type: 'texture', status: 'filled', path: '/games/demo-cart/art/lock.png', spec: { width: 2, height: 2 } },
+    ] }));
+  });
+  afterAll(() => rmSync(root, { recursive: true, force: true }));
+
+  it('embeds only referenced local texture, including UI skin refs', () => {
+    const art = readCartArtBundle(root, 'demo-cart', { entities: {}, presentation: { ui: { props: { src: 'asset:demo-cart/lock' } } } });
+    expect(art.index.assets).toHaveLength(1);
+    expect(art.assets['/games/demo-cart/art/lock.png']).toMatch(/^data:image\/png;base64,/);
+  });
+
+  it('missing referenced texture and escaped path fail closed; old no-index cart stays valid', () => {
+    expect(() => readCartArtBundle(root, 'demo-cart', { entities: { x: { Sprite: { textureKey: 'missing' } } } })).toThrow(/未在本地索引/);
+    expect(readCartArtBundle(root, 'legacy-cart', { entities: { x: { Sprite: { textureKey: 'legacy-placeholder' } } } })).toEqual({ index: null, assets: {} });
+    expect(() => readCartArtBundle(root, 'legacy-cart', { entities: { x: { Clickable: { hitMaskKey: 'mask' } } } })).toThrow(/缺少 art\/index.json/);
+  });
+
+  it('wrong PNG dimensions fail before packaging', () => {
+    const indexFile = join(root, 'library', 'demo-cart', 'art', 'index.json');
+    const original = readCartArtBundle(root, 'demo-cart', { entities: { x: { Sprite: { textureKey: 'demo-cart/lock' } } } }).index;
+    try {
+      writeFileSync(indexFile, JSON.stringify({ ...original, assets: [{ ...original.assets[0], spec: { width: 3, height: 2 } }] }));
+      expect(() => readCartArtBundle(root, 'demo-cart', { entities: { x: { Sprite: { textureKey: 'demo-cart/lock' } } } })).toThrow(/PNG 尺寸/);
+    } finally { writeFileSync(indexFile, JSON.stringify(original)); }
+  });
+
+  it('rejects a missing or wrong-source mask before an offline shell is written', () => {
+    const indexFile = join(root, 'library', 'demo-cart', 'art', 'index.json');
+    const original = readCartArtBundle(root, 'demo-cart', { entities: {} }).index;
+    const cart = { entities: { lock: { Sprite: { textureKey: 'demo-cart/lock' }, Clickable: { hitMaskKey: 'demo-cart/mask/lock' } } } };
+    expect(() => readCartArtBundle(root, 'demo-cart', cart)).toThrow(/hit-mask.*未登记/);
+    try {
+      writeFileSync(indexFile, JSON.stringify({ ...original, assets: [
+        ...original.assets,
+        { id: 'demo-cart/mask/lock', type: 'hit-mask', status: 'filled', spec: { sourceTextureKey: 'demo-cart/other' } },
+      ] }));
+      expect(() => readCartArtBundle(root, 'demo-cart', cart)).toThrow(/同源/);
+      writeFileSync(indexFile, JSON.stringify({ ...original, assets: [
+        ...original.assets,
+        { id: 'demo-cart/mask/lock', type: 'hit-mask', status: 'filled', spec: { sourceTextureKey: 'demo-cart/lock' } },
+      ] }));
+      expect(Object.keys(readCartArtBundle(root, 'demo-cart', cart).assets)).toEqual(['/games/demo-cart/art/lock.png']);
+    } finally { writeFileSync(indexFile, JSON.stringify(original)); }
+  });
+});
+
+describe('packageWeb · native child-process gate', () => {
+  it('runs the real manifest checker through Node and packages an injected shell', async () => {
+    const root = process.cwd();
+    const slug = 'game-clue-investigation';
+    const cart = readCartManifest(root, slug);
+    expect(resolveCartCapabilities(root, cart, slug)).toContain('a1-transform');
+    const temp = mkdtempSync(join(tmpdir(), 'cart-art-shell-'));
+    try {
+      const out = join(temp, 'cart.html');
+      await packageWeb(root, slug, out, { shellHtml: SHELL });
+      expect(readFileSync(out, 'utf8')).toContain('__APOLLO_INLINE_CART__');
+    } finally { rmSync(temp, { recursive: true, force: true }); }
+  }, 30_000);
 });

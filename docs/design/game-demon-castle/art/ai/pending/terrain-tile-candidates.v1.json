@@ -1,0 +1,59 @@
+{
+  "schema": "life-asset-candidate-ledger.v1",
+  "gameId": "game-demon-castle",
+  "batchId": "terrain-tiles-candidate-v1",
+  "status": "materialized",
+  "purpose": "Approved terrain-texture source candidates retained for audit after normalization and registration in the game-local AssetIndex.",
+  "provenance": {
+    "source": "OpenAI built-in image generation",
+    "provider": "OpenAI image generation (Codex built-in; model identifier not exposed)",
+    "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms; pending owner visual review",
+    "generatedAt": "2026-10-12",
+    "reviewedBy": "owner",
+    "ownerDecision": "approved"
+  },
+  "candidates": [
+    {
+      "candidateId": "tile-moon-courtyard-candidate-v1",
+      "file": "tile-moon-courtyard-candidate-v1.png",
+      "suggestedScene": "moon-courtyard",
+      "slotId": "demon-castle.tile.moon-courtyard",
+      "artKey": "art:demon-castle:tile:moon-courtyard",
+      "spec": { "width": 32, "height": 32, "alpha": "opaque", "colorSpace": "srgb", "sampling": "nearest", "kind": "tile.ground", "fit": "cover", "anchor": { "x": 0.5, "y": 0.5 } },
+      "sourceImage": "C:/Users/24652/.codex/generated_images/01a110f0-25bf-7c72-a227-0efc93b35358/exec-81e1e577-df3f-46b9-8d63-1a75f48e4278.png",
+      "sourceHash": "71a816f89214c3845be17c49f54f1949e0642fccca57ed5ad30417c4e0a1afbb",
+      "outputPx": { "width": 1254, "height": 1254 },
+      "contentHash": "sha256:300b45f687e9d17755bb3216adbd5abf28a5bed7ca6ddfe029820667ce4c7b96",
+      "materializedPath": "/games/game-demon-castle/art/tiles/tile-moon-courtyard.png",
+      "status": "materialized"
+    },
+    {
+      "candidateId": "tile-moonshadow-forest-candidate-v1",
+      "file": "tile-moonshadow-forest-candidate-v1.png",
+      "suggestedScene": "moonshadow-forest",
+      "slotId": "demon-castle.tile.moonshadow-forest",
+      "artKey": "art:demon-castle:tile:moonshadow-forest",
+      "spec": { "width": 32, "height": 32, "alpha": "opaque", "colorSpace": "srgb", "sampling": "nearest", "kind": "tile.ground", "fit": "cover", "anchor": { "x": 0.5, "y": 0.5 } },
+      "sourceImage": "C:/Users/24652/.codex/generated_images/01a110f0-25bf-7c72-a227-0efc93b35358/exec-46fabc6f-ceab-46cf-9ce9-f67f75e86566.png",
+      "sourceHash": "9225a9049f53c4ac5d1eb2ea1cafaa3ac5b165e7f834b48c96cf70be1d7f7888",
+      "outputPx": { "width": 1254, "height": 1254 },
+      "contentHash": "sha256:c8b9739f64ba09acf80e1f9abb8cea9d317afd1a3e9db843752c5fd44c3b6e80",
+      "materializedPath": "/games/game-demon-castle/art/tiles/tile-moonshadow-forest.png",
+      "status": "materialized"
+    },
+    {
+      "candidateId": "tile-undercrypt-workshop-candidate-v1",
+      "file": "tile-undercrypt-workshop-candidate-v1.png",
+      "suggestedScene": "undercrypt-workshop",
+      "slotId": "demon-castle.tile.undercrypt-workshop",
+      "artKey": "art:demon-castle:tile:undercrypt-workshop",
+      "spec": { "width": 32, "height": 32, "alpha": "opaque", "colorSpace": "srgb", "sampling": "nearest", "kind": "tile.ground", "fit": "cover", "anchor": { "x": 0.5, "y": 0.5 } },
+      "sourceImage": "C:/Users/24652/.codex/generated_images/01a110f0-25bf-7c72-a227-0efc93b35358/exec-34dcd3b5-90d6-40aa-b718-2cef21f1269a.png",
+      "sourceHash": "6e233004d5cc40e12504edd394f9784896f3354cdb72a85fc7f9c4765c5691cb",
+      "outputPx": { "width": 1254, "height": 1254 },
+      "contentHash": "sha256:85297bdd6e61fc8d2687665b9b925531a33f0d169b57d26f59a4abdafaf13fed",
+      "materializedPath": "/games/game-demon-castle/art/tiles/tile-undercrypt-workshop.png",
+      "status": "materialized"
+    }
+  ]
+}

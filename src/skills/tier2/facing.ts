@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Facing, Transform, Velocity, Relation } from '@engine/protocol/components.js';
@@ -55,7 +56,7 @@ export const facingCapability = defineCapability({
       writes: ['Transform'],
       consumes: [],
       execute(world: IWorld) {
-        const ids = world.query('Facing', 'Transform').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'Facing', 'Transform');
         for (const id of ids) {
           const f = world.getComponent<Facing>(id, 'Facing')!;
           const t = world.getComponent<Transform>(id, 'Transform')!;

@@ -1,0 +1,30 @@
+# AI START
+appId: com.zerocraft.manor-escape
+electronVersion: "33.0.0"
+productName: ManorEscape
+executableName: ManorEscape
+copyright: "Copyright © 2026 ZeroCraft Game Studio"
+
+files:
+  - electron/gal-main.cjs
+  - electron/gal-preload.cjs
+  - electron/gal-root.cjs
+  - dist-gal/**
+  - package.json
+
+directories:
+  output: ../manor-escape/bin
+
+npmRebuild: false
+nodeGypRebuild: false
+electronDownload:
+  mirror: https://npmmirror.com/mirrors/electron/
+
+win:
+  signAndEditExecutable: false
+  target:
+    - target: portable
+      arch: [x64]
+    - target: dir
+      arch: [x64]
+# AI END

@@ -1,7 +1,10 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { Tilemap, Transform, Shape, Velocity } from '@engine/protocol/components.js';
+import { index, cellFloor } from '@engine/math/grid.js';
+import { signOr1 } from '@engine/math/scalar.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  tilemap —— 瓦片地图：地图=数据（Tilemap 组件：二维数组 + tileset），引擎只加两台通用解释器——
@@ -24,14 +27,12 @@ export function findTilemap(world: IWorld): Tilemap | undefined {
 // (c,r) 是否实心：任一 collides 层在该格非零即实心。越界视为可通行（靠边界墙瓦片围合）。
 export function isSolidTile(tm: Tilemap, c: number, r: number): boolean {
   if (c < 0 || c >= tm.cols || r < 0 || r >= tm.rows) return false;
-  const idx = r * tm.cols + c;
+  const idx = index(c, r, tm.cols);
   for (const layer of tm.layers) {
     if (layer.collides && (layer.data[idx] ?? 0) > 0) return true;
   }
   return false;
 }
-
-const sign = (n: number): number => (n > 0 ? 1 : n < 0 ? -1 : 1);
 
 export const tilemapCapability = defineCapability({
   id: 't2-tilemap',
@@ -86,7 +87,7 @@ export const tilemapCapability = defineCapability({
         const ts = tm.tileSize;
         const half = ts / 2;
 
-        const ids = world.query('Transform', 'Shape', 'Velocity').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'Transform', 'Shape', 'Velocity');
         for (const id of ids) {
           const t = world.getComponent<Transform>(id, 'Transform')!;
           const s = world.getComponent<Shape>(id, 'Shape')!;
@@ -97,10 +98,12 @@ export const tilemapCapability = defineCapability({
 
           // 两遍迭代（墙角稳定）。
           for (let iter = 0; iter < 2; iter++) {
-            const minC = Math.floor((t.x - hw - tm.originX) / ts);
-            const maxC = Math.floor((t.x + hw - tm.originX) / ts);
-            const minR = Math.floor((t.y - hh - tm.originY) / ts);
-            const maxR = Math.floor((t.y + hh - tm.originY) / ts);
+            const lo = cellFloor(t.x - hw, t.y - hh, tm.originX, tm.originY, ts);
+            const hi = cellFloor(t.x + hw, t.y + hh, tm.originX, tm.originY, ts);
+            const minC = lo.col;
+            const maxC = hi.col;
+            const minR = lo.row;
+            const maxR = hi.row;
             for (let r = minR; r <= maxR; r++) {
               for (let c = minC; c <= maxC; c++) {
                 if (!isSolidTile(tm, c, r)) continue;
@@ -113,11 +116,11 @@ export const tilemapCapability = defineCapability({
                 if (ox <= 0 || oy <= 0) continue; // 未真重叠
                 // 沿最小穿透轴推出 + 清撞墙方向速度。
                 if (ox < oy) {
-                  t.x += sign(dx) * ox;
-                  if (v.vx * sign(dx) < 0) v.vx = 0;
+                  t.x += signOr1(dx) * ox;
+                  if (v.vx * signOr1(dx) < 0) v.vx = 0;
                 } else {
-                  t.y += sign(dy) * oy;
-                  if (v.vy * sign(dy) < 0) v.vy = 0;
+                  t.y += signOr1(dy) * oy;
+                  if (v.vy * signOr1(dy) < 0) v.vy = 0;
                 }
               }
             }

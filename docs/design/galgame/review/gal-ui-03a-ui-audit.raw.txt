@@ -1,0 +1,84 @@
+Command: node src/services/gal-ui/verify-gal-slice-audit.mjs
+Viewport: 1440x900, Windows Edge headless via UI_AUDIT_CHROMIUM
+Date: 2026-10-10
+Process exit code: 0
+
+=== UI 审计 · src/services/gal-ui/gal-ui-home.audit.ts (1440×900) ===
+绝对定位元素(带 id)：1
+
+[重叠] 0 处（容差 4px²）— 阻断
+
+[对比·硬失败 <3] 0 处（真读不清·深底深字/字≈底）— 阻断
+
+[对比·警告 3–4.5] 0 处（多为 dim 次级文字·复核非阻断）
+
+[border-image 前提] 0 处（设了皮却缺 border-style/width·真浏览器不画）— 阻断
+
+[华丽度] 2 处华丽件命中（shape:1 fx:1）· house 主题：否 — 非阻断·产物给「华丽起手第三步」
+  ⚠ 华丽件命中偏少且未见 house 主题皮——复核是否只搭了朴素骨架（华丽起手第三步核逐类货架）。
+
+✅ 通过（阻断项 0）：无重叠、无硬性读不清文字、border-image 前提齐。
+
+=== UI 审计 · src/services/gal-ui/gal-ui-story.audit.ts (1440×900) ===
+绝对定位元素(带 id)：3
+
+[重叠] 0 处（容差 4px²）— 阻断
+
+[对比·硬失败 <3] 0 处（真读不清·深底深字/字≈底）— 阻断
+
+[对比·警告 3–4.5] 0 处（多为 dim 次级文字·复核非阻断）
+
+[border-image 前提] 0 处（设了皮却缺 border-style/width·真浏览器不画）— 阻断
+
+[华丽度] 2 处华丽件命中（shape:2）· house 主题：否 — 非阻断·产物给「华丽起手第三步」
+  ⚠ 华丽件命中偏少且未见 house 主题皮——复核是否只搭了朴素骨架（华丽起手第三步核逐类货架）。
+
+✅ 通过（阻断项 0）：无重叠、无硬性读不清文字、border-image 前提齐。
+
+=== UI 审计 · src/services/gal-ui/gal-ui-slots.audit.ts (1440×900) ===
+绝对定位元素(带 id)：1
+
+[重叠] 0 处（容差 4px²）— 阻断
+
+[对比·硬失败 <3] 0 处（真读不清·深底深字/字≈底）— 阻断
+
+[对比·警告 3–4.5] 0 处（多为 dim 次级文字·复核非阻断）
+
+[border-image 前提] 0 处（设了皮却缺 border-style/width·真浏览器不画）— 阻断
+
+[华丽度] 1 处华丽件命中（glass:1）· house 主题：否 — 非阻断·产物给「华丽起手第三步」
+  ⚠ 华丽件命中偏少且未见 house 主题皮——复核是否只搭了朴素骨架（华丽起手第三步核逐类货架）。
+
+✅ 通过（阻断项 0）：无重叠、无硬性读不清文字、border-image 前提齐。
+
+=== UI 审计 · src/services/gal-ui/gal-ui-load-empty.audit.ts (1440×900) ===
+绝对定位元素(带 id)：1
+
+[重叠] 0 处（容差 4px²）— 阻断
+
+[对比·硬失败 <3] 0 处（真读不清·深底深字/字≈底）— 阻断
+
+[对比·警告 3–4.5] 0 处（多为 dim 次级文字·复核非阻断）
+
+[border-image 前提] 0 处（设了皮却缺 border-style/width·真浏览器不画）— 阻断
+
+[华丽度] 1 处华丽件命中（glass:1）· house 主题：否 — 非阻断·产物给「华丽起手第三步」
+  ⚠ 华丽件命中偏少且未见 house 主题皮——复核是否只搭了朴素骨架（华丽起手第三步核逐类货架）。
+
+✅ 通过（阻断项 0）：无重叠、无硬性读不清文字、border-image 前提齐。
+
+=== UI 审计 · src/services/gal-ui/gal-ui-confirm.audit.ts (1440×900) ===
+绝对定位元素(带 id)：1
+
+[重叠] 0 处（容差 4px²）— 阻断
+
+[对比·硬失败 <3] 0 处（真读不清·深底深字/字≈底）— 阻断
+
+[对比·警告 3–4.5] 0 处（多为 dim 次级文字·复核非阻断）
+
+[border-image 前提] 0 处（设了皮却缺 border-style/width·真浏览器不画）— 阻断
+
+[华丽度] 1 处华丽件命中（glass:1）· house 主题：否 — 非阻断·产物给「华丽起手第三步」
+  ⚠ 华丽件命中偏少且未见 house 主题皮——复核是否只搭了朴素骨架（华丽起手第三步核逐类货架）。
+
+✅ 通过（阻断项 0）：无重叠、无硬性读不清文字、border-image 前提齐。

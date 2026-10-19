@@ -4,9 +4,35 @@ import { parseManifest } from './manifest.js';
 import { resourceCapability, flagCapability, spriteCapability, soundCapability } from '@atom-skills/index.js';
 import type { EntityBlueprint } from './demo.assembly.js';
 import { buildFixtureBlueprint } from '../test-fixtures/engine-fixture.js';
+import { parseAssetIndex } from '@assets/index.js';
 
 const ent = (comps: Record<string, Record<string, unknown>>): Record<string, EntityBlueprint> =>
   comps as unknown as Record<string, EntityBlueprint>;
+
+describe('Clickable hit-mask 加载绑定', () => {
+  const manifest = { capabilities: ['t2-clickable'], entities: { clue: {
+    Clickable: { action: 'inspect', hitMaskKey: 'clue.mask' },
+    Sprite: { textureKey: 'clue.png', anchorX: 0.5, anchorY: 0.5, zOrder: 1 },
+    Transform: { x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1 },
+  } } };
+  const texture = { id: 'clue.png', type: 'texture', description: 'clue', status: 'filled', path: 'clue.png', spec: { width: 2, height: 2 } };
+  const mask = { id: 'clue.mask', type: 'hit-mask', description: 'mask', status: 'filled',
+    spec: { version: 1, width: 2, height: 2, threshold: 127, sourceTextureKey: 'clue.png', rows: ['10', '01'] } };
+  it('只从 AssetIndex 绑定，经蓝图传给确定性世界', () => {
+    const index = parseAssetIndex({ version: 1, assets: [texture, mask] });
+    const bp = parseManifest(manifest, { assetIndex: index });
+    expect((bp.entities.clue.Clickable as { hitMask: unknown }).hitMask).toEqual(mask.spec);
+    expect((manifest.entities.clue.Clickable as { hitMask?: unknown }).hitMask).toBeUndefined();
+  });
+  it('来源贴图尺寸不符或 mask 缺失不绑定；作者内联 mask 直接拒绝', () => {
+    const missingMask = parseAssetIndex({ version: 1, assets: [texture] });
+    expect((parseManifest(manifest, { assetIndex: missingMask }).entities.clue.Clickable as { hitMask?: unknown }).hitMask).toBeUndefined();
+    expect((parseManifest(manifest).entities.clue.Clickable as { hitMask?: unknown }).hitMask).toBeUndefined();
+    const inline = { ...manifest, entities: { clue: { ...manifest.entities.clue,
+      Clickable: { ...manifest.entities.clue.Clickable, hitMask: mask.spec } } } };
+    expect(() => parseManifest(inline, { assetIndex: missingMask })).toThrow(/不可内联/);
+  });
+});
 
 describe('R12 组件数据 schema 校验（复用 provides.fields，不另造）', () => {
   it('合法 Resource → 零 error 零 warning', () => {
@@ -55,6 +81,28 @@ describe('R12 组件数据 schema 校验（复用 provides.fields，不另造）
       const r = validateComponentData(bp.capabilities, bp.entities);
       expect(r.errors, `${name}: ${formatIssues(r.errors)}`).toHaveLength(0);
     }
+  });
+
+  it('Sprite 目标框是原子闭集：缺边、非法 fit、非有限或非正尺寸都拒绝', () => {
+    const base = { textureKey: 'hero', anchorX: 0.5, anchorY: 0.5, zOrder: 0 };
+    const invalid = [
+      { ...base, width: 100 },
+      { ...base, width: 100, height: 200 },
+      { ...base, width: 100, height: 200, fit: 'stretch' },
+      { ...base, width: 0, height: 200, fit: 'cover' },
+      { ...base, width: -1, height: 200, fit: 'cover' },
+      { ...base, width: Infinity, height: 200, fit: 'cover' },
+      { ...base, width: 100, height: NaN, fit: 'contain' },
+      { ...base, sampling: 'pixelated' },
+    ];
+    for (const Sprite of invalid) {
+      const r = validateComponentData([spriteCapability], ent({ e: { Sprite } }));
+      expect(r.errors, JSON.stringify(Sprite)).not.toHaveLength(0);
+    }
+    expect(validateComponentData([spriteCapability], ent({ e: { Sprite: { ...base, width: 100, height: 200, fit: 'cover' } } })).errors).toHaveLength(0);
+    expect(validateComponentData([spriteCapability], ent({ e: { Sprite: { ...base, sampling: 'smooth' } } })).errors).toHaveLength(0);
+    expect(validateComponentData([spriteCapability], ent({ e: { Sprite: { ...base, sampling: 'nearest' } } })).errors).toHaveLength(0);
+    expect(() => parseManifest({ entities: { e: { Sprite: { ...base, width: 100 } } } })).toThrow(/width、height 与 fit/);
   });
 });
 

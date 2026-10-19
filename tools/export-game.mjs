@@ -20,7 +20,7 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 // ── args ─────────────────────────────────────────────────────────────────────
 const argv = process.argv.slice(2);
@@ -67,7 +67,18 @@ const ALIASES = {
   '@zerocraft/engine/net/': 'net/',
   '@zerocraft/engine/runtime/': 'runtime/',
   '@zerocraft/engine/assembly/': 'assembly/',
+  '@zerocraft/engine/authoring/': 'authoring/',
 };
+// Legacy Life Host entry points moved from engine/host to assembly/life-host.
+// Keep exact mappings separate: ALIASES is a slash-terminated prefix table also
+// used to generate wildcard tsconfig paths and Vite directory aliases.
+const LIFE_HOST_COMPAT = Object.fromEntries(
+  ['life-game-host', 'life-save', 'life-presenter', 'life-interaction', 'life-hud', 'life-hud-overlay']
+    .flatMap((name) => [
+      [`@engine/host/${name}.js`, `assembly/life-host/${name}.ts`],
+      [`@zerocraft/engine/engine/host/${name}.js`, `assembly/life-host/${name}.ts`],
+    ]),
+);
 // NOTE: base tsconfig.json + vite.config.ts derive their alias maps from ALIASES above,
 // so adding an alias here propagates to the plain target automatically. The dokiworld
 // vite template lists aliases explicitly — keep it in sync when ALIASES changes.
@@ -91,9 +102,11 @@ function specifiers(code) {
 
 // spec (from file `fromAbs`) -> absolute .ts/.tsx path under SRC, or null if external.
 async function resolve(spec, fromAbs) {
-  let rel = null;
-  for (const [alias, target] of Object.entries(ALIASES)) {
-    if (spec.startsWith(alias)) { rel = path.join(SRC, target + spec.slice(alias.length)); break; }
+  let rel = Object.hasOwn(LIFE_HOST_COMPAT, spec) ? path.join(SRC, LIFE_HOST_COMPAT[spec]) : null;
+  if (rel === null) {
+    for (const [alias, target] of Object.entries(ALIASES)) {
+      if (spec.startsWith(alias)) { rel = path.join(SRC, target + spec.slice(alias.length)); break; }
+    }
   }
   if (rel === null) {
     if (spec.startsWith('.')) rel = path.resolve(path.dirname(fromAbs), spec);
@@ -243,7 +256,10 @@ const files = {
       target: 'ES2022', module: 'ESNext', moduleResolution: 'bundler', jsx: 'react-jsx', strict: true,
       esModuleInterop: true, skipLibCheck: true, forceConsistentCasingInFileNames: true, resolveJsonModule: true,
       isolatedModules: true, noEmit: true, lib: ['ES2022', 'DOM', 'DOM.Iterable'], types: ['three', 'node'], baseUrl: '.',
-      paths: Object.fromEntries(Object.entries(ALIASES).map(([a, t]) => [a + '*', [`./src/game/${t}*`]])),
+      paths: {
+        ...Object.fromEntries(Object.entries(LIFE_HOST_COMPAT).map(([a, t]) => [a, [`./src/game/${t}`]])),
+        ...Object.fromEntries(Object.entries(ALIASES).map(([a, t]) => [a + '*', [`./src/game/${t}*`]])),
+      },
     },
     include: ['src'], exclude: ['node_modules', 'dist'],
   }, null, 2) + '\n',
@@ -257,6 +273,7 @@ const files = {
   'vite.config.ts': () =>
     `import { defineConfig } from 'vite';\nimport react from '@vitejs/plugin-react';\nimport { resolve } from 'path';\n\n` +
     `export default defineConfig({\n  plugins: [react()],\n  resolve: {\n    alias: {\n` +
+    Object.entries(LIFE_HOST_COMPAT).map(([a, t]) => `      '${a}': resolve(__dirname, 'src/game/${t}'),`).join('\n') + '\n' +
     Object.entries(ALIASES).map(([a, t]) => `      '${a.slice(0, -1)}': resolve(__dirname, 'src/game/${t.slice(0, -1)}'),`).join('\n') +
     `\n    },\n  },\n  build: { outDir: 'dist', emptyOutDir: true },\n});\n`,
   'index.html': () =>
@@ -387,4 +404,8 @@ async function main() {
   console.log(`  external deps detected: ${[...externals].map(pkgName).filter((v, i, a) => a.indexOf(v) === i).join(', ') || '(none)'}`);
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+export { resolve, trace, files };
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((e) => { console.error(e); process.exit(1); });
+}

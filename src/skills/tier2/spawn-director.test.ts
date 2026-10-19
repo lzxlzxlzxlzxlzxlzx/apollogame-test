@@ -31,11 +31,13 @@ describe('spawn-director.tickDirector — cap 上限拦截', () => {
     const out = tickDirector(d, { now: 1, aliveCounts: { slime: 3 } });
     expect(out).toHaveLength(2); // 3 存活 + 发 2 = cap 5
   });
-  it('被 cap 挡时信用封顶（不攒无限回填洪流）', () => {
+  it('被 cap 挡时信用封顶（不攒无限回填洪流）→ 精确 length（实跑+源码语义钉死）', () => {
     const d = createDirector([{ atTime: 0, template: 'slime', ratePerSec: 100, cap: 3 }]);
-    tickDirector(d, { now: 5, aliveCounts: { slime: 3 } }); // 满·封顶 acc≤1
+    expect(tickDirector(d, { now: 5, aliveCounts: { slime: 3 } })).toHaveLength(0); // 满 → 0 发；acc=min(500,1)=1（spawn-director.ts:111 封顶）
     const out = tickDirector(d, { now: 5.01, aliveCounts: {} }); // 位置全空
-    expect(out.length).toBeLessThanOrEqual(3); // 不是几百个洪流
+    // 封顶语义精确值：上拍残余信用=1，本拍新增 (5.01−5)×100 = 0.99999…（IEEE 略欠 1）→ acc≈1.99999，
+    // while(acc≥1) 恰好只够发 1 个。若无封顶，acc 本是 ~500 → 洪流。确定性：纯 IEEE 算术，跨端一致。
+    expect(out).toHaveLength(1);
   });
 });
 

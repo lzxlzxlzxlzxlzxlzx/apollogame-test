@@ -1,10 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { World } from '@engine/core/world.js';
-import type { Transform, Shape, Sprite, Signal, InputQueue, Clickable, RawInputData } from '@engine/protocol/components.js';
+import type { Transform, Shape, Sprite, Signal, InputQueue, Clickable, RawInputData, DebugTrace, KeyBinding } from '@engine/protocol/components.js';
 import { clickableCapability } from './clickable.js';
+import { keybindCapability } from './keybind.js';
 
-function worldWithClickable(): World {
-  const w = new World();
+function worldWithClickable(strict = false): World {
+  const w = new World({ strict });
   for (const s of clickableCapability.systems) w.addSystem(s);
   return w;
 }
@@ -104,5 +105,102 @@ describe('T2 clickable — 相位 / 最上层 / 信号清扫', () => {
     setInput(w, []);
     w.tick();
     expect(w.hasComponent('btn', 'Signal')).toBe(false);
+  });
+});
+
+function maskedBox(w: World, eid: string, opts: { z?: number; fit?: 'cover' | 'contain'; scaleX?: number; mask?: Clickable['hitMask'] } = {}): void {
+  box(w, eid, 10, 20, 4, 2, eid, { z: opts.z ?? 0, scaleX: opts.scaleX ?? 1 });
+  w.addComponent(eid, {
+    type: 'Sprite', textureKey: 'suspect.png', anchorX: 0.5, anchorY: 0.5, zOrder: opts.z ?? 0,
+    ...(opts.fit ? { width: 8, height: 8, fit: opts.fit } : {}),
+  } as Sprite);
+  w.addComponent(eid, {
+    type: 'Clickable', action: eid, hitMaskKey: 'suspect.mask',
+    hitMask: opts.mask ?? { version: 1, width: 4, height: 2, threshold: 127, sourceTextureKey: 'suspect.png', rows: ['1001', '0110'] },
+  } as Clickable);
+}
+
+describe('T2 clickable — 预烘焙 alpha hit-mask', () => {
+  it('实心接收、透明拒收；相同世界坐标的 mouse/touch 路径等价', () => {
+    const w = worldWithClickable();
+    maskedBox(w, 'mask');
+    setInput(w, [{ ...down(8.5, 19.5), source: 'mouse' }]);
+    w.tick();
+    expect(sig(w, 'mask')).toBe('mask');
+    setInput(w, [{ ...down(9.5, 19.5), source: 'touch' }]);
+    w.tick();
+    expect(sig(w, 'mask')).toBeUndefined();
+    setInput(w, [{ ...down(8.5, 19.5), source: 'touch' }]);
+    w.tick();
+    expect(sig(w, 'mask')).toBe('mask');
+  });
+
+  it('contain 透明留白不命中；缩放后按相同像素映射；上层透明时下层可中', () => {
+    const w = worldWithClickable();
+    maskedBox(w, 'top', { z: 10, fit: 'contain', scaleX: 2 });
+    box(w, 'bottom', 10, 20, 30, 30, 'bottom', { z: 0 });
+    setInput(w, [down(10, 16.5)]); // 目标框上侧留白
+    w.tick();
+    expect(sig(w, 'top')).toBeUndefined();
+    expect(sig(w, 'bottom')).toBe('bottom');
+    setInput(w, [down(3, 19)]); // 缩放后左上实心位
+    w.tick();
+    expect(sig(w, 'top')).toBe('top');
+  });
+
+  it('缺/坏/版本不符/贴图不匹配 fail-closed，trace 记录 reject', () => {
+    const badMasks: Array<Clickable['hitMask']> = [undefined,
+      { version: 2, width: 4, height: 2, threshold: 127, sourceTextureKey: 'suspect.png', rows: ['1111', '1111'] } as unknown as Clickable['hitMask'],
+      { version: 1, width: 4, height: 2, threshold: 127, sourceTextureKey: 'other.png', rows: ['1111', '1111'] },
+      { version: 1, width: 4, height: 2, threshold: 127, sourceTextureKey: 'suspect.png', rows: ['111', '1111'] },
+    ];
+    for (const mask of badMasks) {
+      const w = worldWithClickable(true);
+      maskedBox(w, 'mask');
+      w.addComponent('mask', { type: 'Clickable', action: 'mask', hitMaskKey: 'suspect.mask', hitMask: mask } as Clickable);
+      w.createEntity('trace');
+      w.addComponent('trace', { type: 'DebugTrace', events: [] } as DebugTrace);
+      setInput(w, [down(8.5, 19.5)]);
+      w.tick();
+      expect(sig(w, 'mask')).toBeUndefined();
+      expect(w.getComponent<DebugTrace>('trace', 'DebugTrace')?.events).toEqual([
+        expect.objectContaining({ system: 'clickable', kind: 'reject', what: 'mask', why: 'invalid-mask' }),
+      ]);
+    }
+  });
+
+  it('非零旋转 fail-closed，不把跨平台三角函数引入模拟', () => {
+    const w = worldWithClickable();
+    maskedBox(w, 'mask');
+    w.addComponent('mask', { type: 'Transform', x: 10, y: 20, rotation: Math.PI / 2, scaleX: 1, scaleY: 1 } as Transform);
+    setInput(w, [down(8.5, 19.5)]);
+    w.tick();
+    expect(sig(w, 'mask')).toBeUndefined();
+  });
+
+  it('键位映射与鼠标/触控命中共用具名 Signal；重复快照回放同 hash', () => {
+    const build = () => {
+      const w = worldWithClickable();
+      for (const s of keybindCapability.systems) w.addSystem(s);
+      maskedBox(w, 'inspect');
+      w.createEntity('keyboard');
+      w.addComponent('keyboard', { type: 'KeyBinding', key: 'inspect', signal: 'inspect' } as KeyBinding);
+      return w;
+    };
+    const a = build();
+    const b = build();
+    for (const [source, event] of [
+      ['mouse', down(8.5, 19.5)],
+      ['touch', down(8.5, 19.5)],
+      ['keyboard', { source: 'keyboard', key: 'inspect', phase: 'down' }],
+    ] as const) {
+      const input = { ...event, source };
+      setInput(a, [input]);
+      setInput(b, [input]);
+      a.tick();
+      b.tick();
+      expect(a.snapshot()).toEqual(b.snapshot());
+      expect(source === 'keyboard' ? sig(a, 'keyboard') : sig(a, 'inspect')).toBe('inspect');
+    }
   });
 });

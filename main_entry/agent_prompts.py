@@ -34,6 +34,9 @@ discussing, output no json block at all.
    `i3-controllable` + `b1-velocity` + `t1-motion-apply`）——运行器自动按 playerId 接键盘
    （单人=方向键+WASD+空格；双人=玩家1 方向键、玩家2 WASD）。跳跃再加 `t2-jump`（Space）。
    注意 i1-input-capture / i2-action-map 是纯契约原子（systems 为空），只声明它们实体不会动。
+8. 角色仓库是独立的作者档案，不在本对话的 manifest 里改。档案在 `characters/<id>/catalog.json`，
+   规则只以 `docs/playbooks/character-library.md` 为准：`entries` 从上到下就是百科页从上到下。
+   不要把角色图写进 `art:` 槽或 `assets/index.json`，除非该游戏已经单独做了投影。
 {CAPGAP_RULES}"""
 
 # capgap 段（features.capgap 开时注入 COMMON·三角色同吃）

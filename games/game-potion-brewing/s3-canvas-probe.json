@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "canvasSelector": "#potion-scene-host canvas",
+  "logicalWidth": 1440,
+  "logicalHeight": 900,
+  "gestures": [
+    {
+      "device": "mouse",
+      "kind": "drag",
+      "from": [1180, 272],
+      "to": [760, 423],
+      "expect": {
+        "input": { "key": "drag", "phase": "drag" },
+        "visible": { "selector": "#potion-recipe-progress", "before": "第 1 /", "after": "第 2 /" }
+      }
+    },
+    {
+      "device": "touch",
+      "kind": "drag",
+      "from": [1180, 272],
+      "to": [760, 423],
+      "expect": {
+        "input": { "key": "drag", "phase": "drag" },
+        "visible": { "selector": "#potion-recipe-progress", "before": "第 1 /", "after": "第 2 /" }
+      }
+    }
+  ]
+}

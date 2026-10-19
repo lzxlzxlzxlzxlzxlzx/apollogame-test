@@ -1,0 +1,73 @@
+{
+  "schema": "zerocraft.life-host.v1",
+  "slug": "game-demon-castle",
+  "packagePath": "life.json",
+  "assetSlotsPath": "asset-slots.json",
+  "artSlug": "game-demon-castle",
+  "viewport": {
+    "profile": "life-standard-v1"
+  },
+  "theme": "starter",
+  "hud": {
+    "preset": "life-standard-v1",
+    "title": "月影魔王城",
+    "calendarLabels": {
+      "seasons": { "eclipse": "月相季" },
+      "slots": { "dawn": "黎明", "night": "夜晚" }
+    },
+    "labels": {
+      "date": "月相",
+      "time-slot": "时段",
+      "place": "地点",
+      "inventory": "魔王行囊",
+      "interaction": "互动",
+      "objective": "复兴目标",
+      "advance-time": "T：等待夜幕",
+      "advance-day": "N：迎接新月",
+      "relationships": "盟友",
+      "selected-item": "所选物品",
+      "selected-target": "所选目标",
+      "quests": "复兴任务",
+      "profile": "人物档案"
+    }
+  },
+  "input": {
+    "preset": "life-keyboard-v1"
+  },
+  "inventoryPanel": {
+    "enabled": true,
+    "columns": 3,
+    "titleLabelKey": "inventory"
+  },
+  "questPanel": {
+    "enabled": true,
+    "titleLabelKey": "quests",
+    "defaultTracking": "first-active"
+  },
+  "profilePanel": {
+    "enabled": true,
+    "titleLabelKey": "profile"
+  },
+  "save": {
+    "namespace": "life:game-demon-castle:v1",
+    "schemaVersion": 1,
+    "autosave": "life-commit-v1"
+  },
+  "uiSkin": {
+    "id": "moonshadow-courtyard",
+    "slices": {
+      "panelFrame": {
+        "display": 36,
+        "source": 160
+      }
+    },
+    "slots": {
+      "questIcon": "art:game-demon-castle:ui:entry-quest-scroll",
+      "inventoryIcon": "art:game-demon-castle:ui:entry-backpack",
+      "profileIcon": "art:game-demon-castle:ui:entry-profile",
+      "trackedQuestFrame": "art:game-demon-castle:ui:tracked-quest-frame",
+      "panelFrame": "art:game-demon-castle:ui:panel-frame",
+      "worldStatusRibbon": "art:game-demon-castle:ui:world-status-ribbon"
+    }
+  }
+}

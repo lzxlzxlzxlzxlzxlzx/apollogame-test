@@ -1,0 +1,52 @@
+{
+  "name": "医生",
+  "group": "manor-escape",
+  "entries": [
+    {
+      "title": "简介",
+      "text": "求生者，催促所有人离开。把还能走的人都带出庄园，不把伤留在游戏里",
+      "description": "角色职责"
+    },
+    {
+      "title": "姓名",
+      "text": "医生",
+      "description": "角色名"
+    },
+    {
+      "title": "人设",
+      "text": "冷静、负责、不擅安慰。从要求机械师必须出门，到接受她选择和囚徒留在一起",
+      "description": "性格与变化"
+    },
+    {
+      "title": "外形",
+      "text": "轮廓：成年女性，手提药箱，身形利落。服装：白大褂与深色裙，臂上有红十字药箱；不用限定时装。表情：诊视、皱眉、压低声音、松一口气。",
+      "description": "画风与造型；立绘已由 Owner 于 2026-10-16 批准"
+    },
+    {
+      "title": "诊视",
+      "file": "manor-escape/doctor-exam.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    },
+    {
+      "title": "皱眉",
+      "file": "manor-escape/doctor-frown.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    },
+    {
+      "title": "压低声音",
+      "file": "manor-escape/doctor-low.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    },
+    {
+      "title": "松一口气",
+      "file": "manor-escape/doctor-relief.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    }
+  ],
+  "relations": [
+    {
+      "to": "mechanic",
+      "relation": "同伴：医生负责让她活着走到园门"
+    }
+  ]
+}

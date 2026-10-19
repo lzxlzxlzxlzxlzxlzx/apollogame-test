@@ -185,8 +185,8 @@ describe('behavior-tree · 装载校验：结构 / 深度有界 / 未注册叶�
     for (let i = 0; i < 7; i++) deep = { type: 'invert', children: [deep] };
     expect(checkBehaviorTree(deep, { maxDepth: 5, knownLeaves: new Set(['alive']) }).some((s) => s.includes('超深度上限'))).toBe(true);
     expect(() => validateBehaviorTree(deep, { maxDepth: 5, knownLeaves: new Set(['alive']) })).toThrow(/装载校验失败/);
-    // 默认上限存在
-    expect(MAX_BT_DEPTH).toBeGreaterThan(0);
+    // 默认上限=契约值（behavior-tree.ts:125·钉死：静默改上限=装载语义变更，须过此断言显式表态）
+    expect(MAX_BT_DEPTH).toBe(64);
     // 有界深树（7 层 invert）能 tick 且终止（7 次取反 = 反相奇数次）
     registerBTLeaves('t', { alive });
     const live = mkWorld([res('hp', 5)]);

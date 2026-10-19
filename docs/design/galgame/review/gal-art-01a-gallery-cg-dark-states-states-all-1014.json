@@ -1,0 +1,259 @@
+[
+  {
+    "id": "gal-gallery-home",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(16, 26, 54, 0.81)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(232, 232, 244)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgb(83, 92, 145)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.07)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgb(65, 75, 124)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(0.9)",
+      "transform": "matrix(1, 0, 0, 1, 0, 1)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-gallery-story",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(16, 26, 54, 0.81)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(232, 232, 244)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgb(83, 92, 145)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.07)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgb(65, 75, 124)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(0.9)",
+      "transform": "matrix(1, 0, 0, 1, 0, 1)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-gallery-slots",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(16, 26, 54, 0.81)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(232, 232, 244)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgb(83, 92, 145)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.07)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgb(65, 75, 124)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(0.9)",
+      "transform": "matrix(1, 0, 0, 1, 0, 1)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-gallery-settings-top",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(16, 26, 54, 0.81)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(232, 232, 244)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgb(83, 92, 145)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.07)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgb(65, 75, 124)",
+      "border": "rgba(228, 214, 170, 0.533)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(0.9)",
+      "transform": "matrix(1, 0, 0, 1, 0, 1)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-gallery-memories-tab",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32) drop-shadow(rgba(167, 178, 255, 0.6) 0px 0px 8px)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32)",
+      "transform": "matrix(1, 0, 0, 1, 0, 2)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-gallery-cg-tab",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32) drop-shadow(rgba(167, 178, 255, 0.6) 0px 0px 8px)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32) drop-shadow(rgba(167, 178, 255, 0) 0px 0px 0.00033885px)",
+      "transform": "matrix(1, 0, 0, 1, 0, 1.99992)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-gallery-prev",
+    "disabled": true,
+    "base": {
+      "background": "rgba(16, 26, 54, 0.36)",
+      "border": "rgba(228, 214, 170, 0.32)",
+      "color": "rgb(171, 176, 194)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-gallery-next",
+    "disabled": true,
+    "base": {
+      "background": "rgba(16, 26, 54, 0.36)",
+      "border": "rgba(228, 214, 170, 0.32)",
+      "color": "rgb(171, 176, 194)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-gallery-back",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32) drop-shadow(rgba(167, 178, 255, 0.6) 0px 0px 8px)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32)",
+      "transform": "matrix(1, 0, 0, 1, 0, 2)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  }
+]

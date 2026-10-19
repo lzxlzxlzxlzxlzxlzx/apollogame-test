@@ -4,4 +4,5 @@ export type { SavePort, SaveEnvelope, SaveMeta, SaveCodec, SaveMigration } from 
 export { sealEnvelope, openEnvelope, computeChecksum, CorruptSaveError } from './envelope.js';
 export { MemorySavePort } from './memory-save-port.js';
 export { LocalStorageSavePort } from './local-save-port.js';
+export { IndexedDbSavePort } from './indexeddb-save-port.js';
 export { BridgeSavePort, FileSavePort, CloudSavePort, createMemoryFileBridge, type SaveFileBridge } from './bridge-save-port.js';

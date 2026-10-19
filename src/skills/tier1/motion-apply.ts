@@ -1,7 +1,10 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { defineSystem } from '@engine/core/define-system.js';
 import type { Transform, Velocity } from '@engine/protocol/components.js';
 
 // Tier 1 涌现（直接结算）：velocity → transform。无新组件，纯系统。
+// P1a 类型门试点：系统体用 defineSystem 写——run 收到的世界只认申报过的类型名，写 'Acceleration' 之类未申报名 = tsc 错；
+// 运行时另有 SystemView 严格模式兜底（两门一致）。旧 `{ execute(world) }` 形状仍合法，逐能力迁移。
 export const motionApplyCapability = defineCapability({
   id: 't1-motion-apply',
   version: '1.0.0',
@@ -24,12 +27,11 @@ export const motionApplyCapability = defineCapability({
   config: {},
 
   systems: [
-    {
+    defineSystem({
       id: 'motion-apply',
       reads: ['Transform', 'Velocity'],
       writes: ['Transform'],
-      consumes: [],
-      execute(world) {
+      run(world) {
         for (const [id] of world.query('Transform', 'Velocity')) {
           const t = world.getComponent<Transform>(id, 'Transform')!;
           const v = world.getComponent<Velocity>(id, 'Velocity')!;
@@ -37,6 +39,6 @@ export const motionApplyCapability = defineCapability({
           t.y += v.vy;
         }
       },
-    },
+    }),
   ],
 });

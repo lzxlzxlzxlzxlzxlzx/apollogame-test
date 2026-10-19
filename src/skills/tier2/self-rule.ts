@@ -1,8 +1,12 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { defineComponent } from '@engine/core/define-component.js';
+import { t } from '@engine/core/schema.js';
+import { ConditionExprSchema, SelfActionSchema } from '@engine/protocol/schemas/logic.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld, EntityId } from '@engine/core/types.js';
-import type { SelfRule, SelfAction, ConditionExpr, CmpOp, Resource, Flag, State, Timer, StringVar, DestroyRequest, Transform, Relation, SpawnRequest } from '@engine/protocol/components.js';
+import type { SelfRule, SelfAction, ConditionExpr, DestroyRequest, Transform, Relation, SpawnRequest } from '@engine/protocol/components.js';
 import { evaluateCondition, buildConditionLookup } from './condition.js';
+import { evalCondition, selfCtx, applyWrite, writeTargetOf } from '@engine/logic/index.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  self-rule —— 逻辑链的「实体本地(self)」作用域（REQ-021；引擎的"实体寻址轴"）。
@@ -19,71 +23,18 @@ import { evaluateCondition, buildConditionLookup } from './condition.js';
 //  确定性：每实体只读/写**自身**组件 → 跨实体无干扰、与 query 遍历序无关；纯整数/IEEE 比较，录放一致。
 // ═══════════════════════════════════════════════════════════════
 
-function cmp(a: number, op: CmpOp, b: number): boolean {
-  switch (op) {
-    case 'lt': return a < b;
-    case 'lte': return a <= b;
-    case 'eq': return a === b;
-    case 'ne': return a !== b;
-    case 'gte': return a >= b;
-    case 'gt': return a > b;
-  }
-}
-
-// 对 self 实体的组件求值 ConditionExpr（与全局 evaluateCondition 镜像，但读 getComponent(eid,type)）。
+// 对 self 实体的组件求值 ConditionExpr（P2a：与全局求值同一份内核实现·self 作用域=读自身那一份·id 空串通配）。
 export function evaluateSelfCondition(world: IWorld, eid: EntityId, expr: ConditionExpr): boolean {
-  switch (expr.kind) {
-    case 'always': return true;
-    case 'and': return expr.of.every((e) => evaluateSelfCondition(world, eid, e));
-    case 'or': return expr.of.some((e) => evaluateSelfCondition(world, eid, e));
-    case 'not': return !evaluateSelfCondition(world, eid, expr.of);
-    case 'resource': {
-      const r = world.getComponent<Resource>(eid, 'Resource');
-      if (!r || (expr.id && r.id !== expr.id)) return false;
-      return cmp(r.current, expr.cmp, expr.value); // self 下 vsResource 无意义（一实体一 Resource），用静态 value
-    }
-    case 'flag': {
-      const f = world.getComponent<Flag>(eid, 'Flag');
-      if (!f || (expr.id && f.id !== expr.id)) return false;
-      return f.active === (expr.equals ?? true);
-    }
-    case 'state': {
-      const s = world.getComponent<State>(eid, 'State');
-      if (!s || (expr.fsmId && s.fsmId !== expr.fsmId)) return false;
-      return s.current === expr.equals;
-    }
-    case 'timer': {
-      const t = world.getComponent<Timer>(eid, 'Timer');
-      if (!t || (expr.id && t.id !== expr.id)) return false;
-      return cmp(t.elapsed, expr.cmp, expr.value);
-    }
-    case 'string': {
-      const v = world.getComponent<StringVar>(eid, 'StringVar');
-      if (!v || (expr.id && v.id !== expr.id)) return false;
-      return v.value === expr.equals;
-    }
-  }
+  return evalCondition(selfCtx(world, eid), expr);
 }
 
 function applySelfAction(world: IWorld, eid: EntityId, a: SelfAction): void {
   switch (a.kind) {
-    case 'set-flag': {
-      const f = world.getComponent<Flag>(eid, 'Flag');
-      if (f) f.active = a.value === true || a.value === 'true';
-      break;
-    }
-    case 'modify-resource': {
-      const r = world.getComponent<Resource>(eid, 'Resource');
-      if (r) {
-        const v = Number(a.value);
-        const next = a.op === 'set' ? v : r.current + v;
-        r.current = next < r.min ? r.min : next > r.max ? r.max : next;
-      }
-      break;
-    }
+    // 三种逻辑动词走规则内核 applyWrite（P2a）：self 作用域·目标 = 自身那一份（id 通配）·唯一的一份 clamp。
+    case 'set-flag':
+    case 'modify-resource':
     case 'set-state': {
-      const s = world.getComponent<State>(eid, 'State');
-      if (s) s.current = String(a.value);
+      applyWrite(selfCtx(world, eid), { to: writeTargetOf(a.kind, ''), op: a.op, value: a.value });
       break;
     }
     case 'destroy': {
@@ -128,19 +79,18 @@ export const selfRuleCapability = defineCapability({
 
   components: {
     provides: {
-      SelfRule: {
+      SelfRule: defineComponent('SelfRule', {
+        when: ConditionExprSchema,
+        do: t.arr(SelfActionSchema, 'SelfAction[]：施于自身；spawn 发 SpawnRequest(at self/target)'),
+        once: t.opt(t.bool('true=条件上升沿只施一次（armed 迟滞，回落复位）；缺省=条件成立每拍施')),
+        armed: t.opt(t.bool('内部（once 迟滞状态）')),
+        whenGlobal: t.opt(ConditionExprSchema),
+      }, {
         category: 'config',
-        describe: '实体本地规则：对自身组件求 when、对自身施 do。once=上升沿一次（迟滞）；缺省每拍。',
-        fields: {
-          when: { type: 'string', describe: 'ConditionExpr，按**自身**组件求值（resource/flag/state/timer/string 读自身那份）' },
-          do: { type: 'string', describe: 'SelfAction[]：{kind:set-flag|modify-resource|set-state|destroy|spawn, value?, op?, template?, at?}，施于自身；spawn 发 SpawnRequest(at self/target)' },
-          once: { type: 'boolean', describe: 'true=条件上升沿只施一次（armed 迟滞，回落复位）；缺省=条件成立每拍施' },
-          armed: { type: 'boolean', describe: '内部（once 迟滞状态）' },
-          whenGlobal: { type: 'string', describe: 'ConditionExpr，按**全局** id 求值的阶段门(REQ-F-035)，与 when 取 AND：备战/结算不动手(in_combat)、回合行动门、全场暂停。缺省不设=零迁移' },
-        },
-      },
+        describe: '实体本地规则：对自身组件求 when、对自身施 do。once=上升沿一次（迟滞）；缺省每拍。whenGlobal=按全局 id 求值的阶段门(REQ-F-035)，与 when 取 AND。',
+      }),
     },
-    reads: ['SelfRule', 'Resource', 'Flag', 'State', 'Timer', 'StringVar', 'Transform', 'Relation'],
+    reads: ['SelfRule', 'Resource', 'Flag', 'State', 'Timer', 'StringVar', 'Transform', 'Relation', 'Cooldowns'],
     writes: ['SelfRule', 'Flag', 'Resource', 'State', 'DestroyRequest', 'SpawnRequest'],
     consumes: [],
   },
@@ -160,7 +110,7 @@ export const selfRuleCapability = defineCapability({
       // hitbox→resource-apply→self-rule 合成显式环，无解）。写 SpawnRequest/DestroyRequest 与
       // caster/mortal 仅为同汇（请求集合语义，writer 间无需定序）。无这些系统的世界 id 被忽略。
       runsAfter: ['flow', 'resource-apply', 'hitbox', 'zone-occupancy', 'group-count'],
-      reads: ['SelfRule', 'Resource', 'Flag', 'State', 'Timer', 'StringVar', 'Transform', 'Relation'],
+      reads: ['SelfRule', 'Resource', 'Flag', 'State', 'Timer', 'StringVar', 'Transform', 'Relation', 'Cooldowns'],
       writes: ['SelfRule', 'Flag', 'Resource', 'State', 'DestroyRequest', 'SpawnRequest'],
       consumes: [],
       execute(world: IWorld) {

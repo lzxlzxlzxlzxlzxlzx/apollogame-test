@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "include": [
+    "../src/vite-env.d.ts",
+    "../src/authoring/life-host-descriptor-core.ts",
+    "../src/authoring/life-host-descriptor.test.ts",
+    "../src/assembly/life-host/life-hud.ts",
+    "../src/assembly/life-host/life-game-host.ts",
+    "../src/launcher/life-game-host.integration.test.ts",
+    "../src/engine/host/life-input-routing.test.ts",
+    "../src/engine/host/life-hud-overlay.test.ts",
+    "../src/engine/host/life-ui-skin*.ts",
+    "./audits/life-ui-skin*.ts"
+  ]
+}

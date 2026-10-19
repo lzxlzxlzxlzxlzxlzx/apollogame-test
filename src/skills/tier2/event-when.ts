@@ -1,4 +1,7 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { defineComponent } from '@engine/core/define-component.js';
+import { t } from '@engine/core/schema.js';
+import { ConditionExprSchema } from '@engine/protocol/schemas/logic.js';
 import type { EventWhen, Signal } from '@engine/protocol/components.js';
 import { evaluateCondition, buildConditionLookup } from './condition.js';
 
@@ -30,28 +33,27 @@ export const eventWhenCapability = defineCapability({
 
   components: {
     provides: {
-      EventWhen: {
+      EventWhen: defineComponent('EventWhen', {
+        signal: t.str('触发时产出的信号名'),
+        when: ConditionExprSchema,
+        mode: t.enum(['edge', 'level'] as const, "触发模式：edge=上升沿一次(迟滞)；level=为真时每帧持续"),
+        armed: t.bool('边沿检测内部状态（初始 false）'),
+        source: t.opt(t.entity('代发：产出的 Signal.source 填这个实体而非本实体。给**按 source 认人**的消费方用（如 matrix-duel 出招接缝按侧认人）；缺省=本实体')),
+      }, {
         category: 'config',
         describe: '声明「条件 → 信号」：条件树 when + 信号名 signal + 触发模式 mode + 边沿状态 armed。',
-        fields: {
-          signal: { type: 'string', describe: '触发时产出的信号名' },
-          when: { type: 'string', describe: '布尔条件树 ConditionExpr（结构化对象：and/or/not + resource/flag/state 叶子）' },
-          mode: { type: 'string', describe: "触发模式 'edge'|'level'：edge=上升沿一次(迟滞)；level=为真时每帧持续" },
-          armed: { type: 'boolean', describe: '边沿检测内部状态（初始 false）' },
-          source: { type: 'EntityId', describe: '代发：产出的 Signal.source 填这个实体而非本实体。给**按 source 认人**的消费方用（如 matrix-duel 出招接缝按侧认人）——「一规则一个专属实体」的范式会让 source 永远是规则实体，而一实体一组件又不许把多份 EventWhen 挤到主体上。同 KeyBinding.source。缺省=本实体（零回归）；空串硬抛。' },
-        },
-      },
-      Signal: {
+      }),
+      Signal: defineComponent('Signal', {
+        name: t.str('信号名（= EventWhen.signal）'),
+        source: t.entity('发出信号的 EventWhen 实体 id'),
+        arg: t.opt(t.str('可选参数载荷（带参动作·如「买哪件」card_42）')),
+      }, {
         category: 'event',
         describe: '某 EventWhen 这帧触发了。每帧先清后标，直接挂在该 EventWhen 实体上，下游 query Signal 消费。',
-        fields: {
-          name: { type: 'string', describe: '信号名（= EventWhen.signal）' },
-          source: { type: 'EntityId', describe: '发出信号的 EventWhen 实体 id' },
-        },
-      },
+      }),
     },
-    reads: ['EventWhen', 'Resource', 'Flag', 'State'],
-    writes: ['Signal'],
+    reads: ['EventWhen', 'Resource', 'Flag', 'State', 'Timer', 'StringVar', 'Cooldowns'], // Timer/StringVar：条件树 kind:'timer'/'string' 经 buildConditionLookup 读（P1a 严格模式补齐·此前漏报）
+    writes: ['Signal', 'EventWhen'], // EventWhen：edge 模式改自身 armed（P1a 严格模式补齐·此前漏报）
     consumes: [],
   },
 
@@ -60,8 +62,8 @@ export const eventWhenCapability = defineCapability({
   systems: [
     {
       id: 'event-when',
-      reads: ['EventWhen', 'Resource', 'Flag', 'State'],
-      writes: ['Signal'],
+      reads: ['EventWhen', 'Resource', 'Flag', 'State', 'Timer', 'StringVar', 'Cooldowns'], // Timer/StringVar：条件树 kind:'timer'/'string' 经 buildConditionLookup 读（P1a 严格模式补齐·此前漏报）
+      writes: ['Signal', 'EventWhen'], // EventWhen：edge 模式改自身 armed（P1a 严格模式补齐·此前漏报）
       consumes: [],
       execute(world) {
         // 每帧重算：先清掉上一帧的 Signal（直接挂在 EventWhen 实体上，removeComponent 即可，

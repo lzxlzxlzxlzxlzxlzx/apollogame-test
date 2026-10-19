@@ -1,6 +1,7 @@
 # ZeroCraft Preview — 原子 Skill 清单 v6 (游戏元素周期表)
 
 > ⚠ **历史文档（口径已过期）**：原子数/能力数/游戏清单/测试数以机读真相为准（`docs/llm-onboarding.md` §0）。本文仅存考古价值，新 session/新 LLM 勿以此为教材。
+> **原子/能力的机读清单 = `src/assembly/capability-registry.gen.ts`**（生成物·每能力一行 id + provides·`npm run gen:registry` 重生成）；本表没有的 controllable / overlap-detect-3d / navmesh-bake / collision-resolve-3d 以它为准。底层缺什么的评审见 `docs/design/engine-base-tier-review-2026-09-06.md`。
 
 > **判定标准：能用其他原子的组合描述 → 不是原子。每个原子回答一个且仅一个问题。**
 >
@@ -76,6 +77,8 @@
 |---|------|-----------|-----------|
 | G1 | **tag** | `Tag { flags: Bitmask }` | 实体属于哪些分类？ |
 | G2 | **relation** | `Relation { kind, targetId }` | 实体跟谁有什么逻辑关系？（targeting、owned-by） |
+| G3 | **owner**（2026-09-08 补） | `Owner { ownerId, team }` | 它属于谁？站哪边？ |
+| G4 | **group**（2026-09-08 补） | `Group { id, members[], capacity? }` | 它装着哪些实体？什么顺序？最多几个？ |
 
 > tag 用 Bitmask——60Hz 下位运算 O(1)。
 > relation 只处理非空间逻辑关联，空间父子由 hierarchy(A2) 承担。

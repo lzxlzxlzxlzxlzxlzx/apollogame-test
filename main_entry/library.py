@@ -50,14 +50,29 @@ def _git_game(game_dir: Path, args: list[str], timeout: int = 15):
                           encoding='utf-8', errors='replace', timeout=timeout)
 
 def _git_commit_all(game_dir: Path, message: str) -> bool:
-    """有 git → init（首次）+ add -A + commit，返回 True；无 git → False（调用方走快照降级）。
-    空提交（内容没变）返回非零码但无害，照旧返回 True。"""
+    """有 git → init（首次）+ add -A + commit，成功返回 True；无 git / **真失败** → False（调用方走快照降级）。
+
+    ⚠ **退出码必须查**（独立审查 2026-09-12 打回）：首版 init/add/commit 三步一个退出码都不看、
+    最后无条件 `return True` —— git 锁冲突、权限错、仓损坏全都被伪装成"版本已保存"。
+    版本保存是**回滚的底牌**，假成功等于底牌悄悄没了，比直接报错危险得多。
+    唯一该当成功的非零码是 `nothing to commit`（内容没变），其余一律判失败让调用方降级到快照。
+    """
     if not _git_ok():
         return False
     if not (game_dir / '.git').exists():
-        _git_game(game_dir, ['init', '-q'])
-    _git_game(game_dir, ['add', '-A'])
-    _git_game(game_dir, [*_GIT_AUTHOR, 'commit', '-q', '-m', message])
+        r = _git_game(game_dir, ['init', '-q'])
+        if r.returncode != 0:
+            return False
+    r = _git_game(game_dir, ['add', '-A'])
+    if r.returncode != 0:
+        return False
+    r = _git_game(game_dir, [*_GIT_AUTHOR, 'commit', '-q', '-m', message])
+    if r.returncode != 0:
+        # 「没有要提交的东西」= 内容没变，是正常路径；别的非零码都是真失败。
+        blob = f'{r.stdout or ""}{r.stderr or ""}'
+        if 'nothing to commit' in blob or 'nothing added to commit' in blob or 'no changes added' in blob:
+            return True
+        return False
     return True
 
 def _snapshot(game_dir: Path, manifest: dict) -> str:

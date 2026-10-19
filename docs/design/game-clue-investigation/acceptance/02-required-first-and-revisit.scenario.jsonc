@@ -1,0 +1,42 @@
+// author: GD
+// S4 条款：必需线索只有第一次“收录”推进 0→1；重开已收录证物仅回看，不重复计数。
+// UI 对账：investigate.lock = 窗锁热点；clue.collect = 特写“收录线索”；
+// investigation.close = 重看特写的“返回现场”，首次收录由演出自动回现场。
+// 对抗目标：调查时就计数、首次收录漏计数、重复回看又计数，任一均须转红。
+{
+  "name": "必需窗锁首次收录且重复回看幂等",
+  "game": "game-clue-investigation",
+  "seed": 4102,
+  "steps": [
+    { "expect": [
+      { "res": "required-collected", "eq": 0 },
+      { "flag": "collected.lock", "eq": false }
+    ] },
+    { "signal": "investigate.lock" },
+    { "waitUntil": [
+      { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "clue-reveal" },
+      { "flag": "viewed.lock", "eq": true }
+    ], "cap": 30 },
+    { "expect": [
+      { "res": "required-collected", "eq": 0 },
+      { "flag": "collected.lock", "eq": false }
+    ] },
+    { "signal": "clue.collect" },
+    { "waitUntil": [
+      { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "clue-collected" },
+      { "res": "required-collected", "eq": 1 },
+      { "flag": "collected.lock", "eq": true }
+    ], "cap": 30 },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 180 },
+    { "signal": "investigate.lock" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "clue-reveal" } ], "cap": 30 },
+    { "expect": [
+      { "res": "required-collected", "eq": 1 },
+      { "flag": "collected.lock", "eq": true },
+      { "flag": "collected.prints", "eq": false }
+    ] },
+    { "signal": "investigation.close" },
+    { "waitUntil": [ { "comp": { "entity": "investigation-flow", "component": "GameFlow", "field": "current" }, "eq": "scene-idle" } ], "cap": 30 },
+    { "expect": [ { "res": "required-collected", "eq": 1 } ] }
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "chapters": {
+    "c-belong": {
+      "nodes": {
+        "n-end-stay": {
+          "endingId": "end-stay",
+          "kind": "ending",
+          "milestoneId": "m-belong",
+          "routeId": "common"
+        },
+        "n-rules": {
+          "kind": "line-slot",
+          "milestoneId": "m-belong",
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-end-stay"
+          },
+          "routeId": "common"
+        }
+      },
+      "sceneId": "s-gate",
+      "start": "n-rules",
+      "title": "成为庄园的一部分"
+    },
+    "c-cipher": {
+      "nodes": {
+        "n-pair": {
+          "kind": "line-slot",
+          "milestoneId": "m-cipher",
+          "next": {
+            "chapterId": "c-workshop",
+            "nodeId": "n-bond"
+          },
+          "routeId": "common"
+        }
+      },
+      "sceneId": "s-cipher",
+      "start": "n-pair",
+      "title": "破译室"
+    },
+    "c-gate": {
+      "nodes": {
+        "n-choice": {
+          "kind": "choice",
+          "milestoneId": "m-gate",
+          "options": [
+            {
+              "id": "opt-leave",
+              "next": {
+                "chapterId": "c-leave",
+                "nodeId": "n-walk"
+              }
+            },
+            {
+              "id": "opt-stay",
+              "next": {
+                "chapterId": "c-stay",
+                "nodeId": "n-remain"
+              }
+            }
+          ],
+          "routeId": "common"
+        }
+      },
+      "sceneId": "s-gate",
+      "start": "n-choice",
+      "title": "外墙园门"
+    },
+    "c-hall": {
+      "nodes": {
+        "n-meet": {
+          "kind": "line-slot",
+          "milestoneId": "m-hall",
+          "next": {
+            "chapterId": "c-cipher",
+            "nodeId": "n-pair"
+          },
+          "routeId": "common"
+        }
+      },
+      "sceneId": "s-hall",
+      "start": "n-meet",
+      "title": "门厅"
+    },
+    "c-leave": {
+      "nodes": {
+        "n-walk": {
+          "kind": "line-slot",
+          "milestoneId": "m-leave",
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-life"
+          },
+          "routeId": "common"
+        }
+      },
+      "sceneId": "s-gate",
+      "start": "n-walk",
+      "title": "走出庄园"
+    },
+    "c-outside": {
+      "nodes": {
+        "n-end-leave": {
+          "endingId": "end-leave",
+          "kind": "ending",
+          "milestoneId": "m-outside",
+          "routeId": "common"
+        },
+        "n-life": {
+          "kind": "line-slot",
+          "milestoneId": "m-outside",
+          "next": {
+            "chapterId": "c-outside",
+            "nodeId": "n-end-leave"
+          },
+          "routeId": "common"
+        }
+      },
+      "sceneId": "s-outside",
+      "start": "n-life",
+      "title": "外面的新生活"
+    },
+    "c-stay": {
+      "nodes": {
+        "n-remain": {
+          "kind": "line-slot",
+          "milestoneId": "m-stay",
+          "next": {
+            "chapterId": "c-belong",
+            "nodeId": "n-rules"
+          },
+          "routeId": "common"
+        }
+      },
+      "sceneId": "s-gate",
+      "start": "n-remain",
+      "title": "留在园中"
+    },
+    "c-workshop": {
+      "nodes": {
+        "n-bond": {
+          "kind": "line-slot",
+          "milestoneId": "m-workshop",
+          "next": {
+            "chapterId": "c-gate",
+            "nodeId": "n-choice"
+          },
+          "routeId": "common"
+        }
+      },
+      "sceneId": "s-workshop",
+      "start": "n-bond",
+      "title": "地下工坊"
+    }
+  },
+  "entry": {
+    "chapterId": "c-hall",
+    "nodeId": "n-meet"
+  },
+  "routesDraftId": "routes-4",
+  "sceneSlots": [
+    {
+      "id": "s-hall",
+      "locationId": "gate-hall"
+    },
+    {
+      "id": "s-cipher",
+      "locationId": "cipher-room"
+    },
+    {
+      "id": "s-workshop",
+      "locationId": "workshop"
+    },
+    {
+      "id": "s-gate",
+      "locationId": "garden-gate"
+    },
+    {
+      "id": "s-outside",
+      "locationId": "outside"
+    }
+  ]
+}

@@ -10,7 +10,7 @@
 // 不是游戏数据——这正是契约里「工程师写 mountUI/host 层」该待的地方。
 
 import { mountUI, showToast, resolveBindings, resolveDialogue } from '@zerocraft/engine/ui/components/index.js';
-import type { UITheme, UIDataSource, LayoutNode } from '@zerocraft/engine/ui/components/index.js';
+import type { UITheme, UIDataSource, LayoutNode, ActionSink } from '@zerocraft/engine/ui/components/index.js';
 import { createDialogueWorld, type DialogueWorld } from './dialogue-world.js';
 import { buildGallery, modalOverlay, drawerOverlay, INITIAL_CONTROLS, MODULE_NO, type ControlsState } from './gallery.js';
 import { buildHandlers } from './handlers.js';
@@ -160,7 +160,7 @@ export function mount(container: HTMLElement): () => void {
   function showOverlay(node: LayoutNode | null): void {
     overlayNode = node;
     if (overlayTeardown) { overlayTeardown(); overlayTeardown = null; }
-    if (node) overlayTeardown = mountUI(overlayHost, node, handlers, theme());
+    if (node) overlayTeardown = mountUI(overlayHost, node, handlers, theme(), galleryActionSink);
   }
 
   const handlers = buildHandlers({
@@ -231,6 +231,12 @@ export function mount(container: HTMLElement): () => void {
       rerender();
     },
   });
+
+  // 展示台把闭集 ActionSink 动作适配回既有 HandlerMap；WheelEvent 的捕获、归一化与
+  // Modal/滚动优先级均留在 mountUI，game-i 不写自由 DOM 监听。
+  const galleryActionSink: ActionSink = {
+    enqueueAction(name, value) { handlers[name]?.(value?.arg); },
+  };
 
   // 渲染前用数据源把 bind 节点解析成字面值（活 HUD·resolveBindings 返回新树·纯函数）。
   // activeTab 恒为首页常量：Tab 切换由 mountUI 内建就地处理（不重渲），数据里 active 不变 →
@@ -336,7 +342,7 @@ export function mount(container: HTMLElement): () => void {
   }
 
   // 挂载一次；之后改状态都走 ui.update 局部更新（只补丁变化的子树·不整树重挂·Tab/滚动/输入态不丢·无黑屏）。
-  let ui = mountUI(galleryHost, buildTree(), handlers, theme());
+  let ui = mountUI(galleryHost, buildTree(), handlers, theme(), galleryActionSink);
   logUi = mountUI(logPane, buildLogPanel(), {}, theme()); // 事件日志面板：纯 LayoutNode 走 ZeroCraft Kit
   bindInputPad(); // 初次挂载后绑捕获板监听
   syncStage();    // 初次挂载：若直接进 sim 模块则挂渲染器
@@ -350,7 +356,7 @@ export function mount(container: HTMLElement): () => void {
       fresh.style.cssText = galleryHostCss;
       galleryHost.replaceWith(fresh);
       galleryHost = fresh;
-      ui = mountUI(galleryHost, buildTree(activeTab), handlers, theme()); // 挂在原停留页
+      ui = mountUI(galleryHost, buildTree(activeTab), handlers, theme(), galleryActionSink); // 挂在原停留页
       if (overlayNode) showOverlay(overlayNode); // 浮层也换新皮
       reselectTab(); // 换皮后重选原 tab：程序化「点一下」逼重绘（修 M1 黑字）
     } else {

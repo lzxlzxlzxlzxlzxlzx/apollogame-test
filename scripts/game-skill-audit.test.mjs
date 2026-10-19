@@ -32,6 +32,12 @@ beforeAll(() => {
   put('games/fx-clock/sim.ts', 'export const t0 = Date.now();\nexport const t1 = performance.now();\n');
   // ③ DOM 逃生两式同文件
   put('games/fx-dom/hack.ts', "document.body.insertAdjacentHTML('beforeend', '<b>x</b>');\ndocument.write('y');\n");
+  put('games/fx-cart-ledger/logic.ts', 'export const value = 1;\n');
+  put('library/fx-cart-ledger/manifest.json', '{}\n');
+  put('library/fx-cart-ledger/art/art-ledger.json', '{"rows":[]}\n');
+  put('games/fx-cart-shadow/logic.ts', 'export const value = 1;\n');
+  put('library/fx-cart-shadow/manifest.json', '{}\n');
+  put('public/games/fx-cart-shadow/art/art-ledger.json', '{"rows":[]}\n');
 });
 afterAll(() => rmSync(TMP, { recursive: true, force: true }));
 
@@ -46,6 +52,17 @@ function runAudit(games, baselineObj) {
   });
   return { code: r.status, all: (r.stdout ?? '') + (r.stderr ?? '') };
 }
+
+describe('卡带美术台账路径', () => {
+  it('library 台账消除假缺账；同名 public 旧账不能掩盖卡带缺账', () => {
+    const found = runAudit(['fx-cart-ledger']);
+    expect(found.code).toBe(0);
+    expect(found.all).not.toContain('无美术台账');
+    const shadow = runAudit(['fx-cart-shadow']);
+    expect(shadow.code).toBe(0);
+    expect(shadow.all).toContain('无美术台账');
+  });
+});
 
 describe('Q1 新红旗 ①：React 屏逃逸（.tsx / from react）', () => {
   it('.tsx 文件 → 红判 FAIL + 棘轮拦 + 点名文件', () => {

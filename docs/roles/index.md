@@ -11,6 +11,8 @@
 > 做游戏的任务：宣布「完成」必须贴 node scripts/game-pipeline.mjs board <slug> 全绿输出——不全绿只许说「做到 SN」。
 > ```
 
+> 总览与判词（角色 × 好处 × 工作流 × 初始化差异·2026-09-10）：`docs/workflow/agent-team-overview.md`。
+
 ## 角色名录（8 正式 + 1 草案）
 
 | 角色 ID | 名称 | 一句话职责 | 域（写权限） | 角色卡 |

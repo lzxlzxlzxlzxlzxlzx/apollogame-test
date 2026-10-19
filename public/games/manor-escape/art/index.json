@@ -1,0 +1,815 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "manor-escape/bg-cipher",
+      "type": "texture",
+      "description": "破译室",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/backgrounds/bg-cipher.png",
+      "category": "background",
+      "tags": [
+        "manor-escape",
+        "background"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 2880,
+        "height": 1800,
+        "transparent": false,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "e8adc6a656ceb149206dc96828f31e5f5bd6d256dcd3d520093b624f010513ec",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/backgrounds/bg-cipher.png"
+      }
+    },
+    {
+      "id": "manor-escape/bg-gate",
+      "type": "texture",
+      "description": "外墙园门",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/backgrounds/bg-gate.png",
+      "category": "background",
+      "tags": [
+        "manor-escape",
+        "background"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 2880,
+        "height": 1800,
+        "transparent": false,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "ad95d43ac58a6b80423950a9080564bd308cc1bdcb872df48358bfadc518d750",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/backgrounds/bg-gate.png"
+      }
+    },
+    {
+      "id": "manor-escape/bg-hall",
+      "type": "texture",
+      "description": "门厅",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/backgrounds/bg-hall.png",
+      "category": "background",
+      "tags": [
+        "manor-escape",
+        "background"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 2880,
+        "height": 1800,
+        "transparent": false,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "786052d1068ed9fa52e3dc44bb3ed30ed054b973bfff93ba4d20c31f66ddb1f7",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/backgrounds/bg-hall.png"
+      }
+    },
+    {
+      "id": "manor-escape/bg-outside",
+      "type": "texture",
+      "description": "庄园外",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/backgrounds/bg-outside.png",
+      "category": "background",
+      "tags": [
+        "manor-escape",
+        "background"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 2880,
+        "height": 1800,
+        "transparent": false,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "bd77936b081aa033069bdb4ed7fdd703a1c5d2136fb4840c5a7bfbf60ec8c048",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/backgrounds/bg-outside.png"
+      }
+    },
+    {
+      "id": "manor-escape/bg-workshop",
+      "type": "texture",
+      "description": "地下工坊",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/backgrounds/bg-workshop.png",
+      "category": "background",
+      "tags": [
+        "manor-escape",
+        "background"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 2880,
+        "height": 1800,
+        "transparent": false,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "251cc0fc5a207b187bb778aefe13ed954d865c6c1237aac60e730ad415e2e960",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/backgrounds/bg-workshop.png"
+      }
+    },
+    {
+      "id": "manor-escape/cg-belong",
+      "type": "texture",
+      "description": "成为庄园的一部分",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/cg/cg-belong.png",
+      "category": "cg",
+      "tags": [
+        "manor-escape",
+        "cg"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 2880,
+        "height": 1800,
+        "transparent": false,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "481da12d658b95a019c8f0de0c2eb45fb5dd4e0d2bb790a1f0683f586a48c410",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/cg/cg-belong.png"
+      }
+    },
+    {
+      "id": "manor-escape/cg-outside",
+      "type": "texture",
+      "description": "庄园外",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/cg/cg-outside.png",
+      "category": "cg",
+      "tags": [
+        "manor-escape",
+        "cg"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 2880,
+        "height": 1800,
+        "transparent": false,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "302d6095336dcaad66f833efb965b4f691c2a7203cb2005f9879a4e7d8697850",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/cg/cg-outside.png"
+      }
+    },
+    {
+      "id": "manor-escape/doctor-exam",
+      "type": "texture",
+      "description": "doctor 诊视",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/doctor-exam.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "1d36b86d2b19b21795d5fe6986a773e90e53bc5f8ca2236c7bd601f7ab59687b",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/doctor-exam.png"
+      }
+    },
+    {
+      "id": "manor-escape/doctor-frown",
+      "type": "texture",
+      "description": "doctor 皱眉",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/doctor-frown.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "da4ca2e0aabf1a360897799c350d5e75c5fe13902742068d5260ec5e7e56ee3e",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/doctor-frown.png"
+      }
+    },
+    {
+      "id": "manor-escape/doctor-low",
+      "type": "texture",
+      "description": "doctor 压低声音",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/doctor-low.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "baf4a659e9f4a67ed96fcc0be5f9daa434561fb85d44d2c98825ceaea91bacc4",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/doctor-low.png"
+      }
+    },
+    {
+      "id": "manor-escape/doctor-relief",
+      "type": "texture",
+      "description": "doctor 松一口气",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/doctor-relief.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "4f53eda9653fe4453efdaaa5fd58fa87a91cf93aff89061a74511afab7c9e7db",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/doctor-relief.png"
+      }
+    },
+    {
+      "id": "manor-escape/factory-block",
+      "type": "texture",
+      "description": "factory-chief 抬手拦截",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/factory-block.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "937b79c30ae454b318866f72c9e887e92bb3e8a861f541f7a7774f3550c3035e",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/factory-block.png"
+      }
+    },
+    {
+      "id": "manor-escape/factory-farewell",
+      "type": "texture",
+      "description": "factory-chief 目送",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/factory-farewell.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "57770fb72ff0dbf8bd561d210807476b1747e98a9790e2bcd2d5cfc7c7feaf0b",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/factory-farewell.png"
+      }
+    },
+    {
+      "id": "manor-escape/factory-gate",
+      "type": "texture",
+      "description": "factory-chief 停在园门前",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/factory-gate.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "fd61309da35daab5b13321e67f5c78c6faf33fe754ff11753180565d2a6887cc",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/factory-gate.png"
+      }
+    },
+    {
+      "id": "manor-escape/factory-patrol",
+      "type": "texture",
+      "description": "factory-chief 巡视",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/factory-patrol.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "285b30b6bb90ec9e453b9020ec2dfade65005bd945b15c80de08a4dfb7977bd8",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/factory-patrol.png"
+      }
+    },
+    {
+      "id": "manor-escape/gardener-guide",
+      "type": "texture",
+      "description": "gardener 认真指路",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/gardener-guide.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "6bbcd3ef0c51100859a605b0ef7b898fdd82ccf06fc2d87600e4c1eea1b15c0f",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/gardener-guide.png"
+      }
+    },
+    {
+      "id": "manor-escape/gardener-nod",
+      "type": "texture",
+      "description": "gardener 点头",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/gardener-nod.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "16bd1866578d0bf6c739c69c8ae7b919aca288abf3a1b3ffdeaebdefcb0f86fc",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/gardener-nod.png"
+      }
+    },
+    {
+      "id": "manor-escape/gardener-smile",
+      "type": "texture",
+      "description": "gardener 微笑",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/gardener-smile.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "28e67aedd516a00614cc964f2e1b3c23445f8d12d21c04ebfcbf86987976cc91",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/gardener-smile.png"
+      }
+    },
+    {
+      "id": "manor-escape/gardener-worry",
+      "type": "texture",
+      "description": "gardener 担忧",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/gardener-worry.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "812f16ba28c1b6061dbd96f29056b4a451b3b5ac3996d0bd31e70d1aac9d6ebf",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/gardener-worry.png"
+      }
+    },
+    {
+      "id": "manor-escape/mechanic-aside",
+      "type": "texture",
+      "description": "mechanic 别过脸",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/mechanic-aside.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "310aeaae0a1160ff05a1eef731b252e46f29773ac2683376c5f5719681ed8753",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/mechanic-aside.png"
+      }
+    },
+    {
+      "id": "manor-escape/mechanic-focus",
+      "type": "texture",
+      "description": "mechanic 专注",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/mechanic-focus.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "4645dc7da13fb75989af03a5a521cfe9d26906f473f535ee564ad3a0b7b8c01a",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/mechanic-focus.png"
+      }
+    },
+    {
+      "id": "manor-escape/mechanic-guard",
+      "type": "texture",
+      "description": "mechanic 戒备",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/mechanic-guard.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "ccfba5afadc682157b429a54fa557c6ae5ca1da6cd024ddaaec645eb43d71481",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/mechanic-guard.png"
+      }
+    },
+    {
+      "id": "manor-escape/mechanic-smile",
+      "type": "texture",
+      "description": "mechanic 轻轻笑",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/mechanic-smile.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "6a7aaf6452f84e39d2f63d4ccc8fcf5073a2b7b65e4fa81b54c2657b034c064f",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/mechanic-smile.png"
+      }
+    },
+    {
+      "id": "manor-escape/prisoner-alert",
+      "type": "texture",
+      "description": "prisoner 警惕",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/prisoner-alert.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "e1f330ae76a8e528b9f2d2d32f5c2c0f7fa6c2686c36f1238cfc3bc560878f0c",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/prisoner-alert.png"
+      }
+    },
+    {
+      "id": "manor-escape/prisoner-reason",
+      "type": "texture",
+      "description": "prisoner 讲道理",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/prisoner-reason.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "e8e415d172e06228f533b314851d86d50863aba1bf23f6328f61ed7a5d82f533",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/prisoner-reason.png"
+      }
+    },
+    {
+      "id": "manor-escape/prisoner-soft",
+      "type": "texture",
+      "description": "prisoner 看着她时放轻",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/prisoner-soft.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "e1817d8763791b611d2896e988dd4ddde6f5f64f5161ebe66d27114cdcfd521a",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/prisoner-soft.png"
+      }
+    },
+    {
+      "id": "manor-escape/prisoner-stubborn",
+      "type": "texture",
+      "description": "prisoner 受伤仍逞强",
+      "status": "filled",
+      "path": "/games/manor-escape/art/textures/portraits/prisoner-stubborn.png",
+      "category": "character.portrait",
+      "tags": [
+        "manor-escape",
+        "portrait"
+      ],
+      "source": "Owner 本机部署的 AI 生成",
+      "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+      "style": "illustrated",
+      "spec": {
+        "format": "png",
+        "width": 1126,
+        "height": 1690,
+        "transparent": true,
+        "usage": "sprite",
+        "colorSpace": "srgb"
+      },
+      "provenance": {
+        "sha256": "a264c4a030fd618527605f9450d9370c15c5a1ff917b8caf7b8d8abd81bf618c",
+        "generator": "owner-local-ai",
+        "approvedBy": "owner",
+        "approvedOn": "2026-10-16",
+        "candidateFile": "docs/design/galgame/drafts/manor-escape/art-candidates/portraits/prisoner-stubborn.png"
+      }
+    }
+  ]
+}

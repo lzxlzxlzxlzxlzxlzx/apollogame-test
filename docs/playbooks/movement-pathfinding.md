@@ -12,6 +12,9 @@
 | 表现字段平滑过渡 | `t1-tween` | 挂 `Tween{target,from,to,duration,easing}`（滑入/淡入/镜头）；不驱动被 Condition 读的值 |
 | 朝/背目标移动（AI） | `t2-steering` | 挂 `Steering{mode,speed,stopRange}`；配 `t3-aggro` 写 target + motion-apply |
 | 六边形棋盘沿格寻路 | `t2-grid-move` | 单位挂 `HexPos`+`GridMover{period}`+`Relation(target)`；世界放 `HexBoard`（内建 A*） |
+| 生活模拟的区域行动上下文 | `t2-life-activity` | 角色挂 `LifeActor`+`LifePosition`；在 `t2-life-navigation` 后派生 `LifeActivityContext`（半开 zone、邻近 footprint），行动副作用另接能力 |
+| Life 场景出口/往返 | `t2-life-navigation` + `t2-life-activity` | `LifeWarp` 只在玩家站上对应格并显式提交 `LifeWarpRequest` 时切场景；arrival spawn 可与反向 warp 同格，禁止自动触发/弹回。共享 Host 从可选 scene `title` / warp `label` 投影 HUD、出口标记与 `……（E）`，省略时稳定回退到目标 scene id；游戏层不得私写传送 UI/guard |
+| 生活模拟连续移动 | `t2-life-continuous-motion` | 浏览器宿主每次物理方向变化向 `InputQueue` 发完整 `life.move.state` 位掩码（up=1/down=2/left=4/right=8），解释器取同 tick 最后一份快照原子覆盖四个 held flag 并归一化 Velocity；旧 `life.move.start/stop` Signal 只作兼容。E/Tab/Enter/Escape 不改快照，对话范围生命周期交给 `t2-life-talk` |
 | 连续坐标绕障寻路 | `t2-pathfind` | 世界放 `NavGraph{nodes,edges}`；单位挂 `NavAgent{speed,arriveRange}`+`Relation(target)` |
 | 固定航点轨道匀速跑（巡逻/传送带） | `t2-path-follow` | 挂 `PathFollow{waypoints,speed,loop?}`（`pathFollowAt` 生成）；不索敌不绕障 |
 | 传送带队列：有序不重叠占位 + 递进（不超车） | `t2-path-follow` | 同上 + `queueId,minGap?`（REQ-CONVEYOR-CAP M1）：同 `queueId` 按 path 进度排序，每个非排头成员夹在「前一名进度 − minGap」；容量 full 旗标/空槽分配/死锁**不建新能力**，组合 `group-count`+`event-when(level 双向)`+`effect-apply`（空槽用既有 `t2-tray`），见 `conveyor-queue-compose.test.ts` |
@@ -21,6 +24,21 @@
 | 摩擦减速 / 不越界 | `t2-friction` / `t2-bounds-clamp` | 挂 `Bounds`+`Shape` 限界；friction 靠 Overlap 法线 |
 | 碰撞分层（跳过不该碰的组合，如 enemy-enemy） | `d1-overlap-detect` | `Shape.category/mask` 位掩码（Box2D 双向语义：`(catA&maskB)&&(catB&maskA)` 才碰）；缺省=全 1，两边不设=零回归 |
 | 导航网格烘焙 | `d2-navmesh-bake`（原子） | 静态几何烘焙成可走网格供寻路消费 |
+| **大规模同目标行军**（成百上千单位走向同一处） | `t2-flow-field` | 世界放 `FlowField{cellSize,cols,rows,goals[],blocked?,cost?}`（**多源** Dijkstra 铺满一次·无局部极小）；单位挂 `FlowAgent{fieldId,speed,arriveRange?}`。**一次铺场服务全部单位**——与 `t2-pathfind` 的「每单位各算一次」是**成本形状**之别，不是好坏之别 |
+| 大军别叠成一条线（软避让） | `t2-flow-field` + `FlowAgent.separation{weight}` | Reynolds 分离力（`offset/-d²`），**权重恒被钳在流场之下**（永不掉头）。**软承诺**：允许瞬时重叠、靠力弹开 |
+| 「不许穿模」的小队（硬避让） | `t2-flow-field` + `FlowAgent.orca{radius,timeHorizon?,maxNeighbors?}` | 移植自 RVO2（`src/skills/tier2/orca.ts`·Apache-2.0）。**与 separation 二选一**（同填 ORCA 优先）。⚠ 不是"保证不碰"——线性规划无可行解时落「最不违反」，实测把穿模从 ~90% 压到最坏 8%，不是 0 |
+
+### 走位四选一（成本形状分诊·别按"哪个高级"选）
+
+| 你的场景 | 用 | 为什么不是别的 |
+|---|---|---|
+| 固定轨/巡逻/传送带 | `t2-path-follow` | 不索敌不绕障，最便宜 |
+| 少量单位·各走各的目标·连续空间绕障 | `t2-pathfind`（NavGraph + A*） | 目标各不相同时流场没有共享收益；但**图一大就超线性**（实测 500 单位 / 2304 节点：首拍 534ms · 稳态 20.4ms/tick） |
+| 棋盘格逐格走（自走棋/战棋/塔防） | `t2-grid-move` | 六边格 A*，走位要"贴格" |
+| **大量单位·奔同一处**（RTS 行军/塔防怪潮） | `t2-flow-field` | 铺一次全场共享：2304 格铺场 ~0.9ms，之后每单位 O(1) 查表。**同规模比 A*-per-agent 每 tick 快两个数量级** |
+
+避让分三档（都不改走位·流场恒主导）：**不设**（会叠）→ **`separation`**（软·涌流观感·1000 单位 ~1.0ms/tick）→ **`orca`**（强·1000 单位 ~8.6ms/tick·**4000 单位超一帧预算**）。
+调参与实测全表见 `docs/design/game211/crowd-pathfinding-research.md` §10；**`timeHorizon` 非单调**（为中场调大会把终点段调塌），改它必须中场/终点一起量。
 
 ## ② 样例指针
 

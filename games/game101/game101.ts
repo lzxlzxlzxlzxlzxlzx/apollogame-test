@@ -8,7 +8,7 @@
 //   → 销毁该实例 + 置满槽 + 集齐发奖（钳限·可重置）。多槽（最多 3·orders.json needItems 数组）天然内建。
 // ⚠ 缺口（主程/PUI 域·数据已备待接）：加权掉落 REQ-TAPSPAWN（现固定产出）；异型限时菜单卡 REQ-UI-异型容器（PUI·现矩形卡顶着）。
 import { Engine } from '@zerocraft/engine/runtime/engine.js';
-import { QueuedInputSource } from '@zerocraft/engine/net/index.js';
+import { QueuedInputSource } from '@zerocraft/engine/net/host/index.js';
 import { mountHost } from '@zerocraft/engine/engine/host/mount-host.js';
 import { mountUI } from '@zerocraft/engine/ui/components/index.js';
 import type { HandlerMap, MountHandle } from '@zerocraft/engine/ui/components/index.js';

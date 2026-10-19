@@ -1,0 +1,52 @@
+{
+  "name": "园丁",
+  "group": "manor-escape",
+  "entries": [
+    {
+      "title": "简介",
+      "text": "求生者，认得园门和能住的园子。让同伴知道门外不是唯一能活下去的地方",
+      "description": "角色职责"
+    },
+    {
+      "title": "姓名",
+      "text": "园丁",
+      "description": "角色名"
+    },
+    {
+      "title": "人设",
+      "text": "温和、固执、观察细致。从只照料植物，到把园门的两条路讲给机械师听",
+      "description": "性格与变化"
+    },
+    {
+      "title": "外形",
+      "text": "轮廓：矮一些的少女，肩上扛着工具，帽檐压着发。服装：园艺围裙、草帽、短靴，手里是剪枝工具；不用限定时装。表情：微笑、认真指路、担忧、点头。",
+      "description": "画风与造型；立绘已由 Owner 于 2026-10-16 批准"
+    },
+    {
+      "title": "微笑",
+      "file": "manor-escape/gardener-smile.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    },
+    {
+      "title": "认真指路",
+      "file": "manor-escape/gardener-guide.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    },
+    {
+      "title": "担忧",
+      "file": "manor-escape/gardener-worry.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    },
+    {
+      "title": "点头",
+      "file": "manor-escape/gardener-nod.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    }
+  ],
+  "relations": [
+    {
+      "to": "prisoner",
+      "relation": "同伴：园丁把留下的那条路指给他看"
+    }
+  ]
+}

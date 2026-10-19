@@ -61,6 +61,7 @@ function showToast(title: string, body: string): void {
   }
   const el = document.createElement('div');
   el.className = 'apollo-steam-toast';
+  // eslint-disable-next-line zerocraft/no-html-injection -- 债：mock Steam 成就吐司（开发工具·title 来自本地成就表）→ P2b 收口改 LayoutNode Float
   el.innerHTML = `<div class="ico">🏆</div><div><div class="t">${title}</div><div class="b"></div></div>`;
   (el.querySelector('.b') as HTMLElement).textContent = body; // textContent 防注入
   document.body.appendChild(el);

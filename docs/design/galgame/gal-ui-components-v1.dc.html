@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GAL 通用 UI · 组件拼接验证 V1</title>
+  <style>
+    :root{color-scheme:dark;font-family:"Microsoft YaHei",system-ui,sans-serif}
+    *{box-sizing:border-box}
+    body{margin:0;background:#080c1e;color:#f5f0e7;overflow:hidden}
+    #frame{width:100vw;height:100vh;display:grid;place-items:center}
+    #stage{position:relative;width:1440px;height:900px;overflow:hidden;transform-origin:center center;background:radial-gradient(circle at 78% 12%,#5f608f 0,#292a58 19%,transparent 39%),radial-gradient(circle at 18% 110%,#4a325d,transparent 44%),linear-gradient(150deg,#11172f,#151833 45%,#0b122b);box-shadow:0 30px 80px #0009}
+    #stage:before{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(#d6daff66 1px,transparent 1px),radial-gradient(#ffffff55 1px,transparent 1px);background-size:64px 64px,117px 117px;background-position:8px 13px,41px 25px;opacity:.48}
+    .moon{position:absolute;right:115px;top:48px;width:145px;height:145px;border-radius:50%;background:#e1e2f2;box-shadow:0 0 65px #bdbeff7a,0 0 160px #9697e944;opacity:.72}
+    .top{position:absolute;z-index:4;left:70px;right:70px;top:24px;display:flex;justify-content:space-between;align-items:center}
+    .brand{font:600 16px Georgia,serif;letter-spacing:.22em;color:#dfd3af;text-shadow:0 2px 8px #090d22}
+    .topnav{display:flex;gap:10px}
+    button{font:inherit;color:inherit;cursor:pointer}
+    .small{border:1px solid #a99a7780;border-radius:20px;background:#12172dcf;padding:9px 19px;color:#e3ddce}
+    .small.active,.small:hover{background:#606297;color:#fff;border-color:#eee2ba}
+    .art-panel{position:absolute;z-index:2;left:70px;right:70px;top:88px;bottom:42px;border:84px solid transparent;border-image:url('ui-parts/panel-frame-v1.png') 120 fill / 84px / 0 stretch;filter:drop-shadow(0 22px 36px #02040bb0)}
+    .panel-content{position:absolute;z-index:3;left:160px;right:160px;top:159px;bottom:113px}
+    .heading{display:flex;justify-content:space-between;align-items:center;height:56px;border-bottom:1px solid #c4ad7c64;margin-bottom:16px}
+    h1{margin:0;color:#f4e4bc;font:600 36px Georgia,"Microsoft YaHei",serif;letter-spacing:.15em;text-shadow:0 2px 12px #000}
+    .subtitle{font-size:15px;color:#b6bad0;letter-spacing:.08em}
+    .tabs{display:flex;gap:28px;height:46px;margin:8px 0 24px}
+    .art-button{position:relative;isolation:isolate;border:0;background:none;padding:0 28px;min-width:148px;height:46px;font-size:18px;font-weight:600;text-shadow:0 2px 6px #000;transition:filter .18s,transform .18s}
+    .art-button:before{content:"";position:absolute;z-index:-1;inset:-5px -10px;background:url('ui-parts/button-default-v1.png') center / 100% 218% no-repeat}
+    .art-button:hover,.art-button.active{filter:brightness(1.35) drop-shadow(0 0 8px #a6aaff8f)}
+    .art-button:active{transform:translateY(2px)}
+    .art-button:disabled{opacity:.4;filter:grayscale(1);cursor:not-allowed}
+    .screen{display:none;height:100%}.screen.active{display:block}
+    .setting-columns{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+    .setting-group{background:#10193277;border:1px solid #b7a77a55;border-radius:14px;padding:14px 19px 10px;min-height:375px}
+    .setting-group h2{font-size:18px;color:#f1d89f;margin:0 0 8px;letter-spacing:.12em}
+    .setting-row{display:flex;align-items:center;gap:18px;min-height:65px;border-top:1px solid #ffffff1d}
+    .setting-row label,.setting-row .row-label{flex:0 0 170px;font-size:17px}
+    .setting-row output{width:48px;text-align:right;color:#d9c99e;font-variant-numeric:tabular-nums}
+    input[type=range]{appearance:none;-webkit-appearance:none;flex:1;height:7px;border-radius:6px;border:1px solid #b9a879;background:linear-gradient(90deg,#adb8ee 0%,#929dda var(--value,50%),#17213b var(--value,50%),#101629 100%);cursor:pointer}
+    input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:37px;height:37px;border:0;background:url('ui-parts/moonstone-knob-v1.png') center / 260% 180% no-repeat;filter:drop-shadow(0 0 5px #cad1ff)}
+    .switch{width:84px;height:31px;border:1px solid #c6ac71;border-radius:20px;background:#1b2343;position:relative}
+    .switch:before{content:"";position:absolute;left:4px;top:3px;width:23px;height:23px;background:#8191bb;border-radius:50%;box-shadow:0 0 6px #a7bdff88;transition:left .2s,background .2s}
+    .switch[aria-pressed=true]{background:#60679a}.switch[aria-pressed=true]:before{left:55px;background:#dde6ff}
+    .mode-buttons{display:flex;gap:9px;flex:1}.mode-buttons .small{padding:7px 14px}
+    .foot{position:absolute;left:0;right:0;bottom:0;height:61px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #c4ad7c64;padding-top:12px}
+    .help{font-size:14px;color:#aeb5cc;max-width:760px}.foot-actions{display:flex;gap:28px}
+    .slot-grid{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,130px);gap:13px 22px;margin-top:10px}
+    .slot{border:0;position:relative;display:flex;align-items:center;text-align:left;padding:15px 23px;background:url('ui-parts/save-slot-v1.png') center / 100% 205% no-repeat;transition:filter .18s,transform .18s}
+    .slot:hover,.slot.selected{filter:brightness(1.35) drop-shadow(0 0 5px #a3a7ff99)}.slot:active{transform:translateY(2px)}
+    .thumb{flex:0 0 166px;height:84px;margin-left:3px;margin-right:35px;background:linear-gradient(150deg,#3c406c,#1a213c);border-radius:4px;box-shadow:inset 0 0 20px #0009;display:grid;place-items:center;color:#aab5d7;font-size:28px}
+    .slot.filled .thumb{background:radial-gradient(circle at 67% 30%,#fcf4d1 0 9px,transparent 10px),linear-gradient(165deg,#776caa,#242f57 62%,#111c34)}
+    .slot-info{min-width:0;display:grid;gap:5px;line-height:1.3}.slot-info b{font-size:19px;color:#eee1c0}.slot-info span{font-size:14px;color:#b6bdd4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .pager{display:flex;align-items:center;gap:12px;color:#dbceab}.pager .small{padding:6px 12px}.pager b{font-size:15px;font-weight:500}
+    .save-foot{bottom:-6px}
+    #toast{position:absolute;z-index:6;left:50%;bottom:60px;transform:translateX(-50%);background:#11182dec;border:1px solid #d9c798;border-radius:20px;padding:12px 24px;opacity:0;pointer-events:none;transition:opacity .2s}
+    #toast.show{opacity:1}
+    .prototype-badge{position:absolute;z-index:4;right:78px;bottom:17px;color:#b7bfd1;font-size:11px;letter-spacing:.08em}
+  </style>
+</head>
+<body>
+  <div id="frame"><main id="stage" aria-label="GAL 组件拼接原型，逻辑画布 1440×900">
+    <div class="moon" aria-hidden="true"></div>
+    <header class="top"><div class="brand">GAL TEMPLATE · COMPONENT STUDY V1</div><nav class="topnav"><button class="small active" data-screen="settings">设置</button><button class="small" data-screen="save">保存</button><button class="small" data-screen="load">读取</button></nav></header>
+    <div class="art-panel" aria-hidden="true"></div>
+    <div class="panel-content">
+      <section id="settings" class="screen active"><div class="heading"><h1>系统设置</h1><span class="subtitle">文字 · 操作 · 音频</span></div>
+        <div class="tabs"><button class="art-button active" data-tab="text">文本</button><button class="art-button" data-tab="audio">音频</button><button class="art-button" data-tab="display">画面</button></div>
+        <div class="setting-columns"><div class="setting-group"><h2>阅读与推进</h2>
+          <div class="setting-row"><label for="speed">文字显示速度</label><input id="speed" type="range" min="0" max="100" value="50"><output for="speed">50</output></div>
+          <div class="setting-row"><label for="auto">自动播放间隔</label><input id="auto" type="range" min="0" max="10" value="3"><output for="auto">3 秒</output></div>
+          <div class="setting-row"><span class="row-label">跳过未读文本</span><button class="switch" aria-label="跳过未读文本" aria-pressed="false"></button></div>
+          <div class="setting-row"><span class="row-label">选择后继续自动播放</span><button class="switch" aria-label="选择后继续自动播放" aria-pressed="true"></button></div>
+          <div class="setting-row"><span class="row-label">滚轮向上回滚</span><button class="switch" aria-label="滚轮向上回滚" aria-pressed="true"></button></div>
+        </div><div class="setting-group"><h2>声音与显示</h2>
+          <div class="setting-row"><label for="bgm">背景音乐</label><input id="bgm" type="range" min="0" max="100" value="72"><output for="bgm">72</output></div>
+          <div class="setting-row"><label for="voice">角色语音</label><input id="voice" type="range" min="0" max="100" value="85"><output for="voice">85</output></div>
+          <div class="setting-row"><label for="sfx">环境与音效</label><input id="sfx" type="range" min="0" max="100" value="64"><output for="sfx">64</output></div>
+          <div class="setting-row"><label for="opacity">对话框不透明度</label><input id="opacity" type="range" min="0" max="100" value="90"><output for="opacity">90</output></div>
+          <div class="setting-row"><span class="row-label">显示方式</span><div class="mode-buttons"><button class="small active" data-mode="window">窗口</button><button class="small" data-mode="full">全屏</button></div></div>
+        </div></div>
+        <div class="foot"><span class="help">这是可交互的设计原型：滑杆、开关和选项可操作；不会写入真实游戏设置。</span><div class="foot-actions"><button class="art-button" id="reset">恢复默认</button><button class="art-button" id="done">返回</button></div></div>
+      </section>
+      <section id="saves" class="screen"><div class="heading"><h1 id="save-title">保存游戏</h1><span class="subtitle">选择一个存档位</span></div>
+        <div class="tabs"><button class="art-button active" data-mode-screen="save">保存</button><button class="art-button" data-mode-screen="load">读取</button><div style="flex:1"></div><div class="pager"><button class="small" id="prev">◀</button><b id="page-number">第 1 / 4 页</b><button class="small" id="next">▶</button></div></div>
+        <div class="slot-grid" id="slot-grid"></div>
+        <div class="foot save-foot"><span class="help" id="slot-help">选择存档位后可保存；此原型仅改动页面内的演示数据。</span><div class="foot-actions"><button class="art-button" id="slot-action" disabled>保存到此处</button><button class="art-button" id="slot-back">返回设置</button></div></div>
+      </section>
+    </div>
+    <div class="prototype-badge">AUTHORING-TIME PROTOTYPE · NOT ENGINE UI</div><div id="toast" role="status"></div>
+  </main></div>
+  <script>
+    const stage=document.querySelector('#stage');
+    const resize=()=>{stage.style.transform=`scale(${Math.min(innerWidth/1440,innerHeight/900)})`};addEventListener('resize',resize);resize();
+    const toast=(message)=>{const el=document.querySelector('#toast');el.textContent=message;el.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove('show'),2300)};
+    let screen='settings',mode='save',page=1,selected=-1;
+    const slots=Array.from({length:24},(_,i)=>i===0?{chapter:'第二章 · 月光下的约定',detail:'星见 澪 · 00:18:42'}:null);
+    function show(name){screen=name;document.querySelector('#settings').classList.toggle('active',name==='settings');document.querySelector('#saves').classList.toggle('active',name!=='settings');document.querySelectorAll('[data-screen]').forEach(b=>b.classList.toggle('active',b.dataset.screen===name));if(name!=='settings'){mode=name;selected=-1;renderSlots()}}
+    function renderSlots(){document.querySelector('#save-title').textContent=mode==='save'?'保存游戏':'读取游戏';document.querySelector('#page-number').textContent=`第 ${page} / 4 页`;document.querySelectorAll('[data-mode-screen]').forEach(b=>b.classList.toggle('active',b.dataset.modeScreen===mode));const grid=document.querySelector('#slot-grid');grid.replaceChildren();for(let n=0;n<6;n++){const index=(page-1)*6+n,data=slots[index],button=document.createElement('button');button.className=`slot ${data?'filled':''} ${selected===index?'selected':''}`;button.setAttribute('aria-label',`存档位 ${index+1}${data?'，'+data.chapter:'，空'}`);button.innerHTML=`<span class="thumb">${data?'':'◇'}</span><span class="slot-info"><b>存档位 ${String(index+1).padStart(2,'0')}</b><span>${data?data.chapter:'空存档位'}</span><span>${data?data.detail:'等待故事写入'}</span></span>`;button.onclick=()=>{selected=index;renderSlots()};grid.append(button)}const action=document.querySelector('#slot-action');action.textContent=mode==='save'?'保存到此处':'读取此存档';action.disabled=selected<0||(mode==='load'&&!slots[selected]);document.querySelector('#slot-help').textContent=mode==='save'?'选择存档位后可保存；此原型仅改动页面内的演示数据。':'只能读取已有存档；空槽不可读取。'}
+    document.querySelectorAll('[data-screen]').forEach(b=>b.onclick=()=>show(b.dataset.screen));
+    document.querySelectorAll('[data-mode-screen]').forEach(b=>b.onclick=()=>show(b.dataset.modeScreen));
+    document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));toast(`已切换到${b.textContent}分类；完整分类布局待定稿`)});
+    document.querySelectorAll('input[type=range]').forEach(input=>{const update=()=>{const out=input.nextElementSibling;out.textContent=input.id==='auto'?`${input.value} 秒`:input.value;input.style.setProperty('--value',`${100*(Number(input.value)-Number(input.min))/(Number(input.max)-Number(input.min))}%`)};input.addEventListener('input',update);update()});
+    document.querySelectorAll('.switch').forEach(b=>b.onclick=()=>b.setAttribute('aria-pressed',String(b.getAttribute('aria-pressed')!=='true')));
+    document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('active',x===b));toast(`显示方式：${b.textContent}（原型演示）`)});
+    document.querySelector('#prev').onclick=()=>{page=Math.max(1,page-1);selected=-1;renderSlots()};document.querySelector('#next').onclick=()=>{page=Math.min(4,page+1);selected=-1;renderSlots()};
+    document.querySelector('#slot-action').onclick=()=>{if(selected<0)return;if(mode==='save'){slots[selected]={chapter:'第二章 · 月光下的约定',detail:'星见 澪 · 00:18:42'};toast(`已写入演示存档位 ${selected+1}`)}else if(slots[selected])toast(`演示：读取存档位 ${selected+1}`);renderSlots()};
+    document.querySelector('#slot-back').onclick=()=>show('settings');document.querySelector('#done').onclick=()=>toast('原型预览：返回主菜单待接线');
+    document.querySelector('#reset').onclick=()=>{const values={speed:50,auto:3,bgm:72,voice:85,sfx:64,opacity:90};for(const [id,value]of Object.entries(values)){const el=document.getElementById(id);el.value=value;el.dispatchEvent(new Event('input'))}toast('已恢复原型默认值')};
+    renderSlots();
+  </script>
+</body>
+</html>

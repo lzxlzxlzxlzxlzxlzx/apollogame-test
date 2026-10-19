@@ -1,4 +1,5 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import type { Transform, Shape, Overlap } from '@engine/protocol/components.js';
 import { contactBetween, aabbOf } from '@engine/spatial/contact.js';
 import { DynamicAabbTree } from '@engine/spatial/aabb-tree.js';
@@ -49,7 +50,7 @@ export const overlapDetectCapability = defineCapability({
         for (const [id] of world.query('Overlap')) world.destroyEntity(id);
 
         // 宽相位：每帧从组件重建动态 AABB 树（按 id 升序插入 → 确定性、rollback 安全）。
-        const ids = world.query('Transform', 'Shape').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'Transform', 'Shape');
         const tree = new DynamicAabbTree();
         for (const id of ids) {
           const t = world.getComponent<Transform>(id, 'Transform')!;

@@ -1,0 +1,4 @@
+import { mountUI } from '../../src/ui/components/index.js';
+import { onyx } from '../../games/game-i/themes.js';
+const skin = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCI+PHJlY3Qgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjMjY0MDcwIi8+PC9zdmc+';
+mountUI(document.getElementById('root')!, { type:'Panel', id:'s2-panel', props:{skin,skinSize:{x:100,y:160},skinPosition:'center'}, layout:{padding:32,gap:14}, children:[{type:'Label',id:'s2-copy',props:{text:'面板正文在不透明皮层上方',color:'text'}},{type:'Button',id:'s2-button',props:{label:'确认',skin,skinSize:{x:100,y:220},skinPosition:'center',skinOutset:{x:8,y:5},action:'ok'}},{type:'Button',id:'s2-hero',props:{label:'主操作',sub:'副标题在皮层上方',kind:'hero',skin,skinSize:{x:100,y:220},skinPosition:'center',skinOutset:{x:8,y:5},disabled:true}}] }, {}, onyx);

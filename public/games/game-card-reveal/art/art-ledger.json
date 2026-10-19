@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "game": "game-card-reveal",
+  "mode": "consumed-assets",
+  "count": 9,
+  "artStyle": {
+    "packId": "starlight-indigo-teal-gold",
+    "note": "Only assets with a current P2–P5 render consumer are listed. Approved pack.back remains inventory in index.json, not a ledger consumption row."
+  },
+  "rows": [
+    {
+      "no": "art-01", "skinKey": "pack.front", "desc": "星辉卡包正面；八个环列卡包共用同一消费槽", "kind": "sprite", "status": "filled",
+      "slot": { "entity": "pack-0..7", "component": "Sprite", "field": "textureKey" },
+      "spec": { "w": 400, "h": 600, "transparent": true },
+      "gen": { "source": "design-handoff:pack-unified-ai-v1.png", "servedPath": "/games/game-card-reveal/art/textures/pack-front.png", "localId": "pack.front" }
+    },
+    {
+      "no": "art-02", "skinKey": "pack.tearTop", "desc": "沿冻结浅弧分离的卡包热封顶片", "kind": "sprite", "status": "filled",
+      "slot": { "entity": "tear-top", "component": "Sprite", "field": "textureKey" },
+      "spec": { "w": 400, "h": 600, "transparent": true },
+      "gen": { "source": "design-handoff:pack-unified-ai-v1.png", "servedPath": "/games/game-card-reveal/art/textures/pack-tear-top.png", "localId": "pack.tearTop" }
+    },
+    {
+      "no": "art-03", "skinKey": "pack.tearBody", "desc": "沿冻结浅弧分离的卡包下坠余片", "kind": "sprite", "status": "filled",
+      "slot": { "entity": "tear-body", "component": "Sprite", "field": "textureKey" },
+      "spec": { "w": 400, "h": 600, "transparent": true },
+      "gen": { "source": "design-handoff:pack-unified-ai-v1.png", "servedPath": "/games/game-card-reveal/art/textures/pack-tear-body.png", "localId": "pack.tearBody" }
+    },
+    {
+      "no": "art-04", "skinKey": "card.fallback", "desc": "宿主卡面独立加载失败时的中性备用卡面", "kind": "sprite", "status": "filled",
+      "slot": { "entity": "fallback / host-card:0..4", "component": "AssetManager + Sprite", "field": "textureKey" },
+      "spec": { "w": 260, "h": 390, "transparent": false },
+      "gen": { "source": "project-original-vector", "servedPath": "/games/game-card-reveal/art/cards/fallback.svg", "localId": "card.fallback" }
+    },
+    {
+      "no": "art-05", "skinKey": "card.preview.0", "desc": "预览模式第一张演示卡面", "kind": "sprite", "status": "filled",
+      "slot": { "entity": "host-card:0", "component": "AssetManager + Sprite", "field": "textureKey" },
+      "spec": { "w": 260, "h": 390, "transparent": false },
+      "gen": { "source": "design-handoff:prototype.dc.html", "servedPath": "/games/game-card-reveal/art/cards/preview-0.svg", "localId": "card.preview.0" }
+    },
+    {
+      "no": "art-06", "skinKey": "card.preview.1", "desc": "预览模式第二张演示卡面", "kind": "sprite", "status": "filled",
+      "slot": { "entity": "host-card:1", "component": "AssetManager + Sprite", "field": "textureKey" },
+      "spec": { "w": 260, "h": 390, "transparent": false },
+      "gen": { "source": "design-handoff:prototype.dc.html", "servedPath": "/games/game-card-reveal/art/cards/preview-1.svg", "localId": "card.preview.1" }
+    },
+    {
+      "no": "art-07", "skinKey": "card.preview.2", "desc": "预览模式第三张演示卡面", "kind": "sprite", "status": "filled",
+      "slot": { "entity": "host-card:2", "component": "AssetManager + Sprite", "field": "textureKey" },
+      "spec": { "w": 260, "h": 390, "transparent": false },
+      "gen": { "source": "design-handoff:prototype.dc.html", "servedPath": "/games/game-card-reveal/art/cards/preview-2.svg", "localId": "card.preview.2" }
+    },
+    {
+      "no": "art-08", "skinKey": "card.preview.3", "desc": "预览模式第四张演示卡面", "kind": "sprite", "status": "filled",
+      "slot": { "entity": "host-card:3", "component": "AssetManager + Sprite", "field": "textureKey" },
+      "spec": { "w": 260, "h": 390, "transparent": false },
+      "gen": { "source": "design-handoff:prototype.dc.html", "servedPath": "/games/game-card-reveal/art/cards/preview-3.svg", "localId": "card.preview.3" }
+    },
+    {
+      "no": "art-09", "skinKey": "card.preview.4", "desc": "预览模式第五张演示卡面", "kind": "sprite", "status": "filled",
+      "slot": { "entity": "host-card:4", "component": "AssetManager + Sprite", "field": "textureKey" },
+      "spec": { "w": 260, "h": 390, "transparent": false },
+      "gen": { "source": "design-handoff:prototype.dc.html", "servedPath": "/games/game-card-reveal/art/cards/preview-4.svg", "localId": "card.preview.4" }
+    }
+  ]
+}

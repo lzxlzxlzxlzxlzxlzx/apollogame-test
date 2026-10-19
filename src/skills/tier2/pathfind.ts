@@ -1,8 +1,10 @@
 import { defineCapability } from '@engine/core/define-capability.js';
+import { sortedIds } from '@engine/core/query.js';
 import { SystemPhase } from '@engine/core/types.js';
 import type { IWorld } from '@engine/core/types.js';
 import type { NavGraph, NavAgent, NavPath, Transform, Velocity, Relation, Status } from '@engine/protocol/components.js';
 import { astar } from '@engine/spatial/astar.js';
+import { dist } from '@engine/math/vec2.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  pathfind —— 连续自由空间寻路（航点图 NavGraph + 通用 A* + 沿路跟随）。grid-move（六格离散）的连续坐标对偶。
@@ -27,11 +29,7 @@ import { astar } from '@engine/spatial/astar.js';
 
 const TARGET = 'target';
 
-// 两点 Euclidean（确定性 IEEE sqrt）。
-function dist(ax: number, ay: number, bx: number, by: number): number {
-  const dx = bx - ax, dy = by - ay;
-  return Math.sqrt(dx * dx + dy * dy);
-}
+// 两点 Euclidean（确定性 IEEE sqrt）= @engine/math/vec2 `dist`（同序 dx = bx − ax, dy = by − ay）。
 
 // 世界点 → 最近航点下标（确定性：按下标序遍历·平方距离比较·相等取小下标）。空图 → -1。
 export function nearestNode(nav: NavGraph, x: number, y: number): number {
@@ -127,7 +125,7 @@ export const pathfindCapability = defineCapability({
       execute(world: IWorld) {
         // NavGraph 单例。
         let nav: NavGraph | undefined;
-        for (const [gid] of world.query('NavGraph')) { nav = world.getComponent<NavGraph>(gid, 'NavGraph'); break; }
+        { const gid = world.singleton('NavGraph'); if (gid !== undefined) nav = world.getComponent<NavGraph>(gid, 'NavGraph'); } // 黑板单例（P1b）：严格模式多份即抛·生产按创建序取首个（= 旧 for…break 语义）
         if (!nav || nav.nodes.length === 0) return;
         const navG = nav;
 
@@ -135,7 +133,7 @@ export const pathfindCapability = defineCapability({
         const costOf = (a: number, b: number): number =>
           edgeCost.get(edgeKey(a, b)) ?? dist(navG.nodes[a].x, navG.nodes[a].y, navG.nodes[b].x, navG.nodes[b].y);
 
-        const ids = world.query('NavAgent', 'Transform').map(([id]) => id).sort();
+        const ids = sortedIds(world, 'NavAgent', 'Transform');
         for (const id of ids) {
           const ag = world.getComponent<NavAgent>(id, 'NavAgent')!;
           const t = world.getComponent<Transform>(id, 'Transform')!;

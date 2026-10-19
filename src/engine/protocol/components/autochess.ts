@@ -63,6 +63,8 @@ export interface QueueMember extends Component {
 // 代点绕过 Clickable.onlyFlag 指针门（拖进区=明确意图，与误点防护不冲突）。
 export interface DropZone extends Component {
   readonly type: 'DropZone';
+  /** 缺省保持旧矩形命中；ellipse 使用 Shape.width/height 的缩放半轴。 */
+  hitShape?: 'box' | 'ellipse';
 }
 
 // ── hex-grid / grid-move（REQ-024）── 六边形棋盘 + 确定性网格寻路（金铲铲/TFT 式自动战斗移动）。

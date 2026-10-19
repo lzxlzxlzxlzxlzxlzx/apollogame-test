@@ -1,0 +1,550 @@
+{
+  "id": "c03",
+  "title": {
+    "zh-CN": "初吻"
+  },
+  "start": "c03_n0001",
+  "nodes": {
+    "c03_n0001": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "暑假第三天的夜里，特蕾西锁了房门。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0002"
+      }
+    },
+    "c03_n0002": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她盘腿坐在床上，手机屏幕的光把脸照得发白。查的东西她不敢让任何人看见——看一会儿就切出去，过一会儿又切回来，耳朵一直红着。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0003"
+      }
+    },
+    "c03_n0003": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "资料里那些字她其实早就懂了。让她脸红的不是那些字，是那些字总让她忍不住把卢卡代进去。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0004"
+      }
+    },
+    "c03_n0004": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她看得很慢，像在做一套全新的拆解，只是这一次没有图纸。看了很久，她伸手从床头摸出那个小本子和笔，咬了咬笔帽，写下一行字。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0005"
+      }
+    },
+    "c03_n0005": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "接吻注意事项。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0006"
+      }
+    },
+    "c03_n0006": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "下面列了两条："
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0007"
+      }
+    },
+    "c03_n0007": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "一、先摘护目镜。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0008"
+      }
+    },
+    "c03_n0008": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "二、"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0009"
+      }
+    },
+    "c03_n0009": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "二"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0010"
+      }
+    },
+    "c03_n0010": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "后面空了半行，写不下去了。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0011"
+      }
+    },
+    "c03_n0011": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她盯着那半行空白，脑子里忽然冒出卢卡低头的样子——额发垂下来，遮住半只眼睛。然后是他牵她时那只手，汗津津的，指节很稳。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0012"
+      }
+    },
+    "c03_n0012": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "如果那双手不是牵她，是抱住她呢。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0013"
+      }
+    },
+    "c03_n0013": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "再往下想，她整个人都烫起来，一把扯过被子蒙住头，两条腿在被子里不自在地并了并。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0014"
+      }
+    },
+    "c03_n0014": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "完蛋了。特蕾西想。她居然在想这个。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0015"
+      }
+    },
+    "c03_n0015": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "可是控制不住。就是会想。想亲他，想被他抱，想离他再近一点，近到皮肤贴着皮肤。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0016"
+      }
+    },
+    "c03_n0016": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她在被子里翻了个身，把脸埋进枕头，闷闷地吐出一句，小到只有自己听得见："
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0017"
+      }
+    },
+    "c03_n0017": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "……主动一点，也没什么吧。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0018"
+      },
+      "speaker": "tracy"
+    },
+    "c03_n0018": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "第二天，工坊。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0019"
+      }
+    },
+    "c03_n0019": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西蹲在工作台前，把一个黄铜小齿轮装进壳里。卢卡坐在旁边的矮凳上，递工具，两人配合得跟过去千百次一样顺。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0020"
+      }
+    },
+    "c03_n0020": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "装着装着，安静下来。工坊里只剩电烙铁偶尔"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0021"
+      }
+    },
+    "c03_n0021": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "啪"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0022"
+      }
+    },
+    "c03_n0022": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "的一声。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0023"
+      }
+    },
+    "c03_n0023": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西抬头想说什么，正好撞上卢卡的目光。他没在看她手里的东西，在看她的脸。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0024"
+      }
+    },
+    "c03_n0024": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "两个人都没动。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0025"
+      }
+    },
+    "c03_n0025": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡慢慢凑近了一点，又停住。呼吸都放轻了，近得能看清她眼睛里的紫色光。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0026"
+      }
+    },
+    "c03_n0026": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西闭上眼。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0027"
+      }
+    },
+    "c03_n0027": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "等了几秒，没等到。她睁开眼，看见卢卡还僵在原地，脸涨得通红，喉结滚了一下，就是没敢再往前。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0028"
+      }
+    },
+    "c03_n0028": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你……"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0029"
+      },
+      "speaker": "tracy"
+    },
+    "c03_n0029": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西说。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0030"
+      }
+    },
+    "c03_n0030": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡没应。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0031"
+      }
+    },
+    "c03_n0031": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她心里那根弦"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0032"
+      }
+    },
+    "c03_n0032": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "啪"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0033"
+      },
+      "speaker": "luca"
+    },
+    "c03_n0033": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "地断了。想起昨晚本子上那半行没写完的字，想起自己闷在枕头里说的那句话。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0034"
+      }
+    },
+    "c03_n0034": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "主动一点，也没什么吧。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0035"
+      }
+    },
+    "c03_n0035": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她心一横，自己凑了上去。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0036"
+      }
+    },
+    "c03_n0036": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "咚。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0037"
+      },
+      "speaker": "tracy"
+    },
+    "c03_n0037": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "护目镜的铜边正磕在卢卡额头上。两人同时"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0038"
+      }
+    },
+    "c03_n0038": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "嘶"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0039"
+      },
+      "speaker": "luca"
+    },
+    "c03_n0039": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "了一声，又同时笑出来。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0040"
+      }
+    },
+    "c03_n0040": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你护目镜没摘。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0041"
+      },
+      "speaker": "tracy"
+    },
+    "c03_n0041": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡揉着额头，笑得肩膀直抖。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0042"
+      }
+    },
+    "c03_n0042": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "……忘了。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0043"
+      },
+      "speaker": "luca"
+    },
+    "c03_n0043": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西别开脸，抬手把护目镜往头顶一推，"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0044"
+      }
+    },
+    "c03_n0044": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "重来。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0045"
+      },
+      "speaker": "tracy"
+    },
+    "c03_n0045": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "这一次，她闭上眼，卢卡凑了过来。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0046"
+      }
+    },
+    "c03_n0046": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "很轻。像怕碰坏什么。嘴唇贴上去，又分开。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0047"
+      }
+    },
+    "c03_n0047": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她没睁眼，只感觉自己的耳尖又开始烧了。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0048"
+      }
+    },
+    "c03_n0048": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "……比我想的轻。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0049"
+      },
+      "speaker": "tracy"
+    },
+    "c03_n0049": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她小声说。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0050"
+      }
+    },
+    "c03_n0050": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "嗯？"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0051"
+      },
+      "speaker": "luca"
+    },
+    "c03_n0051": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "没什么。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0052"
+      },
+      "speaker": "tracy"
+    },
+    "c03_n0052": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她伸手，抓住卢卡卫衣的下摆，把人往下拽了拽，自己踮起脚，又亲了上去。这次不是轻碰了。"
+      },
+      "next": {
+        "chapterId": "c03",
+        "nodeId": "c03_n0053"
+      }
+    },
+    "c03_n0053": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "工坊的灯亮着。两个影子投在墙上，慢慢叠成了一个。"
+      },
+      "next": {
+        "chapterId": "c04",
+        "nodeId": "c04_n0001"
+      }
+    }
+  }
+}

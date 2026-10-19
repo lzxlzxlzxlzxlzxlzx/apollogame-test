@@ -1,21 +1,24 @@
-// AI 资产生成框架 —— 文本→资产。适配器：tripo·meshy(文本→3D glb)· qwen(2D png·DashScope 万相)· seedream(2D png·字节火山方舟)。
+// AI 资产生成框架 —— 文本→资产。适配器：tripo·meshy(文本→3D glb)· qwen / gpt-image / seedream(2D png)。
 //
 // 架构（同 src/services/aigp 端口哲学）：外部**非确定性 AI 服务**走旁路；产物 = 提交进库的**固定资产**（带
 //   provenance：厂商/prompt/模型/日期/许可），**不碰 sim/hash**（渲染层数据·确定性不受威胁）。
-// 密钥走 env（TRIPO_API_KEY / DASHSCOPE_API_KEY），**绝不入库**；缺 key 或 --mock → mock 模式（产占位、可测）。
+// 密钥走 env（TRIPO_API_KEY / DASHSCOPE_API_KEY / OPENAI_API_KEY），**绝不入库**。
 // 本环境 GitHub-only → 真调 API 被挡；用 --mock 把整套框架跑通、门禁全绿。真调等放宽网络的 session。
 //
-// 用法: node scripts/ai-gen.mjs <tripo|qwen> "<prompt>" [--game <g>] [--id <local-id>] [--mock]
+// 用法: node scripts/ai-gen.mjs <tripo|qwen|gpt-image> "<prompt>" [--game <g>] [--id <local-id>] [--mock]
+//       gpt-image 真调用还必须显式给 --real-provider；Codex 内置 imagegen 不属于此 Node 接口。
 //   例: node scripts/ai-gen.mjs tripo "a wooden chair" --game game-z --mock
 //       node scripts/ai-gen.mjs qwen "pixel sword icon" --game game-z --mock
 //   自测: node scripts/ai-gen.mjs demo      （两适配器各 mock 一个到临时目录·打印落库条目·跑完自动清理）
 //   设置: node scripts/ai-gen.mjs providers （看各 provider 的 envKey / 是否已配 key·打码）
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { deflateSync } from 'node:zlib';
+import { createHash } from 'node:crypto';
+import { decodePng } from './asset-matte.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -23,22 +26,27 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
 const crc32 = (b) => { let c = 0xffffffff; for (let i = 0; i < b.length; i++) c = CRC[(c ^ b[i]) & 0xff] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; };
 function chunk(type, data) { const l = Buffer.alloc(4); l.writeUInt32BE(data.length, 0); const td = Buffer.concat([Buffer.from(type, 'latin1'), data]); const c = Buffer.alloc(4); c.writeUInt32BE(crc32(td), 0); return Buffer.concat([l, td, c]); }
-export function encodePng(w, h, rgb) {
-  const ihdr = Buffer.alloc(13); ihdr.writeUInt32BE(w, 0); ihdr.writeUInt32BE(h, 4); ihdr[8] = 8; ihdr[9] = 2;
-  const raw = Buffer.alloc(h * (1 + w * 3));
-  for (let y = 0; y < h; y++) { raw[y * (1 + w * 3)] = 0; rgb.copy(raw, y * (1 + w * 3) + 1, y * w * 3, (y + 1) * w * 3); }
+export function encodePng(w, h, pixels, channels = pixels.length === w * h * 4 ? 4 : 3) {
+  if (![3, 4].includes(channels) || pixels.length !== w * h * channels) throw new Error('encodePng: pixel buffer shape mismatch');
+  const ihdr = Buffer.alloc(13); ihdr.writeUInt32BE(w, 0); ihdr.writeUInt32BE(h, 4); ihdr[8] = 8; ihdr[9] = channels === 4 ? 6 : 2;
+  const stride = w * channels;
+  const raw = Buffer.alloc(h * (1 + stride));
+  for (let y = 0; y < h; y++) { raw[y * (1 + stride)] = 0; pixels.copy(raw, y * (1 + stride) + 1, y * stride, (y + 1) * stride); }
   return Buffer.concat([Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]), chunk('IHDR', ihdr), chunk('IDAT', deflateSync(raw)), chunk('IEND', Buffer.alloc(0))]);
 }
 // prompt 播种的确定性噪声图（mock：不同 prompt→不同图，一眼看出是占位）
-export function mockImage(prompt, N = 128) {
+export function mockImage(prompt, width = 128, height = width, alpha = 'opaque') {
   let seed = 2166136261; for (let i = 0; i < prompt.length; i++) { seed ^= prompt.charCodeAt(i); seed = (seed * 16777619) >>> 0; }
   const h2 = (x, y) => { let h = ((x * 374761393) ^ (y * 668265263) ^ seed) >>> 0; h = ((h ^ (h >>> 13)) * 1274126177) >>> 0; return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
-  const rgb = Buffer.alloc(N * N * 3);
-  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
-    const v = (h2(Math.floor(x / 8), Math.floor(y / 8)) * 0.7 + h2(x, y) * 0.3), o = (y * N + x) * 3;
-    rgb[o] = 40 + v * 180; rgb[o + 1] = 40 + h2(y, x) * 180; rgb[o + 2] = 60 + v * 150;
+  const transparent = alpha === 'transparent';
+  const channels = transparent ? 4 : 3;
+  const pixels = Buffer.alloc(width * height * channels);
+  for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+    const v = (h2(Math.floor(x / 8), Math.floor(y / 8)) * 0.7 + h2(x, y) * 0.3), o = (y * width + x) * channels;
+    pixels[o] = 40 + v * 180; pixels[o + 1] = 40 + h2(y, x) * 180; pixels[o + 2] = 60 + v * 150;
+    if (transparent) pixels[o + 3] = x === 0 || y === 0 || x === width - 1 || y === height - 1 ? 0 : 255;
   }
-  return { buffer: encodePng(N, N, rgb), w: N, h: N };
+  return { buffer: encodePng(width, height, pixels, channels), w: width, h: height };
 }
 
 // ── 文生图请求构造（纯函数·可测·可回显）——owner debug「到底传了什么」。──
@@ -51,6 +59,61 @@ export function seedreamRequest(prompt, { model, size }) {
     model, size, prompt,
     body: { model, prompt, size, response_format: 'url', watermark: false },
   };
+}
+
+export const GPT_IMAGE_MODEL = 'gpt-image-2';
+
+export function gptImageSizeFor(width, height) {
+  if (width > height) return '1536x1024';
+  if (height > width) return '1024x1536';
+  return '1024x1024';
+}
+
+/** Auditable OpenAI Image request. The API key exists only in the caller-owned Authorization header. */
+export function gptImageRequest(prompt, { width = 1024, height = 1024, alpha = 'opaque', model = GPT_IMAGE_MODEL } = {}) {
+  return {
+    provider: 'gpt-image',
+    endpoint: 'https://api.openai.com/v1/images/generations',
+    method: 'POST',
+    model,
+    body: {
+      model,
+      prompt,
+      size: gptImageSizeFor(width, height),
+      quality: 'medium',
+      background: alpha === 'transparent' ? 'transparent' : 'opaque',
+      output_format: 'png',
+    },
+  };
+}
+
+/** Deterministic provider-output normalization to the exact AssetSlot pixel contract. */
+export function resizePngExact(buffer, targetWidth, targetHeight) {
+  if (!Number.isInteger(targetWidth) || targetWidth <= 0 || !Number.isInteger(targetHeight) || targetHeight <= 0) {
+    throw new Error('resizePngExact: target size must be positive integers');
+  }
+  const { w: sourceWidth, h: sourceHeight, rgba } = decodePng(buffer);
+  if (sourceWidth === targetWidth && sourceHeight === targetHeight) return buffer;
+  const out = Buffer.alloc(targetWidth * targetHeight * 4);
+  for (let y = 0; y < targetHeight; y++) {
+    const y0 = Math.floor((y * sourceHeight) / targetHeight);
+    const y1 = Math.max(y0 + 1, Math.floor(((y + 1) * sourceHeight) / targetHeight));
+    for (let x = 0; x < targetWidth; x++) {
+      const x0 = Math.floor((x * sourceWidth) / targetWidth);
+      const x1 = Math.max(x0 + 1, Math.floor(((x + 1) * sourceWidth) / targetWidth));
+      let red = 0; let green = 0; let blue = 0; let alpha = 0; let count = 0;
+      for (let sourceY = y0; sourceY < y1; sourceY++) for (let sourceX = x0; sourceX < x1; sourceX++) {
+        const offset = (sourceY * sourceWidth + sourceX) * 4;
+        red += rgba[offset]; green += rgba[offset + 1]; blue += rgba[offset + 2]; alpha += rgba[offset + 3]; count++;
+      }
+      const offset = (y * targetWidth + x) * 4;
+      out[offset] = Math.round(red / count);
+      out[offset + 1] = Math.round(green / count);
+      out[offset + 2] = Math.round(blue / count);
+      out[offset + 3] = Math.round(alpha / count);
+    }
+  }
+  return encodePng(targetWidth, targetHeight, out, 4);
 }
 
 /** 把请求转成可复制的 curl（key 用 $ENV 占位·绝不落真值）——owner debug「整个命令行」，可自贴 key 复现。 */
@@ -121,8 +184,8 @@ export const ADAPTERS = {
   },
   qwen: {
     kind: 'texture', ext: 'png', envKey: 'DASHSCOPE_API_KEY', license: 'Qwen/DashScope 万相 (按订阅授权)',
-    async generate(prompt, { mock, apiKey }) {
-      if (mock || !apiKey) { const { buffer, w, h } = mockImage(prompt); return { buffer, model: 'wanx-mock', mock: true, spec: { format: 'png', width: w, height: h, usage: 'sprite' } }; }
+    async generate(prompt, { mock, apiKey, width = 128, height = width, alpha = 'opaque' }) {
+      if (mock || !apiKey) { const { buffer, w, h } = mockImage(prompt, width, height, alpha); return { buffer, model: 'wanx-mock', mock: true, spec: { format: 'png', width: w, height: h, usage: 'sprite', transparent: alpha === 'transparent' } }; }
       // 真调 DashScope 万相 text2image（异步任务·门控）
       const H = { authorization: `Bearer ${apiKey}`, 'content-type': 'application/json', 'X-DashScope-Async': 'enable' };
       const sub = await fetchRetry('https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis', { method: 'POST', headers: H, body: JSON.stringify({ model: 'wanx2.1-t2i-turbo', input: { prompt }, parameters: { n: 1, size: '1024*1024' } }) }).then((r) => r.json());
@@ -139,17 +202,47 @@ export const ADAPTERS = {
       return { buffer, model: 'wanx2.1-t2i-turbo', mock: false, spec: { format: 'png', width: 1024, height: 1024, usage: 'sprite' } };
     },
   },
+  'gpt-image': {
+    kind: 'texture', ext: 'png', envKey: 'OPENAI_API_KEY', model: GPT_IMAGE_MODEL,
+    license: 'OpenAI GPT Image API (按 OpenAI 服务条款与账户授权)',
+    async generate(prompt, { mock = false, allowRealProvider = false, apiKey, width = 128, height = width, alpha = 'opaque' } = {}) {
+      const request = gptImageRequest(prompt, { width, height, alpha, model: GPT_IMAGE_MODEL });
+      if (mock) {
+        const { buffer, w, h } = mockImage(prompt, width, height, alpha);
+        return { buffer, model: `${GPT_IMAGE_MODEL}-mock`, mock: true, spec: { format: 'png', width: w, height: h, usage: 'sprite', transparent: alpha === 'transparent' }, request };
+      }
+      if (!allowRealProvider) throw new Error('gpt-image: real provider requires explicit allowRealProvider');
+      if (!apiKey) throw new Error('gpt-image: real provider requires OPENAI_API_KEY');
+      const response = await fetchRetry(request.endpoint, {
+        method: request.method,
+        headers: { authorization: `Bearer ${apiKey}`, 'content-type': 'application/json' },
+        body: JSON.stringify(request.body),
+      });
+      const status = Number.isInteger(response.status) ? response.status : 'unknown';
+      let payload;
+      try { payload = await response.json(); } catch { throw new Error(`gpt-image: HTTP ${status} returned invalid JSON`); }
+      // Provider error payloads are untrusted and may echo Authorization material; never surface code/message/body.
+      if (!response.ok) throw new Error(`gpt-image: HTTP ${status}`);
+      const encoded = payload?.data?.[0]?.b64_json;
+      if (typeof encoded !== 'string' || encoded.length === 0 || encoded.length % 4 !== 0 || !/^[A-Za-z0-9+/]+={0,2}$/.test(encoded)) {
+        throw new Error('gpt-image: response has no valid b64_json image');
+      }
+      const buffer = Buffer.from(encoded, 'base64');
+      if (buffer.length < 8 || buffer.readUInt32BE(0) !== 0x89504e47) throw new Error('gpt-image: decoded response is not PNG');
+      return { buffer, model: GPT_IMAGE_MODEL, mock: false, spec: { format: 'png', usage: 'sprite' }, request };
+    },
+  },
   seedream: {
     // 字节 Seedream 文生图（火山方舟 Ark·2D 主力·owner 2026-07-21 接入）。与 qwen 不同=**同步**返回（无轮询）。
     // 端点/字段核实自 Ark 官方 images/generations（OpenAI 兼容·`response_format:url`→data[0].url·24h 有效）。
     // 模型默认 doubao-seedream-4-0（env ARK_SEEDREAM_MODEL 可覆盖·owner 试 4-5/5-0 免改码）；尺寸 env ARK_SEEDREAM_SIZE。
     kind: 'texture', ext: 'png', envKey: 'ARK_API_KEY', license: 'ByteDance Seedream/火山方舟 (按订阅商用授权)',
     // opts.size：调用方按行 spec 传目标尺寸（缺省回退 env·再回退 2K）——防 UI 按钮被塞进 2K 方图渲成整场景。
-    async generate(prompt, { mock, apiKey, size: sizeOpt } = {}) {
+    async generate(prompt, { mock, apiKey, size: sizeOpt, width = 128, height = width, alpha = 'opaque' } = {}) {
       const model = process.env.ARK_SEEDREAM_MODEL || process.env.ARK_IMAGEGEN_MODEL || 'doubao-seedream-4-0-250828';
       const size = sizeOpt || process.env.ARK_SEEDREAM_SIZE || '2K';
       const request = seedreamRequest(prompt, { model, size }); // 恒构造·mock 也回显「本该发的完整请求」（debug 免花 key）
-      if (mock || !apiKey) { const { buffer, w, h } = mockImage(prompt); return { buffer, model: 'seedream-mock', mock: true, spec: { format: 'png', width: w, height: h, usage: 'sprite' }, request }; }
+      if (mock || !apiKey) { const { buffer, w, h } = mockImage(prompt, width, height, alpha); return { buffer, model: 'seedream-mock', mock: true, spec: { format: 'png', width: w, height: h, usage: 'sprite', transparent: alpha === 'transparent' }, request }; }
       const H = { authorization: `Bearer ${apiKey}`, 'content-type': 'application/json' };
       const res = await fetchRetry(request.endpoint, { method: 'POST', headers: H, body: JSON.stringify(request.body) }).then((r) => r.json());
       const url = res?.data?.[0]?.url;
@@ -187,7 +280,8 @@ function writeJsonFile(file, obj) { mkdirSync(dirname(file), { recursive: true }
 // 保留既有非对称：共享 index 条目 path=相对（消费端补 /assets/）；游戏本地 path=站点绝对 /games/<g>/art/…。
 export function locations(root, game) {
   if (game) {
-    const artDir = join(root, 'public', 'games', game, 'art');
+    const libraryArtDir = join(root, 'library', game, 'art');
+    const artDir = existsSync(libraryArtDir) ? libraryArtDir : join(root, 'public', 'games', game, 'art');
     return {
       indexFile: join(artDir, 'index.json'),
       pendingFile: join(artDir, 'ai', 'pending.json'),
@@ -208,6 +302,24 @@ export function locations(root, game) {
   };
 }
 
+/** Provider-neutral pending gate. Bytes stay in ai/pending and index.json is untouched until review. */
+export function stagePendingAsset({ root = ROOT, game = null, entry, buffer, finalRel, pendingFile: pendingName, workflow = undefined }) {
+  const loc = locations(root, game);
+  const ext = String(finalRel).split('.').pop() || 'bin';
+  const safeName = pendingName || `${String(entry.id).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 64) || 'asset'}.${ext}`;
+  const pendingAbs = join(loc.pendingDir, safeName);
+  mkdirSync(dirname(pendingAbs), { recursive: true });
+  writeFileSync(pendingAbs, buffer);
+  const pendingEntry = { ...entry, previewPath: loc.pendingServed(safeName), pendingFile: safeName, finalRel, scope: game ? `game:${game}` : 'shelf', ...(workflow === undefined ? {} : { workflow }) };
+  const manifest = readPendingManifest(loc.pendingFile);
+  const previous = manifest.pending.find((candidate) => candidate.id === entry.id);
+  if (previous?.pendingFile && previous.pendingFile !== safeName) rmSync(join(loc.pendingDir, previous.pendingFile), { force: true });
+  const byId = new Map(manifest.pending.map((candidate) => [candidate.id, candidate]));
+  byId.set(entry.id, pendingEntry);
+  writeJsonFile(loc.pendingFile, { version: 1, pending: [...byId.values()].sort(byIdCmp) });
+  return { ok: true, id: entry.id, pending: true, previewPath: pendingEntry.previewPath, scope: pendingEntry.scope, entry: pendingEntry };
+}
+
 // provenance 硬校验（宪法·§七约束2）：model/prompt/date/license 缺一即拒绝登记。返回缺失字段名数组（空=通过）。
 export function provenanceMissing(entry) {
   const p = (entry && entry.provenance) || {};
@@ -219,8 +331,139 @@ export function provenanceMissing(entry) {
   return missing;
 }
 
+/** Approval-time byte contract. Metadata cannot claim a size/alpha shape the PNG does not have. */
+export function validateTextureCandidate(entry, buffer) {
+  if (entry?.type !== 'texture' || !String(entry?.path || '').toLowerCase().endsWith('.png')) return [];
+  let decoded;
+  try { decoded = decodePng(buffer); } catch (error) { return [`png:${error instanceof Error ? error.message : String(error)}`]; }
+  const issues = [];
+  if (entry.spec?.width !== undefined && entry.spec.width !== decoded.w) issues.push(`width:${decoded.w}!=${entry.spec.width}`);
+  if (entry.spec?.height !== undefined && entry.spec.height !== decoded.h) issues.push(`height:${decoded.h}!=${entry.spec.height}`);
+  if (typeof entry.spec?.transparent === 'boolean') {
+    let hasTransparency = false;
+    for (let i = 3; i < decoded.rgba.length; i += 4) if (decoded.rgba[i] < 255) { hasTransparency = true; break; }
+    if (entry.spec.transparent !== hasTransparency) issues.push(`alpha:${hasTransparency ? 'transparent' : 'opaque'}!=${entry.spec.transparent ? 'transparent' : 'opaque'}`);
+  }
+  return issues;
+}
+
+const LIFE_ASSET_WORKFLOW_SCHEMA = 'zerocraft.life-asset-pending.v1';
+const isRecord = (value) => typeof value === 'object' && value !== null && !Array.isArray(value);
+const stableJson = (value) => {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`;
+  if (isRecord(value)) return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(',')}}`;
+  return JSON.stringify(value);
+};
+const exactKeys = (value, keys) => isRecord(value) && Object.keys(value).sort().join('\u0000') === [...keys].sort().join('\u0000');
+const closedKeys = (value, required, optional = []) => isRecord(value)
+  && required.every((key) => Object.hasOwn(value, key))
+  && Object.keys(value).every((key) => required.includes(key) || optional.includes(key));
+const finitePositive = (value) => typeof value === 'number' && Number.isFinite(value) && value > 0;
+const finiteNumber = (value) => typeof value === 'number' && Number.isFinite(value);
+function assetSlotFingerprint(slot) {
+  const source = stableJson({ ...slot, governance: {
+    approval: slot?.governance?.approval,
+    humanApprovalRequired: true,
+    licenseRequired: true,
+  } });
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < source.length; i++) { hash ^= source.charCodeAt(i); hash = Math.imul(hash, 0x01000193); }
+  return `asset-slot-v1:${(hash >>> 0).toString(16).padStart(8, '0')}`;
+}
+function safePendingName(value) { return typeof value === 'string' && /^[a-zA-Z0-9._-]+$/.test(value) && !value.startsWith('.'); }
+function safeFinalRel(value) {
+  return typeof value === 'string' && /^[a-zA-Z0-9._/-]+$/.test(value) && !value.startsWith('/')
+    && value.split('/').every((part) => part.length > 0 && part !== '.' && part !== '..');
+}
+
+function validLifeManifestShape(manifest) {
+  if (!exactKeys(manifest, ['version', 'game', 'note', 'slots']) || manifest.version !== 1
+    || typeof manifest.game !== 'string' || !manifest.game.trim() || typeof manifest.note !== 'string' || !manifest.note.trim()
+    || !Array.isArray(manifest.slots)) return false;
+  const slotIds = new Set(); const assetKeys = new Set(); const consumers = new Set();
+  for (const slot of manifest.slots) {
+    if (!exactKeys(slot, ['slotId', 'assetKey', 'kind', 'consumers', 'asset', 'render', 'generation', 'governance'])
+      || typeof slot.slotId !== 'string' || !slot.slotId.trim() || slotIds.has(slot.slotId)
+      || typeof slot.assetKey !== 'string' || !slot.assetKey.trim() || /[\\/]|^(?:https?|data|file):/i.test(slot.assetKey) || assetKeys.has(slot.assetKey)
+      || !['tile', 'crop', 'player', 'npc', 'building', 'resource', 'item', 'ui-icon'].includes(slot.kind)) return false;
+    slotIds.add(slot.slotId); assetKeys.add(slot.assetKey);
+    if (!Array.isArray(slot.consumers) || slot.consumers.length === 0) return false;
+    for (const consumer of slot.consumers) {
+      if (!exactKeys(consumer, ['document', 'jsonPointer']) || typeof consumer.document !== 'string' || !consumer.document.trim()
+        || /^(?:https?|data|file):/i.test(consumer.document) || typeof consumer.jsonPointer !== 'string' || !consumer.jsonPointer.startsWith('/')) return false;
+      const key = `${consumer.document}#${consumer.jsonPointer}`; if (consumers.has(key)) return false; consumers.add(key);
+    }
+    if (!closedKeys(slot.asset, ['usage', 'colorSpace', 'outputPx', 'alpha', 'sampling'], ['frame'])
+      || slot.asset.usage !== 'sprite' || slot.asset.colorSpace !== 'srgb'
+      || !exactKeys(slot.asset.outputPx, ['width', 'height']) || !finitePositive(slot.asset.outputPx.width) || !finitePositive(slot.asset.outputPx.height)
+      || !['opaque', 'transparent'].includes(slot.asset.alpha) || !['nearest', 'linear'].includes(slot.asset.sampling)) return false;
+    if (slot.asset.frame !== undefined && (!exactKeys(slot.asset.frame, ['kind', 'index']) || slot.asset.frame.kind !== 'sheet-index' || slot.asset.frame.index !== 0)) return false;
+    if (!exactKeys(slot.render, ['display', 'anchor', 'fit', 'offset', 'fallbackRole'])
+      || !exactKeys(slot.render.display, ['unit', 'width', 'height']) || !['cell', 'pixel'].includes(slot.render.display.unit)
+      || !finitePositive(slot.render.display.width) || !finitePositive(slot.render.display.height)
+      || !exactKeys(slot.render.anchor, ['x', 'y']) || !finiteNumber(slot.render.anchor.x) || !finiteNumber(slot.render.anchor.y)
+      || slot.render.anchor.x < 0 || slot.render.anchor.x > 1 || slot.render.anchor.y < 0 || slot.render.anchor.y > 1
+      || !exactKeys(slot.render.offset, ['x', 'y']) || !finiteNumber(slot.render.offset.x) || !finiteNumber(slot.render.offset.y)
+      || !['cover', 'contain'].includes(slot.render.fit)
+      || !['ground', 'water', 'plantable', 'crop', 'player', 'npc', 'building', 'resource', 'item', 'ui-icon'].includes(slot.render.fallbackRole)) return false;
+    if (!exactKeys(slot.generation, ['briefVersion', 'styleId', 'prompt', 'negativePrompt'])
+      || !Number.isInteger(slot.generation.briefVersion) || slot.generation.briefVersion < 1
+      || typeof slot.generation.styleId !== 'string' || !slot.generation.styleId.trim()
+      || typeof slot.generation.prompt !== 'string' || !slot.generation.prompt.trim()
+      || !Array.isArray(slot.generation.negativePrompt) || slot.generation.negativePrompt.some((value) => typeof value !== 'string' || !value.trim())) return false;
+    if (!exactKeys(slot.governance, ['approval', 'humanApprovalRequired', 'licenseRequired', 'briefFingerprint'])
+      || slot.governance.approval !== 'placeholder' || slot.governance.humanApprovalRequired !== true || slot.governance.licenseRequired !== true
+      || typeof slot.governance.briefFingerprint !== 'string' || slot.governance.briefFingerprint !== assetSlotFingerprint(slot)) return false;
+  }
+  return true;
+}
+
+/** Life approval binding guard. It is synchronous so the existing node-only M2.5 review command stays directly runnable. */
+export function validateLifeAssetPendingBinding({ pendingEntry, entry, workflow, manifest, game, locations: loc }) {
+  const issues = [];
+  const add = (code) => { if (!issues.includes(code)) issues.push(code); };
+  if (!exactKeys(workflow, ['kind', 'schemaVersion', 'game', 'slotId', 'assetKey', 'briefFingerprint', 'provider', 'spec', 'anchor'])) add('workflow_shape');
+  if (workflow?.kind !== 'life-asset-slot' || workflow?.schemaVersion !== LIFE_ASSET_WORKFLOW_SCHEMA) add('workflow_schema');
+  if (!game || workflow?.game !== game || pendingEntry?.scope !== `game:${game}`) add('cross_game');
+  if (!isRecord(manifest) || !validLifeManifestShape(manifest)) {
+    add('manifest_shape');
+    return issues.sort();
+  }
+  if (manifest.game !== game || workflow?.game !== manifest.game) add('cross_game');
+  const slots = manifest.slots.filter((slot) => isRecord(slot) && slot.slotId === workflow?.slotId);
+  if (slots.length !== 1) add('slot_id');
+  const slot = slots[0];
+  if (!slot) return issues.sort();
+  if (!exactKeys(slot, ['slotId', 'assetKey', 'kind', 'consumers', 'asset', 'render', 'generation', 'governance'])) add('slot_shape');
+  if (!exactKeys(slot.governance, ['approval', 'humanApprovalRequired', 'licenseRequired', 'briefFingerprint'])
+    || slot.governance.approval !== 'placeholder' || slot.governance.humanApprovalRequired !== true || slot.governance.licenseRequired !== true) add('slot_governance');
+  const derived = assetSlotFingerprint(slot);
+  if (slot.governance?.briefFingerprint !== derived || workflow?.briefFingerprint !== derived) add('brief_fingerprint');
+  if (slot.assetKey !== workflow?.assetKey || entry?.id !== slot.assetKey) add('asset_key');
+  const provider = workflow?.provider;
+  if (entry?.type !== 'texture' || !['qwen', 'gpt-image'].includes(provider)
+    || entry?.source !== `ai:${provider}` || entry?.provenance?.generator !== provider) add('provider');
+  const expectedSpec = {
+    usage: slot.asset?.usage,
+    colorSpace: slot.asset?.colorSpace,
+    outputPx: { width: slot.asset?.outputPx?.width, height: slot.asset?.outputPx?.height },
+    alpha: slot.asset?.alpha,
+    sampling: slot.asset?.sampling,
+  };
+  if (stableJson(workflow?.spec) !== stableJson(expectedSpec)) add('slot_spec');
+  if (stableJson(workflow?.anchor) !== stableJson(slot.render?.anchor)) add('anchor');
+  if (entry?.spec?.usage !== expectedSpec.usage || entry?.spec?.colorSpace !== expectedSpec.colorSpace
+    || entry?.spec?.width !== expectedSpec.outputPx.width || entry?.spec?.height !== expectedSpec.outputPx.height
+    || entry?.spec?.transparent !== (expectedSpec.alpha === 'transparent') || entry?.spec?.sampling !== expectedSpec.sampling) add('entry_spec');
+  if (!safePendingName(pendingEntry?.pendingFile) || !safeFinalRel(pendingEntry?.finalRel)) add('pending_path');
+  if (entry?.path !== loc.finalServed(pendingEntry?.finalRel)) add('asset_path');
+  const ids = manifest.slots.filter((value) => isRecord(value) && value.assetKey === slot.assetKey);
+  if (ids.length !== 1) add('asset_key');
+  return issues.sort();
+}
+
 // 生成产物 → 待审区（写 pending 文件 + upsert pending.json·绝不碰 index.json）。返回机读结果（含预览 URL）。
-export function writePending({ root = ROOT, adapter, prompt, forcedId, game, buffer, spec, model, mock, at }) {
+export function writePending({ root = ROOT, adapter, prompt, forcedId, game, buffer, spec, model, mock, at, workflow = undefined }) {
   const A = ADAPTERS[adapter];
   if (!A) return { ok: false, error: `未知适配器: ${adapter}` };
   const slug = (forcedId ?? prompt).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 40) || 'asset';
@@ -228,19 +471,9 @@ export function writePending({ root = ROOT, adapter, prompt, forcedId, game, buf
   const finalRel = `ai/${adapter}/${slug}.${A.ext}`;
   const base = `${adapter}-${slug}.${A.ext}`;
   const loc = locations(root, game);
-  const pendingAbs = join(loc.pendingDir, base);
-  mkdirSync(dirname(pendingAbs), { recursive: true });
-  writeFileSync(pendingAbs, buffer);
   const entry = buildEntry({ adapter, prompt, id, kind: A.kind, spec, model, license: A.license, mock, servedPath: loc.finalServed(finalRel), at });
-  const scope = game ? `game:${game}` : 'shelf';
-  const pendingEntry = { ...entry, previewPath: loc.pendingServed(base), pendingFile: base, finalRel, scope };
-  const man = readPendingManifest(loc.pendingFile);
-  const prev = man.pending.find((e) => e.id === id);
-  if (prev && prev.pendingFile && prev.pendingFile !== base) rmSync(join(loc.pendingDir, prev.pendingFile), { force: true }); // 重生成覆盖旧待审文件
-  const byId = new Map(man.pending.map((e) => [e.id, e]));
-  byId.set(id, pendingEntry);
-  writeJsonFile(loc.pendingFile, { version: 1, pending: [...byId.values()].sort(byIdCmp) });
-  return { ok: true, id, type: A.kind, mock: !!mock, pending: true, previewPath: pendingEntry.previewPath, scope, entry: pendingEntry };
+  const staged = stagePendingAsset({ root, game, entry, buffer, finalRel, pendingFile: base, workflow });
+  return { ...staged, type: A.kind, mock: !!mock };
 }
 
 // 列待审项（endpoint/UI/smoke 用）。
@@ -249,34 +482,76 @@ export function listPending({ root = ROOT, game = null } = {}) {
 }
 
 // 人审：approve=provenance 硬校验过 → 移文件出待审 + 登记 index + 清待审项；reject=删待审文件 + 清项。
-export function reviewPending({ root = ROOT, id, action, game = null }) {
+export function reviewPending({ root = ROOT, id, action, game = null, reviewedBy = 'human-review', assetSlotManifest = undefined }) {
   const loc = locations(root, game);
   const man = readPendingManifest(loc.pendingFile);
   const i = man.pending.findIndex((e) => e.id === id);
   if (i < 0) return { ok: false, error: `待审项不存在: ${id}` };
   const pe = man.pending[i];
+  if (!safePendingName(pe.pendingFile) || !safeFinalRel(pe.finalRel)) return { ok: false, error: '待审项路径元数据非法，拒绝审核' };
   const pendingAbs = join(loc.pendingDir, pe.pendingFile);
   if (action === 'reject') {
     rmSync(pendingAbs, { force: true });
     man.pending.splice(i, 1);
     writeJsonFile(loc.pendingFile, { version: 1, pending: man.pending });
+    if (pe.workflow?.kind === 'art-replace' && typeof pe.workflow.rowNo === 'string') {
+      const ledgerPath = join(loc.finalDir, 'art-ledger.json');
+      if (existsSync(ledgerPath)) {
+        const ledger = readJson(ledgerPath, { version: 1, rows: [] });
+        const row = Array.isArray(ledger.rows) ? ledger.rows.find((candidate) => candidate?.no === pe.workflow.rowNo) : undefined;
+        if (row) { row.status = 'placeholder'; row.gen = null; row.provenance = null; writeJsonFile(ledgerPath, ledger); }
+      }
+    }
     return { ok: true, action: 'reject', id };
   }
   if (action === 'approve') {
     const { previewPath, pendingFile, finalRel, scope, ...entry } = pe; // 剥掉审门机制字段 → 干净 index 条目
+    const workflow = entry.workflow;
+    delete entry.workflow;
+    if (workflow?.kind === 'life-asset-slot') {
+      if (assetSlotManifest === undefined) return { ok: false, error: 'life asset approval requires the current AssetSlot manifest' };
+      const bindingIssues = validateLifeAssetPendingBinding({ pendingEntry: pe, entry, workflow, manifest: assetSlotManifest, game, locations: loc });
+      if (bindingIssues.length) return { ok: false, error: `life asset binding mismatch: ${bindingIssues.join('/')}` };
+      if (entry.provenance?.mock === true && resolve(root) === resolve(ROOT)) return { ok: false, error: 'mock Life candidates cannot be approved into the workspace AssetIndex' };
+    }
+    entry.provenance = { ...(entry.provenance || {}), approvedAt: new Date().toISOString(), reviewedBy };
+    if (workflow?.kind === 'life-asset-slot') entry.provenance.binding = {
+      schemaVersion: 'zerocraft.life-asset-slot-binding.v1',
+      game: workflow.game,
+      slotId: workflow.slotId,
+      assetKey: workflow.assetKey,
+      briefFingerprint: workflow.briefFingerprint,
+    };
     const missing = provenanceMissing(entry);
     if (missing.length) return { ok: false, error: `provenance 缺字段，拒绝登记: ${missing.join('/')}（宪法硬校验）` };
     if (!existsSync(pendingAbs)) return { ok: false, error: `待审文件已丢失: ${pe.pendingFile}` };
-    const finalAbs = join(loc.finalDir, finalRel);
-    mkdirSync(dirname(finalAbs), { recursive: true });
-    writeFileSync(finalAbs, readFileSync(pendingAbs)); // 移：拷进最终位再删待审（同树 rename 亦可·此写法跨 fs 稳）
-    rmSync(pendingAbs, { force: true });
+    const candidateBytes = readFileSync(pendingAbs);
+    const contractIssues = validateTextureCandidate(entry, candidateBytes);
+    if (contractIssues.length) return { ok: false, error: `asset bytes do not match slot spec: ${contractIssues.join('/')}` };
+    entry.provenance.contentHash = `sha256:${createHash('sha256').update(candidateBytes).digest('hex')}`;
     const index = readIndexFile(loc.indexFile);
     const byId = new Map(index.assets.map((a) => [a.id, a]));
     byId.set(entry.id, entry);
+    const finalAbs = join(loc.finalDir, finalRel);
+    mkdirSync(dirname(finalAbs), { recursive: true });
+    writeFileSync(finalAbs, candidateBytes); // 移：拷进最终位再删待审（同树 rename 亦可·此写法跨 fs 稳）
+    rmSync(pendingAbs, { force: true });
     writeJsonFile(loc.indexFile, { version: index.version ?? 1, assets: [...byId.values()].sort(byIdCmp) });
     man.pending.splice(i, 1);
     writeJsonFile(loc.pendingFile, { version: 1, pending: man.pending });
+    if (workflow?.kind === 'art-replace' && typeof workflow.rowNo === 'string') {
+      const ledgerPath = join(loc.finalDir, 'art-ledger.json');
+      if (existsSync(ledgerPath)) {
+        const ledger = readJson(ledgerPath, { version: 1, rows: [] });
+        const row = Array.isArray(ledger.rows) ? ledger.rows.find((candidate) => candidate?.no === workflow.rowNo) : undefined;
+        if (row) {
+          row.status = 'approved';
+          row.gen = { ...(row.gen || {}), servedPath: entry.path, localId: entry.id, pending: false };
+          row.provenance = { ...(row.provenance || {}), approvedAt: entry.provenance.approvedAt, reviewedBy };
+          writeJsonFile(ledgerPath, ledger);
+        }
+      }
+    }
     return { ok: true, action: 'approve', id, servedPath: entry.path, type: entry.type, scope };
   }
   return { ok: false, error: `未知 action: ${action}（approve|reject）` };
@@ -285,10 +560,16 @@ export function reviewPending({ root = ROOT, id, action, game = null }) {
 // 设置视图（可被 server /api 或 UI 复用）：列出各生成 provider 的 envKey + 是否已配 key（打码·绝不回明文）。
 export function providerSettings(env = process.env) {
   const mask = (k) => (k ? k.slice(0, 3) + '***' + k.slice(-4) : '');
-  return Object.entries(ADAPTERS).map(([id, a]) => ({
-    id, kind: a.kind, license: a.license, envKey: a.envKey,
-    keyConfigured: !!env[a.envKey], apiKeyMasked: mask(env[a.envKey]),
-  }));
+  return Object.entries(ADAPTERS).map(([id, a]) => {
+    const configured = !!env[a.envKey];
+    return {
+      id, kind: a.kind, license: a.license, envKey: a.envKey,
+      ...(a.model ? { model: a.model } : {}),
+      keyConfigured: configured,
+      // ASSET-04 requires that no OPENAI key fragment enters JSON/log/review, even in masked form.
+      apiKeyMasked: id === 'gpt-image' ? (configured ? 'configured' : '') : mask(env[a.envKey]),
+    };
+  });
 }
 
 // 一键自测：两个适配器各 mock 生成一个到临时目录 → 打印落库条目 → 跑完自动清理（零仓库污染·零网络）。
@@ -349,12 +630,14 @@ async function run(argv) {
     else console.log(`✓ 封面 → ${rel}${g.mock ? ' (mock)' : ''}·卡片外观即用（刷新看到）`);
     return;
   }
-  // 人审：node scripts/ai-gen.mjs review <id> <approve|reject> [--game <g>] [--json]
+  // 人审：node scripts/ai-gen.mjs review <id> <approve|reject> [--game <g>] [--asset-slots <manifest.json>] [--json]
   if (adapterName === 'review') {
     const id = argv[1]; const action = argv[2];
     const gi = argv.indexOf('--game'); const game = gi >= 0 ? argv[gi + 1] : null;
+    const si = argv.indexOf('--asset-slots');
+    const assetSlotManifest = si >= 0 ? JSON.parse(readFileSync(argv[si + 1], 'utf8')) : undefined;
     const asJson = argv.includes('--json');
-    const res = reviewPending({ id, action, game });
+    const res = reviewPending({ id, action, game, assetSlotManifest });
     if (asJson) console.log(JSON.stringify(res));
     else console.log(res.ok ? `✓ ${action} ${id}${res.servedPath ? ' → ' + res.servedPath : ''}` : `✕ ${res.error}`);
     if (!res.ok) process.exit(1);
@@ -363,6 +646,7 @@ async function run(argv) {
   const A = ADAPTERS[adapterName];
   if (!A) { console.error(`用法: node scripts/ai-gen.mjs <${Object.keys(ADAPTERS).join('|')}|providers> "<prompt>" [--game <g>] [--id <id>] [--mock]`); process.exit(1); }
   const mock = argv.includes('--mock');
+  const allowRealProvider = argv.includes('--real-provider');
   const asJson = argv.includes('--json'); // 机读：后端/UI 解析用（打印一行 JSON，压过人读行）
   const gi = argv.indexOf('--game'), game = gi >= 0 ? argv[gi + 1] : null;
   const ii = argv.indexOf('--id'), forcedId = ii >= 0 ? argv[ii + 1] : null;
@@ -371,11 +655,11 @@ async function run(argv) {
   const apiKey = process.env[A.envKey];
   if (!mock && !apiKey) console.warn(`⚠ 未设 ${A.envKey}，改走 mock（真调需 key + 放宽网络）`);
 
-  const g = await A.generate(prompt, { mock, apiKey });
+  const g = await A.generate(prompt, { mock, apiKey, allowRealProvider });
   // 人审门（M2.5）：生成产物落**待审区**，绝不直写 index.json。人经 /api/assets/review approve 才入库。
   const res = writePending({ adapter: adapterName, prompt, forcedId, game, buffer: g.buffer, spec: g.spec, model: g.model, mock: g.mock, at: new Date().toISOString() });
   if (asJson) { console.log(JSON.stringify(res)); return; }
   console.log(`✓ 生成 ${res.id}${g.mock ? ' (mock)' : ''} → 待审区（人点「入库」才登记）· 预览 ${res.previewPath}`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) run(process.argv.slice(2));
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replaceAll('\\', '/'))) run(process.argv.slice(2));

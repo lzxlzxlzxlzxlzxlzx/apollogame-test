@@ -1,7 +1,7 @@
 import { AURORA, ONYX, PHOENIX_URI } from '@zerocraft/engine/ui/themes/sanguo/theme.js';
 import { Engine } from '@zerocraft/engine/runtime/engine.js';
 import { CanvasRenderer } from '@zerocraft/engine/renderer/index.js';
-import { PointerInputSource, KeyboardInputSource, QueuedInputSource } from '@zerocraft/engine/net/index.js';
+import { PointerInputSource, KeyboardInputSource, QueuedInputSource } from '@zerocraft/engine/net/host/index.js';
 import type { InputSource } from '@zerocraft/engine/net/commands.js';
 import { AssetManager, ImageAssetLoader } from '@zerocraft/engine/assets/index.js';
 import { getComponentById } from '@zerocraft/engine/engine/core/query.js';

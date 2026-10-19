@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "zerocraft.life-generation-gate.v1",
+  "stage": "brief",
+  "inputHash": "sha256:prototype-demon-castle-v1-owner-approved",
+  "selfCheck": {
+    "status": "pass",
+    "diagnostics": []
+  },
+  "visualArtifacts": [
+    {
+      "kind": "game-card",
+      "ref": "docs/design/game-demon-castle/brief.md"
+    },
+    {
+      "kind": "html-prototype",
+      "ref": "docs/design/game-demon-castle/demon-castle.dc.html"
+    }
+  ],
+  "ownerDecision": "approved"
+}

@@ -147,7 +147,7 @@ export function AssetImportWizard({
     setFiles((prev) => [...prev, ...loaded]);
   }, []);
 
-  useEffect(() => () => files.forEach((f) => URL.revokeObjectURL(f.url)), []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => () => files.forEach((f) => URL.revokeObjectURL(f.url)), []);
 
   // ── profile（数据！可复放）──
   const profile: NormalizationProfile = useMemo(
