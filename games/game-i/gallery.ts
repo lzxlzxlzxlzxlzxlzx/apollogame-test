@@ -4,7 +4,7 @@
 // 红线：本文件只产出数据。渲染/事件/换皮由引擎 renderNode + mountUI 解释（见 game-i.ts）。
 // 母法：apollo-ui-contract.md（控件契约总表·归档层已删·查 git 历史）。
 
-import type { LayoutNode } from '@zerocraft/engine/ui/components/index.js';
+import type { ButtonStateColors, LayoutNode } from '@zerocraft/engine/ui/components/index.js';
 import { uiTextureUrl, SKIN_METAL, SKIN_WOOD, SKIN_STONE, SKIN_SCROLL, BTN_BLUE, BTN_GREEN, BTN_RED, BTN_YELLOW, BTN_GREY, BTN_ROUND, BTN_GLOSSY, BTN_GHOST, CARD_JOKER, CARD_FLOWER } from './ui-assets.js';
 import { THEME_OPTIONS } from './themes.js';
 import { buildShop, INITIAL_SHOP, type ShopState } from './shop.js';
@@ -26,6 +26,14 @@ export interface ControlsState {
   tune: Record<string, string>;
 }
 export const INITIAL_CONTROLS: ControlsState = { flag: true, sound: true, speed: '1', view: 'grid', qty: 3, rating: 3, city: '', muted: false, reverb: false, vol: 70, pan: 0, tune: {} };
+
+/** 通用四态按钮皮：同一份纯数据在深/亮主题下均维持独立实色对比。 */
+const GHOST_STATE_COLORS: ButtonStateColors = {
+  default: { background: { custom: '#101A36' }, border: { custom: '#D7BD80' }, text: { custom: '#F4EEFF' } },
+  hover: { background: { custom: '#535C91' }, border: { custom: '#E4D6AA' }, text: { custom: '#FFFFFF' } },
+  pressed: { background: { custom: '#293359' }, border: { custom: '#F1D691' }, text: { custom: '#FFFFFF' } },
+  disabled: { background: { custom: '#30384B' }, border: { custom: '#8690A3' }, text: { custom: '#D8DEEB' } },
+};
 
 /** 一个可现场调节的离散参数（闭集档·Segmented 呈现·选中档编码进 value=`key:档`）。 */
 export interface TuneSpec { key: string; label: string; def: string; opts: Array<{ v: string; label: string }>; }
@@ -201,6 +209,12 @@ function pageDisplay(controls: ControlsState): LayoutNode { return {
   layout: { direction: 'column', gap: 18, padding: 20 },
   children: [
     sectionTitle('t-lbl-size', 'LABEL · 字号（7 具名档 xs10…xxxl34 + 裸 px 任意档）'),
+    sectionTitle('t-typewriter-signal', 'LABEL · 逐字完成与首次点击显全（StoryRef token 通知）'),
+    { type: 'Panel', id: 'demo-typewriter-signal', props: { bg: 'raised' }, layout: { direction: 'column', gap: 4, padding: 12 }, children: [
+      { type: 'Label', id: 'demo-typewriter-line', props: { text: '点击这句可立即显全；自然播毕或显全只发一次具名完成信号。', typewriter: 45,
+        typewriterSignal: { token: 'demo:line:1', action: 'demo.typewriter.complete' } } },
+      { type: 'Label', id: 'demo-typewriter-note', props: { text: '作品须用当前剧情引用 + 世代作 token；换行、回滚、读档均换 token。', size: 'sm', color: 'sub' } },
+    ] },
     {
       type: 'Panel',
       id: 'demo-lbl-size',
@@ -221,6 +235,13 @@ function pageDisplay(controls: ControlsState): LayoutNode { return {
         { type: 'Label', id: 'lbl-px-hint', props: { text: '← size 填数字=裸 px（复刻稿子精确字号）；填令牌=7 具名档（保排版和谐）', color: 'sub', size: 'sm' }, layout: { flex: 1 } },
       ],
     },
+    sectionTitle('t-lbl-measured', 'LABEL / PANEL · 精确行高、900 字重与透明中心印章'),
+    { type: 'Panel', id: 'demo-lbl-measured', props: { bg: 'raised' }, layout: { direction: 'row', gap: 18, align: 'center', padding: 12 }, children: [
+      { type: 'Label', id: 'lbl-lineheight', props: { text: '多行证据\n按30px基线排列', size: 19, lineHeight: 30, color: 'text' } },
+      { type: 'Panel', id: 'panel-stamp-outline', props: { bg: 'transparent', border: { width: 5, color: { custom: '#963c38' } } }, layout: { radius: 0, padding: 8 }, children: [
+        { type: 'Label', id: 'lbl-stamp-heavy', props: { text: '已收录', size: 20, weight: 900, color: 'danger' } },
+      ] },
+    ] },
     // 用法模式：同一件 Label 在真实屏上的四种典型角色（层级靠字号+色+粗细拉开·别全用一档）。
     { type: 'Label', id: 'lbl-usage-note', props: { text: '典型用法：标题 / 正文 / 副文 / 爆数字——层级靠「字号 + 色 + bold」三者一起拉开', color: 'sub', size: 'sm' } },
     {
@@ -308,6 +329,7 @@ function pageDisplay(controls: ControlsState): LayoutNode { return {
       layout: { direction: 'row', gap: 12, padding: 10 },
       children: [
         { type: 'Image', id: 'img-cover', props: { src: DEMO_IMG, alt: 'cover', fit: 'cover' }, layout: { width: 110, height: 70 } },
+        { type: 'Image', id: 'img-cover-top', props: { src: DEMO_IMG, alt: 'cover top', fit: 'cover', position: 'top' }, layout: { width: 110, height: 70 } },
         { type: 'Image', id: 'img-contain', props: { src: DEMO_IMG, alt: 'contain', fit: 'contain' }, layout: { width: 110, height: 70 } },
         { type: 'Image', id: 'img-fill', props: { src: DEMO_IMG, alt: 'fill', fit: 'fill' }, layout: { width: 110, height: 70 } },
         { type: 'Image', id: 'img-radius', props: { src: DEMO_IMG, alt: 'radius 12', fit: 'cover', radius: 12 }, layout: { width: 110, height: 70 } },
@@ -561,8 +583,15 @@ function buildPageInput(c: ControlsState): LayoutNode {
         { type: 'Button', id: 'btn-q', props: { label: '安静', kind: 'quiet', action: 'click', actionArg: 'quiet' } },
         { type: 'Button', id: 'btn-d', props: { label: '禁用', kind: 'primary', disabled: true, action: 'click', actionArg: 'disabled' } },
         { type: 'Button', id: 'btn-label-color', props: { label: '亮字 ghost', kind: 'ghost', labelColor: { custom: '#F4EEFF' }, action: 'click', actionArg: 'label-color' } },
+        { type: 'Button', id: 'btn-measured-label', props: { label: '16px 粗体', kind: 'ghost', labelSize: 16, labelWeight: 700, action: 'click', actionArg: 'measured-label' } },
+        { type: 'Button', id: 'btn-icon-only', props: { label: '背包', icon: '/games/game-i/art/emoji/1f392.png', iconOnly: { size: 48 }, kind: 'primary', action: 'click', actionArg: 'icon-only' } },
+        { type: 'Button', id: 'btn-icon-feedback', props: { label: '反馈背包', icon: '/games/game-i/art/emoji/1f392.png', iconOnly: { size: 48 }, kind: 'quiet', skin: '', borderWidth: 0, iconFeedback: { hover: { translateY: -3, brightness: 1.2, glowRadius: 5, glowColor: { custom: '#d6b6ef' } }, pressed: { translateY: 3, brightness: 0.85 }, disabled: { opacity: 0.48, grayscale: 0.7 }, transitionMs: 120 }, action: 'click', actionArg: 'icon-feedback' } },
       ],
     },
+    { type: 'Panel', id: 'demo-btn-state-colors', props: { bare: true }, layout: { direction: 'row', gap: 12, padding: 10 }, children: [
+      { type: 'Button', id: 'btn-state-colors', props: { label: '四态胶囊 · 悬停/按下', kind: 'ghost', shape: 'pill', stateColors: GHOST_STATE_COLORS, action: 'click', actionArg: 'state-colors' }, layout: { width: 210, height: 40 } },
+      { type: 'Button', id: 'btn-state-colors-disabled', props: { label: '禁用胶囊', kind: 'ghost', shape: 'pill', stateColors: GHOST_STATE_COLORS, disabled: true, action: 'click', actionArg: 'state-colors-disabled' }, layout: { width: 130, height: 40 } },
+    ] },
     divider('d-i1'),
     sectionTitle('t-input', 'INPUT · 文本 / 数字（→ 信号 setText / setNum）'),
     {
@@ -600,6 +629,13 @@ function buildPageInput(c: ControlsState): LayoutNode {
         { type: 'Checkbox', id: 'cb-tutorial', props: { label: '开启新手引导', checked: c.flag, action: 'setFlag' } },
         { type: 'Toggle', id: 'tg-sound', props: { label: '音效', checked: c.sound, action: 'setSound' } },
         { type: 'Toggle', id: 'tg-sound-disabled', props: { label: '音效（待接入）', checked: true, action: 'setSound', disabled: true } },
+        { type: 'Label', id: 'tg-measured-caption', props: { text: '精确药丸皮', color: 'sub' } },
+        { type: 'Toggle', id: 'tg-measured-visual', props: { label: '精确药丸皮', checked: c.flag, action: 'setFlag', visual: {
+          showLabel: false,
+          width: 75, height: 31, knobSize: 22, knobOffLeft: 4, knobOnLeft: 46, knobTop: 3,
+          offBackground: { custom: '#1b2445' }, onBackground: { custom: '#5b679e' }, border: { custom: '#d8c389' },
+          offKnob: { custom: '#8b9ac3' }, onKnob: { custom: '#eff1ff' },
+        } } },
       ],
     },
     sectionTitle('t-radio', 'RADIOGROUP · 互斥单选（→ 信号 setSpeed）'),
@@ -756,7 +792,7 @@ function buildPageInput(c: ControlsState): LayoutNode {
 export const modalOverlay: LayoutNode = {
   type: 'Modal',
   id: 'demo-modal-overlay',
-  props: { title: '示例模态框', size: 'xl', closable: true, closeAction: 'closeModal' },
+  props: { title: '示例模态框', size: 'xl', closable: true, closeAction: 'closeModal', scrim: { blur: 3 }, visual: { width: 820, minHeight: 310, radius: 8, padding: { top: 26, right: 40, bottom: 26, left: 40 }, fill: { gradient: { from: '#1A2433', to: '#263247' } }, border: { width: 12, color: '#82623A' }, titleSize: 30, titleAlign: 'center', contentAlign: 'center' } },
   layout: {},
   children: [
     { type: 'Label', id: 'mo-body', props: { text: '这是一个数据驱动的模态浮层——标题/尺寸/可关均由数据配置。', color: 'sub' } },
@@ -1161,6 +1197,7 @@ function buildPageNew(controls: ControlsState): LayoutNode {
           { type: 'Badge', id: 'anim-float', props: { text: 'float 浮动', tone: 'ok' }, layout: { anim: 'float' } },
           { type: 'Badge', id: 'anim-glow', props: { text: 'glow 发光', tone: 'warn' }, layout: { anim: 'glow' } },
           { type: 'Badge', id: 'anim-pulse', props: { text: 'pulse 脉冲', tone: 'dim' }, layout: { anim: 'pulse' } },
+          { type: 'Label', id: 'anim-cue', props: { text: 'cue · 1300ms', color: 'gold' }, layout: { fx: [{ kind: 'cue', ms: 1300 }] } },
         ] },
 
       divider('d-n8'),
@@ -1268,6 +1305,7 @@ function buildPageNew(controls: ControlsState): LayoutNode {
           { type: 'Button', id: 'sk-9-slice', props: { label: '9-slice 清晰', skin: BTN_GREEN_URL, skinSlice: 9, action: 'click', actionArg: '9-slice' }, layout: { width: 180, height: 110 } },
           { type: 'Button', id: 'sk-9-big', props: { label: '任意尺寸不变形', skin: BTN_GREEN_URL, skinSlice: 9, action: 'click', actionArg: '9-big' }, layout: { width: 240, height: 72 } },
           { type: 'Button', id: 'sk-9-separate', props: { label: '源 9 / 显示 5', skin: BTN_GREEN_URL, skinSlice: 9, skinBorderWidth: 5, action: 'click', actionArg: '9-separate' }, layout: { width: 240, height: 72 } },
+          { type: 'Button', id: 'sk-feedback', props: { label: '贴图状态反馈', skin: BTN_BLUE_URL, action: 'click', actionArg: 'skin-feedback', skinFeedback: { hoverBrightness: 1.32, pressedBrightness: 0.85, glowRadius: 8, glowColor: { custom: '#a7b2ff99' }, transitionMs: 160 } }, layout: { width: 180, height: 72 } },
         ] },
 
       { type: 'Label', id: 't-skin-alpha', props: { text: '带透明色的贴图（透明处 see-through）：默认框面=不透明底吃掉透明（左·间隙显面色）vs bg:"transparent" 令牌=透明底保边框透见身后（右·间隙透见彩底）。贴图按钮/Image 本就透明·框面加此令牌即可。', size: 'xs', color: 'dim' } },

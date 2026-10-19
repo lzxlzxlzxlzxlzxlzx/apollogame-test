@@ -28,7 +28,7 @@ const cardId = (index: number): string => `card-${index}`;
 const queuedX = (index: number): number => 1620 + index * 20;
 
 /** Pure authored keyframe rows; the engine interprets every frame and transition. */
-export function buildCardRevealTracks(count: number, mode: MotionMode): readonly TrackRow[] {
+export function buildCardRevealTracks(count: number, mode: MotionMode, cardSizes: readonly Readonly<{ width: number; height: number }>[] = []): readonly TrackRow[] {
   const t = stageTicks(mode, count);
   const p2End = t.p2 - 1, p3End = t.p3 - 1, p4End = t.p4Card - 1, p5End = t.p5 - 1;
   const rows: TrackRow[] = [];
@@ -86,8 +86,8 @@ export function buildCardRevealTracks(count: number, mode: MotionMode): readonly
     ch('Transform.x', [f(0, 720 + i * 5), f(lift, 720 + i * 5), f(p3End, 720 + i * 5)]),
     ch('Transform.y', [f(0, 410 - i * 6), f(lift, 410 - i * 6), f(p3End, 360 - i * 6, 'easeOut')]),
     ch('Transform.rotation', [f(0, 0), f(p3End, -0.035 + i * 0.012)]),
-    ch('Transform.scaleX', [f(0, 220 / 260), f(lift, 220 / 260), f(p3End, 1, 'easeOut')]),
-    ch('Transform.scaleY', [f(0, 220 / 260), f(lift, 220 / 260), f(p3End, 1, 'easeOut')]),
+    ch('Transform.scaleX', [f(0, 220 / (cardSizes[i]?.width ?? 260)), f(lift, 220 / (cardSizes[i]?.width ?? 260)), f(p3End, 1, 'easeOut')]),
+    ch('Transform.scaleY', [f(0, 220 / (cardSizes[i]?.width ?? 260)), f(lift, 220 / (cardSizes[i]?.width ?? 260)), f(p3End, 1, 'easeOut')]),
   ], i === 0 ? 'reveal:p3:done' : undefined));
   // P4: the live top card sways, then flies right without alpha fade; hidden lower cards glide into place.
   for (let i = 0; i < count; i++) {
@@ -120,7 +120,7 @@ export function buildCardRevealTracks(count: number, mode: MotionMode): readonly
   for (let i = 0; i < count; i++) {
     const begin = msToTicks(150 + i * (mode === 'standard' ? 120 : 70));
     const arrive = begin + msToTicks(mode === 'standard' ? 700 : 360);
-    const scale = layout.width / 260;
+    const scale = layout.width / (cardSizes[i]?.width ?? 260);
     const easeCubic = (u: number): number => 1 - (1 - u) * (1 - u) * (1 - u);
     const path = (start: number, end: number, arc = 0): PresentationKeyframe[] => {
       const points = [f(0, start), f(begin, start)];
@@ -154,7 +154,8 @@ export function buildCardRevealTracks(count: number, mode: MotionMode): readonly
   rows.push(terminal('a-final-tear-body', 'tear-body', [['Visibility.visible', false], ['Transform.x', 720], ['Transform.y', 1050]]));
   for (let i = 0; i < count; i++) rows.push(terminal(`a-final-card-${i}`, cardId(i), [
     ['Visibility.visible', true], ['Transform.x', layout.x[i]], ['Transform.y', 410],
-    ['Transform.rotation', 0], ['Transform.scaleX', layout.width / 260], ['Transform.scaleY', layout.height / 390],
+    ['Transform.rotation', 0], ['Transform.scaleX', layout.width / (cardSizes[i]?.width ?? 260)],
+    ['Transform.scaleY', layout.width / (cardSizes[i]?.width ?? 260)],
     ['Color.alpha', 1], ['Sprite.zOrder', 20 + count - i],
   ]));
   rows.push(terminal('a-final-clock', 'clock', [['Transform.x', 0]], SIGNAL.skipped));

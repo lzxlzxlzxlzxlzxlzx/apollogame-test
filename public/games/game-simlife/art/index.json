@@ -2,78 +2,792 @@
   "version": 1,
   "assets": [
     {
+      "id": "art:little-valley:crop:turnip-growing",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/crops/turnip-growing.svg",
+      "description": "原创暖色乡村像素风生长中的芜菁叶，32×32。",
+      "category": "sprite.crop",
+      "tags": [
+        "little-valley",
+        "crop",
+        "turnip",
+        "growing",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32,
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
+    },
+    {
+      "id": "art:little-valley:crop:turnip-mature",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/crops/turnip-mature.svg",
+      "description": "原创暖色乡村像素风成熟紫白芜菁，32×32。",
+      "category": "sprite.crop",
+      "tags": [
+        "little-valley",
+        "crop",
+        "turnip",
+        "mature",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32,
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
+    },
+    {
+      "id": "art:little-valley:crop:turnip-seeded",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/crops/turnip-seeded.svg",
+      "description": "原创暖色乡村像素风刚播下种子的芜菁田格，32×32。",
+      "category": "sprite.crop",
+      "tags": [
+        "little-valley",
+        "crop",
+        "turnip",
+        "seeded",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32,
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
+    },
+    {
+      "id": "art:little-valley:item:berry",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/items/berry.svg",
+      "description": "原创暖色乡村像素风采集浆果物品图标，32×32。",
+      "category": "sprite.item",
+      "tags": [
+        "little-valley",
+        "item",
+        "berry",
+        "forage",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
+    },
+    {
+      "id": "art:little-valley:item:ore",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/items/ore.svg",
+      "description": "原创暖色乡村像素风铜矿物品图标，32×32。",
+      "category": "sprite.item",
+      "tags": [
+        "little-valley",
+        "item",
+        "ore",
+        "mine",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
+    },
+    {
+      "id": "art:little-valley:item:turnip",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/items/turnip.svg",
+      "description": "原创暖色乡村像素风收获的芜菁物品图标，32×32。",
+      "category": "sprite.item",
+      "tags": [
+        "little-valley",
+        "item",
+        "turnip",
+        "harvest",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
+    },
+    {
+      "id": "art:little-valley:item:turnip-seed",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/items/turnip-seed.svg",
+      "description": "原创暖色乡村像素风芜菁种子包图标，32×32。",
+      "category": "sprite.item",
+      "tags": [
+        "little-valley",
+        "item",
+        "seed",
+        "turnip",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
+    },
+    {
+      "id": "art:little-valley:placement:berry-bush",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/sprites/berry-bush.svg",
+      "description": "原创暖色乡村像素风可采摘浆果灌木，32×32。",
+      "category": "sprite.resource",
+      "tags": [
+        "little-valley",
+        "resource",
+        "berry",
+        "bush",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32,
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
+    },
+    {
+      "id": "art:little-valley:placement:farmhouse",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/buildings/farmhouse.svg",
+      "description": "原创暖色乡村像素风木制农舍，正面三分之二俯视，256×96。",
+      "category": "sprite.building",
+      "tags": [
+        "little-valley",
+        "building",
+        "farmhouse",
+        "wood",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 256,
+        "height": 96,
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
+    },
+    {
+      "id": "art:little-valley:placement:mayor",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/sprites/mayor.svg",
+      "description": "原创暖色乡村像素风镇长 NPC，棕色礼帽与酒红外套，32×48。",
+      "category": "sprite.character",
+      "tags": [
+        "little-valley",
+        "npc",
+        "mayor",
+        "top-down",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 48,
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
+    },
+    {
+      "id": "art:little-valley:placement:mine-entrance",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/buildings/mine-entrance.svg",
+      "description": "原创暖色乡村像素风岩石矿洞入口，深色洞口与木梁，64×64，底部居中。",
+      "category": "sprite.structure",
+      "tags": [
+        "little-valley",
+        "placement",
+        "mine",
+        "entrance",
+        "top-down",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 64,
+        "height": 64,
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
+    },
+    {
+      "id": "art:little-valley:placement:ore-vein",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/sprites/ore-vein.svg",
+      "description": "原创暖色乡村像素风可开采铜色矿脉，32×32。",
+      "category": "sprite.resource",
+      "tags": [
+        "little-valley",
+        "resource",
+        "ore",
+        "mine",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32,
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
+    },
+    {
+      "id": "art:little-valley:placement:scenery-solid",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/tiles/scenery-solid.svg",
+      "description": "原创暖色乡村像素风不可通行岩石与树篱地块，32×32。",
+      "category": "tile.blocker",
+      "tags": [
+        "little-valley",
+        "tile",
+        "blocked",
+        "scenery",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
+    },
+    {
       "id": "art:little-valley:player:farmer",
       "type": "texture",
       "status": "filled",
       "path": "/games/game-simlife/art/sprites/farmer.svg",
       "description": "原创暖色乡村像素风农夫，俯视三分之二角，草帽与蓝色工作服，32×48。",
       "category": "sprite.character",
-      "tags": ["little-valley", "player", "farmer", "top-down", "pixel"],
+      "tags": [
+        "little-valley",
+        "player",
+        "farmer",
+        "top-down",
+        "pixel"
+      ],
       "source": "little-valley-original-svg",
       "license": "CC0",
       "style": "pixel.warm-rural",
-      "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 48, "anchor": "bottom-center" },
-      "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 48,
+        "anchor": "bottom-center"
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
     },
     {
-      "id": "art:little-valley:tile:meadow-grass", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/tiles/meadow-grass.svg", "description": "原创暖色乡村像素风春季草地地块，32×32。", "category": "tile.ground", "tags": ["little-valley", "tile", "grass", "meadow", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32 }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
+      "id": "art:little-valley:tile:farmable-earth",
+      "type": "texture",
+      "description": "seamless warm rural pixel untilled farmable earth tile, top-down, no text · AI 生成(gpt-image)",
+      "status": "filled",
+      "path": "/games/game-simlife/art/ai/gpt-image/little-valley-tile-farmable-earth.png",
+      "category": "ai-gen",
+      "tags": [
+        "ai-gen",
+        "gpt-image",
+        "seamless",
+        "warm",
+        "rural",
+        "pixel",
+        "untilled",
+        "farmable"
+      ],
+      "license": "OpenAI GPT Image API (按 OpenAI 服务条款与账户授权)",
+      "source": "ai:gpt-image",
+      "spec": {
+        "format": "png",
+        "width": 32,
+        "height": 32,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "transparent": false,
+        "sampling": "nearest"
+      },
+      "provenance": {
+        "generator": "gpt-image",
+        "prompt": "seamless warm rural pixel untilled farmable earth tile, top-down, no text",
+        "model": "codex-imagegen",
+        "mock": false,
+        "generatedAt": "2026-10-13T00:00:00.000Z",
+        "sourceCandidate": {
+          "reviewFile": "docs/design/game-simlife/assets-candidates/2026-10-13-world-surfaces/candidate-review.json",
+          "sourceFile": "docs/design/game-simlife/assets-candidates/2026-10-13-world-surfaces/little-valley-farmable-earth-source.png",
+          "sourceContentHash": "sha256:a844c4e04d7dff6a9ba6e3d16094fb6fb6f8f71a14ee65f27eb9db64dfa8621e",
+          "ownerApproval": "2026-10-13 chat: 通过"
+        },
+        "approvedAt": "2026-10-13T03:39:27.919Z",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved",
+        "binding": {
+          "schemaVersion": "zerocraft.life-asset-slot-binding.v1",
+          "game": "game-simlife",
+          "slotId": "little-valley.tile.farmable-earth",
+          "assetKey": "art:little-valley:tile:farmable-earth",
+          "briefFingerprint": "asset-slot-v1:8280a37f"
+        },
+        "contentHash": "sha256:95540c63f7b362346633bf026c32ba4cf83f3c9996a248865a2560799cd87ebc"
+      }
     },
     {
-      "id": "art:little-valley:tile:tilled-soil", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/tiles/tilled-soil.svg", "description": "原创暖色乡村像素风可耕作土壤地块，32×32。", "category": "tile.ground", "tags": ["little-valley", "tile", "soil", "farm", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32 }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
+      "id": "art:little-valley:tile:forest-floor",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/tiles/forest-floor.svg",
+      "description": "原创暖色乡村像素风林地落叶地面，32×32。",
+      "category": "tile.ground",
+      "tags": [
+        "little-valley",
+        "tile",
+        "forest",
+        "forage",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
     },
     {
-      "id": "art:little-valley:tile:ochre-path", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/tiles/ochre-path.svg", "description": "原创暖色乡村像素风赭黄碎石小径地块，32×32。", "category": "tile.ground", "tags": ["little-valley", "tile", "path", "town", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32 }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
+      "id": "art:little-valley:tile:meadow-grass",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/tiles/meadow-grass.svg",
+      "description": "原创暖色乡村像素风春季草地地块，32×32。",
+      "category": "tile.ground",
+      "tags": [
+        "little-valley",
+        "tile",
+        "grass",
+        "meadow",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
     },
     {
-      "id": "art:little-valley:tile:river-bridge", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/tiles/river-bridge.svg", "description": "原创暖色乡村像素风木板桥面地块，32×32。", "category": "tile.structure", "tags": ["little-valley", "tile", "bridge", "wood", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32 }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
+      "id": "art:little-valley:tile:mine-approach",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/tiles/mine-approach.svg",
+      "description": "原创暖色乡村像素风矿洞前碎岩地面，32×32。",
+      "category": "tile.ground",
+      "tags": [
+        "little-valley",
+        "tile",
+        "mine",
+        "stone",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
     },
     {
-      "id": "art:little-valley:tile:river-water", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/tiles/river-water.svg", "description": "原创暖色乡村像素风流动河水地块，32×32。", "category": "tile.water", "tags": ["little-valley", "tile", "water", "river", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32 }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
+      "id": "art:little-valley:tile:ochre-path",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/tiles/ochre-path.svg",
+      "description": "原创暖色乡村像素风赭黄碎石小径地块，32×32。",
+      "category": "tile.ground",
+      "tags": [
+        "little-valley",
+        "tile",
+        "path",
+        "town",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
     },
     {
-      "id": "art:little-valley:tile:forest-floor", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/tiles/forest-floor.svg", "description": "原创暖色乡村像素风林地落叶地面，32×32。", "category": "tile.ground", "tags": ["little-valley", "tile", "forest", "forage", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32 }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
+      "id": "art:little-valley:tile:river-bridge",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/tiles/river-bridge.svg",
+      "description": "原创暖色乡村像素风木板桥面地块，32×32。",
+      "category": "tile.structure",
+      "tags": [
+        "little-valley",
+        "tile",
+        "bridge",
+        "wood",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
     },
     {
-      "id": "art:little-valley:tile:mine-approach", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/tiles/mine-approach.svg", "description": "原创暖色乡村像素风矿洞前碎岩地面，32×32。", "category": "tile.ground", "tags": ["little-valley", "tile", "mine", "stone", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32 }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
+      "id": "art:little-valley:tile:river-water",
+      "type": "texture",
+      "status": "filled",
+      "path": "/games/game-simlife/art/tiles/river-water.svg",
+      "description": "原创暖色乡村像素风流动河水地块，32×32。",
+      "category": "tile.water",
+      "tags": [
+        "little-valley",
+        "tile",
+        "water",
+        "river",
+        "pixel"
+      ],
+      "source": "little-valley-original-svg",
+      "license": "CC0",
+      "style": "pixel.warm-rural",
+      "spec": {
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "wrap": "clamp",
+        "width": 32,
+        "height": 32
+      },
+      "provenance": {
+        "method": "original-procedural-vector",
+        "author": "ZeroCraft",
+        "review": "approved-local-placeholder",
+        "aiStatus": "not-generated"
+      }
     },
     {
-      "id": "art:little-valley:placement:scenery-solid", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/tiles/scenery-solid.svg", "description": "原创暖色乡村像素风不可通行岩石与树篱地块，32×32。", "category": "tile.blocker", "tags": ["little-valley", "tile", "blocked", "scenery", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32 }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
+      "id": "art:little-valley:tile:tilled-soil",
+      "type": "texture",
+      "description": "seamless warm rural pixel tilled soil tile, top-down, no text · AI 生成(gpt-image)",
+      "status": "filled",
+      "path": "/games/game-simlife/art/ai/gpt-image/little-valley-tile-tilled-soil.png",
+      "category": "ai-gen",
+      "tags": [
+        "ai-gen",
+        "gpt-image",
+        "seamless",
+        "warm",
+        "rural",
+        "pixel",
+        "tilled",
+        "soil"
+      ],
+      "license": "OpenAI GPT Image API (按 OpenAI 服务条款与账户授权)",
+      "source": "ai:gpt-image",
+      "spec": {
+        "format": "png",
+        "width": 32,
+        "height": 32,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "transparent": false,
+        "sampling": "nearest"
+      },
+      "provenance": {
+        "generator": "gpt-image",
+        "prompt": "seamless warm rural pixel tilled soil tile, top-down, no text",
+        "model": "codex-imagegen",
+        "mock": false,
+        "generatedAt": "2026-10-13T00:00:00.000Z",
+        "sourceCandidate": {
+          "reviewFile": "docs/design/game-simlife/assets-candidates/2026-10-13-world-surfaces/candidate-review.json",
+          "sourceFile": "docs/design/game-simlife/assets-candidates/2026-10-13-world-surfaces/little-valley-tilled-soil-source.png",
+          "sourceContentHash": "sha256:8751d01fa615cd974dd9ea63b6811e6eadfb763b0a0e2bd149303ce13c36bdc8",
+          "ownerApproval": "2026-10-13 chat: 通过"
+        },
+        "approvedAt": "2026-10-13T03:39:27.923Z",
+        "reviewedBy": "owner",
+        "ownerDecision": "approved",
+        "binding": {
+          "schemaVersion": "zerocraft.life-asset-slot-binding.v1",
+          "game": "game-simlife",
+          "slotId": "little-valley.tile.tilled-soil",
+          "assetKey": "art:little-valley:tile:tilled-soil",
+          "briefFingerprint": "asset-slot-v1:a4cebdfc"
+        },
+        "contentHash": "sha256:a58962eaaf479ed5be9cf478d89f349875fb359d4253163ec95ccc0ac0332edf"
+      }
     },
     {
-      "id": "art:little-valley:crop:turnip-seeded", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/crops/turnip-seeded.svg", "description": "原创暖色乡村像素风刚播下种子的芜菁田格，32×32。", "category": "sprite.crop", "tags": ["little-valley", "crop", "turnip", "seeded", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32, "anchor": "bottom-center" }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
-    },
-    {
-      "id": "art:little-valley:crop:turnip-growing", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/crops/turnip-growing.svg", "description": "原创暖色乡村像素风生长中的芜菁叶，32×32。", "category": "sprite.crop", "tags": ["little-valley", "crop", "turnip", "growing", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32, "anchor": "bottom-center" }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
-    },
-    {
-      "id": "art:little-valley:crop:turnip-mature", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/crops/turnip-mature.svg", "description": "原创暖色乡村像素风成熟紫白芜菁，32×32。", "category": "sprite.crop", "tags": ["little-valley", "crop", "turnip", "mature", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32, "anchor": "bottom-center" }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
-    },
-    {
-      "id": "art:little-valley:placement:farmhouse", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/buildings/farmhouse.svg", "description": "原创暖色乡村像素风木制农舍，正面三分之二俯视，256×96。", "category": "sprite.building", "tags": ["little-valley", "building", "farmhouse", "wood", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 256, "height": 96, "anchor": "bottom-center" }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
-    },
-    {
-      "id": "art:little-valley:placement:mayor", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/sprites/mayor.svg", "description": "原创暖色乡村像素风镇长 NPC，棕色礼帽与酒红外套，32×48。", "category": "sprite.character", "tags": ["little-valley", "npc", "mayor", "top-down", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 48, "anchor": "bottom-center" }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
-    },
-    {
-      "id": "art:little-valley:placement:berry-bush", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/sprites/berry-bush.svg", "description": "原创暖色乡村像素风可采摘浆果灌木，32×32。", "category": "sprite.resource", "tags": ["little-valley", "resource", "berry", "bush", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32, "anchor": "bottom-center" }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
-    },
-    {
-      "id": "art:little-valley:placement:ore-vein", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/sprites/ore-vein.svg", "description": "原创暖色乡村像素风可开采铜色矿脉，32×32。", "category": "sprite.resource", "tags": ["little-valley", "resource", "ore", "mine", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32, "anchor": "bottom-center" }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
-    },
-    {
-      "id": "art:little-valley:item:turnip-seed", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/items/turnip-seed.svg", "description": "原创暖色乡村像素风芜菁种子包图标，32×32。", "category": "sprite.item", "tags": ["little-valley", "item", "seed", "turnip", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32 }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
-    },
-    {
-      "id": "art:little-valley:item:turnip", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/items/turnip.svg", "description": "原创暖色乡村像素风收获的芜菁物品图标，32×32。", "category": "sprite.item", "tags": ["little-valley", "item", "turnip", "harvest", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32 }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
-    },
-    {
-      "id": "art:little-valley:item:berry", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/items/berry.svg", "description": "原创暖色乡村像素风采集浆果物品图标，32×32。", "category": "sprite.item", "tags": ["little-valley", "item", "berry", "forage", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32 }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
-    },
-    {
-      "id": "art:little-valley:item:ore", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/items/ore.svg", "description": "原创暖色乡村像素风铜矿物品图标，32×32。", "category": "sprite.item", "tags": ["little-valley", "item", "ore", "mine", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 32, "height": 32 }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
-    },
-    {
-      "id": "art:little-valley:placement:mine-entrance", "type": "texture", "status": "filled", "path": "/games/game-simlife/art/buildings/mine-entrance.svg", "description": "原创暖色乡村像素风岩石矿洞入口，深色洞口与木梁，64×64，底部居中。", "category": "sprite.structure", "tags": ["little-valley", "placement", "mine", "entrance", "top-down", "pixel"], "source": "little-valley-original-svg", "license": "CC0", "style": "pixel.warm-rural", "spec": { "usage": "sprite", "colorSpace": "srgb", "wrap": "clamp", "width": 64, "height": 64, "anchor": "bottom-center" }, "provenance": { "method": "original-procedural-vector", "author": "ZeroCraft", "review": "approved-local-placeholder", "aiStatus": "not-generated" }
+      "id": "art:little-valley:tile:watered-soil",
+      "type": "texture",
+      "description": "seamless warm rural pixel freshly watered dark soil tile, top-down, no text · AI 生成(gpt-image)",
+      "status": "filled",
+      "path": "/games/game-simlife/art/ai/gpt-image/little-valley-tile-watered-soil.png",
+      "category": "ai-gen",
+      "tags": [
+        "ai-gen",
+        "gpt-image",
+        "seamless",
+        "warm",
+        "rural",
+        "pixel",
+        "freshly",
+        "watered"
+      ],
+      "license": "OpenAI GPT Image API (按 OpenAI 服务条款与账户授权)",
+      "source": "ai:gpt-image",
+      "spec": {
+        "format": "png",
+        "width": 32,
+        "height": 32,
+        "usage": "sprite",
+        "colorSpace": "srgb",
+        "transparent": false,
+        "sampling": "nearest"
+      },
+      "provenance": {
+        "generator": "gpt-image",
+        "prompt": "seamless warm rural pixel freshly watered dark soil tile, top-down, no text",
+        "model": "codex-imagegen",
+        "mock": false,
+        "generatedAt": "2026-10-13T00:00:00.000Z",
+        "sourceCandidate": {
+          "reviewFile": "docs/design/game-simlife/assets-candidates/2026-10-13-world-surfaces/candidate-review.json",
+          "sourceFile": "docs/design/game-simlife/assets-candidates/2026-10-13-world-surfaces/little-valley-watered-soil-source.png",
+          "sourceContentHash": "sha256:20c7ee2ac2e85e3996af5d5653576f3933d4a52e14af3899fc6f56f1b5f85283",
+          "ownerApproval": "2026-10-13 chat: 通过"
+        },
+        "approvedAt": "2026-10-13T03:39:27.927Z",
+        "ownerDecision": "approved",
+        "binding": {
+          "schemaVersion": "zerocraft.life-asset-slot-binding.v1",
+          "game": "game-simlife",
+          "slotId": "little-valley.tile.watered-soil",
+          "assetKey": "art:little-valley:tile:watered-soil",
+          "briefFingerprint": "asset-slot-v1:187779d2"
+        },
+        "contentHash": "sha256:ce254703b2480f4dca718469fb92afdd99413655e116200023e89036558de808"
+      }
     }
   ]
 }

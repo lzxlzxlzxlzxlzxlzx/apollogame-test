@@ -107,12 +107,26 @@ if (launched.status === 'completed') {
 
 未知额外键一律拒绝。所有 string 按 JavaScript 字符串长度计，均禁止空串；三个 ID 字段只接受 ASCII `[A-Za-z0-9_-]`，不做 Unicode 归一化，调用方必须发送稳定、逐字一致的值。该限制保证 `requestId` 可直接作为会话 key、`objectId` 可直接进入临时 texture/mask key，不需要游戏层另写映射器。
 
+#### 宿主内容到合同字段的对应
+
+| 宿主想传入的内容 | v1 合同字段 | 说明 |
+|---|---|---|
+| case 名称 | `data.title` | `title` 在本合同中就是 case 的玩家可见名称，不另设同义字段。 |
+| 调查目标 | `data.objective` | HUD 展示文本，不参与完成判定。 |
+| 背景图片 | `data.background` | 一张正式局背景 PNG；仅负责渲染。 |
+| 场景素材、位置与层级 | `data.objects[].sceneImage`、`.placement` | 每个可调查物件是一张透明 PNG 加归一化位置、尺寸、锚点、适配方式和层级。 |
+| 是否为证物 | `data.objects[].kind` | `clue` 是可收录证物；`flavor` 是普通调查物。 |
+| 点击后出现的文本 | `data.objects[].description` | 调查反馈文字；线索物件同时在证物弹层中展示。 |
+| 线索数量 | 由 `objects` 中 `kind:"clue" && required:true` 自动计算 | 不接收独立数量字段，避免它与物件数组冲突；HUD 显示“已收录必需线索 / 必需线索总数”。 |
+
+`evidenceImage` 是线索收录时弹出的证物特写；它不是另一个场景热点，也没有位置或 `hitMask`。背景和证物特写都不需要也不允许伪造点击蒙版。
+
 | 路径 | 类型 | 必填 | 约束、默认值与语义 | 非法时行为 |
 |---|---|---:|---|---|
 | `data.requestId` | string | 是 | 1–128；只允许 `[A-Za-z0-9_-]+`；本次调用与宿主幂等键及桥 session id | 拒绝会话 |
 | `data.investigationId` | string | 是 | 1–128；只允许 `[A-Za-z0-9_-]+`；宿主调查定义的稳定 ID | 拒绝会话 |
-| `data.title` | string | 是 | 1–80；仅展示 | 拒绝会话 |
-| `data.objective` | string | 是 | 1–240；仅展示 | 拒绝会话 |
+| `data.title` | string | 是 | 1–80；case 的玩家可见名称；仅展示 | 拒绝会话 |
+| `data.objective` | string | 是 | 1–240；玩家可见调查目标；仅展示，不参与完成判定 | 拒绝会话 |
 | `data.background` | closed object | 是 | 只允许表列字段；render-only | 拒绝会话 |
 | `data.background.imageUrl` | HTTPS PNG URL | 是 | 无用户名/密码；pathname 以 `.png` 结尾；最长 2048 | 拒绝会话 |
 | `data.background.alt` | string | 是 | 1–120 | 拒绝会话 |
@@ -120,10 +134,10 @@ if (launched.status === 'completed') {
 | `data.background.pixelHeight` | integer | 是 | 1–8192；必须与解码结果一致 | 拒绝/资源失败退出 |
 | `data.objects` | array | 是 | 1–12；顺序用于同 zIndex 的稳定 tie-break；`objectId` 唯一 | 拒绝会话 |
 | `data.objects[].objectId` | string | 是 | 1–128；只允许 `[A-Za-z0-9_-]+`；局内唯一并直接进入临时资产 key | 拒绝会话 |
-| `data.objects[].kind` | enum | 是 | `flavor` 或 `clue` | 拒绝会话 |
-| `data.objects[].required` | boolean | 是 | `flavor` 必须为 false；至少一个 `clue` 为 true | 拒绝会话 |
-| `data.objects[].name` | string | 是 | 1–80；仅展示 | 拒绝会话 |
-| `data.objects[].description` | string | 是 | 1–400；仅展示 | 拒绝会话 |
+| `data.objects[].kind` | enum | 是 | `flavor`=普通调查物；`clue`=可收录证物 | 拒绝会话 |
+| `data.objects[].required` | boolean | 是 | `flavor` 必须为 false；`clue:true` 计入目标线索总数；至少一个 `clue` 为 true | 拒绝会话 |
+| `data.objects[].name` | string | 是 | 1–80；场景标签与证物名称 | 拒绝会话 |
+| `data.objects[].description` | string | 是 | 1–400；点击该素材后显示的调查反馈文本；线索会在证物弹层再次使用 | 拒绝会话 |
 | `data.objects[].sceneImage` | closed object | 是 | 动态场景 PNG；字段同 background image | 拒绝会话 |
 | `data.objects[].sceneImage.imageUrl` | HTTPS PNG URL | 是 | 无用户名/密码；pathname 以 `.png` 结尾；最长 2048；render-only | 拒绝会话 |
 | `data.objects[].sceneImage.alt` | string | 是 | 1–120 | 拒绝会话 |
@@ -211,7 +225,7 @@ if (launched.status === 'completed') {
 
 ## 9. 展示资源与降级
 
-`background`、`sceneImage`、`evidenceImage`、名称、描述与 alt 均为展示输入；图片只允许 HTTPS 无凭据 URL，并需服务器允许跨域加载。正式局任何合同图片、尺寸或 mask 失败都 fail-closed 并取消，不以包内图替代后继续结算，因为 fallback 无法证明与宿主 mask 对应。空 data preview 只使用包内演示素材且永不 complete。
+`background`、`sceneImage`、`evidenceImage`、名称、描述与 alt 均为展示输入；图片只允许 HTTPS 无凭据 URL，并需服务器允许跨域加载。正式局任何合同图片、尺寸或 mask 失败都 fail-closed 并取消，不以包内图替代后继续结算，因为 fallback 无法证明与宿主 mask 对应。空 data preview 仅显示握手提示，不请求图片、不启动可结算调查且永不 complete。
 
 ## 10. 错误处理
 

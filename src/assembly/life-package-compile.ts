@@ -68,6 +68,7 @@ export function compileLifeGamePackage(raw: unknown): Manifest {
   const pkg = parseLifeGamePackage(raw);
   const questChapters = pkg.quests?.length ? canonicalQuestChapters(pkg.quests) : undefined;
   const relationships=pkg.relationships?.length?[...pkg.relationships].map((entry)=>({...entry,levels:[...entry.levels].map((level)=>({...level})).sort((a,b)=>a.min-b.min||a.id.localeCompare(b.id)),dailyCaps:{...entry.dailyCaps},rules:[...entry.rules].map((rule)=>({...rule,trigger:{...rule.trigger},effect:{...rule.effect}})).sort((a,b)=>b.priority-a.priority||a.id.localeCompare(b.id))})).sort((a,b)=>a.npcId.localeCompare(b.npcId)):undefined;
+  const profile=pkg.profile===undefined?undefined:{titleKey:pkg.profile.titleKey,attributes:pkg.profile.attributes.map((attribute)=>({...attribute,source:{...attribute.source}}))};
   const entities: Manifest['entities'] = {
     'life:world': { LifeWorld: { startSceneId: pkg.world.startSceneId } },
     'life:tile-catalog': { LifeTileCatalog: { tiles: Object.keys(pkg.tileCatalog).sort().map((tileId) => ({ tileId, tags: [...pkg.tileCatalog[tileId]!.tags], ...(pkg.tileCatalog[tileId]!.visual === undefined ? {} : { skinKey: pkg.tileCatalog[tileId]!.visual!.skinKey }) })) } },
@@ -88,12 +89,19 @@ export function compileLifeGamePackage(raw: unknown): Manifest {
       'life:relationship-state':{LifeRelationshipState:{entries:relationships.map((entry)=>({npcId:entry.npcId,value:entry.initial,levelId:[...entry.levels].filter((level)=>level.min<=entry.initial).at(-1)!.id,day:1,talkSpent:0,giftSpent:0,actionSpent:0})),receipts:[]}},
       'life:relationship-projection':{LifeRelationshipProjection:{entries:relationships.map((entry)=>{const level=[...entry.levels].filter((candidate)=>candidate.min<=entry.initial).at(-1)!;const next=entry.levels.find((candidate)=>candidate.min>entry.initial);return {npcId:entry.npcId,value:entry.initial,min:entry.min,max:entry.max,levelId:level.id,levelTitleKey:level.titleKey,...(next?{nextLevelAt:next.min}:{}),talkRemaining:entry.dailyCaps.talk,giftRemaining:entry.dailyCaps.gift,actionRemaining:entry.dailyCaps.action}})}},
     }:{}),
+    ...(profile?{'life:profile-catalog':{LifeProfileCatalog:profile}}:{}),
   };
   let player: { sceneId: string; x: number; y: number } | undefined;
   for (const scene of pkg.scenes) {
     entities[lifeEntityId('scene', scene.id)] = { LifeScene: { sceneId: scene.id, ...(scene.title === undefined ? {} : { title: scene.title }), width: scene.width, height: scene.height, layers: copyLayers(scene.layers) } };
     for (const zone of scene.zones) entities[lifeEntityId('zone', scene.id, zone.id)] = { LifeZone: { sceneId: scene.id, zoneId: zone.id, kind: zone.kind, geometry: { ...zone.rect }, allowedActions: [...zone.allowedActions], ...(zone.requires === undefined ? {} : { requires: { ...zone.requires } }) } };
-    for (const warp of scene.warps) entities[lifeEntityId('warp', scene.id, warp.id)] = { LifeWarp: { sceneId: scene.id, warpId: warp.id, ...(warp.label === undefined ? {} : { label: warp.label }), x: warp.at.x, y: warp.at.y, toSceneId: warp.toSceneId, toSpawnId: warp.toSpawnId, ...(warp.conditionRef === undefined ? {} : { conditionRef: warp.conditionRef }), ...(warp.requires === undefined ? {} : { requires: { ...warp.requires } }) } };
+    for (const warp of scene.warps) {
+      const interactionPlacement = warp.interactionPlacementId === undefined ? undefined : scene.placements.find((placement) => placement.id === warp.interactionPlacementId)!;
+      const footprint = interactionPlacement === undefined
+        ? { x: warp.at.x, y: warp.at.y, width: 1, height: 1 }
+        : { x: interactionPlacement.x, y: interactionPlacement.y, width: interactionPlacement.width, height: interactionPlacement.height };
+      entities[lifeEntityId('warp', scene.id, warp.id)] = { LifeWarp: { sceneId: scene.id, warpId: warp.id, ...(warp.label === undefined ? {} : { label: warp.label }), ...footprint, toSceneId: warp.toSceneId, toSpawnId: warp.toSpawnId, ...(warp.conditionRef === undefined ? {} : { conditionRef: warp.conditionRef }), ...(warp.requires === undefined ? {} : { requires: { ...warp.requires } }) } };
+    }
     for (const spawn of scene.spawnPoints) {
       entities[lifeEntityId('spawn', scene.id, spawn.id)] = { LifeSpawn: { sceneId: scene.id, spawnId: spawn.id, kind: spawn.kind, x: spawn.x, y: spawn.y } };
       if (spawn.kind === 'player') player = { sceneId: scene.id, x: spawn.x, y: spawn.y };

@@ -138,6 +138,32 @@ export class AssetManager {
   }
 
   /**
+   * Synchronously move one loaded asset into an already drawable stable key.
+   * The source loses ownership; the target keeps resolving throughout the call.
+   * Invalid/stale registrations fail without mutating either key.
+   */
+  adoptLoaded(sourceKey: string, targetKey: string): boolean {
+    if (sourceKey === targetKey || this.animations.has(sourceKey) || this.animations.has(targetKey)) return false;
+    const source = this.loaded.get(sourceKey);
+    const target = this.loaded.get(targetKey);
+    if (!source || !target || source.handle === target.handle) return false;
+    if (this.descriptors.get(sourceKey) !== source.descriptor || this.descriptors.get(targetKey) !== target.descriptor) return false;
+    if (source.descriptor.kind !== target.descriptor.kind) return false;
+
+    const descriptor = { ...source.descriptor, key: targetKey } as AssetDescriptor;
+    const adopted: LoadedAsset = { descriptor, handle: source.handle, width: source.width, height: source.height };
+    // No await/intermediate callback: delete source ownership, publish target, then close old target.
+    this.loaded.delete(sourceKey);
+    this.descriptors.delete(sourceKey);
+    this.inflight.delete(sourceKey);
+    this.descriptors.set(targetKey, descriptor);
+    this.loaded.set(targetKey, adopted);
+    this.inflight.delete(targetKey);
+    closeImageHandle(target.handle);
+    return true;
+  }
+
+  /**
    * 把 (key, frame) 解析成可绘制帧：源图 + 子矩形。
    * - texture：忽略 frame，整图为帧
    * - atlas：frame = 帧名(string)

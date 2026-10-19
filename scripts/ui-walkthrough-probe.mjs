@@ -43,20 +43,20 @@
 //  用法：
 //    node scripts/ui-walkthrough-probe.mjs --game <slug>
 //  退出码：
-//    0 = 探针跑通（页面装载成功·全部可驱动的点击均未触发控制台 error/未捕获异常——不代表「剧本
+//    0 = 探针跑通（页面装载成功·只读动作口可用·全部可驱动的点击均未触发控制台 error/未捕获异常——不代表「剧本
 //        全绿」，UI 可驱动率可能很低，那是诚实发现、不是失败·见 uiDrivableRate）
 //    1 = 真出问题（装载失败 / 驱动点击后出控制台 error 或未捕获异常 / 该游戏零验收剧本）
 //    2 = 用法错（缺 --game / 未知 slug）
 //    3 = 环境无浏览器（探针跳过·不算失败·同 R1/R3 语义）
 //
-//  产物（覆盖式）：public/games/<slug>/probe/S4-uiwalk.json（逐剧本/逐步结果 + uiDrivableRate）
+//  产物（覆盖式）：public/games/<slug>/probe/S4-uiwalk.json（失败也覆盖旧绿灯）
 // ═══════════════════════════════════════════════════════════════
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  detectBrowserRuntime, deepLinkQuery, startDevServer, stopDevServer,
+  detectBrowserRuntime, deepLinkQuery, cartProbeFixture, startDevServer, stopDevServer,
 } from './lib/render-harness.mjs';
 import { detectForm, gameHash } from './game-pipeline.mjs';
 import { parseAndValidate } from './acceptance-schema.mjs';
@@ -78,9 +78,10 @@ function listScenarioFiles(root, slug) {
 
 // ── 纯函数（不碰 DOM/浏览器·可直接单测）──────────────────────────────────────
 
-/** 剧本步骤三态分类：signal(尝试点击) / tick(装配·非「动作」) / expect(断言·另计非「动作」)。 */
+/** 剧本步骤四态分类：只有 signal 是玩家动作；tick/waitUntil/expect 均不进分母。 */
 export function classifyStep(step) {
-  if ('tick' in step) return { kind: 'tick' };
+  if ('tick' in step) return { kind: 'tick', ticks: step.tick };
+  if ('waitUntil' in step) return { kind: 'waitUntil', cap: step.cap };
   if ('expect' in step) return { kind: 'expect', count: step.expect.length };
   return { kind: 'signal', signal: step.signal, args: step.args, by: step.by };
 }
@@ -118,6 +119,7 @@ export function summarizeWalk(stepResults) {
     signalSteps: signals.length,
     drivenSteps: driven.length,
     tickSteps: stepResults.filter((r) => r.kind === 'tick').length,
+    waitUntilSteps: stepResults.filter((r) => r.kind === 'waitUntil').length,
     expectSteps: stepResults.filter((r) => r.kind === 'expect').length,
     uiDrivableRate: signals.length ? driven.length / signals.length : 1,
   };
@@ -129,9 +131,18 @@ export function aggregateSummaries(summaries) {
     signalSteps: a.signalSteps + s.signalSteps,
     drivenSteps: a.drivenSteps + s.drivenSteps,
     tickSteps: a.tickSteps + s.tickSteps,
+    waitUntilSteps: a.waitUntilSteps + s.waitUntilSteps,
     expectSteps: a.expectSteps + s.expectSteps,
-  }), { signalSteps: 0, drivenSteps: 0, tickSteps: 0, expectSteps: 0 });
+  }), { signalSteps: 0, drivenSteps: 0, tickSteps: 0, waitUntilSteps: 0, expectSteps: 0 });
   return { ...acc, uiDrivableRate: acc.signalSteps ? acc.drivenSteps / acc.signalSteps : 1 };
+}
+
+/** A missing/unsupported port is fatal earlier; a cart with zero genuine gestures is not a green S4 witness. */
+export function assessWalkResult(form, total, scenarios, consoleErrors, pageErrors) {
+  if (scenarios.some((s) => s.ok === false)) return { ok: false, reason: '验收剧本 schema 不合法' };
+  if (consoleErrors.length || pageErrors.length) return { ok: false, reason: '浏览器控制台或页面异常' };
+  if (form === 'cart' && total.signalSteps > 0 && total.drivenSteps === 0) return { ok: false, reason: '卡带零可驱动动作，不能作为 S4 真界面见证' };
+  return { ok: true };
 }
 
 // ── 单剧本走查（真浏览器·page 已装载好目标游戏）──────────────────────────────
@@ -141,7 +152,21 @@ async function walkScenario(page, scenario) {
     const step = scenario.steps[si];
     const cls = classifyStep(step);
     if (cls.kind === 'tick') {
-      stepResults.push({ step: si, kind: 'tick', driven: false, note: '装配/时间推进类·UI 无对应控件' });
+      await page.waitForTimeout(Math.min(cls.ticks * 1000 / 60, 10000));
+      stepResults.push({ step: si, kind: 'tick', driven: false, note: '按 60Hz 等待真实运行时间；非 UI 动作' });
+      continue;
+    }
+    if (cls.kind === 'waitUntil') {
+      // UI walk cannot evaluate the adapter's private World predicates. Wait only
+      // for the next declared player action to become reachable, bounded by cap.
+      const next = scenario.steps.slice(si + 1).find((candidate) => 'signal' in candidate);
+      const arg = next ? signalArgForClick(next.args) : null;
+      if (next && arg?.ok) {
+        await page.waitForFunction(({ signal, value }) => window.__zcProbe?.actions().some((a) =>
+          a.action === signal && !a.disabled && (value === undefined || a.arg === value)),
+        { signal: next.signal, value: arg.arg }, { timeout: Math.max(120, Math.min(cls.cap * 1000 / 60, 10000)) }).catch(() => {});
+      } else await page.waitForTimeout(120);
+      stepResults.push({ step: si, kind: 'waitUntil', driven: false, note: '条件等待非 UI 动作；仅等待下一玩家动作可达，世界断言未核' });
       continue;
     }
     if (cls.kind === 'expect') {
@@ -153,10 +178,9 @@ async function walkScenario(page, scenario) {
       stepResults.push({ step: si, kind: 'signal', signal: cls.signal, driven: false, note: argRes.reason });
       continue;
     }
-    const liveActions = await page.evaluate(() => (window.__zcProbe ? window.__zcProbe.actions() : null));
+    const liveActions = await page.evaluate(() => window.__zcProbe?.actions() ?? null);
     if (!liveActions) {
-      stepResults.push({ step: si, kind: 'signal', signal: cls.signal, driven: false, note: '调试口未就绪（__zcProbe 缺失）' });
-      continue;
+      throw new Error(`__zcProbe 在步骤 ${si} 消失，不能把未驱动记录成成功走查`);
     }
     const matches = findMatchingAction(liveActions, cls.signal, argRes.arg);
     if (matches.length === 0) {
@@ -176,6 +200,21 @@ async function walkScenario(page, scenario) {
     }
     const m = matches[0];
     try {
+      if (m.surface === 'canvas') {
+        const target = await page.evaluate(({ x, y }) => {
+          const el = document.elementFromPoint(x, y);
+          return el?.tagName === 'CANVAS';
+        }, { x: m.x, y: m.y });
+        if (!target) {
+          stepResults.push({ step: si, kind: 'signal', signal: cls.signal, driven: false,
+            note: `Canvas 目标 ${m.entity} 当前被遮挡或越出视口` });
+          continue;
+        }
+        await page.mouse.click(m.x, m.y);
+        await page.waitForTimeout(120);
+        stepResults.push({ step: si, kind: 'signal', signal: cls.signal, driven: true, gesture: 'canvas', entity: m.entity });
+        continue;
+      }
       const handle = await page.evaluateHandle(({ action, arg, uiId }) => {
         const all = Array.from(document.querySelectorAll('[data-action]'));
         return all.find((el) => {
@@ -210,6 +249,12 @@ async function runWalkthrough(slug, { root = ROOT } = {}) {
   const files = listScenarioFiles(root, slug);
   if (!files.length) return { noScenarios: true, form };
 
+  let cartFixture;
+  if (form === 'cart') {
+    try { cartFixture = cartProbeFixture(root, slug); }
+    catch (e) { return { ok: false, reason: `卡带只读路由准备失败 · ${e.message}` }; }
+  }
+
   const rt = detectBrowserRuntime();
   if (!rt.ok) return { noBrowser: true, reason: rt.reason };
 
@@ -234,32 +279,40 @@ async function runWalkthrough(slug, { root = ROOT } = {}) {
     await page.route('**/api/generate/providers', (route) =>
       route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
     await page.route('**/api/library', (route) =>
-      route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
+      route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(cartFixture?.entries ?? []) }));
+    if (cartFixture) await page.route(`**/api/library/${slug}/manifest`, (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(cartFixture.manifest) }));
 
     page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text().slice(0, 300)); });
     page.on('pageerror', (e) => pageErrors.push(String(e.message || e).slice(0, 300)));
 
     const url = `http://localhost:${dev.port}/?${deepLinkQuery(form, slug)}`;
     try {
-      await page.goto(url, { waitUntil: 'load', timeout: 30000 });
-      // __zcProbe 由 launcher 域 dev-only 挂载（见 src/launcher/game-runner.tsx）——只对走 GameRunner
-      // 加载器的 compiled/builtin 形态生效；等它就绪，等不到也不算装载失败（如实继续，逐步会标「未就绪」）。
-      await page.waitForFunction(() => !!window.__zcProbe, { timeout: 8000 }).catch(() => {});
-      await page.waitForTimeout(900);
-
       for (const f of files) {
         const text = readFileSync(f.path, 'utf8');
         const pv = parseAndValidate(text);
         if (!pv.ok) { scenarios.push({ name: f.name, file: f.name, ok: false, schemaErrors: pv.errors }); continue; }
+        // 每条剧本都有独立初态；共享一页会把前一剧本的 World 状态泄漏到下一条。
+        await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+        await page.waitForFunction(() => !!window.__zcProbe, undefined, { timeout: 8000 })
+          .catch(() => { throw new Error('__zcProbe 缺失或 8 秒内未就绪，当前页面不可作为 UI 走查证据'); });
+        const availability = await page.evaluate(() => ({ supported: window.__zcProbe?.supported, reason: window.__zcProbe?.reason }));
+        if (availability.supported === false) throw new Error(`__zcProbe 不支持当前卡带：${availability.reason ?? '未给原因'}`);
+        await page.waitForTimeout(900);
         const stepResults = await walkScenario(page, pv.value);
         scenarios.push({ name: pv.value.name, file: f.name, steps: stepResults, summary: summarizeWalk(stepResults) });
       }
     } catch (e) {
-      navError = String(e.message || e).slice(0, 400);
+      const visible = await page.locator('body').innerText().catch(() => '');
+      navError = `${String(e.message || e)} · url=${page.url()} · body=${visible.slice(0, 250)} · pageErrors=${pageErrors.slice(0, 2).join('|')}`.slice(0, 800);
     }
   } finally {
     try { await browser?.close(); } catch { /* noop */ }
-    stopDevServer(dev.proc);
+    // Windows has no POSIX negative-pid process-group signal. The shared
+    // stopDevServer helper uses it, so terminate this short-lived direct Vite
+    // child explicitly here (same discipline as cart-presentation-browser).
+    if (process.platform === 'win32') dev.proc.kill('SIGTERM');
+    else stopDevServer(dev.proc);
   }
 
   if (navError) return { ok: false, reason: `装载/走查失败 · ${navError}`, form };
@@ -267,12 +320,12 @@ async function runWalkthrough(slug, { root = ROOT } = {}) {
   const total = aggregateSummaries(scenarios.filter((s) => s.summary).map((s) => s.summary));
   const consoleOk = { pass: consoleErrors.length === 0, count: consoleErrors.length, messages: consoleErrors.slice(0, 5) };
   const noUncaught = { pass: pageErrors.length === 0, count: pageErrors.length, messages: pageErrors.slice(0, 5) };
-  // 判红只认「真出错」（控制台 error / 未捕获异常）——UI 可驱动率低是诚实发现、不拿阈值拦
+  // 判红只认「真出错」（动作口缺失/不支持、控制台 error / 未捕获异常）——UI 可驱动率低是诚实发现、不拿阈值拦
   // （同 spec-trace-guard.mjs「human 型占比」先例：报告不设阈值门）。
-  const pass = consoleOk.pass && noUncaught.pass;
+  const assessment = assessWalkResult(form, total, scenarios, consoleErrors, pageErrors);
 
   return {
-    ok: pass, form, port: dev.port, browser: { execPath: rt.execPath, via: rt.via },
+    ok: assessment.ok, reason: assessment.reason, form, port: dev.port, browser: { execPath: rt.execPath, via: rt.via },
     scenarios, uiDrivableRate: total.uiDrivableRate, totalSummary: total,
     assertions: { consoleErrors: consoleOk, noUncaught },
   };
@@ -286,8 +339,9 @@ function writeArtifacts(root, slug, result) {
   const record = {
     slug, at: new Date().toISOString(), gameHash: gameHash(root, slug),
     ok: result.ok, form: result.form,
+    reason: result.reason,
     uiDrivableRate: result.uiDrivableRate, totalSummary: result.totalSummary,
-    scenarios: result.scenarios,
+    scenarios: result.scenarios ?? [],
     assertions: result.assertions,
     browser: result.browser,
   };
@@ -325,14 +379,10 @@ if (isMain) {
   if (result.usageError) { console.error(result.usageError); process.exit(2); }
   if (result.noBrowser) { console.log(JSON.stringify({ ok: false, code: 'NO_BROWSER', slug, reason: result.reason })); process.exit(3); }
   if (result.noScenarios) { console.log(`无验收剧本：docs/design/${slug}/acceptance/*.scenario.jsonc`); process.exit(1); }
-  if (result.ok === false && !result.scenarios) {
-    console.error(`✗ 探针失败（未到走查阶段）· ${result.reason}`);
-    process.exit(1);
-  }
-
   const { jsonPath, record } = writeArtifacts(ROOT, slug, result);
   console.log(JSON.stringify({ ...record, jsonPath }));
-  console.log(`UI 可驱动率：${record.totalSummary.drivenSteps}/${record.totalSummary.signalSteps}（${(record.uiDrivableRate * 100).toFixed(1)}%）`);
+  if (record.totalSummary) console.log(`UI 可驱动率：${record.totalSummary.drivenSteps}/${record.totalSummary.signalSteps}（${(record.uiDrivableRate * 100).toFixed(1)}%）`);
+  else console.error(`✗ 探针失败（未到走查阶段）· ${result.reason}`);
   process.exit(result.ok ? 0 : 1);
 }
 

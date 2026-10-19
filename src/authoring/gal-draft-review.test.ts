@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
 import {
   canonicalGalDraftJson, galDraftContentHash, validateGalDraftData,
@@ -49,6 +50,12 @@ function chain(): GalDraftLedger {
 }
 
 describe('GAL-PIPE-01A pure P0–P4 contract', () => {
+  it('uses a browser-safe sha256 that matches node crypto', () => {
+    const content = { projectId: 'p', kind: 'brief' as const, schemaVersion: 1 as const, basedOn: [] as const, data: brief() };
+    const canonical = canonicalGalDraftJson({ projectId: content.projectId, kind: content.kind, schemaVersion: 1, basedOn: content.basedOn, data: content.data });
+    expect(galDraftContentHash(content)).toBe(`sha256:${createHash('sha256').update(canonical).digest('hex')}`);
+  });
+
   it('hashes canonical finite JSON; basedOn and array order affect identity without mutating input', () => {
     expect(canonicalGalDraftJson({ b: 1, a: [2, 3] })).toBe(canonicalGalDraftJson({ a: [2, 3], b: 1 }));
     const input = brief(), before = structuredClone(input);
@@ -143,6 +150,12 @@ describe('GAL-PIPE-01A pure P0–P4 contract', () => {
     expect(validateGalDraftData('routes', { ...routes('bible-1'), endings: [{ id: 'e1', routeId: 'missing', outcome: 'Truth' }] }, { bible: bible(), brief: brief(), bibleDraftId: 'bible-1' }).issues).toContainEqual(expect.objectContaining({ path: '$.data.endings[0].routeId', code: 'reference' }));
     const broken: any = structuredClone(graph('routes-1')); broken.chapters.c1.nodes.n1.next.nodeId = 'missing';
     expect(validateGalDraftData('graph', broken, { routes: routes('bible-1'), routesDraftId: 'routes-1', bible: bible() }).issues).toContainEqual(expect.objectContaining({ code: 'reference' }));
+    const placed: any = structuredClone(graph('routes-1'));
+    const outlined = { ...routes('bible-1'), locations: [{ id: 'road', name: 'Road', description: 'Beyond the pier' }] };
+    placed.sceneSlots[0].locationId = 'road';
+    expect(validateGalDraftData('graph', placed, { routes: outlined, routesDraftId: 'routes-1', bible: bible() }).ok).toBe(true);
+    placed.sceneSlots[0].locationId = 'pier';
+    expect(validateGalDraftData('graph', placed, { routes: outlined, routesDraftId: 'routes-1', bible: bible() }).issues).toContainEqual(expect.objectContaining({ code: 'reference' }));
     const noExit: any = structuredClone(graph('routes-1')); noExit.chapters.c1.nodes.n1.next.nodeId = 'n1';
     expect(validateGalDraftData('graph', noExit, { routes: routes('bible-1'), routesDraftId: 'routes-1', bible: bible() }).issues).toContainEqual(expect.objectContaining({ code: 'no_exit' }));
     const duplicateOption: any = structuredClone(graph('routes-1'));

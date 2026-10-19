@@ -1,6 +1,10 @@
 import type { AssetIndex, AssetIndexEntry, ColorSpace, TextureUsage } from './asset-index.js';
+import {
+  validateLifeArtDirection, validateLifeArtDirectionSlot,
+  type LifeArtDirectionV1,
+} from './life-art-direction.js';
 
-export const ASSET_SLOT_KINDS = ['tile', 'crop', 'player', 'npc', 'building', 'resource', 'item'] as const;
+export const ASSET_SLOT_KINDS = ['tile', 'crop', 'player', 'npc', 'building', 'resource', 'item', 'ui-icon'] as const;
 export type AssetSlotKind = (typeof ASSET_SLOT_KINDS)[number];
 export const ASSET_SLOT_ALPHA = ['opaque', 'transparent'] as const;
 export type AssetSlotAlpha = (typeof ASSET_SLOT_ALPHA)[number];
@@ -10,7 +14,7 @@ export const ASSET_SLOT_FITS = ['cover', 'contain'] as const;
 export type AssetSlotFit = (typeof ASSET_SLOT_FITS)[number];
 export const ASSET_SLOT_DISPLAY_UNITS = ['cell', 'pixel'] as const;
 export type AssetSlotDisplayUnit = (typeof ASSET_SLOT_DISPLAY_UNITS)[number];
-export const ASSET_SLOT_FALLBACK_ROLES = ['ground', 'water', 'plantable', 'crop', 'player', 'npc', 'building', 'resource', 'item'] as const;
+export const ASSET_SLOT_FALLBACK_ROLES = ['ground', 'water', 'plantable', 'crop', 'player', 'npc', 'building', 'resource', 'item', 'ui-icon'] as const;
 export type AssetSlotFallbackRole = (typeof ASSET_SLOT_FALLBACK_ROLES)[number];
 export const ASSET_SLOT_APPROVALS = ['placeholder', 'approved'] as const;
 export type AssetSlotApproval = (typeof ASSET_SLOT_APPROVALS)[number];
@@ -42,6 +46,8 @@ export interface AssetSlotBrief {
   readonly generation: {
     readonly briefVersion: number;
     readonly styleId: string;
+    /** Required only when the manifest opts into Life Art Direction v1. */
+    readonly semanticPrompt?: string;
     readonly prompt: string;
     readonly negativePrompt: readonly string[];
   };
@@ -60,6 +66,8 @@ export interface AssetSlotManifest {
   readonly version: 1;
   readonly game: string;
   readonly note: string;
+  /** Authoring-only profile. It is compiled into slot rules and never enters Life runtime data. */
+  readonly artDirection?: LifeArtDirectionV1;
   readonly slots: readonly AssetSlotBrief[];
 }
 
@@ -113,10 +121,16 @@ export function validateAssetSlotManifest(raw: unknown): readonly AssetSlotIssue
   const issues: AssetSlotIssue[] = [];
   const issue = (path: string, code: string, message: string): void => { issues.push({ path, code, message }); };
   if (!record(raw)) return [{ path: '$', code: 'type', message: 'must be an object' }];
-  for (const error of keysExactly(raw, ['version', 'game', 'note', 'slots'])) issue('$', 'closed', error);
+  for (const error of keysExactly(raw, ['version', 'game', 'note', 'slots'], ['artDirection'])) issue('$', 'closed', error);
   if (raw.version !== 1) issue('$.version', 'version', 'must be 1');
   if (!text(raw.game)) issue('$.game', 'text', 'must be a non-empty string');
   if (!text(raw.note)) issue('$.note', 'text', 'must explicitly describe placeholder/asset-manager ownership');
+  let artDirection: LifeArtDirectionV1 | undefined;
+  if (raw.artDirection !== undefined) {
+    const directionIssues = validateLifeArtDirection(raw.artDirection);
+    for (const value of directionIssues) issue(value.path, value.code, value.message);
+    if (directionIssues.length === 0) artDirection = raw.artDirection as LifeArtDirectionV1;
+  }
   if (!Array.isArray(raw.slots)) { issue('$.slots', 'type', 'must be an array'); return issues; }
   const slotIds = new Set<string>(); const assetKeys = new Set<string>(); const consumerKeys = new Set<string>();
   for (let i = 0; i < raw.slots.length; i++) {
@@ -162,11 +176,12 @@ export function validateAssetSlotManifest(raw: unknown): readonly AssetSlotIssue
     }
     if (!record(slot.generation)) issue(`${base}.generation`, 'type', 'must be an object');
     else {
-      for (const error of keysExactly(slot.generation, ['briefVersion', 'styleId', 'prompt', 'negativePrompt'])) issue(`${base}.generation`, 'closed', error);
+      for (const error of keysExactly(slot.generation, ['briefVersion', 'styleId', 'prompt', 'negativePrompt'], ['semanticPrompt'])) issue(`${base}.generation`, 'closed', error);
       if (!Number.isInteger(slot.generation.briefVersion) || Number(slot.generation.briefVersion) < 1) issue(`${base}.generation.briefVersion`, 'version', 'must be a positive integer');
       if (!text(slot.generation.styleId) || !text(slot.generation.prompt)) issue(`${base}.generation`, 'text', 'styleId and prompt must be non-empty strings');
       if (!Array.isArray(slot.generation.negativePrompt) || slot.generation.negativePrompt.some((value) => !text(value))) issue(`${base}.generation.negativePrompt`, 'type', 'must be an array of non-empty strings');
     }
+    if (artDirection) for (const value of validateLifeArtDirectionSlot(artDirection, slot as unknown as AssetSlotBrief, base)) issue(value.path, value.code, value.message);
     if (!record(slot.governance)) issue(`${base}.governance`, 'type', 'must be an object');
     else {
       for (const error of keysExactly(slot.governance, ['approval', 'humanApprovalRequired', 'licenseRequired', 'briefFingerprint'], ['contentHash'])) issue(`${base}.governance`, 'closed', error);
@@ -222,7 +237,7 @@ export function validateAssetSlotClosure(
     }
     const entry = entries.get(slot.assetKey);
     if (!entry || entry.status !== 'filled' || entry.type !== 'texture') { issues.push({ path: `slot:${slot.slotId}`, code: 'missing_asset', message: `${slot.assetKey} must resolve to a filled texture` }); continue; }
-    validateEntryAgainstSlot(entry, slot, issues);
+    validateEntryAgainstSlot(entry, slot, issues, manifest.artDirection !== undefined);
   }
   return issues;
 }
@@ -249,12 +264,14 @@ export function validateAssetPendingIsolation(index: AssetIndex, pendingRaw: unk
   return issues;
 }
 
-function validateEntryAgainstSlot(entry: AssetIndexEntry, slot: AssetSlotBrief, issues: AssetSlotIssue[]): void {
+function validateEntryAgainstSlot(entry: AssetIndexEntry, slot: AssetSlotBrief, issues: AssetSlotIssue[], strictProfile: boolean): void {
   const spec = entry.spec ?? {};
   const at = `slot:${slot.slotId}`;
   if ((spec.usage ?? 'sprite') !== slot.asset.usage) issues.push({ path: at, code: 'usage', message: `index usage must equal ${slot.asset.usage}` });
   if ((spec.colorSpace ?? 'srgb') !== slot.asset.colorSpace) issues.push({ path: at, code: 'color_space', message: `index colorSpace must equal ${slot.asset.colorSpace}` });
   if (spec.width !== slot.asset.outputPx.width || spec.height !== slot.asset.outputPx.height) issues.push({ path: at, code: 'output_size', message: `index width/height must equal ${slot.asset.outputPx.width}x${slot.asset.outputPx.height}` });
+  if (strictProfile && entry.style !== slot.generation.styleId) issues.push({ path: at, code: 'style', message: `index style must equal ${slot.generation.styleId}` });
+  if (strictProfile && spec.sampling !== slot.asset.sampling) issues.push({ path: at, code: 'sampling', message: `index sampling must equal ${slot.asset.sampling}` });
   // Legacy placeholders predate the transparent metadata. Keep them usable while
   // requiring every approved replacement to prove the declared alpha contract.
   if (spec.transparent !== undefined || slot.governance.approval === 'approved') {

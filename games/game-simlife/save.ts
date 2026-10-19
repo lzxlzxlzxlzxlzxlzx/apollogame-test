@@ -3,7 +3,7 @@ import { createStoragePort, type StoragePort } from '@zerocraft/engine/services/
 import {
   LIFE_HOST_SAVE_SCHEMA, LifeHostAutosave, LifeHostSaveAdapter,
   deriveLifeHostSaveSlot, lifeHostCommitSignature, type LifeHostRestoreResult,
-} from '../../src/engine/host/life-save.js';
+} from '@zerocraft/engine/assembly/life-host/life-save.js';
 import { LIFE_DEMO_HOST_DESCRIPTOR } from './host-descriptor.js';
 
 export const LIFE_DEMO_SAVE_SLOT = deriveLifeHostSaveSlot(LIFE_DEMO_HOST_DESCRIPTOR);

@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import type { GalPackage } from '@engine/protocol/galgame.js';
 import type { InputQueue } from '@engine/protocol/components.js';
 import { World } from '@engine/core/world.js';
@@ -9,6 +9,7 @@ import { createStoryRuntime, narrativeDirectorCapability, readNarrativeEvents, s
 import { validateLayoutNode } from '@ui/components/validate.js';
 import { MemorySavePort } from '../save/memory-save-port.js';
 import { MemoryStoragePort } from '../storage/memory-storage.js';
+import { MemoryGalSavePreviewPort, type GalPreviewCaptureFrame } from '../gal-save/gal-save-preview.js';
 import { loadGalProfile, persistGalConfirmation, saveGalProfile, unlock } from '../gal-profile/gal-profile.js';
 import { GalSliceHost } from './gal-ui-slice-host.js';
 import type { GalPlaybackClock } from './gal-playback-scheduler.js';
@@ -70,6 +71,132 @@ class PlaybackFakeClock implements GalPlaybackClock {
 const settlePlayback = async () => { for (let i = 0; i < 30; i++) await Promise.resolve(); };
 
 describe('GAL-UI-03A structural vertical slice', () => {
+  it('persists work reduced-motion, scopes it to this mount, and clears it on detach', async () => {
+    const { p, profile, host } = await fixture();
+    const first = document.createElement('div'), second = document.createElement('div');
+    document.body.append(first, second);
+    const detach = host.attach(first);
+    try {
+      expect(first.hasAttribute('data-apollo-reduced-motion')).toBe(false);
+      await host.dispatch('gal.settings.open'); await host.dispatch('gal.settings.tab', 'display');
+      await host.dispatch('gal.settings.reduced-motion', 'true');
+      expect((await loadGalProfile(profile, p)).preferences.reducedMotion).toBe(true);
+      expect(first.hasAttribute('data-apollo-reduced-motion')).toBe(true);
+      expect(second.hasAttribute('data-apollo-reduced-motion')).toBe(false);
+      await host.dispatch('gal.settings.reduced-motion', 'false');
+      expect(first.hasAttribute('data-apollo-reduced-motion')).toBe(false);
+    } finally { detach(); expect(first.hasAttribute('data-apollo-reduced-motion')).toBe(false); expect(second.hasAttribute('data-apollo-reduced-motion')).toBe(false); first.remove(); second.remove(); }
+  });
+  it('keeps browser preview exit inside the exitGame policy and never mutates gameplay or saves', async () => {
+    const p = pkg(), w = world(p), profile = new MemorySavePort(), manual = new MemoryStoragePort();
+    const host = await GalSliceHost.create(p, w, 'story', {
+      profile, manual, savedAt: () => 1000, previewExitFeedback: true,
+    });
+    const beforeHash = hashWithOrder(w.snapshot(), w.snapshotOrder());
+    const beforeProfile = await loadGalProfile(profile, p);
+    expect(JSON.stringify(host.tree)).toContain('gal.home.exit');
+    await host.dispatch('gal.home.exit');
+    expect(host.uiState.confirm).toBe('exit-game');
+    await host.dispatch('gal.confirm.cancel');
+    expect(host.uiState.confirm).toBeNull();
+    expect(host.uiState.feedback).toBeNull();
+    await host.dispatch('gal.home.exit');
+    await host.dispatch('gal.confirm.accept');
+    expect(host.uiState).toMatchObject({ page: 'home', confirm: null,
+      feedback: '浏览器预览不会关闭窗口，桌面版由宿主处理退出' });
+    expect(hashWithOrder(w.snapshot(), w.snapshotOrder())).toBe(beforeHash);
+    expect(await loadGalProfile(profile, p)).toEqual(beforeProfile);
+
+    await persistGalConfirmation(profile, p, 'exitGame', false, 2);
+    await host.refreshView();
+    await host.dispatch('gal.home.exit');
+    expect(host.uiState).toMatchObject({ page: 'home', confirm: null,
+      feedback: '浏览器预览不会关闭窗口，桌面版由宿主处理退出' });
+    expect(hashWithOrder(w.snapshot(), w.snapshotOrder())).toBe(beforeHash);
+  });
+
+  it('fails closed for exit when the explicit browser preview capability was not composed', async () => {
+    const { host } = await fixture();
+    expect(JSON.stringify(host.tree)).toContain('"disabled":true');
+    await host.dispatch('gal.home.exit');
+    expect(host.uiState).toMatchObject({ page: 'home', confirm: null, feedback: null });
+  });
+
+  it('sends desktop exit once through the injected host and leaves the story untouched when rejected', async () => {
+    const p = pkg(), w = world(p), profile = new MemorySavePort(), manual = new MemoryStoragePort();
+    const requestExit = vi.fn(() => 'rejected' as const);
+    const host = await GalSliceHost.create(p, w, 'story', {
+      profile, manual, savedAt: () => 1000, hostExit: { requestExit },
+    });
+    const beforeHash = hashWithOrder(w.snapshot(), w.snapshotOrder());
+    await host.dispatch('gal.home.exit');
+    expect(host.uiState.confirm).toBe('exit-game');
+    expect(JSON.stringify(host.tree)).toContain('将关闭这个游戏窗口');
+    await host.dispatch('gal.confirm.accept');
+    expect(requestExit).toHaveBeenCalledTimes(1);
+    expect(host.uiState).toMatchObject({ page: 'home', confirm: null, feedback: '退出没有被接受，游戏仍在运行' });
+    expect(hashWithOrder(w.snapshot(), w.snapshotOrder())).toBe(beforeHash);
+    requestExit.mockReturnValue('accepted');
+    await host.dispatch('gal.home.exit');
+    await host.dispatch('gal.confirm.accept');
+    expect(requestExit).toHaveBeenCalledTimes(2);
+    expect(host.uiState.feedback).toBeNull();
+    expect(hashWithOrder(w.snapshot(), w.snapshotOrder())).toBe(beforeHash);
+  });
+
+  it('keeps story CG shot switches, hide, rollback and manual load on the Director projection', async () => {
+    const base = pkg();
+    const p: GalPackage = { ...base,
+      media: { ...base.media, backgrounds: { room: { image: 'demo/bg' } } },
+      scenes: { room: { id: 'room', background: 'room' } },
+      chapters: { a: { ...base.chapters.a, scene: 'room', nodes: {
+        intro: { kind: 'line', text: L('第一分镜'), presentation: { cg: { show: 'cg-1' } }, next: ref('choice') },
+        choice: { kind: 'choice', prompt: L('第二分镜'), presentation: { cg: { show: 'cg-2' } }, options: [
+          { id: 'yes', text: L('结束'), next: ref('yes') },
+        ] },
+        yes: { kind: 'ending', ending: 'yes', text: L('回到场景'), presentation: { cg: { hide: true } } },
+      } } },
+    };
+    const captured: GalPreviewCaptureFrame[] = [];
+    const w = world(p), host = await GalSliceHost.create(p, w, 'story', {
+      profile: new MemorySavePort(), manual: new MemoryStoragePort(), savedAt: () => 1000,
+      contentUrls: { 'demo/bg': '/bg.png', 'private/cg-1': '/shot-1.png', 'private/cg-2': '/shot-2.png' },
+      savePreview: new MemoryGalSavePreviewPort(),
+      previewCapture: { capture: async frame => { captured.push(frame); return null; } },
+    });
+    const image = () => JSON.stringify(host.tree);
+    await host.dispatch('gal.home.start');
+    expect(host.view.story.cgAssetKey).toBe('private/cg-1');
+    expect(image()).toContain('/shot-1.png');
+    expect(image()).not.toContain('/bg.png');
+    await host.dispatch('narrative.advance');
+    expect(host.view.story.cgAssetKey).toBe('private/cg-2');
+    expect(image()).toContain('/shot-2.png');
+    expect(image()).not.toContain('/shot-1.png');
+    await host.dispatch('gal.story.save');
+    await host.dispatch('gal.slot.select', '2');
+    await host.dispatch('gal.slot.commit');
+    await host.dispatch('gal.confirm.accept');
+    expect(captured).toMatchObject([{ cgAssetKey: 'private/cg-2', cgUrl: '/shot-2.png',
+      backgroundAssetKey: 'demo/bg', backgroundUrl: '/bg.png' }]);
+    await host.dispatch('gal.slot.back');
+    await host.dispatch('narrative.choose', 'yes');
+    expect(host.view.story.cgAssetKey).toBeUndefined();
+    expect(image()).toContain('/bg.png');
+    expect(image()).not.toContain('/shot-2.png');
+    await host.wheel(-1);
+    expect(host.view.story.cgAssetKey).toBe('private/cg-2');
+    expect(image()).toContain('/shot-2.png');
+    await host.dispatch('gal.story.load');
+    await host.dispatch('gal.slot.select', '2');
+    await host.dispatch('gal.slot.commit');
+    await host.dispatch('gal.confirm.accept');
+    expect(at(w)).toBe(storyRefKey(ref('choice')));
+    expect(host.view.story.cgAssetKey).toBe('private/cg-2');
+    expect(image()).toContain('/shot-2.png');
+    expect(validateLayoutNode(host.tree)).toEqual([]);
+  });
+
   it('GAL-UI-03E clicks the V2 dialogue surface, then chooses and rechooses after rollback', async () => {
     const { w, host } = await fixture();
     const element = document.createElement('div'); document.body.appendChild(element);
@@ -82,14 +209,18 @@ describe('GAL-UI-03A structural vertical slice', () => {
     try {
       await host.dispatch('gal.home.start');
       (element.querySelector('#gal-story-dialogue') as HTMLElement).click();
+      (element.querySelector('#gal-story-dialogue') as HTMLElement).click();
       await until(storyRefKey(ref('choice')));
       expect(element.querySelector('#gal-story-dialogue')?.hasAttribute('data-action')).toBe(false);
+      (element.querySelector('[data-action="narrative.choose"][data-arg="yes"]') as HTMLElement).click();
       (element.querySelector('[data-action="narrative.choose"][data-arg="yes"]') as HTMLElement).click();
       await until(storyRefKey(ref('yes')));
       element.querySelector('#gal-story-dialogue')!.dispatchEvent(new WheelEvent('wheel', {
         bubbles: true, cancelable: true, deltaY: -120,
       }));
       await until(storyRefKey(ref('choice')));
+      await new Promise(resolve => setTimeout(resolve, 0));
+      (element.querySelector('[data-action="narrative.choose"][data-arg="no"]') as HTMLElement).click();
       (element.querySelector('[data-action="narrative.choose"][data-arg="no"]') as HTMLElement).click();
       await until(storyRefKey(ref('no')));
     } finally { detach(); element.remove(); }
@@ -111,15 +242,19 @@ describe('GAL-UI-03A structural vertical slice', () => {
     };
     try {
       await host.dispatch('gal.home.start');
-      wheel(120); await until(storyRefKey(ref('choice')));
+      wheel(120); wheel(120); await until(storyRefKey(ref('choice')));
+      await host.dispatch('narrative.choose', 'yes');
       await host.dispatch('narrative.choose', 'yes');
       expect(at(w)).toBe(storyRefKey(ref('yes')));
       wheel(-120); await until(storyRefKey(ref('choice')));
+      await settlePlayback();
+      await host.dispatch('narrative.choose', 'no');
+      await settlePlayback();
       await host.dispatch('narrative.choose', 'no');
       expect(at(w)).toBe(storyRefKey(ref('no')));
       wheel(-120); await until(storyRefKey(ref('choice')));
       wheel(-120); await until(storyRefKey(ref('intro')));
-      wheel(120); await until(storyRefKey(ref('choice')));
+      wheel(120); wheel(120); await until(storyRefKey(ref('choice')));
       await host.dispatch('gal.story.home');
       expect(host.uiState.confirm).toBe('return-title');
       expect(validateLayoutNode(host.tree)).toEqual([]);
@@ -129,7 +264,7 @@ describe('GAL-UI-03A structural vertical slice', () => {
     } finally { detach(); element.remove(); }
   });
 
-  it('marks the fully visible synchronous Label read after a real mount, not before presentation', async () => {
+  it('marks a line read only after the PUI completion signal, not at mount', async () => {
     const { p, profile, host } = await fixture();
     const element = document.createElement('div');
     document.body.appendChild(element);
@@ -140,12 +275,53 @@ describe('GAL-UI-03A structural vertical slice', () => {
       for (let attempt = 0; attempt < 10 && host.uiState.page !== 'story'; attempt++)
         await new Promise(resolve => setTimeout(resolve, 0));
       expect(host.uiState.page).toBe('story');
-      for (let attempt = 0; attempt < 10; attempt++) {
-        if ((await loadGalProfile(profile, p)).readNodeIds.includes(storyRefKey(ref('intro')))) break;
-        await new Promise(resolve => setTimeout(resolve, 0));
-      }
+      expect((await loadGalProfile(profile, p)).readNodeIds).toEqual([]);
+      const text = element.querySelector('#gal-story-text') as HTMLElement;
+      const token = text.dataset.typewriterToken;
+      expect(token).toBeTruthy();
+      await host.dispatch('gal.story.presented', token);
       expect((await loadGalProfile(profile, p)).readNodeIds).toContain(storyRefKey(ref('intro')));
-      expect(element.querySelector('#gal-story-text')?.textContent).toContain('月色静静落下');
+    } finally { detach(); element.remove(); }
+  });
+
+  it('rejects a stale opaque completion after the StoryRef has changed', async () => {
+    const { p, profile, w, host } = await fixture();
+    await host.dispatch('gal.home.start');
+    const find = (id: string, node = host.tree): typeof node | undefined => node.id === id ? node :
+      node.children?.map(child => find(id, child)).find(Boolean);
+    const stale = (find('gal-story-text')?.props as { typewriterSignal?: { token: string } })
+      .typewriterSignal?.token;
+    expect(stale).toBeTruthy();
+    await host.dispatch('narrative.advance');
+    expect(at(w)).toBe(storyRefKey(ref('choice')));
+    await host.dispatch('gal.story.presented', stale);
+    expect((await loadGalProfile(profile, p)).readNodeIds).toEqual([]);
+    const current = (find('gal-story-text')?.props as { typewriterSignal?: { token: string } })
+      .typewriterSignal?.token;
+    await host.dispatch('gal.story.presented', current);
+    expect((await loadGalProfile(profile, p)).readNodeIds).toEqual([storyRefKey(ref('choice'))]);
+  });
+
+  it('rejects a delayed old PUI token while mounted after the next StoryRef was rendered', async () => {
+    const { p, profile, w, host } = await fixture();
+    const element = document.createElement('div'); document.body.appendChild(element);
+    const detach = host.attach(element);
+    try {
+      await host.dispatch('gal.home.start');
+      const oldToken = element.querySelector<HTMLElement>('#gal-story-text')?.dataset.typewriterToken;
+      expect(oldToken).toBeTruthy();
+      await host.dispatch('gal.story.presented', oldToken);
+      await host.dispatch('narrative.advance');
+      expect(at(w)).toBe(storyRefKey(ref('choice')));
+      const newToken = element.querySelector<HTMLElement>('#gal-story-text')?.dataset.typewriterToken;
+      expect(newToken).toBeTruthy();
+      expect(newToken).not.toBe(oldToken);
+      await host.dispatch('gal.story.presented', oldToken);
+      expect((await loadGalProfile(profile, p)).readNodeIds).toEqual([storyRefKey(ref('intro'))]);
+      await host.dispatch('gal.story.presented', newToken);
+      expect((await loadGalProfile(profile, p)).readNodeIds).toEqual(expect.arrayContaining([
+        storyRefKey(ref('intro')), storyRefKey(ref('choice')),
+      ]));
     } finally { detach(); element.remove(); }
   });
 
@@ -299,15 +475,55 @@ describe('GAL-ENG-06A playback host integration', () => {
     await host.wheel(-1); expect(at(w)).toBe(storyRefKey(ref('choice')));
   });
 
+  it('shows mounted feedback as a 2200ms generic Toast and clears it on detach', async () => {
+    const clock = new PlaybackFakeClock(), { host } = await fixture(clock);
+    const element = document.createElement('div'); document.body.appendChild(element);
+    const detach = host.attach(element);
+    vi.useFakeTimers();
+    try {
+      await host.dispatch('gal.home.start');
+      await host.dispatch('gal.playback.skip');
+      expect(host.uiState.feedback).toContain('未读');
+      expect(element.querySelector('#gal-slice-feedback')).toBeNull();
+      expect(element.querySelector('[data-toast-stack]')?.textContent).toContain('未读');
+      vi.advanceTimersByTime(2199);
+      expect(element.querySelector('[data-toast-stack]')).not.toBeNull();
+      vi.advanceTimersByTime(1);
+      expect(element.querySelector('[data-toast-stack]')).toBeNull();
+      await host.dispatch('gal.playback.skip');
+      expect(element.querySelector('[data-toast-stack]')?.textContent).toContain('未读');
+      vi.advanceTimersByTime(2200);
+      expect(element.querySelector('[data-toast-stack]')).toBeNull();
+    } finally { detach(); element.remove(); vi.useRealTimers(); }
+  });
+
+  it('uses the V2 demo 2700ms auto interval when that preference is selected', async () => {
+    const clock = new PlaybackFakeClock(), { w, host } = await fixture(clock);
+    await host.dispatch('gal.home.start');
+    await host.dispatch('gal.settings.open');
+    await host.dispatch('gal.settings.auto-delay', '2700');
+    await host.dispatch('gal.settings.back');
+    expect(host.view.preferences.autoDelayMs).toBe(2700);
+    await host.dispatch('gal.playback.auto');
+    await host.fullyPresented(host.presentationToken()!);
+    clock.tick(2699); await settlePlayback();
+    expect(at(w)).toBe(storyRefKey(ref('intro')));
+    clock.tick(1); await settlePlayback();
+    expect(at(w)).toBe(storyRefKey(ref('choice')));
+  });
+
   it('persists only wired playback settings, cancels on settings/load, and keeps invalid values unchanged', async () => {
     const clock = new PlaybackFakeClock(), { p, profile, host } = await fixture(clock);
     await host.dispatch('gal.settings.open');
+    await host.dispatch('gal.settings.text-speed', '70');
     await host.dispatch('gal.settings.auto-delay', '750');
     await host.dispatch('gal.settings.skip-unread', 'true');
-    expect((await loadGalProfile(profile, p)).preferences).toMatchObject({ autoDelayMs: 750, skipMode: 'all' });
+    expect((await loadGalProfile(profile, p)).preferences).toMatchObject({ textSpeedMsPerChar: 70,
+      autoDelayMs: 750, skipMode: 'all' });
     await host.dispatch('gal.settings.auto-delay', 'NaN');
     expect(host.view.preferences.autoDelayMs).toBe(750);
     const textTree = JSON.stringify(host.tree);
+    expect(textTree).toContain('"action":"gal.settings.text-speed"');
     expect(textTree).toContain('"action":"gal.settings.auto-delay"');
     expect(textTree).toContain('"action":"gal.settings.skip-unread"');
     await host.dispatch('gal.settings.back'); await host.dispatch('gal.home.start');
@@ -318,7 +534,118 @@ describe('GAL-ENG-06A playback host integration', () => {
     expect(host.uiState.playbackMode).toBe('off');
     const reopened = await GalSliceHost.create(p, world(p), 'story', { profile, manual: new MemoryStoragePort(),
       savedAt: () => 1000, playbackClock: new PlaybackFakeClock() });
-    expect(reopened.view.preferences).toMatchObject({ autoDelayMs: 750, skipMode: 'all' });
+    expect(reopened.view.preferences).toMatchObject({ textSpeedMsPerChar: 70, autoDelayMs: 750, skipMode: 'all' });
+  });
+
+  it('persists the read-skip switch without changing unread policy and rejects skip on read lines when off', async () => {
+    const clock = new PlaybackFakeClock(), { p, profile, host } = await fixture(clock);
+    await host.dispatch('gal.settings.open');
+    await host.dispatch('gal.settings.skip-unread', 'true');
+    await host.dispatch('gal.settings.skip-read', 'false');
+    await host.dispatch('gal.settings.skip-read', 'invalid');
+    expect((await loadGalProfile(profile, p)).preferences).toMatchObject({ skipMode: 'all',
+      readSkipEnabled: false });
+    expect(JSON.stringify(host.tree)).toContain('"action":"gal.settings.skip-read"');
+    await host.dispatch('gal.settings.back'); await host.dispatch('gal.home.start');
+    await host.fullyPresented(host.presentationToken()!);
+    await host.dispatch('gal.playback.skip');
+    expect(host.uiState.playbackMode).toBe('off');
+    expect(clock.tasks.filter(task => !task.cancelled)).toHaveLength(0);
+    const reopened = await GalSliceHost.create(p, world(p), 'story', { profile,
+      manual: new MemoryStoragePort(), savedAt: () => 1000, playbackClock: new PlaybackFakeClock() });
+    expect(reopened.view.preferences).toMatchObject({ skipMode: 'all', readSkipEnabled: false });
+  });
+
+  it('persists wheel guards and applies dialogue opacity only to the backdrop, not story text', async () => {
+    const { p, profile, w, host } = await fixture();
+    await host.dispatch('gal.settings.open');
+    await host.dispatch('gal.settings.wheel-next', 'false');
+    await host.dispatch('gal.settings.wheel-back', 'false');
+    await host.dispatch('gal.settings.tab', 'display');
+    await host.dispatch('gal.settings.dialogue-opacity', '60');
+    await host.dispatch('gal.settings.dialogue-opacity', '101');
+    expect((await loadGalProfile(profile, p)).preferences).toMatchObject({ wheelAdvance: false,
+      wheelRollback: false, dialogueOpacity: 0.6 });
+    await host.dispatch('gal.settings.back'); await host.dispatch('gal.home.start');
+    const find = (id: string, node = host.tree): typeof node | undefined => node.id === id ? node :
+      node.children?.map(child => find(id, child)).find(Boolean);
+    expect(find('gal-story-dialogue-backdrop')?.layout?.opacity).toBe(0.6);
+    expect(find('gal-story-text')?.layout).not.toHaveProperty('opacity');
+    const element = document.createElement('div'); document.body.appendChild(element);
+    const detach = host.attach(element);
+    try {
+      element.querySelector('#gal-story-dialogue')!.dispatchEvent(new WheelEvent('wheel', {
+        bubbles: true, cancelable: true, deltaY: 120 }));
+      await settlePlayback(); expect(at(w)).toBe(storyRefKey(ref('intro')));
+      await host.dispatch('narrative.advance');
+      await host.dispatch('narrative.advance');
+      element.querySelector('#gal-story-dialogue')!.dispatchEvent(new WheelEvent('wheel', {
+        bubbles: true, cancelable: true, deltaY: -120 }));
+      await settlePlayback(); expect(at(w)).toBe(storyRefKey(ref('choice')));
+    } finally { detach(); element.remove(); }
+    const reopened = await GalSliceHost.create(p, world(p), 'story', { profile,
+      manual: new MemoryStoragePort(), savedAt: () => 1000 });
+    expect(reopened.view.preferences.dialogueOpacity).toBe(0.6);
+  });
+
+  it('resumes auto after a choice only when the preference is on and the next node is a line', async () => {
+    const base = pkg();
+    const p: GalPackage = { ...base, chapters: { a: { ...base.chapters.a, nodes: {
+      ...base.chapters.a.nodes,
+      yes: { kind: 'line', text: L('选择后的台词'), next: ref('no') },
+    } } } };
+    const clock = new PlaybackFakeClock(), profile = new MemorySavePort(), w = world(p);
+    const host = await GalSliceHost.create(p, w, 'story', { profile, manual: new MemoryStoragePort(),
+      savedAt: () => 1000, playbackClock: clock });
+    await host.dispatch('gal.settings.open');
+    await host.dispatch('gal.settings.auto-continue', 'true');
+    await host.dispatch('gal.settings.back'); await host.dispatch('gal.home.start');
+    await host.fullyPresented(host.presentationToken()!);
+    await host.dispatch('gal.playback.auto');
+    clock.tick(500); await settlePlayback();
+    expect(at(w)).toBe(storyRefKey(ref('choice')));
+    expect(host.uiState.playbackMode).toBe('off');
+    await host.dispatch('narrative.choose', 'yes');
+    expect(at(w)).toBe(storyRefKey(ref('yes')));
+    expect(host.uiState.playbackMode).toBe('auto');
+    await host.fullyPresented(host.presentationToken()!);
+    expect(clock.tasks.some(task => !task.cancelled)).toBe(true);
+  });
+
+  it('does not resume auto for a disabled preference, invalid choice, non-line target, or manual arrival', async () => {
+    const base = pkg();
+    const p: GalPackage = { ...base, chapters: { a: { ...base.chapters.a, nodes: {
+      ...base.chapters.a.nodes,
+      yes: { kind: 'line', text: L('选择后的台词'), next: ref('no') },
+    } } } };
+    for (const scenario of ['disabled', 'invalid-choice', 'ending', 'manual-arrival'] as const) {
+      const clock = new PlaybackFakeClock(), w = world(p);
+      const host = await GalSliceHost.create(p, w, 'story', { profile: new MemorySavePort(),
+        manual: new MemoryStoragePort(), savedAt: () => 1000, playbackClock: clock });
+      if (scenario !== 'disabled') {
+        await host.dispatch('gal.settings.open');
+        await host.dispatch('gal.settings.auto-continue', 'true');
+        await host.dispatch('gal.settings.back');
+      }
+      await host.dispatch('gal.home.start');
+      if (scenario === 'manual-arrival') await host.dispatch('narrative.advance');
+      else {
+        await host.fullyPresented(host.presentationToken()!);
+        await host.dispatch('gal.playback.auto');
+        clock.tick(500); await settlePlayback();
+      }
+      expect(at(w)).toBe(storyRefKey(ref('choice')));
+      expect(host.uiState.playbackMode).toBe('off');
+      if (scenario === 'invalid-choice') {
+        await host.dispatch('narrative.choose', 'missing');
+        expect(at(w)).toBe(storyRefKey(ref('choice')));
+      } else await host.dispatch('narrative.choose', scenario === 'ending' ? 'no' : 'yes');
+      expect(host.uiState.playbackMode).toBe('off');
+      expect(clock.tasks.every(task => task.cancelled)).toBe(true);
+      if (scenario === 'ending') expect(at(w)).toBe(storyRefKey(ref('no')));
+      if (scenario === 'disabled' || scenario === 'manual-arrival')
+        expect(at(w)).toBe(storyRefKey(ref('yes')));
+    }
   });
 
   it('allows explicit all-skip from unread, but manual wheel takes priority over a late task', async () => {
@@ -680,7 +1007,11 @@ describe('GAL-UI-04A partial settings structure and six real confirmations', () 
     expect(tree).toContain('"id":"gal-setting-speed-control"');
     expect(tree).toContain('"id":"gal-setting-read-skip-control"');
     expect(tree).toContain('"disabled":true');
-    expect(tree).toContain('恢复默认（待接入）');
+    expect(tree).toContain('恢复默认（待完整设置接入）');
+    expect(tree).toContain('"id":"gal-settings-reset"');
+    const beforeReset = JSON.stringify(await loadGalProfile(profile, p));
+    await host.dispatch('gal.settings.reset'); // Disabled UI action must not write when invoked directly.
+    expect(JSON.stringify(await loadGalProfile(profile, p))).toBe(beforeReset);
     await host.dispatch('gal.settings.confirm.load', 'true'); // hidden-tab action must not write.
     expect(host.view.preferences.confirmations.load).toBe(false);
     const reopened = await GalSliceHost.create(p, world(p), 'story',
@@ -702,6 +1033,62 @@ describe('GAL-UI-04A partial settings structure and six real confirmations', () 
     await host.refreshView();
     await host.dispatch('gal.settings.nav', 'home');
     expect(host.uiState).toMatchObject({ page: 'home', confirm: null });
+  });
+
+  it('routes V2 slot navigation through the source page and return-title policy', async () => {
+    const { p, profile, host } = await fixture();
+    await host.dispatch('gal.home.start');
+    await host.dispatch('gal.story.load');
+    expect(host.uiState.page).toBe('slots');
+    await host.dispatch('gal.slot.nav', 'gallery');
+    expect(host.uiState.page).toBe('gallery');
+    await host.dispatch('gal.gallery.back');
+    expect(host.uiState.page).toBe('story');
+    await host.dispatch('gal.story.load');
+    await host.dispatch('gal.slot.nav', 'home');
+    expect(host.uiState).toMatchObject({ page: 'slots', confirm: 'return-title' });
+    await host.dispatch('gal.confirm.cancel');
+    await host.dispatch('gal.slot.nav', 'story');
+    expect(host.uiState.page).toBe('story');
+    await persistGalConfirmation(profile, p, 'returnTitle', false, 2);
+    await host.refreshView();
+    await host.dispatch('gal.story.load');
+    await host.dispatch('gal.slot.nav', 'home');
+    expect(host.uiState).toMatchObject({ page: 'home', confirm: null });
+    await host.dispatch('gal.slot.nav', 'story');
+    expect(host.uiState.page).toBe('home');
+  });
+
+  it('routes V2 gallery top navigation without bypassing story availability or return-title policy', async () => {
+    const { p, profile, host } = await fixture();
+    await host.dispatch('gal.home.gallery');
+    expect(host.uiState.page).toBe('gallery');
+    await host.dispatch('gal.gallery.nav', 'story');
+    expect(host.uiState.page).toBe('gallery');
+    await host.dispatch('gal.gallery.nav', 'settings');
+    expect(host.uiState.page).toBe('settings');
+    await host.dispatch('gal.settings.back');
+    expect(host.uiState.page).toBe('gallery');
+    await host.dispatch('gal.gallery.nav', 'slots');
+    expect(host.uiState).toMatchObject({ page: 'slots', slotMode: 'save' });
+    await host.dispatch('gal.slot.back');
+    expect(host.uiState.page).toBe('home');
+    await host.dispatch('gal.home.start');
+    await host.dispatch('gal.story.load');
+    await host.dispatch('gal.slot.nav', 'gallery');
+    await host.dispatch('gal.gallery.nav', 'home');
+    expect(host.uiState).toMatchObject({ page: 'gallery', confirm: 'return-title' });
+    await host.dispatch('gal.confirm.cancel');
+    await host.dispatch('gal.gallery.nav', 'story');
+    expect(host.uiState.page).toBe('story');
+    await host.dispatch('gal.story.load');
+    await host.dispatch('gal.slot.nav', 'gallery');
+    await persistGalConfirmation(profile, p, 'returnTitle', false, 2);
+    await host.refreshView();
+    await host.dispatch('gal.gallery.nav', 'home');
+    expect(host.uiState).toMatchObject({ page: 'home', confirm: null });
+    await host.dispatch('gal.gallery.nav', 'slots');
+    expect(host.uiState.page).toBe('home');
   });
 
   it('keeps old checked state on persistence failure and never accepts invalid host timestamps', async () => {

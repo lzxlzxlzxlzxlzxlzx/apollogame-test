@@ -105,7 +105,7 @@ export function buildDiceWindow(input?: DiceRollInput, options: Readonly<{ debug
         { type: 'Panel', id: 'dice-window-top-spacer', props: { bare: true }, layout: { height: 38 } },
         // 自定义 band 没有通用难度语义；最终结果直接展示命中的 outcome，不能误导玩家看阈值。
         ...(hasCustomJudgement ? [] : [
-          { type: 'Label' as const, id: 'dice-window-difficulty-label', props: { text: '难度等级', size: 'lg', color: 'sub', font: 'ui' as const } },
+          { type: 'Label' as const, id: 'dice-window-difficulty-label', props: { text: '难度等级', size: 'lg' as const, color: 'sub' as const, font: 'ui' as const } },
           { type: 'Label' as const, id: 'dice-window-difficulty', props: { text: input?.difficulty === undefined ? '—' : String(input.difficulty), size: 48, color: 'text', font: 'serif' as const, bold: true } },
         ]),
         // 独立流式槽位：物理骰子再高也只在 Canvas 内，不会钻到难度文字图层下。
@@ -114,7 +114,7 @@ export function buildDiceWindow(input?: DiceRollInput, options: Readonly<{ debug
           // 文字落在 PNG 自带的金边空槽中，不再叠第二层矩形框。
           type: 'Panel', id: 'dice-window-prompt-box', props: { bare: true },
           layout: { width: 238, direction: 'column', align: 'center', padding: 8 },
-          children: [{ type: 'Label', id: 'dice-window-hint', props: { text: options.autoRoll ? '骰子即将掷出' : '点击骰子', size: 'lg', color: 'text', font: 'ui', bold: true } }],
+          children: [{ type: 'Label', id: 'dice-window-hint', props: { text: options.autoRoll ? '骰子即将掷出' : '点击骰子', size: 'lg' as const, color: 'text' as const, font: 'ui' as const, bold: true } }],
         },
       ],
     },

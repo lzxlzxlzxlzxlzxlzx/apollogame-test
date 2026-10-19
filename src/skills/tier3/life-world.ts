@@ -8,6 +8,11 @@ const tileCatalogEntrySchema = t.obj({ tileId: t.str(), tags: t.arr(t.enum(['wal
 const itemCatalogEntrySchema = t.obj({ id: t.str(), kind: t.enum(['seed', 'crop', 'resource', 'tool', 'good', 'quest'] as const), skinKey: t.str('opaque skin key; not an asset path') });
 const cropCatalogEntrySchema = t.obj({ id:t.str(), seedItemId:t.str(), harvestItemId:t.str(), growthDays:t.num(), visual:t.opt(t.obj({seededSkinKey:t.str(),growingSkinKey:t.str(),matureSkinKey:t.str()})) });
 const seasonSchema=t.obj({id:t.str(),lengthDays:t.num()});
+const profileSourceSchema=t.union([
+  t.obj({kind:t.lit('resource'),id:t.str()}),
+  t.obj({kind:t.lit('relationship'),npcId:t.str()}),
+], 'kind');
+const profileAttributeSchema=t.obj({id:t.str(),titleKey:t.str(),display:t.enum(['value','gauge'] as const),source:profileSourceSchema,iconSkinKey:t.str('opaque skin key; not an asset path'),surfaces:t.opt(t.arr(t.enum(['profile','hud'] as const)))});
 
 /** Static LifeGamePackage projection; its runtime interpreter is intentionally a later capability. */
 export const lifeWorldCapability = defineCapability({
@@ -27,9 +32,10 @@ export const lifeWorldCapability = defineCapability({
     LifeCalendar: defineComponent('LifeCalendar',{totalDay:t.num(),seasonId:t.str(),dayOfSeason:t.num(),slotId:t.opt(t.str())},{category:'resource',describe:'Explicitly advanced simulation date and optional intra-day slot.'}),
     LifeScene: defineComponent('LifeScene', { sceneId: t.str(), title: t.opt(t.str()), width: t.num(), height: t.num(), layers: t.arr(layerSchema, 'RLE layers; never expanded into cell entities') }, { category: 'config', describe: 'Static scene geometry, optional player-facing title, and RLE layers.' }),
     LifeZone: defineComponent('LifeZone', { sceneId: t.str(), zoneId: t.str(), kind: t.enum(['farm', 'forage', 'fishing', 'mining', 'town', 'interior'] as const), geometry: rectSchema, allowedActions: t.arr(t.enum(['till', 'water', 'plant', 'harvest', 'forage', 'fish', 'mine', 'buy', 'talk','gift','build'] as const)) }, { category: 'config', describe: 'Static actionable rectangle in a LifeScene.' }),
-    LifeWarp: defineComponent('LifeWarp', { sceneId: t.str(), warpId: t.str(), label: t.opt(t.str()), x: t.num(), y: t.num(), toSceneId: t.str(), toSpawnId: t.str(), conditionRef: t.opt(t.str()) }, { category: 'config', describe: 'Static scene-graph edge with optional player-facing action copy; conditionRef is stored only.' }),
+    LifeWarp: defineComponent('LifeWarp', { sceneId: t.str(), warpId: t.str(), label: t.opt(t.str()), x: t.num(), y: t.num(), width: t.num(), height: t.num(), toSceneId: t.str(), toSpawnId: t.str(), conditionRef: t.opt(t.str()) }, { category: 'config', describe: 'Static scene-graph edge with a half-open explicit-interaction footprint; conditionRef is stored only.' }),
     LifeSpawn: defineComponent('LifeSpawn', { sceneId: t.str(), spawnId: t.str(), kind: t.enum(['player', 'npc', 'warp'] as const), x: t.num(), y: t.num() }, { category: 'config', describe: 'Static named spawn point.' }),
     LifePlayerVisual: defineComponent('LifePlayerVisual', { skinKey: t.str('opaque skin key; not an asset path'), anchor: t.enum(['bottom-center'] as const) }, { category: 'render', describe: 'Optional player sprite key and fixed foot anchor; render-only consumer data.' }),
+    LifeProfileCatalog: defineComponent('LifeProfileCatalog', { titleKey:t.str(), attributes:t.arr(profileAttributeSchema) }, { category:'config', describe:'Static read-only profile presentation catalog; current values remain in Resource and LifeRelationshipProjection.', singleton:true }),
     LifePlacement: defineComponent('LifePlacement', { sceneId: t.str(), placementId: t.str(), kind: t.enum(['npc', 'building', 'resource', 'interactable', 'decoration'] as const), x: t.num(), y: t.num(), width: t.num(), height: t.num(), prefabRef: t.str(), skinKey: t.str('opaque skin key; not an asset path'), interactionRange: t.num(), visible:t.opt(t.bool()), interactive:t.opt(t.bool()) }, { category: 'config', describe: 'Authored placement plus an optional current deterministic schedule projection.' }),
   }, reads: [], writes: [], consumes: [] },
   config: {}, systems: [],

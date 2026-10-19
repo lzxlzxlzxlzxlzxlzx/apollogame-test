@@ -1,5 +1,5 @@
-import { buildLifeStandardHud, buildLifeStandardUi } from '../../src/engine/host/life-hud.js';
-import type { LayoutNode } from '../../src/ui/components/index.js';
+import { buildLifeStandardHud, buildLifeStandardUi } from '@zerocraft/engine/assembly/life-host/life-hud.js';
+import type { LayoutNode } from '@zerocraft/engine/ui/components/index.js';
 import { LIFE_DEMO_HOST_DESCRIPTOR } from './host-descriptor.js';
 import type { LifeDemoViewModel } from './view-model.js';
 

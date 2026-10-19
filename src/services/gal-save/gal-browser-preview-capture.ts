@@ -74,8 +74,23 @@ async function encode(canvas: OffscreenCanvas, packageId: string): Promise<GalPr
 /** Explicitly construct this in a browser app host and pass it as GalSlicePorts.previewCapture. */
 export class BrowserGalPreviewCapturePort implements GalPreviewCapturePort {
   async capture(frame: GalPreviewCaptureFrame): Promise<GalPreviewImage | null> {
-    if (!frame.packageId || (!frame.backgroundUrl && !frame.portraitUrl) ||
+    if (!frame.packageId || (!frame.cgAssetKey && !frame.backgroundUrl && !frame.portraitUrl) ||
         typeof OffscreenCanvas !== 'function') return null;
+    // A projected CG replaces the scene. Missing CG art must not expose the hidden background.
+    if (frame.cgAssetKey) {
+      const cg = await loadImage(frame.cgUrl);
+      if (!cg) return null;
+      try {
+        const canvas = new OffscreenCanvas(WIDTH, HEIGHT);
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return null;
+        ctx.fillStyle = '#101426';
+        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+        cover(ctx, cg);
+        return await encode(canvas, frame.packageId);
+      } catch { return null; }
+      finally { cg.close(); }
+    }
     const [background, person] = await Promise.all([
       loadImage(frame.backgroundUrl), loadImage(frame.portraitUrl),
     ]);

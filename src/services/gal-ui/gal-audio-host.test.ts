@@ -72,7 +72,7 @@ describe('GAL file audio and existing volume controls', () => {
     await host.dispatch('gal.settings.tab', 'text');
     await host.dispatch('gal.settings.bgm-volume', '90');
     expect((await loadGalProfile(profile, pkg)).preferences.bgmVolume).toBe(0.25);
-    expect(JSON.stringify(host.tree)).toContain('恢复默认（待接入）');
+    expect(JSON.stringify(host.tree)).toContain('恢复默认（待完整设置接入）');
   });
 
   it('persists master and focus settings, mutes BGM on blur and restores without replay', async () => {

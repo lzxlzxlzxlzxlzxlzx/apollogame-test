@@ -145,12 +145,17 @@ interface AudioCatalog {
 }
 
 interface GallerySpec {
-  memories: Record<MemoryId, { title: LocalizedText; entry: StoryRef; unlock: UnlockRule }>;
+  memories: Record<MemoryId, {
+    title: LocalizedText; entry: StoryRef; unlock: UnlockRule;
+    previewImage?: AssetKey; // 解锁后才投影给 UI 的回想卡缩略图
+    lockedImage?: AssetKey;  // 独立审核的无剧透锁态图，未解锁时才投影
+  }>;
   music: Record<AudioId, { unlock: UnlockRule }>;
 }
 ```
 
 CG、回想与音乐室是独立目录，不是埋在某一行台词里的无名副作用。`UnlockRule` 首版仅可由“到达节点/获得结局/明确 unlock 指令”三类闭集触发。
+回想的两个图像 key 均可省略，旧包保持无图占位；严格校验要求它们是可解析的非 URL 资产 key。锁定卡不得投影 `previewImage` 或已解锁标题；`lockedImage` 必须经独立的无剧透素材审核，不能把剧情缩略图伪装成锁态图。CG 分镜仍由不同 CG ID 按剧情节点切换，本字段不新增分镜组或共享解锁语义。
 
 ### 4.4 图层模型
 

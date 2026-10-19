@@ -3,6 +3,8 @@
 > S1-P 冻结基准：`prototype.dc.html` + `prototype-notes.md`。逻辑画布固定 `1440×900`。
 > 本文只定义正式实现的能力边界；禁止复制原型中的自由 DOM / Canvas / JavaScript。
 
+> 2026-10-16 特定补充：Owner 对 `SETTLEMENT-PARITY-01` 明确选择 B。仅 DokiWorlds App 的 render-only 边界可用专属离屏 Canvas 将当前结算卡包/卡牌合成为 Sprite 纹理；不改变 sim、引擎渲染器或演出解释器。该局部例外不推翻本计划其他禁止自由 Canvas 的规则，也不等于 owner 已验收视觉 1:1。
+
 ## 1. 游戏一句话
 
 DokiWorld 把已经抽出的 `1–5` 张有序卡牌和卡面图片交给本 App；App 不参与随机、扣费或发奖，只以冻结的 P2→P5 时序播放卡包聚焦、快速撕顶、逐张揭示和结果陈列，并在自然播完或玩家跳过到终态后仅回报一次“已观看”。

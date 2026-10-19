@@ -1,8 +1,6 @@
 import { defineCapability } from '@engine/core/define-capability.js';
-import type { Transform, Shape, Sprite, Signal, InputQueue, Clickable, Flag } from '@engine/protocol/components.js';
-import { parseHitMaskSpec } from '@engine/protocol/hit-mask.js';
-import { planSpriteDraw } from '@engine/protocol/sprite-layout.js';
-import { HOST_MASK_PREFIX, resolveHostHitMask } from '@engine/protocol/host-hit-mask-catalog.js';
+import type { Signal, InputQueue } from '@engine/protocol/components.js';
+import { collectClickableTargets, pickClickableTarget } from '@engine/protocol/clickable-hit-test.js';
 import { appendTrace, findDebugTrace } from '../debug-trace.js';
 
 // clickable —— 通用「可点击实体」：指针命中 → 配置好的 Signal（REQ-C-002，多游戏共需的输入→逻辑桥）。
@@ -81,25 +79,10 @@ export const clickableCapability = defineCapability({
           queue = world.getComponent<InputQueue>(e, 'InputQueue');
           break;
         }
-        if (!queue || queue.actions.length === 0) return;
+        if (!queue || !queue.actions.some((event) => event.x !== undefined && event.y !== undefined)) return;
 
-        // 全局 Flag 表（REQ-F-059 onlyFlag 门用；一次收集，O(flags)）。
-        const flags = new Map<string, boolean>();
-        for (const [fid] of world.query('Flag')) {
-          const f = world.getComponent<Flag>(fid, 'Flag');
-          if (f) flags.set(f.id, f.active);
-        }
-        // ③ 预收集可点击实体（带 Transform + Shape）；onlyFlag 非真者整体不参与命中。
-        const targets: Array<{ eid: string; t: Transform; s?: Shape; sprite?: Sprite; z: number; click: Clickable }> = [];
-        for (const [eid] of world.query('Clickable', 'Transform')) {
-          const click = world.getComponent<Clickable>(eid, 'Clickable')!;
-          if (click.onlyFlag && !flags.get(click.onlyFlag)) continue; // 门关：不可点（读上一拍 Flag）
-          const t = world.getComponent<Transform>(eid, 'Transform')!;
-          const s = world.getComponent<Shape>(eid, 'Shape');
-          if (!s && !click.hitMaskKey) continue;
-          const spr = world.getComponent<Sprite>(eid, 'Sprite');
-          targets.push({ eid, t, s, sprite: spr, z: spr?.zOrder ?? 0, click });
-        }
+        // ③ 与只读表现投影共用同一目标收集/几何/层级裁决，onlyFlag 与 mask 缺失仍 fail-closed。
+        const targets = collectClickableTargets(world);
 
         // ④ 逐个指针事件：输入自带世界坐标 → 命中最上层 → 发 Signal。
         const trace = findDebugTrace(world);
@@ -109,27 +92,11 @@ export const clickableCapability = defineCapability({
           const phase = ev.phase ?? 'down';
           const wp = { x: ev.x, y: ev.y }; // 世界坐标（PointerInputSource 已在采集期逆投影）
 
-          let best: (typeof targets)[number] | undefined;
-          for (const tg of targets) {
-            if (phase !== (tg.click.phase ?? 'down')) continue;
-            let hit = false;
-            if (tg.click.hitMaskKey) {
-              const mask = tg.click.hitMaskKey.startsWith(HOST_MASK_PREFIX)
-                ? resolveHostHitMask((world as typeof world & { root?: object }).root ?? world, tg.click.hitMaskKey) : tg.click.hitMask;
-              const result = maskedHit(wp.x, wp.y, tg.t, tg.sprite, mask);
-              hit = result === 'hit';
-              if (result !== 'hit' && result !== 'outside' && trace && traceCount < 3) {
-                appendTrace(trace, trace.tick ?? 0, 'clickable', 'reject', tg.eid, result);
-                traceCount++;
-              }
-            } else if (tg.s) {
-              const { hw, hh } = halfExtents(tg.t, tg.s);
-              hit = Math.abs(wp.x - tg.t.x) <= hw && Math.abs(wp.y - tg.t.y) <= hh;
-            }
-            if (hit) {
-              if (!best || tg.z > best.z || (tg.z === best.z && tg.eid < best.eid)) best = tg;
-            }
-          }
+          const best = pickClickableTarget(targets, wp.x, wp.y, phase, (eid, reason) => {
+            if (!trace || traceCount >= 3) return;
+            appendTrace(trace, trace.tick ?? 0, 'clickable', 'reject', eid, reason);
+            traceCount++;
+          });
           if (best) {
             world.addComponent(best.eid, { type: 'Signal', name: best.click.action, source: best.eid } as Signal);
             if (trace && traceCount < 3) {
@@ -142,47 +109,3 @@ export const clickableCapability = defineCapability({
     },
   ],
 });
-
-/** 世界坐标经实体逆变换与 Sprite 共用绘制计划映射回预烘焙逻辑像素。 */
-function maskedHit(x: number, y: number, t: Transform, sprite: Sprite | undefined, value: unknown): 'hit' | 'outside' | 'transparent' | 'invalid-mask' {
-  const mask = parseHitMaskSpec(value);
-  if (!mask || !sprite || sprite.textureKey !== mask.sourceTextureKey
-    || !Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(t.x) || !Number.isFinite(t.y)
-    || t.rotation !== 0 || !Number.isFinite(t.scaleX) || !Number.isFinite(t.scaleY)
-    || t.scaleX === 0 || t.scaleY === 0
-    || (sprite.width !== undefined || sprite.height !== undefined || sprite.fit !== undefined)
-      && (!(sprite.width! > 0) || !(sprite.height! > 0) || !['cover', 'contain'].includes(sprite.fit ?? '')))
-    return 'invalid-mask';
-
-  const dx = x - t.x;
-  const dy = y - t.y;
-  // v1 仅支持零旋转：sim 不引入跨平台非正确舍入三角函数；旋转图像 fail-closed。
-  const lx = dx / t.scaleX;
-  const ly = dy / t.scaleY;
-  const plan = planSpriteDraw(sprite, { sx: 0, sy: 0, sw: mask.width, sh: mask.height });
-  const d = plan.destination;
-  if (lx < d.x || ly < d.y || lx >= d.x + d.width || ly >= d.y + d.height) return 'outside';
-  const mx = Math.floor(plan.source.x + (lx - d.x) * plan.source.width / d.width);
-  const my = Math.floor(plan.source.y + (ly - d.y) * plan.source.height / d.height);
-  if (mx < 0 || my < 0 || mx >= mask.width || my >= mask.height) return 'outside';
-  return mask.rows[my][mx] === '1' ? 'hit' : 'transparent';
-}
-
-// AABB 半宽/半高（含缩放）。box=width/height；circle=radius（轴对齐近似）；polygon=顶点包围盒。
-function halfExtents(t: Transform, s: Shape): { hw: number; hh: number } {
-  let hw = 0;
-  let hh = 0;
-  if (s.kind === 'box') {
-    hw = (s.width ?? 0) / 2;
-    hh = (s.height ?? 0) / 2;
-  } else if (s.kind === 'circle') {
-    hw = s.radius ?? 0;
-    hh = hw;
-  } else if (s.kind === 'polygon' && s.vertices) {
-    for (let i = 0; i + 1 < s.vertices.length; i += 2) {
-      hw = Math.max(hw, Math.abs(s.vertices[i]));
-      hh = Math.max(hh, Math.abs(s.vertices[i + 1]));
-    }
-  }
-  return { hw: hw * Math.abs(t.scaleX), hh: hh * Math.abs(t.scaleY) };
-}

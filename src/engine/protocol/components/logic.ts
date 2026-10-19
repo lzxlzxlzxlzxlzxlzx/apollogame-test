@@ -121,7 +121,7 @@ export interface OrderedActionSession extends Component {
   readonly type: 'OrderedActionSession';
   id: string;
   acceptedActions: string[];
-  steps: Array<{ expectedAction: string; requiredCount: number }>;
+  steps: Array<{ expectedAction: string; requiredCount: number; completedSignal?: string }>;
   successSignal: string;
   failureSignal: string;
   status?: 'active' | 'success' | 'failure';

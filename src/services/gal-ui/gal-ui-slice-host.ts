@@ -4,16 +4,18 @@ import type { GalPackage } from '@engine/protocol/galgame.js';
 import { NARRATIVE_ADVANCE, NARRATIVE_BACK, NARRATIVE_CHOOSE,
   readNarrativeHistory, type NarrativeProjection, type StoryRuntime } from '@skills/tier3/narrative-director.js';
 import type { ActionSink, LayoutNode } from '@ui/components/types.js';
-import { mountUI, type MountHandle } from '@ui/components/server.js';
+import { mountUI, showToast, type MountHandle } from '@ui/components/server.js';
 import { apolloOnyx } from '@ui/components/apollo-kit.js';
 import { GalManualSaveController, type GalManualSlot } from '../gal-save/gal-manual-save.js';
 import { GalSavePreviewController, type GalPreviewCaptureFrame, type GalPreviewCapturePort,
   type GalPreviewResult, type GalSavePreviewPort } from '../gal-save/gal-save-preview.js';
 import { GalNarrativeProfileBridge } from '../gal-profile/narrative-profile-bridge.js';
-import { loadGalProfile, persistGalConfirmation, persistGalPlaybackPreferences, persistGalAudioVolume, persistGalFocusMute,
+import { loadGalProfile, persistGalConfirmation, persistGalPlaybackPreferences, persistGalUiPreference, persistGalAudioVolume, persistGalFocusMute,
   persistGalVoiceAuto,
-  type GalConfirmationKey, type GalProfile, type GalAudioVolumeKey } from '../gal-profile/gal-profile.js';
+  type GalConfirmationKey, type GalProfile, type GalAudioVolumeKey,
+  type GalUiPreferenceChange } from '../gal-profile/gal-profile.js';
 import { requiresGalConfirmation } from '../gal-profile/gal-confirmation-policy.js';
+import { createHostExitController, type HostExitController, type HostExitPort } from '../platform/host-exit.js';
 import type { SavePort } from '../save/save-port.js';
 import type { StoragePort } from '../storage/storage-port.js';
 import { buildGalUiReadModel, type GalUiReadModel } from './gal-ui-read-model.js';
@@ -24,6 +26,7 @@ import { GalPlaybackScheduler, type GalPlaybackClock, type GalPlaybackFrame,
 import { GalReplaySession } from './gal-replay-session.js';
 import type { GalUiArt } from './gal-ui-art.js';
 import { GalAudioCoordinator, type GalAudioPorts, type GalAudioStatus, type GalAudioFrame } from './gal-audio-coordinator.js';
+import { GalStoryTransitionPresenter } from './gal-story-transition.js';
 
 export interface GalSlicePorts {
   readonly profile: SavePort;
@@ -43,6 +46,10 @@ export interface GalSlicePorts {
   /** Independent presentation-only BGM/voice/SFX backends, explicitly composed by the product host. */
   readonly audio?: GalAudioPorts;
   readonly audioDiagnostic?: (status: GalAudioStatus) => void;
+  /** Explicit Web-preview capability. It only displays feedback and never closes a browser window. */
+  readonly previewExitFeedback?: boolean;
+  /** Explicit desktop window owner. Accepted means the host received the request, not that the window is gone. */
+  readonly hostExit?: HostExitPort;
 }
 
 const CONFIRM_ACTIONS: Readonly<Record<string, GalConfirmationKey>> = {
@@ -66,12 +73,18 @@ export class GalSliceHost implements ActionSink {
   private readonly bridge: GalNarrativeProfileBridge;
   private readonly readGate = new PresentationReadGate();
   private readonly playback?: GalPlaybackScheduler;
+  private readonly transitions: GalStoryTransitionPresenter;
   private readonly audio?: GalAudioCoordinator;
   private audioEntry = 0;
   private audioFocused = true;
   private audioVisible = true;
   private detached = false;
   private presentedToken?: PresentedStoryToken;
+  /** UI receives only an opaque string; the identity-bearing token never leaves this host. */
+  private storyPresentation?: { readonly token: PresentedStoryToken; readonly opaque: string };
+  private pendingPresentation?: PresentedStoryToken;
+  private storyRevealRequested = false;
+  private nextPresentationKey = 1;
   private readonly initial: ReturnType<World['snapshot']>;
   private readonly initialOrder: ReturnType<World['snapshotOrder']>;
   private profile!: GalProfile;
@@ -80,10 +93,15 @@ export class GalSliceHost implements ActionSink {
   private previewEpoch = 0;
   private mount?: MountHandle;
   private mountElement?: HTMLElement;
+  private dismissFeedbackToast?: () => void;
+  private displayedFeedback: string | null = null;
+  private feedbackRevision = 0;
+  private displayedFeedbackRevision = -1;
   private replay?: GalReplaySession;
   private replayReturn?: { state: GalSliceUiState; focusId: string | null };
   private activeFlush?: Promise<void>;
   private activeResume = false;
+  private resumeAutoAtChoice = false;
   private pending: GalConfirmKind | null = null;
   private state: GalSliceUiState = { page: 'home', slotMode: 'save', selectedSlot: null, confirm: null, feedback: null,
     historyOpen: false, galleryTab: 'memories', galleryPage: 1, expandedCgId: null,
@@ -92,9 +110,18 @@ export class GalSliceHost implements ActionSink {
   private returnPage: 'home' | 'story' = 'story';
   private galleryReturnPage: 'home' | 'story' = 'home';
   private settingsReturnPage: 'home' | 'story' | 'slots' | 'gallery' = 'home';
+  /* AI START */
+  private ctrlSkip = false;
+  private stageElement: HTMLElement | undefined;
+  private readonly exitController: HostExitController;
+  /* AI END */
 
   private constructor(readonly pkg: GalPackage, readonly world: World, readonly entity: string,
     private readonly ports: GalSlicePorts, private readonly locale: string) {
+    /* AI START */
+    this.exitController = createHostExitController(ports.hostExit);
+    /* AI END */
+    this.transitions = new GalStoryTransitionPresenter(ports.playbackClock, () => this.redraw());
     this.saves = new GalManualSaveController(pkg, ports.manual);
     if (ports.savePreview) this.savePreviews = new GalSavePreviewController(pkg, this.saves, ports.savePreview);
     this.bridge = new GalNarrativeProfileBridge(pkg, ports.profile);
@@ -133,8 +160,15 @@ export class GalSliceHost implements ActionSink {
   }
   get tree(): LayoutNode {
     const frame = this.audioFrame();
+    const typewriter = this.storyTypewriter();
+    this.syncStoryTransition();
     return buildGalSliceTree(this.view, { ...this.state,
-      voiceReplayAvailable: !!this.audio && !!frame && this.audio.canReplayVoice(frame) },
+      storyAvailable: this.activeResume,
+      voiceReplayAvailable: !!this.audio && !!frame && this.audio.canReplayVoice(frame),
+      previewExitAvailable: !!this.ports.previewExitFeedback,
+      desktopExitAvailable: this.exitController.available,
+      ...(this.transitions.veil ? { storyTransition: this.transitions.veil } : {}),
+      ...(typewriter ?? {}) },
       this.ports.uiArt, this.ports.contentUrls);
   }
 
@@ -143,18 +177,87 @@ export class GalSliceHost implements ActionSink {
     this.audioFocused = typeof document.hasFocus !== 'function' || document.hasFocus();
     this.audioVisible = !document.hidden;
     this.mountElement = element;
-    this.mount = mountUI(element, this.tree, {}, apolloOnyx, this);
-    const blur = () => { this.audioFocused = false; this.pausePlayback(); this.redraw(); };
+    /* AI START */
+    const doc = element.ownerDocument;
+    const view = doc.defaultView ?? window;
+    const stage = doc.createElement('div');
+    stage.setAttribute('data-gal-stage', '1440x900');
+    stage.style.width = '1440px';
+    stage.style.height = '900px';
+    stage.style.position = 'absolute';
+    stage.style.left = '0';
+    stage.style.top = '0';
+    stage.style.transformOrigin = 'top left';
+    stage.style.overflow = 'hidden';
+    const previousPosition = element.style.position;
+    const previousOverflow = element.style.overflow;
+    if (!element.style.position) element.style.position = 'relative';
+    element.style.overflow = 'hidden';
+    element.appendChild(stage);
+    this.stageElement = stage;
+    const fitStage = (): void => {
+      const width = element.clientWidth;
+      const height = element.clientHeight;
+      if (width < 1 || height < 1) { stage.style.transform = 'translate(0px, 0px) scale(1)'; return; }
+      const scale = Math.min(width / 1440, height / 900);
+      const offsetX = Math.max(0, (width - 1440 * scale) / 2);
+      const offsetY = Math.max(0, (height - 900 * scale) / 2);
+      stage.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+    };
+    fitStage();
+    const observer = view.ResizeObserver ? new view.ResizeObserver(() => fitStage()) : undefined;
+    observer?.observe(element);
+    const releaseCtrlSkip = (): void => {
+      if (!this.ctrlSkip) return;
+      this.ctrlSkip = false;
+      if (this.playback?.mode === 'skip') {
+        this.state = { ...this.state, playbackMode: 'off' };
+        this.playback.setMode('off');
+        this.redraw();
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent): void => {
+      const ctrl = event.key === 'Control' || event.code === 'ControlLeft' || event.code === 'ControlRight';
+      if (!ctrl || event.repeat || this.ctrlSkip) return;
+      const target = event.target;
+      if (target instanceof HTMLElement && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) return;
+      if (this.state.page !== 'story' || !this.playback || this.state.confirm || this.state.historyOpen || this.state.expandedCgId) return;
+      this.ctrlSkip = true;
+      this.state = { ...this.state, playbackMode: 'skip', feedback: null };
+      this.playback.setMode('skip');
+      this.redraw();
+    };
+    const onKeyUp = (event: KeyboardEvent): void => {
+      if (event.key === 'Control' || event.code === 'ControlLeft' || event.code === 'ControlRight') releaseCtrlSkip();
+    };
+    view.addEventListener('keydown', onKeyDown, true);
+    view.addEventListener('keyup', onKeyUp, true);
+    this.mount = mountUI(stage, this.tree, {}, apolloOnyx, this, { reducedMotion: this.profile.preferences.reducedMotion });
+    this.syncHostChrome();
+    /* AI END */
+    this.syncFeedbackToast();
+    const blur = () => { this.audioFocused = false; this.pausePlayback(); releaseCtrlSkip(); this.redraw(); };
     const focus = () => { this.audioFocused = true; this.redraw(); };
     const hidden = () => { this.audioVisible = !document.hidden; if (!this.audioVisible) this.pausePlayback(); this.redraw(); };
     window.addEventListener('blur', blur); window.addEventListener('focus', focus);
     document.addEventListener('visibilitychange', hidden);
-    this.completeVisibleText();
     this.syncAudio();
-    return () => { this.detached = true; this.pausePlayback(); window.removeEventListener('blur', blur);
+    return () => { this.detached = true; this.transitions.stop(); this.pausePlayback(); this.dismissFeedbackToast?.();
+      this.dismissFeedbackToast = undefined; this.displayedFeedback = null; window.removeEventListener('blur', blur);
+      this.displayedFeedbackRevision = -1;
       window.removeEventListener('focus', focus);
-      document.removeEventListener('visibilitychange', hidden); this.mount?.(); this.mount = undefined;
-      this.mountElement = undefined; this.exitReplay(); this.audio?.reset(); };
+      document.removeEventListener('visibilitychange', hidden);
+      /* AI START */
+      view.removeEventListener('keydown', onKeyDown, true);
+      view.removeEventListener('keyup', onKeyUp, true);
+      observer?.disconnect();
+      this.ctrlSkip = false;
+      /* AI END */
+      this.mount?.(); this.mount = undefined;
+      this.syncHostChrome();
+      this.mountElement = undefined; this.stageElement = undefined; stage.remove();
+      element.style.position = previousPosition; element.style.overflow = previousOverflow;
+      this.exitReplay(); this.audio?.reset(); };
   }
   enqueueAction(name: string, value?: { arg?: string }): void {
     void this.dispatch(name, value?.arg).catch(error => {
@@ -186,10 +289,15 @@ export class GalSliceHost implements ActionSink {
   async wheel(deltaY: number): Promise<void> {
     if (this.state.page !== 'story' || this.state.confirm || this.state.historyOpen ||
         !Number.isFinite(deltaY) || deltaY === 0) return;
+    if (deltaY < 0 && !this.profile.preferences.wheelRollback) return;
+    if (deltaY > 0 && !this.profile.preferences.wheelAdvance) return;
     await this.dispatch(deltaY < 0 ? NARRATIVE_BACK : NARRATIVE_ADVANCE);
   }
 
   async dispatch(name: string, arg?: string): Promise<void> {
+    if (name === 'gal.story.wheel-up' || name === 'gal.story.wheel-down') {
+      await this.wheel(name === 'gal.story.wheel-up' ? -1 : 1); return;
+    }
     if (this.replay) {
       if (name === 'gal.replay.exit') { this.exitReplay(); return; }
       if (name === 'gal.gallery.play-memory') { this.set({ feedback: '回想已在播放，不能重复开启' }); return; }
@@ -200,21 +308,48 @@ export class GalSliceHost implements ActionSink {
     if (this.state.confirm && name !== 'gal.confirm.accept' && name !== 'gal.confirm.cancel') return;
     if (this.state.historyOpen && name !== 'gal.history.close') return;
     if (this.state.expandedCgId && name !== 'gal.gallery.close-cg') return;
+    if (name === 'gal.story.presented') { await this.completeStoryPresentation(arg); return; }
     if (name === 'gal.playback.auto' || name === 'gal.playback.skip' || name === 'gal.playback.off') {
       if (this.state.page !== 'story' || !this.playback) return;
       const mode: GalPlaybackMode = name === 'gal.playback.off' ? 'off' : name === 'gal.playback.auto' ? 'auto' : 'skip';
       this.state = { ...this.state, playbackMode: mode, feedback: null };
       this.playback.setMode(mode); this.redraw(); return;
     }
-    if (name === 'gal.settings.auto-delay' || name === 'gal.settings.skip-unread') {
-      if (this.state.page !== 'settings' || this.state.settingsTab !== 'text' || !this.playback) return;
-      const change = name === 'gal.settings.auto-delay' && arg !== undefined && /^(0|[1-9]\d{0,4})$/.test(arg) &&
+    if (name === 'gal.settings.text-speed' || name === 'gal.settings.auto-delay' || name === 'gal.settings.skip-unread' ||
+        name === 'gal.settings.skip-read') {
+      if (this.state.page !== 'settings' || this.state.settingsTab !== 'text' ||
+          (name !== 'gal.settings.text-speed' && !this.playback)) return;
+      const change = name === 'gal.settings.text-speed' && arg !== undefined && /^(0|[1-9]\d{0,2})$/.test(arg) &&
+        Number(arg) <= 500 ? { textSpeedMsPerChar: Number(arg) } :
+        name === 'gal.settings.auto-delay' && arg !== undefined && /^(0|[1-9]\d{0,4})$/.test(arg) &&
         Number(arg) <= 10000 ? { autoDelayMs: Number(arg) } :
         name === 'gal.settings.skip-unread' && (arg === 'true' || arg === 'false') ?
-          { skipMode: arg === 'true' ? 'all' as const : 'read-only' as const } : undefined;
+          { skipMode: arg === 'true' ? 'all' as const : 'read-only' as const } :
+        name === 'gal.settings.skip-read' && (arg === 'true' || arg === 'false') ?
+          { readSkipEnabled: arg === 'true' } : undefined;
       if (!change) return;
       try {
         this.profile = await persistGalPlaybackPreferences(this.ports.profile, this.pkg, change, this.ports.savedAt());
+        this.set({ feedback: null });
+      } catch (error) { this.set({ feedback: `设置保存失败：${String(error)}`,
+        settingsRenderRevision: this.state.settingsRenderRevision + 1 }); }
+      return;
+    }
+    const uiPreference = name === 'gal.settings.wheel-back' ? 'wheelRollback' :
+      name === 'gal.settings.wheel-next' ? 'wheelAdvance' :
+        name === 'gal.settings.auto-continue' ? 'autoContinueAfterChoice' :
+          name === 'gal.settings.reduced-motion' ? 'reducedMotion' :
+            name === 'gal.settings.story-transitions' ? 'storyTransitions' : undefined;
+    if (uiPreference || name === 'gal.settings.dialogue-opacity') {
+      const textControl = uiPreference === 'wheelRollback' || uiPreference === 'wheelAdvance' ||
+        uiPreference === 'autoContinueAfterChoice';
+      if (this.state.page !== 'settings' || this.state.settingsTab !== (textControl ? 'text' : 'display')) return;
+      const change: GalUiPreferenceChange | undefined = uiPreference && (arg === 'true' || arg === 'false') ?
+        { [uiPreference]: arg === 'true' } as GalUiPreferenceChange : name === 'gal.settings.dialogue-opacity' &&
+        arg !== undefined && /^(?:[4-9]\d|100)$/.test(arg) ? { dialogueOpacity: Number(arg) / 100 } : undefined;
+      if (!change || uiPreference === 'autoContinueAfterChoice' && !this.playback) return;
+      try {
+        this.profile = await persistGalUiPreference(this.ports.profile, this.pkg, change, this.ports.savedAt());
         this.set({ feedback: null });
       } catch (error) { this.set({ feedback: `设置保存失败：${String(error)}`,
         settingsRenderRevision: this.state.settingsRenderRevision + 1 }); }
@@ -266,6 +401,10 @@ export class GalSliceHost implements ActionSink {
       return;
     }
     switch (name) {
+      case 'gal.settings.key-help':
+        if (this.state.page === 'settings' && this.state.settingsTab === 'text')
+          this.set({ feedback: '剧情：点击台词框或滚轮向下推进；滚轮向上回滚。自动／跳过可在剧情工具栏切换。' });
+        return;
       case 'gal.story.voice-replay': {
         if (this.state.page !== 'story') return;
         const frame = this.audioFrame();
@@ -313,6 +452,12 @@ export class GalSliceHost implements ActionSink {
       case 'gal.home.gallery':
         if (this.view.gallery.cg.length || this.view.gallery.memories.length) this.openGallery('home');
         return;
+      case 'gal.home.exit':
+        if (this.state.page !== 'home' || this.state.confirm !== null ||
+          !(this.ports.previewExitFeedback || this.exitController.available)) return;
+        if (requiresGalConfirmation('exitGame', this.profile.preferences)) this.ask('exit-game');
+        else await this.run('exit-game', null);
+        return;
       case 'gal.history.open':
         if (this.state.page === 'story') this.set({ historyOpen: true });
         return;
@@ -354,6 +499,20 @@ export class GalSliceHost implements ActionSink {
       }
       case 'gal.gallery.close-cg': this.set({ expandedCgId: null }); return;
       case 'gal.gallery.back': this.set({ page: this.galleryReturnPage, galleryPage: 1 }); return;
+      case 'gal.gallery.nav':
+        if (this.state.page !== 'gallery' || this.state.expandedCgId !== null) return;
+        if (arg === 'home') {
+          if (this.galleryReturnPage === 'story' && requiresGalConfirmation('returnTitle', this.profile.preferences))
+            this.ask('return-title');
+          else this.set({ page: 'home', expandedCgId: null, feedback: null });
+        } else if (arg === 'story' && this.activeResume)
+          this.set({ page: 'story', expandedCgId: null, feedback: null });
+        else if (arg === 'slots') this.openSlots('save', this.galleryReturnPage);
+        else if (arg === 'settings') {
+          this.settingsReturnPage = 'gallery';
+          this.set({ page: 'settings', settingsTab: 'text', expandedCgId: null, feedback: null });
+        }
+        return;
       case 'gal.story.save': this.openSlots('save', 'story'); return;
       case 'gal.story.load': this.openSlots('load', 'story'); return;
       case 'gal.story.home':
@@ -362,6 +521,17 @@ export class GalSliceHost implements ActionSink {
         else this.set({ page: 'home' });
         return;
       case 'gal.slot.back': this.set({ page: this.returnPage, selectedSlot: null }); return;
+      case 'gal.slot.nav':
+        if (this.state.page !== 'slots') return;
+        if (arg === 'home') {
+          if (this.returnPage === 'story' && requiresGalConfirmation('returnTitle', this.profile.preferences))
+            this.ask('return-title');
+          else this.set({ page: 'home', selectedSlot: null, feedback: null });
+        } else if (arg === 'story' && this.activeResume)
+          this.set({ page: 'story', selectedSlot: null, feedback: null });
+        else if (arg === 'gallery' && (this.view.gallery.cg.length || this.view.gallery.memories.length))
+          this.openGallery(this.returnPage);
+        return;
       case 'gal.slot.mode':
         if (arg === 'save' || arg === 'load') this.set({ slotMode: arg, selectedSlot: null });
         return;
@@ -391,6 +561,19 @@ export class GalSliceHost implements ActionSink {
       case NARRATIVE_BACK:
       case NARRATIVE_CHOOSE:
         if (this.state.page !== 'story' || this.state.historyOpen) return;
+        if ((name === NARRATIVE_ADVANCE || name === NARRATIVE_CHOOSE) && this.revealPendingStoryText()) return;
+        /* AI START */
+        if (name === NARRATIVE_ADVANCE && this.view.story.kind === 'ending') {
+          if (this.replay) { this.exitReplay(); return; }
+          this.playback?.stop('boundary');
+          this.ctrlSkip = false;
+          this.set({ page: 'home', playbackMode: 'off', feedback: null });
+          return;
+        }
+        /* AI END */
+        const resumeAuto = name === NARRATIVE_CHOOSE && this.resumeAutoAtChoice &&
+          this.profile.preferences.autoContinueAfterChoice && !!this.playback;
+        this.resumeAutoAtChoice = false;
         if (this.playback?.mode !== 'off') this.playback?.stop('stale');
         if (name === NARRATIVE_CHOOSE && !this.view.story.choices.some(choice => choice.id === arg && !choice.disabled)) return;
         if (name === NARRATIVE_ADVANCE && this.view.story.kind === 'choice') return;
@@ -405,18 +588,59 @@ export class GalSliceHost implements ActionSink {
         }
         if (!this.queue(name, arg)) return;
         this.audio?.stopOneShots();
-        await this.flush(); this.activeResume = true; this.redraw(); return;
+        await this.flush(); this.activeResume = true;
+        if (resumeAuto && this.world.peek<StoryRuntime>(this.entity, 'StoryRuntime')?.lastReceipt?.status === 'applied' &&
+            this.playbackFrame().kind === 'line') {
+          this.state = { ...this.state, playbackMode: 'auto' };
+          this.playback?.setMode('auto');
+        }
+        this.redraw(); return;
     }
   }
 
   private set(next: Partial<GalSliceUiState>): void {
+    if (next.feedback) this.feedbackRevision++;
     this.state = { ...this.state, ...next }; this.playback?.reconcile(); this.redraw();
   }
   private redraw(): void {
     this.syncAudio();
     if (!this.mount) return;
-    this.mount.update(this.tree, apolloOnyx);
-    this.completeVisibleText();
+    this.mount.update(this.tree, apolloOnyx, { reducedMotion: this.profile.preferences.reducedMotion });
+    this.syncHostChrome();
+    this.syncFeedbackToast();
+  }
+  /* AI START */
+  private syncHostChrome(): void {
+    const stage = this.stageElement;
+    const host = this.mountElement;
+    if (!stage || !host) return;
+    for (const name of ['data-apollo-reduced-motion', 'data-apollo-high-contrast', 'data-apollo-ui-scale']) {
+      if (stage.hasAttribute(name)) host.setAttribute(name, stage.getAttribute(name) ?? '');
+      else host.removeAttribute(name);
+    }
+  }
+  /* AI END */
+  private syncFeedbackToast(): void {
+    if (!this.mountElement || (this.state.feedback === this.displayedFeedback &&
+      this.feedbackRevision === this.displayedFeedbackRevision)) return;
+    this.dismissFeedbackToast?.();
+    this.displayedFeedback = this.state.feedback;
+    this.displayedFeedbackRevision = this.feedbackRevision;
+    this.dismissFeedbackToast = this.state.feedback ? showToast(this.mountElement, this.state.feedback,
+      { duration: 2200, theme: apolloOnyx }) : undefined;
+  }
+  private syncStoryTransition(): void {
+    const active = !!this.profile && this.state.page === 'story' && !this.state.historyOpen &&
+      !this.state.confirm && !this.state.expandedCgId && !this.detached;
+    if (!active) { this.transitions.stop(); return; }
+    const visibleWorld = this.replay?.world ?? this.world;
+    const projection = visibleWorld.peek<NarrativeProjection>(this.replay?.entity ?? this.entity, 'NarrativeProjection');
+    if (!projection || projection.packageId !== this.pkg.id) { this.transitions.stop(); return; }
+    const visit = this.replay ? `replay:${this.replay.memoryId}` : this.storyPresentation?.opaque;
+    this.transitions.sync({ ...projection, ...(visit ? { visit } : {}) }, {
+      storyTransitions: this.profile.preferences.storyTransitions,
+      reducedMotion: this.profile.preferences.reducedMotion,
+    }, true);
   }
   private syncAudio(): void {
     if (!this.audio || !this.profile) return;
@@ -435,14 +659,35 @@ export class GalSliceHost implements ActionSink {
       storyVisible: this.state.page === 'story' && !this.state.historyOpen && !this.state.confirm,
       previewVisible: !this.detached && this.state.page === 'settings' && this.state.settingsTab === 'audio' };
   }
-  private completeVisibleText(): void {
-    // S4 Label renders the complete text synchronously. Future typewriter must call
-    // fullyPresented at its own final-character callback instead of this seam.
-    const token = this.replay || this.state.historyOpen || this.state.confirm ? undefined : this.presentationToken();
-    if (token) void this.fullyPresented(token).catch(error => {
-      const message = `已读写入失败：${String(error)}`;
-      if (this.state.feedback !== message) this.set({ feedback: message });
-    });
+  /** Returns a UI-only, per-visible-presentation key; never serializes a gate token. */
+  private storyTypewriter(): Pick<GalSliceUiState, 'storyTypewriter'> | undefined {
+    const visible = this.state.page === 'story' && !this.replay && !this.state.historyOpen && !this.state.confirm &&
+      !this.state.expandedCgId && !this.detached;
+    if (!visible) { this.storyPresentation = undefined; this.pendingPresentation = undefined; this.storyRevealRequested = false; return undefined; }
+    const token = this.presentationToken();
+    if (!token) { this.storyPresentation = undefined; this.pendingPresentation = undefined; return undefined; }
+    if (this.storyPresentation?.token !== token) {
+      this.storyPresentation = { token, opaque: `gal-story:${token.generation}:${this.nextPresentationKey++}` };
+      this.pendingPresentation = undefined;
+      this.storyRevealRequested = false;
+    }
+    return { storyTypewriter: { token: this.storyPresentation.opaque,
+      ms: this.storyRevealRequested ? 0 : this.profile.preferences.textSpeedMsPerChar } };
+  }
+  private revealPendingStoryText(): boolean {
+    if (!this.mount || !this.storyPresentation || this.presentedToken === this.storyPresentation.token) return false;
+    this.storyRevealRequested = true;
+    this.redraw();
+    return true;
+  }
+  private async completeStoryPresentation(opaque: string | undefined): Promise<void> {
+    const current = this.storyPresentation;
+    if (!opaque || !current || opaque !== current.opaque || this.replay || this.state.page !== 'story' ||
+        this.state.historyOpen || this.state.confirm || this.state.expandedCgId || this.detached ||
+        this.presentationToken() !== current.token) return;
+    const result = await this.fullyPresented(current.token);
+    if (result.status === 'pending') this.pendingPresentation = current.token;
+    else if (this.pendingPresentation === current.token) this.pendingPresentation = undefined;
   }
   private ask(kind: GalConfirmKind): void { this.pending = kind; this.set({ confirm: kind }); }
   private openSlots(mode: GalSlotMode, back: 'home' | 'story'): void {
@@ -495,6 +740,18 @@ export class GalSliceHost implements ActionSink {
   private async run(kind: GalConfirmKind, number: number | null): Promise<void> {
     if (kind === 'new-game') { this.startNew(); return; }
     if (kind === 'return-title') { this.set({ page: 'home' }); return; }
+    if (kind === 'exit-game') {
+      /* AI START */
+      if (this.exitController.available) {
+        const result = await this.exitController.requestExit();
+        if (result === 'accepted') { this.set({ feedback: null }); return; }
+        this.set({ feedback: result === 'unavailable' ? '当前宿主不能退出，游戏仍在运行' : '退出没有被接受，游戏仍在运行' });
+        return;
+      }
+      /* AI END */
+      if (this.ports.previewExitFeedback) this.set({ feedback: '浏览器预览不会关闭窗口，桌面版由宿主处理退出' });
+      return;
+    }
     if (number === null) return;
     if (kind === 'load') {
       const result = await this.saves.load(number, this.world);
@@ -521,7 +778,9 @@ export class GalSliceHost implements ActionSink {
         ...(story.backgroundAssetKey ? { backgroundAssetKey: story.backgroundAssetKey,
           ...(urls?.[story.backgroundAssetKey] ? { backgroundUrl: urls[story.backgroundAssetKey] } : {}) } : {}),
         ...(story.portraitAssetKey ? { portraitAssetKey: story.portraitAssetKey,
-          ...(urls?.[story.portraitAssetKey] ? { portraitUrl: urls[story.portraitAssetKey] } : {}) } : {}) };
+          ...(urls?.[story.portraitAssetKey] ? { portraitUrl: urls[story.portraitAssetKey] } : {}) } : {}),
+        ...(story.cgAssetKey ? { cgAssetKey: story.cgAssetKey,
+          ...(urls?.[story.cgAssetKey] ? { cgUrl: urls[story.cgAssetKey] } : {}) } : {}) };
     } catch { return undefined; } // preview extraction cannot veto an authoritative save
   }
   private async captureSavePreview(number: number, saveHash: string, frame: GalPreviewCaptureFrame): Promise<void> {
@@ -576,7 +835,15 @@ export class GalSliceHost implements ActionSink {
     })();
     this.activeFlush = run;
     try { await run; }
-    finally { if (this.activeFlush === run) this.activeFlush = undefined; }
+    finally {
+      if (this.activeFlush === run) this.activeFlush = undefined;
+      const pending = this.pendingPresentation;
+      const current = this.storyPresentation;
+      if (pending && current?.token === pending) void this.completeStoryPresentation(current.opaque).catch(error => {
+        const message = `已读写入失败：${String(error)}`;
+        if (this.state.feedback !== message) this.set({ feedback: message });
+      });
+    }
   }
   private async refresh(): Promise<void> {
     this.profile = await loadGalProfile(this.ports.profile, this.pkg);
@@ -617,7 +884,11 @@ export class GalSliceHost implements ActionSink {
         runtime?.packageId === this.pkg.id && runtime.lastReceipt?.status !== 'rejected',
       fullyPresented: !!token && token === this.presentedToken,
       read: !!projection && this.profile.readNodeIds.includes(JSON.stringify([projection.chapterId, projection.nodeId])),
-      skipMode: this.profile.preferences.skipMode, autoDelayMs: this.profile.preferences.autoDelayMs };
+      /* AI START */
+      skipMode: this.ctrlSkip ? 'all' : this.profile.preferences.skipMode,
+      readSkipEnabled: this.ctrlSkip ? true : this.profile.preferences.readSkipEnabled,
+      /* AI END */
+      autoDelayMs: this.profile.preferences.autoDelayMs };
   }
 
   private async playbackAdvance(packageId: string, refKey: string, epoch: number): Promise<boolean> {
@@ -631,8 +902,12 @@ export class GalSliceHost implements ActionSink {
   }
 
   private playbackStopped(reason: GalPlaybackStopReason): void {
-    const feedback = reason === 'unread' ? '已停在未读台词' : reason === 'busy' ? '输入忙，自动播放已暂停' :
+    this.resumeAutoAtChoice = reason === 'boundary' && this.state.playbackMode === 'auto' &&
+      this.playbackFrame().kind === 'choice';
+    const feedback = reason === 'unread' ? '已停在未读台词' :
+      reason === 'disabled' ? '已读快进已关闭' : reason === 'busy' ? '输入忙，自动播放已暂停' :
       reason === 'clock' ? '调度时钟无效，自动播放已暂停' : null;
+    if (feedback) this.feedbackRevision++;
     this.state = { ...this.state, playbackMode: 'off', ...(feedback ? { feedback } : {}) };
     this.redraw();
   }

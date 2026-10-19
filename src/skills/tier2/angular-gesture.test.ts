@@ -87,6 +87,42 @@ describe('t2-angular-gesture', () => {
     expect(trace.filter((item) => item.what.includes('握持拒收'))).toHaveLength(2);
   });
 
+  it('可选棒身胶囊允许棒头、中段与入水端起握，环外误点仍拒收且起握不瞬移', () => {
+    for (const ratio of [0, 0.5, 1]) {
+      const world = make();
+      const gesture = world.getComponent<AngularGesture>('rod', 'AngularGesture')!;
+      gesture.angleMilliDegrees = 0;
+      gesture.grabSegment = { startX: 47, startY: -188, endX: 2, endY: -12, radius: 21 };
+      world.tick();
+      const position = world.getComponent<Transform>('rod', 'Transform')!;
+      const x = position.x + 47 + (2 - 47) * ratio;
+      const y = position.y - 188 + (-12 + 188) * ratio;
+      send(world, { source: 'player', phase: 'down', pointerId: 7, x, y });
+      expect(gesture.heldSource).toBe('player');
+      expect(gesture.angleMilliDegrees).toBe(0);
+      expect(position.x).toBe(cx + rx);
+      send(world, { source: 'player', phase: 'up', pointerId: 7, x, y });
+      expect(gesture.heldSource).toBeUndefined();
+      send(world, { source: 'player', phase: 'down', pointerId: 8, x: x + 55, y });
+      expect(gesture.heldSource).toBeUndefined();
+    }
+  });
+
+  it('棒头起握后仍按原轨道累计完整顺时针圈，不因起点远离锅口而跳角', () => {
+    const world = make();
+    const gesture = world.getComponent<AngularGesture>('rod', 'AngularGesture')!;
+    gesture.angleMilliDegrees = 0;
+    gesture.grabSegment = { startX: 47, startY: -188, endX: 2, endY: -12, radius: 21 };
+    world.tick();
+    send(world, { source: 'player', phase: 'down', pointerId: 7, x: cx + rx + 47, y: cy - 188 });
+    let completed = 0;
+    for (const degrees of [0, 45, 90, 135, 180, 225, 270, 315, 360]) {
+      send(world, event('move', degrees));
+      completed += signals(world, 'brew.stir.clockwise').length;
+    }
+    expect(completed).toBe(1);
+  });
+
   it('松手帧的最终坐标也计入满圈，不丢最后一段', () => {
     const world = make(); send(world, event('down', 0));
     for (let step = 1; step <= 7; step++) send(world, event('move', step * 45));
@@ -143,8 +179,24 @@ describe('t2-angular-gesture', () => {
     for (let lap = 1; lap <= 3; lap++) {
       turn(world);
       expect(signals(world, 'brew.stir.clockwise')).toHaveLength(1);
-      expect(world.getComponent<AngularGesture>('rod', 'AngularGesture')!.lastEmitTick).toBe(world.getVersion() - 1);
+      expect(world.getComponent<AngularGesture>('rod', 'AngularGesture')!.emittedTurns).toBe(lap);
     }
+  });
+
+  it('默认锅口与可选棒身在满圈前快照恢复后仍产生相同世界 hash', () => {
+    expectRestoreContinues(() => make(), (world) => { send(world, event('down', 0)); send(world, event('move', 45)); },
+      (world) => { for (let step = 2; step <= 8; step++) send(world, event('move', step * 45)); });
+    const makeShaft = () => {
+      const world = make();
+      const gesture = world.getComponent<AngularGesture>('rod', 'AngularGesture')!;
+      gesture.angleMilliDegrees = 0;
+      gesture.grabSegment = { startX: 47, startY: -188, endX: 2, endY: -12, radius: 21 };
+      world.tick();
+      return world;
+    };
+    expectRestoreContinues(makeShaft,
+      (world) => { send(world, { source: 'player', phase: 'down', pointerId: 7, x: cx + rx + 47, y: cy - 188 }); send(world, event('move', 0)); },
+      (world) => { for (let step = 1; step <= 8; step++) send(world, event('move', step * 45)); });
   });
 
   it('Q/E 键由既有 KeyBinding 发相同语义信号，不伪造指针轨迹', () => {

@@ -128,9 +128,9 @@ function candidateFailures(candidate: LibraryRecord, slot: AssetSlotBrief): Cand
   if (candidate.transparent !== (slot.asset.alpha === 'transparent')) failures.push('alpha');
   // Style matching is deliberately strict in v1. Broader families would silently mix art direction.
   if (candidate.style !== slot.generation.styleId) failures.push('style');
-  if ((candidate.usage ?? 'sprite') !== slot.asset.usage) failures.push('usage');
-  if ((candidate.colorSpace ?? 'srgb') !== slot.asset.colorSpace) failures.push('colorSpace');
-  if (candidate.sampling !== undefined && candidate.sampling !== slot.asset.sampling) failures.push('sampling');
+  if (candidate.usage !== slot.asset.usage) failures.push('usage');
+  if (candidate.colorSpace !== slot.asset.colorSpace) failures.push('colorSpace');
+  if (candidate.sampling !== slot.asset.sampling) failures.push('sampling');
   // The approval seam can prove pixel size/alpha from PNG bytes today. Other formats must wait for an equally strict decoder.
   if ((candidate.format !== undefined && candidate.format.toLowerCase() !== 'png') || !candidate.path?.toLowerCase().endsWith('.png')) failures.push('format');
   if (!nonEmpty(candidate.license)) failures.push('license');

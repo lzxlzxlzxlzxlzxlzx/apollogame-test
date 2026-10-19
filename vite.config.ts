@@ -4,6 +4,7 @@ import { resolve, extname, sep } from 'path';
 import { existsSync, statSync, createReadStream } from 'node:fs';
 import { copyUsedAssets } from './vite.assets';
 import { engineAliases } from './scripts/engine-aliases.mjs';
+import { loadCharacterLibrary, loadCharacterPage } from './src/services/character-library/disk.ts';
 
 // 开发期实况伺服 public/games/** 与 public/art/**（owner 07-15 根因·立绘大叉/图标不换）：
 // 这两处目录在下方 server.watch.ignored 里（避开 assets/ 3.7 万文件的启动监听风暴）。副作用是
@@ -59,6 +60,45 @@ function serveLiveGameAssets() {
   };
 }
 
+function serveCharacterLibrary() {
+  const root = resolve(__dirname, 'characters');
+  return {
+    name: 'zerocraft-character-library',
+    configureServer(server: { middlewares: { use: (fn: (req: { url?: string }, res: { statusCode: number; setHeader: (k: string, v: string) => void; end: (b?: string) => void } & NodeJS.WritableStream, next: () => void) => void) => void } }) {
+      server.middlewares.use((req, res, next) => {
+        const url = (req.url || '').split('?')[0];
+        if (url === '/characters/index.json') {
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
+          res.setHeader('Cache-Control', 'no-cache');
+          res.end(JSON.stringify(loadCharacterLibrary(root)));
+          return;
+        }
+        const page = /^\/characters\/([^/]+)\/page\.json$/.exec(url);
+        if (page) {
+          let id = '';
+          try { id = decodeURIComponent(page[1]); } catch { res.statusCode = 400; res.end('bad id'); return; }
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
+          res.setHeader('Cache-Control', 'no-cache');
+          res.end(JSON.stringify(loadCharacterPage(root, id)));
+          return;
+        }
+        const file = /^\/characters\/([^/]+)\/(.+)$/.exec(url);
+        if (!file) return next();
+        let id = '';
+        let rel = '';
+        try { id = decodeURIComponent(file[1]); rel = decodeURIComponent(file[2]); } catch { return next(); }
+        const base = resolve(root, id);
+        const target = resolve(base, rel);
+        if (target !== base && !target.startsWith(base + sep)) { res.statusCode = 403; res.end('forbidden'); return; }
+        if (!existsSync(target) || !statSync(target).isFile()) return next();
+        res.setHeader('Content-Type', ASSET_CT[extname(target).toLowerCase()] || 'application/octet-stream');
+        res.setHeader('Cache-Control', 'no-cache');
+        createReadStream(target).pipe(res);
+      });
+    },
+  };
+}
+
 // 平台打包（D2·scripts/build-platform.mjs 设）：JS/CSS/字体产物挪出默认的 dist/assets/，
 // 因为 main_entry/server.py 早占了 `/assets/*` 这条路由给共享素材库 FreeArtLib（ROOT/assets/**·
 // assets/index.json + 缩略图，见 _serve_assets）——不挪会撞名：构建产物覆盖同名路径，浏览器把
@@ -69,7 +109,7 @@ function serveLiveGameAssets() {
 const PLATFORM_BUILD = process.env.VITE_PLATFORM_BUILD === '1';
 
 export default defineConfig({
-  plugins: [react(), serveLiveGameAssets(), copyUsedAssets(__dirname, 'dist')],
+  plugins: [react(), serveLiveGameAssets(), serveCharacterLibrary(), copyUsedAssets(__dirname, 'dist')],
   build: {
     assetsDir: PLATFORM_BUILD ? 'app' : 'assets',
     copyPublicDir: !PLATFORM_BUILD,

@@ -1,0 +1,51 @@
+{
+  "schema": "zerocraft.asset-candidate-review.v1",
+  "game": "game-demon-castle",
+  "status": "approved-for-deterministic-crop",
+  "source": {
+    "path": "moonshadow-ui-icons-sheet-candidate-v1.png",
+    "contentHash": "sha256:684fc490657625445c0409e6f6ac448b697a6137a132bd4ac28b9f96ae9be920",
+    "dimensions": { "width": 1536, "height": 1024 },
+    "generator": "Codex built-in image generation",
+    "prompt": "not retained in this artifact; inspect the originating generation turn before formal approval"
+  },
+  "assessment": {
+    "transparent": true,
+    "directRuntimeImport": false,
+    "reason": "The sheet has transparent background, but it is still a six-item presentation sheet rather than six independently approved texture files. Each accepted item needs a deterministic crop, its own hash, approval record, index entry, and consumer binding."
+  },
+  "proposedConsumers": [
+    { "id": "coin", "slot": "Life profile HUD attribute icon", "approximateCell": "top-left" },
+    { "id": "moon-crystal", "slot": "Life profile HUD attribute icon", "approximateCell": "top-center" },
+    { "id": "moonleaf", "slot": "Life profile HUD attribute icon", "approximateCell": "top-right" },
+    { "id": "quest-j", "slot": "Life Host quest entry button", "approximateCell": "bottom-left" },
+    { "id": "inventory-i", "slot": "Life Host inventory entry button", "approximateCell": "bottom-center" },
+    { "id": "profile-c", "slot": "Life Host profile entry button", "approximateCell": "bottom-right" }
+  ],
+  "approvalChoices": [
+    {
+      "id": "regenerate-transparent",
+      "label": "接受造型后裁成六个独立透明 PNG",
+      "recommended": true,
+      "reason": "The source already has transparency. Deterministic alpha-bounds crops can preserve the approved artwork, then each output can be reviewed and indexed separately."
+    },
+    {
+      "id": "regenerate-transparent",
+      "label": "重新生成六个单件透明 PNG",
+      "recommended": false,
+      "reason": "Use this only if the owner wants a different silhouette, composition, or size contract; it requires a new candidate-review round."
+    },
+    {
+      "id": "reject",
+      "label": "不采用",
+      "recommended": false,
+      "reason": "Leaves the current data-driven placeholder/asset-key fallback unchanged."
+    }
+  ],
+  "ownerDecision": {
+    "decision": "approved",
+    "approvedAt": "2026-10-15",
+    "evidence": "Owner replied: 原型通过、图标候选通过"
+  },
+  "formalImport": "approved-for-six-independent-crops"
+}

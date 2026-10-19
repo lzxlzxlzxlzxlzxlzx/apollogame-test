@@ -10889,7 +10889,7 @@
           "7px"
         ],
         "padding": "6px 14px",
-        "opacity": "0",
+        "opacity": "1",
         "overflow": "visible",
         "fit": "fill",
         "position": "50% 50%",
@@ -10900,7 +10900,7 @@
           "none"
         ],
         "disabled": false,
-        "feedback": null,
+        "feedback": "hover",
         "after": {
           "text": "none",
           "opacity": "1"
@@ -11749,14 +11749,14 @@
         }
       },
       {
-        "id": "clue-reveal-modal",
+        "id": "case-utility",
         "tag": "DIV",
         "text": "",
         "rect": [
-          0,
-          0,
-          1440,
-          900
+          1184,
+          795,
+          214,
+          63
         ],
         "font": [
           "-apple-system, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif",
@@ -11766,95 +11766,11 @@
           "normal"
         ],
         "color": "rgb(230, 230, 244)",
-        "background": "rgba(0, 0, 0, 0.9)",
+        "background": "linear-gradient(135deg, rgba(10, 23, 32, 0.925), rgba(22, 33, 42, 0.867))",
         "border": [
-          "0px",
-          "rgb(230, 230, 244)",
-          "0px"
-        ],
-        "padding": "24px",
-        "opacity": "1",
-        "overflow": "visible",
-        "fit": "fill",
-        "position": "50% 50%",
-        "transform": "none",
-        "blur": "blur(3px)",
-        "animation": [
-          "0s",
-          "none"
-        ],
-        "disabled": null,
-        "feedback": null,
-        "after": {
-          "text": "none",
-          "opacity": "1"
-        }
-      },
-      {
-        "id": "DIV",
-        "tag": "DIV",
-        "text": "",
-        "rect": [
-          334.6,
-          230.8,
-          770.8,
-          526.4
-        ],
-        "font": [
-          "-apple-system, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif",
-          "16px",
-          "400",
-          "normal",
-          "normal"
-        ],
-        "color": "rgb(230, 230, 244)",
-        "background": "linear-gradient(145deg, rgb(231, 221, 194), rgb(187, 168, 117))",
-        "border": [
-          "12px",
-          "rgb(93, 69, 46)",
-          "0px"
-        ],
-        "padding": "26px 40px",
-        "opacity": "0",
-        "overflow": "auto",
-        "fit": "fill",
-        "position": "50% 50%",
-        "transform": "matrix(0.94, 0, 0, 0.94, 0, 44)",
-        "blur": "none",
-        "animation": [
-          "0.24s",
-          "apollo-modal-lift"
-        ],
-        "disabled": null,
-        "feedback": null,
-        "after": {
-          "text": "none",
-          "opacity": "1"
-        }
-      },
-      {
-        "id": "evidence-structure",
-        "tag": "DIV",
-        "text": "",
-        "rect": [
-          383.48,
-          266.52,
-          673.04,
-          454.96
-        ],
-        "font": [
-          "-apple-system, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif",
-          "16px",
-          "400",
-          "normal",
-          "normal"
-        ],
-        "color": "rgb(230, 230, 244)",
-        "background": "rgba(0, 0, 0, 0)",
-        "border": [
-          "0px",
-          "rgb(230, 230, 244)",
-          "0px"
+          "1px",
+          "rgb(255, 203, 61)",
+          "8px"
         ],
         "padding": "0px",
         "opacity": "1",
@@ -11862,7 +11778,7 @@
         "fit": "fill",
         "position": "50% 50%",
         "transform": "none",
-        "blur": "none",
+        "blur": "blur(10px)",
         "animation": [
           "0s",
           "none"
@@ -11875,280 +11791,70 @@
         }
       },
       {
-        "id": "evidence-eyebrow",
-        "tag": "SPAN",
-        "text": "EVIDENCE / 现场证物",
-        "rect": [
-          383.48,
-          266.52,
-          673.04,
-          15.98
-        ],
-        "font": [
-          "\"Microsoft YaHei\", 微软雅黑, sans-serif",
-          "13px",
-          "400",
-          "normal",
-          "2.08px"
-        ],
-        "color": "rgb(18, 62, 67)",
-        "background": "rgba(0, 0, 0, 0)",
-        "border": [
-          "0px",
-          "rgb(18, 62, 67)",
-          "0px"
-        ],
-        "padding": "0px",
-        "opacity": "1",
-        "overflow": "visible",
-        "fit": "fill",
-        "position": "50% 50%",
-        "transform": "none",
-        "blur": "none",
-        "animation": [
-          "0s",
-          "none"
-        ],
-        "disabled": null,
-        "feedback": null,
-        "after": {
-          "text": "none",
-          "opacity": "1"
-        }
-      },
-      {
-        "id": "evidence-lock-title",
-        "tag": "SPAN",
-        "text": "破损窗锁",
-        "rect": [
-          383.48,
-          290.02,
-          673.04,
-          42.3
-        ],
-        "font": [
-          "\"Microsoft YaHei\", 微软雅黑, sans-serif",
-          "34px",
-          "700",
-          "normal",
-          "normal"
-        ],
-        "color": "rgb(53, 38, 23)",
-        "background": "rgba(0, 0, 0, 0)",
-        "border": [
-          "0px",
-          "rgb(53, 38, 23)",
-          "0px"
-        ],
-        "padding": "0px",
-        "opacity": "1",
-        "overflow": "visible",
-        "fit": "fill",
-        "position": "50% 50%",
-        "transform": "none",
-        "blur": "none",
-        "animation": [
-          "0s",
-          "none"
-        ],
-        "disabled": null,
-        "feedback": null,
-        "after": {
-          "text": "none",
-          "opacity": "1"
-        }
-      },
-      {
-        "id": "evidence-image-slot",
-        "tag": "DIV",
-        "text": "",
-        "rect": [
-          383.48,
-          349.24,
-          673.04,
-          257.56
-        ],
-        "font": [
-          "-apple-system, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif",
-          "16px",
-          "400",
-          "normal",
-          "normal"
-        ],
-        "color": "rgb(230, 230, 244)",
-        "background": "radial-gradient(rgb(82, 105, 106), rgb(25, 38, 42))",
-        "border": [
-          "7px",
-          "rgb(122, 99, 69)",
-          "0px"
-        ],
-        "padding": "0px",
-        "opacity": "1",
-        "overflow": "visible",
-        "fit": "fill",
-        "position": "50% 50%",
-        "transform": "none",
-        "blur": "none",
-        "animation": [
-          "0s",
-          "none"
-        ],
-        "disabled": null,
-        "feedback": null,
-        "after": {
-          "text": "none",
-          "opacity": "1"
-        }
-      },
-      {
-        "id": "evidence-lock-image",
-        "tag": "IMG",
-        "text": "",
-        "rect": [
-          390.06,
-          355.82,
-          659.88,
-          244.4
-        ],
-        "font": [
-          "-apple-system, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif",
-          "16px",
-          "400",
-          "normal",
-          "normal"
-        ],
-        "color": "rgb(230, 230, 244)",
-        "background": "rgba(0, 0, 0, 0)",
-        "border": [
-          "0px",
-          "rgb(230, 230, 244)",
-          "0px"
-        ],
-        "padding": "0px",
-        "opacity": "1",
-        "overflow": "clip",
-        "fit": "cover",
-        "position": "50% 0%",
-        "transform": "none",
-        "blur": "none",
-        "animation": [
-          "0s",
-          "none"
-        ],
-        "disabled": null,
-        "feedback": null,
-        "after": {
-          "text": "none",
-          "opacity": "1"
-        }
-      },
-      {
-        "id": "evidence-lock-text",
-        "tag": "SPAN",
-        "text": "锁扣内侧有新鲜撬痕。有人从室内先松开了它。",
-        "rect": [
-          383.48,
-          624.66,
-          549.9,
-          28.58
-        ],
-        "font": [
-          "\"Microsoft YaHei\", 微软雅黑, sans-serif",
-          "19px",
-          "400",
-          "30.4px",
-          "normal"
-        ],
-        "color": "rgb(27, 33, 29)",
-        "background": "rgba(0, 0, 0, 0)",
-        "border": [
-          "0px",
-          "rgb(27, 33, 29)",
-          "0px"
-        ],
-        "padding": "0px",
-        "opacity": "1",
-        "overflow": "visible",
-        "fit": "fill",
-        "position": "50% 50%",
-        "transform": "none",
-        "blur": "none",
-        "animation": [
-          "0s",
-          "none"
-        ],
-        "disabled": null,
-        "feedback": null,
-        "after": {
-          "text": "none",
-          "opacity": "1"
-        }
-      },
-      {
-        "id": "lock-collect-controls",
-        "tag": "DIV",
-        "text": "",
-        "rect": [
-          955,
-          671.07,
-          101.52,
-          44.18
-        ],
-        "font": [
-          "-apple-system, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif",
-          "16px",
-          "400",
-          "normal",
-          "normal"
-        ],
-        "color": "rgb(230, 230, 244)",
-        "background": "rgba(0, 0, 0, 0)",
-        "border": [
-          "0px",
-          "rgb(230, 230, 244)",
-          "0px"
-        ],
-        "padding": "0px",
-        "opacity": "1",
-        "overflow": "visible",
-        "fit": "fill",
-        "position": "50% 50%",
-        "transform": "none",
-        "blur": "none",
-        "animation": [
-          "0s",
-          "none"
-        ],
-        "disabled": null,
-        "feedback": null,
-        "after": {
-          "text": "none",
-          "opacity": "1"
-        }
-      },
-      {
-        "id": "lock-collect",
+        "id": "view-records",
         "tag": "BUTTON",
-        "text": "收录线索",
+        "text": "查看记录",
         "rect": [
-          955,
-          671.07,
-          101.52,
-          44.18
+          1195,
+          806,
+          92,
+          41
         ],
         "font": [
           "\"Microsoft YaHei\", 微软雅黑, sans-serif",
           "16px",
-          "700",
+          "400",
           "normal",
           "normal"
         ],
-        "color": "rgb(37, 27, 17)",
-        "background": "rgb(227, 183, 101)",
+        "color": "rgb(251, 242, 220)",
+        "background": "rgb(26, 41, 49)",
         "border": [
-          "2px",
-          "rgb(81, 55, 30)",
-          "0px"
+          "1px",
+          "rgb(145, 128, 97)",
+          "5px"
+        ],
+        "padding": "0px",
+        "opacity": "1",
+        "overflow": "visible",
+        "fit": "fill",
+        "position": "50% 50%",
+        "transform": "none",
+        "blur": "none",
+        "animation": [
+          "0s",
+          "none"
+        ],
+        "disabled": false,
+        "feedback": null,
+        "after": {
+          "text": "none",
+          "opacity": "1"
+        }
+      },
+      {
+        "id": "exit-investigation",
+        "tag": "BUTTON",
+        "text": "退出调查",
+        "rect": [
+          1295,
+          806,
+          92,
+          41
+        ],
+        "font": [
+          "\"Microsoft YaHei\", 微软雅黑, sans-serif",
+          "16px",
+          "400",
+          "normal",
+          "normal"
+        ],
+        "color": "rgb(251, 242, 220)",
+        "background": "rgb(26, 41, 49)",
+        "border": [
+          "1px",
+          "rgb(145, 128, 97)",
+          "5px"
         ],
         "padding": "0px",
         "opacity": "1",
@@ -12193,7 +11899,7 @@
           "7px"
         ],
         "padding": "6px 14px",
-        "opacity": "0.118649",
+        "opacity": "1",
         "overflow": "visible",
         "fit": "fill",
         "position": "50% 50%",
@@ -12205,6 +11911,258 @@
         ],
         "disabled": false,
         "feedback": "pressed",
+        "after": {
+          "text": "none",
+          "opacity": "1"
+        }
+      },
+      {
+        "id": "cart-focus-object-shelf",
+        "tag": "BUTTON",
+        "text": "调查：旧书架",
+        "rect": [
+          528,
+          82,
+          114,
+          33
+        ],
+        "font": [
+          "\"Microsoft YaHei\", 微软雅黑, sans-serif",
+          "14px",
+          "400",
+          "normal",
+          "normal"
+        ],
+        "color": "rgb(126, 233, 236)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": [
+          "1px",
+          "rgb(126, 233, 236)",
+          "7px"
+        ],
+        "padding": "6px 14px",
+        "opacity": "0",
+        "overflow": "visible",
+        "fit": "fill",
+        "position": "50% 50%",
+        "transform": "none",
+        "blur": "none",
+        "animation": [
+          "0s",
+          "none"
+        ],
+        "disabled": false,
+        "feedback": null,
+        "after": {
+          "text": "none",
+          "opacity": "1"
+        }
+      },
+      {
+        "id": "cart-focus-object-clock",
+        "tag": "BUTTON",
+        "text": "调查：挂钟",
+        "rect": [
+          1154.5,
+          51,
+          100,
+          33
+        ],
+        "font": [
+          "\"Microsoft YaHei\", 微软雅黑, sans-serif",
+          "14px",
+          "400",
+          "normal",
+          "normal"
+        ],
+        "color": "rgb(126, 233, 236)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": [
+          "1px",
+          "rgb(126, 233, 236)",
+          "7px"
+        ],
+        "padding": "6px 14px",
+        "opacity": "0",
+        "overflow": "visible",
+        "fit": "fill",
+        "position": "50% 50%",
+        "transform": "none",
+        "blur": "none",
+        "animation": [
+          "0s",
+          "none"
+        ],
+        "disabled": false,
+        "feedback": null,
+        "after": {
+          "text": "none",
+          "opacity": "1"
+        }
+      },
+      {
+        "id": "cart-focus-object-cup",
+        "tag": "BUTTON",
+        "text": "调查：冷茶杯",
+        "rect": [
+          876,
+          471,
+          114,
+          33
+        ],
+        "font": [
+          "\"Microsoft YaHei\", 微软雅黑, sans-serif",
+          "14px",
+          "400",
+          "normal",
+          "normal"
+        ],
+        "color": "rgb(126, 233, 236)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": [
+          "1px",
+          "rgb(126, 233, 236)",
+          "7px"
+        ],
+        "padding": "6px 14px",
+        "opacity": "0",
+        "overflow": "visible",
+        "fit": "fill",
+        "position": "50% 50%",
+        "transform": "none",
+        "blur": "none",
+        "animation": [
+          "0s",
+          "none"
+        ],
+        "disabled": false,
+        "feedback": null,
+        "after": {
+          "text": "none",
+          "opacity": "1"
+        }
+      },
+      {
+        "id": "cart-focus-object-rug",
+        "tag": "BUTTON",
+        "text": "调查：褪色地毯",
+        "rect": [
+          425,
+          626,
+          128,
+          33
+        ],
+        "font": [
+          "\"Microsoft YaHei\", 微软雅黑, sans-serif",
+          "14px",
+          "400",
+          "normal",
+          "normal"
+        ],
+        "color": "rgb(126, 233, 236)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": [
+          "1px",
+          "rgb(126, 233, 236)",
+          "7px"
+        ],
+        "padding": "6px 14px",
+        "opacity": "0",
+        "overflow": "visible",
+        "fit": "fill",
+        "position": "50% 50%",
+        "transform": "none",
+        "blur": "none",
+        "animation": [
+          "0s",
+          "none"
+        ],
+        "disabled": false,
+        "feedback": null,
+        "after": {
+          "text": "none",
+          "opacity": "1"
+        }
+      },
+      {
+        "id": "cart-focus-object-prints",
+        "tag": "BUTTON",
+        "text": "调查：桌上湿脚印",
+        "rect": [
+          907,
+          531,
+          142,
+          33
+        ],
+        "font": [
+          "\"Microsoft YaHei\", 微软雅黑, sans-serif",
+          "14px",
+          "400",
+          "normal",
+          "normal"
+        ],
+        "color": "rgb(243, 191, 103)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": [
+          "1px",
+          "rgb(243, 191, 103)",
+          "7px"
+        ],
+        "padding": "6px 14px",
+        "opacity": "0",
+        "overflow": "visible",
+        "fit": "fill",
+        "position": "50% 50%",
+        "transform": "none",
+        "blur": "none",
+        "animation": [
+          "0s",
+          "none"
+        ],
+        "disabled": false,
+        "feedback": null,
+        "after": {
+          "text": "none",
+          "opacity": "1"
+        }
+      },
+      {
+        "id": "cart-focus-object-letter",
+        "tag": "BUTTON",
+        "text": "调查：半烧毁信件",
+        "rect": [
+          1096,
+          439,
+          142,
+          33
+        ],
+        "font": [
+          "\"Microsoft YaHei\", 微软雅黑, sans-serif",
+          "14px",
+          "400",
+          "normal",
+          "normal"
+        ],
+        "color": "rgb(243, 191, 103)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": [
+          "1px",
+          "rgb(243, 191, 103)",
+          "7px"
+        ],
+        "padding": "6px 14px",
+        "opacity": "0",
+        "overflow": "visible",
+        "fit": "fill",
+        "position": "50% 50%",
+        "transform": "none",
+        "blur": "none",
+        "animation": [
+          "0s",
+          "none"
+        ],
+        "disabled": false,
+        "feedback": null,
         "after": {
           "text": "none",
           "opacity": "1"
@@ -14213,7 +14171,7 @@
           "0px"
         ],
         "padding": "0px",
-        "opacity": "0.285158",
+        "opacity": "0.043801",
         "overflow": "visible",
         "fit": "fill",
         "position": "50% 50%",
@@ -14235,10 +14193,10 @@
         "tag": "DIV",
         "text": "",
         "rect": [
-          945.6,
-          175.55,
-          174.8,
-          117.9
+          934.86,
+          168.31,
+          196.27,
+          132.38
         ],
         "font": [
           "-apple-system, \"Segoe UI\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif",
@@ -14259,7 +14217,7 @@
         "overflow": "visible",
         "fit": "fill",
         "position": "50% 50%",
-        "transform": "matrix(1.53752, 0.326811, -0.326811, 1.53752, 0, 0)",
+        "transform": "matrix(1.72639, 0.366956, -0.366956, 1.72639, 0, 0)",
         "blur": "none",
         "animation": [
           "0.38s",
@@ -14277,10 +14235,10 @@
         "tag": "SPAN",
         "text": "已收录",
         "rect": [
-          977.52,
-          201.42,
-          110.95,
-          66.16
+          970.71,
+          197.36,
+          124.58,
+          74.28
         ],
         "font": [
           "\"Microsoft YaHei\", 微软雅黑, sans-serif",

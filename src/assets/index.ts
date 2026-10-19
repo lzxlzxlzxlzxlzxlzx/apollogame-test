@@ -119,6 +119,28 @@ export {
   type LifeVisualCatalog,
 } from './asset-slot-brief.js';
 export {
+  LIFE_ART_DIRECTION_SCHEMA,
+  LIFE_ART_MEDIA,
+  LIFE_ART_SLOT_KINDS,
+  LIFE_ART_DIRECTION_PIXEL_LEGACY,
+  LIFE_ART_DIRECTION_ILLUSTRATED_2D,
+  composeLifeArtDirectionPrompt,
+  deriveLifeArtDirectionFields,
+  parseLifeArtDirection,
+  validateLifeArtDirection,
+  validateLifeArtDirectionSlot,
+  type LifeArtMedium,
+  type LifeArtSlotKind,
+  type LifeArtDirectionKindDefaults,
+  type LifeArtDirectionV1,
+  type LifeArtDirectionIssue,
+} from './life-art-direction.js';
+export {
+  collectLifeVisualReferences,
+  missingLifeVisualCatalogRules,
+  type LifeVisualReference,
+} from './life-visual-references.js';
+export {
   planLifeAssetCandidates,
   deriveLocalAssetCandidateFingerprint,
   ASSET_CANDIDATE_PLAN_SCHEMA,

@@ -80,8 +80,8 @@ export function buildPotionBlueprint(round: PotionRound): WorldBlueprint {
           // 同一个 Draggable 命中区覆盖材料图和卡面大半；拖拽与点击仍走 G3 的权威命中。
           Shape: { kind: 'box', width: 124, height: 164 },
           Color: { tint: [0x9ebac5, 0xd8bf8b, 0xbda0ad, 0x9ebda0, 0xd3a77a][index]!, alpha: 1 },
-          // 原型原创图只作 render-only 外观；未知宿主材料仍安全退回占位几何。
-          Sprite: { textureKey: ingredientArtKey(ingredient.ingredientId), anchorX: 0.5, anchorY: 0.5, zOrder: 1, width: 80, height: 88, fit: 'contain' },
+          // 图片 URL 不入 World：已知材料沿用本地稳定 key，未知宿主材料各有独立 key。
+          Sprite: { textureKey: ingredientArtKey(ingredient.ingredientId, !!ingredient.imageUrl), anchorX: 0.5, anchorY: 0.5, zOrder: 1, width: 80, height: 88, fit: 'contain', sampling: 'smooth' },
           Draggable: { onlyFlag: 'never-enabled' },
           Clickable: { action: addSignal(ingredient.ingredientId), onlyFlag: 'never-enabled' },
         },

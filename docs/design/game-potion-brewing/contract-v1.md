@@ -31,15 +31,16 @@ App ID 暂定 `game-potion-brewing`。输入合同 `doki.game.potion-brewing-inp
 }
 ```
 
-示例 URL 使用 `.invalid` 占位，不能当可用资产；字段可省略以走内置占位图。结果图由宿主传入，加载失败仅回退本地瓶图。
+示例 URL 使用 `.invalid` 占位，不能当可用资产。`recipe.name` 就是本局目标药剂及成功结算显示的名称，不另传 `productName`、`resultName` 或独立“生成产物”字段；输出仍只回传 `recipeId` 与成败，由宿主按原配方 ID 处理产物。`ingredients[].imageUrl` 是每种材料各自的真实展示图 URL：传入且加载成功时覆盖材料架/拖动图；省略或加载失败则回退该材料的包内图，未知材料回退占位。`recipe.resultImageUrl` 是成功结算的药剂瓶图 URL，加载失败回退适配的本地图或无图展示。两类 URL 均不进入 World、规则判定或输出。
 
 | 字段 | 必填、类型和值域 | 规则影响 / 非法行为 |
 |---|---|---|
 | `brewingId` | 必填稳定 ID；ASCII `[A-Za-z0-9][A-Za-z0-9._:-]{0,63}` | 只作宿主幂等对账，不能由 App 生成；非法拒绝启动 |
 | `recipe.recipeId` | 同上 | 只作结果对账；不是选方键 |
-| `recipe.name` | 必填 Unicode 文本，NFC 规范化、去首尾空格后按 Unicode code point 计 1–40 个；拒绝孤立代理项和控制字符，不解释 HTML | 纯展示；非法拒绝 |
-| `recipe.resultImageUrl` | 可选，HTTPS 绝对 URL，最多 2048 字符；禁凭据、`data:`、`blob:`、`javascript:` 与片段 | render-only；加载失败回本地图，不改变成败 |
-| `recipe.ingredients` | 2–5 项；每项仅 `ingredientId,name,imageUrl?`，`ingredientId` 与 `recipeId` 同一 ASCII ID 正则且唯一；name 按上述 Unicode code point 口径 1–24 个；URL 同上 | 显示材料架；未出现在步骤里的材料可作为错误干扰项 |
+| `recipe.name` | 必填 Unicode 文本，NFC 规范化、去首尾空格后按 Unicode code point 计 1–40 个；拒绝孤立代理项和控制字符，不解释 HTML | 目标及炼成药剂的显示名称，纯展示；非法拒绝 |
+| `recipe.resultImageUrl` | 可选，HTTPS 绝对 URL，最多 2048 字符；禁凭据、`data:`、`blob:`、`javascript:` 与片段 | render-only；加载失败回适配的本地图或无图，不改变成败 |
+| `recipe.ingredients` | 2–5 项；每项仅 `ingredientId,name,imageUrl?`，`ingredientId` 与 `recipeId` 同一 ASCII ID 正则且唯一；name 按上述 Unicode code point 口径 1–24 个；URL 同上 | 每项图片 URL 对应自身材料的展示；未出现在步骤里的材料可作为错误干扰项 |
+| `ingredients[].imageUrl` | 可选，每个材料独立的 HTTPS 绝对 URL；约束同 `resultImageUrl` | render-only；图片加载失败回该材料包内图或占位，不改变投料 ID 和成败 |
 | `recipe.steps` | 2–5 项；`kind` 闭集 `add|stir`，至少一项各类；顺序即权威顺序 | 不允许空配方或跨类字段；非法拒绝 |
 | `add.ingredientId` | 必填，必须引用已列材料 ID；同一 ID 可多次出现 | 只有投进锅口才提交；错误 ID/错误阶段立即失败 |
 | `stir.direction` | `clockwise` 或 `counterclockwise` | 完整有效反向圈立即失败；短弧不提交 |

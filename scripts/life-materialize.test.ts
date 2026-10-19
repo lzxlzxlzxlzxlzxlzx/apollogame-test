@@ -9,7 +9,7 @@ import {
   sha256Canonical,
   type LifeGenerationBundleV1,
 } from '../src/authoring/life-generation-bundle.js';
-import { littleValleyGenerationBundle } from '../src/authoring/life-generation-bundle.fixture.js';
+import { littleValleyGenerationBundle } from '../games/game-simlife/life-generation-bundle.fixture.js';
 import { seasideMarketHostDescriptorFixture } from '../src/authoring/life-host-descriptor.fixture.js';
 import { LIFE_LAUNCHER_SCHEMA } from '../src/launcher/life-launcher-catalog-core.js';
 

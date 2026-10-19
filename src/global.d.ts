@@ -6,6 +6,8 @@ declare const __TARGET_GAME__: string;
 //   __APOLLO_INLINE_META__ = 引导壳展示用的 { title, subtitle }（可选）
 interface Window {
   __APOLLO_INLINE_CART__?: unknown;
+  __APOLLO_INLINE_SLUG__?: string;
+  __APOLLO_INLINE_ART_INDEX__?: unknown;
   __APOLLO_INLINE_META__?: { title?: string; subtitle?: string };
   /** 嵌入式骰子卡带的可选初始请求；形状见 engine/host/dice-overlay。 */
   __APOLLO_DICE_REQUEST__?: unknown;
@@ -15,7 +17,9 @@ interface Window {
   // 生产 build 不挂（见 src/launcher/game-runner.tsx 的 import.meta.env.DEV 门控）。
   __zcProbe?: {
     gameId: string;
-    actions: () => Array<{ action: string; arg?: string; uiId?: string; disabled: boolean }>;
+    supported?: boolean;
+    reason?: string;
+    actions: () => Array<{ action: string; arg?: string; uiId?: string; disabled: boolean; surface?: 'dom' | 'canvas'; entity?: string; x?: number; y?: number }>;
   };
 }
 

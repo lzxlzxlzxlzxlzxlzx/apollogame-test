@@ -50,8 +50,8 @@
         { "id": "courtyard-garden", "kind": "farm", "rect": { "x": 2, "y": 8, "width": 6, "height": 4 }, "allowedActions": ["till", "water", "plant", "harvest"] }
       ],
       "warps": [
-        { "id": "courtyard-to-forest", "label": "前往月影森林", "landmarkPlacementId": "forest-arch", "at": { "x": 18, "y": 7 }, "toSceneId": "moonshadow-forest", "toSpawnId": "forest-entry" },
-        { "id": "courtyard-to-workshop", "label": "前往地下工坊", "landmarkPlacementId": "undercrypt-stairs", "at": { "x": 10, "y": 12 }, "toSceneId": "undercrypt-workshop", "toSpawnId": "workshop-entry" }
+        { "id": "courtyard-to-forest", "label": "前往月影森林", "landmarkPlacementId": "forest-arch", "interactionPlacementId": "forest-arch", "at": { "x": 18, "y": 6 }, "toSceneId": "moonshadow-forest", "toSpawnId": "forest-entry" },
+        { "id": "courtyard-to-workshop", "label": "前往地下工坊", "landmarkPlacementId": "undercrypt-stairs", "interactionPlacementId": "undercrypt-stairs", "at": { "x": 10, "y": 12 }, "toSceneId": "undercrypt-workshop", "toSpawnId": "workshop-entry" }
       ],
       "placements": [
         { "id": "throne-hall", "kind": "building", "x": 7, "y": 1, "width": 6, "height": 3, "prefabRef": "castle.throne-hall.ruined", "skinKey": "art:demon-castle:building:throne-hall" },
@@ -72,7 +72,7 @@
       ],
       "spawnPoints": [{ "id": "forest-entry", "kind": "warp", "x": 1, "y": 7 }],
       "zones": [{ "id": "moonshadow-forage", "kind": "forage", "rect": { "x": 3, "y": 2, "width": 14, "height": 10 }, "allowedActions": ["forage"] }],
-      "warps": [{ "id": "forest-to-courtyard", "label": "返回月影庭院", "landmarkPlacementId": "forest-return-arch", "at": { "x": 1, "y": 7 }, "toSceneId": "moon-courtyard", "toSpawnId": "from-forest" }],
+      "warps": [{ "id": "forest-to-courtyard", "label": "返回月影庭院", "landmarkPlacementId": "forest-return-arch", "interactionPlacementId": "forest-return-arch", "at": { "x": 1, "y": 7 }, "toSceneId": "moon-courtyard", "toSpawnId": "from-forest" }],
       "placements": [
         { "id": "moonwell", "kind": "interactable", "x": 10, "y": 5, "width": 2, "height": 2, "prefabRef": "forest.moonwell", "skinKey": "art:demon-castle:building:moonwell" },
         { "id": "ancient-grove", "kind": "decoration", "x": 14, "y": 3, "width": 3, "height": 3, "prefabRef": "forest.ancient-grove", "skinKey": "art:demon-castle:decoration:ancient-grove" },
@@ -91,7 +91,7 @@
       ],
       "spawnPoints": [{ "id": "workshop-entry", "kind": "warp", "x": 10, "y": 1 }],
       "zones": [{ "id": "undercrypt-vein", "kind": "mining", "rect": { "x": 3, "y": 5, "width": 14, "height": 7 }, "allowedActions": ["mine", "build"] }],
-      "warps": [{ "id": "workshop-to-courtyard", "label": "返回月影庭院", "landmarkPlacementId": "workshop-return-stairs", "at": { "x": 10, "y": 1 }, "toSceneId": "moon-courtyard", "toSpawnId": "from-workshop" }],
+      "warps": [{ "id": "workshop-to-courtyard", "label": "返回月影庭院", "landmarkPlacementId": "workshop-return-stairs", "interactionPlacementId": "workshop-return-stairs", "at": { "x": 10, "y": 1 }, "toSceneId": "moon-courtyard", "toSpawnId": "from-workshop" }],
       "placements": [
         { "id": "forge-core", "kind": "building", "x": 8, "y": 6, "width": 4, "height": 3, "prefabRef": "undercrypt.forge-core.ruined", "skinKey": "art:demon-castle:building:forge-core" },
         { "id": "sealed-vault", "kind": "building", "x": 15, "y": 8, "width": 2, "height": 3, "prefabRef": "undercrypt.sealed-vault", "skinKey": "art:demon-castle:building:sealed-vault" },

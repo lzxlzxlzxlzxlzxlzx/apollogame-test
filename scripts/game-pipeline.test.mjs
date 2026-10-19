@@ -1,12 +1,12 @@
 // 生产流程板自检（owner 2026-07-10「N 步拆分·每步 review·不能只靠手册」）：
 // 形态识别 · 内容指纹（排除 pipeline.json/gen-mock·变更即过期）· 看板推导（机器门×人门双验语义）。
 import { describe, it, expect } from 'vitest';
-import { mkdtempSync, rmSync, mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
+import { mkdtempSync, rmSync, mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
-import { detectForm, isDesignOnly, gameHash, gapsHash, boardFor, artSubState, STAGES, GATE_STAGES, pipelineFile, mockDebt, writeConcept, priorGaps, orderGate, reviewPrereqGaps, acceptanceScenarioCount, MIN_ACCEPTANCE_SCENARIOS, REVIEW_CHECKLISTS, interpretUiWalkthrough, uiWalkRate, selfCheckArtifacts, selfCheckBlock, selfCheckNote, MIN_SELFCHECK_SHOTS, readCapabilityGaps, evalCapabilityGaps, blockingGaps, GAP_STATES, GAP_ROUTES, GAP_PRIORITIES, capabilityGapsFile } from './game-pipeline.mjs';
+import { detectForm, isDesignOnly, gameHash, gameHashes, gapsHash, boardFor, artSubState, STAGES, GATE_STAGES, pipelineFile, writePipelineJson, mockDebt, writeConcept, priorGaps, orderGate, reviewPrereqGaps, acceptanceScenarioCount, MIN_ACCEPTANCE_SCENARIOS, REVIEW_CHECKLISTS, interpretUiWalkthrough, uiWalkRate, selfCheckArtifacts, selfCheckBlock, selfCheckNote, MIN_SELFCHECK_SHOTS, readCapabilityGaps, evalCapabilityGaps, blockingGaps, GAP_STATES, GAP_ROUTES, GAP_PRIORITIES, capabilityGapsFile } from './game-pipeline.mjs';
 
 const withRoot = async (fn) => { const r = mkdtempSync(join(tmpdir(), 'gpipe-')); try { return await fn(r); } finally { rmSync(r, { recursive: true, force: true }); } };
 const put = (root, rel, content) => { const p = join(root, rel); mkdirSync(join(p, '..'), { recursive: true }); writeFileSync(p, typeof content === 'string' ? content : JSON.stringify(content, null, 2)); };
@@ -117,6 +117,53 @@ describe('游戏内容指纹（证据过期的机器判据）', () => {
     put(root, 'public/games/g/probe/S4-play.json', '{"ok":true}');
     expect(gameHash(root, 'g')).toBe(h3);
   }));
+
+  it('分域：纯画面与真实资产调整不使规则证据过期；规则文件仍会使其过期', () => withRoot(async (root) => {
+    put(root, 'public/games/g/manifest.json', MANIFEST);
+    put(root, 'games/g/logic.ts', 'export const rule = 1;');
+    put(root, 'games/g/screen.ts', 'export const paint = "warm";');
+    put(root, 'public/games/g/art/card.png', 'art-v1');
+    const first = gameHashes(root, 'g');
+
+    put(root, 'games/g/screen.ts', 'export const paint = "cool";');
+    const screenChanged = gameHashes(root, 'g');
+    expect(screenChanged.rules).toBe(first.rules);
+    expect(screenChanged.ui).not.toBe(first.ui);
+    expect(screenChanged.visual).not.toBe(first.visual);
+    expect(screenChanged.assets).toBe(first.assets);
+
+    put(root, 'public/games/g/art/card.png', 'art-v2');
+    const artChanged = gameHashes(root, 'g');
+    expect(artChanged.rules).toBe(first.rules);
+    expect(artChanged.assets).not.toBe(first.assets);
+    expect(artChanged.visual).not.toBe(screenChanged.visual);
+
+    put(root, 'games/g/logic.ts', 'export const rule = 2;');
+    expect(gameHashes(root, 'g').rules).not.toBe(first.rules);
+  }));
+
+  it('看板按阶段域判新鲜度：纯 screen 改动保留 S3/S4，逻辑改动使其过期', () => withRoot(async (root) => {
+    put(root, 'public/games/g/manifest.json', MANIFEST);
+    put(root, 'games/g/logic.ts', 'export const rule = 1;');
+    put(root, 'games/g/screen.ts', 'export const paint = "warm";');
+    const hashes = gameHashes(root, 'g');
+    put(root, pipelineFile(root, 'g').slice(root.length + 1), {
+      version: 1, slug: 'g', concept: {}, signoffs: {},
+      evidence: {
+        S3: { exit: 0, gameHash: hashes.full, hashes, at: '2026-10-15T00:00:00Z' },
+        S4: { exit: 0, gameHash: hashes.full, hashes, at: '2026-10-15T00:00:00Z' },
+      },
+    });
+    put(root, 'games/g/screen.ts', 'export const paint = "cool";');
+    let board = boardFor(root, 'g');
+    expect(board.stages.find((stage) => stage.id === 'S3').machine.state).toBe('ok');
+    expect(board.stages.find((stage) => stage.id === 'S4').machine.state).toBe('ok');
+
+    put(root, 'games/g/logic.ts', 'export const rule = 2;');
+    board = boardFor(root, 'g');
+    expect(board.stages.find((stage) => stage.id === 'S3').machine.detail).toContain('过期');
+    expect(board.stages.find((stage) => stage.id === 'S4').machine.detail).toContain('过期');
+  }));
 });
 
 describe('美术关子状态（复用五步条口径·MOCK 不算完成）', () => {
@@ -130,6 +177,16 @@ describe('美术关子状态（复用五步条口径·MOCK 不算完成）', () 
     const s = artSubState(root, 'g');
     expect(s.state).toBe('warn');
     expect(s.detail).toContain('MOCK 1');
+  }));
+  it('卡带只读 library 台账，S6 保留 filled 未审批而非误报无台账', () => withRoot(async (root) => {
+    put(root, 'library/g/manifest.json', MANIFEST);
+    put(root, 'public/games/g/art/art-ledger.json', ledger([{ no: 'decoy', status: 'approved' }]));
+    expect(artSubState(root, 'g').detail).toContain('无台账');
+    put(root, 'library/g/art/art-ledger.json', ledger([{ no: 'art-01', status: 'filled', gen: { mock: false } }]));
+    const s = artSubState(root, 'g');
+    expect(s.state).not.toBe('dim');
+    expect(s.detail).toContain('1');
+    expect(s.detail).not.toContain('无台账');
   }));
 });
 
@@ -177,7 +234,7 @@ describe('mockDebt（cart 终检的 mock 清账判据·REQ-WORKSHOP C2）', () =
   it('无台账=0 · 有 mock 行=计数 · retired 的 mock 行不计', () => withRoot(async (root) => {
     put(root, 'library/g/manifest.json', MANIFEST);
     expect(mockDebt(root, 'g')).toBe(0); // 无台账（纯免费库 placeholder）=清账
-    put(root, 'public/games/g/art/art-ledger.json', ledger([
+    put(root, 'library/g/art/art-ledger.json', ledger([
       { no: 'art-01', status: 'generated', gen: { mock: true } },
       { no: 'art-02', status: 'replaced', gen: { mock: true } },
       { no: 'art-03', status: 'replaced', gen: { mock: false } },
@@ -197,6 +254,36 @@ describe('writeConcept（立项卡写入·CLI 与端点共用·REQ-WORKSHOP C1�
     writeConcept(root, 'g', { pitch: '改口的玩法' });
     b = boardFor(root, 'g');
     expect(b.concept).toMatchObject({ name: 'G 游戏', pitch: '改口的玩法' }); // name 未被抹掉
+  }));
+});
+
+describe('流程板写入可靠性（REQ-GCI-PIPELINE-WRITE）', () => {
+  it('同目录完整文件替换：保留新内容且不留下事务临时文件', () => withRoot(async (root) => {
+    const file = pipelineFile(root, 'g');
+    writePipelineJson(file, { version: 1, slug: 'g', evidence: { S2: { exit: 0 } } });
+    writePipelineJson(file, { version: 1, slug: 'g', evidence: { S2: { exit: 0 }, S3: { exit: 0 } } });
+    expect(JSON.parse(readFileSync(file, 'utf8')).evidence).toEqual({ S2: { exit: 0 }, S3: { exit: 0 } });
+    expect(readdirSync(join(root, 'public', 'games', 'g'))).toEqual(['pipeline.json']);
+  }));
+
+  it('替换失败保留旧目标，清理本事务临时文件', () => withRoot(async (root) => {
+    const file = pipelineFile(root, 'g');
+    mkdirSync(file, { recursive: true }); // 目标是目录，rename 必须失败；不依赖平台权限模拟。
+    put(root, 'public/games/g/pipeline.json/marker', 'old');
+    expect(() => writePipelineJson(file, { version: 1, slug: 'g' })).toThrow();
+    expect(readFileSync(join(file, 'marker'), 'utf8')).toBe('old');
+    expect(readdirSync(join(root, 'public', 'games', 'g'))).toEqual(['pipeline.json']);
+  }));
+
+  it('坏板与读取失败不得当成空板覆盖', () => withRoot(async (root) => {
+    const file = pipelineFile(root, 'g');
+    put(root, 'public/games/g/pipeline.json', '{broken');
+    expect(() => writeConcept(root, 'g', { name: 'new' })).toThrow();
+    expect(readFileSync(file, 'utf8')).toBe('{broken');
+    rmSync(file);
+    mkdirSync(file);
+    expect(() => writeConcept(root, 'g', { name: 'new' })).toThrow();
+    expect(readdirSync(join(root, 'public', 'games', 'g'))).toEqual(['pipeline.json']);
   }));
 });
 

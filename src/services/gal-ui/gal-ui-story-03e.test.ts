@@ -25,7 +25,7 @@ describe('GAL-UI-03E V2 story geometry', () => {
       expect(find(tree, 'gal-story-text')?.layout).toMatchObject({ x: 105, y: 142, width: 1156 });
       expect(find(tree, 'gal-story-hint')?.layout).toMatchObject({ x: 39, y: 311 });
       expect(find(tree, 'gal-story-wheel-region')?.props).toMatchObject({
-        wheel: { upAction: 'narrative.back', downAction: 'narrative.advance' },
+        wheel: { upAction: 'gal.story.wheel-up', downAction: 'gal.story.wheel-down' },
       });
       if (choice) {
         expect(find(tree, 'gal-story-options')?.layout).toMatchObject({ x: 365, y: 296, width: 710,

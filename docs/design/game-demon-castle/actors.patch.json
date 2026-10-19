@@ -9,6 +9,11 @@
     },
     {
       "op": "add",
+      "path": "/logic",
+      "value": { "resources": [{ "id": "profile.dread", "initial": 30, "min": 0, "max": 100 }] }
+    },
+    {
+      "op": "add",
       "path": "/itemCatalog",
       "value": [
         { "id": "seed.moonbell", "kind": "seed", "skinKey": "art:demon-castle:item:moonbell-seed" },
@@ -39,6 +44,17 @@
         { "npcId": "gargoyle-artisan", "min": 0, "max": 100, "initial": 20, "levels": [{ "id": "stranger", "min": 0, "titleKey": "陌生的工匠" }, { "id": "ally", "min": 40, "titleKey": "城堡同盟" }, { "id": "steward", "min": 75, "titleKey": "工坊管家" }], "dailyCaps": { "talk": 1, "gift": 1, "action": 2 }, "rules": [] },
         { "npcId": "moonwell-keeper", "min": 0, "max": 100, "initial": 10, "levels": [{ "id": "stranger", "min": 0, "titleKey": "月井来客" }, { "id": "ally", "min": 45, "titleKey": "月影同盟" }, { "id": "oracle", "min": 80, "titleKey": "月井守望者" }], "dailyCaps": { "talk": 1, "gift": 1, "action": 2 }, "rules": [] }
       ]
+    },
+    {
+      "op": "add",
+      "path": "/profile",
+      "value": {
+        "titleKey": "月影魔王档案",
+        "attributes": [
+          { "id": "dread", "titleKey": "魔王威仪", "display": "gauge", "source": { "kind": "resource", "id": "profile.dread" }, "iconSkinKey": "art:demon-castle:ui-icon:dread", "surfaces": ["profile", "hud"] },
+          { "id": "artisan-bond", "titleKey": "工匠盟约", "display": "gauge", "source": { "kind": "relationship", "npcId": "gargoyle-artisan" }, "iconSkinKey": "art:demon-castle:ui-icon:artisan-bond", "surfaces": ["profile", "hud"] }
+        ]
+      }
     },
     {
       "op": "add",

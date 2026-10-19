@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "id": "game-loot-chest",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "entry": "index.html",
   "context": {
     "requiredScopes": [],
@@ -10,11 +10,11 @@
   "locales": {
     "en": {
       "name": "Loot Chest",
-      "description": "Unlock a deterministic reward chest through a three-seal timing challenge."
+      "description": "Watch a deterministic reward chest open and claim its rewards."
     },
     "zh-cn": {
       "name": "开启宝箱",
-      "description": "通过三段锁芯挑战，开启由宿主提供掉落表的确定性奖励宝箱。"
+      "description": "展示由宿主提供掉落表的确定性奖励宝箱开启流程并领取奖励。"
     }
   },
   "documentation": {

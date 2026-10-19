@@ -8,7 +8,7 @@ import { hashSnapshot } from '@net/determinism.js';
 import { QueuedInputSource } from '@net/host/index.js';
 import type { DebugTrace, Flag, LifeActionResult, LifeActivityContext, LifeConstructionProject, LifePosition, LifeRelationshipState, Transform } from '@engine/protocol/components.js';
 import { collectLifeSceneRender } from '@renderer/life-scene-render.js';
-import { LifeHostSaveAdapter } from '@engine/host/life-save.js';
+import { LifeHostSaveAdapter } from '@assembly/life-host/life-save.js';
 import { seasideMarketHostDescriptorFixture } from '../../authoring/life-host-descriptor.fixture.js';
 import { MemoryStoragePort } from '../../services/storage/index.js';
 import { invCount, type Inventory } from './inventory.js';

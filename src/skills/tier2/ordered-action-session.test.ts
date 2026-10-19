@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { World } from '@engine/core/world.js';
 import { topologicalSort } from '@engine/core/topological-sort.js';
 import { SystemPhase } from '@engine/core/types.js';
-import type { DebugTrace, Effect, Flag, OrderedActionSession, Signal } from '@engine/protocol/components.js';
+import type { DebugTrace, Effect, Flag, OrderedActionSession, Resource, Signal } from '@engine/protocol/components.js';
 import { effectApplyCapability } from './effect-apply.js';
 import { craftRecipeCapability } from './craft-recipe.js';
 import { cooldownCapability } from './cooldown.js';
@@ -29,10 +29,10 @@ const emberSteps = [
   { expectedAction: 'brew.stir.clockwise', requiredCount: 1 },
 ];
 
-function config(steps = moonSteps, overrides: Partial<OrderedActionSession> = {}): OrderedActionSession {
+function config(steps: OrderedActionSession['steps'] = moonSteps, overrides: Partial<OrderedActionSession> = {}): OrderedActionSession {
   return { type: 'OrderedActionSession', id: 'brew', acceptedActions: [...acceptedActions], steps: steps.map((step) => ({ ...step })), successSignal: 'brew.success', failureSignal: 'brew.failure', ...overrides };
 }
-function make(steps = moonSteps, trace = false): World {
+function make(steps: OrderedActionSession['steps'] = moonSteps, trace = false): World {
   const world = new World({ strict: true });
   world.addSystem(system);
   world.createEntity('cauldron'); world.addComponent('cauldron', config(steps));
@@ -121,10 +121,54 @@ describe('t2-ordered-action-session', () => {
     expect(state(world).status).toBe('success');
   });
 
+  it('可选逐步完成信号只在正确完成时发出；同拍重复材料两步各扣一份', () => {
+    const world = new World({ strict: true });
+    world.addSystem(system); world.addSystem(effectApplyCapability.systems[0]!);
+    world.createEntity('cauldron'); world.addComponent('cauldron', config([
+      { expectedAction: 'brew.add.moon', requiredCount: 1, completedSignal: 'brew.completed.0' },
+      { expectedAction: 'brew.add.moon', requiredCount: 1, completedSignal: 'brew.completed.1' },
+    ]));
+    world.createEntity('stock'); world.addComponent<Resource>('stock', { type: 'Resource', id: 'moon.stock', current: 2, min: 0, max: 2 });
+    for (let index = 0; index < 2; index++) {
+      const id = `effect:${index}`;
+      world.createEntity(id); world.addComponent<Effect>(id, { type: 'Effect', onSignal: `brew.completed.${index}`, kind: 'modify-resource', targetId: 'moon.stock', value: -1 });
+    }
+    input(world, 'a-first', 'brew.add.moon', 'player-1');
+    input(world, 'z-second', 'brew.add.moon', 'player-2');
+    world.tick();
+    expect(state(world).status).toBe('success');
+    expect(world.getComponent<Resource>('stock', 'Resource')?.current).toBe(0);
+    expect(outputs(world, 'brew.completed.0')).toHaveLength(1);
+    expect(outputs(world, 'brew.completed.1')).toHaveLength(1);
+    expect(outputs(world, 'brew.success')).toHaveLength(1);
+    world.tick();
+    expect(outputs(world, 'brew.completed.0')).toHaveLength(0);
+    expect(outputs(world, 'brew.completed.1')).toHaveLength(0);
+    expect(world.getComponent<Resource>('stock', 'Resource')?.current).toBe(0);
+  });
+
+  it('未达到圈数、错误动作与终局后输入均不发步骤完成信号', () => {
+    const steps = [{ expectedAction: 'brew.stir.clockwise', requiredCount: 2, completedSignal: 'brew.stir.done' }];
+    const world = make(steps);
+    input(world, 'first', 'brew.stir.clockwise'); world.tick();
+    expect(outputs(world, 'brew.stir.done')).toHaveLength(0);
+    input(world, 'wrong', 'brew.stir.counterclockwise'); world.tick();
+    expect(state(world).status).toBe('failure');
+    expect(outputs(world, 'brew.stir.done')).toHaveLength(0);
+    input(world, 'late', 'brew.stir.clockwise'); world.tick();
+    expect(outputs(world, 'brew.stir.done')).toHaveLength(0);
+  });
+
   it('坏表、重复 id 与跨会话动作路由歧义 fail-closed', () => {
     expect(validateOrderedActionSession(config([], { steps: [] }))).toContain('steps');
     expect(validateOrderedActionSession(config(moonSteps, { acceptedActions: ['brew.add.moon'] }))).toContain('expectedAction');
     expect(validateOrderedActionSession(config(moonSteps, { steps: [{ expectedAction: 'brew.add.moon', requiredCount: Infinity }] }))).toContain('requiredCount');
+    expect(validateOrderedActionSession(config([{ expectedAction: 'brew.add.moon', requiredCount: 1, completedSignal: '' }]))).toContain('completedSignal');
+    expect(validateOrderedActionSession(config([{ expectedAction: 'brew.add.moon', requiredCount: 1, completedSignal: 'brew.add.moon' }]))).toContain('步骤完成 Signal');
+    expect(validateOrderedActionSession(config([
+      { expectedAction: 'brew.add.moon', requiredCount: 1, completedSignal: 'same' },
+      { expectedAction: 'brew.add.silver', requiredCount: 1, completedSignal: 'same' },
+    ]))).toContain('步骤完成 Signal');
     const world = make(); world.createEntity('other'); world.addComponent('other', config(moonSteps, { id: 'other' }));
     input(world, 'ambiguous', 'brew.add.moon'); world.tick();
     expect(state(world).stepIndex).toBe(0);
@@ -146,5 +190,18 @@ describe('t2-ordered-action-session', () => {
     const withTrace = make(moonSteps, true);
     const withoutTrace = make();
     expect(hashSnapshot(withTrace.snapshot())).toBe(hashSnapshot(withoutTrace.snapshot()));
+  });
+
+  it('步骤完成输出在双跑和快照恢复后仍同轨，未配置旧会话不额外输出', () => {
+    const build = () => make([
+      { expectedAction: 'brew.add.moon', requiredCount: 1, completedSignal: 'brew.step.0.done' },
+      { expectedAction: 'brew.add.silver', requiredCount: 1, completedSignal: 'brew.step.1.done' },
+    ]);
+    const first = (world: World) => { input(world, 'first', 'brew.add.moon'); world.tick(); };
+    const second = (world: World) => { input(world, 'second', 'brew.add.silver'); world.tick(); };
+    expectDeterministic(build, (world) => { first(world); second(world); });
+    expectRestoreContinues(build, first, second);
+    const old = make(); input(old, 'old-first', 'brew.add.moon'); old.tick();
+    expect(old.getAllEntities().filter((id) => id.startsWith('ordered-action:signal:'))).toEqual([]);
   });
 });

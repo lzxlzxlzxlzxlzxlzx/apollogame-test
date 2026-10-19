@@ -37,10 +37,12 @@ export interface GalUiGalleryCard {
   readonly id: string;
   readonly title: string;
   readonly unlocked: boolean;
-  /** No asset key is exposed by this S4 model, including for locked cards. */
+  /** Availability status is independent of whether the approved asset URL resolves. */
   readonly preview: 'no-asset' | 'locked';
   /** Only an unlocked card may expose its package-declared content asset key. */
   readonly assetKey?: string;
+  /** A separately declared spoiler-free image; never the locked story preview. */
+  readonly lockedAssetKey?: string;
 }
 export interface GalUiReadModel {
   readonly packageId: string;
@@ -48,7 +50,8 @@ export interface GalUiReadModel {
   readonly title: string;
   /** Detached, validated cross-slot settings; never exposes a SavePort to LayoutNode. */
   readonly preferences: GalProfilePreferences;
-  readonly home: Readonly<{ canStart: true; canContinue: boolean; canLoad: boolean }>;
+  readonly home: Readonly<{ canStart: true; canContinue: boolean; canLoad: boolean;
+    backgroundAssetKey?: string }>;
   readonly story: Readonly<{
     ref: StoryRef;
     refKey: string;
@@ -60,6 +63,7 @@ export interface GalUiReadModel {
     choices: readonly GalUiChoice[];
     backgroundAssetKey?: string;
     portraitAssetKey?: string;
+    cgAssetKey?: string;
   }>;
   readonly manual: Readonly<{
     page: number;
@@ -195,15 +199,26 @@ export function buildGalUiReadModel(input: GalUiReadInput): GalUiReadModel {
   });
   const memories: GalUiGalleryCard[] = Object.keys(pkg.gallery.memories).sort(cmpStr).map(id => {
     const unlocked = canonicalProfile.unlockedMemoryIds.includes(id);
-    return { id, title: unlocked ? localized(pkg.gallery.memories[id]!.title, locale, `memory ${id}`)! : '未解锁',
-      unlocked, preview: unlocked ? 'no-asset' : 'locked' };
+    const memory = pkg.gallery.memories[id]!;
+    return { id, title: unlocked ? localized(memory.title, locale, `memory ${id}`)! : '未解锁',
+      unlocked, preview: unlocked ? 'no-asset' : 'locked',
+      ...(unlocked && memory.previewImage ? { assetKey: memory.previewImage } : {}),
+      ...(!unlocked && memory.lockedImage ? { lockedAssetKey: memory.lockedImage } : {}) };
   });
-  const portrait = Object.keys(projection.cast ?? {}).sort(cmpStr)
-    .map(id => projection.cast[id]).find(member => member?.visible && member.assetKey);
+  /* AI START */
+  const cast = projection.cast ?? {};
+  const speakerPose = projection.speakerId ? cast[projection.speakerId] : undefined;
+  const portrait = speakerPose?.visible && speakerPose.assetKey ? speakerPose :
+    Object.entries(cast)
+      .filter((entry): entry is [string, NonNullable<(typeof entry)[1]>] => !!entry[1]?.visible && !!entry[1].assetKey)
+      .sort((a, b) => (b[1].zOrder ?? 0) - (a[1].zOrder ?? 0) || cmpStr(a[0], b[0]))[0]?.[1];
+  /* AI END */
   return {
     packageId: pkg.id, locale, title: localized(pkg.title, locale, 'package title')!,
     preferences: canonicalProfile.preferences,
-    home: { canStart: true, canContinue: hasActiveResume || byNumber.size > 0, canLoad: byNumber.size > 0 },
+    home: { canStart: true, canContinue: hasActiveResume || byNumber.size > 0, canLoad: byNumber.size > 0,
+      ...(pkg.ui.titleBackground && pkg.media.backgrounds[pkg.ui.titleBackground]?.image ?
+        { backgroundAssetKey: pkg.media.backgrounds[pkg.ui.titleBackground]!.image } : {}) },
     story: {
       ref, refKey, kind: projection.kind,
       chapterTitle: localized(chapter.title, locale, 'chapter title')!,
@@ -212,6 +227,7 @@ export function buildGalUiReadModel(input: GalUiReadInput): GalUiReadModel {
       read: canonicalProfile.readNodeIds.includes(refKey), choices,
       ...(projection.backgroundAssetKey ? { backgroundAssetKey: projection.backgroundAssetKey } : {}),
       ...(portrait?.assetKey ? { portraitAssetKey: portrait.assetKey } : {}),
+      ...(projection.cgAssetKey ? { cgAssetKey: projection.cgAssetKey } : {}),
     },
     manual: { page, pageCount, slotsPerPage: 12, columns: 4, rows: 3, slots },
     history: { cursor: historyRows.length ? historyCursor : -1, windowSize: historyEntries.length, rows: historyRows },
@@ -221,8 +237,8 @@ export function buildGalUiReadModel(input: GalUiReadInput): GalUiReadModel {
 
 /** Existing LayoutNode.repeat consumes these scalar rows without a GAL-specific UI binding. */
 export function galUiDataSource(model: GalUiReadModel): UIDataSource {
-  const choices: readonly UIListItem[] = model.story.choices.map(choice => ({
-    id: choice.id, label: choice.label, disabled: choice.disabled,
+  const choices: readonly UIListItem[] = model.story.choices.map((choice, index) => ({
+    id: choice.id, label: choice.label, disabled: choice.disabled, animDelay: index * 90,
   }));
   const slots: readonly UIListItem[] = model.manual.slots.map(slot => ({
     id: String(slot.number), number: slot.number, filled: slot.filled, canLoad: slot.canLoad,

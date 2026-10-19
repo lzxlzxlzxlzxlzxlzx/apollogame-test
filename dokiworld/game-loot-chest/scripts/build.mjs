@@ -14,7 +14,7 @@ const manifestPath = resolve(appRoot, 'manifest.json');
 const appAssetRoot = resolve(appRoot, 'assets');
 const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
 
-if (manifest.schemaVersion !== 3 || manifest.id !== 'game-loot-chest' || manifest.version !== '1.1.0') {
+if (manifest.schemaVersion !== 3 || manifest.id !== 'game-loot-chest' || manifest.version !== '1.2.0') {
   throw new Error('Unexpected DokiWorld loot chest manifest identity.');
 }
 if (manifest.entry !== 'index.html') throw new Error('Unexpected DokiWorld loot chest entry.');

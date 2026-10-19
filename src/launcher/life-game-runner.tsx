@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { mountLifeGame, type LifeGameMountHandle } from '../engine/host/life-game-host.js';
+import { mountLifeGame, type LifeGameMountHandle } from '../assembly/life-host/life-game-host.js';
 import type { AssetManager } from '../assets/index.js';
 import { createStoragePort, type StoragePort } from '../services/storage/index.js';
 import { SHELL } from '../ui/shell-theme.js';

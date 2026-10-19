@@ -1,7 +1,7 @@
 {
   "slug": "game-clue-investigation",
-  "at": "2026-10-13T13:09:30.623Z",
-  "gameHash": "12157d544b66554b",
+  "at": "2026-10-14T06:31:07.140Z",
+  "gameHash": "7683030b1df8ad2c",
   "ok": true,
   "form": "cart",
   "assertions": {
@@ -11,8 +11,8 @@
     },
     "nonBlank": {
       "pass": true,
-      "variance": 1152.59,
-      "mean": 27.59,
+      "variance": 1263.87,
+      "mean": 29.55,
       "threshold": 15
     },
     "consoleErrors": {

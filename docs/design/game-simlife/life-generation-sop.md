@@ -38,7 +38,7 @@
 
 1. Packet 0：envelope 合同、session/game 稳定 id、版本与轮数上限；
 2. Packet 1：world（meta/world/tile/scenes/camera/movement/interaction）；
-3. Packet 2：actors（item/inventory/crop/calendar/player/relationships）；
+3. Packet 2：actors（item/inventory/crop/calendar/player/relationships/profile）。必须先设计容量、初始物、循环产出/消耗，再生成字段；循环涉及的每个 item 都要进入 catalog，以 `art:` skinKey 和精确 AssetSlot consumer 闭合，候选图标保持 placeholder。可选 profile 只投影既有 resource/relationship，每行 `iconSkinKey` 必须由精确 `ui-icon` consumer 闭合；
 4. Packet 3：plot（logic/milestone/dialogue/quests）；
 5. Packet 4：AssetSlot draft。
 
@@ -50,6 +50,12 @@
 
 或只含 `add/remove/replace` 的受限 JSON patch。禁止 JSON 外 prose。Packet 引用表只供约束候选 id，不能替代最终 validator。
 
+Actors 自检成功后必须调用 `buildLifeInventoryReview()` 生成只读 `zerocraft.life-inventory-review.v1`。该表绑定当前 Bundle canonical input hash，按 authored itemCatalog 顺序列出容量、初始栈、稳定标题、starter/crop seed/crop product/resource drop/construction material 来源、无来源时的 `catalog-only`，以及精确 icon slot consumer 与 placeholder/approved 状态。任何 Bundle 错误、未知 starter、容量/maxStack 越界、非法来源引用、缺/错 icon consumer、伪造行或 hash drift 都让整表 invalid；不得留下部分绿色表。Actors gate 的可视化产物必须含 `inventory-review`，且 owner pending/changes-requested 时不得进入 Plot 或 Assets。
+
+Bundle 声明 `profile` 时还必须调用 `buildLifeProfileReview()` 生成只读 `zerocraft.life-profile-review.v1`：绑定同一 canonical hash，逐行列出权威 source、初始值/范围、关系初始等级、精确 `ui-icon` slot/pointer、placeholder 状态与 `profile|hud` placement。`hud` 最多四行，省略 surfaces 固定为 profile-only。此时 Actors gate 必须额外包含 `profile-review`；无 profile 的游戏不得被强制要求该产物。
+
+若 Brief 要求背包面板，只在独立 `life-host.v1` 中选择可选 `inventoryPanel`；不得把 Host/UI 字段塞入 Life package，也不得把 review 投影反写为第二份 runtime inventory。
+
 ## 只读诊断顺序
 
 命令：
@@ -58,7 +64,7 @@
 npm run life-gen-check -- <bundle.json> --diagnostics json
 ```
 
-可加 `--packets` 输出五包，或 `--plan` 明示 dry-run 计划。诊断固定为 `{path,code,message,severity,source,round}`，按 path/code/source/message 排序，不输出随机 stack。退出码：通过 `0`，内容诊断失败 `1`，文件或 JSON 无法读取 `2`。
+可加 `--packets` 输出五包、`--inventory-review` 输出 Actors 背包审阅表、`--profile-review` 输出人物档案审阅表，或 `--plan` 明示 dry-run 计划。诊断固定为 `{path,code,message,severity,source,round}`，按 path/code/source/message 排序，不输出随机 stack。退出码：通过 `0`，内容诊断失败 `1`，文件或 JSON 无法读取 `2`。
 
 阶段固定为：
 
@@ -208,6 +214,7 @@ npm run life-materialize -- <bundle.json> --host <life-host.json> --entry <life-
     "labels": { "date": "日期", "inventory": "背包", "objective": "目标", "advance-day": "休息至明日" }
   },
   "input": { "preset": "life-keyboard-v1" },
+  "questPanel": { "enabled": true, "titleLabelKey": "quests", "defaultTracking": "first-active" },
   "save": {
     "namespace": "life:game-example-town:v1",
     "schemaVersion": 1,
@@ -216,7 +223,7 @@ npm run life-materialize -- <bundle.json> --host <life-host.json> --entry <life-
 }
 ```
 
-所有层级闭字段；package/slot 路径只能是固定同目录文件名，`artSlug` 必须等于 `slug`，save namespace 必须由 slug 派生。HUD 只接受通用语义标签闭集，不接受 zone/NPC id、LayoutNode、CSS、action 或函数；theme/input/autosave 均为一期单值闭集。`viewport` 只能选择 engine-owned profile id，当前唯一合法值为 `life-standard-v1`；`fieldW/fieldH/topBarH/bottomBarH/cellSize/mode/cameraFit` 等自由数值一律按 unknown field 拒收。`hashLifeHostDescriptor()` 复用本文件前述 ENG-16 canonical JSON/SHA-256 规则。
+所有层级闭字段；package/slot 路径只能是固定同目录文件名，`artSlug` 必须等于 `slug`，save namespace 必须由 slug 派生。HUD 只接受通用语义标签闭集，不接受 zone/NPC id、LayoutNode、CSS、action 或函数；theme/input/autosave 均为一期单值闭集。可选 `questPanel` 只允许 `enabled/titleLabelKey/defaultTracking(first-active|none)`：它把现有 `LifeQuestCatalog + LifeQuestProjection` 投影为左上追踪目标与右侧 LayoutNode Drawer，`J`/点击切换、`Esc` 关闭；玩家选择追踪哪条任务只留在 Host 渲染本地态，不进入 Life package、World、snapshot/hash 或存档。可选 `profilePanel` 只允许 `enabled/titleLabelKey`，以 `C`/点击打开右侧只读 Drawer，`Esc` 关闭；它与 I/J 面板互斥，不阻塞持续移动、E 交互或对话，也不进入 World/snapshot/hash/save。`viewport` 只能选择 engine-owned profile id，当前唯一合法值为 `life-standard-v1`；`fieldW/fieldH/topBarH/bottomBarH/cellSize/mode/cameraFit` 等自由数值一律按 unknown field 拒收。`hashLifeHostDescriptor()` 复用本文件前述 ENG-16 canonical JSON/SHA-256 规则。
 
 `life-standard-v1` 固定 Little Valley 已验证比例：逻辑宿主 `900×620`、顶栏 `52`、底栏 `0`、格边长 `32`、响应式 `cover`；Life package 同时必须声明 `"camera":{"profile":"life-standard-v1"}`，由引擎解析为 `28×19` 可视格、zoom `1`、margin `0`、四边 dead-zone `0.3`。Host 与 package profile 必须完全一致。响应式只改变本地显示比例与 DPR，不改变逻辑格、可视格数、世界 Camera、snapshot 或存档。角色/建筑/作物的视觉尺寸与脚点仍通过 AssetSlot `render.display` / `render.anchor` 独立表达，不得靠改格子或镜头 profile 修图。
 

@@ -378,23 +378,28 @@ def _pkg_build_dokiworld_app(slug: str):
     app = DOKIWORLD_DIR / slug
     if not (app / 'package.json').is_file():
         raise RuntimeError(f'{slug} {_DOKI_GUIDE}')
+    # Python subprocess does not resolve Windows .cmd shims from a bare `npm`.
+    # Keep one command selection for dependency install and the actual build.
+    npm = shutil.which('npm.cmd' if os.name == 'nt' else 'npm') or ('npm.cmd' if os.name == 'nt' else 'npm')
     stale = _doki_deps_stale(app)
     if stale:
-        r = subprocess.run(['npm', 'ci', '--no-audit', '--no-fund'], cwd=app, capture_output=True, text=True)
+        r = subprocess.run([npm, 'ci', '--no-audit', '--no-fund'], cwd=app, capture_output=True, text=True,
+                           encoding='utf-8', errors='replace')
         if r.returncode != 0:
             raise RuntimeError(f'npm ci 失败（{stale}·退出码 {r.returncode}）：{_proc_tail(r)}')
         lock = app / 'package-lock.json'
         if lock.is_file():
             (app / 'node_modules' / _DOKI_STAMP).write_text(
                 hashlib.sha256(lock.read_bytes()).hexdigest(), encoding='utf-8')
-    b = subprocess.run(['npm', 'run', 'build'], cwd=app, capture_output=True, text=True)
+    b = subprocess.run([npm, 'run', 'build'], cwd=app, capture_output=True, text=True,
+                       encoding='utf-8', errors='replace')
     if b.returncode != 0:
         raise RuntimeError(f'npm run build 失败（退出码 {b.returncode}）：{_proc_tail(b)}')
     # schemaVersion 3 的调用说明由源码 manifest 单一清单统一刷新进 dist。
     # 这一步故意放在每个 App 自身 build 之后：即使新 App 忘了在 build.mjs 手写复制，发布屏也不会产出旧文档。
     docs = subprocess.run(
         ['node', str(ROOT / 'scripts' / 'dokiworld-docs-export.mjs'), slug],
-        cwd=ROOT, capture_output=True, text=True)
+        cwd=ROOT, capture_output=True, text=True, encoding='utf-8', errors='replace')
     if docs.returncode != 0:
         raise RuntimeError(f'调用说明文档闭包失败（退出码 {docs.returncode}）：{_proc_tail(docs)}')
     dist = app / 'dist'

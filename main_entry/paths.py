@@ -8,9 +8,9 @@ from pathlib import Path
 
 from .sysutil import ROOT, _spawn
 
-# 内置游戏目录名匹配：连字符可选——`game-e`/`game-103`（带连字符）与 `game101`/`game102`
-# （数字槽·无连字符）都算内置游戏（否则 /api/games 枚举漏掉无连字符的数字游戏·平台货架看不到）。
-GAME_RE = re.compile(r'game-?[a-z0-9]+')
+# 内置游戏目录名匹配：兼容 `game101`、`game-e` 与 `game-potion-brewing`；
+# 多段名每段都必须非空，仍拒绝路径字符、连续/尾随连字符与大写字母。
+GAME_RE = re.compile(r'game-?[a-z0-9]+(?:-[a-z0-9]+)*')
 
 LIBRARY_DIR = ROOT / 'library'
 _SLUG_RE = re.compile(r'^[a-z0-9][a-z0-9-]*$')

@@ -5,14 +5,12 @@
   "operations": [
     {
       "op": "add",
-      "path": "/logic",
-      "value": {
-        "flags": [
+      "path": "/logic/flags",
+      "value": [
           { "id": "flag.throne-lit", "initial": false },
           { "id": "flag.greenhouse-restored", "initial": false },
           { "id": "flag.forge-awakened", "initial": false }
-        ]
-      }
+      ]
     },
     {
       "op": "add",

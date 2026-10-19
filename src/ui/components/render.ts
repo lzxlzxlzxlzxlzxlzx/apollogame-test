@@ -4,6 +4,7 @@
 import { SHELL } from '../shell-theme.js';
 import { ART_FONT_FAMILY } from './art-fonts.js';
 import { emojifyHtml } from './emoji.js';
+import { safeButtonIconUrl } from './button-icon.js';
 import type {
   LayoutNode, LayoutConstraints, UITheme, VisualEffect, EffectColor, EdgeColor,
   ButtonProps, LabelProps, DropdownProps, BadgeProps, InputProps, PanelProps,
@@ -12,7 +13,7 @@ import type {
   CardProps, PlayingCardProps, StepperProps, SegmentedProps, AvatarProps, AccordionProps,
   RatingProps, ComboboxProps, DrawerProps, VirtualListProps, ContextMenuProps,
   CoinFlipProps, VersusProps, VideoProps, ParticlesProps, LevelPathProps, FloatProps, ConnectorProps, AnchorRef,
-  DialogProps, ChoiceListProps, PortraitProps, LabelColor,
+  DialogProps, ChoiceListProps, PortraitProps, LabelColor, ButtonStateColors,
 } from './types.js';
 
 const esc = (s: string): string =>
@@ -26,6 +27,10 @@ const escT = (s: string, t: UITheme): string => emojifyHtml(esc(s), t.emoji);
 // 数值强制：layout 数值字段虽类型标 number，但弱模型/外部数据运行时可能是字符串
 // （如 "0;background:url(x)"）→ 直接插进 style 串即 CSS 注入。统一过 num() 只取有限数字。
 const num = (v: unknown, d = 0): number => { const n = Number(v); return Number.isFinite(n) ? n : d; };
+const bounded = (v: unknown, min: number, max: number, fallback: number): number =>
+  typeof v === 'number' && Number.isFinite(v) && v >= min && v <= max ? v : fallback;
+const opaqueHex = (v: unknown): string | undefined =>
+  typeof v === 'string' && /^#(?:[\da-fA-F]{3}|[\da-fA-F]{6})$/.test(v) ? v : undefined;
 // anim 预设白名单（mountUI 注入的关键帧名）：拒绝任意字符串插入 animation。
 const ANIM_PRESETS = new Set(['fadeIn', 'slideUp', 'pop', 'shake', 'dealIn', 'flyIn', 'fadeOut', 'popOut']); // 一次性入场/退场
 const LOOP_PRESETS = new Set(['float', 'glow', 'pulse', 'spin', 'floatUp', 'marquee', 'tick']);   // 持续循环（浮动/发光/脉冲/自旋/升冒/跑马灯/steps 节拍·环境动效·infinite）
@@ -85,7 +90,7 @@ function edgeColor(t: UITheme, e: EdgeColor): string {
 }
 // motion/opacity 类特效 → 复用已注入的关键帧 [keyframe, 缺省 ms]。
 const FX_MOTION: Record<string, [string, number]> = {
-  pulse: ['apollo-pulse', 1600], float: ['apollo-float', 2600], pop: ['apollo-pop', 360],
+  pulse: ['apollo-pulse', 1600], cue: ['apollo-cue', 1300], float: ['apollo-float', 2600], pop: ['apollo-pop', 360],
 };
 // VisualEffect[] → CSS（可叠加·分组合成）：motion/opacity 走 animation 列表；glow 走 filter；
 // sheen/flash 走 data-fx 叠层（::after/::before）。同组多个 transform 动画同时只末个生效（文档说明·取一个动作即可）。
@@ -94,7 +99,7 @@ function fxToCss(fx: readonly VisualEffect[], t: UITheme): { css: string; dataFx
   const anim: string[] = [], filter: string[] = [], vars: string[] = [], dataFx: string[] = [];
   for (const e of fx) {
     const ms = num(e.ms, 0);
-    if (e.kind === 'pulse' || e.kind === 'float' || e.kind === 'pop') {
+    if (e.kind === 'pulse' || e.kind === 'cue' || e.kind === 'float' || e.kind === 'pop') {
       const [kf, dms] = FX_MOTION[e.kind]!;
       const iter = e.kind === 'pop' || e.once ? 'both' : 'infinite';
       anim.push(`${kf} ${ms || dms}ms ease-in-out ${iter}`);
@@ -345,7 +350,23 @@ function shadowColor(c: string | undefined, t: UITheme): string {
 
 // ── 原有 7 个控件 ───────────────────────────────────────────────
 
+function buttonStateCss(colors: ButtonStateColors, t: UITheme, fallbackText: string): string {
+  const vars: string[] = [];
+  for (const state of ['default', 'hover', 'pressed', 'disabled'] as const) {
+    const entry = colors[state];
+    const background = typeof entry.background === 'string'
+      ? SURFACE_TOKEN[entry.background]?.(t) ?? 'transparent'
+      : safeColor(entry.background.custom);
+    vars.push(`--apollo-btn-${state}-bg:${background}`);
+    vars.push(`--apollo-btn-${state}-border:${resolveLabelColor(entry.border, t, t.line)}`);
+    vars.push(`--apollo-btn-${state}-text:${entry.text === undefined ? fallbackText : resolveLabelColor(entry.text, t, fallbackText)}`);
+  }
+  return `;${vars.join(';')}`;
+}
+
 function renderButton(id: string, p: ButtonProps, ls: string, t: UITheme): string {
+  const labelSize = p.labelSize === undefined ? undefined : bounded(p.labelSize, 10, 32, p.kind === 'hero' ? 17 : 12);
+  const labelWeight = p.labelWeight === 400 || p.labelWeight === 600 || p.labelWeight === 700 ? p.labelWeight : undefined;
   const kindStyle: Record<string, string> = {
     primary: `background:${t.jadeWash};color:${t.jade};border:1px solid ${t.jadeLine};font-weight:600`,
     ghost:   `background:rgba(255,255,255,0.03);color:${t.sub};border:1px solid ${t.line}`,
@@ -359,7 +380,7 @@ function renderButton(id: string, p: ButtonProps, ls: string, t: UITheme): strin
   const labelColorStyle = p.labelColor === undefined ? '' : `;color:${resolveLabelColor(p.labelColor, t, t.sub)}`;
   // 皮解析（批29 owner 07-15「按键也可换」）：node 级 skin 优先（含 skin:'' 显式关皮逃生）；未给则落主题级
   // buttonSkins[kind]——一个 kind 一张皮、全游戏按钮一体换，游戏零逐点改。两边都无 = 原 kind 底（字节不变）。
-  const sk = p.skin !== undefined ? { skin: p.skin, skinSlice: p.skinSlice, skinBorderWidth: p.skinBorderWidth, skinSize: p.skinSize, skinOutset: p.skinOutset } : t.buttonSkins?.[kind] ?? { skin: undefined, skinSlice: undefined, skinBorderWidth: undefined, skinSize: undefined, skinOutset: undefined };
+  const sk = p.skin !== undefined ? { skin: p.skin, skinSlice: p.skinSlice, skinBorderWidth: p.skinBorderWidth, skinSize: p.skinSize, skinOutset: p.skinOutset } : p.stateColors || p.borderWidth !== undefined ? { skin: undefined, skinSlice: undefined, skinBorderWidth: undefined, skinSize: undefined, skinOutset: undefined } : t.buttonSkins?.[kind] ?? { skin: undefined, skinSlice: undefined, skinBorderWidth: undefined, skinSize: undefined, skinOutset: undefined };
   const layer = skinLayer(sk.skin, sk.skinSize, sk.skinOutset);
   const skinStyle = layer ? ';background:transparent;border:0;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.85);position:relative;overflow:visible' : skinCss(sk.skin, sk.skinSlice, sk.skinBorderWidth, sk.skinSize);
   // 贴图皮按钮=**art 定色语义原语**（skinCss 强制白字 + 投影·可读性由皮 art 保证）→ 免 ui-audit 祖先链对比检查
@@ -369,17 +390,40 @@ function renderButton(id: string, p: ButtonProps, ls: string, t: UITheme): strin
   const iconImg = p.icon ? `<img src="${esc(p.icon)}" alt="" style="height:1.05em;width:1.05em;object-fit:contain;vertical-align:-0.18em;margin-right:6px">` : '';
   const action = p.action ? ` data-ui-id="${esc(id)}" data-action="${esc(p.action)}"${p.actionArg ? ` data-arg="${esc(p.actionArg)}"` : ''}` : '';
   const focusRing = p.focusRing === false ? ' data-apollo-focus-ring="off"' : '';
+  const focusVisualAttr = p.focusRingVisual && p.focusRing !== false ? ' data-apollo-focus-visual' : '';
+  const measuredBorderAttr = p.borderWidth !== undefined && !sk.skin ? ' data-apollo-border-width' : '';
+  const stateAttr = p.stateColors ? ' data-apollo-state-colors' : '';
+  const defaultText = p.labelColor === undefined ? (kind === 'hero' ? t.bg0 : kind === 'primary' ? t.jade : t.sub) : resolveLabelColor(p.labelColor, t, t.sub);
+  const stateStyle = p.stateColors ? buttonStateCss(p.stateColors, t, defaultText) : '';
+  const feedback = sk.skin && p.skinFeedback ? p.skinFeedback : undefined;
+  const feedbackAttr = feedback ? ' data-apollo-skin-feedback' : '';
+  const feedbackStyle = feedback ? `;--apollo-skin-hover-brightness:${num(feedback.hoverBrightness, 1)};--apollo-skin-pressed-brightness:${num(feedback.pressedBrightness, 1)};--apollo-skin-glow-radius:${num(feedback.glowRadius)}px;--apollo-skin-glow-color:${resolveLabelColor(feedback.glowColor, t, t.text)};--apollo-skin-transition:${num(feedback.transitionMs)}ms` : '';
+  const measuredBorder = !sk.skin && p.borderWidth !== undefined ? `;--apollo-btn-border-width:${bounded(p.borderWidth, 0, 8, 1)}px;border-width:var(--apollo-btn-border-width)` : '';
+  const ring = p.focusRingVisual && p.focusRing !== false
+    ? `;--apollo-focus-ring:${resolveLabelColor(p.focusRingVisual.color, t, t.text)};--apollo-focus-ring-width:${bounded(p.focusRingVisual.width, 1, 8, 3)}px;--apollo-focus-ring-offset:${bounded(p.focusRingVisual.offset, -8, 8, -3)}px` : '';
+  if (p.iconOnly !== undefined) {
+    const size = bounded(p.iconOnly?.size, 24, 64, 48);
+    const iconFeedback = p.iconFeedback;
+    const iconFeedbackStyle = iconFeedback ? `;--apollo-icon-hover-y:${bounded(iconFeedback.hover?.translateY, -8, 0, 0)}px;--apollo-icon-hover-brightness:${bounded(iconFeedback.hover?.brightness, 0.5, 2, 1)};--apollo-icon-glow-radius:${bounded(iconFeedback.hover?.glowRadius, 0, 16, 0)}px;--apollo-icon-glow-color:${resolveLabelColor(iconFeedback.hover?.glowColor, t, t.text)};--apollo-icon-pressed-y:${bounded(iconFeedback.pressed?.translateY, 0, 8, 0)}px;--apollo-icon-pressed-brightness:${bounded(iconFeedback.pressed?.brightness, 0.5, 2, 1)};--apollo-icon-disabled-opacity:${bounded(iconFeedback.disabled?.opacity, 0.1, 1, 0.4)};--apollo-icon-disabled-grayscale:${bounded(iconFeedback.disabled?.grayscale, 0, 1, 0)};--apollo-icon-transition:${bounded(iconFeedback.transitionMs, 0, 500, 0)}ms` : '';
+    const url = safeButtonIconUrl(p.icon);
+    const accessibleLabel = typeof p.label === 'string' && p.label.trim() ? p.label.trim() : '按钮';
+    const icon = url ? `<img data-apollo-icon-img src="${esc(url)}" alt="" aria-hidden="true" style="display:none;width:${size - 8}px;height:${size - 8}px;object-fit:contain;pointer-events:none">` : '';
+    const fallback = `<span data-apollo-icon-label style="font-size:${Math.min(12, size / 3)}px;line-height:1.1;overflow-wrap:anywhere">${escT(accessibleLabel, t)}</span>`;
+    const face = kind === 'hero' ? `background:linear-gradient(180deg,${t.gold},${t.warn});color:${t.bg0};border:0` : kindStyle[kind];
+    const fallbackColor = p.labelColor === undefined && kind !== 'hero' && !sk.skin ? `;color:${t.text}` : labelColorStyle;
+    return `<button type="button" id="${esc(id)}" aria-label="${esc(accessibleLabel)}" data-apollo-btn data-apollo-icon-only${iconFeedback ? ' data-apollo-icon-feedback' : ''}${stateAttr}${focusVisualAttr}${measuredBorderAttr}${sk.skin ? ' data-apollo-skin' : ''}${feedbackAttr}${skinSkip}${action}${p.disabled ? ' disabled' : ''} style="display:inline-flex;align-items:center;justify-content:center;width:${size}px;height:${size}px;padding:0;border-radius:50%;cursor:${p.disabled ? 'not-allowed' : 'pointer'};font-family:${t.fontUi};--apollo-focus-ring:${t.text};opacity:${p.disabled && !p.stateColors ? 0.4 : 1};${face};${ls}${skinStyle}${fallbackColor}${stateStyle}${feedbackStyle}${iconFeedbackStyle}${measuredBorder}${ring}">${layer}${icon}${fallback}</button>`;
+  }
   // hero：金色倒角 sheen 大 CTA（下沉自 game-g 出征键）。倒角 clip-path + 流光 span(apollo-sheen 关键帧) + 可选副标。
   if (kind === 'hero') {
-    const hbase = `position:relative;overflow:hidden;padding:14px 30px;border:0;border-radius:4px;cursor:${p.disabled ? 'not-allowed' : 'pointer'};font-family:${t.fontUi};--apollo-focus-ring:${t.text};background:linear-gradient(180deg,${t.gold},${t.warn});color:${t.bg0};font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.45);clip-path:polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px);opacity:${p.disabled ? 0.4 : 1}`;
+    const hbase = `position:relative;overflow:hidden;padding:14px 30px;border:0;border-radius:4px;cursor:${p.disabled ? 'not-allowed' : 'pointer'};font-family:${t.fontUi};--apollo-focus-ring:${t.text};background:linear-gradient(180deg,${t.gold},${t.warn});color:${t.bg0};font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.45);clip-path:polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px);opacity:${p.disabled && !p.stateColors ? 0.4 : 1}`;
     const sheen = `<span style="position:absolute;top:0;bottom:0;left:-60%;width:45%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);animation:apollo-sheen 2.6s ease-in-out infinite;pointer-events:none"></span>`;
-    const big = `<span style="display:block;font-size:17px;line-height:1.15${layer ? ';position:relative;z-index:1' : ''}">${iconImg}${escT(p.label, t)}</span>`;
+    const big = `<span style="display:block;font-size:${labelSize === undefined ? 17 : labelSize}px;line-height:1.15${layer ? ';position:relative;z-index:1' : ''}">${iconImg}${escT(p.label, t)}</span>`;
     const sub = p.sub ? `<span style="display:block;font-size:11px;font-weight:600;opacity:.8;margin-top:2px${layer ? ';position:relative;z-index:1' : ''}">${escT(p.sub, t)}</span>` : '';
-    return `<button id="${esc(id)}" data-apollo-btn${focusRing}${sk.skin ? ' data-apollo-skin' : ''}${skinSkip}${action}${p.disabled ? ' disabled' : ''} style="${hbase};${ls}${shapeCss(p.shape)}${skinStyle}${labelColorStyle}">${layer}${sheen}${big}${sub}</button>`;
+    return `<button id="${esc(id)}" data-apollo-btn${stateAttr}${focusRing}${focusVisualAttr}${measuredBorderAttr}${sk.skin ? ' data-apollo-skin' : ''}${feedbackAttr}${skinSkip}${action}${p.disabled ? ' disabled' : ''} style="${hbase};${ls}${shapeCss(p.shape)}${skinStyle}${labelColorStyle}${stateStyle}${feedbackStyle}${measuredBorder}${ring}${labelWeight === undefined ? '' : `;font-weight:${labelWeight}`}">${layer}${sheen}${big}${sub}</button>`;
   }
-  const base = `padding:6px 14px;border-radius:7px;font-size:12px;cursor:${p.disabled ? 'not-allowed' : 'pointer'};font-family:${t.fontUi};--apollo-focus-ring:${t.text};transition:all .15s;opacity:${p.disabled ? 0.4 : 1}`;
+  const base = `padding:6px 14px;border-radius:7px;font-size:${labelSize === undefined ? 12 : labelSize}px;cursor:${p.disabled ? 'not-allowed' : 'pointer'};font-family:${t.fontUi};--apollo-focus-ring:${t.text};transition:all .15s;opacity:${p.disabled && !p.stateColors ? 0.4 : 1}`;
   const label = layer ? `<span style="position:relative;z-index:1">${iconImg}${escT(p.label, t)}</span>` : `${iconImg}${escT(p.label, t)}`;
-  return `<button id="${esc(id)}" data-apollo-btn${focusRing}${sk.skin ? ' data-apollo-skin' : ''}${skinSkip}${action}${p.disabled ? ' disabled' : ''} style="${base};${kindStyle[kind]};${ls}${shapeCss(p.shape)}${skinStyle}${labelColorStyle}">${layer}${label}</button>`;
+  return `<button id="${esc(id)}" data-apollo-btn${stateAttr}${focusRing}${focusVisualAttr}${measuredBorderAttr}${sk.skin ? ' data-apollo-skin' : ''}${feedbackAttr}${skinSkip}${action}${p.disabled ? ' disabled' : ''} style="${base};${kindStyle[kind]};${ls}${shapeCss(p.shape)}${skinStyle}${labelColorStyle}${stateStyle}${feedbackStyle}${measuredBorder}${ring}${labelWeight === undefined ? '' : `;font-weight:${labelWeight}`}">${layer}${label}</button>`;
 }
 
 function renderLabel(id: string, p: LabelProps, ls: string, t: UITheme): string {
@@ -401,7 +445,8 @@ function renderLabel(id: string, p: LabelProps, ls: string, t: UITheme): string 
     : (p.font ? fontSlot[p.font] : (p.mono ? t.fontMono : t.fontUi));
   const style = [
     `font-size:${sz}px`, `color:${cl}`,
-    p.bold ? 'font-weight:700' : '',
+    p.weight !== undefined && [400, 600, 700, 900].includes(p.weight) ? `font-weight:${p.weight}` : (p.bold ? 'font-weight:700' : ''),
+    typeof p.lineHeight === 'number' && Number.isFinite(p.lineHeight) && p.lineHeight >= 8 && p.lineHeight <= 120 ? `line-height:${p.lineHeight}px` : '',
     `font-family:${fam}`,
     // 仅当文本含换行符时保留换行（\n→实换行·多段说明/手册用）；无换行的单行 label 不加·HTML 字节不变（不动既有 golden）。
     (typeof p.text === 'string' && p.text.includes('\n')) ? 'white-space:pre-line' : '',
@@ -430,7 +475,7 @@ function renderLabel(id: string, p: LabelProps, ls: string, t: UITheme): string 
     const tweenAttr = ` data-tween-to="${num(p.tween.to)}" data-tween-ms="${num(p.tween.ms, 600)}" data-tween-dec="${dec}"${fmtAttr}${scaleAttr}`;
     return `<span id="${esc(id)}"${tweenAttr} style="${style}${scaleCss}">${esc(formatNumber(num(p.tween.from), p.format, dec))}</span>`;
   }
-  const tw = p.typewriter ? ` data-typewriter="${esc(String(p.typewriter))}"` : ''; // 转义防属性逃逸（威胁模型：弱模型可能给字符串）
+  const tw = p.typewriter !== undefined && (p.typewriter > 0 || p.typewriterSignal) ? ` data-typewriter="${esc(String(p.typewriter))}"${p.typewriterSignal ? ` data-typewriter-token="${esc(p.typewriterSignal.token)}" data-typewriter-action="${esc(p.typewriterSignal.action)}"` : ''}` : ''; // 0ms 仅显式通知合同生效；旧缺省不变
   // 纯数字 text + format → 渲染时格式化（idle 大数/计时/百分比·静态显示）。
   const body = (p.format && p.text !== undefined && p.text !== '' && Number.isFinite(Number(p.text)))
     ? formatNumber(Number(p.text), p.format) : (p.text ?? '');
@@ -499,6 +544,13 @@ function renderPanel(id: string, p: PanelProps, c: LayoutConstraints | undefined
   // accent：高亮框（jade 描边 + 柔光投影）用于活动视口/强调面板；缺省细线边。bare 时不画框故忽略 accent。
   // edge（REQ-UI-容器描边形）：语义/阵营描边色（闭集令牌·覆盖默认线/accent 取色）；dashed：虚线边；radius：覆盖恒 10 圆角（叠层同步）。
   const border = p.edge ? edgeColor(t, p.edge) : (p.accent ? t.jadeLine : t.line);
+  const measuredColor = p.border?.color;
+  const safeMeasuredColor = typeof measuredColor === 'string'
+    ? (['text', 'sub', 'dim', 'jade', 'gold', 'ok', 'warn', 'danger', 'mine', 'foe', 'ink'].includes(measuredColor) ? resolveLabelColor(measuredColor, t, border) : undefined)
+    : (measuredColor && typeof measuredColor === 'object' && Object.keys(measuredColor).length === 1 && opaqueHex(measuredColor.custom));
+  const measuredBorder = !bare && !p.skin && safeMeasuredColor && p.border && typeof p.border.width === 'number'
+    && Number.isFinite(p.border.width) && p.border.width >= 0 && p.border.width <= 24
+    ? { width: p.border.width, color: safeMeasuredColor } : undefined;
   const bStyle = p.dashed ? 'dashed' : 'solid';
   const rad = num(c?.radius ?? 10);
   // box-shadow 叠层（accent 柔光 + REQ-108-UI-03 硬边平移投影可共存·逗号合成）：bare 无 chrome 故都忽略。
@@ -509,14 +561,15 @@ function renderPanel(id: string, p: PanelProps, c: LayoutConstraints | undefined
   // 图片贴图层（平铺·叠在面板底上）。bare 但有贴图 → 只铺贴图、仍无框。
   const tex = texLayer(p.bgTexture, p.bgTextureSize);
   // 主题级面板底纹（纸纹/底纹·house-style 主题填·叠在填色之上、节点 bgTexture 之下）。缺省无 = 老主题字节不变。
-  const panelTex = (!bare && t.panelTexture) ? t.panelTexture : '';
+  // A measured border around a transparent center must not inherit house paper texture.
+  const panelTex = (!bare && t.panelTexture && !(measuredBorder && p.bg === 'transparent')) ? t.panelTexture : '';
   // cover-skin（复合按钮框皮·REQ-PANELSKIN）：非 bare 面板给了 skin → art 即整面框（cover/9-slice），压过 fill/边框；
   // children 叠其上（动态数额活文字）。**bare 面板不吃皮**（bare=纯布局无 chrome·同 panelTexture guard·Lead 裁）。
   const chrome = (!bare && p.skin)
     ? `${p.skinOutset ? 'background:transparent;border:0;' : panelSkinCss(p.skin, p.skinSlice, p.skinBorderWidth, p.skinSize)}border-radius:${rad}px;${glow}`
     : bare
       ? (tex ? `background:${tex}, transparent;` : '')
-      : `background:${tex ? `${tex}, ` : ''}${panelTex ? `${panelTex}, ` : ''}${resolveFill(p.bg, t) ?? (p.glass ? 'rgba(20,24,32,0.5)' : t.bg1)};border:1px ${bStyle} ${border};border-radius:${rad}px;${glow}${p.glass ? 'backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);' : ''}`;
+      : `background:${tex ? `${tex}, ` : ''}${panelTex ? `${panelTex}, ` : ''}${resolveFill(p.bg, t) ?? (p.glass ? 'rgba(20,24,32,0.5)' : t.bg1)};border:${measuredBorder?.width ?? 1}px ${bStyle} ${measuredBorder?.color ?? border};border-radius:${rad}px;${glow}${p.glass ? 'backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);' : ''}`;
   // 异形容器轮廓（REQ-UI-异型容器①·复用 Button 同一套 SHAPE_CSS 闭集·命中区=包围盒·裁在最外层·须给足宽高）。
   const shape = p.shape && SHAPE_CSS[p.shape] ? `${SHAPE_CSS[p.shape]};` : '';
   const style = `${box};padding:${pad}px;${chrome}${shape}position:relative;${p.skinOutset ? 'isolation:isolate;' : ''}${overflow}${ls}`;
@@ -563,6 +616,26 @@ function renderCheckbox(id: string, p: CheckboxProps, ls: string, t: UITheme): s
 function renderToggle(id: string, p: ToggleProps, ls: string, t: UITheme): string {
   const on = p.checked ?? false;
   const disabled = p.disabled === true;
+  if (p.visual && typeof p.visual === 'object') {
+    const v = p.visual;
+    // Validator rejects malformed geometry; renderer also coerces runtime JSON before CSS interpolation.
+    const width = num(v.width), height = num(v.height), knobSize = num(v.knobSize);
+    const knobTop = num(v.knobTop), knobLeft = num(on ? v.knobOnLeft : v.knobOffLeft);
+    const trackFill = (color: typeof v.offBackground): string => typeof color === 'string'
+      ? SURFACE_TOKEN[color]?.(t) ?? 'transparent' : color && typeof color === 'object' ? safeColor(color.custom) : 'transparent';
+    const hideLabel = v.showLabel === false;
+    const accessibleName = typeof p.label === 'string' && p.label.trim() ? p.label.trim() : id;
+    const input = hiddenInput(`${id}-i`, 'checkbox', disabled ? '' : p.action ?? '', `${on ? 'checked ' : ''}${disabled ? 'disabled aria-disabled="true" tabindex="-1"' : ''}${hideLabel ? ` aria-label="${esc(accessibleName)}"` : ''}`, id);
+    return `<span id="${esc(id)}" style="display:inline-flex;align-items:center;${ls}">
+  ${input}
+  <label for="${esc(id)}-i" style="display:inline-flex;align-items:center;gap:10px;cursor:${disabled ? 'not-allowed' : 'pointer'}">
+    <span data-apollo-toggle-track style="display:inline-block;width:${width}px;height:${height}px;border-radius:${height / 2}px;background:${trackFill(on ? v.onBackground : v.offBackground)};border:1px solid ${resolveLabelColor(v.border, t, t.line)};position:relative;flex-shrink:0;opacity:${disabled ? .55 : 1}">
+      <span data-apollo-toggle-knob style="width:${knobSize}px;height:${knobSize}px;border-radius:50%;background:${resolveLabelColor(on ? v.onKnob : v.offKnob, t, t.dim)};position:absolute;top:${knobTop}px;left:${knobLeft}px;transition:left .18s"></span>
+    </span>
+    ${hideLabel ? '' : `<span style="font-size:12px;color:${t.sub};font-family:${t.fontUi}">${esc(p.label)}</span>`}
+  </label>
+</span>`;
+  }
   const trackBg = on ? t.jade        : t.bg3;
   const border   = on ? t.jadeLine   : t.line;
   const knob     = on ? t.bg0        : t.dim;
@@ -632,7 +705,8 @@ function renderImage(id: string, p: ImageProps, ls: string): string {
     : '';
   const filter = [blur, signal].filter(Boolean).join(' ');
   const tintMotion = progress === undefined ? '' : 'transition:filter 420ms cubic-bezier(.2,.8,.2,1),transform 420ms cubic-bezier(.2,.8,.2,1);';
-  return `<img id="${esc(id)}" src="${esc(p.src)}" alt="${esc(p.alt ?? '')}" style="object-fit:${fit};border-radius:${radius}px;display:block;max-width:100%;${filter ? `filter:${filter};` : ''}${pulseCss}${tintMotion}${ls}">`;
+  const position = p.position === 'top' || p.position === 'center' ? `object-position:center ${p.position};` : '';
+  return `<img id="${esc(id)}" src="${esc(p.src)}" alt="${esc(p.alt ?? '')}" style="object-fit:${fit};${position}border-radius:${radius}px;display:block;max-width:100%;${filter ? `filter:${filter};` : ''}${pulseCss}${tintMotion}${ls}">`;
 }
 
 function renderScreen(id: string, p: ScreenProps, children: LayoutNode[], t: UITheme): string {
@@ -855,25 +929,49 @@ function renderTooltip(id: string, p: TooltipProps, children: LayoutNode[], ls: 
 // 遮罩满屏居中弹窗体；点 ×(data-action) / 遮罩 / Escape（后两项由 mountUI 内建） → closeAction。
 function renderModal(id: string, p: ModalProps, children: LayoutNode[], ls: string, t: UITheme): string {
   const widthMap: Record<string, number> = { sm: 320, md: 460, lg: 640, xl: 800, wide: 1080 };
-  const w = widthMap[p.size ?? 'md'] ?? 460;
-  const minHeight = p.size === 'wide' ? 'min-height:610px;' : '';
+  const defaultWidth = widthMap[p.size ?? 'md'] ?? 460;
+  const w = p.visual?.width === undefined ? defaultWidth : bounded(p.visual.width, 280, 1200, defaultWidth);
+  const visual = p.visual;
+  const minHeight = visual?.minHeight !== undefined ? `min-height:${num(visual.minHeight)}px;` : p.size === 'wide' ? 'min-height:610px;' : '';
   const closable = p.closable ?? true;
   const scrimClose = p.closeAction ? ` data-modal-close="${esc(p.closeAction)}"` : '';
   const xBtn = (closable && p.closeAction)
     ? `<button data-ui-id="${esc(id)}" data-action="${esc(p.closeAction)}" aria-label="close" style="position:absolute;top:10px;right:13px;width:26px;height:26px;background:none;border:none;color:${t.sub};font-size:19px;line-height:1;cursor:pointer;font-family:${t.fontUi}">×</button>`
     : '';
   const titleId = `${id}-title`;
+  const titleSize = visual?.titleSize === undefined ? 15 : num(visual.titleSize, 15);
+  const titleAlign = visual?.titleAlign === 'center' ? ';padding-left:26px;text-align:center' : '';
   const title = p.title
-    ? `<div id="${esc(titleId)}" style="font-size:15px;font-weight:700;color:${resolveLabelColor(p.titleColor, t, t.text)};font-family:${t.fontUi};margin-bottom:12px;padding-right:26px">${esc(p.title)}</div>`
+    ? `<div id="${esc(titleId)}" style="font-size:${titleSize}px;font-weight:700;color:${resolveLabelColor(p.titleColor, t, t.text)};font-family:${t.fontUi};margin-bottom:12px;padding-right:26px${titleAlign}">${esc(p.title)}</div>`
     : '';
-  const body = children.map((ch) => renderNode(ch, t)).join('');
+  const bodyHtml = children.map((ch) => renderNode(ch, t)).join('');
+  const body = visual?.contentAlign ? `<div data-modal-content style="text-align:${visual.contentAlign === 'center' ? 'center' : 'left'}">${bodyHtml}</div>` : bodyHtml;
+  const requestedFill: unknown = visual?.fill;
+  const fillData = requestedFill && typeof requestedFill === 'object' && !Array.isArray(requestedFill) ? requestedFill as Record<string, unknown> : {};
+  const gradientData = fillData.gradient && typeof fillData.gradient === 'object' && !Array.isArray(fillData.gradient) ? fillData.gradient as Record<string, unknown> : {};
+  const from = opaqueHex(gradientData.from);
+  const to = opaqueHex(gradientData.to);
+  const frameFill = from && to ? `linear-gradient(145deg,${from},${to})`
+    : opaqueHex(fillData.color) ?? `linear-gradient(${t.bg1},${t.bg1}),${t.bg0}`;
+  const borderWidth = visual?.border ? bounded(visual.border.width, 0, 24, 1) : 1;
+  const borderColor = visual?.border ? opaqueHex(visual.border.color) ?? t.line : t.line;
+  const frameBorder = `${borderWidth}px solid ${borderColor}`;
+  const frameRadius = visual?.radius === undefined ? 12 : bounded(visual.radius, 0, 64, 12);
+  const ringWidth = visual?.outerRing ? bounded(visual.outerRing.width, 0, 24, 0) : 0;
+  const ringColor = visual?.outerRing && /^#(?:[\da-fA-F]{4}|[\da-fA-F]{8})$/.test(visual.outerRing.color) ? visual.outerRing.color : '#0000';
+  const outerRing = ringWidth ? `,0 0 0 ${ringWidth}px ${ringColor}` : '';
+  const enter = visual?.enter === 'lift-240' || visual?.enter === 'lift-600' ? `;animation:apollo-modal-lift ${visual.enter === 'lift-240' ? 240 : 600}ms cubic-bezier(.2,.8,.2,1) both` : '';
   const frame = p.skin
-    ? `${panelSkinCss(p.skin, p.skinSlice, p.skinBorderWidth)}border-radius:12px;`
-    : `background:linear-gradient(${t.bg1},${t.bg1}),${t.bg0};border:1px solid ${t.line};border-radius:12px;`;
+    ? `${panelSkinCss(p.skin, p.skinSlice, p.skinBorderWidth)}border-radius:${frameRadius}px;`
+    : `background:${frameFill};border:${frameBorder};border-radius:${frameRadius}px;`;
+  const padding = visual?.padding && typeof visual.padding === 'object'
+    ? `${bounded(visual.padding.top, 0, 80, 22)}px ${bounded(visual.padding.right, 0, 80, 22)}px ${bounded(visual.padding.bottom, 0, 80, 22)}px ${bounded(visual.padding.left, 0, 80, 22)}px`
+    : `${visual?.padding === undefined ? 22 : bounded(visual.padding, 0, 80, 22)}px`;
+  const scrimBlur = p.scrim && typeof p.scrim.blur === 'number' && Number.isFinite(p.scrim.blur) && p.scrim.blur >= 0 && p.scrim.blur <= 12 ? `backdrop-filter:blur(${p.scrim.blur}px);` : '';
   const accessibleName = p.title ? ` aria-labelledby="${esc(titleId)}"` : ' aria-label="Dialog"';
   // 遮罩加深 0.62→0.9（owner 2026-06-28 两度反馈「弹层太透·看穿到本体」）：弹层须与背后大厅强分离·操作看得清。
   // 面板底叠一层不透明 bg0 兜底（防 t.bg1 在半透明主题下透出背景·如战斗皮肤 var(--panel)）→ 内容永远实底可读。
-  return `<div id="${esc(id)}" data-modal-scrim${scrimClose} style="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,0.9);${ls}"><div data-modal-dialog role="dialog" aria-modal="true"${accessibleName} tabindex="-1" style="position:relative;box-sizing:border-box;width:${w}px;max-width:100%;${minHeight}max-height:88vh;overflow-y:auto;${frame}padding:22px;box-shadow:0 24px 70px rgba(0,0,0,0.7)">${xBtn}${title}${body}</div></div>`;
+  return `<div id="${esc(id)}" data-modal-scrim${scrimClose} style="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,0.9);${scrimBlur}${ls}"><div data-modal-dialog role="dialog" aria-modal="true"${accessibleName} tabindex="-1" style="position:relative;box-sizing:border-box;width:${w}px;max-width:100%;${minHeight}max-height:88vh;overflow-y:auto;${frame}padding:${padding};box-shadow:0 24px 70px rgba(0,0,0,0.7)${outerRing}${enter}">${xBtn}${title}${body}</div></div>`;
 }
 
 // ── Card / Stepper / Segmented / Avatar / Accordion（P1·网格卡/数量/分段/头像/折叠）──────
@@ -1318,7 +1416,7 @@ function renderDialog(id: string, p: DialogProps, ls: string, t: UITheme): strin
     : '';
   // 台词正文借 Label 渲（打字机/emoji/字体一体·DRY）——构 inner Label 节点交 renderNode（同 Versus 借 PlayingCard）。
   const body = renderNode(
-    { type: 'Label', id: `${id}-tx`, props: { text: p.text ?? '', size: 'md', color: 'text', ...(p.typewriter ? { typewriter: p.typewriter } : {}) } },
+    { type: 'Label', id: `${id}-tx`, props: { text: p.text ?? '', size: 'md', color: 'text', ...(p.typewriter !== undefined && (p.typewriter > 0 || p.typewriterSignal) ? { typewriter: p.typewriter, ...(p.typewriterSignal ? { typewriterSignal: p.typewriterSignal } : {}) } : {}) } },
     t,
   );
   // 推进提示：line/check 可推进 → 整框可点 + ▶；choice 节点推进交给 choiceList → 不显、不发信号。

@@ -1,0 +1,227 @@
+{
+  "beats": {
+    "b-belong": {
+      "anchor": {
+        "chapterId": "c-belong",
+        "nodeId": "n-rules"
+      },
+      "backgroundNeedId": "bg-gate",
+      "bgmNeedId": "bgm-manor",
+      "castIds": [
+        "mechanic",
+        "prisoner",
+        "factory-chief"
+      ],
+      "cgNeedId": "cg-belong",
+      "dramaticPurpose": "两人接受庄园规则，成为庄园的一部分，并接吻",
+      "mood": "沉下来",
+      "order": 0,
+      "presentationNeeds": {
+        "motions": [],
+        "transition": "dissolve"
+      },
+      "sceneSlotId": "s-gate"
+    },
+    "b-cipher": {
+      "anchor": {
+        "chapterId": "c-cipher",
+        "nodeId": "n-pair"
+      },
+      "backgroundNeedId": "bg-cipher",
+      "bgmNeedId": "bgm-manor",
+      "castIds": [
+        "mechanic",
+        "prisoner",
+        "doctor"
+      ],
+      "dramaticPurpose": "玩偶和电路第一次配合，医生催他们离开",
+      "mood": "紧张",
+      "order": 0,
+      "presentationNeeds": {
+        "motions": [],
+        "transition": "cut"
+      },
+      "sceneSlotId": "s-cipher"
+    },
+    "b-gate": {
+      "anchor": {
+        "chapterId": "c-gate",
+        "nodeId": "n-choice"
+      },
+      "backgroundNeedId": "bg-gate",
+      "bgmNeedId": "bgm-manor",
+      "castIds": [
+        "mechanic",
+        "prisoner",
+        "doctor",
+        "gardener",
+        "factory-chief"
+      ],
+      "dramaticPurpose": "园门打开一次，机械师和囚徒选择离开或留下",
+      "mood": "抉择",
+      "order": 0,
+      "presentationNeeds": {
+        "motions": [],
+        "transition": "fade"
+      },
+      "sceneSlotId": "s-gate"
+    },
+    "b-hall": {
+      "anchor": {
+        "chapterId": "c-hall",
+        "nodeId": "n-meet"
+      },
+      "backgroundNeedId": "bg-hall",
+      "bgmNeedId": "bgm-manor",
+      "castIds": [
+        "mechanic",
+        "prisoner",
+        "doctor",
+        "gardener",
+        "factory-chief"
+      ],
+      "dramaticPurpose": "五人相遇，园丁指出外墙有门，厂长开始巡视",
+      "mood": "戒备",
+      "order": 0,
+      "presentationNeeds": {
+        "motions": [],
+        "transition": "fade"
+      },
+      "sceneSlotId": "s-hall"
+    },
+    "b-leave": {
+      "anchor": {
+        "chapterId": "c-leave",
+        "nodeId": "n-walk"
+      },
+      "backgroundNeedId": "bg-gate",
+      "bgmNeedId": "bgm-manor",
+      "castIds": [
+        "mechanic",
+        "prisoner",
+        "doctor",
+        "gardener",
+        "factory-chief"
+      ],
+      "dramaticPurpose": "两人走出庄园，厂长停在门内",
+      "mood": "松开",
+      "order": 0,
+      "presentationNeeds": {
+        "motions": [],
+        "transition": "dissolve"
+      },
+      "sceneSlotId": "s-gate"
+    },
+    "b-outside": {
+      "anchor": {
+        "chapterId": "c-outside",
+        "nodeId": "n-life"
+      },
+      "backgroundNeedId": "bg-outside",
+      "bgmNeedId": "bgm-outside",
+      "castIds": [
+        "mechanic",
+        "prisoner"
+      ],
+      "cgNeedId": "cg-outside",
+      "dramaticPurpose": "庄园外没有游戏，两人接吻，开始相恋并过新的日常生活",
+      "mood": "安稳",
+      "order": 0,
+      "presentationNeeds": {
+        "motions": [],
+        "transition": "fade"
+      },
+      "sceneSlotId": "s-outside"
+    },
+    "b-stay": {
+      "anchor": {
+        "chapterId": "c-stay",
+        "nodeId": "n-remain"
+      },
+      "backgroundNeedId": "bg-gate",
+      "bgmNeedId": "bgm-manor",
+      "castIds": [
+        "mechanic",
+        "prisoner",
+        "doctor"
+      ],
+      "dramaticPurpose": "两人选择留在园子里，医生接受",
+      "mood": "安静",
+      "order": 0,
+      "presentationNeeds": {
+        "motions": [],
+        "transition": "cut"
+      },
+      "sceneSlotId": "s-gate"
+    },
+    "b-workshop": {
+      "anchor": {
+        "chapterId": "c-workshop",
+        "nodeId": "n-bond"
+      },
+      "backgroundNeedId": "bg-workshop",
+      "bgmNeedId": "bgm-manor",
+      "castIds": [
+        "mechanic",
+        "prisoner",
+        "factory-chief"
+      ],
+      "dramaticPurpose": "两人确认想在一起，厂长追到工坊",
+      "mood": "靠近",
+      "order": 0,
+      "presentationNeeds": {
+        "motions": [],
+        "transition": "cut"
+      },
+      "sceneSlotId": "s-workshop"
+    }
+  },
+  "graphDraftId": "graph-3",
+  "mediaNeeds": [
+    {
+      "brief": "暖灯门厅，门从里面锁上",
+      "id": "bg-hall",
+      "kind": "background"
+    },
+    {
+      "brief": "破译室里的旧电机和密码机",
+      "id": "bg-cipher",
+      "kind": "background"
+    },
+    {
+      "brief": "地下工坊，钟表零件和未完成的电路",
+      "id": "bg-workshop",
+      "kind": "background"
+    },
+    {
+      "brief": "外墙园门打开一次，门内是能住的园子",
+      "id": "bg-gate",
+      "kind": "background"
+    },
+    {
+      "brief": "园门外的道路和能住下来的日常，没有巡视",
+      "id": "bg-outside",
+      "kind": "background"
+    },
+    {
+      "brief": "庄园游戏进行时的低压配乐",
+      "id": "bgm-manor",
+      "kind": "bgm"
+    },
+    {
+      "brief": "离开之后日常生活的轻柔配乐",
+      "id": "bgm-outside",
+      "kind": "bgm"
+    },
+    {
+      "brief": "离开结局：机械师和囚徒在庄园外接吻",
+      "id": "cg-outside",
+      "kind": "cg"
+    },
+    {
+      "brief": "留下结局：机械师和囚徒成为庄园的一部分时接吻",
+      "id": "cg-belong",
+      "kind": "cg"
+    }
+  ]
+}

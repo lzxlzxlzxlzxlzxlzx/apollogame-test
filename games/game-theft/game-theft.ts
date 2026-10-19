@@ -10,6 +10,8 @@ import type { TheftGameConfig } from './config.js';
 import type { RiskRevealReceipt } from '@zerocraft/engine/engine/protocol/components.js';
 
 export interface TheftMountOptions {
+  /** 壳层返回钩子；本游戏当前未消费，但需兼容统一游戏启动合同。 */
+  readonly exit?: () => void;
   readonly config?: TheftGameConfig;
   readonly onComplete?: (receipt: RiskRevealReceipt) => void;
 }

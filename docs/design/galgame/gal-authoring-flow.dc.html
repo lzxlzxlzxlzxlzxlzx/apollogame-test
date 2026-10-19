@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GAL 创作流程 · 界面原型</title>
+  <style>
+    :root{font-family:"Microsoft YaHei",system-ui,sans-serif;color:#1c2430;background:#e7edf2;color-scheme:light}
+    *{box-sizing:border-box}html,body{height:100%;margin:0}
+    button,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
+    body{display:grid;grid-template-rows:64px 1fr}
+    header{display:flex;align-items:center;gap:16px;padding:0 20px;background:#142033;color:#f4f7fb}
+    header h1{font-size:16px;font-weight:600;margin:0;letter-spacing:.04em}
+    header p{margin:0;color:#b7c3d4;font-size:12px}
+    .spacer{flex:1}
+    .ghost{border:1px solid #8ea0b8;background:transparent;color:#d5e2f2;border-radius:8px;height:34px;padding:0 12px}
+    .ghost.dark{color:#243044;border-color:#c5d0dc;background:#fff}
+    .primary{border:0;background:#2f6fed;color:#fff;border-radius:8px;height:34px;padding:0 14px}
+    .primary:disabled,.ghost:disabled{opacity:.4;cursor:not-allowed}
+    main{display:grid;grid-template-columns:248px minmax(0,1fr) 332px;min-height:0}
+    aside,section{min-height:0}
+    #steps{background:#f7f9fb;border-right:1px solid #d5dee7;overflow:auto;padding:14px 10px}
+    .step{width:100%;text-align:left;border:0;background:transparent;border-radius:10px;padding:8px 10px;display:grid;grid-template-columns:22px 1fr;gap:2px 8px;margin-bottom:4px}
+    .step:hover{background:#e8eef5}.step.current{background:#e5efff}
+    .step b{font-weight:600;font-size:14px}.step small{grid-column:2;color:#66788c;font-size:12px}
+    .dot{width:18px;height:18px;border-radius:50%;margin-top:1px;display:grid;place-items:center;font-size:11px;color:#fff}
+    .approved{background:#1f8a4c}.draft{background:#c47b12}.locked{background:#9aa8b8}.stale{background:#b42318}
+    #artifact{display:grid;grid-template-rows:auto auto minmax(0,1fr);background:#f3f6f8}
+    .crumb{display:flex;align-items:center;gap:10px;padding:14px 22px 0}
+    .crumb h2{margin:0;font-size:22px}.status{font-size:12px;border-radius:99px;padding:3px 8px;background:#e5eefc;color:#2452b0}
+    .status.approved{background:#e5f6ec;color:#146c3a}.status.stale{background:#fdeCEC;color:#9f1d1d}.status.locked{background:#eef1f4;color:#66788c}
+    .refs{padding:8px 22px 0;color:#5c6d80;font-size:13px}
+    .sheet{margin:14px 22px 22px;background:#fff;border:1px solid #d7e0e8;border-radius:14px;overflow:auto;padding:18px 20px}
+    .sheet h3{margin:16px 0 8px;font-size:15px}.sheet h3:first-child{margin-top:0}
+    .sheet p,.sheet li{line-height:1.7;font-size:14px}.sheet textarea{width:100%;min-height:88px;border:1px solid #c9d5e2;border-radius:8px;padding:8px}
+    table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:8px 6px;border-bottom:1px solid #e6edf3;vertical-align:top}
+    .tag{display:inline-block;border-radius:6px;background:#eef3f8;padding:2px 6px;margin:0 4px 4px 0;font-size:12px}
+    a.repo{color:#2452b0;font-weight:600}
+    .flow{display:flex;flex-direction:column;gap:8px}.node{border:1px solid #d5e1ee;border-radius:10px;padding:8px 12px;background:#f8fbfe}
+    .node.choice{border-color:#e2c48a;background:#fff8ec}
+    #side{border-left:1px solid #d5dee7;background:#f7f9fb;display:grid;grid-template-rows:auto minmax(0,1fr)}
+    .tabs{display:flex;gap:6px;padding:12px}
+    .tabs button{flex:1;height:34px;border-radius:8px;border:1px solid #d0dae4;background:#fff}
+    .tabs button.on{background:#142033;color:#fff;border-color:#142033}
+    .pane{min-height:0;display:none;grid-template-rows:minmax(0,1fr) auto}.pane.on{display:grid}
+    .list{overflow:auto;padding:0 12px 12px;display:flex;flex-direction:column;gap:8px}
+    .card{background:#fff;border:1px solid #d7e0e8;border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.55}
+    .card b{display:block;margin-bottom:2px}
+    .composer{padding:12px;display:grid;gap:8px;border-top:1px solid #e1e8ef}
+    .composer textarea{width:100%;min-height:72px;border:1px solid #c9d5e2;border-radius:8px;padding:8px}
+    .drop{border:1px dashed #9aafc4;border-radius:10px;padding:12px;background:#fff;font-size:13px;color:#5c6d80}
+    dialog{border:0;border-radius:14px;padding:18px 20px;width:420px;box-shadow:0 20px 60px #0004}
+    dialog h3{margin:0 0 8px}dialog label{display:block;font-size:13px;margin:10px 0 4px}
+    dialog input{width:100%;height:34px;border:1px solid #c9d5e2;border-radius:8px;padding:0 8px}
+    dialog menu{display:flex;justify-content:flex-end;gap:8px;padding:12px 0 0}
+    #toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#142033;color:#fff;border-radius:99px;padding:8px 14px;opacity:0;transition:opacity .2s}
+    #toast.show{opacity:1}
+  </style>
+</head>
+<body>
+  <header>
+    <div><h1>庄园出逃</h1><p>创作流程原型 · 外型参考挂在角色上 · 模型只改当前步骤</p></div>
+    <div class="spacer"></div>
+    <button class="ghost" id="open-model">模型</button>
+    <button class="ghost" id="reject">退回这一步</button>
+    <button class="primary" id="approve">通过这一步</button>
+  </header>
+  <main>
+    <nav id="steps" aria-label="创作步骤"></nav>
+    <section id="artifact" aria-live="polite">
+      <div class="crumb"><h2 id="title">简报</h2><span class="status" id="badge">已通过</span><span class="spacer"></span><button class="ghost dark" id="edit">手动修改</button></div>
+      <div class="refs" id="refs"></div>
+      <div class="sheet" id="sheet"></div>
+    </section>
+    <aside id="side">
+      <div class="tabs"><button class="on" data-pane="library">素材库</button><button data-pane="chat">和这一步对话</button></div>
+      <div class="pane on" id="library">
+        <div class="list" id="materials"></div>
+        <div class="composer"><div class="drop">上传小说、笔记或参考图。文件留在素材库，从简报到组装的每一步都会读到。</div><button class="primary" id="add-material">放入一份小说</button></div>
+      </div>
+      <div class="pane" id="chat">
+        <div class="list" id="messages"></div>
+        <form class="composer" id="talk">
+          <textarea name="note" placeholder="只要求修改当前这一步。例如：把时长改成一小时。"></textarea>
+          <button class="primary" type="submit">让模型改这一步</button>
+        </form>
+      </div>
+    </aside>
+  </main>
+  <dialog id="model">
+    <h3>这一部作品使用的模型</h3>
+    <p>模型只产出候选。通过和退回仍在上方按钮。</p>
+    <label>写作模型</label><input value="工作室写作模型">
+    <label>生图模型</label><input value="外部生图工具，按生图说明回传">
+    <menu><button class="ghost dark" value="cancel">关闭</button><button class="primary" id="save-model" value="default">记下</button></menu>
+  </dialog>
+  <div id="toast" role="status"></div>
+  <script>
+    const steps = [
+      ['brief','简报','作品边界'],
+      ['cast','角色','入库、引用、外型参考'],
+      ['bible','圣经','世界观与关系'],
+      ['routes','大纲','分歧、结局、地点'],
+      ['graph','剧情图','章节怎么走'],
+      ['beats','节拍','背景、配乐、CG 需求'],
+      ['manuscript','对话文稿','把小说改成对白'],
+      ['script','逐句','场景、表情、CG'],
+      ['art','生图','按角色参考出图'],
+      ['assets','资源确认','看过才入库'],
+      ['play','组装试玩','可运行的游戏包']
+    ].map(([id,name,hint],index)=>({id,name,hint,index,status:index<6?'approved':index===6?'draft':'locked'}));
+    let current = 'brief';
+    let editing = false;
+    const materials = [
+      {title:'想法',text:'机械师和囚徒在庄园游戏里相识，两个结局都在一起。'},
+      {title:'小说',text:'上传的叙述文章。它不是台词，只作为每一步的参考。'},
+      {title:'锁芯参考',text:'挂在角色仓库的机械师身上。文稿、逐句和生图都读这张，不在后面重传。'}
+    ];
+    const cast = [
+      {name:'机械师',id:'mechanic',note:'已有，组 identity-v。只引用，不覆盖。',ref:'锁芯海报与 Q 版'},
+      {name:'囚徒',id:'prisoner',note:'新建在本组。',ref:''},
+      {name:'医生',id:'doctor',note:'新建在本组。',ref:''},
+      {name:'园丁',id:'gardener',note:'新建在本组。',ref:''},
+      {name:'厂长',id:'factory-chief',note:'新建在本组。',ref:''}
+    ];
+    const characterHref = (id) => `http://127.0.0.1:5173/?character=${encodeURIComponent(id)}`;
+    const chats = {};
+    const views = {
+      brief: () => `<h3>简报 · 待通过的字段</h3><p>中文，青少年向，网页。约 40 分钟，1 条共通线，2 个结局。类型是恋爱与悬疑。</p><p>禁止复述官方信件、日记和任务原文，不使用未授权的官方图，不写血腥和性剥削。</p>`,
+      cast: () => `<h3>本作品的角色组 manor-escape</h3><p>外型参考在这一步上传，挂到该角色的仓库档案。后面的文稿和生图只读这里。名字链接打开角色仓库里的百科页。</p><table><tr><th>角色</th><th>仓库</th><th>外型参考</th></tr>${cast.map((item)=>`<tr><td><a class="repo" href="${characterHref(item.id)}" target="_blank" rel="noopener">${item.name}</a><br><small>${item.note}</small></td><td><a class="repo" href="${characterHref(item.id)}" target="_blank" rel="noopener">characters/${item.id}</a></td><td>${item.ref?item.ref:`<button class="ghost dark" data-ref="${item.name}">上传参考图</button>`}</td></tr>`).join('')}</table><p>关系写在起点角色上。机械师 → 囚徒：恋慕。没有参考图的角色，用文字造型，并在通过这一步前写明。</p>`,
+      bible: () => `<h3>世界观</h3><p>一场原创庄园游戏。机械师为了看机关，囚徒为了离开。医生想带人出门，园丁认得园门，厂长巡视。</p><h3>从角色档案抄来的外形</h3><p>机械师沿用仓库里的锁芯参考：金色短发，紫心锁纹瞳孔，机械左手，腰间紫心锁。玩偶仍在。这里只写文字摘要，不另收参考图。</p><p>地点不在圣经里定死。</p>`,
+      routes: () => `<h3>共通线</h3><p>两人走到外墙园门后分开。</p><h3>结局</h3><ul><li>一起离开，外面开始新生活。</li><li>一起留下，接受规矩，成为庄园的一部分。</li></ul><h3>地点</h3><p><span class="tag">门厅</span><span class="tag">破译室</span><span class="tag">地下工坊</span><span class="tag">外墙园门</span><span class="tag">庄园外</span></p>`,
+      graph: () => `<div class="flow"><div class="node">门厅</div><div class="node">破译室</div><div class="node">地下工坊</div><div class="node choice">外墙园门 · 一起离开 / 一起留下</div><div class="node">离开 → 庄园外</div><div class="node">留下 → 成为庄园的一部分</div></div>`,
+      beats: () => `<h3>需求，还没有文件</h3><p><span class="tag">bg-hall</span><span class="tag">bg-cipher</span><span class="tag">bg-workshop</span><span class="tag">bg-gate</span><span class="tag">bg-outside</span></p><p><span class="tag">bgm-manor</span><span class="tag">bgm-outside</span></p><p><span class="tag">cg-outside 离开时接吻</span><span class="tag">cg-belong 留下时接吻</span></p>`,
+      manuscript: () => `<h3>由小说改写成的对话文稿</h3><p>门厅。机械师进门，邀请函已经不在手里。医生先看伤，园丁说出外墙的门，厂长开始巡视。</p><p>小说里的叙述留成旁白。要玩家决定的地方写成选项，不直接把小说段落当成台词。</p>`,
+      script: () => `<h3>逐句候选</h3><p><span class="tag">门厅</span><span class="tag">机械师</span><span class="tag">戒备</span> 函呢。</p><p><span class="tag">庄园外</span><span class="tag">cg-outside</span> 两人接吻。</p><p><span class="tag">园子</span><span class="tag">cg-belong</span> 下班以后的吻。</p><p>通过之后，游戏只读这份数据。</p>`,
+      art: () => `<h3>按角色身上的参考图生成本作立绘和 CG</h3><p>机械师的生图读取仓库里的锁芯参考。这一步上传的是生成结果，不是再传一遍外型参考。</p><p><span class="tag">portraits/mechanic-focus.png</span><span class="tag">backgrounds/bg-hall.png</span><span class="tag">cg/cg-outside.png</span></p><p>系统核对张数、文件名、尺寸和透明通道。对上了也还要你看过画面。</p>`,
+      assets: () => `<h3>资源确认</h3><p>每一张图对上需求编号。你确认来源和画面之后，才写入正式资源索引。</p><p>确认过的立绘再登记回角色仓库，挂在该角色或对应时装下。机械师的四张表情挂在锁芯，不覆盖原来的海报和 Q 版。背景和 CG 留在这部作品里，不进角色仓库。</p><p>未确认的图只留在 art-candidates。角色仓库不收未登记文件，否则该角色页会打不开。</p>`,
+      play: () => `<h3>组装试玩</h3><p>已通过的逐句、已确认的资源编号，装成可运行的游戏包。这里才进入试玩。</p>`
+    };
+    const $ = (s) => document.querySelector(s);
+    const toast = (text) => { const el = $('#toast'); el.textContent = text; el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('show'), 1800); };
+    const statusText = {approved:'已通过',draft:'待通过',locked:'还没到',stale:'待重挂'};
+    function later(from){ steps.forEach((step) => { if (step.index > from && step.status === 'approved') step.status = 'stale'; }); }
+    function renderSteps(){
+      $('#steps').innerHTML = steps.map((step) => `<button class="step${step.id===current?' current':''}" data-id="${step.id}"><i class="dot ${step.status}">${step.index+1}</i><b>${step.name}</b><small>${statusText[step.status]} · ${step.hint}</small></button>`).join('');
+    }
+    function render(){
+      const step = steps.find((item) => item.id === current);
+      renderSteps();
+      $('#title').textContent = step.name;
+      const badge = $('#badge');
+      badge.textContent = statusText[step.status];
+      badge.className = `status ${step.status}`;
+      $('#refs').textContent = `本步参考素材 ${materials.length} 份：` + materials.map((item) => item.title).join('、');
+      const body = views[step.id]();
+      $('#sheet').innerHTML = editing ? `<h3>手动修改当前产物</h3><textarea>${body.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim()}</textarea>` : body;
+      $('#approve').disabled = step.status === 'locked';
+      $('#reject').disabled = step.status === 'locked';
+      $('#edit').disabled = step.status === 'locked';
+      $('#materials').innerHTML = materials.map((item) => `<article class="card"><b>${item.title}</b>${item.text}</article>`).join('');
+      const thread = chats[current] || [{role:'系统',text:`对话只改「${step.name}」。素材库里的 ${materials.length} 份材料都会作为参考。`}];
+      $('#messages').innerHTML = thread.map((item) => `<article class="card"><b>${item.role}</b>${item.text}</article>`).join('');
+    }
+    $('#steps').onclick = (event) => { const id = event.target.closest('button')?.dataset.id; if (!id) return; current = id; editing = false; render(); };
+    $('#sheet').onclick = (event) => {
+      const name = event.target.closest('[data-ref]')?.dataset.ref;
+      if (!name) return;
+      const person = cast.find((item) => item.name === name);
+      person.ref = '已挂到角色档案的外型参考';
+      materials.push({title:`${name}外型参考`,text:`挂在 characters/${person.id}。文稿和生图都读这张。`});
+      const castStep = steps.find((item) => item.id === 'cast');
+      if (castStep.status === 'approved') { castStep.status = 'draft'; later(castStep.index); }
+      toast(`参考图已挂到${name}`);
+      render();
+    };
+    document.querySelectorAll('.tabs button').forEach((button) => button.onclick = () => {
+      document.querySelectorAll('.tabs button,.pane').forEach((el) => el.classList.remove('on'));
+      button.classList.add('on'); $(`#${button.dataset.pane}`).classList.add('on');
+    });
+    $('#edit').onclick = () => { editing = !editing; $('#edit').textContent = editing ? '看排版' : '手动修改'; render(); };
+    $('#approve').onclick = () => {
+      const step = steps.find((item) => item.id === current);
+      step.status = 'approved';
+      const next = steps[step.index + 1];
+      if (next && next.status === 'locked') next.status = 'draft';
+      toast(`${step.name}已通过`);
+      render();
+    };
+    $('#reject').onclick = () => { steps.find((item) => item.id === current).status = 'draft'; toast('这一步退回成待通过'); render(); };
+    $('#add-material').onclick = () => { materials.push({title:`小说 ${materials.length}`,text:'新上传的叙述文章。从简报重新走，不直接当成台词。'}); toast('已放入素材库'); render(); };
+    $('#talk').onsubmit = (event) => {
+      event.preventDefault();
+      const note = new FormData(event.target).get('note').toString().trim();
+      if (!note) return;
+      const step = steps.find((item) => item.id === current);
+      chats[current] = chats[current] || [{role:'系统',text:`对话只改「${step.name}」。`}];
+      chats[current].push({role:'你',text:note},{role:'模型',text:`已按这句话改了「${step.name}」的候选。上游若已通过，后面的已通过步骤改为待重挂。`});
+      if (step.status === 'approved') { step.status = 'draft'; later(step.index); }
+      event.target.reset();
+      toast('只改了当前步骤');
+      render();
+    };
+    $('#open-model').onclick = () => $('#model').showModal();
+    $('#save-model').onclick = () => toast('模型只负责产出候选');
+    render();
+  </script>
+</body>
+</html>

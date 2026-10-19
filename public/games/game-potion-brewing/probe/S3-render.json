@@ -1,7 +1,7 @@
 {
   "slug": "game-potion-brewing",
-  "at": "2026-10-13T11:58:32.450Z",
-  "gameHash": "35b6fc9128549795",
+  "at": "2026-10-15T03:58:02.174Z",
+  "gameHash": "453f23a6b8e49673",
   "ok": true,
   "form": "compiled",
   "assertions": {
@@ -11,8 +11,8 @@
     },
     "nonBlank": {
       "pass": true,
-      "variance": 6798.68,
-      "mean": 80.02,
+      "variance": 5435.98,
+      "mean": 69.69,
       "threshold": 15
     },
     "consoleErrors": {

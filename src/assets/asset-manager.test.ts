@@ -159,6 +159,116 @@ describe('AssetManager — 边界与不透明句柄', () => {
   });
 });
 
+describe('AssetManager — atomic loaded-asset adoption', () => {
+  it('moves ownership without a target resolve gap and closes the old target exactly once', async () => {
+    const closed: string[] = [];
+    let manager!: AssetManager;
+    const oldHandle = { image: { close: () => {
+      closed.push('old');
+      expect(manager.resolve('stable')?.asset.handle).toBe(newHandle);
+    } } };
+    const newHandle = { image: { close: () => { closed.push('new'); } } };
+    manager = new AssetManager({ async load(d) {
+      return { handle: d.key === 'stable' ? oldHandle : newHandle, width: 32, height: 48 };
+    } });
+    manager.register({ kind: 'texture', key: 'stable', src: '/fallback.png' });
+    manager.register({ kind: 'texture', key: 'candidate', src: '/remote.png' });
+    await Promise.all([manager.load('stable'), manager.load('candidate')]);
+    expect(manager.resolve('stable')?.asset.handle).toBe(oldHandle);
+    expect(manager.adoptLoaded('candidate', 'stable')).toBe(true);
+    expect(manager.resolve('stable')?.asset.handle).toBe(newHandle);
+    expect(manager.get('stable')?.descriptor).toMatchObject({ key: 'stable', src: '/remote.png' });
+    expect(manager.get('candidate')).toBeUndefined();
+    expect(manager.has('candidate')).toBe(false);
+    expect(closed).toEqual(['old']);
+    manager.clear();
+    expect(closed).toEqual(['old', 'new']);
+  });
+
+  it('fails closed for unloaded, identical, incompatible, stale and cleared keys', async () => {
+    const manager = new AssetManager(new StubAssetLoader());
+    manager.register({ kind: 'texture', key: 'stable', src: '/fallback.png' });
+    manager.register({ kind: 'texture', key: 'candidate', src: '/remote.png' });
+    expect(manager.adoptLoaded('candidate', 'stable')).toBe(false);
+    await manager.load('stable');
+    expect(manager.adoptLoaded('candidate', 'stable')).toBe(false);
+    await manager.load('candidate');
+    const stable = manager.get('stable');
+    expect(manager.adoptLoaded('stable', 'stable')).toBe(false);
+    manager.register({ kind: 'atlas', key: 'atlas', src: '/atlas.png', frames: {} });
+    await manager.load('atlas');
+    expect(manager.adoptLoaded('atlas', 'stable')).toBe(false);
+    expect(manager.get('stable')).toBe(stable);
+    expect(manager.get('candidate')).toBeDefined();
+    manager.clear();
+    expect(manager.adoptLoaded('candidate', 'stable')).toBe(false);
+    expect(manager.get('stable')).toBeUndefined();
+  });
+
+  it('rejects a loader that returned the same owned handle for source and target', async () => {
+    const shared = { image: { close: () => { throw new Error('must not close shared handle'); } } };
+    const manager = new AssetManager({ async load() { return { handle: shared, width: 1, height: 1 }; } });
+    manager.register({ kind: 'texture', key: 'stable', src: '/fallback' });
+    manager.register({ kind: 'texture', key: 'candidate', src: '/remote' });
+    await Promise.all([manager.load('stable'), manager.load('candidate')]);
+    const target = manager.get('stable');
+    expect(manager.adoptLoaded('candidate', 'stable')).toBe(false);
+    expect(manager.get('stable')).toBe(target);
+    expect(manager.get('candidate')).toBeDefined();
+  });
+
+  it('late target/source inflight cannot overwrite an adopted asset and is closed', async () => {
+    const closed: string[] = [];
+    const release = new Map<string, () => void>();
+    const manager = new AssetManager({ load(d) {
+      if (d.src.startsWith('/late')) return new Promise((resolve) => {
+        release.set(d.src, () => resolve({ handle: { image: { close: () => closed.push(d.src) } }, width: 1, height: 1 }));
+      });
+      return Promise.resolve({ handle: { image: { close: () => closed.push(d.src) } }, width: 2, height: 2 });
+    } });
+    manager.register({ kind: 'texture', key: 'stable', src: '/late-target' });
+    const lateTarget = manager.load('stable');
+    manager.register({ kind: 'texture', key: 'stable', src: '/fallback' });
+    await manager.load('stable');
+    manager.register({ kind: 'texture', key: 'candidate', src: '/late-source' });
+    const lateSource = manager.load('candidate');
+    manager.register({ kind: 'texture', key: 'candidate', src: '/remote' });
+    await manager.load('candidate');
+    expect(manager.adoptLoaded('candidate', 'stable')).toBe(true);
+    release.get('/late-target')?.();
+    release.get('/late-source')?.();
+    await Promise.all([lateTarget, lateSource]);
+    expect(manager.get('stable')?.descriptor.src).toBe('/remote');
+    expect(manager.get('candidate')).toBeUndefined();
+    expect(closed).toEqual(['/fallback', '/late-target', '/late-source']);
+    manager.clear();
+    expect(closed).toEqual(['/fallback', '/late-target', '/late-source', '/remote']);
+  });
+
+  it('clear after adoption cannot be undone by a late load', async () => {
+    const closed: string[] = [];
+    let release!: () => void;
+    const manager = new AssetManager({ load(d) {
+      if (d.src === '/late') return new Promise((resolve) => {
+        release = () => resolve({ handle: { image: { close: () => closed.push('late') } }, width: 1, height: 1 });
+      });
+      return Promise.resolve({ handle: { image: { close: () => closed.push(d.src) } }, width: 1, height: 1 });
+    } });
+    manager.register({ kind: 'texture', key: 'stable', src: '/fallback' });
+    manager.register({ kind: 'texture', key: 'candidate', src: '/remote' });
+    await Promise.all([manager.load('stable'), manager.load('candidate')]);
+    manager.register({ kind: 'texture', key: 'late', src: '/late' });
+    const pending = manager.load('late');
+    expect(manager.adoptLoaded('candidate', 'stable')).toBe(true);
+    manager.clear();
+    release();
+    await pending;
+    expect(manager.get('stable')).toBeUndefined();
+    expect(manager.has('stable')).toBe(false);
+    expect(closed).toEqual(['/fallback', '/remote', 'late']);
+  });
+});
+
 describe('AssetManager — 失败重试（inflight 不卡死）', () => {
   it('加载失败后清理 inflight → 允许重试成功（不被死 Promise 永久占位）', async () => {
     let attempts = 0;

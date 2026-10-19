@@ -15,7 +15,8 @@
 | `t2-life-construction` / `constructionProjects` | 固定王座厅、温室、熔炉点位的一次性材料建设与完成皮肤 | ✅ 现有 |
 | Life NPC schedule / relationship / dialogue | 管家幽灵、石像鬼工匠的交流、好感与时间表 | ✅ 现有 |
 | Life quest / milestone / condition-effect graph | 建设目标、区域解锁与第一章剧情 | ✅ 现有 |
-| Life host presenter / interaction / input / HUD | 原型中的近身 `E` 提示、递归菜单与状态栏 | ✅ 现有 |
+| Life host presenter / interaction / input / HUD | 近身 `E` 提示、递归菜单与基础状态栏 | ✅ 现有 |
+| Rich Life HUD / task, bag, profile panel projections | 已定稿的浏览器全视口 HUD、任务全表、背包格、角色档案与可替换标签素材 | 🟡 Owner 已选 A：先实施共享背包面板（`SIMLIFE-INVENTORY-PANEL-01`）；任务/档案留后续能力单 |
 | AssetSlotBrief / generation bundle / local-or-AI review pipeline | 角色、建筑、地块、物品的可审素材链 | ✅ 现有 |
 
 ## 3. 数据规则面
@@ -41,8 +42,10 @@
 
 ## 4.6 UI 呈现
 
-- 宿主：`life-standard-v1` HUD 与交互菜单；正式 UI 由共享 Life host 消费，不复制原型 DOM。
-- 目标层级：顶部状态栏、近身 `E` 提示、角色旁递归小菜单、左侧目标摘要。
+- 现状实查：`life-standard-v1` 的 `buildLifeStandardHud` 只投影一条 50px 文本摘要（当前目标、日期、地点、时段、关系、背包串和两个时间按钮）。它没有任务全表、格状背包、可选角色档案页、UI 标签素材槽或可由数据声明的面板开关。
+- 已定稿目标：`demon-castle-ui-demo.html` 定义浏览器全视口下的左上追踪任务、顶部世界状态、右上资源及 `J/I/C` 入口、右侧三类可收束面板、近身 `E` 提示。正式运行时仍须由共享 Life host 消费，不复制原型 DOM。
+- 裁决记录（2026-10-14）：Owner 选择 A，将背包显示下沉为共享 Life Host 能力。第一单只实现严格 opt-in 的格状背包、只读物品投影与 render-local 开闭状态；不改变现有 `itemCatalog + playerInventory` 权威语义，也不先做任务全表、角色/装备属性或底栏快捷栏。
+- 边界：任务状态机、背包权威状态、日期、关系、近身交互均继续消费现有 Life capability；不得以游戏层代码补 UI。共享 Host 的闭集布局/面板配置和 `art:` 标签槽由施工单约束，任何新 UI 控件仍需另走 PUI 缺口流程。
 
 ## 4.65 NPC AI
 

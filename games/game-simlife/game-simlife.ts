@@ -3,8 +3,8 @@ import { createStoragePort, type StoragePort } from '@zerocraft/engine/services/
 import {
   createLifeGameSession, createPersistentLifeGameSession, lifeHostLayout, mountLifeGame,
   type LifeGameCoreSession, type LifeGameHostContext,
-} from '../../src/engine/host/life-game-host.js';
-import { LifeHostAutosave, LifeHostSaveAdapter } from '../../src/engine/host/life-save.js';
+} from '@zerocraft/engine/assembly/life-host/life-game-host.js';
+import { LifeHostAutosave, LifeHostSaveAdapter } from '@zerocraft/engine/assembly/life-host/life-save.js';
 import type { CanvasRenderer } from '@zerocraft/engine/renderer/index.js';
 import { LITTLE_VALLEY_PACKAGE } from './life-demo-package.js';
 import { LIFE_DEMO_HOST_DESCRIPTOR } from './host-descriptor.js';

@@ -9,13 +9,13 @@ import type { Inventory } from '../../skills/tier2/inventory.js';
 import { hashSnapshot, hashWithOrder } from '../../net/index.js';
 import { MemoryStoragePort, type SaveGame, type SaveMeta, type StoragePort } from '../../services/storage/index.js';
 import { validateLayoutNode } from '../../ui/components/index.js';
-import { buildLifeStandardUi } from './life-hud.js';
-import { buildLifeInteractionOptions, LifeInteractionController } from './life-interaction.js';
-import { selectLifeHostView } from './life-presenter.js';
+import { buildLifeStandardUi } from '../../assembly/life-host/life-hud.js';
+import { buildLifeInteractionOptions, LifeInteractionController } from '../../assembly/life-host/life-interaction.js';
+import { selectLifeHostView } from '../../assembly/life-host/life-presenter.js';
 import {
   LIFE_HOST_SAVE_SCHEMA, LifeHostAutosave, LifeHostSaveAdapter, deriveLifeHostSaveSlot,
   lifeHostCommitSignature, lifeHostPersistentHash,
-} from './life-save.js';
+} from '../../assembly/life-host/life-save.js';
 
 class CountingPort implements StoragePort {
   readonly memory = new MemoryStoragePort();
@@ -48,6 +48,33 @@ async function rewrite(port: MemoryStoragePort, slot: string, edit: (save: SaveG
 }
 
 describe('LifeHostSavePolicy v1', () => {
+  it.each([false, true])('keeps direct-adapter legacy saves compatible across render-only calendar names (legacy skin %s)', async (withLegacySkin) => {
+    const port = new MemoryStoragePort();
+    const base = seasideMarketHostDescriptorFixture();
+    const descriptor: LifeHostDescriptorV1 = { ...base, ...(withLegacySkin ? { uiSkin: { id: 'legacy-skin', slots: {} } } : {}) };
+    const source = createWorld().world;
+    source.getComponent<Inventory>('life:player', 'Inventory')!.items.push({ kind: 'berry', count: 4 });
+    const original = new LifeHostSaveAdapter(descriptor, source, port);
+    expect(await original.save(source)).toBe(true);
+    const stored = (await port.load(original.slot))!;
+    const legacyFingerprint = hashSnapshot({ descriptor: { LifeHostDescriptor: { type: 'LifeHostDescriptor', ...descriptor } } });
+    expect(JSON.parse(stored.meta.label!).descriptorHash).toBe(legacyFingerprint);
+    for (const calendarLabels of [{ seasons: { spring: '春季' } }, { seasons: { spring: '风铃季' }, slots: {} }, {}, undefined]) {
+      const target = createWorld().world;
+      const configured = { ...descriptor, hud: { ...descriptor.hud, ...(calendarLabels ? { calendarLabels } : {}) } };
+      const beforeDescriptor = JSON.stringify(configured);
+      const adapter = new LifeHostSaveAdapter(configured, target, port);
+      expect(await adapter.list()).toHaveLength(1);
+      expect(await adapter.restore(target)).toBe('restored');
+      expect(lifeHostPersistentHash(target)).toBe(stored.meta.hash);
+      expect(await adapter.save(target)).toBe(true);
+      const next = (await port.load(adapter.slot))!;
+      expect(next.meta.label).toBe(stored.meta.label);
+      expect(next.snapshot).toEqual(stored.snapshot);
+      expect(JSON.stringify(configured)).toBe(beforeDescriptor);
+    }
+  });
+
   it('derives slots only from descriptor namespace and isolates two games on one port', async () => {
     const port = new MemoryStoragePort();
     const a = seasideMarketHostDescriptorFixture(); const b = alternateDescriptor();

@@ -18,3 +18,7 @@ Owner 选择 A。范围仅共享 dev-only 只读动作口、通用走查探针�
 判词 **PASS，仅共享适配器范围**。独立定向 Vitest 5 组 70/70；GCI `runWalkthrough` 5 剧本 42/42 真 Canvas/DOM 手势，49 个 waitUntil 不入分母、18 个 expect 明示未核，console/pageerror 0，约 21.6 秒自然退出。`cart-presentation-browser` 7/7，含无 presentation `supported:false`+reason 与两次卸载清口；5700/5716 无监听。旧 compiled `game-a` 8 剧本只读回归 exit 0，0/19 如实报告，未对旧形态引入卡带零驱动阈值。
 
 复查人锚点唯一命中 `assessWalkResult` 的卡带 0/N 守卫，内存撤修后点名断言实际抛出 `true !== false`，工作树未动。首轮发现 Windows 临时 Vite 清理不完全，施工修复后复查人独立重跑已闭。读告警：当前共享工作树全局 TypeScript 因其它在途 `src/skills/tier2/ordered-action-session.test.ts` 六条 TS2353 exit 1；全库 depcruise 仍有其它项目 33 条违规，不能宣称全量门禁绿。生产 build/dev-only 边界复查人静查并跑离线单测，未独立重建 dist。本判词不代替 GCI S4 或 Owner 人门。
+
+## Owner 需求池结案裁决（2026-10-16）
+
+Owner 选择按单项能力复查结案，允许将域外全库 gate 红项与本适配器完成状态分开记账。公共需求 `REQ-CART-UIWALK-ADAPTER` 已从活动池释放；本结案不表示全库门禁、GCI S4 或任何 Owner 人门通过。

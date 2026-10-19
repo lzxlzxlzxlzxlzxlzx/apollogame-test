@@ -4,12 +4,14 @@
 
 ## 1. 当前结论
 
+- 新活动需求 `SETTLEMENT-PARITY-01`：仅对齐 DokiWorlds 当前结算界面的卡包与拆包后卡牌；owner 要求原型不改并于 2026-10-16 裁决 B（本 App 专属 render-only 合成）。v2 实现/离线截图已开始，真实结算同画布对照、宿主 v2 同步与 owner 视觉判词仍待完成；见 [`work-orders/SETTLEMENT-PARITY-01.md`](work-orders/SETTLEMENT-PARITY-01.md)。现有已安装 v1 不得直接替换。
+
 - S1-P 原型已由 owner 于 2026-10-09 冻结；S2–S6 已实现并完成独立复查，S6 owner 视觉人门已通过。
 - S7 独立评分为 **13/24，非 premium**；owner 接受当前演出并批准进入联调和打包。该结论不是 premium 认证。
 - S8 可移植包、调用说明、资产闭包、假宿主、独立 HTTP 和真实 DokiWorld 本地安装联调均已通过。
 - DokiWorld 本地安装位置曾验证为 `frontend/public/apps/game-card-reveal/`；本项目没有执行线上发布。
-- 当前没有未完成的游戏实现工单。上线前只需由宿主使用真实生产 HTTPS 卡面域验证可访问性与 CORS。
-- 任何新的画面、布局或动画节奏变更，都必须先改 HTML 原型并重新取得 owner 定稿，再改正式实现。
+- `OPT-CARD-REVEAL-LOAD-01` 已完成非施工人独立复查并 PASS；见 [`review/OPT-CARD-REVEAL-LOAD-01-independent.md`](review/OPT-CARD-REVEAL-LOAD-01-independent.md)。
+- 原 S1-P 冻结与一般视觉变更规则继续有效；仅 `SETTLEMENT-PARITY-01` 按 owner 本会话明确裁决，以 DokiWorlds 当前结算界面为视觉基准而不修改原型，待真实截图与 owner 判词定稿。
 
 ## 2. 冻结产品合同
 
@@ -107,6 +109,7 @@
 | S3–S6 独立复查 | [`review/S3.md`](review/S3.md)、[`review/S4.md`](review/S4.md)、[`review/S5.md`](review/S5.md)、[`review/S6.md`](review/S6.md) |
 | S7 品质评分 | [`review/S7-scorecard.md`](review/S7-scorecard.md) |
 | S8 打包、联调与最终 chrome 修订 | [`review/S8.md`](review/S8.md) |
+| 首帧与卡面装载优化 | [`work-orders/OPT-CARD-REVEAL-LOAD-01.md`](work-orders/OPT-CARD-REVEAL-LOAD-01.md)、[`review/OPT-CARD-REVEAL-LOAD-01.md`](review/OPT-CARD-REVEAL-LOAD-01.md)、[`review/OPT-CARD-REVEAL-LOAD-01-independent.md`](review/OPT-CARD-REVEAL-LOAD-01-independent.md) |
 | 对齐证据 | [`self-check/S4-alignment.md`](self-check/S4-alignment.md)、[`self-check/S5-alignment.md`](self-check/S5-alignment.md)、[`self-check/S6-alignment.md`](self-check/S6-alignment.md)、[`self-check/S8-alignment.md`](self-check/S8-alignment.md) |
 | 完整历史工单 | [`archive/requests-full-history-2026-10-12.md`](archive/requests-full-history-2026-10-12.md) |
 

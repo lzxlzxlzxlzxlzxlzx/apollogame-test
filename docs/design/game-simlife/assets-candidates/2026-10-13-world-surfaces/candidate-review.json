@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "zerocraft.life-world-surface-candidates.v1",
+  "createdAt": "2026-10-13",
+  "status": "approved-and-imported",
+  "scope": "Owner approved all six AI source-image candidates in chat on 2026-10-13. Each was normalized to its declared 32×32 opaque nearest-sampled slot contract, passed the official pending/approval binding gate, and was registered only in the matching game-local AssetIndex. No Life package or gameplay data was changed.",
+  "reviewRequired": [
+    "visual readability at gameplay scale",
+    "semantic distinction between raw, tilled, and watered states",
+    "source/provenance acceptance"
+  ],
+  "candidates": [
+    {
+      "game": "game-demon-castle",
+      "slotId": "demon-castle.tile.moon-garden-earth",
+      "semanticState": "farmable-earth",
+      "sourceFile": "demon-moon-garden-earth-source.png",
+      "sha256": "1fa4749a2d2f0fbbb0c3e32ba2cf258f4d15843d9070454f9bc8cbc6e4054d02",
+      "status": "approved-and-imported"
+    },
+    {
+      "game": "game-demon-castle",
+      "slotId": "demon-castle.tile.moon-garden-tilled",
+      "semanticState": "tilled-soil",
+      "sourceFile": "demon-moon-garden-tilled-source.png",
+      "sha256": "02341058304c4c32afd11ac16d42780db66663ce8b462b8304d0fb82dfcde0bb",
+      "status": "approved-and-imported"
+    },
+    {
+      "game": "game-demon-castle",
+      "slotId": "demon-castle.tile.moon-garden-watered",
+      "semanticState": "watered-soil",
+      "sourceFile": "demon-moon-garden-watered-source.png",
+      "sha256": "25dbe105c799bc2c105fee11cf58d5405eade456fb61c88e67a3801d640c9b08",
+      "status": "approved-and-imported"
+    },
+    {
+      "game": "game-simlife",
+      "slotId": "little-valley.tile.farmable-earth",
+      "semanticState": "farmable-earth",
+      "sourceFile": "little-valley-farmable-earth-source.png",
+      "sha256": "a844c4e04d7dff6a9ba6e3d16094fb6fb6f8f71a14ee65f27eb9db64dfa8621e",
+      "status": "approved-and-imported"
+    },
+    {
+      "game": "game-simlife",
+      "slotId": "little-valley.tile.tilled-soil",
+      "semanticState": "tilled-soil",
+      "sourceFile": "little-valley-tilled-soil-source.png",
+      "sha256": "8751d01fa615cd974dd9ea63b6811e6eadfb763b0a0e2bd149303ce13c36bdc8",
+      "status": "approved-and-imported"
+    },
+    {
+      "game": "game-simlife",
+      "slotId": "little-valley.tile.watered-soil",
+      "semanticState": "watered-soil",
+      "sourceFile": "little-valley-watered-soil-source.png",
+      "sha256": "20c7ee2ac2e85e3996af5d5653576f3933d4a52e14af3899fc6f56f1b5f85283",
+      "status": "approved-and-imported"
+    }
+  ]
+}

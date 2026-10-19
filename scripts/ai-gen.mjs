@@ -385,7 +385,7 @@ function validLifeManifestShape(manifest) {
     if (!exactKeys(slot, ['slotId', 'assetKey', 'kind', 'consumers', 'asset', 'render', 'generation', 'governance'])
       || typeof slot.slotId !== 'string' || !slot.slotId.trim() || slotIds.has(slot.slotId)
       || typeof slot.assetKey !== 'string' || !slot.assetKey.trim() || /[\\/]|^(?:https?|data|file):/i.test(slot.assetKey) || assetKeys.has(slot.assetKey)
-      || !['tile', 'crop', 'player', 'npc', 'building', 'resource', 'item'].includes(slot.kind)) return false;
+      || !['tile', 'crop', 'player', 'npc', 'building', 'resource', 'item', 'ui-icon'].includes(slot.kind)) return false;
     slotIds.add(slot.slotId); assetKeys.add(slot.assetKey);
     if (!Array.isArray(slot.consumers) || slot.consumers.length === 0) return false;
     for (const consumer of slot.consumers) {
@@ -405,7 +405,7 @@ function validLifeManifestShape(manifest) {
       || slot.render.anchor.x < 0 || slot.render.anchor.x > 1 || slot.render.anchor.y < 0 || slot.render.anchor.y > 1
       || !exactKeys(slot.render.offset, ['x', 'y']) || !finiteNumber(slot.render.offset.x) || !finiteNumber(slot.render.offset.y)
       || !['cover', 'contain'].includes(slot.render.fit)
-      || !['ground', 'water', 'plantable', 'crop', 'player', 'npc', 'building', 'resource', 'item'].includes(slot.render.fallbackRole)) return false;
+      || !['ground', 'water', 'plantable', 'crop', 'player', 'npc', 'building', 'resource', 'item', 'ui-icon'].includes(slot.render.fallbackRole)) return false;
     if (!exactKeys(slot.generation, ['briefVersion', 'styleId', 'prompt', 'negativePrompt'])
       || !Number.isInteger(slot.generation.briefVersion) || slot.generation.briefVersion < 1
       || typeof slot.generation.styleId !== 'string' || !slot.generation.styleId.trim()

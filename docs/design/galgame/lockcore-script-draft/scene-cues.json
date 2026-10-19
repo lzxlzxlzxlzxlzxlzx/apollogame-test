@@ -1,0 +1,30 @@
+{
+  "format": "gal-scene-cues-candidate-v1",
+  "status": "draft",
+  "note": "作者态地点/时间提示；sceneSlotId 不是已审核背景或正式 GalPackage.scene 引用。",
+  "cues": [
+    { "at": { "chapterId": "c01", "nodeId": "c01_n0001" }, "sceneSlotId": "city-street-sunset", "castIds": ["luca", "tracy"] },
+    { "at": { "chapterId": "c02", "nodeId": "c02_n0001" }, "sceneSlotId": "city-street-night", "castIds": ["luca", "tracy"] },
+    { "at": { "chapterId": "c02", "nodeId": "c02_n0034" }, "sceneSlotId": "electronics-market-day", "castIds": ["luca", "tracy"] },
+    { "at": { "chapterId": "c02", "nodeId": "c02_n0058" }, "sceneSlotId": "small-noodle-shop-day", "castIds": ["luca", "tracy"] },
+    { "at": { "chapterId": "c02", "nodeId": "c02_n0077" }, "sceneSlotId": "electronics-market-day", "castIds": ["luca", "tracy"] },
+    { "at": { "chapterId": "c02", "nodeId": "c02_n0086" }, "sceneSlotId": "city-street-sunset", "castIds": ["luca", "tracy"] },
+    { "at": { "chapterId": "c03", "nodeId": "c03_n0001" }, "sceneSlotId": "tracy-room-night", "castIds": ["tracy"] },
+    { "at": { "chapterId": "c03", "nodeId": "c03_n0018" }, "sceneSlotId": "workshop-day", "castIds": ["luca", "tracy"] },
+    { "at": { "chapterId": "c04", "nodeId": "c04_n0001" }, "sceneSlotId": "tracy-room-evening", "castIds": ["tracy"] },
+    { "at": { "chapterId": "c04", "nodeId": "c04_n0007" }, "sceneSlotId": "tracy-room-evening", "castIds": ["tracy", "luca"] },
+    { "at": { "chapterId": "c05", "nodeId": "c05_n0001" }, "sceneSlotId": "workshop-evening", "castIds": ["tracy"] },
+    { "at": { "chapterId": "c05", "nodeId": "c05_n0003" }, "sceneSlotId": "workshop-evening", "castIds": ["tracy", "luca"] },
+    { "at": { "chapterId": "c06", "nodeId": "c06_n0001" }, "sceneSlotId": "tracy-room-afternoon", "castIds": ["tracy", "luca"] },
+    { "at": { "chapterId": "c07", "nodeId": "c07_n0001" }, "sceneSlotId": "tracy-room-evening", "castIds": ["tracy"] },
+    { "at": { "chapterId": "c07", "nodeId": "c07_n0014" }, "sceneSlotId": "tracy-room-evening", "castIds": ["tracy", "luca"] },
+    { "at": { "chapterId": "c08", "nodeId": "c08_n0001" }, "sceneSlotId": "tracy-room-evening", "castIds": ["tracy"] },
+    { "at": { "chapterId": "c08", "nodeId": "c08_n0005" }, "sceneSlotId": "tracy-bathroom-evening", "castIds": ["tracy"] },
+    { "at": { "chapterId": "c08", "nodeId": "c08_n0021" }, "sceneSlotId": "tracy-room-evening", "castIds": ["tracy", "luca"] },
+    { "at": { "chapterId": "c09", "nodeId": "c09_n0001" }, "sceneSlotId": "workshop-afternoon", "castIds": ["tracy"] },
+    { "at": { "chapterId": "c09", "nodeId": "c09_n0011" }, "sceneSlotId": "tracy-room-evening", "castIds": ["tracy", "luca"] },
+    { "at": { "chapterId": "c10", "nodeId": "c10_n0001" }, "sceneSlotId": "flower-shop-evening", "castIds": ["luca", "tracy", "emma", "william", "helena", "emily", "naib"] },
+    { "at": { "chapterId": "c10", "nodeId": "c10_n0048" }, "sceneSlotId": "city-street-night", "castIds": ["luca", "tracy"] },
+    { "at": { "chapterId": "c10", "nodeId": "c10_n0072" }, "sceneSlotId": "workshop-night", "castIds": ["luca", "tracy"] }
+  ]
+}

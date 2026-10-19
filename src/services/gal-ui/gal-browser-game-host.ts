@@ -7,6 +7,9 @@ import { IndexedDbKV } from '../storage/indexeddb-kv.js';
 import { IndexedDbStoragePort } from '../storage/indexeddb-storage.js';
 import { GalSliceHost } from './gal-ui-slice-host.js';
 import type { GalUiArt } from './gal-ui-art.js';
+/* AI START */
+import type { HostExitPort } from '../platform/host-exit.js';
+/* AI END */
 import { createGalBrowserAudioPorts, type GalAudioPorts, type GalAudioStatus } from './gal-audio-coordinator.js';
 
 /** Product Web/Electron-webview composition; the game contributes data, never a custom UI or save system. */
@@ -27,6 +30,11 @@ export interface GalBrowserGameOptions {
   readonly kv?: IndexedDbKV;
   readonly previewKv?: IndexedDbKV;
   readonly now?: () => number;
+  /* AI START */
+  /** Browser preview feedback. Desktop shells set this false and inject hostExit instead. */
+  readonly previewExitFeedback?: boolean;
+  readonly hostExit?: HostExitPort;
+  /* AI END */
 }
 
 export interface GalBrowserGameHandle {
@@ -63,6 +71,10 @@ export async function mountGalBrowserGame(options: GalBrowserGameOptions): Promi
         (typeof Audio === 'undefined' ? undefined : createGalBrowserAudioPorts(pkg, options.contentUrls)),
       audioDiagnostic: options.audioDiagnostic,
       uiArt: options.uiArt,
+      /* AI START */
+      previewExitFeedback: options.previewExitFeedback ?? true,
+      hostExit: options.hostExit,
+      /* AI END */
     }, options.locale);
     const detach = host.attach(options.container);
     let closed = false;

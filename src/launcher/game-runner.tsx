@@ -99,6 +99,7 @@ function BuiltInGameRunner({ gameId, onBack }: { gameId: string; onBack: () => v
       'game-rhetoric-duel': () => import('@games/game-rhetoric-duel/game-rhetoric-duel.js'),
       'game-dice': () => import('@games/game-dice/game-dice.js'),
       'game-lockpick': () => import('@games/game-lockpick/game-lockpick.js'),
+      'game-potion-brewing': () => import('@games/game-potion-brewing/game-potion-brewing.js'),
       'game-loot-chest': () => import('@games/game-loot-chest/game-loot-chest.js'),
       'game-theft': () => import('@games/game-theft/game-theft.js'),
       'game-simlife': () => import('@games/game-simlife/game-simlife.js'),
@@ -117,6 +118,9 @@ function BuiltInGameRunner({ gameId, onBack }: { gameId: string; onBack: () => v
       'game108': () => import('@games/game108/game108.js'),
       'game211': () => import('@games/game211/game211.js'),
       'game111': () => import('@games/game111/game111.js'),
+      /* AI START */
+      'manor-escape': () => import('../services/gal-ui/manor-escape-play.js'),
+      /* AI END */
     };
     const loader = loaders[gameId];
     if (!loader) return;
@@ -134,10 +138,10 @@ function BuiltInGameRunner({ gameId, onBack }: { gameId: string; onBack: () => v
   }, [gameId, onBack]);
 
   return (
-    <div style={{ position: 'absolute', inset: 0, background: SHELL.bg0 }}>
+    <div style={{ position: 'absolute', inset: 0, background: gameId === 'game-potion-brewing' ? 'transparent' : SHELL.bg0 }}>
       {/* 全游戏统一的壳层菜单（齿轮 → 收纳「返回主界面」等全局动作；游戏代码不掺和）—— 视觉基调见 ui/shell-theme.ts。
           game-g 已把退出收进自己的设置菜单（owner 2026-06-21「去掉右上角返回·收进设置」，经 mount(el,{exit}) 接走）→ 壳层不再为它叠这颗。 */}
-      {gameId !== 'game-g' && (
+      {gameId !== 'game-g' && gameId !== 'game-potion-brewing' && (
         <GameOverlayMenu items={[{ label: '⟵ 返回主界面', onClick: onBack }]} />
       )}
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />

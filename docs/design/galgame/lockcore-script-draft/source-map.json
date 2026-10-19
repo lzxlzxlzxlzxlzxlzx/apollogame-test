@@ -1,0 +1,5787 @@
+{
+  "c01/c01_n0001": {
+    "sourceLine": 9,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0002": {
+    "sourceLine": 11,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0003": {
+    "sourceLine": 13,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0004": {
+    "sourceLine": 13,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c01/c01_n0005": {
+    "sourceLine": 15,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c01/c01_n0006": {
+    "sourceLine": 15,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0007": {
+    "sourceLine": 15,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c01/c01_n0008": {
+    "sourceLine": 17,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c01/c01_n0009": {
+    "sourceLine": 19,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0010": {
+    "sourceLine": 21,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0011": {
+    "sourceLine": 23,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0012": {
+    "sourceLine": 25,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0013": {
+    "sourceLine": 27,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c01/c01_n0014": {
+    "sourceLine": 29,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c01/c01_n0015": {
+    "sourceLine": 29,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0016": {
+    "sourceLine": 31,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c01/c01_n0017": {
+    "sourceLine": 33,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0018": {
+    "sourceLine": 35,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0019": {
+    "sourceLine": 35,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c01/c01_n0020": {
+    "sourceLine": 37,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0021": {
+    "sourceLine": 39,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c01/c01_n0022": {
+    "sourceLine": 41,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0023": {
+    "sourceLine": 43,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c01/c01_n0024": {
+    "sourceLine": 43,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0025": {
+    "sourceLine": 43,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c01/c01_n0026": {
+    "sourceLine": 45,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0027": {
+    "sourceLine": 47,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0028": {
+    "sourceLine": 49,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c01/c01_n0029": {
+    "sourceLine": 51,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0030": {
+    "sourceLine": 51,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c01/c01_n0031": {
+    "sourceLine": 53,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0032": {
+    "sourceLine": 55,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0033": {
+    "sourceLine": 57,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0034": {
+    "sourceLine": 59,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c01/c01_n0035": {
+    "sourceLine": 61,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c01/c01_n0036": {
+    "sourceLine": 63,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0037": {
+    "sourceLine": 65,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c01/c01_n0038": {
+    "sourceLine": 65,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0039": {
+    "sourceLine": 65,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c01/c01_n0040": {
+    "sourceLine": 67,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0041": {
+    "sourceLine": 69,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c01/c01_n0042": {
+    "sourceLine": 69,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0043": {
+    "sourceLine": 71,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c01/c01_n0044": {
+    "sourceLine": 73,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c01/c01_n0045": {
+    "sourceLine": 75,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0046": {
+    "sourceLine": 77,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c01/c01_n0047": {
+    "sourceLine": 77,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c01/c01_n0048": {
+    "sourceLine": 77,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c02/c02_n0001": {
+    "sourceLine": 86,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0002": {
+    "sourceLine": 88,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0003": {
+    "sourceLine": 90,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0004": {
+    "sourceLine": 92,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0005": {
+    "sourceLine": 94,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c02/c02_n0006": {
+    "sourceLine": 94,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0007": {
+    "sourceLine": 96,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0008": {
+    "sourceLine": 98,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0009": {
+    "sourceLine": 100,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0010": {
+    "sourceLine": 102,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0011": {
+    "sourceLine": 102,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0012": {
+    "sourceLine": 102,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0013": {
+    "sourceLine": 104,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0014": {
+    "sourceLine": 106,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0015": {
+    "sourceLine": 108,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0016": {
+    "sourceLine": 108,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0017": {
+    "sourceLine": 108,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0018": {
+    "sourceLine": 110,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0019": {
+    "sourceLine": 110,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0020": {
+    "sourceLine": 110,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0021": {
+    "sourceLine": 112,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0022": {
+    "sourceLine": 114,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0023": {
+    "sourceLine": 116,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0024": {
+    "sourceLine": 118,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0025": {
+    "sourceLine": 120,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0026": {
+    "sourceLine": 122,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0027": {
+    "sourceLine": 124,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0028": {
+    "sourceLine": 126,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0029": {
+    "sourceLine": 128,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0030": {
+    "sourceLine": 130,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0031": {
+    "sourceLine": 132,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0032": {
+    "sourceLine": 134,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0033": {
+    "sourceLine": 136,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0034": {
+    "sourceLine": 140,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0035": {
+    "sourceLine": 142,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0036": {
+    "sourceLine": 144,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c02/c02_n0037": {
+    "sourceLine": 146,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0038": {
+    "sourceLine": 146,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0039": {
+    "sourceLine": 146,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0040": {
+    "sourceLine": 148,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0041": {
+    "sourceLine": 148,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0042": {
+    "sourceLine": 148,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0043": {
+    "sourceLine": 150,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0044": {
+    "sourceLine": 150,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0045": {
+    "sourceLine": 150,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0046": {
+    "sourceLine": 152,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0047": {
+    "sourceLine": 152,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0048": {
+    "sourceLine": 154,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0049": {
+    "sourceLine": 156,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0050": {
+    "sourceLine": 158,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0051": {
+    "sourceLine": 158,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0052": {
+    "sourceLine": 158,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0053": {
+    "sourceLine": 160,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0054": {
+    "sourceLine": 162,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0055": {
+    "sourceLine": 164,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0056": {
+    "sourceLine": 166,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0057": {
+    "sourceLine": 168,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0058": {
+    "sourceLine": 170,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0059": {
+    "sourceLine": 172,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c02/c02_n0060": {
+    "sourceLine": 172,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0061": {
+    "sourceLine": 174,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0062": {
+    "sourceLine": 174,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0063": {
+    "sourceLine": 176,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c02/c02_n0064": {
+    "sourceLine": 178,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c02/c02_n0065": {
+    "sourceLine": 178,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0066": {
+    "sourceLine": 178,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c02/c02_n0067": {
+    "sourceLine": 180,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0068": {
+    "sourceLine": 180,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0069": {
+    "sourceLine": 182,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0070": {
+    "sourceLine": 182,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0071": {
+    "sourceLine": 182,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0072": {
+    "sourceLine": 184,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0073": {
+    "sourceLine": 186,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c02/c02_n0074": {
+    "sourceLine": 186,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0075": {
+    "sourceLine": 186,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c02/c02_n0076": {
+    "sourceLine": 188,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0077": {
+    "sourceLine": 190,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0078": {
+    "sourceLine": 192,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0079": {
+    "sourceLine": 192,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0080": {
+    "sourceLine": 192,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0081": {
+    "sourceLine": 194,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0082": {
+    "sourceLine": 196,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0083": {
+    "sourceLine": 196,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0084": {
+    "sourceLine": 196,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0085": {
+    "sourceLine": 198,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0086": {
+    "sourceLine": 200,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0087": {
+    "sourceLine": 202,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0088": {
+    "sourceLine": 204,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c02/c02_n0089": {
+    "sourceLine": 206,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0090": {
+    "sourceLine": 208,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0091": {
+    "sourceLine": 208,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0092": {
+    "sourceLine": 208,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0093": {
+    "sourceLine": 210,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0094": {
+    "sourceLine": 210,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0095": {
+    "sourceLine": 212,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c02/c02_n0096": {
+    "sourceLine": 212,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0097": {
+    "sourceLine": 212,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0098": {
+    "sourceLine": 214,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0099": {
+    "sourceLine": 216,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0100": {
+    "sourceLine": 216,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c02/c02_n0101": {
+    "sourceLine": 218,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0102": {
+    "sourceLine": 218,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0103": {
+    "sourceLine": 220,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0104": {
+    "sourceLine": 220,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0105": {
+    "sourceLine": 222,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0106": {
+    "sourceLine": 222,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0107": {
+    "sourceLine": 222,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0108": {
+    "sourceLine": 224,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0109": {
+    "sourceLine": 226,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0110": {
+    "sourceLine": 228,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0111": {
+    "sourceLine": 230,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0112": {
+    "sourceLine": 232,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c02/c02_n0113": {
+    "sourceLine": 232,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0114": {
+    "sourceLine": 234,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c02/c02_n0115": {
+    "sourceLine": 236,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c02/c02_n0116": {
+    "sourceLine": 238,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c02/c02_n0117": {
+    "sourceLine": 238,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0118": {
+    "sourceLine": 238,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c02/c02_n0119": {
+    "sourceLine": 240,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c02/c02_n0120": {
+    "sourceLine": 242,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c03/c03_n0001": {
+    "sourceLine": 252,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0002": {
+    "sourceLine": 254,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0003": {
+    "sourceLine": 256,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0004": {
+    "sourceLine": 258,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0005": {
+    "sourceLine": 260,
+    "kind": "narration",
+    "speakerConfidence": "manual-narration"
+  },
+  "c03/c03_n0006": {
+    "sourceLine": 262,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0007": {
+    "sourceLine": 264,
+    "kind": "narration",
+    "speakerConfidence": "manual-narration"
+  },
+  "c03/c03_n0008": {
+    "sourceLine": 266,
+    "kind": "narration",
+    "speakerConfidence": "manual-narration"
+  },
+  "c03/c03_n0009": {
+    "sourceLine": 268,
+    "kind": "narration",
+    "speakerConfidence": "manual-narration"
+  },
+  "c03/c03_n0010": {
+    "sourceLine": 268,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0011": {
+    "sourceLine": 270,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0012": {
+    "sourceLine": 272,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0013": {
+    "sourceLine": 274,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0014": {
+    "sourceLine": 276,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0015": {
+    "sourceLine": 278,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0016": {
+    "sourceLine": 280,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0017": {
+    "sourceLine": 282,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c03/c03_n0018": {
+    "sourceLine": 286,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0019": {
+    "sourceLine": 288,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0020": {
+    "sourceLine": 290,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0021": {
+    "sourceLine": 290,
+    "kind": "narration",
+    "speakerConfidence": "manual-narration"
+  },
+  "c03/c03_n0022": {
+    "sourceLine": 290,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0023": {
+    "sourceLine": 292,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0024": {
+    "sourceLine": 294,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0025": {
+    "sourceLine": 296,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0026": {
+    "sourceLine": 298,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0027": {
+    "sourceLine": 300,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0028": {
+    "sourceLine": 302,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c03/c03_n0029": {
+    "sourceLine": 302,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0030": {
+    "sourceLine": 304,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0031": {
+    "sourceLine": 306,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0032": {
+    "sourceLine": 306,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c03/c03_n0033": {
+    "sourceLine": 306,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0034": {
+    "sourceLine": 308,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0035": {
+    "sourceLine": 310,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0036": {
+    "sourceLine": 312,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c03/c03_n0037": {
+    "sourceLine": 314,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0038": {
+    "sourceLine": 314,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c03/c03_n0039": {
+    "sourceLine": 314,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0040": {
+    "sourceLine": 316,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c03/c03_n0041": {
+    "sourceLine": 316,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0042": {
+    "sourceLine": 318,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c03/c03_n0043": {
+    "sourceLine": 318,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0044": {
+    "sourceLine": 318,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c03/c03_n0045": {
+    "sourceLine": 320,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0046": {
+    "sourceLine": 322,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0047": {
+    "sourceLine": 324,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0048": {
+    "sourceLine": 326,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c03/c03_n0049": {
+    "sourceLine": 326,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0050": {
+    "sourceLine": 328,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c03/c03_n0051": {
+    "sourceLine": 330,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c03/c03_n0052": {
+    "sourceLine": 332,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c03/c03_n0053": {
+    "sourceLine": 334,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0001": {
+    "sourceLine": 343,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0002": {
+    "sourceLine": 345,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0003": {
+    "sourceLine": 347,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0004": {
+    "sourceLine": 349,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0005": {
+    "sourceLine": 351,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0006": {
+    "sourceLine": 353,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0007": {
+    "sourceLine": 357,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0008": {
+    "sourceLine": 359,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0009": {
+    "sourceLine": 361,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0010": {
+    "sourceLine": 363,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0011": {
+    "sourceLine": 363,
+    "kind": "narration",
+    "speakerConfidence": "manual-narration"
+  },
+  "c04/c04_n0012": {
+    "sourceLine": 363,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0013": {
+    "sourceLine": 365,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0014": {
+    "sourceLine": 367,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0015": {
+    "sourceLine": 369,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0016": {
+    "sourceLine": 371,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0017": {
+    "sourceLine": 373,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0018": {
+    "sourceLine": 373,
+    "kind": "narration",
+    "speakerConfidence": "manual-narration"
+  },
+  "c04/c04_n0019": {
+    "sourceLine": 373,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0020": {
+    "sourceLine": 375,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0021": {
+    "sourceLine": 377,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c04/c04_n0022": {
+    "sourceLine": 377,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0023": {
+    "sourceLine": 379,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0024": {
+    "sourceLine": 381,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c04/c04_n0025": {
+    "sourceLine": 381,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0026": {
+    "sourceLine": 381,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0027": {
+    "sourceLine": 383,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0028": {
+    "sourceLine": 385,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0029": {
+    "sourceLine": 389,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0030": {
+    "sourceLine": 391,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0031": {
+    "sourceLine": 393,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c04/c04_n0032": {
+    "sourceLine": 393,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0033": {
+    "sourceLine": 395,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c04/c04_n0034": {
+    "sourceLine": 395,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0035": {
+    "sourceLine": 395,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c04/c04_n0036": {
+    "sourceLine": 397,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0037": {
+    "sourceLine": 399,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0038": {
+    "sourceLine": 401,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0039": {
+    "sourceLine": 403,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c04/c04_n0040": {
+    "sourceLine": 403,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0041": {
+    "sourceLine": 403,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c04/c04_n0042": {
+    "sourceLine": 405,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0043": {
+    "sourceLine": 405,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0044": {
+    "sourceLine": 405,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0045": {
+    "sourceLine": 407,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0046": {
+    "sourceLine": 409,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0047": {
+    "sourceLine": 413,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0048": {
+    "sourceLine": 415,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c04/c04_n0049": {
+    "sourceLine": 417,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0050": {
+    "sourceLine": 417,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0051": {
+    "sourceLine": 417,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0052": {
+    "sourceLine": 419,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0053": {
+    "sourceLine": 421,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0054": {
+    "sourceLine": 423,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0055": {
+    "sourceLine": 425,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0056": {
+    "sourceLine": 425,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0057": {
+    "sourceLine": 425,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0058": {
+    "sourceLine": 427,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0059": {
+    "sourceLine": 429,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0060": {
+    "sourceLine": 431,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0061": {
+    "sourceLine": 431,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0062": {
+    "sourceLine": 431,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0063": {
+    "sourceLine": 433,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0064": {
+    "sourceLine": 433,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0065": {
+    "sourceLine": 433,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0066": {
+    "sourceLine": 435,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0067": {
+    "sourceLine": 437,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0068": {
+    "sourceLine": 439,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0069": {
+    "sourceLine": 441,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c04/c04_n0070": {
+    "sourceLine": 441,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0071": {
+    "sourceLine": 441,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c04/c04_n0072": {
+    "sourceLine": 443,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0073": {
+    "sourceLine": 445,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0074": {
+    "sourceLine": 447,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0075": {
+    "sourceLine": 447,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0076": {
+    "sourceLine": 447,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0077": {
+    "sourceLine": 449,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0078": {
+    "sourceLine": 451,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0079": {
+    "sourceLine": 453,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0080": {
+    "sourceLine": 455,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0081": {
+    "sourceLine": 457,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c04/c04_n0082": {
+    "sourceLine": 457,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0083": {
+    "sourceLine": 457,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0084": {
+    "sourceLine": 459,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0085": {
+    "sourceLine": 461,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0086": {
+    "sourceLine": 463,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c04/c04_n0087": {
+    "sourceLine": 463,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0088": {
+    "sourceLine": 463,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0089": {
+    "sourceLine": 465,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0090": {
+    "sourceLine": 465,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0091": {
+    "sourceLine": 465,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0092": {
+    "sourceLine": 467,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0093": {
+    "sourceLine": 469,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c04/c04_n0094": {
+    "sourceLine": 469,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0095": {
+    "sourceLine": 469,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c04/c04_n0096": {
+    "sourceLine": 471,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0097": {
+    "sourceLine": 473,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c04/c04_n0098": {
+    "sourceLine": 473,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0099": {
+    "sourceLine": 473,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c04/c04_n0100": {
+    "sourceLine": 475,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0101": {
+    "sourceLine": 477,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c04/c04_n0102": {
+    "sourceLine": 477,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c04/c04_n0103": {
+    "sourceLine": 477,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0001": {
+    "sourceLine": 487,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0002": {
+    "sourceLine": 489,
+    "kind": "narration",
+    "speakerConfidence": "manual-narration"
+  },
+  "c05/c05_n0003": {
+    "sourceLine": 491,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0004": {
+    "sourceLine": 493,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0005": {
+    "sourceLine": 493,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0006": {
+    "sourceLine": 495,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0007": {
+    "sourceLine": 497,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0008": {
+    "sourceLine": 499,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0009": {
+    "sourceLine": 501,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0010": {
+    "sourceLine": 503,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0011": {
+    "sourceLine": 503,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0012": {
+    "sourceLine": 505,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0013": {
+    "sourceLine": 505,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0014": {
+    "sourceLine": 505,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0015": {
+    "sourceLine": 507,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0016": {
+    "sourceLine": 509,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0017": {
+    "sourceLine": 509,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0018": {
+    "sourceLine": 509,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0019": {
+    "sourceLine": 511,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0020": {
+    "sourceLine": 511,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0021": {
+    "sourceLine": 513,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0022": {
+    "sourceLine": 515,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0023": {
+    "sourceLine": 517,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0024": {
+    "sourceLine": 517,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0025": {
+    "sourceLine": 519,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0026": {
+    "sourceLine": 521,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0027": {
+    "sourceLine": 525,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0028": {
+    "sourceLine": 527,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0029": {
+    "sourceLine": 529,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0030": {
+    "sourceLine": 529,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0031": {
+    "sourceLine": 529,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0032": {
+    "sourceLine": 531,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0033": {
+    "sourceLine": 533,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0034": {
+    "sourceLine": 533,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0035": {
+    "sourceLine": 535,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0036": {
+    "sourceLine": 537,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0037": {
+    "sourceLine": 539,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0038": {
+    "sourceLine": 539,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0039": {
+    "sourceLine": 541,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0040": {
+    "sourceLine": 543,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0041": {
+    "sourceLine": 543,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0042": {
+    "sourceLine": 547,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0043": {
+    "sourceLine": 549,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0044": {
+    "sourceLine": 551,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0045": {
+    "sourceLine": 551,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0046": {
+    "sourceLine": 551,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0047": {
+    "sourceLine": 553,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0048": {
+    "sourceLine": 553,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0049": {
+    "sourceLine": 553,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0050": {
+    "sourceLine": 555,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0051": {
+    "sourceLine": 557,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0052": {
+    "sourceLine": 559,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0053": {
+    "sourceLine": 559,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0054": {
+    "sourceLine": 559,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0055": {
+    "sourceLine": 563,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0056": {
+    "sourceLine": 563,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0057": {
+    "sourceLine": 565,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0058": {
+    "sourceLine": 565,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0059": {
+    "sourceLine": 565,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0060": {
+    "sourceLine": 567,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0061": {
+    "sourceLine": 569,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0062": {
+    "sourceLine": 569,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0063": {
+    "sourceLine": 569,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0064": {
+    "sourceLine": 571,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0065": {
+    "sourceLine": 573,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0066": {
+    "sourceLine": 573,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0067": {
+    "sourceLine": 573,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0068": {
+    "sourceLine": 575,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0069": {
+    "sourceLine": 577,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0070": {
+    "sourceLine": 577,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0071": {
+    "sourceLine": 577,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0072": {
+    "sourceLine": 579,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0073": {
+    "sourceLine": 579,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0074": {
+    "sourceLine": 581,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0075": {
+    "sourceLine": 581,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0076": {
+    "sourceLine": 581,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0077": {
+    "sourceLine": 583,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0078": {
+    "sourceLine": 585,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0079": {
+    "sourceLine": 587,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0080": {
+    "sourceLine": 587,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0081": {
+    "sourceLine": 587,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0082": {
+    "sourceLine": 591,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0083": {
+    "sourceLine": 593,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0084": {
+    "sourceLine": 593,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0085": {
+    "sourceLine": 593,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0086": {
+    "sourceLine": 595,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0087": {
+    "sourceLine": 597,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0088": {
+    "sourceLine": 599,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0089": {
+    "sourceLine": 599,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0090": {
+    "sourceLine": 601,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0091": {
+    "sourceLine": 603,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0092": {
+    "sourceLine": 605,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0093": {
+    "sourceLine": 607,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0094": {
+    "sourceLine": 609,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0095": {
+    "sourceLine": 609,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0096": {
+    "sourceLine": 609,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0097": {
+    "sourceLine": 611,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0098": {
+    "sourceLine": 613,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0099": {
+    "sourceLine": 615,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c05/c05_n0100": {
+    "sourceLine": 615,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0101": {
+    "sourceLine": 617,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c05/c05_n0102": {
+    "sourceLine": 617,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0103": {
+    "sourceLine": 617,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c05/c05_n0104": {
+    "sourceLine": 619,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0105": {
+    "sourceLine": 619,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0106": {
+    "sourceLine": 619,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0107": {
+    "sourceLine": 621,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0108": {
+    "sourceLine": 621,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0109": {
+    "sourceLine": 621,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0110": {
+    "sourceLine": 623,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0111": {
+    "sourceLine": 625,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0112": {
+    "sourceLine": 629,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0113": {
+    "sourceLine": 631,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0114": {
+    "sourceLine": 631,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0115": {
+    "sourceLine": 633,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0116": {
+    "sourceLine": 635,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0117": {
+    "sourceLine": 635,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0118": {
+    "sourceLine": 635,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0119": {
+    "sourceLine": 637,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0120": {
+    "sourceLine": 639,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0121": {
+    "sourceLine": 641,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0122": {
+    "sourceLine": 643,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0123": {
+    "sourceLine": 643,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0124": {
+    "sourceLine": 643,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c05/c05_n0125": {
+    "sourceLine": 645,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0126": {
+    "sourceLine": 647,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0127": {
+    "sourceLine": 647,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0128": {
+    "sourceLine": 647,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0129": {
+    "sourceLine": 649,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0130": {
+    "sourceLine": 651,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c05/c05_n0131": {
+    "sourceLine": 651,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0132": {
+    "sourceLine": 651,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0133": {
+    "sourceLine": 653,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0134": {
+    "sourceLine": 655,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0135": {
+    "sourceLine": 657,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c05/c05_n0136": {
+    "sourceLine": 657,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c05/c05_n0137": {
+    "sourceLine": 657,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0001": {
+    "sourceLine": 666,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0002": {
+    "sourceLine": 668,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0003": {
+    "sourceLine": 670,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0004": {
+    "sourceLine": 672,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0005": {
+    "sourceLine": 674,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c06/c06_n0006": {
+    "sourceLine": 674,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0007": {
+    "sourceLine": 676,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0008": {
+    "sourceLine": 678,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0009": {
+    "sourceLine": 680,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0010": {
+    "sourceLine": 682,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0011": {
+    "sourceLine": 682,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c06/c06_n0012": {
+    "sourceLine": 682,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0013": {
+    "sourceLine": 684,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c06/c06_n0014": {
+    "sourceLine": 686,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0015": {
+    "sourceLine": 688,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0016": {
+    "sourceLine": 690,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0017": {
+    "sourceLine": 692,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c06/c06_n0018": {
+    "sourceLine": 694,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0019": {
+    "sourceLine": 696,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0020": {
+    "sourceLine": 698,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0021": {
+    "sourceLine": 700,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c06/c06_n0022": {
+    "sourceLine": 702,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0023": {
+    "sourceLine": 702,
+    "kind": "narration",
+    "speakerConfidence": "manual-narration"
+  },
+  "c06/c06_n0024": {
+    "sourceLine": 702,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0025": {
+    "sourceLine": 704,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0026": {
+    "sourceLine": 706,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0027": {
+    "sourceLine": 708,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0028": {
+    "sourceLine": 710,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0029": {
+    "sourceLine": 712,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c06/c06_n0030": {
+    "sourceLine": 712,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0031": {
+    "sourceLine": 712,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c06/c06_n0032": {
+    "sourceLine": 714,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c06/c06_n0033": {
+    "sourceLine": 714,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0034": {
+    "sourceLine": 714,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c06/c06_n0035": {
+    "sourceLine": 716,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0036": {
+    "sourceLine": 716,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0037": {
+    "sourceLine": 718,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0038": {
+    "sourceLine": 720,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0039": {
+    "sourceLine": 722,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0040": {
+    "sourceLine": 724,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0041": {
+    "sourceLine": 724,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0042": {
+    "sourceLine": 724,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0043": {
+    "sourceLine": 726,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0044": {
+    "sourceLine": 728,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0045": {
+    "sourceLine": 728,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0046": {
+    "sourceLine": 728,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0047": {
+    "sourceLine": 730,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0048": {
+    "sourceLine": 732,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0049": {
+    "sourceLine": 734,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0050": {
+    "sourceLine": 734,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0051": {
+    "sourceLine": 734,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0052": {
+    "sourceLine": 736,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0053": {
+    "sourceLine": 738,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0054": {
+    "sourceLine": 740,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0055": {
+    "sourceLine": 742,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0056": {
+    "sourceLine": 744,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0057": {
+    "sourceLine": 746,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0058": {
+    "sourceLine": 748,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0059": {
+    "sourceLine": 748,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0060": {
+    "sourceLine": 750,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0061": {
+    "sourceLine": 750,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0062": {
+    "sourceLine": 750,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0063": {
+    "sourceLine": 752,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0064": {
+    "sourceLine": 754,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0065": {
+    "sourceLine": 754,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0066": {
+    "sourceLine": 756,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0067": {
+    "sourceLine": 758,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0068": {
+    "sourceLine": 760,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0069": {
+    "sourceLine": 762,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0070": {
+    "sourceLine": 764,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0071": {
+    "sourceLine": 764,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0072": {
+    "sourceLine": 764,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0073": {
+    "sourceLine": 766,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0074": {
+    "sourceLine": 768,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0075": {
+    "sourceLine": 768,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0076": {
+    "sourceLine": 768,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0077": {
+    "sourceLine": 770,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0078": {
+    "sourceLine": 772,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0079": {
+    "sourceLine": 774,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0080": {
+    "sourceLine": 774,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0081": {
+    "sourceLine": 774,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0082": {
+    "sourceLine": 776,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c06/c06_n0083": {
+    "sourceLine": 776,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0084": {
+    "sourceLine": 778,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0085": {
+    "sourceLine": 780,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0086": {
+    "sourceLine": 782,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0087": {
+    "sourceLine": 784,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0088": {
+    "sourceLine": 784,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0089": {
+    "sourceLine": 786,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0090": {
+    "sourceLine": 788,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0091": {
+    "sourceLine": 790,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0092": {
+    "sourceLine": 792,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0093": {
+    "sourceLine": 794,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0094": {
+    "sourceLine": 796,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c06/c06_n0095": {
+    "sourceLine": 798,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0096": {
+    "sourceLine": 800,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0097": {
+    "sourceLine": 800,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0098": {
+    "sourceLine": 800,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0099": {
+    "sourceLine": 802,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0100": {
+    "sourceLine": 804,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0101": {
+    "sourceLine": 806,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0102": {
+    "sourceLine": 808,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0103": {
+    "sourceLine": 808,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0104": {
+    "sourceLine": 810,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c06/c06_n0105": {
+    "sourceLine": 810,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0106": {
+    "sourceLine": 810,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c06/c06_n0107": {
+    "sourceLine": 812,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0108": {
+    "sourceLine": 812,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0109": {
+    "sourceLine": 812,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0110": {
+    "sourceLine": 814,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0111": {
+    "sourceLine": 816,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0112": {
+    "sourceLine": 816,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0113": {
+    "sourceLine": 816,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0114": {
+    "sourceLine": 818,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0115": {
+    "sourceLine": 820,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0116": {
+    "sourceLine": 822,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0117": {
+    "sourceLine": 824,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0118": {
+    "sourceLine": 826,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0119": {
+    "sourceLine": 828,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c06/c06_n0120": {
+    "sourceLine": 828,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0121": {
+    "sourceLine": 830,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0122": {
+    "sourceLine": 832,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0123": {
+    "sourceLine": 832,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0124": {
+    "sourceLine": 832,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0125": {
+    "sourceLine": 834,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0126": {
+    "sourceLine": 836,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0127": {
+    "sourceLine": 836,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0128": {
+    "sourceLine": 836,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0129": {
+    "sourceLine": 838,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0130": {
+    "sourceLine": 840,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0131": {
+    "sourceLine": 840,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0132": {
+    "sourceLine": 840,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0133": {
+    "sourceLine": 842,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0134": {
+    "sourceLine": 844,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c06/c06_n0135": {
+    "sourceLine": 846,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0136": {
+    "sourceLine": 846,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c06/c06_n0137": {
+    "sourceLine": 846,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c06/c06_n0138": {
+    "sourceLine": 848,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0001": {
+    "sourceLine": 857,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0002": {
+    "sourceLine": 859,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0003": {
+    "sourceLine": 861,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0004": {
+    "sourceLine": 863,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0005": {
+    "sourceLine": 865,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0006": {
+    "sourceLine": 867,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0007": {
+    "sourceLine": 867,
+    "kind": "narration",
+    "speakerConfidence": "manual-narration"
+  },
+  "c07/c07_n0008": {
+    "sourceLine": 867,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0009": {
+    "sourceLine": 869,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0010": {
+    "sourceLine": 871,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0011": {
+    "sourceLine": 871,
+    "kind": "narration",
+    "speakerConfidence": "manual-narration"
+  },
+  "c07/c07_n0012": {
+    "sourceLine": 871,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0013": {
+    "sourceLine": 873,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0014": {
+    "sourceLine": 877,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0015": {
+    "sourceLine": 879,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0016": {
+    "sourceLine": 881,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c07/c07_n0017": {
+    "sourceLine": 883,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c07/c07_n0018": {
+    "sourceLine": 883,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0019": {
+    "sourceLine": 883,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c07/c07_n0020": {
+    "sourceLine": 885,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c07/c07_n0021": {
+    "sourceLine": 887,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0022": {
+    "sourceLine": 889,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0023": {
+    "sourceLine": 891,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c07/c07_n0024": {
+    "sourceLine": 891,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0025": {
+    "sourceLine": 891,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c07/c07_n0026": {
+    "sourceLine": 893,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0027": {
+    "sourceLine": 895,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0028": {
+    "sourceLine": 895,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0029": {
+    "sourceLine": 895,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0030": {
+    "sourceLine": 897,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c07/c07_n0031": {
+    "sourceLine": 897,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0032": {
+    "sourceLine": 897,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0033": {
+    "sourceLine": 899,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0034": {
+    "sourceLine": 901,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0035": {
+    "sourceLine": 903,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0036": {
+    "sourceLine": 903,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0037": {
+    "sourceLine": 903,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0038": {
+    "sourceLine": 905,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0039": {
+    "sourceLine": 905,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0040": {
+    "sourceLine": 905,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0041": {
+    "sourceLine": 907,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0042": {
+    "sourceLine": 909,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0043": {
+    "sourceLine": 909,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0044": {
+    "sourceLine": 911,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0045": {
+    "sourceLine": 913,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0046": {
+    "sourceLine": 913,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0047": {
+    "sourceLine": 913,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0048": {
+    "sourceLine": 915,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0049": {
+    "sourceLine": 917,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0050": {
+    "sourceLine": 917,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0051": {
+    "sourceLine": 917,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0052": {
+    "sourceLine": 921,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0053": {
+    "sourceLine": 923,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0054": {
+    "sourceLine": 925,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c07/c07_n0055": {
+    "sourceLine": 925,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0056": {
+    "sourceLine": 925,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c07/c07_n0057": {
+    "sourceLine": 927,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0058": {
+    "sourceLine": 929,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0059": {
+    "sourceLine": 929,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0060": {
+    "sourceLine": 929,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0061": {
+    "sourceLine": 931,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0062": {
+    "sourceLine": 933,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0063": {
+    "sourceLine": 933,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0064": {
+    "sourceLine": 933,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0065": {
+    "sourceLine": 935,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0066": {
+    "sourceLine": 935,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0067": {
+    "sourceLine": 935,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0068": {
+    "sourceLine": 937,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0069": {
+    "sourceLine": 937,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0070": {
+    "sourceLine": 939,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0071": {
+    "sourceLine": 941,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0072": {
+    "sourceLine": 943,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0073": {
+    "sourceLine": 945,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0074": {
+    "sourceLine": 947,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0075": {
+    "sourceLine": 947,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0076": {
+    "sourceLine": 947,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0077": {
+    "sourceLine": 949,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0078": {
+    "sourceLine": 951,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0079": {
+    "sourceLine": 953,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0080": {
+    "sourceLine": 955,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0081": {
+    "sourceLine": 955,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0082": {
+    "sourceLine": 955,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0083": {
+    "sourceLine": 957,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0084": {
+    "sourceLine": 957,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0085": {
+    "sourceLine": 957,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0086": {
+    "sourceLine": 959,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0087": {
+    "sourceLine": 961,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0088": {
+    "sourceLine": 963,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0089": {
+    "sourceLine": 965,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0090": {
+    "sourceLine": 965,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0091": {
+    "sourceLine": 965,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0092": {
+    "sourceLine": 967,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0093": {
+    "sourceLine": 969,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0094": {
+    "sourceLine": 971,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0095": {
+    "sourceLine": 973,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0096": {
+    "sourceLine": 973,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0097": {
+    "sourceLine": 973,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0098": {
+    "sourceLine": 975,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0099": {
+    "sourceLine": 977,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0100": {
+    "sourceLine": 979,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0101": {
+    "sourceLine": 981,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c07/c07_n0102": {
+    "sourceLine": 981,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0103": {
+    "sourceLine": 983,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c07/c07_n0104": {
+    "sourceLine": 983,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0105": {
+    "sourceLine": 983,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c07/c07_n0106": {
+    "sourceLine": 985,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0107": {
+    "sourceLine": 987,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0108": {
+    "sourceLine": 987,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0109": {
+    "sourceLine": 987,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0110": {
+    "sourceLine": 991,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0111": {
+    "sourceLine": 993,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0112": {
+    "sourceLine": 993,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0113": {
+    "sourceLine": 993,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0114": {
+    "sourceLine": 995,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0115": {
+    "sourceLine": 997,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0116": {
+    "sourceLine": 997,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0117": {
+    "sourceLine": 997,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0118": {
+    "sourceLine": 999,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c07/c07_n0119": {
+    "sourceLine": 999,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0120": {
+    "sourceLine": 1001,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0121": {
+    "sourceLine": 1003,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0122": {
+    "sourceLine": 1005,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0123": {
+    "sourceLine": 1007,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0124": {
+    "sourceLine": 1009,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0125": {
+    "sourceLine": 1009,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0126": {
+    "sourceLine": 1009,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0127": {
+    "sourceLine": 1011,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0128": {
+    "sourceLine": 1013,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0129": {
+    "sourceLine": 1015,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0130": {
+    "sourceLine": 1017,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0131": {
+    "sourceLine": 1019,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0132": {
+    "sourceLine": 1019,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0133": {
+    "sourceLine": 1019,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0134": {
+    "sourceLine": 1021,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0135": {
+    "sourceLine": 1023,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0136": {
+    "sourceLine": 1025,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0137": {
+    "sourceLine": 1027,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0138": {
+    "sourceLine": 1027,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0139": {
+    "sourceLine": 1027,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0140": {
+    "sourceLine": 1029,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0141": {
+    "sourceLine": 1029,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0142": {
+    "sourceLine": 1029,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0143": {
+    "sourceLine": 1031,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0144": {
+    "sourceLine": 1033,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0145": {
+    "sourceLine": 1035,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0146": {
+    "sourceLine": 1037,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0147": {
+    "sourceLine": 1039,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0148": {
+    "sourceLine": 1041,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c07/c07_n0149": {
+    "sourceLine": 1041,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0150": {
+    "sourceLine": 1043,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0151": {
+    "sourceLine": 1045,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c07/c07_n0152": {
+    "sourceLine": 1045,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0153": {
+    "sourceLine": 1045,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c07/c07_n0154": {
+    "sourceLine": 1047,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0155": {
+    "sourceLine": 1049,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0156": {
+    "sourceLine": 1049,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0157": {
+    "sourceLine": 1049,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c07/c07_n0158": {
+    "sourceLine": 1051,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0159": {
+    "sourceLine": 1053,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0160": {
+    "sourceLine": 1053,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c07/c07_n0161": {
+    "sourceLine": 1053,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c07/c07_n0162": {
+    "sourceLine": 1055,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0001": {
+    "sourceLine": 1065,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0002": {
+    "sourceLine": 1067,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0003": {
+    "sourceLine": 1069,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0004": {
+    "sourceLine": 1071,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0005": {
+    "sourceLine": 1073,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0006": {
+    "sourceLine": 1075,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0007": {
+    "sourceLine": 1077,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0008": {
+    "sourceLine": 1079,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0009": {
+    "sourceLine": 1081,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0010": {
+    "sourceLine": 1083,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0011": {
+    "sourceLine": 1085,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0012": {
+    "sourceLine": 1087,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0013": {
+    "sourceLine": 1089,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0014": {
+    "sourceLine": 1091,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c08/c08_n0015": {
+    "sourceLine": 1093,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0016": {
+    "sourceLine": 1093,
+    "kind": "narration",
+    "speakerConfidence": "manual-narration"
+  },
+  "c08/c08_n0017": {
+    "sourceLine": 1093,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0018": {
+    "sourceLine": 1095,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0019": {
+    "sourceLine": 1097,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0020": {
+    "sourceLine": 1099,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0021": {
+    "sourceLine": 1103,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0022": {
+    "sourceLine": 1105,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0023": {
+    "sourceLine": 1107,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c08/c08_n0024": {
+    "sourceLine": 1107,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0025": {
+    "sourceLine": 1109,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c08/c08_n0026": {
+    "sourceLine": 1109,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0027": {
+    "sourceLine": 1109,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c08/c08_n0028": {
+    "sourceLine": 1111,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0029": {
+    "sourceLine": 1113,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0030": {
+    "sourceLine": 1115,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0031": {
+    "sourceLine": 1117,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0032": {
+    "sourceLine": 1117,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0033": {
+    "sourceLine": 1117,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0034": {
+    "sourceLine": 1119,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0035": {
+    "sourceLine": 1121,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0036": {
+    "sourceLine": 1123,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0037": {
+    "sourceLine": 1123,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0038": {
+    "sourceLine": 1123,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0039": {
+    "sourceLine": 1125,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0040": {
+    "sourceLine": 1125,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0041": {
+    "sourceLine": 1125,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0042": {
+    "sourceLine": 1127,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0043": {
+    "sourceLine": 1129,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0044": {
+    "sourceLine": 1131,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c08/c08_n0045": {
+    "sourceLine": 1131,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0046": {
+    "sourceLine": 1133,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c08/c08_n0047": {
+    "sourceLine": 1133,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0048": {
+    "sourceLine": 1133,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c08/c08_n0049": {
+    "sourceLine": 1137,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0050": {
+    "sourceLine": 1139,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0051": {
+    "sourceLine": 1141,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0052": {
+    "sourceLine": 1143,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c08/c08_n0053": {
+    "sourceLine": 1143,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0054": {
+    "sourceLine": 1143,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c08/c08_n0055": {
+    "sourceLine": 1145,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0056": {
+    "sourceLine": 1145,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0057": {
+    "sourceLine": 1145,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0058": {
+    "sourceLine": 1147,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0059": {
+    "sourceLine": 1149,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0060": {
+    "sourceLine": 1151,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0061": {
+    "sourceLine": 1151,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0062": {
+    "sourceLine": 1151,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0063": {
+    "sourceLine": 1153,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0064": {
+    "sourceLine": 1153,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0065": {
+    "sourceLine": 1153,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0066": {
+    "sourceLine": 1155,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0067": {
+    "sourceLine": 1157,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c08/c08_n0068": {
+    "sourceLine": 1157,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0069": {
+    "sourceLine": 1157,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c08/c08_n0070": {
+    "sourceLine": 1159,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0071": {
+    "sourceLine": 1161,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0072": {
+    "sourceLine": 1163,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c08/c08_n0073": {
+    "sourceLine": 1163,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0074": {
+    "sourceLine": 1163,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c08/c08_n0075": {
+    "sourceLine": 1165,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0076": {
+    "sourceLine": 1165,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0077": {
+    "sourceLine": 1165,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0078": {
+    "sourceLine": 1167,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0079": {
+    "sourceLine": 1169,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0080": {
+    "sourceLine": 1171,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0081": {
+    "sourceLine": 1173,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c08/c08_n0082": {
+    "sourceLine": 1173,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0083": {
+    "sourceLine": 1175,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0084": {
+    "sourceLine": 1175,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0085": {
+    "sourceLine": 1175,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0086": {
+    "sourceLine": 1177,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c08/c08_n0087": {
+    "sourceLine": 1177,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0088": {
+    "sourceLine": 1179,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c08/c08_n0089": {
+    "sourceLine": 1179,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0090": {
+    "sourceLine": 1179,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c08/c08_n0091": {
+    "sourceLine": 1183,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0092": {
+    "sourceLine": 1185,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0093": {
+    "sourceLine": 1187,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c08/c08_n0094": {
+    "sourceLine": 1187,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0095": {
+    "sourceLine": 1189,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0096": {
+    "sourceLine": 1189,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0097": {
+    "sourceLine": 1189,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0098": {
+    "sourceLine": 1191,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0099": {
+    "sourceLine": 1193,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0100": {
+    "sourceLine": 1193,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0101": {
+    "sourceLine": 1193,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0102": {
+    "sourceLine": 1195,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0103": {
+    "sourceLine": 1195,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0104": {
+    "sourceLine": 1197,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0105": {
+    "sourceLine": 1197,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0106": {
+    "sourceLine": 1197,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0107": {
+    "sourceLine": 1199,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0108": {
+    "sourceLine": 1201,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0109": {
+    "sourceLine": 1203,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c08/c08_n0110": {
+    "sourceLine": 1203,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0111": {
+    "sourceLine": 1203,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c08/c08_n0112": {
+    "sourceLine": 1207,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0113": {
+    "sourceLine": 1209,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c08/c08_n0114": {
+    "sourceLine": 1209,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0115": {
+    "sourceLine": 1211,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0116": {
+    "sourceLine": 1213,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0117": {
+    "sourceLine": 1215,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0118": {
+    "sourceLine": 1217,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0119": {
+    "sourceLine": 1217,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0120": {
+    "sourceLine": 1217,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0121": {
+    "sourceLine": 1219,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0122": {
+    "sourceLine": 1221,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0123": {
+    "sourceLine": 1223,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0124": {
+    "sourceLine": 1225,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0125": {
+    "sourceLine": 1227,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0126": {
+    "sourceLine": 1229,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0127": {
+    "sourceLine": 1231,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0128": {
+    "sourceLine": 1233,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0129": {
+    "sourceLine": 1233,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0130": {
+    "sourceLine": 1233,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0131": {
+    "sourceLine": 1235,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0132": {
+    "sourceLine": 1237,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0133": {
+    "sourceLine": 1239,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0134": {
+    "sourceLine": 1241,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c08/c08_n0135": {
+    "sourceLine": 1241,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0136": {
+    "sourceLine": 1241,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c08/c08_n0137": {
+    "sourceLine": 1243,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0138": {
+    "sourceLine": 1243,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0139": {
+    "sourceLine": 1243,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0140": {
+    "sourceLine": 1245,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0141": {
+    "sourceLine": 1247,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0142": {
+    "sourceLine": 1249,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0143": {
+    "sourceLine": 1251,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0144": {
+    "sourceLine": 1253,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0145": {
+    "sourceLine": 1255,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c08/c08_n0146": {
+    "sourceLine": 1255,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0147": {
+    "sourceLine": 1257,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0148": {
+    "sourceLine": 1259,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0149": {
+    "sourceLine": 1259,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0150": {
+    "sourceLine": 1259,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0151": {
+    "sourceLine": 1261,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0152": {
+    "sourceLine": 1261,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0153": {
+    "sourceLine": 1261,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c08/c08_n0154": {
+    "sourceLine": 1263,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0155": {
+    "sourceLine": 1265,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c08/c08_n0156": {
+    "sourceLine": 1265,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0157": {
+    "sourceLine": 1265,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c08/c08_n0158": {
+    "sourceLine": 1267,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0159": {
+    "sourceLine": 1269,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c08/c08_n0160": {
+    "sourceLine": 1269,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c08/c08_n0161": {
+    "sourceLine": 1269,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c08/c08_n0162": {
+    "sourceLine": 1271,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0001": {
+    "sourceLine": 1280,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0002": {
+    "sourceLine": 1282,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0003": {
+    "sourceLine": 1284,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0004": {
+    "sourceLine": 1286,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0005": {
+    "sourceLine": 1288,
+    "kind": "narration",
+    "speakerConfidence": "manual-narration"
+  },
+  "c09/c09_n0006": {
+    "sourceLine": 1288,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0007": {
+    "sourceLine": 1290,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0008": {
+    "sourceLine": 1292,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0009": {
+    "sourceLine": 1294,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0010": {
+    "sourceLine": 1296,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0011": {
+    "sourceLine": 1300,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0012": {
+    "sourceLine": 1302,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0013": {
+    "sourceLine": 1304,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c09/c09_n0014": {
+    "sourceLine": 1306,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c09/c09_n0015": {
+    "sourceLine": 1306,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0016": {
+    "sourceLine": 1308,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0017": {
+    "sourceLine": 1310,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0018": {
+    "sourceLine": 1312,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0019": {
+    "sourceLine": 1314,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0020": {
+    "sourceLine": 1316,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0021": {
+    "sourceLine": 1316,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0022": {
+    "sourceLine": 1316,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0023": {
+    "sourceLine": 1318,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0024": {
+    "sourceLine": 1320,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c09/c09_n0025": {
+    "sourceLine": 1320,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0026": {
+    "sourceLine": 1320,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c09/c09_n0027": {
+    "sourceLine": 1322,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0028": {
+    "sourceLine": 1324,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0029": {
+    "sourceLine": 1324,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0030": {
+    "sourceLine": 1326,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0031": {
+    "sourceLine": 1326,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0032": {
+    "sourceLine": 1326,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0033": {
+    "sourceLine": 1328,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0034": {
+    "sourceLine": 1330,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c09/c09_n0035": {
+    "sourceLine": 1330,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0036": {
+    "sourceLine": 1332,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0037": {
+    "sourceLine": 1334,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c09/c09_n0038": {
+    "sourceLine": 1334,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0039": {
+    "sourceLine": 1334,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c09/c09_n0040": {
+    "sourceLine": 1338,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0041": {
+    "sourceLine": 1340,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0042": {
+    "sourceLine": 1342,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0043": {
+    "sourceLine": 1342,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0044": {
+    "sourceLine": 1342,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0045": {
+    "sourceLine": 1344,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0046": {
+    "sourceLine": 1346,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0047": {
+    "sourceLine": 1348,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0048": {
+    "sourceLine": 1350,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0049": {
+    "sourceLine": 1350,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0050": {
+    "sourceLine": 1350,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0051": {
+    "sourceLine": 1352,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c09/c09_n0052": {
+    "sourceLine": 1352,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0053": {
+    "sourceLine": 1354,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c09/c09_n0054": {
+    "sourceLine": 1354,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0055": {
+    "sourceLine": 1354,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c09/c09_n0056": {
+    "sourceLine": 1356,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0057": {
+    "sourceLine": 1358,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0058": {
+    "sourceLine": 1360,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0059": {
+    "sourceLine": 1362,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0060": {
+    "sourceLine": 1364,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c09/c09_n0061": {
+    "sourceLine": 1364,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0062": {
+    "sourceLine": 1366,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c09/c09_n0063": {
+    "sourceLine": 1366,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0064": {
+    "sourceLine": 1366,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c09/c09_n0065": {
+    "sourceLine": 1368,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0066": {
+    "sourceLine": 1370,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0067": {
+    "sourceLine": 1372,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0068": {
+    "sourceLine": 1374,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0069": {
+    "sourceLine": 1376,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c09/c09_n0070": {
+    "sourceLine": 1376,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0071": {
+    "sourceLine": 1378,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c09/c09_n0072": {
+    "sourceLine": 1378,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0073": {
+    "sourceLine": 1378,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c09/c09_n0074": {
+    "sourceLine": 1380,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0075": {
+    "sourceLine": 1382,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c09/c09_n0076": {
+    "sourceLine": 1382,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0077": {
+    "sourceLine": 1384,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0078": {
+    "sourceLine": 1386,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0079": {
+    "sourceLine": 1388,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0080": {
+    "sourceLine": 1390,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0081": {
+    "sourceLine": 1392,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c09/c09_n0082": {
+    "sourceLine": 1392,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0083": {
+    "sourceLine": 1394,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0084": {
+    "sourceLine": 1394,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0085": {
+    "sourceLine": 1394,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0086": {
+    "sourceLine": 1398,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0087": {
+    "sourceLine": 1400,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0088": {
+    "sourceLine": 1402,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0089": {
+    "sourceLine": 1402,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0090": {
+    "sourceLine": 1402,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0091": {
+    "sourceLine": 1404,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c09/c09_n0092": {
+    "sourceLine": 1404,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0093": {
+    "sourceLine": 1406,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0094": {
+    "sourceLine": 1408,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0095": {
+    "sourceLine": 1410,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0096": {
+    "sourceLine": 1412,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0097": {
+    "sourceLine": 1414,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0098": {
+    "sourceLine": 1416,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0099": {
+    "sourceLine": 1416,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0100": {
+    "sourceLine": 1416,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0101": {
+    "sourceLine": 1418,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0102": {
+    "sourceLine": 1420,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0103": {
+    "sourceLine": 1422,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0104": {
+    "sourceLine": 1424,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0105": {
+    "sourceLine": 1426,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0106": {
+    "sourceLine": 1428,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0107": {
+    "sourceLine": 1428,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0108": {
+    "sourceLine": 1430,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0109": {
+    "sourceLine": 1432,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0110": {
+    "sourceLine": 1434,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0111": {
+    "sourceLine": 1436,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c09/c09_n0112": {
+    "sourceLine": 1436,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0113": {
+    "sourceLine": 1436,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c09/c09_n0114": {
+    "sourceLine": 1438,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0115": {
+    "sourceLine": 1438,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0116": {
+    "sourceLine": 1438,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0117": {
+    "sourceLine": 1440,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0118": {
+    "sourceLine": 1442,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0119": {
+    "sourceLine": 1444,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0120": {
+    "sourceLine": 1446,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0121": {
+    "sourceLine": 1448,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0122": {
+    "sourceLine": 1450,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c09/c09_n0123": {
+    "sourceLine": 1450,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0124": {
+    "sourceLine": 1452,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0125": {
+    "sourceLine": 1454,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0126": {
+    "sourceLine": 1456,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "pronoun"
+  },
+  "c09/c09_n0127": {
+    "sourceLine": 1456,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0128": {
+    "sourceLine": 1458,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c09/c09_n0129": {
+    "sourceLine": 1458,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0130": {
+    "sourceLine": 1460,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c09/c09_n0131": {
+    "sourceLine": 1460,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0132": {
+    "sourceLine": 1460,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "previous-line-cue"
+  },
+  "c09/c09_n0133": {
+    "sourceLine": 1462,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0134": {
+    "sourceLine": 1462,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0135": {
+    "sourceLine": 1464,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "inferred-alternation"
+  },
+  "c09/c09_n0136": {
+    "sourceLine": 1464,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c09/c09_n0137": {
+    "sourceLine": 1466,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0001": {
+    "sourceLine": 1472,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0002": {
+    "sourceLine": 1474,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0003": {
+    "sourceLine": 1476,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0004": {
+    "sourceLine": 1476,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0005": {
+    "sourceLine": 1478,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0006": {
+    "sourceLine": 1478,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0007": {
+    "sourceLine": 1478,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0008": {
+    "sourceLine": 1480,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0009": {
+    "sourceLine": 1482,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0010": {
+    "sourceLine": 1482,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0011": {
+    "sourceLine": 1482,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0012": {
+    "sourceLine": 1484,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0013": {
+    "sourceLine": 1484,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0014": {
+    "sourceLine": 1486,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0015": {
+    "sourceLine": 1486,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0016": {
+    "sourceLine": 1488,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0017": {
+    "sourceLine": 1488,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0018": {
+    "sourceLine": 1490,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0019": {
+    "sourceLine": 1492,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0020": {
+    "sourceLine": 1492,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0021": {
+    "sourceLine": 1494,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0022": {
+    "sourceLine": 1494,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0023": {
+    "sourceLine": 1494,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0024": {
+    "sourceLine": 1496,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0025": {
+    "sourceLine": 1496,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0026": {
+    "sourceLine": 1498,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0027": {
+    "sourceLine": 1498,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0028": {
+    "sourceLine": 1500,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0029": {
+    "sourceLine": 1502,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0030": {
+    "sourceLine": 1502,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0031": {
+    "sourceLine": 1504,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0032": {
+    "sourceLine": 1504,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0033": {
+    "sourceLine": 1504,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0034": {
+    "sourceLine": 1506,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0035": {
+    "sourceLine": 1508,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0036": {
+    "sourceLine": 1508,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0037": {
+    "sourceLine": 1510,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0038": {
+    "sourceLine": 1510,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0039": {
+    "sourceLine": 1512,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0040": {
+    "sourceLine": 1512,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0041": {
+    "sourceLine": 1512,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0042": {
+    "sourceLine": 1514,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0043": {
+    "sourceLine": 1514,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0044": {
+    "sourceLine": 1514,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0045": {
+    "sourceLine": 1516,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0046": {
+    "sourceLine": 1518,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0047": {
+    "sourceLine": 1518,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0048": {
+    "sourceLine": 1520,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0049": {
+    "sourceLine": 1522,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0050": {
+    "sourceLine": 1524,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0051": {
+    "sourceLine": 1524,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0052": {
+    "sourceLine": 1526,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0053": {
+    "sourceLine": 1528,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0054": {
+    "sourceLine": 1528,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0055": {
+    "sourceLine": 1528,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0056": {
+    "sourceLine": 1530,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0057": {
+    "sourceLine": 1530,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0058": {
+    "sourceLine": 1530,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0059": {
+    "sourceLine": 1532,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0060": {
+    "sourceLine": 1532,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0061": {
+    "sourceLine": 1532,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0062": {
+    "sourceLine": 1534,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0063": {
+    "sourceLine": 1534,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0064": {
+    "sourceLine": 1534,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0065": {
+    "sourceLine": 1536,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0066": {
+    "sourceLine": 1538,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0067": {
+    "sourceLine": 1538,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0068": {
+    "sourceLine": 1540,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0069": {
+    "sourceLine": 1542,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0070": {
+    "sourceLine": 1542,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0071": {
+    "sourceLine": 1542,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0072": {
+    "sourceLine": 1544,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0073": {
+    "sourceLine": 1546,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0074": {
+    "sourceLine": 1548,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0075": {
+    "sourceLine": 1550,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0076": {
+    "sourceLine": 1550,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0077": {
+    "sourceLine": 1552,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0078": {
+    "sourceLine": 1554,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0079": {
+    "sourceLine": 1554,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0080": {
+    "sourceLine": 1554,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0081": {
+    "sourceLine": 1556,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0082": {
+    "sourceLine": 1556,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0083": {
+    "sourceLine": 1556,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0084": {
+    "sourceLine": 1558,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0085": {
+    "sourceLine": 1558,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0086": {
+    "sourceLine": 1558,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "explicit-name"
+  },
+  "c10/c10_n0087": {
+    "sourceLine": 1560,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0088": {
+    "sourceLine": 1562,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0089": {
+    "sourceLine": 1562,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0090": {
+    "sourceLine": 1562,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0091": {
+    "sourceLine": 1564,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0092": {
+    "sourceLine": 1566,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0093": {
+    "sourceLine": 1566,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0094": {
+    "sourceLine": 1566,
+    "kind": "quoted-dialogue",
+    "speakerConfidence": "manual-context"
+  },
+  "c10/c10_n0095": {
+    "sourceLine": 1568,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0096": {
+    "sourceLine": 1570,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  },
+  "c10/c10_n0097": {
+    "sourceLine": 1572,
+    "kind": "narration",
+    "speakerConfidence": "not-applicable"
+  }
+}

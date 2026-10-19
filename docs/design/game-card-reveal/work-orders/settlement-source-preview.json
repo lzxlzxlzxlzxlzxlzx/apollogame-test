@@ -1,0 +1,22 @@
+{
+  "provenance": "DokiWorlds/frontend/tests/browser/layout/settlement.tsx clear preview; not a production reward or a valid HTTPS host payload",
+  "presentationId": "preview-clear",
+  "packLook": {
+    "packId": "preview",
+    "title": "哈利·波特",
+    "coverSource": "DokiWorlds/frontend/public/assets/covers/neon-harbor-preview.webp",
+    "titleLogoSource": null
+  },
+  "cards": [
+    {
+      "id": "preview-clear",
+      "kind": "event",
+      "name": "哈利·波特 · 通关纪念",
+      "description": "完成全部主线",
+      "rarity": "epic",
+      "packId": "preview",
+      "worldTitle": "哈利·波特",
+      "imageSource": "DokiWorlds/frontend/public/assets/covers/neon-harbor-preview.webp"
+    }
+  ]
+}

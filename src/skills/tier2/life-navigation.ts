@@ -14,6 +14,7 @@ function reject(world: IWorld, what: string, why: string): void { const trace = 
 function sceneById(world: IWorld, sceneId: string): LifeScene | undefined { for (const [id] of world.query('LifeScene')) { const scene = world.getComponent<LifeScene>(id, 'LifeScene'); if (scene?.sceneId === sceneId) return scene; } return undefined; }
 function warpById(world: IWorld, sceneId: string, warpId: string): LifeWarp | undefined { for (const [id] of world.query('LifeWarp')) { const warp = world.getComponent<LifeWarp>(id, 'LifeWarp'); if (warp?.sceneId === sceneId && warp.warpId === warpId) return warp; } return undefined; }
 function spawnById(world: IWorld, sceneId: string, spawnId: string): LifeSpawn | undefined { for (const [id] of world.query('LifeSpawn')) { const spawn = world.getComponent<LifeSpawn>(id, 'LifeSpawn'); if (spawn?.sceneId === sceneId && spawn.spawnId === spawnId) return spawn; } return undefined; }
+function inWarpFootprint(x: number, y: number, warp: LifeWarp): boolean { return x >= warp.x && x < warp.x + warp.width && y >= warp.y && y < warp.y + warp.height; }
 
 export const lifeNavigationCapability = defineCapability({
   id: 't2-life-navigation', version: '1.0.0',
@@ -48,7 +49,7 @@ export const lifeNavigationCapability = defineCapability({
       }
       const x = Math.floor(transform.x); const y = Math.floor(transform.y); const warp = warpById(world, motion.sceneId, warpRequest!.warpId);
       if (!warp) { world.addComponent(entityId,{type:'LifeWarpResult',status:'rejected',reason:'unknown',warpId:warpRequest!.warpId} as LifeWarpResult); reject(world, `${entityId} warp rejected`, 'warp is unknown in current scene'); continue; }
-      if (x !== warp.x || y !== warp.y) { world.addComponent(entityId,{type:'LifeWarpResult',status:'rejected',reason:'not-at-warp',warpId:warp.warpId} as LifeWarpResult); reject(world, `${entityId} warp rejected`, 'actor is not standing on warp location'); continue; }
+      if (!inWarpFootprint(x, y, warp)) { world.addComponent(entityId,{type:'LifeWarpResult',status:'rejected',reason:'not-at-warp',warpId:warp.warpId} as LifeWarpResult); reject(world, `${entityId} warp rejected`, 'actor is not standing inside warp interaction footprint'); continue; }
       if (!lifeAccessMet(world, warp.requires)) { world.addComponent(entityId,{type:'LifeWarpResult',status:'rejected',reason:'locked',warpId:warp.warpId} as LifeWarpResult); reject(world, `${entityId} warp rejected`, 'locked'); continue; }
       const target = spawnById(world, warp.toSceneId, warp.toSpawnId);
       if (!target || !sceneById(world, warp.toSceneId)) { world.addComponent(entityId,{type:'LifeWarpResult',status:'rejected',reason:'invalid-target',warpId:warp.warpId} as LifeWarpResult); reject(world, `${entityId} warp rejected`, 'warp target scene or spawn is invalid'); continue; }

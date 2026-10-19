@@ -1,5 +1,6 @@
-import { parseManifestAsync } from './assembly/manifest-async.js';
+import { parseManifestDetailedAsync } from './assembly/manifest-async.js';
 import { runBlueprintInto } from './studio/cart-run-core.js';
+import { requireCartAssetIndex, assertCartMasksBound, loadCartArt, resolveCartSkins } from './assets/cart-art.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  离线单文件卡带引导（发布线·game-publisher/Lead 域）
@@ -33,9 +34,19 @@ export function readInlineCart(win: Window = window): unknown {
 /** GameModule.mount 契约：挂载即跑内联 manifest，resolve 清理函数；坏 manifest → reject（引导层转错误态·不白屏）。 */
 export async function mount(el: HTMLElement): Promise<() => void> {
   const raw = readInlineCart();
-  const blueprint = await parseManifestAsync(raw);
+  const index = requireCartAssetIndex(raw, window.__APOLLO_INLINE_SLUG__ ?? 'inline', window.__APOLLO_INLINE_ART_INDEX__ ?? null);
+  const parsed = await parseManifestDetailedAsync(raw, index ? { assetIndex: index, assetKeys: new Set(index.assets.map((a) => a.id)) } : {});
+  assertCartMasksBound(parsed.blueprint);
+  const presentation = resolveCartSkins(parsed.presentation, index);
+  const art = await loadCartArt(index, parsed.blueprint.entities, parsed.presentation);
   // 单文件全屏：视口取容器实测尺寸（回退到卡带默认 960×600）。
   const w = el.clientWidth || 960;
   const h = el.clientHeight || 600;
-  return runBlueprintInto(el, blueprint, { w, h });
+  try {
+    const stop = runBlueprintInto(el, parsed.blueprint, { w, h }, presentation, art?.assets);
+    return () => { stop(); art?.dispose(); };
+  } catch (error) {
+    art?.dispose();
+    throw error;
+  }
 }

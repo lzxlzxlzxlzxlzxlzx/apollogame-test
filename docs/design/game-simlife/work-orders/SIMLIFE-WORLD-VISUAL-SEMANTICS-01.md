@@ -2,6 +2,9 @@
 
 > 当前施工依据。Owner 已选择 A：共享 Life 引擎/生成合同下沉；不得以魔王城私有补丁替代。
 
+施工主体：BDM程序
+状态：**完成；施工自检 PASS，非施工人独立复查 PASS（Blocker/Major/Minor 均为 0）。**
+
 ## 目标合同
 
 ### Warp landmark
@@ -38,3 +41,9 @@
 - 相关 schema/compiler/bundle/renderer/asset-slot/host/navigation/farming 回归全绿。
 - 施工自检包含 review artifact、候选清单、唯一锚点撤修验红与 warning 裁决。
 - 非施工人完成独立复跑、撤修验红、实证复现和 warning 阅读。
+
+## 施工证据
+
+- 自检：`../self-check/SIMLIFE-WORLD-VISUAL-SEMANTICS-01.md`
+- 世界矩阵：`../world-visual-semantics-review.md`
+- 独立复查：`../review/SIMLIFE-WORLD-VISUAL-SEMANTICS-01.md`

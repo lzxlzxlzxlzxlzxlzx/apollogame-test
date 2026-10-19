@@ -117,7 +117,7 @@ describe('renderer/life-scene-render', () => {
   it('uses authored farm surface keys and suppresses the generic warp marker only for a visible bound landmark', () => {
     const world = paletteWorld();
     world.createEntity('warp');
-    world.addComponent('warp', { type: 'LifeWarp', sceneId: 'palette', warpId: 'exit', x: 2, y: 0, toSceneId: 'other', toSpawnId: 'entry' } as LifeWarp);
+    world.addComponent('warp', { type: 'LifeWarp', sceneId: 'palette', warpId: 'exit', x: 2, y: 0, width: 1, height: 1, toSceneId: 'other', toSpawnId: 'entry' } as LifeWarp);
     world.createEntity('landmark');
     world.addComponent('landmark', { type: 'LifePlacement', sceneId: 'palette', placementId: 'gate', kind: 'decoration', x: 2, y: 0, width: 1, height: 1, prefabRef: 'gate', skinKey: 'art:test:gate', interactionRange: 0, visible: true, interactive: false } as LifePlacement);
     world.createEntity('plot');

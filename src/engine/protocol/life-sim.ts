@@ -41,6 +41,8 @@ export interface LifeWarp {
   label?: string;
   /** Same-scene visible placement representing this exit. Authoring/render-only. */
   landmarkPlacementId?: string;
+  /** Same-scene placement whose footprint is authoritative for explicit warp interaction. */
+  interactionPlacementId?: string;
   at: LifePoint;
   toSceneId: string;
   toSpawnId: string;
@@ -144,6 +146,26 @@ export interface LifeRelationshipDefinition {
   rules:readonly LifeRelationshipRule[];
 }
 
+export type LifeProfileDisplay = 'value' | 'gauge';
+export type LifeProfileSurface = 'profile' | 'hud';
+export type LifeProfileSource =
+  | { kind:'resource'; id:string }
+  | { kind:'relationship'; npcId:string };
+export interface LifeProfileAttribute {
+  id:string;
+  titleKey:string;
+  display:LifeProfileDisplay;
+  source:LifeProfileSource;
+  iconSkinKey:string;
+  /** Omitted preserves the profile-only surface used by existing packages. */
+  surfaces?:readonly LifeProfileSurface[];
+}
+/** Read-only profile declaration. Current values always come from authoritative runtime components. */
+export interface LifeProfileDefinition {
+  titleKey:string;
+  attributes:readonly LifeProfileAttribute[];
+}
+
 export type LifeQuestNodeState = 'locked' | 'active' | 'completed' | 'failed';
 export type LifeQuestRemainingCmp = 'gte' | 'lte' | 'eq';
 export type LifeQuestCondition =
@@ -229,6 +251,8 @@ export interface LifeGamePackage {
   dialogueCatalog?: readonly LifeDialogueDefinition[];
   quests?: readonly LifeQuestChapter[];
   relationships?: readonly LifeRelationshipDefinition[];
+  /** Omitted = no profile surface or profile-review gate. */
+  profile?: LifeProfileDefinition;
   /** Omitted in schema-v1 legacy packages = no construction projects. */
   constructionProjects?: readonly LifeConstructionProject[];
   scenes: readonly LifeScene[];

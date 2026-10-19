@@ -235,7 +235,7 @@ export function buildTheftScreen(
           layout: { x: 58, y: 146, z: 8, width: 504, height: 82, padding: 12, direction: 'column' as const, align: 'center' as const, justify: 'center' as const, allowOverlap: true, anim: 'fadeIn' as const, animMs: 360 },
           children: [{
             type: 'Label' as const, id: 'theft-tutorial-copy',
-            props: { text: '点击中央区域或按下空格进行校准，获得钥匙\n使用钥匙打开锁住的大门，在暴露值满之前撤退', font: 'ui', size: 'lg' as const, bold: true, color: 'text' as const },
+            props: { text: '点击中央区域或按下空格进行校准，获得钥匙\n使用钥匙打开锁住的大门，在暴露值满之前撤退', font: 'ui' as const, size: 'lg' as const, bold: true, color: 'text' as const },
           }],
         }] : []),
         // 提示被首次操作收起后仍有低干扰入口，避免新玩家误以为说明永久消失。

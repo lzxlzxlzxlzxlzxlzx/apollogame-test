@@ -27,7 +27,13 @@ export interface MediaCatalog {
   readonly audio: { readonly bgm: Readonly<Record<AudioId, { readonly asset: AssetKey; readonly loop: boolean; readonly defaultVolume?: number }>>; readonly sfx: Readonly<Record<AudioId, { readonly asset?: AssetKey; readonly synth?: SfxSpec }>>; readonly voice: Readonly<Record<VoiceId, { readonly asset?: AssetKey; readonly charId: CharacterId; readonly text?: LocalizedText }>> };
   readonly video: Readonly<Record<VideoId, { readonly asset: AssetKey; readonly poster?: AssetKey; readonly skippable: boolean; readonly audioPolicy: 'embedded'|'mute' }>>;
 }
-export interface GallerySpec { readonly memories: Readonly<Record<MemoryId, { readonly title: LocalizedText; readonly entry: StoryRef; readonly unlock: UnlockRule }>>; readonly music: Readonly<Record<AudioId, { readonly unlock: UnlockRule }>> }
+export interface GallerySpec { readonly memories: Readonly<Record<MemoryId, {
+  readonly title: LocalizedText; readonly entry: StoryRef; readonly unlock: UnlockRule;
+  /** Unlocked gallery card art; never projected for a locked memory. */
+  readonly previewImage?: AssetKey;
+  /** Separately approved spoiler-free art for a locked card. */
+  readonly lockedImage?: AssetKey;
+}>>; readonly music: Readonly<Record<AudioId, { readonly unlock: UnlockRule }>> }
 export interface PresentationDelta {
   readonly scene?: SceneId|null; readonly background?: BackgroundId|null;
   readonly cast?: Readonly<Record<CharacterId, { readonly visible?: boolean; readonly side?: 'left'|'right'|'center'; readonly zOrder?: number; readonly emotion?: EmotionId; readonly motion?: 'none'|'enter-left'|'enter-right'|'leave-left'|'leave-right'|'shake'|'focus' }>>;

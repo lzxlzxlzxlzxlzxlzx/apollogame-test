@@ -79,6 +79,28 @@ describe('t2-life-navigation', () => {
     expect(trace.events.filter((event) => event.kind === 'reject')).toHaveLength(2);
   });
 
+  it('accepts every cell of a compiled 2x2 warp footprint and rejects adjacent outside cells', () => {
+    const raw = copy(threeSceneLifePackage()) as any;
+    raw.scenes[0].placements.push({ id: 'farm-gate', kind: 'building', x: 2, y: 0, width: 2, height: 2, prefabRef: 'building.farm-gate', skinKey: 'building:farm-gate' });
+    raw.scenes[0].warps[0].interactionPlacementId = 'farm-gate';
+    for (const [x, y] of [[2, 0], [3, 0], [2, 1], [3, 1]]) {
+      const value = load(raw);
+      const transform = value.world.getComponent<any>('life:player', 'Transform')!;
+      const motion = value.world.getComponent<any>('life:player', 'LifeContinuousMotion')!;
+      transform.x = x; transform.y = y; motion.sceneId = 'town';
+      warp(value, 'town-farm-door');
+      expect(position(value), `${x},${y}`).toMatchObject({ sceneId: 'farm', x: 0, y: 0 });
+    }
+    for (const [x, y] of [[1, 0], [2, 2], [3, 2]]) {
+      const value = load(raw);
+      const transform = value.world.getComponent<any>('life:player', 'Transform')!;
+      transform.x = x; transform.y = y;
+      warp(value, 'town-farm-door');
+      expect(position(value), `${x},${y}`).toMatchObject({ sceneId: 'town', x, y });
+      expect(value.world.getComponent<any>('life:player', 'LifeWarpResult')).toMatchObject({ status: 'rejected', reason: 'not-at-warp' });
+    }
+  });
+
   it('rejects simultaneous move and warp without changing position', () => {
     const engine = load(); const trace = traceOn(engine); const before = { ...position(engine) };
     engine.world.addComponent('life:player', { type: 'LifeMoveRequest', dx: 1, dy: 0 } as LifeMoveRequest);

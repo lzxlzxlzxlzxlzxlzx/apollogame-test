@@ -119,7 +119,7 @@ export function requiresEngineInputEvidence(files) {
 async function installDomEngineProbe(page) {
   await page.evaluate(async () => {
     const { Engine } = await import('/src/runtime/engine.ts');
-    const port = { steps: 0, actions: [] };
+    const port = { steps: 0, actions: [], inputs: [] };
     const originalStep = Engine.prototype.step;
     if (typeof originalStep !== 'function') throw new Error('Engine.step 不可观察，DOM 点击门 fail-closed');
     Engine.prototype.step = function () {
@@ -130,11 +130,13 @@ async function installDomEngineProbe(page) {
       source.commandsForTick = function (tick) {
         const commands = originalCommands.call(this, tick);
         for (const command of commands) for (const action of command.actions ?? []) {
+          if (typeof action.key === 'string') port.inputs.push({ key: action.key, phase: action.phase, tick });
           if (action.phase === 'action' && typeof action.key === 'string') {
             port.actions.push({ key: action.key, tick });
           }
         }
         if (port.actions.length > 256) port.actions.splice(0, port.actions.length - 256);
+        if (port.inputs.length > 256) port.inputs.splice(0, port.inputs.length - 256);
         return commands;
       };
       try { return originalStep.call(this); }
@@ -144,7 +146,7 @@ async function installDomEngineProbe(page) {
   });
 }
 
-/** 纯数据选出可在当前 Canvas 内点到的 Shape+Clickable 中心；不把启动器按钮算游戏控件。 */
+/** Legacy shape-only candidate; masked candidates come from the live World and shared hit predicate. */
 export function canvasClickTargets(manifest, width, height) {
   const entities = manifest?.entities ?? {};
   const camera = Object.values(entities).map((e) => e?.Camera).find(Boolean);
@@ -162,11 +164,103 @@ export function canvasClickTargets(manifest, width, height) {
   return targets;
 }
 
-export function interpretCanvasClickProbe({ candidates, hits, consoleErrors }) {
+/** Logical Canvas point -> actual CSS client point, including letterbox scale and DPR-backed canvas. */
+export function canvasClientPoint(canvas, point) {
+  return { x: canvas.left + point.x * canvas.width / canvas.logicalWidth,
+    y: canvas.top + point.y * canvas.height / canvas.logicalHeight };
+}
+
+/** Compiled Canvas games opt in with data, never with a slug-specific waiver. */
+export function validateCompiledCanvasFixture(value) {
+  if (!value || value.version !== 1 || typeof value.canvasSelector !== 'string' || !value.canvasSelector.startsWith('#')
+    || !Number.isFinite(value.logicalWidth) || value.logicalWidth <= 0
+    || !Number.isFinite(value.logicalHeight) || value.logicalHeight <= 0
+    || !Array.isArray(value.gestures) || value.gestures.length === 0) throw new Error('Canvas S3 fixture 缺失或格式错误');
+  for (const gesture of value.gestures) {
+    if (!['mouse', 'touch'].includes(gesture.device) || !['click', 'drag'].includes(gesture.kind)
+      || !Array.isArray(gesture.from) || gesture.from.length !== 2
+      || gesture.from.some((n) => !Number.isFinite(n))
+      || (gesture.kind === 'drag' && (!Array.isArray(gesture.to) || gesture.to.length !== 2 || gesture.to.some((n) => !Number.isFinite(n))))
+      || typeof gesture.expect?.input?.key !== 'string' || !gesture.expect.input.key
+      || !['action', 'drag', 'down', 'up', 'move'].includes(gesture.expect.input.phase)
+      || typeof gesture.expect?.visible?.selector !== 'string' || !gesture.expect.visible.selector.startsWith('#')
+      || typeof gesture.expect.visible.before !== 'string' || typeof gesture.expect.visible.after !== 'string'
+      || gesture.expect.visible.before === gesture.expect.visible.after) throw new Error('Canvas S3 gesture 缺少真实输入/可见变化判据');
+    for (const point of [gesture.from, gesture.to].filter(Boolean)) {
+      if (point[0] < 0 || point[1] < 0 || point[0] >= value.logicalWidth || point[1] >= value.logicalHeight) throw new Error('Canvas S3 gesture 坐标超出逻辑画布');
+    }
+  }
+  return value;
+}
+
+export function interpretCompiledCanvasProbe({ gestures, consoleErrors }) {
+  if (consoleErrors.length) return { exit: 1, summary: `✗ Canvas 手势有 ${consoleErrors.length} 条错误：${consoleErrors.slice(0, 2).join(' | ')}` };
+  if (!gestures.length || gestures.some((g) => !g.reachable || !g.inputMatched || !g.visibleChanged))
+    return { exit: 1, summary: `✗ Canvas 真手势未打穿（${gestures.filter((g) => g.reachable && g.inputMatched && g.visibleChanged).length}/${gestures.length}）；须同时证明画布可命中、动作经 Engine.step、玩家可见状态变化` };
+  return { exit: 0, summary: `✓ Canvas 真手势打穿（${gestures.length} 项 · Engine.step 输入与可见变化同证 · 零控制台 error）` };
+}
+
+async function runCompiledCanvasProbe(slug, rt, fixture) {
+  const { chromium } = await import('playwright');
+  const dev = await startDevServer(ROOT);
+  let browser;
+  const gestures = [], consoleErrors = [];
+  try {
+    browser = await chromium.launch({ headless: true, executablePath: rt.execPath, args: ['--no-sandbox'] });
+    for (const spec of fixture.gestures) {
+      const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, hasTouch: spec.device === 'touch' });
+      try {
+        const page = await context.newPage();
+        page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text().slice(0, 300)); });
+        page.on('pageerror', (e) => consoleErrors.push(`未捕获异常: ${e.message}`));
+        await page.route('**/api/generate/providers', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
+        await page.route('**/api/library', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
+        await page.goto(`http://localhost:${dev.port}/?${deepLinkQuery('compiled', slug)}`, { waitUntil: 'networkidle' });
+        await page.locator(fixture.canvasSelector).waitFor();
+        await installDomEngineProbe(page);
+        const before = await page.locator(spec.expect.visible.selector).textContent();
+        const rect = await page.locator(fixture.canvasSelector).boundingBox();
+        if (!rect) throw new Error('Canvas 不可见');
+        const at = (p) => ({ x: rect.x + p[0] * rect.width / fixture.logicalWidth, y: rect.y + p[1] * rect.height / fixture.logicalHeight });
+        const start = at(spec.from), end = at(spec.to ?? spec.from);
+        const reachable = await page.evaluate(({ x, y, selector }) => document.elementFromPoint(x, y) === document.querySelector(selector), { ...start, selector: fixture.canvasSelector });
+        const inputBefore = await page.evaluate(() => window.__ZEROCRAFT_S3_DOM_ENGINE_PROBE__.inputs.length);
+        if (reachable) {
+          if (spec.device === 'mouse') {
+            await page.mouse.move(start.x, start.y); await page.mouse.down();
+            if (spec.kind === 'drag') await page.mouse.move(end.x, end.y, { steps: 20 });
+            await page.mouse.up();
+          } else {
+            const cdp = await context.newCDPSession(page);
+            const send = (type, p) => cdp.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ ...p, id: 1, radiusX: 2, radiusY: 2 }] });
+            await send('touchStart', start);
+            if (spec.kind === 'drag') for (let i = 1; i <= 20; i++) await send('touchMove', { x: start.x + (end.x - start.x) * i / 20, y: start.y + (end.y - start.y) * i / 20 });
+            await send('touchEnd', end);
+          }
+        }
+        const matched = reachable && await page.waitForFunction(({ input, from }) => window.__ZEROCRAFT_S3_DOM_ENGINE_PROBE__?.inputs.slice(from).some((entry) => entry.key === input.key && entry.phase === input.phase), { input: spec.expect.input, from: inputBefore }, { timeout: 3000 }).then(() => true).catch(() => false);
+        const changed = matched && await page.waitForFunction(({ selector, after }) => document.querySelector(selector)?.textContent?.includes(after), spec.expect.visible, { timeout: 3000 }).then(() => true).catch(() => false);
+        const visibleChanged = !!changed && !before?.includes(spec.expect.visible.after) && before?.includes(spec.expect.visible.before);
+        gestures.push({ device: spec.device, kind: spec.kind, input: spec.expect.input, reachable, inputMatched: !!matched, visibleChanged: !!visibleChanged, before, after: await page.locator(spec.expect.visible.selector).textContent(), engineProbe: await page.evaluate(() => window.__ZEROCRAFT_S3_DOM_ENGINE_PROBE__) });
+      } finally { await context.close(); }
+    }
+  } catch (error) { consoleErrors.push(`探针异常: ${error.message}`); }
+  finally { await browser?.close(); stopDevServer(dev.proc); }
+  const verdict = interpretCompiledCanvasProbe({ gestures, consoleErrors });
+  const out = join(ROOT, 'public', 'games', slug, 'probe');
+  mkdirSync(out, { recursive: true });
+  writeFileSync(join(out, 'S3-click-gate.json'), JSON.stringify({ slug, form: 'compiled-canvas', ...verdict, gestures, consoleErrors }, null, 2) + '\n');
+  console.log(`[click-probe] ${slug} ${verdict.summary}`);
+  return verdict.exit;
+}
+
+export function interpretCanvasClickProbe({ candidates, hits, consoleErrors, transparentExpected = false, transparentChecked = 0, transparentFailures = 0 }) {
   if (consoleErrors.length) return { exit: 1, summary: `✗ Canvas 点击过程有 ${consoleErrors.length} 条控制台 error：${consoleErrors.slice(0, 2).join(' | ')}` };
-  if (candidates === 0) return { exit: 1, summary: '✗ 卡带 Canvas 内无可验的 Shape+Clickable 热点（mask-only 不以包围盒假验）' };
+  if (candidates === 0) return { exit: 1, summary: '✗ 卡带 Canvas 内无可验的 Shape 或同源 mask 实心热点' };
+  if (transparentExpected && transparentChecked === 0) return { exit: 1, summary: '✗ mask 有可见透明像素，但真 Canvas 透明反例未验到' };
+  if (transparentFailures) return { exit: 1, summary: `✗ ${transparentFailures} 个 mask 透明点触发了 clickable Signal` };
   if (!hits.some((hit) => hit.signalMatched)) return { exit: 1, summary: `✗ 真点 ${candidates} 个 Canvas 热点后，DebugTrace 无对应 clickable/commit：指针→InputQueue→Signal 链未打通` };
-  return { exit: 0, summary: `✓ Canvas 点击打穿（${candidates} 个候选 · ${hits.filter((hit) => hit.signalMatched).length} 个具名 Signal 真入世界 · 零控制台 error）` };
+  return { exit: 0, summary: `✓ Canvas 点击打穿（${candidates} 个候选 · ${hits.filter((hit) => hit.signalMatched).length} 个具名 Signal 真入世界 · mask透明反例 ${transparentChecked} 个 · 零控制台 error）` };
 }
 
 async function runCanvasCartProbe(slug, rt) {
@@ -174,44 +268,72 @@ async function runCanvasCartProbe(slug, rt) {
   const { chromium } = await import('playwright');
   const dev = await startDevServer(ROOT);
   let browser;
-  const hits = [], consoleErrors = [];
-  let candidates = 0;
+  const hits = [], consoleErrors = [], viewportResults = [];
+  let candidates = 0, transparentChecked = 0, transparentFailures = 0, transparentExpected = false;
   try {
     browser = await chromium.launch({ headless: true, executablePath: rt.execPath, args: ['--no-sandbox'] });
-    const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
-    page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text().slice(0, 300)); });
-    page.on('pageerror', (e) => consoleErrors.push(`未捕获异常: ${e.message}`));
-    await page.route('**/api/generate/providers', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
-    await page.route('**/api/library', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(fixture.entries) }));
-    await page.route(`**/api/library/${slug}/manifest`, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(fixture.manifest) }));
-    await page.goto(`http://localhost:${dev.port}/?${deepLinkQuery('cart', slug)}&s3Probe=1`, { waitUntil: 'networkidle' });
-    await page.waitForFunction(() => typeof window.__ZEROCRAFT_S3_CLICK_TRACE__?.read === 'function', undefined, { timeout: 8000 });
-    const canvas = await page.evaluate(() => {
-      const back = [...document.querySelectorAll('button')].find((b) => b.textContent?.includes('返回架上'));
-      const el = back?.parentElement?.querySelector('canvas');
-      if (!el) return null;
-      const rect = el.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      return { left: rect.left, top: rect.top, width: rect.width, height: rect.height, logicalWidth: el.width / dpr, logicalHeight: el.height / dpr };
-    });
-    if (!canvas) throw new Error('卡带运行器 Canvas 未挂载');
-    const targets = canvasClickTargets(fixture.manifest, canvas.logicalWidth, canvas.logicalHeight);
-    candidates = targets.length;
-    for (const target of targets.slice(0, 12)) {
-      const x = canvas.left + target.x * canvas.width / canvas.logicalWidth;
-      const y = canvas.top + target.y * canvas.height / canvas.logicalHeight;
-      if (x < 0 || y < 0 || x >= 1280 || y >= 800) continue;
-      const reachable = await page.evaluate(({ x, y }) => {
-        const back = [...document.querySelectorAll('button')].find((b) => b.textContent?.includes('返回架上'));
-        return document.elementFromPoint(x, y) === back?.parentElement?.querySelector('canvas');
-      }, { x, y });
-      if (!reachable) { hits.push({ id: target.id, action: target.action, signalMatched: false, reason: '被覆盖/不可命中' }); continue; }
-      await page.mouse.click(x, y);
-      const signalMatched = await page.waitForFunction(({ id, action }) => window.__ZEROCRAFT_S3_CLICK_TRACE__?.read().some(
-        (event) => event.what === id && event.why === action,
-      ), { id: target.id, action: target.action }, { timeout: 1200 }).then(() => true).catch(() => false);
-      hits.push({ id: target.id, action: target.action, x: Math.round(x), y: Math.round(y), signalMatched });
-      if (signalMatched) break; // S3 最小断言：至少一条真输入链打通；S4 再验完整玩法。
+    for (const viewport of [{ width: 1280, height: 800 }, { width: 1024, height: 768 }]) {
+      const page = await browser.newPage({ viewport });
+      try {
+        page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text().slice(0, 300)); });
+        page.on('pageerror', (e) => consoleErrors.push(`未捕获异常: ${e.message}`));
+        await page.route('**/api/generate/providers', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
+        await page.route('**/api/library', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(fixture.entries) }));
+        await page.route(`**/api/library/${slug}/manifest`, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(fixture.manifest) }));
+        await page.goto(`http://localhost:${dev.port}/?${deepLinkQuery('cart', slug)}&s3Probe=1`, { waitUntil: 'networkidle' });
+        await page.waitForFunction(() => typeof window.__ZEROCRAFT_S3_CLICK_TRACE__?.maskTargets === 'function', undefined, { timeout: 8000 });
+        const canvas = await page.evaluate(() => {
+          const back = [...document.querySelectorAll('button')].find((b) => b.textContent?.includes('返回架上'));
+          const el = back?.parentElement?.querySelector('canvas');
+          if (!el) return null;
+          const rect = el.getBoundingClientRect();
+          const dpr = window.devicePixelRatio || 1;
+          return { left: rect.left, top: rect.top, width: rect.width, height: rect.height, logicalWidth: el.width / dpr, logicalHeight: el.height / dpr };
+        });
+        if (!canvas) throw new Error('卡带运行器 Canvas 未挂载');
+        const maskTargets = await page.evaluate(() => window.__ZEROCRAFT_S3_CLICK_TRACE__.maskTargets());
+        const targets = [
+          ...canvasClickTargets(fixture.manifest, canvas.logicalWidth, canvas.logicalHeight),
+          ...maskTargets.map((target) => ({ id: target.id, action: target.action, ...target.solid, transparent: target.transparent, hasTransparent: target.hasTransparent })),
+        ];
+        candidates += targets.length;
+        const fromHit = hits.length, fromTransparent = transparentChecked;
+        let viewportExpectsTransparent = false;
+        const isCanvasReachable = async (point) => page.evaluate(({ x, y }) => {
+          const back = [...document.querySelectorAll('button')].find((b) => b.textContent?.includes('返回架上'));
+          return document.elementFromPoint(x, y) === back?.parentElement?.querySelector('canvas');
+        }, point);
+        for (const target of targets.slice(0, 12)) {
+          const { x, y } = canvasClientPoint(canvas, target);
+          if (x < 0 || y < 0 || x >= viewport.width || y >= viewport.height) continue;
+          if (!await isCanvasReachable({ x, y })) { hits.push({ viewport, id: target.id, action: target.action, signalMatched: false, reason: '被覆盖/不可命中' }); continue; }
+          if (target.hasTransparent) { transparentExpected = true; viewportExpectsTransparent = true; }
+          if (target.transparent) {
+            const negative = canvasClientPoint(canvas, target.transparent);
+            if (await isCanvasReachable(negative)) {
+              const before = await page.evaluate(() => window.__ZEROCRAFT_S3_CLICK_TRACE__.read().length);
+              await page.mouse.click(negative.x, negative.y);
+              await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+              const after = await page.evaluate(() => window.__ZEROCRAFT_S3_CLICK_TRACE__.read().length);
+              transparentChecked += 1;
+              if (after !== before) transparentFailures += 1;
+            }
+          }
+          const before = await page.evaluate(() => window.__ZEROCRAFT_S3_CLICK_TRACE__.read().length);
+          await page.mouse.click(x, y);
+          const signalMatched = await page.waitForFunction(({ id, action, before }) => window.__ZEROCRAFT_S3_CLICK_TRACE__?.read().slice(before).some(
+            (event) => event.what === id && event.why === action,
+          ), { id: target.id, action: target.action, before }, { timeout: 1200 }).then(() => true).catch(() => false);
+          hits.push({ viewport, id: target.id, action: target.action, x: Math.round(x), y: Math.round(y), signalMatched });
+          if (signalMatched && (!viewportExpectsTransparent || transparentChecked > fromTransparent)) break;
+        }
+        const positive = hits.slice(fromHit).some((hit) => hit.signalMatched);
+        const negative = !viewportExpectsTransparent || transparentChecked > fromTransparent;
+        viewportResults.push({ viewport, candidates: targets.length, positive, negative });
+        if (!positive || !negative) consoleErrors.push(`${viewport.width}×${viewport.height} 视口未完成 mask 实心/透明真点击`);
+      } finally {
+        await page.close();
+      }
     }
   } catch (error) {
     consoleErrors.push(`探针异常: ${error.message}`);
@@ -219,10 +341,10 @@ async function runCanvasCartProbe(slug, rt) {
     await browser?.close();
     stopDevServer(dev.proc);
   }
-  const verdict = interpretCanvasClickProbe({ candidates, hits, consoleErrors });
+  const verdict = interpretCanvasClickProbe({ candidates, hits, consoleErrors, transparentExpected, transparentChecked, transparentFailures });
   const out = join(ROOT, 'public', 'games', slug, 'probe');
   mkdirSync(out, { recursive: true });
-  writeFileSync(join(out, 'S3-click-gate.json'), JSON.stringify({ slug, form: 'cart', ...verdict, candidates, hits, consoleErrors }, null, 2) + '\n');
+  writeFileSync(join(out, 'S3-click-gate.json'), JSON.stringify({ slug, form: 'cart', ...verdict, candidates, hits, viewportResults, transparentExpected, transparentChecked, transparentFailures, consoleErrors }, null, 2) + '\n');
   console.log(`[click-probe] ${slug} ${verdict.summary}`);
   return verdict.exit;
 }
@@ -277,6 +399,11 @@ async function main() {
   if (!rt.ok) { console.error(`[click-probe] ${slug}：本机无 Chromium，跳过（权威判定以有浏览器环境为准）`); process.exit(3); }
 
   if (form === 'cart') { process.exit(await runCanvasCartProbe(slug, rt)); }
+  const canvasFixturePath = join(ROOT, 'games', slug, 's3-canvas-probe.json');
+  if (existsSync(canvasFixturePath)) {
+    const fixture = validateCompiledCanvasFixture(JSON.parse(readFileSync(canvasFixturePath, 'utf8')));
+    process.exit(await runCompiledCanvasProbe(slug, rt, fixture));
+  }
   const { chromium } = await import('playwright');
   const dev = await startDevServer(ROOT);
   let browser;

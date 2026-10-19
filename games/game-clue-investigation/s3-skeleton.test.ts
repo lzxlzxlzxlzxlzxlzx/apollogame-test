@@ -1,15 +1,17 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { parseManifestDetailed } from '@zerocraft/engine/assembly/manifest.js';
+import { parseAssetIndex } from '@zerocraft/engine/assets/asset-index.js';
 import { Engine } from '@zerocraft/engine/runtime/engine.js';
 import type { GameFlow, Resource } from '@zerocraft/engine/engine/protocol/components.js';
 
 const manifest = JSON.parse(
   readFileSync(new URL('../../library/game-clue-investigation/manifest.json', import.meta.url), 'utf8'),
 ) as unknown;
+const assetIndex = parseAssetIndex(JSON.parse(readFileSync(new URL('../../library/game-clue-investigation/art/index.json', import.meta.url), 'utf8')));
 
 function loadTwoTicks(): Engine {
-  const parsed = parseManifestDetailed(manifest);
+  const parsed = parseManifestDetailed(manifest, { assetIndex });
   const engine = new Engine({ tickRate: 60 });
   engine.load(parsed.blueprint);
   engine.world.tick();
@@ -19,7 +21,7 @@ function loadTwoTicks(): Engine {
 
 describe('game-clue-investigation S3 skeleton', () => {
   it('is a strict, reference-closed manifest with no parser warnings', () => {
-    const parsed = parseManifestDetailed(manifest);
+    const parsed = parseManifestDetailed(manifest, { assetIndex });
     expect(parsed.warnings).toEqual([]);
     expect(parsed.blueprint.capabilities.map((capability) => capability.id)).toEqual(expect.arrayContaining([
       'a1-transform', 'c1-shape', 'l2-color', 'i1-input-capture',

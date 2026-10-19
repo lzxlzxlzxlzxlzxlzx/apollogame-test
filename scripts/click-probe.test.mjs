@@ -8,7 +8,7 @@
 // 施工过程中两版判据都「看起来在检查、实测撤修照绿」（整页快照被倒计时污染 / textContent
 // 让噪声顺祖先链爬满全树 / 注释里的 resolveBindings 被当成调用），全靠撤修验红逮出来。
 import { describe, it, expect } from 'vitest';
-import { interpretClickProbe, interpretCanvasClickProbe, canvasClickTargets, checkBindWiring, requiresEngineInputEvidence, LEGACY_WAIVED } from './click-probe.mjs';
+import { interpretClickProbe, interpretCanvasClickProbe, canvasClickTargets, canvasClientPoint, validateCompiledCanvasFixture, interpretCompiledCanvasProbe, checkBindWiring, requiresEngineInputEvidence, LEGACY_WAIVED } from './click-probe.mjs';
 import { interpretClickGate } from './game-pipeline.mjs';
 
 const base = { slug: 'gx', controls: 3, changed: 2, consoleErrors: [], waived: undefined };
@@ -114,6 +114,34 @@ describe('Canvas 卡带点击门（具名 Signal 真入世界）', () => {
     expect(interpretCanvasClickProbe({ ...base, hits: [{ ...base.hits[0], signalMatched: false }] }).exit).toBe(1);
     expect(interpretCanvasClickProbe({ ...base, candidates: 0, hits: [] }).exit).toBe(1);
     expect(interpretCanvasClickProbe({ ...base, consoleErrors: ['boom'] }).exit).toBe(1);
+    expect(interpretCanvasClickProbe({ ...base, transparentExpected: true, transparentChecked: 0 }).exit).toBe(1);
+    expect(interpretCanvasClickProbe({ ...base, transparentExpected: true, transparentChecked: 1, transparentFailures: 1 }).exit).toBe(1);
+    expect(interpretCanvasClickProbe({ ...base, transparentExpected: true, transparentChecked: 1, transparentFailures: 0 }).exit).toBe(0);
+  });
+  it('逻辑点按画布盒缩放映射到不同 CSS 视口，绝不直接用原图像素当 client 坐标', () => {
+    const point = { x: 400, y: 300 };
+    expect(canvasClientPoint({ left: 10, top: 20, width: 800, height: 600, logicalWidth: 800, logicalHeight: 600 }, point)).toEqual({ x: 410, y: 320 });
+    expect(canvasClientPoint({ left: 30, top: 50, width: 400, height: 300, logicalWidth: 800, logicalHeight: 600 }, point)).toEqual({ x: 230, y: 200 });
+  });
+});
+
+describe('编译游戏 Canvas 真手势门', () => {
+  const fixture = { version: 1, canvasSelector: '#scene canvas', logicalWidth: 1440, logicalHeight: 900,
+    gestures: [{ device: 'mouse', kind: 'drag', from: [100, 100], to: [200, 200],
+      expect: { input: { key: 'drag', phase: 'drag' }, visible: { selector: '#progress', before: '1 /', after: '2 /' } } }] };
+  it('夹具必须声明可命中画布、真手势、引擎动作和玩家可见变化；零控件无夹具仍由 DOM 门判红', () => {
+    expect(validateCompiledCanvasFixture(fixture)).toBe(fixture);
+    expect(() => validateCompiledCanvasFixture({ ...fixture, gestures: [] })).toThrow();
+    expect(() => validateCompiledCanvasFixture({ ...fixture, gestures: [{ ...fixture.gestures[0], expect: { action: 'add.herb' } }] })).toThrow();
+    expect(interpretClickProbe({ ...base, controls: 0 }).exit).toBe(1);
+  });
+  it('Canvas 每个手势都须可达、经 Engine.step 且可见变化；不能用背景动画冒充', () => {
+    const hit = { reachable: true, inputMatched: true, visibleChanged: true };
+    expect(interpretCompiledCanvasProbe({ gestures: [hit], consoleErrors: [] }).exit).toBe(0);
+    for (const key of ['reachable', 'inputMatched', 'visibleChanged'])
+      expect(interpretCompiledCanvasProbe({ gestures: [{ ...hit, [key]: false }], consoleErrors: [] }).exit).toBe(1);
+    expect(interpretCompiledCanvasProbe({ gestures: [], consoleErrors: [] }).exit).toBe(1);
+    expect(interpretCompiledCanvasProbe({ gestures: [hit], consoleErrors: ['boom'] }).exit).toBe(1);
   });
 });
 

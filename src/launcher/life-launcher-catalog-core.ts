@@ -1,5 +1,6 @@
 import { compileAndParseLifeGamePackage } from '../assembly/life-package-compile.js';
-import { parseLifeHostDescriptor, type LifeHostDescriptorV1 } from '../authoring/life-host-descriptor-core.js';
+import { parseLifeHostDescriptor, validateLifeHostCalendarLabels, type LifeHostDescriptorV1 } from '../authoring/life-host-descriptor-core.js';
+import type { LifeGamePackage } from '../engine/protocol/life-sim.js';
 import { parseAssetSlotManifest, type AssetSlotManifest } from '../assets/asset-slot-brief.js';
 import type { GameEntry } from '../studio/library-model.js';
 
@@ -133,7 +134,12 @@ export function discoverLifeLauncherCatalog(
         const lifePackage = moduleValue(packageModules[packagePath]);
         try { descriptor = parseLifeHostDescriptor(moduleValue(hostModules[hostPath])); }
         catch { diagnostics.push({ path: '/host', code: 'invalid_host', message: 'life-host.json failed strict validation' }); }
-        try { compileAndParseLifeGamePackage(lifePackage); }
+        try {
+          compileAndParseLifeGamePackage(lifePackage);
+          if (descriptor) for (const issue of validateLifeHostCalendarLabels(descriptor, (lifePackage as LifeGamePackage).calendar).diagnostics) {
+            diagnostics.push({ ...issue, path: `/host${issue.path}` });
+          }
+        }
         catch { diagnostics.push({ path: '/package', code: 'invalid_package', message: 'life.json failed strict validation or compilation' }); }
         try { assetSlots = parseAssetSlotManifest(moduleValue(slotModules[slotsPath])); }
         catch { diagnostics.push({ path: '/slots', code: 'invalid_slots', message: 'asset-slots.json failed strict validation' }); }

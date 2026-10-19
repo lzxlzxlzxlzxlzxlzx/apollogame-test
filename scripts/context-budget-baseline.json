@@ -15,13 +15,11 @@
   "gameRequestsMaxChars": 20000,
   "gameRequestsMaxLines": 250,
   "gameRequestsLegacyMaxChars": {
-    "docs/design/game-simlife/requests.md": 45111,
     "docs/design/game-c/requests.md": 31548,
     "docs/design/game-a/requests.md": 26165,
     "docs/design/game108/requests.md": 21963
   },
   "gameRequestsLegacyMaxLines": {
-    "docs/design/game-simlife/requests.md": 348,
     "docs/design/game108/requests.md": 378,
     "docs/design/game111/requests.md": 363
   },

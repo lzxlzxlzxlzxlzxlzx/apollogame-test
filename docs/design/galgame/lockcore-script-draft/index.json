@@ -1,0 +1,109 @@
+{
+  "format": "gal-script-candidate-v1",
+  "status": "draft",
+  "title": {
+    "zh-CN": "锁芯与电波"
+  },
+  "sourceSha256": "9f268a5b28c7c757eea04f8798b5750ebae17c51b820d831bfd0c5ed2691a543",
+  "locale": "zh-CN",
+  "entry": {
+    "chapterId": "c01",
+    "nodeId": "c01_n0001"
+  },
+  "endingId": "summer_together",
+  "chapters": [
+    {
+      "id": "c01",
+      "title": {
+        "zh-CN": "确立关系"
+      },
+      "start": "c01_n0001",
+      "file": "c01.json",
+      "lineNodes": 48
+    },
+    {
+      "id": "c02",
+      "title": {
+        "zh-CN": "刚刚是恋人"
+      },
+      "start": "c02_n0001",
+      "file": "c02.json",
+      "lineNodes": 120
+    },
+    {
+      "id": "c03",
+      "title": {
+        "zh-CN": "初吻"
+      },
+      "start": "c03_n0001",
+      "file": "c03.json",
+      "lineNodes": 53
+    },
+    {
+      "id": "c04",
+      "title": {
+        "zh-CN": "第一次身体亲密"
+      },
+      "start": "c04_n0001",
+      "file": "c04.json",
+      "lineNodes": 103
+    },
+    {
+      "id": "c05",
+      "title": {
+        "zh-CN": "第一次"
+      },
+      "start": "c05_n0001",
+      "file": "c05.json",
+      "lineNodes": 137
+    },
+    {
+      "id": "c06",
+      "title": {
+        "zh-CN": "变成日常"
+      },
+      "start": "c06_n0001",
+      "file": "c06.json",
+      "lineNodes": 138
+    },
+    {
+      "id": "c07",
+      "title": {
+        "zh-CN": "探索·情趣玩具"
+      },
+      "start": "c07_n0001",
+      "file": "c07.json",
+      "lineNodes": 162
+    },
+    {
+      "id": "c08",
+      "title": {
+        "zh-CN": "探索·anal"
+      },
+      "start": "c08_n0001",
+      "file": "c08.json",
+      "lineNodes": 162
+    },
+    {
+      "id": "c09",
+      "title": {
+        "zh-CN": "探索·spanking"
+      },
+      "start": "c09_n0001",
+      "file": "c09.json",
+      "lineNodes": 137
+    },
+    {
+      "id": "c10",
+      "title": {
+        "zh-CN": "收尾"
+      },
+      "start": "c10_n0001",
+      "file": "c10.json",
+      "lineNodes": 97
+    }
+  ],
+  "sourceBodyLines": 731,
+  "dialogueNodes": 492,
+  "unresolvedQuotedNodes": 0
+}

@@ -1,15 +1,14 @@
 import { createAppClient, type AppContract } from 'dokiworlds-app-sdk';
 import { mountUI, type ActionSink, type MountHandle } from '@zerocraft/engine/ui/components/index.js';
-import { FixedStepClock } from '@zerocraft/engine/net/fixed-step.js';
 import { parseChestInput, presentation, resolveChest, toChestOutput, type ChestInput, type ChestResultData } from './chest.js';
-import { buildChestErrorScreen, buildChestScreen, CHEST_CLAIM_ACTION, CHEST_THEME } from './chest-screen.js';
-import { QTE_ATTEMPT_ACTION, QTE_START_ACTION } from './qte-blueprint.js';
-import { ChestQteSession } from './qte-session.js';
+import { buildChestErrorScreen, buildChestScreen, CHEST_CLAIM_ACTION, CHEST_THEME, type ChestOpeningPhase } from './chest-screen.js';
 import './style.css';
 
 const APP_ID = 'game-loot-chest';
 const INPUT_CONTRACT = 'doki.game.chest-input';
 const INPUT_VERSION = 2;
+const CLOSED_BEAT_MS = 180;
+const OPENING_DURATION_MS = 900;
 const standalonePreview = new URLSearchParams(window.location.search).get('preview') === '1';
 const demo: ChestInput = parseChestInput({
   sessionId: 'local-demo', tableId: 'demo-chest', chest: { name: '遗迹青铜宝箱' },
@@ -38,16 +37,15 @@ if (!rootElement) throw new Error('#app not found');
 const root: HTMLElement = rootElement;
 
 let current = demo;
-let qte = new ChestQteSession();
+let phase: ChestOpeningPhase = 'closed';
 let result: ChestResultData | undefined;
 let sent = false;
 let dokiSession = false;
 let failedSessionId: string | undefined;
 let mounted = true;
 let ui: MountHandle | undefined;
-let raf = 0;
-let lastFrame = performance.now();
-const clock = new FixedStepClock(60);
+let openingTimer: ReturnType<typeof setTimeout> | undefined;
+let revealTimer: ReturnType<typeof setTimeout> | undefined;
 const app = createAppClient({ appId: APP_ID, targetOrigin: '*' });
 
 function sessionIdFrom(value: unknown): string | undefined {
@@ -57,7 +55,7 @@ function sessionIdFrom(value: unknown): string | undefined {
 }
 
 function claimRewards(): void {
-  if (!result || sent || qte.snapshot().phase !== 'revealed') return;
+  if (!result || sent || phase !== 'revealed') return;
   sent = true;
   if (dokiSession) {
     void app.complete(toChestOutput(result)).catch((error) => {
@@ -71,16 +69,13 @@ function claimRewards(): void {
 const actions: ActionSink = {
   enqueueAction(name): void {
     if (name === CHEST_CLAIM_ACTION) claimRewards();
-    else qte.enqueue(name);
   },
 };
 
 function render(): void {
-  const snapshot = qte.snapshot();
-  if (snapshot.phase === 'revealed' && !result) result = resolveChest(current);
   const tree = buildChestScreen(
     current,
-    snapshot,
+    phase,
     result,
     presentation(current),
     sent ? (dokiSession ? 'sent-host' : 'sent-preview') : 'idle',
@@ -89,22 +84,29 @@ function render(): void {
   else ui = mountUI(root, tree, {}, CHEST_THEME, actions);
 }
 
-function frame(now: number): void {
-  if (!mounted) return;
-  const steps = clock.advance(document.hidden ? 0 : now - lastFrame);
-  lastFrame = now;
-  if (steps > 0) qte.tick(steps);
-  render();
-  raf = requestAnimationFrame(frame);
-}
-
 function load(input: ChestInput): void {
   current = input;
-  qte = new ChestQteSession();
+  phase = 'closed';
   result = undefined;
   sent = false;
   failedSessionId = undefined;
   render();
+  if (openingTimer) clearTimeout(openingTimer);
+  if (revealTimer) clearTimeout(revealTimer);
+  // 此计时器只控制视觉节拍；奖励始终由宿主给定的 seed/掉落树决定，不由墙钟参与结算。
+  openingTimer = setTimeout(() => {
+    openingTimer = undefined;
+    if (!mounted) return;
+    phase = 'opening';
+    render();
+  }, CLOSED_BEAT_MS);
+  revealTimer = setTimeout(() => {
+    revealTimer = undefined;
+    if (!mounted) return;
+    result = resolveChest(current);
+    phase = 'revealed';
+    render();
+  }, CLOSED_BEAT_MS + OPENING_DURATION_MS);
 }
 
 function inputFromContract(input: AppContract<unknown>): ChestInput {
@@ -126,15 +128,6 @@ function renderFailure(error: unknown, sessionId?: string): void {
   else ui = mountUI(root, tree, {}, CHEST_THEME);
 }
 
-const onKeyDown = (event: KeyboardEvent): void => {
-  if (event.repeat || (event.code !== 'Space' && event.code !== 'Enter')) return;
-  event.preventDefault();
-  const phase = qte.snapshot().phase;
-  if (phase === 'ready') qte.enqueue(QTE_START_ACTION);
-  else if (phase === 'playing') qte.enqueue(QTE_ATTEMPT_ACTION);
-};
-window.addEventListener('keydown', onKeyDown);
-
 const disconnect = app.connect();
 void app.whenReady({ timeoutMs: 10_000 }).then((input) => {
   if (!mounted) return;
@@ -155,13 +148,12 @@ void app.whenReady({ timeoutMs: 10_000 }).then((input) => {
   if (mounted) console.error('[game-loot-chest] DokiWorld initialization failed', error);
 });
 
-if (standalonePreview) render();
-raf = requestAnimationFrame(frame);
+if (standalonePreview) load(demo);
 
 window.addEventListener('pagehide', () => {
   mounted = false;
-  cancelAnimationFrame(raf);
-  window.removeEventListener('keydown', onKeyDown);
+  if (openingTimer) clearTimeout(openingTimer);
+  if (revealTimer) clearTimeout(revealTimer);
   disconnect();
   app.dispose();
   ui?.();

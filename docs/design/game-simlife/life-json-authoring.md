@@ -15,6 +15,7 @@ JSON 只能包含有限数字、字符串、布尔值、`null`、数组与普通
 - `scenes[].spawnPoints`、`placements`、`warps`：位置、尺寸、目标引用、资源/NPC 数据与闭集 access requirement。
 - `itemCatalog` / `playerInventory` / `cropCatalog`：物品目录、初始背包和作物目录。
 - `movement` / `interaction` / `camera`：连续移动速度、近邻范围、闭集 `dialogueSessionPolicy: "persistent"|"proximity"` 与 engine-owned 视口 profile。生成包必须写 `"camera":{"profile":"life-standard-v1"}`，不得填写自由 `viewportWidthCells/viewportHeightCells/follow/cellSize`。策略省略时兼容旧包、对话离开范围后仍持续；`proximity` 会按同一 package/placement 近邻范围在确定性 tick 内结束会话。
+- `profile`（可选）：只读人物档案。`titleKey` + 非空有序 `attributes[]`；每行只允许 `id/titleKey/display(value|gauge)/source/iconSkinKey/surfaces`。`surfaces` 省略即 `['profile']`，否则为不重复的非空 `profile|hud` 闭集；最多四行可选 `hud`。`source` 只能唯一引用既有 `logic.resources`（`{kind:"resource",id}`）或 `relationships`（`{kind:"relationship",npcId}`），禁止公式、函数、自由路径和任意实体查询；`gauge` 只用于有限 `min/max`。编译产物 `LifeProfileCatalog` 不复制 current，Host 始终从 `Resource` / `LifeRelationshipProjection` 读取权威值。
 - `calendar` / `logic` / `milestones` / `dialogueCatalog`：日历（可含至少两个稳定 `slots` 与引用其中一项的 `initialSlot`）、初始 flag/resource、收获里程碑和既有 dialogue 数据图。供任务引用的对话选项必须填写 dialogue 内唯一的稳定 `id`。
 - `quests`：严格 chapter → quest → node 图。每层 id 稳定；quest 明写 `chapterId`、整数 `priority`、可选 `exclusiveGroup`、`initialNodeId` 和非空 `terminalNodeIds`；node 明写标题/目标 key、闭集 trigger、可选闭集 condition、非空 effects，并在 effects 中把自己置为 `completed` 或 `failed`。
 - `constructionProjects`：固定点、一次性建设表。每条只写全局唯一 `id`、一个 `building|interactable` 的 `placementId`、非空且 item 不重复的正整数 `materials`、可选既有 access requirement，以及不透明 `art:` `completedSkinKey`。对应 zone 必须显式允许 `build`；引擎只会在近邻且未完成的目标上导出 affordance。
@@ -123,6 +124,7 @@ v1 不接受施工计时、阶段进度、自由摆放、拆除/撤销、随机 
 8. 写 NPC schedule 时逐 slot 核对覆盖恰好一次、目标格可走、`visible`/`interactive` 均为布尔值；`life.advance-time` 从末 slot 回卷时推进一天并回 `initialSlot`，`life.advance-day` 也回 `initialSlot`。
 9. 写 quests 时先画出节点与显式激活边，再核 initial/terminal、可达性、环出口、同拍写集；最后确认 HUD/AI 只消费 `LifeQuestProjection`。
 10. 写建设项目时核对 placement kind、材料目录/去重/正整数、access 引用、zone 的 `build` 权限，以及初始/完成两个 `art:` key 都已有素材槽。
+11. 每个 placement 都显式写正整数 `width/height`。多格建筑 warp 写 `interactionPlacementId` 指向同场景 placement，并令 `at` 位于该 footprint 内；runtime 编译为 `x/y/width/height`，提示与 `LifeWarpRequest` 都只认这一交互占地。字段省略时只保留 legacy `at` 的精确 `1×1`；`landmarkPlacementId` 仅负责可见地标，不参与模拟判定。
 
 ## NPC 关系契约
 
@@ -133,6 +135,6 @@ v1 不接受施工计时、阶段进度、自由摆放、拆除/撤销、随机 
 - UI、对话可用性与 AI 只读 `LifeRelationshipProjection`，不得自行按阈值重算 level。
 # 世界视觉语义
 
-生成线的严格包必须补齐：ground tile 的 `visual.surface`、每个 warp 的 `label`/`landmarkPlacementId`，以及存在可耕地时的根级 `visualSemantics.farm`。`surface` 闭集为 `ground|plantable|water|forage|mineable|blocked`，应与 tile tags 推导出的行动语义一致。地标绑定只决定出口如何可见，不改变 E/鼠标显式交互，也不触发自动传送。
+生成线的严格包必须补齐：ground tile 的 `visual.surface`、每个 warp 的 `label`/`landmarkPlacementId`，多格建筑 warp 的 `interactionPlacementId`，以及存在可耕地时的根级 `visualSemantics.farm`。`surface` 闭集为 `ground|plantable|water|forage|mineable|blocked`，应与 tile tags 推导出的行动语义一致。地标绑定只决定出口如何可见；交互 placement 才决定 E/鼠标显式交互 footprint，二者均不触发自动传送。
 
 素材槽位必须逐指针覆盖普通地面、未耕可耕地、干燥耕地、湿润耕地及作物阶段。没有人审的新增行保持 `placeholder`，不得登记正式 AssetIndex。

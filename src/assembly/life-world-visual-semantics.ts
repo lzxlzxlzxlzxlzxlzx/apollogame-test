@@ -73,6 +73,9 @@ export function validateLifeWorldVisualSemantics(life: LifeGamePackage): LifeWor
       if (landmark.schedule) issue(`${path}/landmarkPlacementId`, 'warp_landmark_visibility', 'landmark must be statically visible and cannot have a schedule');
       if (!landmark.skinKey) issue(`${path}/landmarkPlacementId`, 'warp_landmark_skin', 'landmark must declare a skin key');
       if (distanceToPlacement(warp.at.x, warp.at.y, landmark) > 1) issue(`${path}/landmarkPlacementId`, 'warp_landmark_relation', 'warp cell must overlap or be Manhattan-adjacent to its landmark footprint');
+      if (landmark.kind === 'building' && landmark.width * landmark.height > 1 && warp.interactionPlacementId !== landmark.id) {
+        issue(`${path}/interactionPlacementId`, 'warp_interaction_placement_required', 'multi-cell building warp must use its landmark placement as the interaction footprint');
+      }
     }
   }
 

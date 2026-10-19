@@ -3,6 +3,7 @@ import json
 
 from .config import _config_model
 from .design_flow import _handle_design_breakdown, _handle_design_chat, _handle_design_revise, _handle_prototype
+from .gal_authoring_api import handle_gal_authoring
 from .generation import _generate_with_autofix
 from .llm_transport import GAME_GEN_SYSTEM_PROMPT, LLM_PROVIDERS, _FALLBACK_CATALOG, get_api_key
 from .lowmodel import _handle_template_edit
@@ -45,6 +46,8 @@ def _handle_generate(body: dict) -> dict:
     model = body.get('model') or _config_model(provider) or models[0]
 
     # 设计先行流四模式分派（各自的校验器 / 系统词；prototype 复用 manifest 系统词 + autofix）。
+    if mode == 'gal-authoring':
+        return handle_gal_authoring(provider, api_key, model, body)
     if mode == 'design-chat':
         return _handle_design_chat(provider, api_key, model, body)
     if mode == 'design-breakdown':

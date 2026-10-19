@@ -123,7 +123,7 @@ App 不消费随机数；卡牌顺序由宿主输入确定。蓝图 tickRate 为
 
 ## 9. 展示资源与降级
 
-`faceImageUrl` 与 `alt` 仅影响展示。正式输入 URL 必须 HTTPS、无用户名/密码，并由图片服务器允许跨域读取。`pack.front`、`pack.back`、`pack.tearTop`、`pack.tearBody`、五张本地 preview 与 `card.fallback` 已随包内 AssetIndex 闭包；宿主远程卡面不打进包。正式局逐卡并行加载：单张图片网络或 CORS 失败时只将该槽换为包内 fallback，保留输入顺序和其余真图；本地包装或 fallback 加载失败则停止演出，不伪造 `viewed`。预览始终只用包内卡面。
+`faceImageUrl` 与 `alt` 仅影响展示。正式输入 URL 必须 HTTPS、无用户名/密码，并由图片服务器允许跨域读取。`pack.front`、`pack.back`、`pack.tearTop`、`pack.tearBody`、五张本地 preview 与 `card.fallback` 已随包内 AssetIndex 闭包；宿主远程卡面不打进包。包内关键图（`pack.front`、`pack.tearTop`、`pack.tearBody`、`card.fallback`）与 SDK 初始化并行预取；正式局不预载 `pack.back` 或 preview 图，preview 只加载本次会用到的 N 张。正式局在稳定卡面 key 的 fallback 可绘制后即开始 P2，宿主卡面作为候选并行加载；进入 P3 第一帧或玩家跳过之前，同步冻结每张已成功的真图，其余逐张保留 fallback。冻结后晚到的图片不热替换；单张图片网络、跨域或加载失败不阻塞演出。包内关键图或 fallback 加载失败则停止演出，不伪造 `viewed`。预览始终只用包内卡面。
 
 ## 10. 错误处理
 

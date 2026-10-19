@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "zerocraft.life-asset-candidate-review.v1",
+  "game": "game-demon-castle",
+  "artDirection": "life.illustrated-2d.v1",
+  "source": {
+    "provider": "codex-imagegen",
+    "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+    "generatedOn": "2026-10-13"
+  },
+  "status": "partially-approved-and-materialized",
+  "items": [
+    {
+      "slotId": "demon-castle.tile.moon-courtyard",
+      "assetKey": "art:demon-castle:tile:moon-courtyard",
+      "file": "tile-moon-courtyard-illustrated-v1.png",
+      "sha256": "bde9644044b15957d2af8d8042f58df49c058a022dd07dba76d084190039aa25",
+      "purpose": "月影庭院通行地表",
+      "expected": "illustrated tile; opaque; 256x256; linear; cell 1x1; cover",
+      "result": "superseded as the recommended courtyard surface because its purple palette competes with magic, actors and buildings; retained only as a rejected colour-direction reference"
+    },
+    {
+      "slotId": "demon-castle.tile.moon-garden-earth",
+      "assetKey": "art:demon-castle:tile:moon-garden-earth",
+      "file": "tile-moon-garden-earth-illustrated-v1.png",
+      "sha256": "3273407d4f25954b1ba7e0069d87d94495f4a04e6914d7be4289cd4a5e1c20b8",
+      "purpose": "月影庭院可耕荒地",
+      "expected": "illustrated tile; opaque; 256x256; linear; cell 1x1; cover",
+      "result": "candidate only; dry tilled and watered variants are intentionally not yet generated"
+    },
+    {
+      "slotId": "demon-castle.player.moon-demon",
+      "assetKey": "art:demon-castle:player:moon-demon",
+      "file": "player-moon-demon-illustrated-v1.png",
+      "sha256": "5696b779795e5d76f0b7c9d5b1cd7410425e4ad5338bbe61318f6ff7317e54d7",
+      "purpose": "少女魔王建设者角色方向稿",
+      "expected": "illustrated actor; transparent; 384x512; linear; cell 1x1.5; bottom-center; contain",
+      "result": "aesthetic candidate only; visible dark backdrop means alpha and final gameplay readability must be checked before it can enter the approval queue"
+    },
+    {
+      "slotId": "demon-castle.player.moon-demon",
+      "assetKey": "art:demon-castle:player:moon-demon",
+      "file": "player-moon-demon-gameplay-v2.png",
+      "sha256": "c3c0eab99fd326a0ac9375dc3624fb80473b7a7a5b99fcc326d3a731c0063c50",
+      "purpose": "少女魔王的简化地图行动角色候选",
+      "expected": "illustrated actor; transparent; 384x512; linear; cell 1x1.5; bottom-center; contain",
+      "result": "v2 removes hammer, scroll and construction tools; it uses fewer outline and costume details for gameplay readability, but still needs alpha and downscale verification"
+    },
+    {
+      "slotId": "demon-castle.player.moon-demon",
+      "assetKey": "art:demon-castle:player:moon-demon",
+      "file": "player-moon-demon-three-head-v3.png",
+      "sha256": "a13734e31cc844e3e97f17b2ff9217c6688848a3b4f080df8f34d872ceeddbaa",
+      "purpose": "三头身地图行动角色候选",
+      "expected": "illustrated actor; transparent; 384x512; linear; cell 1x1.5; bottom-center; contain",
+      "result": "approved and materialized into the existing player slot as a 384x512 transparent linear illustrated source; logical display remains 1x1.5 cells with a bottom-center anchor"
+    },
+    {
+      "slotId": "demon-castle.tile.moon-courtyard",
+      "assetKey": "art:demon-castle:tile:moon-courtyard",
+      "file": "tile-moon-courtyard-neutral-v2.png",
+      "sha256": "203b573358d11ea9c27a21f31ccf0ca7b488ec6a5498f8a88988b1bd623319ea",
+      "purpose": "月影庭院通行地表（中性冷灰石材）",
+      "expected": "illustrated tile; opaque; 256x256; linear; cell 1x1; cover",
+      "result": "approved and materialized into the existing courtyard tile slot as a 256x256 opaque linear illustrated source; logical display remains 1x1 cell"
+    },
+    {
+      "slotId": "demon-castle.npc.gargoyle-artisan",
+      "assetKey": "art:demon-castle:npc:gargoyle-artisan",
+      "file": "npc-gargoyle-artisan-three-head-v1.png",
+      "sha256": "adabe1e68a449d6be34eba3b78027e9d9f2ccd3e4ffb21d161d8fbb4109b7199",
+      "purpose": "石像鬼工匠 NPC",
+      "expected": "illustrated actor; transparent; 384x512; linear; cell 1x1.5; bottom-center; contain",
+      "result": "approved and materialized into the existing NPC slot as a 384x512 transparent linear illustrated source; logical display remains 1x1.5 cells with a bottom-center anchor"
+    },
+    {
+      "slotId": "demon-castle.building.forest-arch",
+      "assetKey": "art:demon-castle:building:forest-arch",
+      "file": "building-forest-arch-neutral-v1.png",
+      "sha256": "cb9941a3212aa19f1258378c528b650d0b52b817ddb249a6cf688ef2ec404fb4",
+      "purpose": "森林拱门传送建筑",
+      "expected": "illustrated building; transparent; 512x512; linear; cell 2x2; bottom-center; contain",
+      "result": "approved and materialized into the existing forest-arch slot as a 512x512 transparent linear illustrated source; logical display remains 2x2 cells with a bottom-center anchor"
+    },
+    {
+      "slotId": "demon-castle.building.ruined-throne-hall",
+      "assetKey": "art:demon-castle:building:ruined-throne-hall",
+      "file": "building-ruined-throne-hall-v1.png",
+      "sha256": "91b903bdf8c050b731f9598e1e3dea371559ed8a0481b0b3a3480e229530c758",
+      "purpose": "待修复的王座厅建设地标",
+      "expected": "illustrated building; transparent; 1024x1024; linear; cell 4x3; bottom-center; contain",
+      "result": "owner direction approved, but intentionally retained as candidate only: no exact art:demon-castle:building:ruined-throne-hall asset slot or runtime consumer exists; the distinct throne-hall slot was not rebound"
+    }
+  ],
+  "ownerDecision": "approved for the four exact existing slots; ruined-throne-hall retained pending a matching slot and consumer"
+}

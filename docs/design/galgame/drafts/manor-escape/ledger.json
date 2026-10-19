@@ -1,0 +1,2591 @@
+{
+  "drafts": [
+    {
+      "schemaVersion": 1,
+      "kind": "brief",
+      "projectId": "manor-escape",
+      "draftId": "brief-1",
+      "revision": 1,
+      "basedOn": [],
+      "contentHash": "sha256:2e8487a00da0490b553c2adcc521e563eedb66b81891323bb6886f8b5442dff9",
+      "summary": "庄园出逃边界",
+      "data": {
+        "artDirection": {
+          "palette": [
+            "暖褐",
+            "墨绿",
+            "旧金",
+            "冷灰"
+          ],
+          "referenceIds": [
+            "mechanic"
+          ],
+          "style": "手绘全身立绘，透明底，略侧身，适合对话立绘"
+        },
+        "audience": "teen",
+        "constraints": [
+          "主线是机械师与囚徒在一场原创庄园游戏中相识并相恋",
+          "同场还有监管者厂长，以及求生者医生、园丁",
+          "一条共通线，两个结局都是两人在一起：一起离开，或一起留下",
+          "作品分组 id 为 manor-escape；生成时只读这一组",
+          "机械师沿用仓库 id mechanic，不覆盖她已有百科",
+          "囚徒、厂长、医生、园丁的 id 为 prisoner、factory-chief、doctor、gardener，批准前不建档",
+          "透明立绘交给另一个生图工具，本阶段不生成、不入库"
+        ],
+        "defaultLocale": "zh-CN",
+        "genre": [
+          "romance",
+          "mystery"
+        ],
+        "id": "manor-escape",
+        "locales": [
+          "zh-CN"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "prohibitedContent": [
+          "不复述官方信件、日记或任务原文",
+          "不使用未授权的官方立绘或过场",
+          "不写血腥处刑、酷刑细节或性剥削"
+        ],
+        "target": {
+          "endings": 2,
+          "minutes": 40,
+          "routes": 1
+        },
+        "themes": [
+          "相识",
+          "逃脱",
+          "相恋"
+        ],
+        "titleHint": "庄园出逃"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "bible",
+      "projectId": "manor-escape",
+      "draftId": "bible-1",
+      "revision": 1,
+      "basedOn": [
+        "brief-1"
+      ],
+      "contentHash": "sha256:e58a433799be1a8fd2c82cf8c4e97549e4ec117c167b84628fc28490269bbd78",
+      "summary": "庄园出逃五人圣经",
+      "data": {
+        "briefId": "manor-escape",
+        "canonRules": [
+          "机械师是特蕾西·列兹尼克，页面和台词用职业称呼机械师，随身带着自己做的机械玩偶",
+          "囚徒是卢卡·巴尔萨，页面和台词用职业称呼囚徒",
+          "医生是艾米丽·黛儿，园丁是艾玛·伍兹，厂长是里奥·贝克；页面和台词用职业称呼",
+          "五人的仓库 id 为 mechanic、prisoner、doctor、gardener、factory-chief，以后都属于分组 manor-escape",
+          "公开身份可以沿用，具体对白、机关和结局必须是这部作品自己的"
+        ],
+        "characters": [
+          {
+            "arc": "从只相信自己的玩偶，到把出逃的决定交给另一个人",
+            "id": "mechanic",
+            "motivation": "看清庄园的机关，活着带走奖金；后来改成无论出门还是留下，都要和囚徒在一起",
+            "name": "机械师",
+            "role": "求生者，共通线视角",
+            "traits": [
+              "好奇",
+              "专注",
+              "嘴硬",
+              "念旧"
+            ],
+            "visualNeed": {
+              "costume": "工装背带裤、护目镜、工具腰带；不用锁芯时装",
+              "expressions": [
+                "戒备",
+                "专注",
+                "别过脸",
+                "轻轻笑"
+              ],
+              "silhouette": "娇小少女，侧背挂着一具和她相似的机械玩偶"
+            }
+          },
+          {
+            "arc": "从把她当成又一个会丢下他的人，到承认留在门内或走出门外都可以，只要她在",
+            "id": "prisoner",
+            "motivation": "用还能工作的电路打开出口，不再一个人留在庄园",
+            "name": "囚徒",
+            "role": "求生者，与机械师同行",
+            "traits": [
+              "急切",
+              "好辩",
+              "心软",
+              "不肯示弱"
+            ],
+            "visualNeed": {
+              "costume": "条纹囚服外罩旧实验外套，腕上有线缆，没有华丽时装",
+              "expressions": [
+                "警惕",
+                "讲道理",
+                "受伤仍逞强",
+                "看着她时放轻"
+              ],
+              "silhouette": "瘦高青年，一手扶着外接的电路匣"
+            }
+          },
+          {
+            "arc": "从要求机械师必须出门，到接受她选择和囚徒留在一起",
+            "id": "doctor",
+            "motivation": "把还能走的人都带出庄园，不把伤留在游戏里",
+            "name": "医生",
+            "role": "求生者，催促所有人离开",
+            "traits": [
+              "冷静",
+              "负责",
+              "不擅安慰"
+            ],
+            "visualNeed": {
+              "costume": "白大褂与深色裙，臂上有红十字药箱；不用限定时装",
+              "expressions": [
+                "诊视",
+                "皱眉",
+                "压低声音",
+                "松一口气"
+              ],
+              "silhouette": "成年女性，手提药箱，身形利落"
+            }
+          },
+          {
+            "arc": "从只照料植物，到把园门的两条路讲给机械师听",
+            "id": "gardener",
+            "motivation": "让同伴知道门外不是唯一能活下去的地方",
+            "name": "园丁",
+            "role": "求生者，认得园门和能住的园子",
+            "traits": [
+              "温和",
+              "固执",
+              "观察细致"
+            ],
+            "visualNeed": {
+              "costume": "园艺围裙、草帽、短靴，手里是剪枝工具；不用限定时装",
+              "expressions": [
+                "微笑",
+                "认真指路",
+                "担忧",
+                "点头"
+              ],
+              "silhouette": "矮一些的少女，肩上扛着工具，帽檐压着发"
+            }
+          },
+          {
+            "arc": "始终是阻碍，不转为同伴，也不参与恋情",
+            "id": "factory-chief",
+            "motivation": "让游戏按庄园的规矩进行，不让求生者提前结束它",
+            "name": "厂长",
+            "role": "监管者，这场游戏的巡视者",
+            "traits": [
+              "沉默",
+              "沉重",
+              "执着"
+            ],
+            "visualNeed": {
+              "costume": "烧损的工场大衣和面具，身周有暗火；不写伤口特写",
+              "expressions": [
+                "巡视",
+                "抬手拦截",
+                "停在园门前",
+                "目送"
+              ],
+              "silhouette": "高大男人，一手木偶、一手焰火，步子慢"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "description": "邀请函被收走的地方。灯是暖的，门从里面锁上。",
+            "id": "gate-hall",
+            "name": "门厅"
+          },
+          {
+            "description": "一台旧电机连着密码机。机械玩偶能靠近它，人则要躲开巡视。",
+            "id": "cipher-room",
+            "name": "破译室"
+          },
+          {
+            "description": "未完成的电路和钟表零件堆在一起。两人第一次把玩偶和电路接到同一条线上。",
+            "id": "workshop",
+            "name": "地下工坊"
+          },
+          {
+            "description": "庄园真正的出口。门开过一次之后，规则会再关一次。",
+            "id": "garden-gate",
+            "name": "外墙园门"
+          }
+        ],
+        "narrativeProhibitions": [
+          "不复述官方信件、日记或任务原文",
+          "不使用未授权的官方立绘或过场",
+          "不写血腥处刑、酷刑细节或性剥削"
+        ],
+        "relationships": [
+          {
+            "from": "mechanic",
+            "kind": "romance",
+            "note": "同一场庄园游戏里从互相利用走到相爱，两个结局都在一起",
+            "to": "prisoner"
+          },
+          {
+            "from": "doctor",
+            "kind": "ally",
+            "note": "医生负责让她活着走到园门",
+            "to": "mechanic"
+          },
+          {
+            "from": "gardener",
+            "kind": "ally",
+            "note": "园丁把留下的那条路指给他看",
+            "to": "prisoner"
+          },
+          {
+            "from": "factory-chief",
+            "kind": "rival",
+            "note": "厂长巡视并拦截这场游戏，不是情敌",
+            "to": "mechanic"
+          }
+        ],
+        "world": {
+          "premise": "欧利蒂丝庄园再开一场游戏。机械师为了看庄园机关并带走奖金而来，囚徒为了离开这栋不会放人走的房子而来。医生想把所有求生者带出门，园丁认得外墙那道能住人的园子。厂长在场内巡视，不让游戏提前结束。机械师和囚徒在同一场里相遇，靠玩偶与电路活下来，并相爱。",
+          "rules": [
+            "这是一场原创庄园游戏，不是官方信件或日记的复述",
+            "出场固定为四名求生者和一名监管者：机械师、囚徒、医生、园丁、厂长",
+            "只有一条共通线，选择发生在外墙园门",
+            "结局一：机械师和囚徒一起离开庄园",
+            "结局二：机械师和囚徒一起留下；留下是两人的选择，不是被拆散"
+          ]
+        }
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "routes",
+      "projectId": "manor-escape",
+      "draftId": "routes-1",
+      "revision": 1,
+      "basedOn": [
+        "bible-1"
+      ],
+      "contentHash": "sha256:46d28859bb6e031ecd0284ae25c05b362e1a67ab31959cc1b1d9a56d01c639b1",
+      "summary": "庄园出逃共通线与园门选择",
+      "data": {
+        "bibleId": "bible-1",
+        "endings": [
+          {
+            "conditionIntent": "在外墙园门选择离开",
+            "id": "end-leave",
+            "outcome": "机械师和囚徒一起离开庄园",
+            "routeId": "common"
+          },
+          {
+            "conditionIntent": "在外墙园门选择留下",
+            "id": "end-stay",
+            "outcome": "机械师和囚徒一起留在庄园",
+            "routeId": "common"
+          }
+        ],
+        "forks": [
+          {
+            "id": "gate-choice",
+            "options": [
+              {
+                "id": "opt-leave",
+                "intent": "机械师选择和囚徒走出园门",
+                "targetMilestoneId": "m-leave"
+              },
+              {
+                "id": "opt-stay",
+                "intent": "机械师选择和囚徒留在园子里",
+                "targetMilestoneId": "m-stay"
+              }
+            ],
+            "sourceMilestoneId": "m-gate"
+          }
+        ],
+        "milestones": [
+          {
+            "id": "m-hall",
+            "summary": "门厅锁上。机械师遇见囚徒，医生清点还能走的人，园丁说出外墙有门，厂长开始巡视。"
+          },
+          {
+            "id": "m-cipher",
+            "summary": "破译室里，机械玩偶靠近电机，囚徒接上电路。两人第一次互相利用着活下来，医生催他们离开。"
+          },
+          {
+            "id": "m-workshop",
+            "summary": "地下工坊把玩偶和电路接到同一条线。机械师和囚徒确认想在一起，厂长追到这里，众人逃向园门。"
+          },
+          {
+            "id": "m-gate",
+            "summary": "外墙园门打开一次。医生要求所有人出门，园丁指出门内的园子也能住。选择只属于机械师和囚徒。"
+          },
+          {
+            "id": "m-leave",
+            "summary": "两人一起走出庄园。医生和园丁可以各自离开，厂长停在门内，不再追。"
+          },
+          {
+            "id": "m-stay",
+            "summary": "两人一起留在园子里。这是他们的选择，医生接受，厂长不再把他们拆开。"
+          }
+        ],
+        "routes": [
+          {
+            "endingIds": [
+              "end-leave",
+              "end-stay"
+            ],
+            "id": "common",
+            "leadCharacterId": "mechanic",
+            "milestoneIds": [
+              "m-hall",
+              "m-cipher",
+              "m-workshop",
+              "m-gate",
+              "m-leave",
+              "m-stay"
+            ],
+            "premise": "机械师在一场庄园游戏里与囚徒相识，两人靠玩偶和电路走到外墙园门，再决定一起离开或一起留下"
+          }
+        ]
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "routes",
+      "projectId": "manor-escape",
+      "draftId": "routes-2",
+      "revision": 2,
+      "basedOn": [
+        "bible-1"
+      ],
+      "contentHash": "sha256:052283681ab627aa49e273cb8fa713a78ebffacbc993f163a6fda8bfd36312ce",
+      "summary": "园门选择之后各有一段后续",
+      "data": {
+        "bibleId": "bible-1",
+        "endings": [
+          {
+            "conditionIntent": "先在园门选择离开，再进入外面的新生活",
+            "id": "end-leave",
+            "outcome": "机械师和囚徒在庄园外开始相恋，过上新生活",
+            "routeId": "common"
+          },
+          {
+            "conditionIntent": "先在园门选择留下，再接受规则、成为庄园的一部分",
+            "id": "end-stay",
+            "outcome": "机械师和囚徒留下，接受庄园规则并成为庄园的一部分",
+            "routeId": "common"
+          }
+        ],
+        "forks": [
+          {
+            "id": "gate-choice",
+            "options": [
+              {
+                "id": "opt-leave",
+                "intent": "机械师选择和囚徒离开，随后在外面开始新生活",
+                "targetMilestoneId": "m-leave"
+              },
+              {
+                "id": "opt-stay",
+                "intent": "机械师选择和囚徒留下，随后接受庄园的规则",
+                "targetMilestoneId": "m-stay"
+              }
+            ],
+            "sourceMilestoneId": "m-gate"
+          }
+        ],
+        "milestones": [
+          {
+            "id": "m-hall",
+            "summary": "门厅锁上。机械师遇见囚徒，医生清点还能走的人，园丁说出外墙有门，厂长开始巡视。"
+          },
+          {
+            "id": "m-cipher",
+            "summary": "破译室里，机械玩偶靠近电机，囚徒接上电路。两人第一次互相利用着活下来，医生催他们离开。"
+          },
+          {
+            "id": "m-workshop",
+            "summary": "地下工坊把玩偶和电路接到同一条线。机械师和囚徒确认想在一起，厂长追到这里，众人逃向园门。"
+          },
+          {
+            "id": "m-gate",
+            "summary": "外墙园门打开一次。医生要求所有人出门，园丁指出门内的园子也能住。选择只属于机械师和囚徒。"
+          },
+          {
+            "id": "m-leave",
+            "summary": "两人一起走出庄园。医生和园丁可以各自离开，厂长停在门内，不再追。"
+          },
+          {
+            "id": "m-outside",
+            "summary": "离开后的后续。庄园外面没有游戏和巡视，机械师和囚徒开始相恋，一起过新的日常生活。"
+          },
+          {
+            "id": "m-stay",
+            "summary": "两人一起留在园子里。这是他们的选择，医生接受，厂长不再把他们拆开。"
+          },
+          {
+            "id": "m-belong",
+            "summary": "留下后的后续。两人接受庄园的规则，留在游戏与职责之内，成为庄园的一部分，恋情也留在其中。"
+          }
+        ],
+        "routes": [
+          {
+            "endingIds": [
+              "end-leave",
+              "end-stay"
+            ],
+            "id": "common",
+            "leadCharacterId": "mechanic",
+            "milestoneIds": [
+              "m-hall",
+              "m-cipher",
+              "m-workshop",
+              "m-gate",
+              "m-leave",
+              "m-outside",
+              "m-stay",
+              "m-belong"
+            ],
+            "premise": "机械师与囚徒走到外墙园门后，要么一起离开并在外面开始相恋的新生活，要么一起留下、接受庄园规则并成为庄园的一部分"
+          }
+        ]
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "graph",
+      "projectId": "manor-escape",
+      "draftId": "graph-1",
+      "revision": 1,
+      "basedOn": [
+        "routes-2"
+      ],
+      "contentHash": "sha256:d63b30b03b9eee2b02fd6de65c2084974741e5d2f1c11d92f996bbf8b441f5c1",
+      "summary": "园门选择通向两段后续",
+      "data": {
+        "chapters": {
+          "c-belong": {
+            "nodes": {
+              "n-end-stay": {
+                "endingId": "end-stay",
+                "kind": "ending",
+                "milestoneId": "m-belong",
+                "routeId": "common"
+              },
+              "n-rules": {
+                "kind": "line-slot",
+                "milestoneId": "m-belong",
+                "next": {
+                  "chapterId": "c-belong",
+                  "nodeId": "n-end-stay"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-gate",
+            "start": "n-rules",
+            "title": "成为庄园的一部分"
+          },
+          "c-cipher": {
+            "nodes": {
+              "n-pair": {
+                "kind": "line-slot",
+                "milestoneId": "m-cipher",
+                "next": {
+                  "chapterId": "c-workshop",
+                  "nodeId": "n-bond"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-cipher",
+            "start": "n-pair",
+            "title": "破译室"
+          },
+          "c-gate": {
+            "nodes": {
+              "n-choice": {
+                "kind": "choice",
+                "milestoneId": "m-gate",
+                "options": [
+                  {
+                    "id": "opt-leave",
+                    "next": {
+                      "chapterId": "c-leave",
+                      "nodeId": "n-walk"
+                    }
+                  },
+                  {
+                    "id": "opt-stay",
+                    "next": {
+                      "chapterId": "c-stay",
+                      "nodeId": "n-remain"
+                    }
+                  }
+                ],
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-gate",
+            "start": "n-choice",
+            "title": "外墙园门"
+          },
+          "c-hall": {
+            "nodes": {
+              "n-meet": {
+                "kind": "line-slot",
+                "milestoneId": "m-hall",
+                "next": {
+                  "chapterId": "c-cipher",
+                  "nodeId": "n-pair"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-hall",
+            "start": "n-meet",
+            "title": "门厅"
+          },
+          "c-leave": {
+            "nodes": {
+              "n-walk": {
+                "kind": "line-slot",
+                "milestoneId": "m-leave",
+                "next": {
+                  "chapterId": "c-outside",
+                  "nodeId": "n-life"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-gate",
+            "start": "n-walk",
+            "title": "走出庄园"
+          },
+          "c-outside": {
+            "nodes": {
+              "n-end-leave": {
+                "endingId": "end-leave",
+                "kind": "ending",
+                "milestoneId": "m-outside",
+                "routeId": "common"
+              },
+              "n-life": {
+                "kind": "line-slot",
+                "milestoneId": "m-outside",
+                "next": {
+                  "chapterId": "c-outside",
+                  "nodeId": "n-end-leave"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-gate",
+            "start": "n-life",
+            "title": "外面的新生活"
+          },
+          "c-stay": {
+            "nodes": {
+              "n-remain": {
+                "kind": "line-slot",
+                "milestoneId": "m-stay",
+                "next": {
+                  "chapterId": "c-belong",
+                  "nodeId": "n-rules"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-gate",
+            "start": "n-remain",
+            "title": "留在园中"
+          },
+          "c-workshop": {
+            "nodes": {
+              "n-bond": {
+                "kind": "line-slot",
+                "milestoneId": "m-workshop",
+                "next": {
+                  "chapterId": "c-gate",
+                  "nodeId": "n-choice"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-workshop",
+            "start": "n-bond",
+            "title": "地下工坊"
+          }
+        },
+        "entry": {
+          "chapterId": "c-hall",
+          "nodeId": "n-meet"
+        },
+        "routesDraftId": "routes-2",
+        "sceneSlots": [
+          {
+            "id": "s-hall",
+            "locationId": "gate-hall"
+          },
+          {
+            "id": "s-cipher",
+            "locationId": "cipher-room"
+          },
+          {
+            "id": "s-workshop",
+            "locationId": "workshop"
+          },
+          {
+            "id": "s-gate",
+            "locationId": "garden-gate"
+          }
+        ]
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "bible",
+      "projectId": "manor-escape",
+      "draftId": "bible-2",
+      "revision": 2,
+      "basedOn": [
+        "brief-1"
+      ],
+      "contentHash": "sha256:1c76d924f5360f3cbf90ecdcc59aa63dedd56f81c8abd0a26d621c8a014dafbd",
+      "summary": "增加庄园外地点",
+      "data": {
+        "briefId": "manor-escape",
+        "canonRules": [
+          "机械师是特蕾西·列兹尼克，页面和台词用职业称呼机械师，随身带着自己做的机械玩偶",
+          "囚徒是卢卡·巴尔萨，页面和台词用职业称呼囚徒",
+          "医生是艾米丽·黛儿，园丁是艾玛·伍兹，厂长是里奥·贝克；页面和台词用职业称呼",
+          "五人的仓库 id 为 mechanic、prisoner、doctor、gardener、factory-chief，以后都属于分组 manor-escape",
+          "公开身份可以沿用，具体对白、机关和结局必须是这部作品自己的"
+        ],
+        "characters": [
+          {
+            "arc": "从只相信自己的玩偶，到把出逃的决定交给另一个人",
+            "id": "mechanic",
+            "motivation": "看清庄园的机关，活着带走奖金；后来改成无论出门还是留下，都要和囚徒在一起",
+            "name": "机械师",
+            "role": "求生者，共通线视角",
+            "traits": [
+              "好奇",
+              "专注",
+              "嘴硬",
+              "念旧"
+            ],
+            "visualNeed": {
+              "costume": "工装背带裤、护目镜、工具腰带；不用锁芯时装",
+              "expressions": [
+                "戒备",
+                "专注",
+                "别过脸",
+                "轻轻笑"
+              ],
+              "silhouette": "娇小少女，侧背挂着一具和她相似的机械玩偶"
+            }
+          },
+          {
+            "arc": "从把她当成又一个会丢下他的人，到承认留在门内或走出门外都可以，只要她在",
+            "id": "prisoner",
+            "motivation": "用还能工作的电路打开出口，不再一个人留在庄园",
+            "name": "囚徒",
+            "role": "求生者，与机械师同行",
+            "traits": [
+              "急切",
+              "好辩",
+              "心软",
+              "不肯示弱"
+            ],
+            "visualNeed": {
+              "costume": "条纹囚服外罩旧实验外套，腕上有线缆，没有华丽时装",
+              "expressions": [
+                "警惕",
+                "讲道理",
+                "受伤仍逞强",
+                "看着她时放轻"
+              ],
+              "silhouette": "瘦高青年，一手扶着外接的电路匣"
+            }
+          },
+          {
+            "arc": "从要求机械师必须出门，到接受她选择和囚徒留在一起",
+            "id": "doctor",
+            "motivation": "把还能走的人都带出庄园，不把伤留在游戏里",
+            "name": "医生",
+            "role": "求生者，催促所有人离开",
+            "traits": [
+              "冷静",
+              "负责",
+              "不擅安慰"
+            ],
+            "visualNeed": {
+              "costume": "白大褂与深色裙，臂上有红十字药箱；不用限定时装",
+              "expressions": [
+                "诊视",
+                "皱眉",
+                "压低声音",
+                "松一口气"
+              ],
+              "silhouette": "成年女性，手提药箱，身形利落"
+            }
+          },
+          {
+            "arc": "从只照料植物，到把园门的两条路讲给机械师听",
+            "id": "gardener",
+            "motivation": "让同伴知道门外不是唯一能活下去的地方",
+            "name": "园丁",
+            "role": "求生者，认得园门和能住的园子",
+            "traits": [
+              "温和",
+              "固执",
+              "观察细致"
+            ],
+            "visualNeed": {
+              "costume": "园艺围裙、草帽、短靴，手里是剪枝工具；不用限定时装",
+              "expressions": [
+                "微笑",
+                "认真指路",
+                "担忧",
+                "点头"
+              ],
+              "silhouette": "矮一些的少女，肩上扛着工具，帽檐压着发"
+            }
+          },
+          {
+            "arc": "始终是阻碍，不转为同伴，也不参与恋情",
+            "id": "factory-chief",
+            "motivation": "让游戏按庄园的规矩进行，不让求生者提前结束它",
+            "name": "厂长",
+            "role": "监管者，这场游戏的巡视者",
+            "traits": [
+              "沉默",
+              "沉重",
+              "执着"
+            ],
+            "visualNeed": {
+              "costume": "烧损的工场大衣和面具，身周有暗火；不写伤口特写",
+              "expressions": [
+                "巡视",
+                "抬手拦截",
+                "停在园门前",
+                "目送"
+              ],
+              "silhouette": "高大男人，一手木偶、一手焰火，步子慢"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "description": "邀请函被收走的地方。灯是暖的，门从里面锁上。",
+            "id": "gate-hall",
+            "name": "门厅"
+          },
+          {
+            "description": "一台旧电机连着密码机。机械玩偶能靠近它，人则要躲开巡视。",
+            "id": "cipher-room",
+            "name": "破译室"
+          },
+          {
+            "description": "未完成的电路和钟表零件堆在一起。两人第一次把玩偶和电路接到同一条线上。",
+            "id": "workshop",
+            "name": "地下工坊"
+          },
+          {
+            "description": "庄园真正的出口。门开过一次之后，规则会再关一次。",
+            "id": "garden-gate",
+            "name": "外墙园门"
+          },
+          {
+            "description": "园门另一侧的道路和能住下来的日常。没有巡视，也没有游戏。",
+            "id": "outside",
+            "name": "庄园外"
+          }
+        ],
+        "narrativeProhibitions": [
+          "不复述官方信件、日记或任务原文",
+          "不使用未授权的官方立绘或过场",
+          "不写血腥处刑、酷刑细节或性剥削"
+        ],
+        "relationships": [
+          {
+            "from": "mechanic",
+            "kind": "romance",
+            "note": "同一场庄园游戏里从互相利用走到相爱，两个结局都在一起",
+            "to": "prisoner"
+          },
+          {
+            "from": "doctor",
+            "kind": "ally",
+            "note": "医生负责让她活着走到园门",
+            "to": "mechanic"
+          },
+          {
+            "from": "gardener",
+            "kind": "ally",
+            "note": "园丁把留下的那条路指给他看",
+            "to": "prisoner"
+          },
+          {
+            "from": "factory-chief",
+            "kind": "rival",
+            "note": "厂长巡视并拦截这场游戏，不是情敌",
+            "to": "mechanic"
+          }
+        ],
+        "world": {
+          "premise": "欧利蒂丝庄园再开一场游戏。机械师为了看庄园机关并带走奖金而来，囚徒为了离开这栋不会放人走的房子而来。医生想把所有求生者带出门，园丁认得外墙那道能住人的园子。厂长在场内巡视，不让游戏提前结束。机械师和囚徒在同一场里相遇，靠玩偶与电路活下来，并相爱。",
+          "rules": [
+            "这是一场原创庄园游戏，不是官方信件或日记的复述",
+            "出场固定为四名求生者和一名监管者：机械师、囚徒、医生、园丁、厂长",
+            "只有一条共通线，选择发生在外墙园门",
+            "结局一：机械师和囚徒一起离开庄园",
+            "结局二：机械师和囚徒一起留下；留下是两人的选择，不是被拆散"
+          ]
+        }
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "routes",
+      "projectId": "manor-escape",
+      "draftId": "routes-3",
+      "revision": 3,
+      "basedOn": [
+        "bible-1"
+      ],
+      "contentHash": "sha256:513e7598494d028ff726f746112a0ba2f819cd166a52592951f4d5bc03794ee7",
+      "summary": "大纲确定后列出地点，含庄园外",
+      "data": {
+        "bibleId": "bible-1",
+        "endings": [
+          {
+            "conditionIntent": "先在园门选择离开，再进入外面的新生活",
+            "id": "end-leave",
+            "outcome": "机械师和囚徒在庄园外开始相恋，过上新生活",
+            "routeId": "common"
+          },
+          {
+            "conditionIntent": "先在园门选择留下，再接受规则、成为庄园的一部分",
+            "id": "end-stay",
+            "outcome": "机械师和囚徒留下，接受庄园规则并成为庄园的一部分",
+            "routeId": "common"
+          }
+        ],
+        "forks": [
+          {
+            "id": "gate-choice",
+            "options": [
+              {
+                "id": "opt-leave",
+                "intent": "机械师选择和囚徒离开，随后在外面开始新生活",
+                "targetMilestoneId": "m-leave"
+              },
+              {
+                "id": "opt-stay",
+                "intent": "机械师选择和囚徒留下，随后接受庄园的规则",
+                "targetMilestoneId": "m-stay"
+              }
+            ],
+            "sourceMilestoneId": "m-gate"
+          }
+        ],
+        "locations": [
+          {
+            "description": "邀请函被收走的地方。灯是暖的，门从里面锁上。",
+            "id": "gate-hall",
+            "name": "门厅"
+          },
+          {
+            "description": "一台旧电机连着密码机。机械玩偶能靠近它，人则要躲开巡视。",
+            "id": "cipher-room",
+            "name": "破译室"
+          },
+          {
+            "description": "未完成的电路和钟表零件堆在一起。两人第一次把玩偶和电路接到同一条线上。",
+            "id": "workshop",
+            "name": "地下工坊"
+          },
+          {
+            "description": "庄园真正的出口。门开过一次之后，规则会再关一次。",
+            "id": "garden-gate",
+            "name": "外墙园门"
+          },
+          {
+            "description": "园门另一侧的道路和能住下来的日常。没有巡视，也没有游戏。",
+            "id": "outside",
+            "name": "庄园外"
+          }
+        ],
+        "milestones": [
+          {
+            "id": "m-hall",
+            "summary": "门厅锁上。机械师遇见囚徒，医生清点还能走的人，园丁说出外墙有门，厂长开始巡视。"
+          },
+          {
+            "id": "m-cipher",
+            "summary": "破译室里，机械玩偶靠近电机，囚徒接上电路。两人第一次互相利用着活下来，医生催他们离开。"
+          },
+          {
+            "id": "m-workshop",
+            "summary": "地下工坊把玩偶和电路接到同一条线。机械师和囚徒确认想在一起，厂长追到这里，众人逃向园门。"
+          },
+          {
+            "id": "m-gate",
+            "summary": "外墙园门打开一次。医生要求所有人出门，园丁指出门内的园子也能住。选择只属于机械师和囚徒。"
+          },
+          {
+            "id": "m-leave",
+            "summary": "两人一起走出庄园。医生和园丁可以各自离开，厂长停在门内，不再追。"
+          },
+          {
+            "id": "m-outside",
+            "summary": "离开后的后续。庄园外面没有游戏和巡视，机械师和囚徒开始相恋，一起过新的日常生活。"
+          },
+          {
+            "id": "m-stay",
+            "summary": "两人一起留在园子里。这是他们的选择，医生接受，厂长不再把他们拆开。"
+          },
+          {
+            "id": "m-belong",
+            "summary": "留下后的后续。两人接受庄园的规则，留在游戏与职责之内，成为庄园的一部分，恋情也留在其中。"
+          }
+        ],
+        "routes": [
+          {
+            "endingIds": [
+              "end-leave",
+              "end-stay"
+            ],
+            "id": "common",
+            "leadCharacterId": "mechanic",
+            "milestoneIds": [
+              "m-hall",
+              "m-cipher",
+              "m-workshop",
+              "m-gate",
+              "m-leave",
+              "m-outside",
+              "m-stay",
+              "m-belong"
+            ],
+            "premise": "机械师与囚徒走到外墙园门后，要么一起离开并在外面开始相恋的新生活，要么一起留下、接受庄园规则并成为庄园的一部分"
+          }
+        ]
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "graph",
+      "projectId": "manor-escape",
+      "draftId": "graph-2",
+      "revision": 2,
+      "basedOn": [
+        "routes-3"
+      ],
+      "contentHash": "sha256:26f0d346993c87aa53fbfa07da2ff3532090c568a7538558d7d4acd94f4b74cd",
+      "summary": "外面的新生活使用庄园外",
+      "data": {
+        "chapters": {
+          "c-belong": {
+            "nodes": {
+              "n-end-stay": {
+                "endingId": "end-stay",
+                "kind": "ending",
+                "milestoneId": "m-belong",
+                "routeId": "common"
+              },
+              "n-rules": {
+                "kind": "line-slot",
+                "milestoneId": "m-belong",
+                "next": {
+                  "chapterId": "c-belong",
+                  "nodeId": "n-end-stay"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-gate",
+            "start": "n-rules",
+            "title": "成为庄园的一部分"
+          },
+          "c-cipher": {
+            "nodes": {
+              "n-pair": {
+                "kind": "line-slot",
+                "milestoneId": "m-cipher",
+                "next": {
+                  "chapterId": "c-workshop",
+                  "nodeId": "n-bond"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-cipher",
+            "start": "n-pair",
+            "title": "破译室"
+          },
+          "c-gate": {
+            "nodes": {
+              "n-choice": {
+                "kind": "choice",
+                "milestoneId": "m-gate",
+                "options": [
+                  {
+                    "id": "opt-leave",
+                    "next": {
+                      "chapterId": "c-leave",
+                      "nodeId": "n-walk"
+                    }
+                  },
+                  {
+                    "id": "opt-stay",
+                    "next": {
+                      "chapterId": "c-stay",
+                      "nodeId": "n-remain"
+                    }
+                  }
+                ],
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-gate",
+            "start": "n-choice",
+            "title": "外墙园门"
+          },
+          "c-hall": {
+            "nodes": {
+              "n-meet": {
+                "kind": "line-slot",
+                "milestoneId": "m-hall",
+                "next": {
+                  "chapterId": "c-cipher",
+                  "nodeId": "n-pair"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-hall",
+            "start": "n-meet",
+            "title": "门厅"
+          },
+          "c-leave": {
+            "nodes": {
+              "n-walk": {
+                "kind": "line-slot",
+                "milestoneId": "m-leave",
+                "next": {
+                  "chapterId": "c-outside",
+                  "nodeId": "n-life"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-gate",
+            "start": "n-walk",
+            "title": "走出庄园"
+          },
+          "c-outside": {
+            "nodes": {
+              "n-end-leave": {
+                "endingId": "end-leave",
+                "kind": "ending",
+                "milestoneId": "m-outside",
+                "routeId": "common"
+              },
+              "n-life": {
+                "kind": "line-slot",
+                "milestoneId": "m-outside",
+                "next": {
+                  "chapterId": "c-outside",
+                  "nodeId": "n-end-leave"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-outside",
+            "start": "n-life",
+            "title": "外面的新生活"
+          },
+          "c-stay": {
+            "nodes": {
+              "n-remain": {
+                "kind": "line-slot",
+                "milestoneId": "m-stay",
+                "next": {
+                  "chapterId": "c-belong",
+                  "nodeId": "n-rules"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-gate",
+            "start": "n-remain",
+            "title": "留在园中"
+          },
+          "c-workshop": {
+            "nodes": {
+              "n-bond": {
+                "kind": "line-slot",
+                "milestoneId": "m-workshop",
+                "next": {
+                  "chapterId": "c-gate",
+                  "nodeId": "n-choice"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-workshop",
+            "start": "n-bond",
+            "title": "地下工坊"
+          }
+        },
+        "entry": {
+          "chapterId": "c-hall",
+          "nodeId": "n-meet"
+        },
+        "routesDraftId": "routes-3",
+        "sceneSlots": [
+          {
+            "id": "s-hall",
+            "locationId": "gate-hall"
+          },
+          {
+            "id": "s-cipher",
+            "locationId": "cipher-room"
+          },
+          {
+            "id": "s-workshop",
+            "locationId": "workshop"
+          },
+          {
+            "id": "s-gate",
+            "locationId": "garden-gate"
+          },
+          {
+            "id": "s-outside",
+            "locationId": "outside"
+          }
+        ]
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "beats",
+      "projectId": "manor-escape",
+      "draftId": "beats-1",
+      "revision": 1,
+      "basedOn": [
+        "graph-2"
+      ],
+      "contentHash": "sha256:47e1e3e16ff900e3da737ab1e9284eb00896840771300d0746a3ee925de7f5c4",
+      "summary": "按剧情图列出场景和素材需求",
+      "data": {
+        "beats": {
+          "b-belong": {
+            "anchor": {
+              "chapterId": "c-belong",
+              "nodeId": "n-rules"
+            },
+            "backgroundNeedId": "bg-gate",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "factory-chief"
+            ],
+            "cgNeedId": "cg-belong",
+            "dramaticPurpose": "两人接受庄园规则，成为庄园的一部分",
+            "mood": "沉下来",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "dissolve"
+            },
+            "sceneSlotId": "s-gate"
+          },
+          "b-cipher": {
+            "anchor": {
+              "chapterId": "c-cipher",
+              "nodeId": "n-pair"
+            },
+            "backgroundNeedId": "bg-cipher",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor"
+            ],
+            "dramaticPurpose": "玩偶和电路第一次配合，医生催他们离开",
+            "mood": "紧张",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "cut"
+            },
+            "sceneSlotId": "s-cipher"
+          },
+          "b-gate": {
+            "anchor": {
+              "chapterId": "c-gate",
+              "nodeId": "n-choice"
+            },
+            "backgroundNeedId": "bg-gate",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor",
+              "gardener",
+              "factory-chief"
+            ],
+            "dramaticPurpose": "园门打开一次，机械师和囚徒选择离开或留下",
+            "mood": "抉择",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "fade"
+            },
+            "sceneSlotId": "s-gate"
+          },
+          "b-hall": {
+            "anchor": {
+              "chapterId": "c-hall",
+              "nodeId": "n-meet"
+            },
+            "backgroundNeedId": "bg-hall",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor",
+              "gardener",
+              "factory-chief"
+            ],
+            "dramaticPurpose": "五人相遇，园丁指出外墙有门，厂长开始巡视",
+            "mood": "戒备",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "fade"
+            },
+            "sceneSlotId": "s-hall"
+          },
+          "b-leave": {
+            "anchor": {
+              "chapterId": "c-leave",
+              "nodeId": "n-walk"
+            },
+            "backgroundNeedId": "bg-gate",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor",
+              "gardener",
+              "factory-chief"
+            ],
+            "dramaticPurpose": "两人走出庄园，厂长停在门内",
+            "mood": "松开",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "dissolve"
+            },
+            "sceneSlotId": "s-gate"
+          },
+          "b-outside": {
+            "anchor": {
+              "chapterId": "c-outside",
+              "nodeId": "n-life"
+            },
+            "backgroundNeedId": "bg-outside",
+            "bgmNeedId": "bgm-outside",
+            "castIds": [
+              "mechanic",
+              "prisoner"
+            ],
+            "cgNeedId": "cg-outside",
+            "dramaticPurpose": "庄园外没有游戏，两人开始相恋并过新的日常生活",
+            "mood": "安稳",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "fade"
+            },
+            "sceneSlotId": "s-outside"
+          },
+          "b-stay": {
+            "anchor": {
+              "chapterId": "c-stay",
+              "nodeId": "n-remain"
+            },
+            "backgroundNeedId": "bg-gate",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor"
+            ],
+            "dramaticPurpose": "两人选择留在园子里，医生接受",
+            "mood": "安静",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "cut"
+            },
+            "sceneSlotId": "s-gate"
+          },
+          "b-workshop": {
+            "anchor": {
+              "chapterId": "c-workshop",
+              "nodeId": "n-bond"
+            },
+            "backgroundNeedId": "bg-workshop",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "factory-chief"
+            ],
+            "dramaticPurpose": "两人确认想在一起，厂长追到工坊",
+            "mood": "靠近",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "cut"
+            },
+            "sceneSlotId": "s-workshop"
+          }
+        },
+        "graphDraftId": "graph-2",
+        "mediaNeeds": [
+          {
+            "brief": "暖灯门厅，门从里面锁上",
+            "id": "bg-hall",
+            "kind": "background"
+          },
+          {
+            "brief": "破译室里的旧电机和密码机",
+            "id": "bg-cipher",
+            "kind": "background"
+          },
+          {
+            "brief": "地下工坊，钟表零件和未完成的电路",
+            "id": "bg-workshop",
+            "kind": "background"
+          },
+          {
+            "brief": "外墙园门打开一次，门内是能住的园子",
+            "id": "bg-gate",
+            "kind": "background"
+          },
+          {
+            "brief": "园门外的道路和能住下来的日常，没有巡视",
+            "id": "bg-outside",
+            "kind": "background"
+          },
+          {
+            "brief": "庄园游戏进行时的低压配乐",
+            "id": "bgm-manor",
+            "kind": "bgm"
+          },
+          {
+            "brief": "离开之后日常生活的轻柔配乐",
+            "id": "bgm-outside",
+            "kind": "bgm"
+          },
+          {
+            "brief": "机械师和囚徒在庄园外开始相恋的日常",
+            "id": "cg-outside",
+            "kind": "cg"
+          },
+          {
+            "brief": "两人留下并接受庄园规则，成为庄园的一部分",
+            "id": "cg-belong",
+            "kind": "cg"
+          }
+        ]
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "beats",
+      "projectId": "manor-escape",
+      "draftId": "beats-2",
+      "revision": 2,
+      "basedOn": [
+        "graph-2"
+      ],
+      "contentHash": "sha256:e73c3ef8b45d98c3d42313cc259f799e7c486e3c203b44f290d6ede9a5672d1b",
+      "summary": "背景不变，两个结局各一张接吻 CG",
+      "data": {
+        "beats": {
+          "b-belong": {
+            "anchor": {
+              "chapterId": "c-belong",
+              "nodeId": "n-rules"
+            },
+            "backgroundNeedId": "bg-gate",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "factory-chief"
+            ],
+            "cgNeedId": "cg-belong",
+            "dramaticPurpose": "两人接受庄园规则，成为庄园的一部分，并接吻",
+            "mood": "沉下来",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "dissolve"
+            },
+            "sceneSlotId": "s-gate"
+          },
+          "b-cipher": {
+            "anchor": {
+              "chapterId": "c-cipher",
+              "nodeId": "n-pair"
+            },
+            "backgroundNeedId": "bg-cipher",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor"
+            ],
+            "dramaticPurpose": "玩偶和电路第一次配合，医生催他们离开",
+            "mood": "紧张",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "cut"
+            },
+            "sceneSlotId": "s-cipher"
+          },
+          "b-gate": {
+            "anchor": {
+              "chapterId": "c-gate",
+              "nodeId": "n-choice"
+            },
+            "backgroundNeedId": "bg-gate",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor",
+              "gardener",
+              "factory-chief"
+            ],
+            "dramaticPurpose": "园门打开一次，机械师和囚徒选择离开或留下",
+            "mood": "抉择",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "fade"
+            },
+            "sceneSlotId": "s-gate"
+          },
+          "b-hall": {
+            "anchor": {
+              "chapterId": "c-hall",
+              "nodeId": "n-meet"
+            },
+            "backgroundNeedId": "bg-hall",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor",
+              "gardener",
+              "factory-chief"
+            ],
+            "dramaticPurpose": "五人相遇，园丁指出外墙有门，厂长开始巡视",
+            "mood": "戒备",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "fade"
+            },
+            "sceneSlotId": "s-hall"
+          },
+          "b-leave": {
+            "anchor": {
+              "chapterId": "c-leave",
+              "nodeId": "n-walk"
+            },
+            "backgroundNeedId": "bg-gate",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor",
+              "gardener",
+              "factory-chief"
+            ],
+            "dramaticPurpose": "两人走出庄园，厂长停在门内",
+            "mood": "松开",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "dissolve"
+            },
+            "sceneSlotId": "s-gate"
+          },
+          "b-outside": {
+            "anchor": {
+              "chapterId": "c-outside",
+              "nodeId": "n-life"
+            },
+            "backgroundNeedId": "bg-outside",
+            "bgmNeedId": "bgm-outside",
+            "castIds": [
+              "mechanic",
+              "prisoner"
+            ],
+            "cgNeedId": "cg-outside",
+            "dramaticPurpose": "庄园外没有游戏，两人接吻，开始相恋并过新的日常生活",
+            "mood": "安稳",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "fade"
+            },
+            "sceneSlotId": "s-outside"
+          },
+          "b-stay": {
+            "anchor": {
+              "chapterId": "c-stay",
+              "nodeId": "n-remain"
+            },
+            "backgroundNeedId": "bg-gate",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor"
+            ],
+            "dramaticPurpose": "两人选择留在园子里，医生接受",
+            "mood": "安静",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "cut"
+            },
+            "sceneSlotId": "s-gate"
+          },
+          "b-workshop": {
+            "anchor": {
+              "chapterId": "c-workshop",
+              "nodeId": "n-bond"
+            },
+            "backgroundNeedId": "bg-workshop",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "factory-chief"
+            ],
+            "dramaticPurpose": "两人确认想在一起，厂长追到工坊",
+            "mood": "靠近",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "cut"
+            },
+            "sceneSlotId": "s-workshop"
+          }
+        },
+        "graphDraftId": "graph-2",
+        "mediaNeeds": [
+          {
+            "brief": "暖灯门厅，门从里面锁上",
+            "id": "bg-hall",
+            "kind": "background"
+          },
+          {
+            "brief": "破译室里的旧电机和密码机",
+            "id": "bg-cipher",
+            "kind": "background"
+          },
+          {
+            "brief": "地下工坊，钟表零件和未完成的电路",
+            "id": "bg-workshop",
+            "kind": "background"
+          },
+          {
+            "brief": "外墙园门打开一次，门内是能住的园子",
+            "id": "bg-gate",
+            "kind": "background"
+          },
+          {
+            "brief": "园门外的道路和能住下来的日常，没有巡视",
+            "id": "bg-outside",
+            "kind": "background"
+          },
+          {
+            "brief": "庄园游戏进行时的低压配乐",
+            "id": "bgm-manor",
+            "kind": "bgm"
+          },
+          {
+            "brief": "离开之后日常生活的轻柔配乐",
+            "id": "bgm-outside",
+            "kind": "bgm"
+          },
+          {
+            "brief": "离开结局：机械师和囚徒在庄园外接吻",
+            "id": "cg-outside",
+            "kind": "cg"
+          },
+          {
+            "brief": "留下结局：机械师和囚徒成为庄园的一部分时接吻",
+            "id": "cg-belong",
+            "kind": "cg"
+          }
+        ]
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "bible",
+      "projectId": "manor-escape",
+      "draftId": "bible-3",
+      "revision": 3,
+      "basedOn": [
+        "brief-1"
+      ],
+      "contentHash": "sha256:fe0a584a0f3dc594c4f374e729a04653211e7593ebe3eaa02ff88618e32d0df1",
+      "summary": "机械师外形改为仓库已登记的锁芯。玩偶仍负责靠近电机。",
+      "data": {
+        "briefId": "manor-escape",
+        "canonRules": [
+          "机械师是特蕾西·列兹尼克，页面和台词用职业称呼机械师，随身带着自己做的机械玩偶",
+          "囚徒是卢卡·巴尔萨，页面和台词用职业称呼囚徒",
+          "医生是艾米丽·黛儿，园丁是艾玛·伍兹，厂长是里奥·贝克；页面和台词用职业称呼",
+          "五人的仓库 id 为 mechanic、prisoner、doctor、gardener、factory-chief，以后都属于分组 manor-escape",
+          "公开身份可以沿用，具体对白、机关和结局必须是这部作品自己的"
+        ],
+        "characters": [
+          {
+            "arc": "从只相信自己的玩偶，到把出逃的决定交给另一个人",
+            "id": "mechanic",
+            "motivation": "看清庄园的机关，活着带走奖金；后来改成无论出门还是留下，都要和囚徒在一起",
+            "name": "机械师",
+            "role": "求生者，共通线视角",
+            "traits": [
+              "好奇",
+              "专注",
+              "嘴硬",
+              "念旧"
+            ],
+            "visualNeed": {
+              "costume": "锁芯：紫色猫耳帽扣着铜框紫镜护目镜；紫黑短上衣；右手露指长手套；腰间皮带挂发紫光的心形锁和钥匙；不对称紫裙，破洞深色长袜，黑靴。瞳孔是发光的紫色心形锁纹。近处接线用机械左手，靠近电机仍用玩偶。登记图上的光是紫色。",
+              "expressions": [
+                "戒备",
+                "专注",
+                "别过脸",
+                "轻轻笑"
+              ],
+              "silhouette": "娇小，金色短发侧束黑丝带，侧背挂机械玩偶，左手是黄铜骨骼"
+            }
+          },
+          {
+            "arc": "从把她当成又一个会丢下他的人，到承认留在门内或走出门外都可以，只要她在",
+            "id": "prisoner",
+            "motivation": "用还能工作的电路打开出口，不再一个人留在庄园",
+            "name": "囚徒",
+            "role": "求生者，与机械师同行",
+            "traits": [
+              "急切",
+              "好辩",
+              "心软",
+              "不肯示弱"
+            ],
+            "visualNeed": {
+              "costume": "条纹囚服外罩旧实验外套，腕上有线缆，没有华丽时装",
+              "expressions": [
+                "警惕",
+                "讲道理",
+                "受伤仍逞强",
+                "看着她时放轻"
+              ],
+              "silhouette": "瘦高青年，一手扶着外接的电路匣"
+            }
+          },
+          {
+            "arc": "从要求机械师必须出门，到接受她选择和囚徒留在一起",
+            "id": "doctor",
+            "motivation": "把还能走的人都带出庄园，不把伤留在游戏里",
+            "name": "医生",
+            "role": "求生者，催促所有人离开",
+            "traits": [
+              "冷静",
+              "负责",
+              "不擅安慰"
+            ],
+            "visualNeed": {
+              "costume": "白大褂与深色裙，臂上有红十字药箱；不用限定时装",
+              "expressions": [
+                "诊视",
+                "皱眉",
+                "压低声音",
+                "松一口气"
+              ],
+              "silhouette": "成年女性，手提药箱，身形利落"
+            }
+          },
+          {
+            "arc": "从只照料植物，到把园门的两条路讲给机械师听",
+            "id": "gardener",
+            "motivation": "让同伴知道门外不是唯一能活下去的地方",
+            "name": "园丁",
+            "role": "求生者，认得园门和能住的园子",
+            "traits": [
+              "温和",
+              "固执",
+              "观察细致"
+            ],
+            "visualNeed": {
+              "costume": "园艺围裙、草帽、短靴，手里是剪枝工具；不用限定时装",
+              "expressions": [
+                "微笑",
+                "认真指路",
+                "担忧",
+                "点头"
+              ],
+              "silhouette": "矮一些的少女，肩上扛着工具，帽檐压着发"
+            }
+          },
+          {
+            "arc": "始终是阻碍，不转为同伴，也不参与恋情",
+            "id": "factory-chief",
+            "motivation": "让游戏按庄园的规矩进行，不让求生者提前结束它",
+            "name": "厂长",
+            "role": "监管者，这场游戏的巡视者",
+            "traits": [
+              "沉默",
+              "沉重",
+              "执着"
+            ],
+            "visualNeed": {
+              "costume": "烧损的工场大衣和面具，身周有暗火；不写伤口特写",
+              "expressions": [
+                "巡视",
+                "抬手拦截",
+                "停在园门前",
+                "目送"
+              ],
+              "silhouette": "高大男人，一手木偶、一手焰火，步子慢"
+            }
+          }
+        ],
+        "locations": [
+          {
+            "description": "邀请函被收走的地方。灯是暖的，门从里面锁上。",
+            "id": "gate-hall",
+            "name": "门厅"
+          },
+          {
+            "description": "一台旧电机连着密码机。机械玩偶能靠近它，人则要躲开巡视。",
+            "id": "cipher-room",
+            "name": "破译室"
+          },
+          {
+            "description": "未完成的电路和钟表零件堆在一起。两人第一次把玩偶和电路接到同一条线上。",
+            "id": "workshop",
+            "name": "地下工坊"
+          },
+          {
+            "description": "庄园真正的出口。门开过一次之后，规则会再关一次。",
+            "id": "garden-gate",
+            "name": "外墙园门"
+          }
+        ],
+        "narrativeProhibitions": [
+          "不复述官方信件、日记或任务原文",
+          "不使用未授权的官方立绘或过场",
+          "不写血腥处刑、酷刑细节或性剥削"
+        ],
+        "relationships": [
+          {
+            "from": "mechanic",
+            "kind": "romance",
+            "note": "同一场庄园游戏里从互相利用走到相爱，两个结局都在一起",
+            "to": "prisoner"
+          },
+          {
+            "from": "doctor",
+            "kind": "ally",
+            "note": "医生负责让她活着走到园门",
+            "to": "mechanic"
+          },
+          {
+            "from": "gardener",
+            "kind": "ally",
+            "note": "园丁把留下的那条路指给他看",
+            "to": "prisoner"
+          },
+          {
+            "from": "factory-chief",
+            "kind": "rival",
+            "note": "厂长巡视并拦截这场游戏，不是情敌",
+            "to": "mechanic"
+          }
+        ],
+        "world": {
+          "premise": "欧利蒂丝庄园再开一场游戏。机械师为了看庄园机关并带走奖金而来，囚徒为了离开这栋不会放人走的房子而来。医生想把所有求生者带出门，园丁认得外墙那道能住人的园子。厂长在场内巡视，不让游戏提前结束。机械师和囚徒在同一场里相遇，靠玩偶与电路活下来，并相爱。",
+          "rules": [
+            "这是一场原创庄园游戏，不是官方信件或日记的复述",
+            "出场固定为四名求生者和一名监管者：机械师、囚徒、医生、园丁、厂长",
+            "只有一条共通线，选择发生在外墙园门",
+            "结局一：机械师和囚徒一起离开庄园",
+            "结局二：机械师和囚徒一起留下；留下是两人的选择，不是被拆散"
+          ]
+        }
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "routes",
+      "projectId": "manor-escape",
+      "draftId": "routes-4",
+      "revision": 4,
+      "basedOn": [
+        "bible-3"
+      ],
+      "contentHash": "sha256:b59ade7989ae310794bf39ce2c7515cb2c16d965d20f19b8b8a1dae788eb1440",
+      "summary": "原样挂到 bible-3。地点、分歧和结局不变。",
+      "data": {
+        "bibleId": "bible-3",
+        "endings": [
+          {
+            "conditionIntent": "先在园门选择离开，再进入外面的新生活",
+            "id": "end-leave",
+            "outcome": "机械师和囚徒在庄园外开始相恋，过上新生活",
+            "routeId": "common"
+          },
+          {
+            "conditionIntent": "先在园门选择留下，再接受规则、成为庄园的一部分",
+            "id": "end-stay",
+            "outcome": "机械师和囚徒留下，接受庄园规则并成为庄园的一部分",
+            "routeId": "common"
+          }
+        ],
+        "forks": [
+          {
+            "id": "gate-choice",
+            "options": [
+              {
+                "id": "opt-leave",
+                "intent": "机械师选择和囚徒离开，随后在外面开始新生活",
+                "targetMilestoneId": "m-leave"
+              },
+              {
+                "id": "opt-stay",
+                "intent": "机械师选择和囚徒留下，随后接受庄园的规则",
+                "targetMilestoneId": "m-stay"
+              }
+            ],
+            "sourceMilestoneId": "m-gate"
+          }
+        ],
+        "locations": [
+          {
+            "description": "邀请函被收走的地方。灯是暖的，门从里面锁上。",
+            "id": "gate-hall",
+            "name": "门厅"
+          },
+          {
+            "description": "一台旧电机连着密码机。机械玩偶能靠近它，人则要躲开巡视。",
+            "id": "cipher-room",
+            "name": "破译室"
+          },
+          {
+            "description": "未完成的电路和钟表零件堆在一起。两人第一次把玩偶和电路接到同一条线上。",
+            "id": "workshop",
+            "name": "地下工坊"
+          },
+          {
+            "description": "庄园真正的出口。门开过一次之后，规则会再关一次。",
+            "id": "garden-gate",
+            "name": "外墙园门"
+          },
+          {
+            "description": "园门另一侧的道路和能住下来的日常。没有巡视，也没有游戏。",
+            "id": "outside",
+            "name": "庄园外"
+          }
+        ],
+        "milestones": [
+          {
+            "id": "m-hall",
+            "summary": "门厅锁上。机械师遇见囚徒，医生清点还能走的人，园丁说出外墙有门，厂长开始巡视。"
+          },
+          {
+            "id": "m-cipher",
+            "summary": "破译室里，机械玩偶靠近电机，囚徒接上电路。两人第一次互相利用着活下来，医生催他们离开。"
+          },
+          {
+            "id": "m-workshop",
+            "summary": "地下工坊把玩偶和电路接到同一条线。机械师和囚徒确认想在一起，厂长追到这里，众人逃向园门。"
+          },
+          {
+            "id": "m-gate",
+            "summary": "外墙园门打开一次。医生要求所有人出门，园丁指出门内的园子也能住。选择只属于机械师和囚徒。"
+          },
+          {
+            "id": "m-leave",
+            "summary": "两人一起走出庄园。医生和园丁可以各自离开，厂长停在门内，不再追。"
+          },
+          {
+            "id": "m-outside",
+            "summary": "离开后的后续。庄园外面没有游戏和巡视，机械师和囚徒开始相恋，一起过新的日常生活。"
+          },
+          {
+            "id": "m-stay",
+            "summary": "两人一起留在园子里。这是他们的选择，医生接受，厂长不再把他们拆开。"
+          },
+          {
+            "id": "m-belong",
+            "summary": "留下后的后续。两人接受庄园的规则，留在游戏与职责之内，成为庄园的一部分，恋情也留在其中。"
+          }
+        ],
+        "routes": [
+          {
+            "endingIds": [
+              "end-leave",
+              "end-stay"
+            ],
+            "id": "common",
+            "leadCharacterId": "mechanic",
+            "milestoneIds": [
+              "m-hall",
+              "m-cipher",
+              "m-workshop",
+              "m-gate",
+              "m-leave",
+              "m-outside",
+              "m-stay",
+              "m-belong"
+            ],
+            "premise": "机械师与囚徒走到外墙园门后，要么一起离开并在外面开始相恋的新生活，要么一起留下、接受庄园规则并成为庄园的一部分"
+          }
+        ]
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "graph",
+      "projectId": "manor-escape",
+      "draftId": "graph-3",
+      "revision": 3,
+      "basedOn": [
+        "routes-4"
+      ],
+      "contentHash": "sha256:274515e1f5925ae5a9187890d7fd68926b08007048a1da449ced3f9ebcb79f9e",
+      "summary": "原样挂到 routes-4。章节和庄园外场景不变。",
+      "data": {
+        "chapters": {
+          "c-belong": {
+            "nodes": {
+              "n-end-stay": {
+                "endingId": "end-stay",
+                "kind": "ending",
+                "milestoneId": "m-belong",
+                "routeId": "common"
+              },
+              "n-rules": {
+                "kind": "line-slot",
+                "milestoneId": "m-belong",
+                "next": {
+                  "chapterId": "c-belong",
+                  "nodeId": "n-end-stay"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-gate",
+            "start": "n-rules",
+            "title": "成为庄园的一部分"
+          },
+          "c-cipher": {
+            "nodes": {
+              "n-pair": {
+                "kind": "line-slot",
+                "milestoneId": "m-cipher",
+                "next": {
+                  "chapterId": "c-workshop",
+                  "nodeId": "n-bond"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-cipher",
+            "start": "n-pair",
+            "title": "破译室"
+          },
+          "c-gate": {
+            "nodes": {
+              "n-choice": {
+                "kind": "choice",
+                "milestoneId": "m-gate",
+                "options": [
+                  {
+                    "id": "opt-leave",
+                    "next": {
+                      "chapterId": "c-leave",
+                      "nodeId": "n-walk"
+                    }
+                  },
+                  {
+                    "id": "opt-stay",
+                    "next": {
+                      "chapterId": "c-stay",
+                      "nodeId": "n-remain"
+                    }
+                  }
+                ],
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-gate",
+            "start": "n-choice",
+            "title": "外墙园门"
+          },
+          "c-hall": {
+            "nodes": {
+              "n-meet": {
+                "kind": "line-slot",
+                "milestoneId": "m-hall",
+                "next": {
+                  "chapterId": "c-cipher",
+                  "nodeId": "n-pair"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-hall",
+            "start": "n-meet",
+            "title": "门厅"
+          },
+          "c-leave": {
+            "nodes": {
+              "n-walk": {
+                "kind": "line-slot",
+                "milestoneId": "m-leave",
+                "next": {
+                  "chapterId": "c-outside",
+                  "nodeId": "n-life"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-gate",
+            "start": "n-walk",
+            "title": "走出庄园"
+          },
+          "c-outside": {
+            "nodes": {
+              "n-end-leave": {
+                "endingId": "end-leave",
+                "kind": "ending",
+                "milestoneId": "m-outside",
+                "routeId": "common"
+              },
+              "n-life": {
+                "kind": "line-slot",
+                "milestoneId": "m-outside",
+                "next": {
+                  "chapterId": "c-outside",
+                  "nodeId": "n-end-leave"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-outside",
+            "start": "n-life",
+            "title": "外面的新生活"
+          },
+          "c-stay": {
+            "nodes": {
+              "n-remain": {
+                "kind": "line-slot",
+                "milestoneId": "m-stay",
+                "next": {
+                  "chapterId": "c-belong",
+                  "nodeId": "n-rules"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-gate",
+            "start": "n-remain",
+            "title": "留在园中"
+          },
+          "c-workshop": {
+            "nodes": {
+              "n-bond": {
+                "kind": "line-slot",
+                "milestoneId": "m-workshop",
+                "next": {
+                  "chapterId": "c-gate",
+                  "nodeId": "n-choice"
+                },
+                "routeId": "common"
+              }
+            },
+            "sceneId": "s-workshop",
+            "start": "n-bond",
+            "title": "地下工坊"
+          }
+        },
+        "entry": {
+          "chapterId": "c-hall",
+          "nodeId": "n-meet"
+        },
+        "routesDraftId": "routes-4",
+        "sceneSlots": [
+          {
+            "id": "s-hall",
+            "locationId": "gate-hall"
+          },
+          {
+            "id": "s-cipher",
+            "locationId": "cipher-room"
+          },
+          {
+            "id": "s-workshop",
+            "locationId": "workshop"
+          },
+          {
+            "id": "s-gate",
+            "locationId": "garden-gate"
+          },
+          {
+            "id": "s-outside",
+            "locationId": "outside"
+          }
+        ]
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "beats",
+      "projectId": "manor-escape",
+      "draftId": "beats-3",
+      "revision": 3,
+      "basedOn": [
+        "graph-3"
+      ],
+      "contentHash": "sha256:0b7315d94c998fba62fdd948bc85a5b840337f7d86161cfda466930466b546ae",
+      "summary": "原样挂到 graph-3。背景、配乐和两张接吻 CG 不变。",
+      "data": {
+        "beats": {
+          "b-belong": {
+            "anchor": {
+              "chapterId": "c-belong",
+              "nodeId": "n-rules"
+            },
+            "backgroundNeedId": "bg-gate",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "factory-chief"
+            ],
+            "cgNeedId": "cg-belong",
+            "dramaticPurpose": "两人接受庄园规则，成为庄园的一部分，并接吻",
+            "mood": "沉下来",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "dissolve"
+            },
+            "sceneSlotId": "s-gate"
+          },
+          "b-cipher": {
+            "anchor": {
+              "chapterId": "c-cipher",
+              "nodeId": "n-pair"
+            },
+            "backgroundNeedId": "bg-cipher",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor"
+            ],
+            "dramaticPurpose": "玩偶和电路第一次配合，医生催他们离开",
+            "mood": "紧张",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "cut"
+            },
+            "sceneSlotId": "s-cipher"
+          },
+          "b-gate": {
+            "anchor": {
+              "chapterId": "c-gate",
+              "nodeId": "n-choice"
+            },
+            "backgroundNeedId": "bg-gate",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor",
+              "gardener",
+              "factory-chief"
+            ],
+            "dramaticPurpose": "园门打开一次，机械师和囚徒选择离开或留下",
+            "mood": "抉择",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "fade"
+            },
+            "sceneSlotId": "s-gate"
+          },
+          "b-hall": {
+            "anchor": {
+              "chapterId": "c-hall",
+              "nodeId": "n-meet"
+            },
+            "backgroundNeedId": "bg-hall",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor",
+              "gardener",
+              "factory-chief"
+            ],
+            "dramaticPurpose": "五人相遇，园丁指出外墙有门，厂长开始巡视",
+            "mood": "戒备",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "fade"
+            },
+            "sceneSlotId": "s-hall"
+          },
+          "b-leave": {
+            "anchor": {
+              "chapterId": "c-leave",
+              "nodeId": "n-walk"
+            },
+            "backgroundNeedId": "bg-gate",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor",
+              "gardener",
+              "factory-chief"
+            ],
+            "dramaticPurpose": "两人走出庄园，厂长停在门内",
+            "mood": "松开",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "dissolve"
+            },
+            "sceneSlotId": "s-gate"
+          },
+          "b-outside": {
+            "anchor": {
+              "chapterId": "c-outside",
+              "nodeId": "n-life"
+            },
+            "backgroundNeedId": "bg-outside",
+            "bgmNeedId": "bgm-outside",
+            "castIds": [
+              "mechanic",
+              "prisoner"
+            ],
+            "cgNeedId": "cg-outside",
+            "dramaticPurpose": "庄园外没有游戏，两人接吻，开始相恋并过新的日常生活",
+            "mood": "安稳",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "fade"
+            },
+            "sceneSlotId": "s-outside"
+          },
+          "b-stay": {
+            "anchor": {
+              "chapterId": "c-stay",
+              "nodeId": "n-remain"
+            },
+            "backgroundNeedId": "bg-gate",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "doctor"
+            ],
+            "dramaticPurpose": "两人选择留在园子里，医生接受",
+            "mood": "安静",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "cut"
+            },
+            "sceneSlotId": "s-gate"
+          },
+          "b-workshop": {
+            "anchor": {
+              "chapterId": "c-workshop",
+              "nodeId": "n-bond"
+            },
+            "backgroundNeedId": "bg-workshop",
+            "bgmNeedId": "bgm-manor",
+            "castIds": [
+              "mechanic",
+              "prisoner",
+              "factory-chief"
+            ],
+            "dramaticPurpose": "两人确认想在一起，厂长追到工坊",
+            "mood": "靠近",
+            "order": 0,
+            "presentationNeeds": {
+              "motions": [],
+              "transition": "cut"
+            },
+            "sceneSlotId": "s-workshop"
+          }
+        },
+        "graphDraftId": "graph-3",
+        "mediaNeeds": [
+          {
+            "brief": "暖灯门厅，门从里面锁上",
+            "id": "bg-hall",
+            "kind": "background"
+          },
+          {
+            "brief": "破译室里的旧电机和密码机",
+            "id": "bg-cipher",
+            "kind": "background"
+          },
+          {
+            "brief": "地下工坊，钟表零件和未完成的电路",
+            "id": "bg-workshop",
+            "kind": "background"
+          },
+          {
+            "brief": "外墙园门打开一次，门内是能住的园子",
+            "id": "bg-gate",
+            "kind": "background"
+          },
+          {
+            "brief": "园门外的道路和能住下来的日常，没有巡视",
+            "id": "bg-outside",
+            "kind": "background"
+          },
+          {
+            "brief": "庄园游戏进行时的低压配乐",
+            "id": "bgm-manor",
+            "kind": "bgm"
+          },
+          {
+            "brief": "离开之后日常生活的轻柔配乐",
+            "id": "bgm-outside",
+            "kind": "bgm"
+          },
+          {
+            "brief": "离开结局：机械师和囚徒在庄园外接吻",
+            "id": "cg-outside",
+            "kind": "cg"
+          },
+          {
+            "brief": "留下结局：机械师和囚徒成为庄园的一部分时接吻",
+            "id": "cg-belong",
+            "kind": "cg"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "eventId": "approve-brief-1",
+      "action": "approve",
+      "projectId": "manor-escape",
+      "draftId": "brief-1",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15 批准两个一起的结局和五人出场"
+    },
+    {
+      "eventId": "approve-bible-1",
+      "action": "approve",
+      "projectId": "manor-escape",
+      "draftId": "bible-1",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15 批准角色与两个结局"
+    },
+    {
+      "eventId": "reject-routes-1",
+      "action": "reject",
+      "projectId": "manor-escape",
+      "draftId": "routes-1",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15 要求离开和留下之后各加一段后续，旧大纲作废"
+    },
+    {
+      "eventId": "approve-routes-2",
+      "action": "approve",
+      "projectId": "manor-escape",
+      "draftId": "routes-2",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15 批准离开后的新生活和留下后成为庄园的一部分"
+    },
+    {
+      "eventId": "reject-graph-1",
+      "action": "reject",
+      "projectId": "manor-escape",
+      "draftId": "graph-1",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15 要求单独的庄园外场景，旧剧情图作废"
+    },
+    {
+      "eventId": "reject-bible-2",
+      "action": "reject",
+      "projectId": "manor-escape",
+      "draftId": "bible-2",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15 地点改到大纲确定后列出，不回改圣经"
+    },
+    {
+      "eventId": "approve-routes-3:supersede",
+      "action": "supersede",
+      "projectId": "manor-escape",
+      "draftId": "routes-2",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15 批准大纲地点表，含庄园外"
+    },
+    {
+      "eventId": "approve-routes-3",
+      "action": "approve",
+      "projectId": "manor-escape",
+      "draftId": "routes-3",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15 批准大纲地点表，含庄园外"
+    },
+    {
+      "eventId": "approve-graph-2",
+      "action": "approve",
+      "projectId": "manor-escape",
+      "draftId": "graph-2",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15 批准剧情图，外面的新生活使用庄园外"
+    },
+    {
+      "eventId": "reject-beats-1",
+      "action": "reject",
+      "projectId": "manor-escape",
+      "draftId": "beats-1",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15 背景保留，两张 CG 改为结局接吻"
+    },
+    {
+      "eventId": "approve-beats-2",
+      "action": "approve",
+      "projectId": "manor-escape",
+      "draftId": "beats-2",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15 批准节拍，含五张背景、两条配乐和两张结局接吻 CG"
+    },
+    {
+      "eventId": "approve-bible-3:supersede",
+      "action": "supersede",
+      "projectId": "manor-escape",
+      "draftId": "bible-1",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15：机械师用锁芯，并要求圣经与已登记的锁芯图同步。只改机械师外形，不改世界观、地点和关系。"
+    },
+    {
+      "eventId": "approve-bible-3",
+      "action": "approve",
+      "projectId": "manor-escape",
+      "draftId": "bible-3",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15：机械师用锁芯，并要求圣经与已登记的锁芯图同步。只改机械师外形，不改世界观、地点和关系。"
+    },
+    {
+      "eventId": "approve-routes-4:supersede",
+      "action": "supersede",
+      "projectId": "manor-escape",
+      "draftId": "routes-3",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15：机械师用锁芯，并要求圣经与已登记的锁芯图同步。只改机械师外形，不改世界观、地点和关系。"
+    },
+    {
+      "eventId": "approve-routes-4",
+      "action": "approve",
+      "projectId": "manor-escape",
+      "draftId": "routes-4",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15：机械师用锁芯，并要求圣经与已登记的锁芯图同步。只改机械师外形，不改世界观、地点和关系。"
+    },
+    {
+      "eventId": "approve-graph-3:supersede",
+      "action": "supersede",
+      "projectId": "manor-escape",
+      "draftId": "graph-2",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15：机械师用锁芯，并要求圣经与已登记的锁芯图同步。只改机械师外形，不改世界观、地点和关系。"
+    },
+    {
+      "eventId": "approve-graph-3",
+      "action": "approve",
+      "projectId": "manor-escape",
+      "draftId": "graph-3",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15：机械师用锁芯，并要求圣经与已登记的锁芯图同步。只改机械师外形，不改世界观、地点和关系。"
+    },
+    {
+      "eventId": "approve-beats-3:supersede",
+      "action": "supersede",
+      "projectId": "manor-escape",
+      "draftId": "beats-2",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15：机械师用锁芯，并要求圣经与已登记的锁芯图同步。只改机械师外形，不改世界观、地点和关系。"
+    },
+    {
+      "eventId": "approve-beats-3",
+      "action": "approve",
+      "projectId": "manor-escape",
+      "draftId": "beats-3",
+      "reviewerId": "owner",
+      "reviewerRole": "owner",
+      "reason": "Owner 2026-10-15：机械师用锁芯，并要求圣经与已登记的锁芯图同步。只改机械师外形，不改世界观、地点和关系。"
+    }
+  ]
+}

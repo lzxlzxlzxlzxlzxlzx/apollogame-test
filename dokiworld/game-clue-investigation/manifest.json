@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 3,
+  "id": "game-clue-investigation",
+  "version": "0.2.1",
+  "entry": "index.html",
+  "context": {
+    "requiredScopes": [],
+    "optionalScopes": []
+  },
+  "locales": {
+    "en": {
+      "name": "Clue Investigation",
+      "description": "A host-provided scene investigation app with irregular PNG hit testing and one validated result receipt."
+    },
+    "zh-cn": {
+      "name": "现场搜证",
+      "description": "由 DokiWorld 传入现场图片、物件位置与预烘焙像素蒙版；首次收录全部必要线索后仅回传一次结果。"
+    }
+  },
+  "documentation": {
+    "zh-cn": {
+      "title": "现场搜证 DokiWorld 调用说明",
+      "path": "docs/integration.zh-CN.md"
+    }
+  },
+  "runtime": {
+    "protocol": "dokiworld.app",
+    "protocolVersion": 2,
+    "input": {
+      "contract": "doki.game.clue-investigation-input",
+      "version": 1
+    },
+    "outputs": [
+      {
+        "contract": "doki.game.clue-investigation-result",
+        "version": 1
+      }
+    ],
+    "modules": []
+  }
+}

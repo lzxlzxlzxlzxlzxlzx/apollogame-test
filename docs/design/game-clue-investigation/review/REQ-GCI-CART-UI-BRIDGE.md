@@ -35,3 +35,7 @@
 ## 当前共享代码的非施工者复查（`/root/gci_bridge_review`，2026-10-13）
 
 判词 **PASS，仅 UI-01 通用桥定向范围**，旧 PASS 之后 `cart-run-core.ts` 增量已纳入这次复查。复查人独立跑了 5 文件/64 测试、TypeScript exit 0、短时浏览器 7/7；真实在线 React `DataCartridgeRunner` 与真实内联 `mount` 均以 Canvas 点茶杯打开 LayoutNode 档案条，卸载后 canvas 数由 1 归 0 且 pageerror 为空。四视口、Modal 遮罩不打穿、正式 GCI 关闭特写后第二次 Escape 均通过；旧失败 `backFace > Panel > Label.bind` 现明确拒绝。撤修验红锚点 `uiActions.enqueueAction(binding.action)` 命中，隔离内存 no-op 后 HUD 不出现（`SABOTAGE_RED true`）。复查人逐条读输出，未见桥自身告警；最初在线测试 harness 的 ReactDOM CJS 导入错误纠正后产品路径 PASS。隔离浏览器/Vite 均已清理，5716/5717/5719/5720/5721 无监听。全库 `scoped-gate` 的 32 条其它项目违规仍独立阻断本池关账；此 PASS 也不代替独立 POINTER-02 复查与游戏 S4 人门。
+
+## Owner 需求池结案裁决（2026-10-16）
+
+Owner 选择按单项能力复查结案，允许将域外全库 depcruise 红项与本桥完成状态分开记账。公共需求 `REQ-GCI-CART-UI-BRIDGE` 已从活动池释放；本结案仅确认共享 UI/宿主桥范围，不代表全库 gate 通过，也不改变 GCI 流程板 S2/S3/S4/S7/S8 状态或任何 Owner 人门。

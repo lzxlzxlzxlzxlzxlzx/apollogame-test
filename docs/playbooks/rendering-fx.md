@@ -7,7 +7,7 @@
 
 | 任务 | 能力实名 | 怎么接（一句） |
 |---|---|---|
-| 画一张精灵图 | `l1-sprite`（组件 `Sprite`） | 挂 `Sprite{textureKey,anchorX,anchorY,zOrder}` + `Transform`；可选 `width+height+fit`（三者必须同在）将图按目标框等比 `cover`（裁源铺满）或 `contain`（居中留透明边）。省略三者保持源帧原生尺寸；atlas 以 Frame 源矩形为裁切边界。 |
+| 画一张精灵图 | `l1-sprite`（组件 `Sprite`） | 挂 `Sprite{textureKey,anchorX,anchorY,zOrder}` + `Transform`；可选 `width+height+fit`（三者必须同在）将图按目标框等比 `cover`（裁源铺满）或 `contain`（居中留透明边）。省略三者保持源帧原生尺寸；atlas 以 Frame 源矩形为裁切边界。可选 `sampling:'smooth'` 让单张插值平滑，缺省 `nearest` 保持像素画。 |
 | 拖动精灵影像、锅外回弹 | `DragPreviewLayer`（`src/runtime/drag-preview.ts`） | 宿主显式列 `entityIds`，同实例传 `CanvasRenderer({dragPreview})`；`PointerInputSource({move:true,onPointerSample:a=>preview.sample(a,world,performance.now())})`。只读 G3 `findDropZoneAt`；默认关闭、140ms 抬起/280ms 回弹，不写 World/Signal。 |
 | 上色 / 透明度 | `l2-color`（组件 `Color`） | 挂 `Color{...,alpha}`；淡入淡出用 `t1-tween` 驱动 alpha |
 | 多实体多段 2D 演出 | `t2-presentation-track`（`PresentationTrack`） | 轨道拥有者填 `targetEntity`、并行 `channels[{target,keyframes:[{at,value,easing?}]}]`、逐字段 `finalPose`；`play/pause/resume/reset/skip` 均由具名 Signal 驱动。固定 tick；自然播完和 skip 都落同一终态，下一拍 Resolve 发一次可消费的 `doneSignal`。同目标字段冲突稳定拒收。 |
@@ -20,6 +20,7 @@
 | 相机跟随/取景 | `t2-camera-follow`（组件 `Camera`） | 目标挂 `CameraTarget`，相机挂 `Camera`（合作相机取 AABB 中点+偏移，先 fit zoom）；可选 `followDeadZone:{left,right,top,bottom}` 以 `[0,0.5)` 视口比例声明逐轴安全区，区内保持、越界只追对应轴，最后由相机实体的 `Bounds` 钳制；省略仍逐帧居中。通用 Camera 沿用世界/像素单位，Life package 的 camera 用格单位并仅在 Life renderer 投影一次成像素 |
 | 页面满幅响应式世界 | `mountHost({viewportMode:'responsive'})` + `CanvasRenderer({viewport:{mode:'responsive',cameraFit:'cover'}})` | 显式 opt-in 后 Canvas 以 play-field CSS px 为逻辑尺寸、DPR 为 backing；render-local cover 只缩放投影且同步 WorldUI2D，不回写 Camera/World；省略配置仍为历史定尺信箱 |
 | 2D 世界实体旁 UI | `l8-world-ui2d`（组件 `WorldUI2D`） | 稳定世界表现挂 `Transform + WorldUI2D{text\|node,offsetX/Y}`；纯宿主菜单可传只读 `worldUi2D.source()` descriptor（`entityId + transform + node`），严禁为开关 UI 直写 World。CanvasRenderer 需显式 `worldUi2D.host`，按当前 Camera 投影并用 `mountUI` 挂 LayoutNode；descriptor 可 opt-in `keepInViewport:{padding}`，以 mount 后逻辑 CSS 尺寸夹住左右边并在顶边翻到锚点下方。Life renderer 的偏移为格单位且只做一次格→像素转换；宿主产出 `data-entity-anchor`，可被 `Float/Connector` 的 entity anchor 消费 |
+| 数据卡带 Canvas 实形热点反馈 | `presentation.focusTargets` + `pointerFeedback:{tone,pressedMs}`（opt-in） | `tone` 仅 cyan/gold/jade，`pressedMs` 为 1–300；键盘标签与 pointer hover/press 同用 focusTargets。宿主只读 `collectClickableTargets`/`pickClickableTarget`，与 `t2-clickable` 共用 hit-mask、Sprite cover/contain、zOrder/id、onlyFlag 及 fail-closed；CanvasRenderer 画轮廓，不发额外 move Signal、不写 World/hash。省略字段的旧卡带不装监听/画层。 |
 | 动效强调（呼吸/抖/发光/闪） | `VisualEffect`（`EffectKind` 闭集） | 闭集 pulse/float/shake/pop/glow/sheen/flash/fade；`color` 取语义令牌 |
 
 ## ② 样例指针

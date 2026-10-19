@@ -1,12 +1,8 @@
 # UI / HUD / 菜单手册（接线图·薄壳）
 
-> **🔎 先搜再问：`node scripts/ui-find.mjs <大白话>`**（如 `血条` / `货币` / `选关` / `弹窗` / `右键菜单`）——
-> 直接给你**哪个控件 + 全部 prop + 去展台哪一段看活的 + 照抄哪个文件**。不必先知道控件叫什么名字。
-> 摊开一件 `--type Label`｜总览 `--list`｜某页演了啥 `--tab tab-new`｜机读 `--json`。
-> 索引真相 = `catalog.ts` 的 `demo[]`/`tags[]`（`ui-find.test.mjs` 守着·段 id 死链当场红）。**搜不到再考虑报 PUI 扩控件，别手搓逃生。**
-> **本页是薄壳。做任何 UI 前先读 `docs/design/ui-playbook.md`**（黄金流程 + 防重叠/对比度/透明度/布局卫生四准则 + 自检清单——schema 之外的合理性靠它）。
-> **UI 铁律**：所有游戏 UI/HUD/菜单/面板/VN chrome **必须用 `LayoutNode` 数据描述**（控件=闭集 `ComponentType`；显示绑定=resourceId/StringVar id；写世界=`action` 信号名入队）。play-field 走 render 组件（rendering-fx.md）。本页只补**引擎接线**。
-> **原型前置**：新游戏 UI 开工前必须先过 `game-production.md` 的 `S1-P`——真机目击 owner 定稿 HTML 原型，逐屏/逐状态/逐关键演出提取规格；未定稿不得写正式 UI。原型只作 1:1 目标，禁直接挪用 DOM/CSS/JS。
+> **🔎 先搜再问：`node scripts/ui-find.mjs <大白话>`**（血条/货币/选关/弹窗/右键菜单）：给出控件、prop 与 game-i 活例。单件 `--type Label`｜总览 `--list`｜某页 `--tab tab-new`｜机读 `--json`。索引真相是 `catalog.ts` 的 `demo[]`/`tags[]`（`ui-find.test.mjs` 守死链）；搜不到再报缺口，别手搓逃生。
+> **本页是薄壳**：做 UI 先读 `docs/design/ui-playbook.md` 的四准则与自检。**UI 铁律**：UI/HUD/菜单/面板/VN chrome 均用 `LayoutNode` 闭集数据；显示绑定 resourceId/StringVar，写世界靠 `action` 入队；play-field 走 render 组件（rendering-fx.md）。本页只补引擎接线。
+> **原型前置**：新游戏先过 `game-production.md` 的 S1-P；owner 真机定稿 HTML 原型后逐屏、逐状态、逐演出提规格，未定稿不得写正式 UI。原型只作 1:1 目标，不搬 DOM/CSS/JS。
 
 ## ⭐ 华丽起手（新游戏 UI 别从空白搭·华丽度=第一要素·owner 2026-07）
 
@@ -27,11 +23,16 @@
 
 ## ① 引擎接线链（LayoutNode → 世界）
 
+### 排印默认律
+
+- 正文、材料、说明、按钮、标题用 house 字体；古风不自动用艺术字。cnwen 禁作默认/兜底及正文、小字、列表、控件。
+- 仅 owner 在定稿原型逐处指定的大字短标题可用 cnwen，须画布实测；其他艺术字须原型明确，不替代信息层级。
+
 | 环节 | 机制实名 | 一句 |
 |---|---|---|
 | 描述界面 | `LayoutNode` 树 | 闭集 `ComponentType` 控件；数据，非 React |
 | 挂载/渲染 | `mountUI(...)` | `src/ui/components/server.ts`——把 LayoutNode 渲成 DOM |
-| 写世界 = 信号 | `ActionSink` + `action` | 无本地 handler 的 `action` 经 `ActionSink` **入队成 `Signal`**（可带 `arg`）→ 由 sim 能力消费（events-logic.md）；人/AI 共用动作总线 |
+| 写世界 = 信号 | `ActionSink` + `action` | 无本地 handler 的 `action` 经 `ActionSink` **入队成 `Signal`**（可带 `arg`）→ 由 sim 能力消费（events-logic.md）；人/AI 共用动作总线。逐字完成/显全：`Label/dialog.typewriterSignal:{token,action}` 配 `typewriter:0..1000`，token=宿主 StoryRef+世代；末字/首击显全只发一次 `action(arg=token)`，首击不推进，换投影旧 token 失效；缺省零变。 |
 | 受限滚轮动作 | `Panel.wheel:{upAction?,downAction?}` | `mountUI` 捕获真实 `WheelEvent`、归一化并每事件至多向 `ActionSink` 入队一个具名动作；内层 `Panel.scroll`/`VirtualList` 优先，打开的 `Modal` 阻断背景，禁游戏层自挂 wheel DOM 监听。样例=game-i `t-wheel`。 |
 | 模态确认／历史／画廊 | `Modal.size`（`sm/md/lg/xl/wide`）+ `closeAction` + 可选 `skin/skinSlice` | `xl`=800px 确认框；`wide`=1080px、最小高610px 的历史／画廊框；`mountUI` 输出 dialog/aria-modal，焦点自动进入、Tab 圈定、关闭返回触发件，Escape／遮罩只发 `closeAction`（不直写世界）；框皮用已解析 URL + 九宫格，禁自由 CSS。活范例=game-i `t-modal`。 |
 | 控件自描述 | `UI_CATALOG` | `src/ui/components/catalog.ts`——有哪些控件/prop/闭集枚举（机读真相，不手抄） |
@@ -63,6 +64,8 @@
 
 > **文字色口径（GAL-ART-01A/S3/S4 对齐）**：`Label.color` 与 `Button.labelColor` 默认只填 11 个语义 token；定稿确需精确色时，才填单键 `color:{custom:'#hex'}` / `labelColor:{custom:'#hex'}`。`Button.labelColor` 只改内建文字色，缺省仍保留 kind/贴图皮原有字色。`custom` 必须是非空且安全净化后不变的色串；裸色字符串、注入字符和额外键均由 `validateLayoutNode` 拒收。custom 不豁免深/亮主题的真浏览器对比审计。
 
+> **Button 闭集**：`stateColors` 须一次给齐 default/hover/pressed/disabled，每态含 background/border/可选 text；禁与非空 skin 共用。`iconOnly:{size:24..64}` 须保留非空 label，图仅本地/栅格 data URL；加载失败回退文字。两者缺省均不改旧按钮；原生禁用/焦点/ActionSink 保持。活例 game-i `t-btn`。
+
 > **非九宫格皮图尺度（GAL-ART-01A/S2）**：`Panel.skin` / `Button.skin` 默认仍是旧 `cover`；要精确复刻定稿裁切才填 `skinSize:{x,y}`（百分比）和 `skinPosition:'center'`，按钮可再填对称 `skinOutset:{x,y}` 生成受控图层外扩。三者只能配非空、无 `skinSlice` 的 skin，数值均受校验；不接受自由 background CSS。
 
 > **Modal 内建标题色（GAL-ART-01A/S3）**：`Modal.titleColor` 复用 `Label.color` 的 token / 受限 custom 合同；缺省仍为主题 `text`，不影响内建 `aria-labelledby`、焦点圈定或关闭行为。
@@ -76,21 +79,22 @@
 
 ## ③ 本线红线（其余合理性准则见 ui-playbook）
 
-- **禁**：游戏层手写 React 屏 / 自由 CSS·DOM（`innerHTML`/`createElement`）；直用 `ui/shell`(UINode) / `ui/vn`（待退役）。
-- **handler 里绝不塞自由逻辑**：`action` 只发信号名，世界改动入 sim 能力层。
+- **禁**：游戏层手写 React、自由 CSS/DOM（`innerHTML`/`createElement`）、直用 `ui/shell`/`ui/vn`；handler 不塞业务逻辑，`action` 只发信号名，世界改动入 sim 能力层。
 - LayoutNode 表达不了的 → 走 requests.md 让主程扩控件（下沉成通用 UI 能力），**绝不手写 React 逃生**。
 - **红旗棘轮（owner 2026-07-04 拍板·复查规则）**：每游戏的裸随机/innerHTML/createElement 计数**只许降不许升**（机读基线文件=`scripts/audit-baseline.json`·随 REQ-QA-红旗棘轮 已落地·超基线=门禁红）。真表达不了的先提缺口单，抬基线必须在 baseline 条目挂 `reason:"REQ-xxx"`。浮层/连线/钉实体特效的基座件=REQ-UI-锚定（Float/Connector·施工中），落地前忍住别自造。
 ## ④ 正样例 / 反面教材
 
-- ✅ game-i（LayoutNode 纯数据展示台）、game-g 大厅六屏（达标）。
-- ✖ 手写 React UI 屏两例勿模仿：`games/game-e/game-e.tsx`（1163 行·decouple-check 祖父豁免·记债未消解）与 `games/game-f/game-f.tsx`（970 行·冻结）。
+- ✅ game-i 纯数据展示台、game-g 大厅六屏；✖ 勿仿 game-e/game-f 的手写 React UI（前者 1163 行、祖父豁免记债；后者 970 行、冻结）。
 
 ## ⑤ 交付前 + 查不到怎么办
 
-- 做完/改完任何 LayoutNode UI → 跑 `/check-ui` 仪式（防重叠/对比度/透明度/布局卫生 + `validateLayoutNode` 零 issue + ui-audit 归零）。
+- **图标钮精确反馈**：`Button.iconOnly+iconFeedback` 完整 opt-in；仅图像 hover/pressed 位移、亮度与光，禁用灰度，减动归零。省略字段保持旧态。活例 game-i `btn-icon-feedback`。
+- 改完 LayoutNode UI → 跑 `/check-ui`（防重叠/对比度/透明度/布局卫生 + `validateLayoutNode` 零 issue + ui-audit 归零）。
 - 控件闭集里没有需要的控件 → `docs/workflow/requests.md` 提缺口，等主程扩 LayoutNode。**不手写 React。**
-
 - **一次性机械状态变换**：门、宝箱、锁梁、机械臂等二维部件用 `layout.transformFrom:{x,y,rotate,scale}` 声明起始姿态，终点复用节点已声明的 `layout.x/y/rotate/scale`；按需填 `transformMotionMs` 与闭集缓动 `linear|ease-out|ease-in-out`。它只动画 `transform`，绝不以 `opacity` 代替运动；reduced-motion 下时长归零。
 - **连续机械状态变换**：棘轮、指针、继电器拨杆等会在宿主 `mountUI.update()` 间持续改变姿态的部件，用 `layout.transformTransition:{ms?,easing?}`。同一 `id`、同一控件类型，且除 `x/y/rotate/scale` 外的 `props` 与 `layout` 都未变时，PUI 保留现有 DOM 节点，只更新 `transform`，由浏览器完成从旧姿态到新姿态的过渡；初次渲染直接处于终态。其它属性变化仍安全替换节点。`ms` 闭区间为 0–2000，缓动仅 `linear|ease-out|ease-in-out`，reduced-motion 下时长归零。它适合表达**匿名汇总状态**的机械确认，不可借此暴露单个谜题答案。
+- **减少动态 / 无障碍**：第六参 `UIMotionPolicy` 与 OS 减动取并集；第七参/`update` `UIAccessibilityPolicy` 仅 render：高对比覆语义色、加焦点环（不滤 custom/贴图）；缩放闭集 `90/100/110`，host `zoom` 同步布局/命中区；默认/100 零漂移，不进 World/hash/ActionSink。冻结原型改可见状态须 Owner 重确认。
 - **Toggle 的只读禁用态**：`Toggle{label, checked?, action?, disabled?:true}` 用于需要保留开/关事实、但当前不可操作的设置。禁用仍按 `checked` 渲染轨道与圆钮；原生 checkbox 带 `disabled` 与 `aria-disabled="true"`，因此不可 Tab 聚焦，鼠标、空格与触控均不会改变值或发出 `action`。缺省或 `false` 保持原有 `'true'/'false'` ActionSink 合同。活范例：game-i `t-check` 的 `tg-sound-disabled`。
+- **Toggle 可选精确视觉**：`visual` 一次填齐 `width/height/knobSize/knobOffLeft/knobOnLeft/knobTop`（px）、`offBackground/onBackground`（面色令牌或安全 `{custom:'#hex|rgb|rgba'}`）、`border/offKnob/onKnob`（文字色令牌或同样安全的显式实色）。宽高 20–160/16–80，圆钮与两端位置须在轨道内；校验拒绝额外字段、危险色和非有限数。可选 `visual.showLabel:false` 只隐藏 Toggle 右侧视觉文字，适合左侧已有行名的设置：`props.label` 仍须非空，原生 checkbox 得同值 `aria-label`，不可把行名移除后留下无名开关。它不改变键盘、禁用与 `'true'/'false'` ActionSink；不填 `visual` 时旧 36×20 样式字节不变。game-i `t-check` 的 `tg-measured-caption` + `tg-measured-visual` 展示外置行名、75×31、22px 圆钮与暗靛金边、蓝紫开态。原型精确色须显式 custom，常规产品优先主题令牌。
 - **九宫格皮的独立显示边宽**：`Panel`、`Button`、`Modal`、`dialog` 的 `skinSlice` 始终只表示原图源裁边；可选 `skinBorderWidth` 是 CSS 显示边宽。两者同填时生成 `border-image-slice: skinSlice` 与 `border-width/border-image-width: skinBorderWidth`，适合大源图框皮在小运行时盒中保住角花和内容安全区。只填旧 `skinSlice` 的 HTML/CSS 保持原样；无 `skinSlice` 时继续 cover。`skinBorderWidth` 必须为正的有限数且不得单独使用。主题 `buttonSkins` 同样支持该字段。活范例：game-i `t-skin-9slice` 的 `sk-9-separate`。
+- **V2/UI-03/UI-04 可选视觉槽**：`Modal.visual` 支持受限尺寸/留白、单色或145°双端渐变、不透明内边、标题尺寸/对齐；`scrim.blur` 0–12 且遮罩 opacity 固定 .9。UI-04 另加半透明 `outerRing`(1–24px，#RGBA/#RRGGBBAA) 与仅框体 `enter:'lift-240'|'lift-600'`（y44/scale.94/fade，遮罩不动，减弱动态归零）。`Button` 字号10–32/字重400|600|700；UI-04 无皮 `borderWidth`0–8及可见 `focusRingVisual` 安全色/宽1–8/偏移-8..8。贴图 `skinFeedback` 只接受完整亮度/光晕/过渡字段，不与四态色混用。`Image.position` 为 top|center；`layout.fx:cue` 是受限闪动。UI-03 `Label.lineHeight`8–120/weight400|600|700|900、`Panel.border`0–24且可透明中心、focusTargets上置/gap/字号/逐物件tone。卡带 UI-04 `presentation.font:'system-yahei'` 仅用本机字体；`pointerFeedback.visual` 限定三色#RRGGBB、alpha0–1、glow0–32、pressedBrightness1–2，均只读且缺省不变。禁自由CSS/字体URL/任意动画。范例：game-i `demo-modal-overlay`、`img-cover-top`、`btn-measured-label`、`t-lbl-measured`、`anim-cue`、`sk-feedback`。

@@ -3,14 +3,16 @@ import { describe, it, expect } from 'vitest';
 import { mkdtempSync, rmSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { classifyRow, collectManifestArtRefs, auditGame, auditAll, discoverGames } from './ledger-audit.mjs';
 
 const withRoot = (fn) => { const r = mkdtempSync(join(tmpdir(), 'ledger-audit-')); try { return fn(r); } finally { rmSync(r, { recursive: true, force: true }); } };
-function seedLedger(root, game, ledger, manifest) {
-  const dir = join(root, 'public', 'games', game, 'art');
+function seedLedger(root, game, ledger, manifest, cart = false) {
+  const base = cart ? join(root, 'library', game) : join(root, 'public', 'games', game);
+  const dir = join(base, 'art');
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, 'art-ledger.json'), JSON.stringify(ledger));
-  if (manifest) writeFileSync(join(root, 'public', 'games', game, 'manifest.json'), JSON.stringify(manifest));
+  if (manifest) writeFileSync(join(base, 'manifest.json'), JSON.stringify(manifest));
 }
 
 describe('REQ-ART · 孤儿行审计', () => {
@@ -80,13 +82,42 @@ describe('REQ-ART · 孤儿行审计', () => {
     expect(auditGame(root, 'nope').missing).toBe(true);
   }));
 
+  it('卡带读 library 单一台账且按本地 manifest 审孤儿；public 同名账不作回退', () => withRoot((root) => {
+    seedLedger(root, 'cart', { rows: [
+      { no: 'art-01', artRef: 'art:real' }, { no: 'art-02', artRef: 'art:orphan' },
+    ] }, { item: 'art:real' }, true);
+    seedLedger(root, 'cart', { rows: [{ no: 'decoy', skinKey: 'wrong' }] }, { item: 'art:orphan' });
+    const result = auditGame(root, 'cart');
+    expect(result.total).toBe(2);
+    expect(result.consumable).toBe(1);
+    expect(result.orphans.map((row) => row.no)).toEqual(['art-02']);
+    expect(discoverGames(root)).toEqual(['cart']);
+  }));
+
+  it('library 卡带没有台账时不回退到 public 旧账', () => withRoot((root) => {
+    mkdirSync(join(root, 'library', 'cart'), { recursive: true });
+    seedLedger(root, 'cart', { rows: [{ no: 'decoy', skinKey: 'wrong' }] });
+    expect(auditGame(root, 'cart').missing).toBe(true);
+    expect(discoverGames(root)).toEqual([]);
+    expect(auditAll(root, ['cart'])).toEqual([{ game: 'cart', missing: true }]);
+  }));
+
+  it('显式审计缺账不再空数组假 PASS；--all 仍只发现现存台账', () => {
+    const run = spawnSync(process.execPath, ['scripts/ledger-audit.mjs', '__review_missing_ledger__', '--json'], { encoding: 'utf8' });
+    expect(run.status).toBe(1);
+    const result = JSON.parse(run.stdout.slice(0, run.stdout.indexOf('\nLEDGER-AUDIT:')));
+    expect(result.verdict).toBe('MISSING');
+    expect(result.games).toEqual([{ game: '__review_missing_ledger__', missing: true }]);
+  });
+
   it('discoverGames + auditAll：只扫带台账的游戏·全净 = 零孤儿', () => withRoot((root) => {
     seedLedger(root, 'game-clean', { rows: [{ no: 'art-01', skinKey: 'k1' }, { no: 'art-02', skinKey: 'k2' }] });
     seedLedger(root, 'game-dirty', { rows: [{ no: 'art-01', skinKey: '' }] });
+    seedLedger(root, 'game-cart', { rows: [{ no: 'art-01', skinKey: 'cart-key' }] }, { entities: {} }, true);
     mkdirSync(join(root, 'public', 'games', 'no-ledger'), { recursive: true }); // 无台账目录不入列
-    expect(discoverGames(root)).toEqual(['game-clean', 'game-dirty']);
+    expect(discoverGames(root)).toEqual(['game-cart', 'game-clean', 'game-dirty']);
     const all = auditAll(root);
-    expect(all.map((r) => r.game)).toEqual(['game-clean', 'game-dirty']);
+    expect(all.map((r) => r.game)).toEqual(['game-cart', 'game-clean', 'game-dirty']);
     expect(all.find((r) => r.game === 'game-clean').orphans).toHaveLength(0);
     expect(all.find((r) => r.game === 'game-dirty').orphans).toHaveLength(1);
   }));

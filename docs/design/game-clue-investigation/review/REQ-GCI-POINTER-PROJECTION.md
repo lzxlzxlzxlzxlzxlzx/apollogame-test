@@ -16,3 +16,7 @@
 锚点撤修验红：`clickable-hit-test.ts` 透明像素判定锚点唯一命中；隔离内存态改为恒命中后透明像素测试由 `transparent` 转为误命中并转红，没有改写工作树。源码核查确认 cover/contain、zOrder/id、onlyFlag、phase 与 invalid mask fail-closed；`presentation?.pointerFeedback` 保持 opt-in。读告警：默认沙箱 Vitest realpath EPERM 时未收集测试，提升后 42/42 真实通过；`git diff --check` 的 LF→CRLF 为换行提示，非语义失败。临时端口 5716–5719、5720、5722 无 LISTEN。
 
 公共需求池状态维持 blocked：全库 scoped-gate 仍因其它项目违规 exit 1。独立能力 PASS 不等于 GCI S4 或项目路线图里程碑完成。
+
+## Owner 需求池结案裁决（2026-10-16）
+
+Owner 选择按单项能力复查结案，允许将域外全库 depcruise 红项与本能力完成状态分开记账。公共需求 `REQ-GCI-POINTER-PROJECTION` 已从活动池释放；本结案不表示全库 gate、GCI S4 或任何 Owner 人门通过。

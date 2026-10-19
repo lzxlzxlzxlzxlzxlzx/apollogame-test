@@ -28,6 +28,8 @@ export interface Sprite extends Component {
   height?: number;
   /** 在目标框内保持源图比例：cover 裁源铺满，contain 居中留透明边。 */
   fit?: 'cover' | 'contain';
+  /** 可选纹理采样；缺省 nearest 保持像素画旧行为。 */
+  sampling?: 'nearest' | 'smooth';
 }
 
 // ── Mesh3D（render-only，通用「3D 物件即数据」原语）── 一个有体积/双面、可翻面的 3D 物体（牌/骰/棋子）。

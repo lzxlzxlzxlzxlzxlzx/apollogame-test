@@ -1,5 +1,5 @@
-import type { LifeHostDescriptorV1 } from '../../src/authoring/life-host-descriptor.js';
-import { LIFE_VIEWPORT_PROFILE_ID } from '../../src/engine/protocol/life-viewport-profile.js';
+import type { LifeHostDescriptorV1 } from '@zerocraft/engine/authoring/life-host-descriptor.js';
+import { LIFE_VIEWPORT_PROFILE_ID } from '@zerocraft/engine/engine/protocol/life-viewport-profile.js';
 
 export const LIFE_DEMO_HOST_DESCRIPTOR = Object.freeze({
   schema: 'zerocraft.life-host.v1', slug: 'game-simlife', packagePath: 'life.json',

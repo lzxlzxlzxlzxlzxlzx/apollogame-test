@@ -109,6 +109,26 @@ describe('LifeGamePackage v1', () => {
     ]));
   });
 
+  it('accepts only strict ordered profile projections of unique authoritative resources and relationships',()=>{
+    const valid=threeScenePackage() as any;
+    valid.logic={resources:[{id:'renown',initial:3,min:0,max:10}]};
+    valid.relationships=[{npcId:'mayor',min:0,max:100,initial:20,levels:[{id:'known',min:0,titleKey:'相识'}],dailyCaps:{talk:1,gift:1,action:1},rules:[]}];
+    valid.profile={titleKey:'人物档案',attributes:[{id:'renown',titleKey:'声望',display:'gauge',source:{kind:'resource',id:'renown'},iconSkinKey:'art:ui:renown',surfaces:['profile','hud']},{id:'bond',titleKey:'羁绊',display:'value',source:{kind:'relationship',npcId:'mayor'},iconSkinKey:'art:ui:bond'}]};
+    expect(validateLifeGamePackage(valid)).toEqual({ok:true,issues:[]});
+    const invalid=copy(valid);invalid.profile.attributes[1].id='renown';invalid.profile.attributes[1].source={kind:'resource',id:'renown',path:'current'};invalid.profile.attributes[1].formula='x+1';
+    expect(paths(invalid)).toEqual(expect.arrayContaining(['$.profile.attributes[1].id','$.profile.attributes[1].source','$.profile.attributes[1].source.path','$.profile.attributes[1].formula']));
+    const missing=copy(valid);missing.profile.attributes[0].source={kind:'resource',id:'missing'};missing.profile.attributes[1].source={kind:'relationship',npcId:'missing'};
+    expect(paths(missing)).toEqual(expect.arrayContaining(['$.profile.attributes[0].source.id','$.profile.attributes[1].source.npcId']));
+    const badUnion=copy(valid);badUnion.profile.attributes[0].source={kind:'formula',expression:'resource.renown * 2'};
+    expect(paths(badUnion)).toEqual(expect.arrayContaining(['$.profile.attributes[0].source.kind','$.profile.attributes[0].source.expression']));
+    const inherited=copy(valid);inherited.profile.attributes[0].source=Object.assign(Object.create({expression:'hidden'}),{kind:'resource',id:'renown'});
+    expect(paths(inherited)).toContain('$');
+    const invalidSurfaces=copy(valid);invalidSurfaces.profile.attributes[0].surfaces=['hud','hud'];invalidSurfaces.profile.attributes[1].surfaces=[];
+    expect(paths(invalidSurfaces)).toEqual(expect.arrayContaining(['$.profile.attributes[0].surfaces[1]','$.profile.attributes[1].surfaces']));
+    const tooMany=copy(valid);tooMany.logic.resources.push({id:'r2',initial:0,min:0,max:1},{id:'r3',initial:0,min:0,max:1},{id:'r4',initial:0,min:0,max:1},{id:'r5',initial:0,min:0,max:1});tooMany.profile.attributes.push(...['r2','r3','r4','r5'].map((id:string)=>({id,titleKey:id,display:'value',source:{kind:'resource',id},iconSkinKey:`art:ui:${id}`,surfaces:['hud']})));
+    expect(paths(tooMany)).toContain('$.profile.attributes');
+  });
+
   it('validates fail-closed data-authored harvest milestones and their logical targets', () => {
     const valid = threeScenePackage() as any;
     valid.itemCatalog.push({ id: 'seed.turnip', kind: 'seed', skinKey: 'item:seed' }, { id: 'crop.turnip', kind: 'crop', skinKey: 'item:crop' });
@@ -137,6 +157,22 @@ describe('LifeGamePackage v1', () => {
     invalid.scenes[0].title = '';
     invalid.scenes[0].warps[0].label = '';
     expect(paths(invalid)).toEqual(expect.arrayContaining(['$.scenes[0].title', '$.scenes[0].warps[0].label']));
+  });
+
+  it('validates warp interaction placement references and requires at to lie inside the same-scene footprint', () => {
+    const valid = threeScenePackage() as any;
+    valid.scenes[0].placements.push({ id: 'farm-gate', kind: 'building', x: 2, y: 0, width: 2, height: 2, prefabRef: 'building.farm-gate', skinKey: 'building:farm-gate' });
+    valid.scenes[0].warps[0].interactionPlacementId = 'farm-gate';
+    expect(validateLifeGamePackage(valid)).toEqual({ ok: true, issues: [] });
+
+    const missing = copy(valid); missing.scenes[0].warps[0].interactionPlacementId = 'missing';
+    expect(validateLifeGamePackage(missing).issues).toContainEqual({ path: '$.scenes[0].warps[0].interactionPlacementId', code: 'reference', message: 'references an unknown placement' });
+    const crossScene = copy(valid); crossScene.scenes[0].warps[0].interactionPlacementId = 'berry-bush';
+    expect(validateLifeGamePackage(crossScene).issues).toContainEqual({ path: '$.scenes[0].warps[0].interactionPlacementId', code: 'reference', message: 'must reference a placement in the same scene' });
+    const outside = copy(valid); outside.scenes[0].warps[0].at = { x: 1, y: 0 };
+    expect(validateLifeGamePackage(outside).issues).toContainEqual({ path: '$.scenes[0].warps[0].at', code: 'interaction_footprint', message: 'must be inside the referenced interaction placement footprint' });
+    const malformed = copy(valid); malformed.scenes[0].warps[0].interactionPlacementId = 7;
+    expect(validateLifeGamePackage(malformed).issues).toContainEqual({ path: '$.scenes[0].warps[0].interactionPlacementId', code: 'type', message: 'must be a non-empty placement id' });
   });
 
   it('validates complete, closed, walkable NPC schedules against authored calendar slots', () => {

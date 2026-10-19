@@ -50,10 +50,21 @@ const LEGACY_ALIASES = {
  */
 export function engineAliases(engineRoot) {
   const out = {};
+  // Life Host moved above engine. Keep the exact historical package/short paths
+  // resolvable for existing consumers without adding an engine -> assembly re-export.
+  // Exact entries must precede the broad `engine` prefix in Vite's alias order.
+  for (const leaf of ['life-game-host', 'life-save', 'life-presenter', 'life-interaction', 'life-hud', 'life-hud-overlay']) {
+    const target = resolve(engineRoot, `src/assembly/life-host/${leaf}.ts`);
+    out[`@engine/host/${leaf}.js`] = target;
+    out[`@zerocraft/engine/engine/host/${leaf}.js`] = target;
+  }
   for (const [sub, relDir] of Object.entries(ENGINE_SUBPATHS)) {
     const abs = resolve(engineRoot, relDir);
     out[LEGACY_ALIASES[sub]] = abs;
     out[`@zerocraft/engine/${sub}`] = abs;
   }
+  // The Life authoring contract is a deliberate package-only entry: game-side
+  // descriptors and integration tests may consume it, but src gets no new short alias.
+  out['@zerocraft/engine/authoring'] = resolve(engineRoot, 'src/authoring');
   return out;
 }

@@ -1,7 +1,7 @@
 import type { StoryRef } from '../engine/protocol/galgame.js';
 
 /** Authoring-only data. None of these shapes is a playable GalPackage node. */
-export const GAL_DRAFT_KINDS = ['brief', 'bible', 'routes', 'graph', 'beats'] as const;
+export const GAL_DRAFT_KINDS = ['brief', 'bible', 'routes', 'graph', 'beats', 'manuscript', 'script'] as const;
 export type GalDraftKind = typeof GAL_DRAFT_KINDS[number];
 export type GalDraftStatus = 'draft' | 'approved' | 'rejected' | 'superseded';
 export type GalDraftEligibility = 'current' | 'stale' | 'blocked';
@@ -28,7 +28,8 @@ export interface GalBrief {
 export interface NarrativeBible {
   readonly briefId: string;
   readonly world: { readonly premise: string; readonly rules: readonly string[] };
-  readonly locations: readonly { readonly id: string; readonly name: string; readonly description: string }[];
+  /** Legacy place notes. The closed location list belongs on the route outline, after the story beats exist. */
+  readonly locations?: readonly { readonly id: string; readonly name: string; readonly description: string }[];
   readonly characters: readonly {
     readonly id: string;
     readonly name: string;
@@ -54,6 +55,7 @@ export interface RouteOutline {
   readonly forks: readonly { readonly id: string; readonly sourceMilestoneId: string; readonly options: readonly { readonly id: string; readonly targetMilestoneId: string; readonly intent: string }[] }[];
   readonly milestones: readonly { readonly id: string; readonly summary: string }[];
   readonly endings: readonly { readonly id: string; readonly routeId: string; readonly outcome: string; readonly conditionIntent?: string }[];
+  readonly locations?: readonly { readonly id: string; readonly name: string; readonly description: string }[];
 }
 
 export type StoryGraphNode = (
@@ -96,12 +98,44 @@ export interface SceneBeatSheet {
   readonly mediaNeeds: readonly { readonly id: string; readonly kind: 'background' | 'bgm' | 'cg'; readonly brief: string }[];
 }
 
+/** Prose dialogue. It is not a line record and not a GalPackage node. */
+export interface DialogueManuscript {
+  readonly beatsDraftId: string;
+  readonly locale: string;
+  readonly passages: readonly {
+    readonly id: string;
+    readonly anchor: StoryRef;
+    readonly speakerId?: string;
+    readonly text: string;
+  }[];
+}
+
+export type ScriptDraftNode = (
+  | { readonly kind: 'line'; readonly text: string; readonly speakerId?: string; readonly emotion?: string; readonly sceneSlotId?: string; readonly cgNeedId?: string; readonly next: StoryRef }
+  | { readonly kind: 'choice'; readonly prompt: string; readonly options: readonly { readonly id: string; readonly text: string; readonly next: StoryRef }[] }
+  | { readonly kind: 'ending'; readonly endingId: string; readonly text: string }
+);
+
+/** Line records. After approval, these are the script authority. Asset keys stay out of this draft. */
+export interface LineScriptDraft {
+  readonly manuscriptDraftId: string;
+  readonly locale: string;
+  readonly entry: StoryRef;
+  readonly chapters: Readonly<Record<string, {
+    readonly title: string;
+    readonly start: string;
+    readonly nodes: Readonly<Record<string, ScriptDraftNode>>;
+  }>>;
+}
+
 export interface GalDraftDataByKind {
   readonly brief: GalBrief;
   readonly bible: NarrativeBible;
   readonly routes: RouteOutline;
   readonly graph: StoryGraphDraft;
   readonly beats: SceneBeatSheet;
+  readonly manuscript: DialogueManuscript;
+  readonly script: LineScriptDraft;
 }
 
 /** Stored content is immutable; status and review notes are projected from events. */

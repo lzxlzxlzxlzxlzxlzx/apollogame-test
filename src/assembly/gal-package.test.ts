@@ -16,6 +16,24 @@ const pkg=()=>({
 const assets=new Set(['art:hero-neutral','art:hero-happy','art:friend-neutral','art:room','art:smile','audio:theme','audio:click','audio:hero1','video:intro']);
 describe('GalPackage V1 contract',()=>{
   it('accepts a complete two-chapter package and clones it',()=>{const p=pkg();expect(validateGalPackage(p,{resolveAsset:key=>assets.has(key)})).toEqual({ok:true,issues:[]});expect(parseGalPackage(p)).not.toBe(p);});
+  it('accepts optional memory art keys without changing old packages and rejects unsafe or missing keys',()=>{
+    const p:any=pkg();
+    expect(validateGalPackage(p,{resolveAsset:key=>assets.has(key)}).ok).toBe(true);
+    p.gallery.memories.intro.previewImage='art:memory-preview';
+    p.gallery.memories.intro.lockedImage='art:memory-lock';
+    const resolveAsset=(key:string)=>new Set([...assets,'art:memory-preview','art:memory-lock']).has(key);
+    expect(validateGalPackage(p,{resolveAsset}).issues).toEqual([]);
+    expect(parseGalPackage(p,{resolveAsset}).gallery.memories.intro).toMatchObject({
+      previewImage:'art:memory-preview',lockedImage:'art:memory-lock' });
+    p.gallery.memories.intro.previewImage='https://external.invalid/spoiler.png';
+    p.gallery.memories.intro.lockedImage='art:unknown';
+    expect(validateGalPackage(p,{resolveAsset}).issues.map(issue=>issue.path)).toEqual(expect.arrayContaining([
+      '$.gallery.memories.intro.previewImage','$.gallery.memories.intro.lockedImage']));
+    for(const scheme of ['file:///secret.png','javascript:alert(1)','data:image/png;base64,x']) {
+      p.gallery.memories.intro.previewImage=scheme;
+      expect(validateGalPackage(p).issues.map(issue=>issue.path)).toContain('$.gallery.memories.intro.previewImage');
+    }
+  });
   it('rejects unsupported schemas instead of inventing a V0 migration',()=>{const p:any=pkg();p.schemaVersion=0;expect(()=>parseGalPackage(p)).toThrow('unsupported schema version 0');});
   it('reports stable story, catalog, media, gallery, presentation and effect references',()=>{const p:any=pkg();p.characters.hero.id='other';p.scenes.room.background='missing';p.media.audio.voice.hero1.charId='nobody';p.gallery.memories.intro.entry={chapterId:'x',nodeId:'y'};p.chapters.a.nodes.start.presentation.sfx=['none'];p.chapters.b.nodes.check.pass.effects=[{kind:'unlockCg',id:'none'}];p.chapters.b.nodes.good.ending='none';const paths=validateGalPackage(p).issues.map(x=>x.path);expect(paths).toEqual(expect.arrayContaining(['$.characters.hero.id','$.scenes.room.background','$.media.audio.voice.hero1.charId','$.gallery.memories.intro.entry','$.chapters.a.nodes.start.presentation.sfx[0]','$.chapters.b.nodes.check.pass.effects[0].id','$.chapters.b.nodes.good.ending']));});
   it('validates closed presentation/effect/condition/check schemas without throwing',()=>{const p:any=pkg();p.chapters.a.nodes.start.presentation.transition='css';p.chapters.a.nodes.start.enter=[{kind:'script',code:'x'}];p.chapters.b.nodes.pick.options[0].when={kind:'eval',source:'x'};delete p.chapters.b.nodes.check.check.attribute;p.preferences.textSpeedMsPerChar=501;expect(()=>validateGalPackage(p)).not.toThrow();const paths=validateGalPackage(p).issues.map(x=>x.path);expect(paths).toEqual(expect.arrayContaining(['$.chapters.a.nodes.start.presentation.transition','$.chapters.a.nodes.start.enter[0].kind','$.chapters.b.nodes.pick.options[0].when','$.chapters.b.nodes.check.check','$.preferences.textSpeedMsPerChar']));});

@@ -1,0 +1,80 @@
+{
+  "name": "机械师",
+  "group": "identity-v",
+  "entries": [
+    {
+      "title": "简介",
+      "text": "特蕾西·列兹尼克是《第五人格》的求生者，职业称呼是机械师。她随身带着一具自己做的机械玩偶。",
+      "description": "开篇"
+    },
+    {
+      "title": "姓名",
+      "text": "特蕾西·列兹尼克（Tracy Reznik）",
+      "description": "角色本名。页面标题用职业称呼「机械师」。"
+    },
+    {
+      "title": "档案",
+      "text": "女。生日 9 月 13 日，公开档案记为 21 岁。出身商贩家庭，父亲是马克·列兹尼克，母亲是艾琳·列兹尼克。擅长机械制造与维修，兴趣是机械、机关和发明。她喜欢机械玩偶，厌恶炸药。公开特质写着疯狂、好奇心旺盛、专注、念旧。",
+      "description": "身份与喜好，据公开角色档案整理。"
+    },
+    {
+      "title": "经历",
+      "text": "她幼年丧母，在父亲的钟表店长大。十岁时已经以机械才能出名，能把钟表和电力结合起来，并做出机械人偶当助手。父亲死于钟表店的爆炸。此后她埋头做那些被说成没什么用的发明，也迷恋火药实验，遗产因此花完，还欠下债。欧利蒂丝庄园的邀请函许诺奖金，她真正想看的是庄园里的机关。2018 年 4 月，机械师作为求生者公开上线。",
+      "description": "公开背景的转述，不收录原文信件和日记。"
+    },
+    {
+      "title": "局内",
+      "text": "对局里她用遥控器放出机械玩偶，玩偶能代替她破译和做事，但挨一下就坏。她翻窗、砸板偏慢，队友受伤时自己的破译也会变差。具体百分比随版本变动，这里不记数字。",
+      "description": "只记稳定的能力形状。"
+    }
+  ],
+  "costumes": [
+    {
+      "id": "suo-xin",
+      "name": "锁芯",
+      "entries": [
+        {
+          "title": "海报",
+          "file": "suo-xin/poster.jpg",
+          "description": "日常生活海报，由生成图登记，不是官方立绘。画面是紫黑装束的人坐在窗边倒茶。"
+        },
+        {
+          "title": "Q版",
+          "file": "suo-xin/chibi.png",
+          "description": "锁芯的 Q 版全身素材，透明底 PNG，正面站立，可直接放进 2D 游戏。生成图，不是官方立绘。"
+        },
+        {
+          "title": "说明",
+          "text": "「锁芯」是机械师的一套限定时装，英文名 LOCK CORE，公开资料把它列为 A 级。公开短句把它形容成一枚发黑的锁，锁住红色的芯。",
+          "description": "时装身份"
+        },
+        {
+          "title": "戒备",
+          "file": "suo-xin/manor-escape/mechanic-guard.png",
+          "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+        },
+        {
+          "title": "专注",
+          "file": "suo-xin/manor-escape/mechanic-focus.png",
+          "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+        },
+        {
+          "title": "别过脸",
+          "file": "suo-xin/manor-escape/mechanic-aside.png",
+          "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+        },
+        {
+          "title": "轻轻笑",
+          "file": "suo-xin/manor-escape/mechanic-smile.png",
+          "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+        }
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "to": "prisoner",
+      "relation": "恋慕：同一场庄园游戏里从互相利用走到相爱，两个结局都在一起"
+    }
+  ]
+}

@@ -50,6 +50,8 @@ export interface AngularGesture extends Component {
   radiusY: number;
   angleMilliDegrees: number;
   grabTolerance: number;
+  /** 可选：相对当前轨道锚点的世界坐标线段胶囊握持区；仅用于 pointer down，移动仍由单角度轨道解释。 */
+  grabSegment?: { startX: number; startY: number; endX: number; endY: number; radius: number };
   centerDeadZone: number;
   maxJumpMilliDegrees: number;
   jitterMilliDegrees: number;
@@ -63,7 +65,8 @@ export interface AngularGesture extends Component {
   lastPointerAngleMilliDegrees?: number;
   accumulatedMilliDegrees?: number;
   heldStepIndex?: number;
-  lastEmitTick?: number;
+  /** 已提交的完整圈数；作为快照稳定的 Signal ID 序号，不依赖 World runtime version。 */
+  emittedTurns?: number;
 }
 
 // ── 输入队列（单例）── 本 tick 的原始输入事件列表。挂在唯一实体上，每 tick 整体覆写（零实体分配），

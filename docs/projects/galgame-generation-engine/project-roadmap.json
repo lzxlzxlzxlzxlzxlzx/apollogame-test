@@ -251,7 +251,7 @@
       "id": "ui-settings-confirmations",
       "title": "四页设置与六类确认开关",
       "track": "GAL 模板",
-      "description": "C1 通用 Profile/迁移、六类确认、四页 S4 结构与几何已获局部独立 PASS。Owner 2026-10-12 在对话选择 04B 通用表现/设置能力 A（非控制台人门）；Profile 全设置恢复默认基础接口已获局部独立 PASS，UI 按钮仍禁用。待逐字完成信号、其余音频/画面消费者、全项恢复默认 UI、正式退出宿主与 V2 S5/S6 验收；本里程碑保持 active。 04B-2A 通用音频端口的克隆停播、相对音量与无音频降级获局部独立 PASS（音频/语音自证47/47，独立9/9）；正式工单登记晚于首次编辑的流程 CONCERNS 已保留。 04B-2B local functional PASS from independent review: 89 files 718/718; isolated static-browser real WAV playback, three sliders, rollback/load/replay/teardown; two anchored mutation checks turned red. Full type gate has 16 non-GAL diagnostics and V2 inner visual alignment remains CONCERNS. Master volume, voice-auto, focus mute, typewriter/display/reset and S5/S6 remain open. 04B-2C independent local functional PASS: Profile V3 V1/V2 migration, master gain and focus mute active; 89 files 722/722 self regression, independent 42/42, isolated file-browser WAV/focus interaction, two anchored mutation checks, dark/light UI audits. Full type gate and V2 S5 alignment remain CONCERNS. Owner separately approved a revised voice-replay prototype; formal toolbar implementation and voice-auto remain open. 04B-2D self-check: Profile V4 voice-auto migration and current-line manual replay through the Owner-approved revised toolbar; 89 files 726/726 and isolated static-browser WAV/voice-off/manual replay pass. 04B-2D independent local functional PASS: targeted 56/56 and adjacent 89 files 726/726, isolated file-browser real WAV, dark/light UI audit with zero blockers and two uniquely anchored in-memory sabotage checks red. Full type gate remains red for non-GAL files; V2 visual alignment, text/display PUI consumers and reset UI remain open. Active GAL ticket index condensed on 2026-10-12; full prior specifications and review chronology preserved in byte-identical archive. This is documentation hygiene only, not new milestone approval.",
+      "description": "C1 通用 Profile/迁移、六类确认、四页 S4 结构与几何已获局部独立 PASS。Owner 2026-10-12 在对话选择 04B 通用表现/设置能力 A（非控制台人门）；Profile 全设置恢复默认基础接口已获局部独立 PASS，UI 按钮仍禁用。待逐字完成信号、其余音频/画面消费者、全项恢复默认 UI、正式退出宿主与 V2 S5/S6 验收；本里程碑保持 active。 04B-2A 通用音频端口的克隆停播、相对音量与无音频降级获局部独立 PASS（音频/语音自证47/47，独立9/9）；正式工单登记晚于首次编辑的流程 CONCERNS 已保留。 04B-2B local functional PASS from independent review: 89 files 718/718; isolated static-browser real WAV playback, three sliders, rollback/load/replay/teardown; two anchored mutation checks turned red. Full type gate has 16 non-GAL diagnostics and V2 inner visual alignment remains CONCERNS. Master volume, voice-auto, focus mute, typewriter/display/reset and S5/S6 remain open. 04B-2C independent local functional PASS: Profile V3 V1/V2 migration, master gain and focus mute active; 89 files 722/722 self regression, independent 42/42, isolated file-browser WAV/focus interaction, two anchored mutation checks, dark/light UI audits. Full type gate and V2 S5 alignment remain CONCERNS. Owner separately approved a revised voice-replay prototype; formal toolbar implementation and voice-auto remain open. 04B-2D self-check: Profile V4 voice-auto migration and current-line manual replay through the Owner-approved revised toolbar; 89 files 726/726 and isolated static-browser WAV/voice-off/manual replay pass. 04B-2D independent local functional PASS: targeted 56/56 and adjacent 89 files 726/726, isolated file-browser real WAV, dark/light UI audit with zero blockers and two uniquely anchored in-memory sabotage checks red. Full type gate remains red for non-GAL files; V2 visual alignment, text/display PUI consumers and reset UI remain open. Active GAL ticket index condensed on 2026-10-12; full prior specifications and review chronology preserved in byte-identical archive. This is documentation hygiene only, not new milestone approval. 2026-10-14 Profile V6 independent read-skip increment local PASS: V5 read-only migration, independent read/unread policy, late callback and anchored in-memory red test; save-platform handbook updated. PUI StoryRef, other settings consumers, reset and Owner gate remain open. Settings preview no longer hardcodes the V2 demo character and has builder tests/browser evidence; independent review pending. Text-speed/PUI, other display consumers, reset and Owner gate remain open. Current-story settings preview/no-resume guard received independent local PASS; all remaining disabled consumers, reset and Owner gate stay open. 2026-10-14 strict reduced-motion audit: OS prefers-reduced-motion CSS covers only part of PUI motion and no per-work mountUI policy exists; GAL-only removal cannot truthfully enable the control. Specific PUI motion-policy scope needs Owner A/B; reset Profile transaction exists but UI remains disabled until all text/display consumers are real. No PUI or Owner gate changed. Owner 2026-10-14 selected A for reusable optional desktop HostExitPort and PUI per-work reduced-motion policy, and authorized PUI 04B-1 assignment. These are construction decisions, not implemented consumers or Owner gate approval; text speed, reduced motion and global reset stay disabled pending their real consumers and independent reviews. 2026-10-14 H1 HostExitPort 获独立局部 PASS；Owner 对缺少独立 GAL 壳的 H2/桌面 H3 选 B 后置 web-desktop-release，浏览器不得假报退出。PUI 04B-1 通用 typewriterSignal 已独立局部 PASS；GAL 消费正在施工，文字速度仅待其自证/独立复查后可作为真实消费者。所有里程碑门仍 pending/required。 GAL-UI-04B-1 consumer now has an independent local PASS after mounted stale-token guard sabotage; identity guard remains a declared coverage limit, so the milestone stays active/pending. H3 browser-preview exit feedback has an independent local PASS with no World/Profile/manual-slot side effects; desktop H2, product Web E2E, S5/S6 and Owner gate remain pending. 2026-10-15 Owner A split: high-contrast/UI-scale are queued as PUI shared accessibility policy, transition as narrative/host presentation policy; fullscreen remains deferred to web-desktop-release. All affected GAL controls stay disabled pending independent shared capability and GAL consumer reviews. 2026-10-15 reset UI remains disabled and direct dispatch rejects writes while any visible setting lacks a consumer; this narrow boundary has independent local PASS and does not close the milestone. 2026-10-15 PUI accessibility policy 已完成施工者自证：闭集 90/100/110、高对比主题投影；PUI 76 files/573 tests 与报告中的短时浏览器审计通过，点名 8/8；当前只等非施工者独立复查，GAL 消费端未启用。GAL 04C 浏览器探针在当前 Windows 沙箱因 Edge 临时 DualEngine SiteList 写入 -5 而无法启动；V2 实渲染对照未取得结果。 2026-10-15 非施工者独立复查确认共享 PUI accessibility policy 局部 PASS：76 files/573 tests、点名 8/8、短时浏览器审计阻断项 0；隔离 worktree 删除 110→1.1 唯一映射后 1/1 锚点测试转红，恢复后转绿。此局部 PASS 不启用 GAL 控件；仍待 V2 Owner 重新确认及 GAL Profile/UI 消费另票施工复查。",
       "status": "active",
       "dependsOn": [
         "profile-save-bridge",
@@ -347,6 +347,96 @@
           "kind": "document",
           "ref": "docs/design/galgame/archive/requests-through-2026-10-12.md",
           "label": "Full pre-condensation GAL ticket record, SHA256 701505E8F0AA3DB6BCDA853BF0C27C168D8CB8AFAFB2FF65EAFE1481050C1094"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-3-read-skip-2026-10-14-independent.md",
+          "label": "Profile V6 read-skip independent local PASS; whole 04B pending"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-settings-preview-slot-footer-2026-10-14.md",
+          "label": "Settings preview uses current story data; independent review pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-settings-preview-slot-footer-2026-10-14-independent.md",
+          "label": "Current-story preview/no-resume guard independent local PASS; full settings pending"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-eng-host-exit-01.md",
+          "label": "Owner A host-exit shared capability contract; owners not yet locked"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-1-pui-typewriter-2026-10-14-independent.md",
+          "label": "PUI typewriterSignal non-builder local PASS; GAL consumer pending review"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/REQ-GAL-HOST-EXIT-01-H1-independent.md",
+          "label": "HostExitPort H1 independent local PASS; desktop H2/H3 deferred"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-1-consumer-2026-10-14-independent.md",
+          "label": "GAL 04B-1 consumer mounted stale-token independent local PASS; S5/S6 pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-HOST-EXIT-01-H3-preview-2026-10-14-independent.md",
+          "label": "H3 browser-preview exit feedback independent local PASS; desktop H2 and final gates pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-PUI-motion-teardown-2026-10-14-independent.md",
+          "label": "Reduced-motion local independent PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-reduced-motion-consumer-recheck-2026-10-14-independent.md",
+          "label": "Reduced-motion local independent PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-reset-ui-disabled-2026-10-15-independent.md",
+          "label": "Reset UI disabled/direct-dispatch rejection independent PASS"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/ui-playbook.md",
+          "label": "PUI accessibility policy contract, self-check and independent review navigation; GAL 04C browser launch blocked"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/REQ-GAL-PUI-ACCESSIBILITY-POLICY-01-independent-2026-10-15.md",
+          "label": "PUI accessibility policy independent local PASS with anchored sabotage"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/REQ-GAL-NARRATIVE-TRANSITION-POLICY-01-2026-10-15.md",
+          "label": "Narrative transition projection self-check; GAL control remains disabled pending independent review"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/REQ-GAL-NARRATIVE-TRANSITION-POLICY-01-independent-2026-10-15.md",
+          "label": "Narrative transition projection independent local PASS; GAL switch and owner gate remain open"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-UI-04B-story-transitions-2026-10-15.md",
+          "label": "GAL story-transition consumer self-check; milestone stays active and owner gate required"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-story-transitions-2026-10-15-independent.md",
+          "label": "GAL story-transition consumer independent local PASS; milestone stays active"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/requests.md",
+          "label": "Owner 2026-10-15: UI scale stays the prototype static 100 percent; no 90/110 consumer"
         }
       ],
       "gates": {
@@ -526,7 +616,7 @@
       "id": "media-and-final-skin",
       "title": "背景、立绘、CG、音视频与 V2 视觉演出对齐",
       "track": "素材与演出",
-      "description": "8 张 V2 demo 单件原图已审计登记，GAL 稳定 assetKey 消费与 PUI S1–S4 局部接口/消费复查在档。音频端口、BGM/语音/SFX、主音量、失焦静音、语音自动及手动重播均有分票局部独立 PASS；共享九宫格显示边宽票已释放。2026-10-12 设置页 V2 有图路径回移框内锚点 57px、改深靛卡底与 ghost 导航/页签，静态 34 态重渲、GAL 相关 119/119 测试、深亮设置审计零阻断；独立局部复查判 CONCERNS：页签、滑轨、Toggle、分隔线和按钮皮仍非 V2 1:1，且未做锚点撤修验红；亮主题标题审计警告 3.57:1。S5 差异单仍为 CONCERNS：ghost 胶囊与悬停、设置控件/确认/槽卡细节、部分亮主题对比度均未 1:1；视频、转场关键帧和 S6 时序未验收。demo 背景/立绘/CG 不作新作品隐式内容；全库 TypeScript 仍有非 GAL 红项。本里程碑仍 active，Owner 人门未到。历史分票证据见现有 evidence 与精简后 requests 索引及归档。 2026-10-13 update: V2 loaded-art settings tabs now use existing button skin (4 tabs); slider rows are horizontal and use a thin ProgressBar rail. GAL tests 78/78 and 34-state static browser probe pass; browser closed. S5 still CONCERNS: Toggle, dividers, navigation/button detail, confirmation and gallery, plus S6 keyframes remain. Full TypeScript check remains red in unrelated game-card-reveal/game-dice/game-theft modules. No Owner gate requested. Independent settings-control review 2026-10-13: local PASS for 4 skinned tabs and visible 326px rails, 36/36 tests, anchored in-memory mutation rail 1->0, visual and UI audit; complete S5 remains CONCERNS and milestone stays active. 2026-10-13 slot V2 update: 124x46 skinned Save/Load tabs, ghost top/page navigation, footer offset -57 only for loaded V2 frame; 4x3 unchanged. GAL 79/79, UI 528/528, 34-state file browser exit 0 and closed. Independent local review PASS for this subset (12/12 with anchored in-memory mutation); full S5 remains CONCERNS: slot badge/empty diamond/metadata, top nav anchor, settings Toggle, confirmation/gallery and S6 keyframes. Full tsc red in unrelated games; do not request Owner gate.",
+      "description": "V2 demo 8 张单件素材已登记；音频、稳定 assetKey 消费和共享 PUI S1-S4 有分票局部复查。2026-10-13 GAL 画廊框锚点、2×3 回想与 3×2 CG 暗卡、124×46 页签、锁定保密及原型四入口顶栏已真渲；顶栏独立局部 PASS，卡片独立局部 CONCERNS。去重后 GAL+UI 611/611、点名 41/41、tsc 与 34 态隔离浏览器通过；深亮图库审计零阻断。完整 S5/S6 仍缺回想场景纹理/锁定剪影、部分 CG、ghost/设置/确认视觉对齐与关键帧时序；详见差异单。scoped-gate 被 33 条非 GAL 依赖违规阻断。里程碑保持 active，Owner 人门未到。 2026-10-13 story CG consumer: two shots, hide, rollback, manual load and CG-only preview partial PASS; 124 GAL UI/save tests and 528 UI tests pass, tsc pass, four browser CG states pass. Full S5/S6 remains open. Scoped gate fails on 32 non-GAL simlife dependency errors. Ghost state skin and memory/CG art slots await Owner A/B; no Owner gate signed. Owner 2026-10-13 selected A for generic Button four-state colors and optional memory preview/locked image keys. PUI, GAL ghost consumption and memory-key contract each have independent local PASS after a file:/javascript: key-validation concern was fixed. GAL regression 108/108, tsc exit 0 and dark/light static browser probes pass. No new art was approved or registered; S5/S6, candidate licensing and Owner gate remain open. Current shared-tree scoped gate exits 37 on unrelated dependency violations. 2026-10-13 settings Toggle V2 received PUI independent local PASS; GAL settings and 240/250+90ms entry timing passed local checks, but independent GAL review remains CONCERNS. Modal 800x222/225 vs V2 800x310, static cue and button hover mismatch await Owner A/B; final content images await individual approval. S5/S6 alignment not converged; scoped gate exits on 32 non-GAL dependency violations. Status active and all gates pending/required. 2026-10-13 Owner A 的三项通用 PUI 视觉能力获独立局部 PASS；GAL 设置场景暗罩/回退、确认窗 800x310/30px、cue 1300ms 中点、贴图按钮反馈均获独立局部 PASS。GAL 89/89、tsc exit 0、深浅隔离浏览器与设置审计阻断 0；S5/S6 仍因终图审批、首页/设置细节及逐帧差异为 CONCERNS，全库 depcruise 32 条他域错误，Owner 门未到。 2026-10-14 V2 首页 titleBackground 与设置卡/滑轨闭集消费局部自证：GAL UI 91/91、tsc exit 0、首页深亮及四设置页签深亮隔离浏览器退出 0；S5 对齐单仍有 4 条具去向警告，终图审批与 Owner 门未到。 独立复查首页/设置增量局部 PASS，但 S5/S6 整体 CONCERNS；本轮 scoped-gate exit 1，depcruise 32 条非 GAL 违规，且缺本地 origin/claude/mainbranch 参照。 2026-10-14 S5/S6 static 40-page state audit: 374 buttons, 270 enabled hover/pressed changed, 44 disabled, 60 modal-center occluded; 18 local animation frames. Toast 2200ms repeat fix independent local PASS by anchored sabotage; GAL/UI 653/653, tsc exit 0. Whole S5/S6 remains CONCERNS: full four-state/host action chain and final approved art remain open; Owner gate not reached. 2026-10-14 current shared-tree scoped-gate --run exits 1 at depcruise: 33 non-GAL dependency violations; local origin/claude/mainbranch ref is missing. No remote push or unrelated-domain rewrite performed. 2026-10-14 GAL-UI-04B-3 Profile V5 and GAL input/display consumers have local self-check: GAL/UI 689/689, GAL Save/assembly 44/44, tsc 0, six dark/light UI audits without blockers. Independent review pending; PUI typewriter, remaining settings, final art and S5/S6 remain open. Shared full gate exits 1 on unrelated ESLint ENOENT and absent local compare ref. 2026-10-14 S6 real-host Enter cross-page, history/confirm/CG modal focus trap, Escape exit, background guard and focus return local browser probe pass; three 1440x900 structural screenshots captured. Independent review pending; S5/S6 remain CONCERNS. 2026-10-14 GAL-UI-04B-3 independent review found specified 73/73 local PASS and anchored wheel-down red-check; auto negative cases were requested and added by builder (74/74 specified, 690/690 GAL/UI, tsc 0), awaiting independent re-review. PUI 04B-1 and S5/S6 remain open. 2026-10-14 four-page settings 04C isolated static browser geometry was rechecked after consumer updates: shell, heading, tabs, grid, cards, footer and nav align approved V2 integer boxes exactly; only geometry is covered. S6 focus independent review remains CONCERNS due Vite resolver EPERM before browser baseline, with safe rerun pending. 2026-10-14 S6 real-host focus independent local PASS with anchored red/green; V6 read-skip consumer builder self-check 788/788 GAL/UI adjacent tests, tsc 0, settings browser and UI audit pass. New V6 increment awaits independent review; PUI StoryRef and other settings, approved final art and whole S5/S6 remain open. 2026-10-14 V2 slots chrome builder self-check: data-derived brand, capacity note and dual 124x44 skinned footer actions; four dark/light save/load browser states, 789/789 adjacent tests, tsc 0 and UI audit 0 blockers. Increment awaits independent review; card metadata, final art and whole S5/S6 remain open. 2026-10-14 slots chrome independent local PASS: four browser states and anchored red test; card metadata and whole S5/S6 open. Gallery V2 brand/heading/tab count alignment has builder 789/789, six browser states and zero UI-audit blockers; independent review pending. Final content art and Owner gate remain open. Gallery chrome subsequently received independent local PASS with anchored red/green; settings preview and empty-slot footer have builder 792/792 plus eight dark/light browser states, awaiting independent review. Full S5/S6 and final art remain open. Settings preview/slot footer subsequently independent local PASS with anchored red/green. Home generic-copy runtime-first experiment was withdrawn on 2026-10-14 because the approved V2 prototype was not re-finalized by Owner; original V2 copy and notice restored. Prior 792/792/browser pass is historical experiment evidence, not alignment approval. Owner prototype reconfirmation required before a new runtime copy change. Full S5/S6 and final art remain open. 2026-10-14 mounted S6 action chain builder probe covers start, empty-load rejection, save, rollback/rechoice, load, isolated replay exit and restart/advance; eight structural browser screenshots, adjacent 44/44 and tsc pass. Independent review pending; visual S5/S6 and Owner gate remain open. S6 mounted action-chain independent review subsequently passed locally with a unique Vite-transform anchor and behavioral red/green on replay save exclusion. This is a partial functional verdict only; final visual art, complete S5/S6 and Owner gate remain open. Owner 2026-10-14 selected reusable optional host exit A; shared interface, desktop adapter and GAL consumer remain unimplemented and independently unreviewed. Browser preview must only give feedback; final art and full S5/S6 remain open. 2026-10-14 H1 HostExitPort 独立局部 PASS；H2/桌面 H3 因 Owner B 后置发行阶段，不构成当前 S5/S6 通过。 Owner media review batch records that current demo assets remain authorized for template development/internal Web preview only; final-work and external-distribution use await per-item source, license, aesthetic, and scope decisions.",
       "status": "active",
       "dependsOn": [
         "ui-core-slice",
@@ -632,6 +722,236 @@
           "kind": "document",
           "ref": "docs/design/galgame/self-check/GAL-ART-01A-slots-v2.md",
           "label": "2026-10-13 slot V2 local self-check and residuals"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-slot-markers-2026-10-13.md",
+          "label": "V2 slot-marker partial self-check; full S5 remains open"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-slot-markers-independent.md",
+          "label": "2026-10-13 slot-marker independent CONCERNS; strict red-test and full S5 still open"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-slot-preview-fill-independent.md",
+          "label": "2026-10-13 slot preview fill independent CONCERNS; local color and sabotage pass, S5 open"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-slot-top-nav-independent.md",
+          "label": "2026-10-13 V2 slot top navigation local PASS; entire S5 remains CONCERNS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-slot-four-nav-independent.md",
+          "label": "V2 four-entry slots navigation independent local PASS; S5/S6 CONCERNS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-gallery-anchor-independent.md",
+          "label": "2026-10-13 gallery frame anchor independent local PASS; S5/S6 open"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-gallery-cards-independent.md",
+          "label": "2026-10-13 gallery cards independent local CONCERNS; complete S5/S6 open"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-gallery-cards-2026-10-13.md",
+          "label": "Gallery cards local self-check, 610/610 and 34-state probe"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-gallery-top-nav-independent.md",
+          "label": "2026-10-13 gallery four-entry navigation independent local PASS; S5/S6 open"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-gallery-top-nav-2026-10-13.md",
+          "label": "Gallery V2 top navigation local self-check"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-story-cg-2026-10-13.md",
+          "label": "Story CG local self-check; full S5/S6 open"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-story-cg-independent.md",
+          "label": "Story CG independent local PASS; full S5/S6 open"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-art-01a-owner-ab-2026-10-13.md",
+          "label": "Owner A/B decisions pending on ghost state skin and gallery art slots"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/REQ-GAL-PUI-GHOST-STATE-independent.md",
+          "label": "PUI Button.stateColors independent local PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-ghost-state-consumer-independent.md",
+          "label": "GAL V2 ghost consumer independent local PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ENG-MEMORY-ART-01-independent.md",
+          "label": "GAL optional memory art keys independent local PASS"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-art-01a-media-candidates-2026-10-13.md",
+          "label": "Unapproved content image candidate and licensing checklist"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-settings-motion-2026-10-13.md",
+          "label": "2026-10-13 settings and S6 local self-check; incomplete"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-settings-motion-2026-10-13-independent.md",
+          "label": "Independent local CONCERNS: Modal geometry and S6 hover/cue unresolved"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-art-01a-modal-gap-2026-10-13.md",
+          "label": "Owner A/B pending for Modal and motion closed-set gaps"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/S5-alignment.md",
+          "label": "S5 alignment not converged: one missing, three routed warnings"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/S6-alignment.md",
+          "label": "S6 alignment not converged: two missing"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/REQ-GAL-PUI-TOGGLE-V2-independent.md",
+          "label": "PUI Toggle visual independent local PASS; GAL consumption remains partial"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/REQ-GAL-PUI-V2-VISUAL-independent.md",
+          "label": "V2 通用 PUI 三视觉槽独立局部 PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-v2-visual-2026-10-13-independent.md",
+          "label": "GAL V2 四项消费局部 PASS；S5/S6 CONCERNS"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-v2-visual-2026-10-13.md",
+          "label": "GAL V2 第二轮自证与门禁阻塞"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-home-settings-2026-10-14.md",
+          "label": "2026-10-14 首页/设置局部自证；S5/S6 未完成"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-home-settings-2026-10-14-independent.md",
+          "label": "2026-10-14 首页/设置局部独立 PASS；完整 S5/S6 CONCERNS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-s5-s6-triage-2026-10-14-independent.md",
+          "label": "2026-10-14 S5/S6 partial independent CONCERNS; repeat Toast fix local PASS with anchored sabotage"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-UI-04B-3-input-display-2026-10-14.md",
+          "label": "2026-10-14 GAL input/display consumer local self-check; independent review pending"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-s6-real-host-focus-2026-10-14.md",
+          "label": "2026-10-14 S6 real host focus and modal local self-check; independent review pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-UI-04B-3-input-display-2026-10-14-independent.md",
+          "label": "GAL-UI-04B-3 specified increment independent local PASS; overall S5/S6 pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-s6-real-host-focus-2026-10-14-independent.md",
+          "label": "S6 real-host focus independent local PASS; whole S6 pending"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-UI-04B-3-read-skip-2026-10-14.md",
+          "label": "V6 read-skip builder self-check; independent review pending"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-slots-system-chrome-2026-10-14.md",
+          "label": "V2 slots chrome builder self-check; independent review pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-slots-system-chrome-2026-10-14-independent.md",
+          "label": "V2 slots chrome independent local PASS; whole S5/S6 pending"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-gallery-chrome-2026-10-14.md",
+          "label": "V2 gallery information chrome local self-check; independent review pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-gallery-chrome-2026-10-14-independent.md",
+          "label": "V2 gallery chrome independent local PASS; whole S5/S6 pending"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-settings-preview-slot-footer-2026-10-14.md",
+          "label": "Settings preview and V2 empty-slot footer builder self-check; independent review pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-settings-preview-slot-footer-2026-10-14-independent.md",
+          "label": "Settings preview and V2 slot footer independent local PASS; full S5/S6 pending"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-home-generic-copy-2026-10-14.md",
+          "label": "Withdrawn home generic-copy experiment; prototype-first correction recorded"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/self-check/GAL-ART-01A-s6-action-chain-2026-10-14.md",
+          "label": "S6 mounted host action-chain builder self-check; specified increment independently reviewed"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-ART-01A-s6-action-chain-2026-10-14-independent.md",
+          "label": "S6 mounted host action-chain independent local PASS with behavioral red/green; full S5/S6 open"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-art-01a-owner-batch-2026-10-14.md",
+          "label": "Owner 2026-10-14 desktop exit A; final art and prototype approvals still pending"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/REQ-GAL-HOST-EXIT-01-H1-independent.md",
+          "label": "HostExitPort H1 local PASS; no desktop exit claim"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-art-01a-owner-media-review-batch-2026-10-14.md",
+          "label": "Owner media review batch: current demo is internal-template/Web-preview only; final/release assets await per-item decision"
         }
       ],
       "gates": {
@@ -681,14 +1001,14 @@
       "title": "Brief 到剧情图的草稿信封与审核门",
       "track": "创作产线",
       "description": "P0–P4 DraftEnvelope、稳定 ID、规范指纹、审核事件 reducer 与上下游失效纯数据合同已获 GAL-PIPE-01A 局部独立 PASS；尚无正式审计持久化、权限/并发边界、写作项目适配或 P5–P9 装配，不得称完整产线审核门完成。 Active GAL ticket index condensed on 2026-10-12; full prior specifications and review chronology preserved in byte-identical archive. This is documentation hygiene only, not new milestone approval.",
-      "status": "active",
+      "status": "done",
       "dependsOn": [
         "package-contract"
       ],
       "acceptance": [
         "P0 Brief、P1 圣经、P2 路线、P3 图、P4 节拍各有闭集 schema",
-        "拒稿和上游修改使受影响下游失效",
-        "未获批准的草稿不能装配入 GalPackage"
+        "拒绝新候选保留旧批准链；仅上游新版批准或当前批准版撤销使受影响下游 stale/blocked",
+        "P0–P4 草稿一律 not_ready，不能直接装配正式 GalPackage；P5–P8 另行审核/组装"
       ],
       "evidence": [
         {
@@ -715,37 +1035,204 @@
           "kind": "document",
           "ref": "docs/design/galgame/archive/requests-through-2026-10-12.md",
           "label": "Full pre-condensation GAL ticket record, SHA256 701505E8F0AA3DB6BCDA853BF0C27C168D8CB8AFAFB2FF65EAFE1481050C1094"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/galgame/review/GAL-PIPE-01A-milestone-audit-2026-10-14.md",
+          "label": "Independent milestone evidence audit"
         }
       ],
       "gates": {
-        "selfCheck": "pending",
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "approved"
+      }
+    },
+    {
+      "id": "authoring-studio-shell",
+      "title": "创作台三栏",
+      "track": "创作产线",
+      "description": "工作室里的步骤、产物和侧栏。点步骤只看该步产物，可手改、通过或退回。改已通过步骤时，该步回到待通过，后面已通过的步骤变为待重挂。这不是冻结的 V2 玩法界面。",
+      "status": "review",
+      "dependsOn": [
+        "draft-review-contract"
+      ],
+      "acceptance": [
+        "十一步都能点开并显示该步产物",
+        "锁定步不能通过、退回或手改",
+        "通过只解锁下一步；改已通过步使下游待重挂"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-authoring-flow-plan.md",
+          "label": "2026-10-16 创作台计划"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/galgame/gal-authoring-flow.dc.html",
+          "label": "创作台可点击原型"
+        },
+        {
+          "kind": "test",
+          "ref": "src/authoring/gal-authoring-flow.test.ts",
+          "label": "2026-10-16 authoring shell, materials, and script draft tests"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "authoring-material-library",
+      "title": "跨步骤素材库",
+      "track": "创作产线",
+      "description": "上传的小说、笔记和参考图留在素材库，从简报到组装每一步都能读。小说从简报起步，不直接落成台词。模型不能改用户上传的材料。",
+      "status": "review",
+      "dependsOn": [
+        "authoring-studio-shell"
+      ],
+      "acceptance": [
+        "同一份材料在切换步骤后仍在",
+        "新上传的叙述文章把流程留在简报，不跳到文稿",
+        "模型工具只能读取材料，不能覆盖原件"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-authoring-flow-plan.md",
+          "label": "2026-10-16 创作台计划"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/galgame/gal-authoring-flow.dc.html",
+          "label": "创作台可点击原型"
+        },
+        {
+          "kind": "test",
+          "ref": "src/authoring/gal-authoring-flow.test.ts",
+          "label": "2026-10-16 authoring shell, materials, and script draft tests"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "authoring-character-step",
+      "title": "角色步与外型参考",
+      "track": "创作产线",
+      "description": "造型在角色步确定。参考图挂到该角色的仓库档案，后续文稿和生图只读这张图。名字链到已有百科页。已有档案内容不同或有未登记文件时不覆盖。",
+      "status": "review",
+      "dependsOn": [
+        "authoring-studio-shell"
+      ],
+      "acceptance": [
+        "可引用已有角色或在本组新建",
+        "参考图挂在角色档案上，生图步不再重传",
+        "百科链接打开对应角色页；冲突不覆盖"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-authoring-flow-plan.md",
+          "label": "2026-10-16 创作台计划"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/galgame/gal-authoring-flow.dc.html",
+          "label": "创作台可点击原型"
+        },
+        {
+          "kind": "test",
+          "ref": "src/authoring/gal-authoring-flow.test.ts",
+          "label": "2026-10-16 character reference stays on the cast and conflicts do not overwrite"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "script-draft-contract",
+      "title": "文稿与逐句草稿合同",
+      "track": "创作产线",
+      "description": "在已有 brief、bible、routes、graph、beats 之外增加对话文稿和逐句两种可审核草稿。逐句通过后以逐句数据为准。模型不能自批。组装在这两种草稿和资源确认完成前保持未就绪。",
+      "status": "review",
+      "dependsOn": [
+        "draft-review-contract"
+      ],
+      "acceptance": [
+        "文稿和逐句进入既有审核账本，上游变更使下游待重挂",
+        "不合格候选被拒绝并保留上一版",
+        "未批准的逐句不能装进 GalPackage"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-authoring-flow-plan.md",
+          "label": "2026-10-16 创作台计划"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/galgame/gal-authoring-flow.dc.html",
+          "label": "创作台可点击原型"
+        },
+        {
+          "kind": "test",
+          "ref": "src/authoring/gal-authoring-flow.test.ts",
+          "label": "2026-10-16 authoring shell, materials, and script draft tests"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
         "review": "pending",
         "owner": "required"
       }
     },
     {
       "id": "writing-engine-adapter",
-      "title": "外部 AI 写作项目的窄适配器",
+      "title": "创作台模型工具目录",
       "track": "创作产线",
-      "description": "待用户提供写作项目接口后实现 WritingEnginePort；模型只产结构化候选和修订，不生成作品专属运行代码或绕过人工审核。",
-      "status": "planned",
+      "description": "2026-10-16 起不再等待外部写作项目，也不实现把整包塞进上下文的 WritingEnginePort。模型按目录调用只读工具，宿主核对必读项后才接受当前步候选。模型不能自批，不能改角色档案或用户上传。",
+      "status": "review",
       "dependsOn": [
-        "draft-review-contract"
+        "draft-review-contract",
+        "authoring-studio-shell",
+        "authoring-material-library",
+        "authoring-character-step",
+        "script-draft-contract"
       ],
       "acceptance": [
-        "每阶段仅接收已批准的上游版本",
-        "模型输出不合 schema 时给定位诊断及受限修复",
-        "输入版本、提示词/模型标识与人工修订可审计"
+        "工具只含 read_step、read_material、read_character、read_spec、read_rules、submit_candidate",
+        "缺必读，或试图写其他步骤、角色档案、用户上传时拒绝",
+        "候选进入审核账本，通过和退回只由人完成"
       ],
       "evidence": [
         {
           "kind": "document",
-          "ref": "docs/design/galgame-creation-pipeline.md",
-          "label": "WritingEnginePort 设计"
+          "ref": "docs/design/galgame/gal-authoring-flow-plan.md",
+          "label": "2026-10-16 创作台计划"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/galgame/gal-authoring-flow.dc.html",
+          "label": "创作台可点击原型"
+        },
+        {
+          "kind": "test",
+          "ref": "src/authoring/gal-authoring-tools.test.ts",
+          "label": "2026-10-16 closed authoring tool directory rejects unread and cross-step candidates"
         }
       ],
       "gates": {
-        "selfCheck": "pending",
+        "selfCheck": "pass",
         "review": "pending",
         "owner": "required"
       }
@@ -754,21 +1241,28 @@
       "id": "asset-generation-review",
       "title": "角色/背景/CG/动画候选生成与资产审核",
       "track": "创作产线",
-      "description": "P2/P4 审批后才出资产需求；本地库优先，AI 生图为候选，审核后由专职资产流程赋予 assetKey。视频与语音在台词/节拍锁定后处理。",
+      "description": "生图读取角色步已挂上的外型参考，不在这一步重传。外部工具可按生图说明回传文件；解析器核对文件名、张数、尺寸和透明通道。人看过才给资源编号。确认过的立绘登记回角色或时装，背景和 CG 留在作品。未确认文件不进角色仓库。",
       "status": "planned",
       "dependsOn": [
-        "draft-review-contract"
+        "draft-review-contract",
+        "authoring-character-step",
+        "script-draft-contract"
       ],
       "acceptance": [
-        "角色基础资产、背景与高价值 CG 按批准的需求单生成",
-        "未审核素材无正式 assetKey、不能进入发行包",
-        "来源、许可证、尺寸、锚点、风格一致性和审核决定可追溯"
+        "回传文件按约定核对；对上了仍须人审才有 assetKey",
+        "确认过的立绘回写角色或时装，不覆盖已有海报和 Q 版",
+        "背景和 CG 留在作品；未确认文件不进入 characters/"
       ],
       "evidence": [
         {
           "kind": "document",
           "ref": "docs/design/galgame-creation-pipeline.md",
           "label": "P5/P7 资产门设计"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-authoring-flow-plan.md",
+          "label": "2026-10-16 创作台计划"
         }
       ],
       "gates": {
@@ -781,10 +1275,11 @@
       "id": "approved-package-assembler",
       "title": "批准草稿到 GalPackage 的确定性组装",
       "track": "创作产线",
-      "description": "只读 approved 草稿与已审核 assetKey；纯函数组装、静态校验、剧情可达性/本地化/资源闭包报告和旧档兼容报告。",
+      "description": "只读已批准逐句和已确认的 assetKey，纯函数组装并给出断链、缺资源和缺语言报告。文稿、逐句和资源确认完成前，组装保持未就绪。",
       "status": "planned",
       "dependsOn": [
         "draft-review-contract",
+        "script-draft-contract",
         "asset-generation-review",
         "package-contract"
       ],
@@ -798,6 +1293,11 @@
           "kind": "document",
           "ref": "docs/design/galgame-creation-pipeline.md",
           "label": "组装规则"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-authoring-flow-plan.md",
+          "label": "2026-10-16 创作台计划"
         }
       ],
       "gates": {
@@ -810,7 +1310,7 @@
       "id": "generated-gal-pilot",
       "title": "Codex 工作页生成首个完整 GAL 的端到端试点",
       "track": "首作验证",
-      "description": "从真实 Brief 经 P0–P9 审核、写作、资产、组装和试玩生成与手工样例不同的新作品；作品仍须独立遵守 S1–S8，不用游戏私有代码。",
+      "description": "用创作台从简报走到试玩，生成两部不同的作品。庄园出逃的正文和生图由另一名 agent 按既有草稿继续，不代替这条通用闭环，也不代替各作品自己的 S1–S8。",
       "status": "planned",
       "dependsOn": [
         "hand-authored-pilot",
@@ -818,7 +1318,11 @@
         "approved-package-assembler",
         "media-and-final-skin",
         "replay-save-preview-auto",
-        "ui-settings-confirmations"
+        "ui-settings-confirmations",
+        "authoring-studio-shell",
+        "authoring-material-library",
+        "authoring-character-step",
+        "script-draft-contract"
       ],
       "acceptance": [
         "用户在每一关键创作门审核并可退回局部重生",
@@ -830,6 +1334,11 @@
           "kind": "document",
           "ref": "docs/design/galgame-creation-pipeline.md",
           "label": "P0–P9 闭环定义"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/galgame/gal-authoring-flow-plan.md",
+          "label": "2026-10-16 创作台计划"
         }
       ],
       "gates": {

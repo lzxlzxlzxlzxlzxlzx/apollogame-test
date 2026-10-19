@@ -46,6 +46,21 @@ describe('applyCommands — actions 落成单例 InputQueue（零实体增删，
 });
 
 describe('PointerInputSource — 连续指针 opt-in', () => {
+  it('连续触控接管 canvas 滚动并在卸载时恢复；旧点击路径不改 touch-action', () => {
+    const style = { touchAction: 'pan-y' };
+    const canvas = {
+      width: 100, height: 100, style,
+      addEventListener: () => {}, removeEventListener: () => {},
+    } as unknown as HTMLCanvasElement;
+    const gesture = new PointerInputSource('touch', canvas, { move: true });
+    expect(style.touchAction).toBe('none');
+    gesture.dispose();
+    expect(style.touchAction).toBe('pan-y');
+    const click = new PointerInputSource('click', canvas);
+    expect(style.touchAction).toBe('pan-y');
+    click.dispose();
+  });
+
   it('缩放后先逆投影，鼠标/触控共用路径；第二触点拒收，取消清握持', () => {
     expect(canvasPointerToScreen(380, 211.5, { left: 0, top: 0, width: 720, height: 450 }, 1440, 900)).toEqual({ x: 760, y: 423 });
     const listeners = new Map<string, (event: PointerEvent) => void>();

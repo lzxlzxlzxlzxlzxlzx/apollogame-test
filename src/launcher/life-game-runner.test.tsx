@@ -10,7 +10,7 @@ const { mountLifeGame, createStoragePort, findLifeLauncherItem } = vi.hoisted(()
   findLifeLauncherItem: vi.fn(),
 }));
 
-vi.mock('../engine/host/life-game-host.js', () => ({ mountLifeGame }));
+vi.mock('../assembly/life-host/life-game-host.js', () => ({ mountLifeGame }));
 vi.mock('../services/storage/index.js', () => ({ createStoragePort }));
 vi.mock('./life-launcher-catalog.js', async (importOriginal) => {
   const actual = await importOriginal<typeof import('./life-launcher-catalog.js')>();

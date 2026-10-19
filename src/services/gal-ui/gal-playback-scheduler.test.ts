@@ -17,7 +17,8 @@ class FakeClock implements GalPlaybackClock {
   }
 }
 const frame = (): GalPlaybackFrame => ({ packageId: 'book', refKey: 'a:1', kind: 'line',
-  visible: true, fullyPresented: true, read: true, skipMode: 'read-only', autoDelayMs: 500 });
+  visible: true, fullyPresented: true, read: true, readSkipEnabled: true,
+  skipMode: 'read-only', autoDelayMs: 500 });
 
 describe('GAL-ENG-06A host-only playback scheduler', () => {
   it('uses one injected-clock task and advances once after the profile delay', async () => {
@@ -42,6 +43,23 @@ describe('GAL-ENG-06A host-only playback scheduler', () => {
       scheduler.setMode('skip'); expect(scheduler.mode).toBe('off');
     }
     expect(stopped.slice(1)).toEqual(['boundary', 'boundary', 'boundary']);
+  });
+
+  it('treats read and unread skip switches independently, including a late preference change', () => {
+    const clock = new FakeClock(); let current = { ...frame(), readSkipEnabled: false };
+    const stopped: string[] = []; let calls = 0;
+    const scheduler = new GalPlaybackScheduler(clock, () => current, async () => { calls++; return true; },
+      reason => stopped.push(reason));
+    scheduler.setMode('skip');
+    expect(stopped).toEqual(['disabled']); expect(clock.tasks).toHaveLength(0);
+    current = { ...current, read: false, skipMode: 'all' };
+    scheduler.setMode('skip'); expect(clock.tasks.filter(task => !task.cancelled)).toHaveLength(1);
+    current = { ...current, read: true };
+    clock.tick(16);
+    expect(calls).toBe(0); expect(stopped.at(-1)).toBe('stale');
+    current = { ...current, readSkipEnabled: true, skipMode: 'read-only' };
+    scheduler.setMode('skip'); clock.tick(16);
+    expect(calls).toBe(1);
   });
 
   it('rejects a cancelled late callback by epoch and a changed StoryRef by identity', () => {

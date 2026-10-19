@@ -24,7 +24,7 @@ export function validateManifest(manifest, packageVersion) {
   check(object(manifest.documentation) && Object.keys(manifest.documentation).join(',') === 'zh-cn', 'only the declared zh-cn document is allowed');
   check(manifest.documentation['zh-cn']?.path === DOCUMENT_PATH && typeof manifest.documentation['zh-cn']?.title === 'string' && manifest.documentation['zh-cn'].title.trim(), 'documentation path/title mismatch');
   check(object(manifest.runtime) && manifest.runtime.protocol === 'dokiworld.app' && manifest.runtime.protocolVersion === 2, 'runtime must be dokiworld.app/2');
-  check(same(manifest.runtime.input, { contract: INPUT_CONTRACT, version: 1 }), 'input contract mismatch');
+  check(same(manifest.runtime.input, { contract: INPUT_CONTRACT, version: 2 }), 'input contract mismatch');
   check(same(manifest.runtime.outputs, [{ contract: OUTPUT_CONTRACT, version: 1 }]), 'output contract mismatch');
   check(same(manifest.runtime.modules, []), 'modules must be the empty closed set');
   return manifest;

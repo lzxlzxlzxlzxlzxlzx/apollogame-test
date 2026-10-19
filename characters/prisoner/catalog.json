@@ -1,0 +1,46 @@
+{
+  "name": "囚徒",
+  "group": "manor-escape",
+  "entries": [
+    {
+      "title": "简介",
+      "text": "求生者，与机械师同行。用还能工作的电路打开出口，不再一个人留在庄园",
+      "description": "角色职责"
+    },
+    {
+      "title": "姓名",
+      "text": "囚徒",
+      "description": "角色名"
+    },
+    {
+      "title": "人设",
+      "text": "急切、好辩、心软、不肯示弱。从把她当成又一个会丢下他的人，到承认留在门内或走出门外都可以，只要她在",
+      "description": "性格与变化"
+    },
+    {
+      "title": "外形",
+      "text": "轮廓：瘦高青年，一手扶着外接的电路匣。服装：条纹囚服外罩旧实验外套，腕上有线缆，没有华丽时装。表情：警惕、讲道理、受伤仍逞强、看着她时放轻。",
+      "description": "画风与造型；立绘已由 Owner 于 2026-10-16 批准"
+    },
+    {
+      "title": "警惕",
+      "file": "manor-escape/prisoner-alert.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    },
+    {
+      "title": "讲道理",
+      "file": "manor-escape/prisoner-reason.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    },
+    {
+      "title": "受伤仍逞强",
+      "file": "manor-escape/prisoner-stubborn.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    },
+    {
+      "title": "看着她时放轻",
+      "file": "manor-escape/prisoner-soft.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    }
+  ]
+}

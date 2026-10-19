@@ -1,0 +1,324 @@
+{
+  "main": {
+    "viewport": [
+      1440,
+      900
+    ],
+    "stage": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "right": 1440,
+      "bottom": 900
+    },
+    "status": {
+      "x": 446.40625,
+      "y": 24,
+      "w": 547.1875,
+      "h": 104,
+      "right": 993.59375,
+      "bottom": 128
+    },
+    "groups": [
+      {
+        "x": 24,
+        "y": 24,
+        "w": 316.796875,
+        "h": 159.390625,
+        "right": 340.796875,
+        "bottom": 183.390625
+      },
+      {
+        "x": 446.40625,
+        "y": 24,
+        "w": 547.1875,
+        "h": 104,
+        "right": 993.59375,
+        "bottom": 128
+      },
+      {
+        "x": 1026,
+        "y": 24,
+        "w": 390,
+        "h": 155,
+        "right": 1416,
+        "bottom": 179
+      }
+    ],
+    "overlaps": [],
+    "resourceText": [
+      "2,480",
+      "36",
+      "12"
+    ],
+    "images": true
+  },
+  "viewports": [
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 1080,
+        "right": 1920,
+        "bottom": 1080
+      },
+      "status": {
+        "x": 620,
+        "y": 24,
+        "w": 680,
+        "h": 104,
+        "right": 1300,
+        "bottom": 128
+      },
+      "groups": [
+        {
+          "x": 24,
+          "y": 24,
+          "w": 352,
+          "h": 159.390625,
+          "right": 376,
+          "bottom": 183.390625
+        },
+        {
+          "x": 620,
+          "y": 24,
+          "w": 680,
+          "h": 104,
+          "right": 1300,
+          "bottom": 128
+        },
+        {
+          "x": 1506,
+          "y": 24,
+          "w": 390,
+          "h": 155,
+          "right": 1896,
+          "bottom": 179
+        }
+      ],
+      "overlaps": [],
+      "resourceText": [
+        "2,480",
+        "36",
+        "12"
+      ],
+      "images": true
+    },
+    {
+      "viewport": [
+        1060,
+        760
+      ],
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "w": 1060,
+        "h": 760,
+        "right": 1060,
+        "bottom": 760
+      },
+      "status": {
+        "x": 230,
+        "y": 15,
+        "w": 600,
+        "h": 104,
+        "right": 830,
+        "bottom": 119
+      },
+      "groups": [
+        {
+          "x": 24,
+          "y": 135,
+          "w": 320,
+          "h": 147,
+          "right": 344,
+          "bottom": 282
+        },
+        {
+          "x": 230,
+          "y": 15,
+          "w": 600,
+          "h": 104,
+          "right": 830,
+          "bottom": 119
+        },
+        {
+          "x": 646,
+          "y": 135,
+          "w": 390,
+          "h": 155,
+          "right": 1036,
+          "bottom": 290
+        }
+      ],
+      "overlaps": [],
+      "resourceText": [
+        "2,480",
+        "36",
+        "12"
+      ],
+      "images": true
+    },
+    {
+      "viewport": [
+        760,
+        900
+      ],
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "w": 760,
+        "h": 900,
+        "right": 760,
+        "bottom": 900
+      },
+      "status": {
+        "x": 12,
+        "y": 5,
+        "w": 736,
+        "h": 92,
+        "right": 748,
+        "bottom": 97
+      },
+      "groups": [
+        {
+          "x": 12,
+          "y": 119,
+          "w": 377.71875,
+          "h": 155,
+          "right": 389.71875,
+          "bottom": 274
+        },
+        {
+          "x": 12,
+          "y": 5,
+          "w": 736,
+          "h": 92,
+          "right": 748,
+          "bottom": 97
+        },
+        {
+          "x": 409.453125,
+          "y": 122,
+          "w": 338.546875,
+          "h": 122,
+          "right": 748,
+          "bottom": 244
+        }
+      ],
+      "overlaps": [],
+      "resourceText": [
+        "2,480",
+        "36",
+        "12"
+      ],
+      "images": true
+    }
+  ],
+  "checks": [
+    "1440x900: full viewport",
+    "1440x900: status height >=56",
+    "1440x900: status centered",
+    "1440x900: HUD regions do not overlap",
+    "1440x900: HUD within viewport",
+    "1440x900: three icon-number pills",
+    "1440x900: image loaded",
+    "declared readable surface palette >=4.5",
+    "J pointer opens quest",
+    "completed quest tab has real empty state",
+    "completed tab empty can return to active",
+    "tracking changes visible HUD",
+    "I pointer changes shared sidebar",
+    "exactly one sidebar",
+    "bag selection changes visible detail",
+    "resources change as DOM numbers",
+    "calendar updates as DOM text",
+    "C opens profile",
+    "long tracker text not clipped",
+    "long profile scrolls",
+    "Escape closes sidebar",
+    "quest: keyboard opens",
+    "quest: safe empty state",
+    "quest: return from empty",
+    "quest: close button works",
+    "bag: keyboard opens",
+    "bag: safe empty state",
+    "bag: return from empty",
+    "bag: close button works",
+    "profile: keyboard opens",
+    "profile: safe empty state",
+    "profile: return from empty",
+    "profile: close button works",
+    "long bag has 60 slots",
+    "real hover feedback",
+    "real pressed feedback",
+    "disabled C cannot open",
+    "1920x1080: full viewport",
+    "1920x1080: status height >=56",
+    "1920x1080: status centered",
+    "1920x1080: HUD regions do not overlap",
+    "1920x1080: HUD within viewport",
+    "1920x1080: three icon-number pills",
+    "1920x1080: image loaded",
+    "1920: sidebar within viewport",
+    "1920: sidebar does not cover entry keys",
+    "1920: world stays visible",
+    "1060x760: full viewport",
+    "1060x760: status height >=56",
+    "1060x760: status centered",
+    "1060x760: HUD regions do not overlap",
+    "1060x760: HUD within viewport",
+    "1060x760: three icon-number pills",
+    "1060x760: image loaded",
+    "1060: sidebar within viewport",
+    "1060: sidebar does not cover entry keys",
+    "1060: world stays visible",
+    "760x900: full viewport",
+    "760x900: status height >=56",
+    "760x900: status centered",
+    "760x900: HUD regions do not overlap",
+    "760x900: HUD within viewport",
+    "760x900: three icon-number pills",
+    "760x900: image loaded",
+    "760: sidebar within viewport",
+    "760: sidebar does not cover entry keys",
+    "760: world stays visible",
+    "no script errors",
+    "no failed file loads"
+  ],
+  "contrast": [
+    {
+      "name": "tracker",
+      "fg": "rgb(48, 39, 63)",
+      "bg": "#f4e7cc",
+      "ratio": 11.527443618946105
+    },
+    {
+      "name": "status palette",
+      "fg": "rgb(255, 240, 197)",
+      "bg": "#192137",
+      "ratio": 14.095627163220719
+    },
+    {
+      "name": "resource",
+      "fg": "rgb(255, 230, 173)",
+      "bg": "rgb(24, 32, 57)",
+      "ratio": 13.165068501339157
+    },
+    {
+      "name": "sidebar",
+      "fg": "rgb(48, 39, 63)",
+      "bg": "#f4e7cc",
+      "ratio": 11.527443618946105
+    }
+  ],
+  "checkCount": 69,
+  "errors": [],
+  "failedRequests": []
+}

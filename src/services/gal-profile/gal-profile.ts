@@ -4,7 +4,7 @@ import { CorruptSaveError, openEnvelope, sealEnvelope } from '../save/envelope.j
 import type { SaveCodec, SavePort } from '../save/save-port.js';
 
 /** Cross-slot GAL state. This is not the launcher's name/avatar PlayerProfile. */
-export const GAL_PROFILE_SCHEMA = 4 as const;
+export const GAL_PROFILE_SCHEMA = 8 as const;
 export const GAL_PROFILE_SLOT_PREFIX = 'zerocraft.gal-profile.';
 export type GalUnlockKind = 'cg' | 'ending' | 'memory' | 'music';
 export const GAL_CONFIRMATION_KEYS = Object.freeze(
@@ -17,6 +17,14 @@ export interface GalProfilePreferences extends PreferenceDefaults {
   readonly masterVolume: number;
   readonly focusMute: boolean;
   readonly voiceAuto: boolean;
+  readonly dialogueOpacity: number;
+  readonly wheelRollback: boolean;
+  readonly wheelAdvance: boolean;
+  readonly autoContinueAfterChoice: boolean;
+  readonly readSkipEnabled: boolean;
+  readonly reducedMotion: boolean;
+  /** When false, a scripted scene transition settles immediately as a cut. */
+  readonly storyTransitions: boolean;
 }
 type GalProfilePreferencesV1 = PreferenceDefaults & { readonly locale?: string };
 export interface GalProfile {
@@ -36,7 +44,12 @@ const PREFERENCE_FIELDS_V1 = ['locale', 'textSpeedMsPerChar', 'autoDelayMs', 'sk
   'bgmVolume', 'sfxVolume', 'voiceVolume', 'muted'] as const;
 const PREFERENCE_FIELDS_V2 = [...PREFERENCE_FIELDS_V1, 'confirmations'] as const;
 const PREFERENCE_FIELDS_V3 = [...PREFERENCE_FIELDS_V2, 'masterVolume', 'focusMute'] as const;
-const PREFERENCE_FIELDS = [...PREFERENCE_FIELDS_V3, 'voiceAuto'] as const;
+const PREFERENCE_FIELDS_V4 = [...PREFERENCE_FIELDS_V3, 'voiceAuto'] as const;
+const PREFERENCE_FIELDS_V5 = [...PREFERENCE_FIELDS_V4, 'dialogueOpacity', 'wheelRollback',
+  'wheelAdvance', 'autoContinueAfterChoice'] as const;
+const PREFERENCE_FIELDS_V6 = [...PREFERENCE_FIELDS_V5, 'readSkipEnabled'] as const;
+const PREFERENCE_FIELDS_V7 = [...PREFERENCE_FIELDS_V6, 'reducedMotion'] as const;
+const PREFERENCE_FIELDS = [...PREFERENCE_FIELDS_V7, 'storyTransitions'] as const;
 
 export function defaultGalConfirmations(): GalConfirmations {
   return { saveEmpty: true, overwrite: true, load: true, newGame: true, returnTitle: true, exitGame: true };
@@ -103,7 +116,9 @@ function normalizePreferencesV1(raw: unknown, pkg: GalPackage): GalProfilePrefer
     muted: value.muted,
   };
 }
-function normalizePreferencesV2(raw: unknown, pkg: GalPackage): Omit<GalProfilePreferences, 'masterVolume' | 'focusMute' | 'voiceAuto'> {
+function normalizePreferencesV2(raw: unknown, pkg: GalPackage): Omit<GalProfilePreferences,
+  'masterVolume' | 'focusMute' | 'voiceAuto' | 'dialogueOpacity' | 'wheelRollback' |
+  'wheelAdvance' | 'autoContinueAfterChoice' | 'readSkipEnabled' | 'reducedMotion' | 'storyTransitions'> {
   const value = record(raw);
   if (!value || !exactKeys(value, PREFERENCE_FIELDS_V2))
     throw new CorruptSaveError('GAL 档案偏好形状无效');
@@ -122,7 +137,9 @@ function normalizePreferencesV2(raw: unknown, pkg: GalPackage): Omit<GalProfileP
   } };
 }
 
-function normalizePreferencesV3(raw: unknown, pkg: GalPackage): Omit<GalProfilePreferences, 'voiceAuto'> {
+function normalizePreferencesV3(raw: unknown, pkg: GalPackage): Omit<GalProfilePreferences,
+  'voiceAuto' | 'dialogueOpacity' | 'wheelRollback' | 'wheelAdvance' | 'autoContinueAfterChoice' |
+  'readSkipEnabled' | 'reducedMotion' | 'storyTransitions'> {
   const value = record(raw);
   if (!value || !exactKeys(value, PREFERENCE_FIELDS_V3) || typeof value.focusMute !== 'boolean')
     throw new CorruptSaveError('GAL V3 声音偏好形状无效');
@@ -131,15 +148,49 @@ function normalizePreferencesV3(raw: unknown, pkg: GalPackage): Omit<GalProfileP
     masterVolume: clamp(finite(masterVolume, 'masterVolume'), 0, 1), focusMute };
 }
 
-function normalizePreferences(raw: unknown, pkg: GalPackage): GalProfilePreferences {
+function normalizePreferencesV4(raw: unknown, pkg: GalPackage): Omit<GalProfilePreferences,
+  'dialogueOpacity' | 'wheelRollback' | 'wheelAdvance' | 'autoContinueAfterChoice' | 'readSkipEnabled' | 'reducedMotion' | 'storyTransitions'> {
   const value = record(raw);
-  if (!value || !exactKeys(value, PREFERENCE_FIELDS) || typeof value.voiceAuto !== 'boolean')
+  if (!value || !exactKeys(value, PREFERENCE_FIELDS_V4) || typeof value.voiceAuto !== 'boolean')
     throw new CorruptSaveError('GAL V4 语音偏好形状无效');
   const { voiceAuto, ...legacy } = value;
   return { ...normalizePreferencesV3(legacy, pkg), voiceAuto };
 }
 
-function parseProfileFields(raw: unknown, pkg: GalPackage, schemaVersion: 1 | 2 | 3 | 4) {
+function normalizePreferencesV5(raw: unknown, pkg: GalPackage): Omit<GalProfilePreferences, 'readSkipEnabled' | 'reducedMotion' | 'storyTransitions'> {
+  const value = record(raw);
+  if (!value || !exactKeys(value, PREFERENCE_FIELDS_V5) ||
+      typeof value.wheelRollback !== 'boolean' || typeof value.wheelAdvance !== 'boolean' ||
+      typeof value.autoContinueAfterChoice !== 'boolean')
+    throw new CorruptSaveError('GAL V5 输入/画面偏好形状无效');
+  const { dialogueOpacity, wheelRollback, wheelAdvance, autoContinueAfterChoice, ...legacy } = value;
+  return { ...normalizePreferencesV4(legacy, pkg),
+    dialogueOpacity: clamp(finite(dialogueOpacity, 'dialogueOpacity'), 0.4, 1),
+    wheelRollback, wheelAdvance, autoContinueAfterChoice };
+}
+function normalizePreferencesV6(raw: unknown, pkg: GalPackage): Omit<GalProfilePreferences, 'reducedMotion' | 'storyTransitions'> {
+  const value = record(raw);
+  if (!value || !exactKeys(value, PREFERENCE_FIELDS_V6) || typeof value.readSkipEnabled !== 'boolean')
+    throw new CorruptSaveError('GAL V6 已读快进偏好形状无效');
+  const { readSkipEnabled, ...legacy } = value;
+  return { ...normalizePreferencesV5(legacy, pkg), readSkipEnabled };
+}
+function normalizePreferencesV7(raw: unknown, pkg: GalPackage): Omit<GalProfilePreferences, 'storyTransitions'> {
+  const value = record(raw);
+  if (!value || !exactKeys(value, PREFERENCE_FIELDS_V7) || typeof value.reducedMotion !== 'boolean')
+    throw new CorruptSaveError('GAL V7 减少动态偏好形状无效');
+  const { reducedMotion, ...legacy } = value;
+  return { ...normalizePreferencesV6(legacy, pkg), reducedMotion };
+}
+function normalizePreferences(raw: unknown, pkg: GalPackage): GalProfilePreferences {
+  const value = record(raw);
+  if (!value || !exactKeys(value, PREFERENCE_FIELDS) || typeof value.storyTransitions !== 'boolean')
+    throw new CorruptSaveError('GAL V8 转场偏好形状无效');
+  const { storyTransitions, ...legacy } = value;
+  return { ...normalizePreferencesV7(legacy, pkg), storyTransitions };
+}
+
+function parseProfileFields(raw: unknown, pkg: GalPackage, schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8) {
   requirePackage(pkg);
   const value = record(raw);
   if (!value || !exactKeys(value, PROFILE_FIELDS) || value.schemaVersion !== schemaVersion || value.packageId !== pkg.id)
@@ -167,10 +218,31 @@ function migrateGalProfileV2(raw: unknown, pkg: GalPackage): unknown {
   return { ...legacy, schemaVersion: 3,
     preferences: { ...normalizePreferencesV2(legacy.preferences, pkg), masterVolume: 1, focusMute: false } };
 }
-function migrateGalProfileV3(raw: unknown, pkg: GalPackage): GalProfile {
+function migrateGalProfileV3(raw: unknown, pkg: GalPackage): unknown {
   const legacy = parseProfileFields(raw, pkg, 3);
-  return { ...legacy, schemaVersion: GAL_PROFILE_SCHEMA,
+  return { ...legacy, schemaVersion: 4,
     preferences: { ...normalizePreferencesV3(legacy.preferences, pkg), voiceAuto: true } };
+}
+function migrateGalProfileV4(raw: unknown, pkg: GalPackage): unknown {
+  const legacy = parseProfileFields(raw, pkg, 4);
+  return { ...legacy, schemaVersion: 5,
+    preferences: { ...normalizePreferencesV4(legacy.preferences, pkg), dialogueOpacity: 0.9,
+      wheelRollback: true, wheelAdvance: true, autoContinueAfterChoice: false } };
+}
+function migrateGalProfileV5(raw: unknown, pkg: GalPackage): unknown {
+  const legacy = parseProfileFields(raw, pkg, 5);
+  return { ...legacy, schemaVersion: 6,
+    preferences: { ...normalizePreferencesV5(legacy.preferences, pkg), readSkipEnabled: true } };
+}
+function migrateGalProfileV6(raw: unknown, pkg: GalPackage): unknown {
+  const legacy = parseProfileFields(raw, pkg, 6);
+  return { ...legacy, schemaVersion: 7,
+    preferences: { ...normalizePreferencesV6(legacy.preferences, pkg), reducedMotion: false } };
+}
+function migrateGalProfileV7(raw: unknown, pkg: GalPackage): GalProfile {
+  const legacy = parseProfileFields(raw, pkg, 7);
+  return { ...legacy, schemaVersion: GAL_PROFILE_SCHEMA,
+    preferences: { ...normalizePreferencesV7(legacy.preferences, pkg), storyTransitions: true } };
 }
 
 export function createGalProfile(pkg: GalPackage): GalProfile {
@@ -179,7 +251,9 @@ export function createGalProfile(pkg: GalPackage): GalProfile {
     schemaVersion: GAL_PROFILE_SCHEMA, packageId: pkg.id,
     readNodeIds: [], unlockedCgIds: [], unlockedEndingIds: [], unlockedMemoryIds: [], unlockedMusicIds: [],
     preferences: normalizePreferences({ locale: pkg.defaultLocale, ...pkg.preferences,
-      confirmations: defaultGalConfirmations(), masterVolume: 1, focusMute: false, voiceAuto: true }, pkg),
+      confirmations: defaultGalConfirmations(), masterVolume: 1, focusMute: false, voiceAuto: true,
+      dialogueOpacity: 0.9, wheelRollback: true, wheelAdvance: true, autoContinueAfterChoice: false,
+      readSkipEnabled: true, reducedMotion: false, storyTransitions: true }, pkg),
   };
 }
 
@@ -249,10 +323,13 @@ export function resetGalProfilePreferences(profile: GalProfile, pkg: GalPackage)
 export function galProfileSlot(pkg: GalPackage): string { requirePackage(pkg); return `${GAL_PROFILE_SLOT_PREFIX}${encodeURIComponent(pkg.id)}`; }
 export function galProfileCodec(pkg: GalPackage): SaveCodec {
   requirePackage(pkg);
-  // V1 is the first released GAL profile. V2 confirmations, V3 master/focus, V4 voice-auto.
+  // V1 is the first released GAL profile. V2 confirmations, V3 master/focus, V4 voice-auto,
+  // V5 input/display, V6 independent read-skip switch, V7 reduced motion, V8 story transitions.
   return { gameId: `zerocraft.gal-profile:${pkg.id}`, schema: GAL_PROFILE_SCHEMA,
     migrations: { 1: raw => migrateGalProfileV1(raw, pkg), 2: raw => migrateGalProfileV2(raw, pkg),
-      3: raw => migrateGalProfileV3(raw, pkg) } };
+      3: raw => migrateGalProfileV3(raw, pkg), 4: raw => migrateGalProfileV4(raw, pkg),
+      5: raw => migrateGalProfileV5(raw, pkg), 6: raw => migrateGalProfileV6(raw, pkg),
+      7: raw => migrateGalProfileV7(raw, pkg) } };
 }
 export async function loadGalProfile(port: SavePort, pkg: GalPackage): Promise<GalProfile> {
   const env = await port.read(galProfileSlot(pkg));
@@ -289,8 +366,27 @@ export async function persistGalConfirmation(port: SavePort, pkg: GalPackage,
 
 /** Serialize playback preference updates with the same package lane as milestone folding. */
 export async function persistGalPlaybackPreferences(port: SavePort, pkg: GalPackage,
-  change: Pick<GalProfilePreferences, 'autoDelayMs'> | Pick<GalProfilePreferences, 'skipMode'>,
+  change: Pick<GalProfilePreferences, 'textSpeedMsPerChar'> | Pick<GalProfilePreferences, 'autoDelayMs'> | Pick<GalProfilePreferences, 'skipMode'> |
+    Pick<GalProfilePreferences, 'readSkipEnabled'>,
   savedAt: number): Promise<GalProfile> {
+  return serialGalProfile(pkg.id, async () => {
+    const current = await loadGalProfile(port, pkg);
+    const next = setGalPreferences(current, pkg, change);
+    if (next !== current) await saveGalProfile(port, pkg, next, savedAt);
+    return next;
+  });
+}
+
+export type GalUiPreferenceChange = Pick<GalProfilePreferences, 'dialogueOpacity'> |
+  Pick<GalProfilePreferences, 'wheelRollback'> | Pick<GalProfilePreferences, 'wheelAdvance'> |
+  Pick<GalProfilePreferences, 'autoContinueAfterChoice'> | Pick<GalProfilePreferences, 'reducedMotion'> |
+  Pick<GalProfilePreferences, 'storyTransitions'>;
+/** Persist only known presentation/input keys; never touches World or cross-slot progress. */
+export async function persistGalUiPreference(port: SavePort, pkg: GalPackage,
+  change: GalUiPreferenceChange, savedAt: number): Promise<GalProfile> {
+  const keys = Object.keys(change);
+  if (keys.length !== 1 || !['dialogueOpacity', 'wheelRollback', 'wheelAdvance',
+    'autoContinueAfterChoice', 'reducedMotion', 'storyTransitions'].includes(keys[0])) throw new CorruptSaveError('GAL UI 偏好键无效');
   return serialGalProfile(pkg.id, async () => {
     const current = await loadGalProfile(port, pkg);
     const next = setGalPreferences(current, pkg, change);

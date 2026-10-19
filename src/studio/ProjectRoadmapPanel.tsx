@@ -32,6 +32,15 @@ function evidenceHref(ref: string): string | undefined {
   if (!value || value.startsWith('/') || value.split('/').includes('..')) return undefined;
   return value.startsWith('https://') || !/^[a-z][a-z0-9+.-]*:/i.test(value) ? value : undefined;
 }
+/* AI START */
+function ownerApproveReady(milestone: Milestone, milestones: Milestone[]): boolean {
+  const byId = new Map(milestones.map(item => [item.id, item]));
+  return milestone.dependsOn.every(id => byId.get(id)?.status === 'done')
+    && milestone.evidence.length > 0
+    && milestone.gates.selfCheck === 'pass'
+    && milestone.gates.review === 'pass';
+}
+/* AI END */
 function newMilestone(index: number): Milestone {
   return { id: `milestone-${index + 1}`, title: '新里程碑', track: '核心', description: '待补充说明', status: 'planned', dependsOn: [], acceptance: ['待验收'], evidence: [], gates: { selfCheck: 'pending', review: 'pending', owner: 'not-required' } };
 }
@@ -107,7 +116,7 @@ export function ProjectRoadmapPanel({ api, onBack }: { api: string; onBack: () =
             <div style={{ marginTop: 11, color: SHELL.sub, fontSize: 12.5 }}><b style={{ color: SHELL.jade }}>下一步</b> · {nextReason(m)}</div>
             {m.dependsOn.length > 0 && <div style={{ marginTop: 8, color: SHELL.dim, fontSize: 12 }}>依赖 · {m.dependsOn.map(dependency => <span key={dependency} style={{ marginLeft: 5, color: SHELL.sub }}>{dependency}</span>)}</div>}
             {m.evidence.length > 0 && <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>{m.evidence.map(e => { const href = evidenceHref(e.ref); return href ? <a key={`${e.kind}-${e.ref}`} href={href} target={href.startsWith('https://') ? '_blank' : undefined} rel={href.startsWith('https://') ? 'noreferrer' : undefined} style={{ color: SHELL.jade, fontSize: 12, textDecoration: 'none' }}>↗ {e.label}</a> : <span key={`${e.kind}-${e.ref}`} style={{ color: SHELL.dim, fontSize: 12 }}>{e.label}</span>; })}</div>}
-            {m.status === 'review' && m.gates.owner !== 'not-required' && <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}><button style={button('solid')} onClick={() => ownerDecision(m.id, 'approve')}>Owner 通过</button><button style={button('soft')} onClick={() => ownerDecision(m.id, 'return')}>Owner 退回返修</button></div>}
+            {m.status === 'review' && m.gates.owner !== 'not-required' && <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>{ownerApproveReady(m, roadmap.milestones) && <button style={button('solid')} onClick={() => ownerDecision(m.id, 'approve')}>Owner 通过</button>}<button style={button('soft')} onClick={() => ownerDecision(m.id, 'return')}>Owner 退回返修</button></div>}
             <details style={{ marginTop: 14, paddingTop: 12, borderTop: `1px solid ${SHELL.line}` }}><summary style={{ cursor: 'pointer', color: SHELL.sub, fontSize: 12.5, fontWeight: 700 }}>编辑里程碑</summary><div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 13 }}><label style={label}>标题<input aria-label="里程碑标题" style={input} value={m.title} onChange={e => update(index, { ...m, title: e.target.value })} /></label><label style={label}>状态<select style={input} value={m.status} onChange={e => update(index, { ...m, status: e.target.value })}>{statuses.map(status => <option key={status}>{status}</option>)}</select></label><label style={label}>ID<input aria-label="里程碑 id" style={input} value={m.id} onChange={e => update(index, { ...m, id: e.target.value })} /></label><label style={label}>轨道<input aria-label="里程碑轨道" style={input} value={m.track} onChange={e => update(index, { ...m, track: e.target.value })} /></label><label style={{ ...label, gridColumn: '1 / -1' }}>依赖（以逗号分隔）<input aria-label="里程碑依赖" style={input} value={m.dependsOn.join(',')} onChange={e => update(index, { ...m, dependsOn: e.target.value.split(',').map(item => item.trim()).filter(Boolean) })} /></label></div><div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}><button style={button('soft')} onClick={() => update(index, { ...m, evidence: [...m.evidence, { kind: 'document', ref: 'docs/design/README.md', label: '新证据' }] })}>＋ 追加证据</button></div></details>
           </article>;
         })}</div></section>)}

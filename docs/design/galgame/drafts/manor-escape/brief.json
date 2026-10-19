@@ -1,0 +1,30 @@
+{
+  "id": "manor-escape",
+  "titleHint": "庄园出逃",
+  "defaultLocale": "zh-CN",
+  "locales": ["zh-CN"],
+  "target": { "minutes": 40, "routes": 1, "endings": 2 },
+  "genre": ["romance", "mystery"],
+  "audience": "teen",
+  "themes": ["相识", "逃脱", "相恋"],
+  "prohibitedContent": [
+    "不复述官方信件、日记或任务原文",
+    "不使用未授权的官方立绘或过场",
+    "不写血腥处刑、酷刑细节或性剥削"
+  ],
+  "artDirection": {
+    "style": "手绘全身立绘，透明底，略侧身，适合对话立绘",
+    "palette": ["暖褐", "墨绿", "旧金", "冷灰"],
+    "referenceIds": ["mechanic"]
+  },
+  "platforms": ["web"],
+  "constraints": [
+    "主线是机械师与囚徒在一场原创庄园游戏中相识并相恋",
+    "同场还有监管者厂长，以及求生者医生、园丁",
+    "一条共通线，两个结局都是两人在一起：一起离开，或一起留下",
+    "作品分组 id 为 manor-escape；生成时只读这一组",
+    "机械师沿用仓库 id mechanic，不覆盖她已有百科",
+    "囚徒、厂长、医生、园丁的 id 为 prisoner、factory-chief、doctor、gardener，批准前不建档",
+    "透明立绘交给另一个生图工具，本阶段不生成、不入库"
+  ]
+}

@@ -23,7 +23,7 @@ describe('S4 real-engine presentation chain', () => {
         session.tick();
         for (let i = 0; i < count; i++) {
           if (completed.has(i)) continue;
-          const playback = session.engine.world.getComponent<{ done: boolean }>(`p4-fly-${i}`, 'PresentationPlayback');
+          const playback = session.engine.world.getComponent<{ type: 'PresentationPlayback'; done: boolean }>(`p4-fly-${i}`, 'PresentationPlayback');
           if (!playback?.done) continue;
           const id = `card-${i}`;
           const transform = session.engine.world.getComponent<Transform>(id, 'Transform')!;
@@ -39,7 +39,7 @@ describe('S4 real-engine presentation chain', () => {
       }
       expect(completed.size).toBe(count);
       for (let tick = 0; tick < 4; tick++) {
-        const playback = session.engine.world.getComponent<{ status: string; cursor: number }>('p5-card-0', 'PresentationPlayback');
+        const playback = session.engine.world.getComponent<{ type: 'PresentationPlayback'; status: string; cursor: number }>('p5-card-0', 'PresentationPlayback');
         if (playback?.status === 'playing') break;
         session.tick();
       }

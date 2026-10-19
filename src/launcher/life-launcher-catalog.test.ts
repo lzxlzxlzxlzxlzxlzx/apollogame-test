@@ -31,6 +31,17 @@ function fixture(directory = 'game-seaside-market') {
 }
 
 describe('Life launcher catalog', () => {
+  it('validates calendar label references before producing a runnable bundle', () => {
+    const value = fixture();
+    const host = value.hosts[Object.keys(value.hosts)[0]!]!;
+    host.hud.calendarLabels = { seasons: { spring: '春季' } };
+    expect(discoverLifeLauncherCatalog(value.entries, value.hosts, value.packages, value.slots).items[0]!.bundle).toBeDefined();
+    host.hud.calendarLabels.slots = { dawn: '黎明' };
+    const invalid = discoverLifeLauncherCatalog(value.entries, value.hosts, value.packages, value.slots).items[0]!;
+    expect(invalid.bundle).toBeUndefined();
+    expect(invalid.gameEntry.status).toBe('coming-soon');
+    expect(invalid.diagnostics).toContainEqual(expect.objectContaining({ path: '/host/hud/calendarLabels/slots/dawn', code: 'calendar_reference' }));
+  });
   it('discovers a second arbitrary Life game from fixed same-directory modules with no loader branch', () => {
     const value = fixture();
     const catalog = discoverLifeLauncherCatalog(value.entries, value.hosts, value.packages, value.slots);

@@ -9,6 +9,7 @@ import { Vfx2DLayer } from './vfx2d.js';
 import { clampLifeCameraView, collectLifeSceneRender, LIFE_PREVIEW_PALETTE, projectLifeCameraView, type LifeSceneProjectionOptions, type LifeSceneRenderProjection, type LifeWorldVisualCatalog } from './life-scene-render.js';
 import type { CameraView } from '@engine/protocol/camera-view.js';
 import { WorldUi2DLayer, type WorldUi2DLayerOptions, type WorldUi2DProjectionMode } from './world-ui2d.js';
+import { PointerFeedback2DLayer, type PointerFeedbackFrame } from './pointer-feedback2d.js';
 
 const LIFE_FARM_PREVIEW_PALETTE = Object.freeze({ tilled: '#5a3721', watered: '#247f91', seeded: '#75c96b', growing: '#32a852', mature: '#f2ad34' });
 
@@ -43,6 +44,8 @@ export interface CanvasRendererOptions {
   viewport?: { readonly mode: 'responsive'; readonly cameraFit?: 'cover' | 'contain' };
   /** Opt-in local pointer ghost. Its state lives outside World/snapshot/hash. */
   dragPreview?: CanvasDragPreview;
+  /** Opt-in local hover/press silhouette; never writes World or InputQueue. */
+  pointerFeedback?: { frame(world: IWorld, nowMs: number): PointerFeedbackFrame | null };
 }
 
 export function responsiveCameraScale(
@@ -57,6 +60,22 @@ export interface LifeVisualDrawPlan {
   readonly source: { readonly x: number; readonly y: number; readonly width: number; readonly height: number };
   readonly destination: { readonly x: number; readonly y: number; readonly width: number; readonly height: number };
   readonly smoothing: boolean;
+}
+
+export type LifeVisualConsumptionMode = 'rule' | 'legacy' | 'semantic-fallback';
+
+/**
+ * A supplied catalog marks the formal Life path. Loaded textures without a rule
+ * must not silently use the historical pixel-size draw branch.
+ */
+export function lifeVisualConsumptionMode(
+  catalog: LifeVisualCatalog | undefined,
+  key: string,
+  textureResolved: boolean,
+): LifeVisualConsumptionMode {
+  if (!textureResolved) return 'semantic-fallback';
+  if (!catalog) return 'legacy';
+  return catalog.has(key) ? 'rule' : 'semantic-fallback';
 }
 
 /** Pure render-only fit/anchor projection; no authoring metadata or World state is read. */
@@ -104,6 +123,7 @@ export class CanvasRenderer implements RendererBackend {
   // 2D 粒子层（l7-vfx2d·纯表现）：渲染器私有粒子池，帧间隔按墙钟（渲染面·非 sim），封顶 0.1s 防切页回来一跳。
   private readonly vfx = new Vfx2DLayer();
   private readonly worldUi2D: WorldUi2DLayer;
+  private readonly pointerFeedback = new PointerFeedback2DLayer();
   private lastFrameMs = 0;
   private container: HTMLElement | null = null;
   private resizeObserver: ResizeObserver | null = null;
@@ -242,6 +262,11 @@ export class CanvasRenderer implements RendererBackend {
       ctx.globalAlpha = 1;
     }
 
+    if (this.opts.pointerFeedback) {
+      const frame = this.opts.pointerFeedback.frame(world, typeof performance !== 'undefined' ? performance.now() : 0);
+      if (frame) this.pointerFeedback.draw(ctx, base, frame);
+    }
+
     // 2D 粒子层：实体之上、HUD 之下；世界坐标（相机随动）。无 Vfx2D 且无活粒子 = 一次空查询即返回。
     const nowMs = typeof performance !== 'undefined' ? performance.now() : 0;
     const dt = this.lastFrameMs > 0 && nowMs > this.lastFrameMs ? Math.min(0.1, (nowMs - this.lastFrameMs) / 1000) : 1 / 60;
@@ -284,7 +309,14 @@ export class CanvasRenderer implements RendererBackend {
     const resolved = this.assets?.resolve(textureKey, frameIndex);
     if (!resolved || !isImageHandle(resolved.asset.handle)) return false;
     const plan = planSpriteDraw(sprite, resolved);
-    ctx.drawImage(resolved.asset.handle.image, plan.source.x, plan.source.y, plan.source.width, plan.source.height, plan.destination.x, plan.destination.y, plan.destination.width, plan.destination.height);
+    const priorSmoothing = ctx.imageSmoothingEnabled;
+    if (sprite?.sampling === 'smooth') ctx.imageSmoothingEnabled = true;
+    else if (sprite?.sampling === 'nearest') ctx.imageSmoothingEnabled = false;
+    try {
+      ctx.drawImage(resolved.asset.handle.image, plan.source.x, plan.source.y, plan.source.width, plan.source.height, plan.destination.x, plan.destination.y, plan.destination.width, plan.destination.height);
+    } finally {
+      ctx.imageSmoothingEnabled = priorSmoothing;
+    }
     return true;
   }
 
@@ -395,12 +427,15 @@ export class CanvasRenderer implements RendererBackend {
     const rule = this.lifeVisualCatalog?.get(key);
     const resolved = this.assets?.resolve(key, rule?.frameIndex);
     if (!resolved || !isImageHandle(resolved.asset.handle)) return false;
+    const mode = lifeVisualConsumptionMode(this.lifeVisualCatalog, key, true);
+    if (mode === 'semantic-fallback') return false;
     const { sx, sy, sw, sh } = resolved;
-    if (!rule) {
+    if (mode === 'legacy') {
       const w = sw * legacyScale; const h = sh * legacyScale;
       ctx.drawImage(resolved.asset.handle.image, sx, sy, sw, sh, x - w / 2, y - h * legacyAnchorY, w, h);
       return true;
     }
+    if (!rule) return false;
     this.drawLifeVisualRule(ctx, resolved.asset.handle.image, { sx, sy, sw, sh }, rule, x, y, cellSize);
     return true;
   }
@@ -446,6 +481,7 @@ export class CanvasRenderer implements RendererBackend {
 
   destroy(): void {
     this.opts.dragPreview?.dispose();
+    this.pointerFeedback.dispose();
     this.resizeObserver?.disconnect();
     this.resizeObserver = null;
     if (typeof window !== 'undefined') window.removeEventListener('resize', this.onWindowResize);

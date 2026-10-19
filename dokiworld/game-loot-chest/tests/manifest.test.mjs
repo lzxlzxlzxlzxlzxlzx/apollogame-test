@@ -8,7 +8,7 @@ test('manifest matches the current DokiWorlds public/apps contract', async () =>
   const manifest = JSON.parse(await readFile(new URL('manifest.json', root), 'utf8'));
   assert.equal(manifest.schemaVersion, 3);
   assert.equal(manifest.id, 'game-loot-chest');
-  assert.equal(manifest.version, '1.1.0');
+  assert.equal(manifest.version, '1.2.0');
   assert.equal(manifest.entry, 'index.html');
   assert.deepEqual(manifest.context, { requiredScopes: [], optionalScopes: [] });
   assert.equal(manifest.locales.en.name, 'Loot Chest');

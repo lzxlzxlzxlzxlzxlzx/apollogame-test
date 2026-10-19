@@ -23,9 +23,12 @@ export function validateOrderedActionSession(session: OrderedActionSession): str
     const step = session.steps[index];
     if (!step || typeof step.expectedAction !== 'string' || !actions.has(step.expectedAction)) return `steps[${index}].expectedAction 不在 acceptedActions`;
     if (!Number.isSafeInteger(step.requiredCount) || step.requiredCount < 1 || step.requiredCount > 64) return `steps[${index}].requiredCount 必须为 1..64`;
+    if (step.completedSignal !== undefined && (typeof step.completedSignal !== 'string' || !step.completedSignal.trim() || step.completedSignal.length > 128)) return `steps[${index}].completedSignal 必须为 1..128 字符`;
   }
   if (typeof session.successSignal !== 'string' || !session.successSignal.trim() || session.successSignal.length > 128 || typeof session.failureSignal !== 'string' || !session.failureSignal.trim() || session.failureSignal.length > 128) return '终局 Signal 必须为 1..128 字符';
   if (session.successSignal === session.failureSignal || actions.has(session.successSignal) || actions.has(session.failureSignal)) return '终局 Signal 必须互异且不得与输入动作重名';
+  const completed = session.steps.map((step) => step.completedSignal).filter((name): name is string => name !== undefined);
+  if (new Set(completed).size !== completed.length || completed.some((name) => actions.has(name) || name === session.successSignal || name === session.failureSignal)) return '步骤完成 Signal 必须互异且不得与输入动作或终局 Signal 重名';
   if (session.status !== undefined && !['active', 'success', 'failure'].includes(session.status)) return 'status 不在闭集';
   const runtime = [session.status, session.stepIndex, session.confirmedCount];
   if (runtime.some((value) => value !== undefined) && runtime.some((value) => value === undefined)) return '运行态字段必须同时存在';
@@ -39,7 +42,7 @@ export function validateOrderedActionSession(session: OrderedActionSession): str
 const sessionDef = defineComponent('OrderedActionSession', {
   id: t.str('会话唯一 id'),
   acceptedActions: t.arr(t.str('本会话会消费的完整具名动作')),
-  steps: t.arr(t.obj({ expectedAction: t.str('完整动作名'), requiredCount: t.num('该动作连续提交次数') })),
+  steps: t.arr(t.obj({ expectedAction: t.str('完整动作名'), requiredCount: t.num('该动作连续提交次数'), completedSignal: t.opt(t.str('该步正确完成时发出的唯一具名信号；缺省不发')) })),
   successSignal: t.str(), failureSignal: t.str(),
   status: t.opt(t.enum(['active', 'success', 'failure'] as const)),
   stepIndex: t.opt(t.num()), confirmedCount: t.opt(t.num()),
@@ -53,14 +56,17 @@ const sessionDef = defineComponent('OrderedActionSession', {
   },
 });
 
-function emitTerminal(world: IWorld, owner: string, session: OrderedActionSession): void {
-  const name = session.status === 'success' ? session.successSignal : session.failureSignal;
-  const base = `${OUTPUT_PREFIX}${owner}:${session.status}`;
+function emitOutput(world: IWorld, owner: string, name: string, label: string): void {
+  const base = `${OUTPUT_PREFIX}${owner}:${label}`;
   const occupied = new Set(world.getAllEntities());
   let id = base;
   for (let suffix = 1; occupied.has(id); suffix++) id = `${base}:${suffix}`;
   world.createEntity(id);
   world.addComponent<Signal>(id, { type: 'Signal', name, source: owner });
+}
+
+function emitTerminal(world: IWorld, owner: string, session: OrderedActionSession): void {
+  emitOutput(world, owner, session.status === 'success' ? session.successSignal : session.failureSignal, session.status!);
 }
 
 export const orderedActionSessionCapability = defineCapability({
@@ -141,6 +147,7 @@ export const orderedActionSessionCapability = defineCapability({
         session.confirmedCount!++;
         trace('commit', `${session.id}:${signal.name}`, `step=${session.stepIndex},count=${session.confirmedCount}`);
         if (session.confirmedCount! < step.requiredCount) continue;
+        if (step.completedSignal) emitOutput(world, owner, step.completedSignal, `step:${session.stepIndex}`);
         session.stepIndex!++; session.confirmedCount = 0;
         if (session.stepIndex === session.steps.length) {
           session.status = 'success';

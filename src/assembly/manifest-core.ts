@@ -4,6 +4,7 @@ import { inferCapabilityIdsWith, type CapabilityIndex } from './capability-index
 import { validateComponentData, validateAssetRefs, formatIssues, coerceDurations, coerceTags } from './validate-manifest.js';
 import { validateReferences } from './validate-references.js';
 import { parseHitMaskSpec } from '@assets/index.js';
+import { parseCartPresentation, type CartPresentation } from './cart-presentation.js';
 
 // ═══════════════════════════════════════════════════════════════
 //  Manifest 加载器 —— studio「导出 manifest」的逆运算
@@ -21,6 +22,8 @@ import { parseHitMaskSpec } from '@assets/index.js';
 // ═══════════════════════════════════════════════════════════════
 
 export interface Manifest {
+  /** Strict opt-in presentation; read-only host data, excluded from WorldBlueprint/hash. */
+  presentation?: CartPresentation;
   /** manifest 格式版本（P1c）。缺省 1。装载时 < 当前版本按 MANIFEST_MIGRATIONS 逐级升；> 当前版本拒收（引擎太旧）。 */
   schema?: number;
   capabilities?: string[];
@@ -141,6 +144,7 @@ export function migrateManifest(raw: Record<string, unknown>): [Record<string, u
 
 export interface ParseResult {
   blueprint: WorldBlueprint;
+  presentation?: CartPresentation;
   inferredCapabilities: boolean;
   warnings: string[];
 }
@@ -169,6 +173,7 @@ export interface ParseOptions {
 /** prepareManifest 的产物：能力尚未装载，只有 id 列表。 */
 export interface PreparedManifest {
   entities: Record<string, EntityBlueprint>;
+  presentation?: CartPresentation;
   capIds: string[];
   inferredCapabilities: boolean;
   warnings: string[];
@@ -206,6 +211,7 @@ export function prepareManifest(raw: unknown, index: CapabilityIndex): PreparedM
     }
     entities[eid] = cleaned as EntityBlueprint;
   }
+  const presentation = parseCartPresentation(obj.presentation, entities);
 
   const warnings: string[] = [];
   if (migrated.length) warnings.push(`manifest 已从 schema ${migrated[0]} 逐级升到 ${MANIFEST_SCHEMA}（走过 ${migrated.join('→')}）`);
@@ -254,7 +260,7 @@ export function prepareManifest(raw: unknown, index: CapabilityIndex): PreparedM
     }
     tags = obj.tags as Record<string, number>;
   }
-  return { entities, capIds, inferredCapabilities: inferred, warnings, ...(meta ? { meta } : {}), ...(tags ? { tags } : {}) };
+  return { entities, capIds, inferredCapabilities: inferred, warnings, ...(presentation ? { presentation } : {}), ...(meta ? { meta } : {}), ...(tags ? { tags } : {}) };
 }
 
 /** 后半：能力对象到手后的全部校验（时长糖 / 字段 schema / 引用链接 / 资产 key）→ 可运行蓝图。 */
@@ -316,5 +322,5 @@ export function finishManifest(prep: PreparedManifest, capabilities: CapabilityD
     else warnings.push(`${eid}.Clickable.hitMaskKey "${click.hitMaskKey}" 未绑定有效掩码或与 Sprite.textureKey 不符；点击将 fail-closed`);
   }
 
-  return { blueprint: { capabilities, entities, ...(meta ? { meta } : {}) }, inferredCapabilities: prep.inferredCapabilities, warnings };
+  return { blueprint: { capabilities, entities, ...(meta ? { meta } : {}) }, ...(prep.presentation ? { presentation: prep.presentation } : {}), inferredCapabilities: prep.inferredCapabilities, warnings };
 }

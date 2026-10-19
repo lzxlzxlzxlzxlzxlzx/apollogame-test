@@ -349,7 +349,7 @@ export function CreationWizard({
               )}
             </div>
             <div style={{ background: SHELL.bg0, borderRadius: 10, border: `1px solid ${SHELL.line}`, padding: 8 }}>
-              <ManifestPreview manifest={phase.manifest} resolveArt={resolveArt} />
+              <ManifestPreview manifest={phase.manifest} resolveArt={resolveArt} slug={slug} />
             </div>
             {saveErr && <div style={{ color: SHELL.danger, fontSize: 12 }}>保存失败：{saveErr}</div>}
             <div style={{ display: 'flex', gap: 10 }}>

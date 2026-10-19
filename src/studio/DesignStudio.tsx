@@ -715,7 +715,7 @@ export function DesignStudio({
             </div>
           )}
           <div style={{ background: SHELL.bg1, borderRadius: 10, border: `1px solid ${SHELL.line}`, padding: 8, alignSelf: 'center' }}>
-            <ManifestPreview manifest={previewManifest} resolveArt={resolveArt} />
+            <ManifestPreview manifest={previewManifest} resolveArt={resolveArt} slug={slug ?? undefined} />
           </div>
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
             <button onClick={savePrototype} disabled={busy} style={{ ...primaryBtn, opacity: busy ? 0.6 : 1 }}>

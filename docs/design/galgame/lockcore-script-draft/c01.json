@@ -1,0 +1,511 @@
+{
+  "id": "c01",
+  "title": {
+    "zh-CN": "确立关系"
+  },
+  "start": "c01_n0001",
+  "nodes": {
+    "c01_n0001": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "暑假第一天的傍晚，天还亮着，西边烧着一片很淡的橘。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0002"
+      }
+    },
+    "c01_n0002": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡·巴尔萨抱着一盒电阻，特蕾西·列兹尼克提着一袋铜质小零件，两人从机电城大门出来，并肩往车站走。这条路他们从小走到大，熟到谁都不用看路，熟到连脚步都合着一个拍子。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0003"
+      }
+    },
+    "c01_n0003": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西把袋口拢了拢，几枚齿轮在袋底轻轻碰了一下，声音很细。她没抬头，说："
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0004"
+      }
+    },
+    "c01_n0004": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "还差一个十六齿的。张叔家断货了。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0005"
+      },
+      "speaker": "tracy"
+    },
+    "c01_n0005": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "城南那家老五金店有。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0006"
+      },
+      "speaker": "luca"
+    },
+    "c01_n0006": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡盯着前方，报店名报得顺溜，连位置都清楚，"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0007"
+      }
+    },
+    "c01_n0007": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "上个月我路过，货架第三层，左边第四个格子。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0008"
+      },
+      "speaker": "tracy"
+    },
+    "c01_n0008": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "嗯。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0009"
+      },
+      "speaker": "luca"
+    },
+    "c01_n0009": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "他们就这么并排走着。谁也没觉得安静有什么不对。太熟了，说话可以只说一半，剩下的靠默契自己补。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0010"
+      }
+    },
+    "c01_n0010": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西今天出门前把护目镜往上推了推，没摘。晚风吹过来，短金发的小螺旋卷贴着脸颊，她也没去管。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0011"
+      }
+    },
+    "c01_n0011": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "走到路口，红灯。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0012"
+      }
+    },
+    "c01_n0012": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "两人站定。特蕾西低头看了眼那袋零件，又抬头去看灯。卢卡却在这时候开了口，声音很平，是他讲正事时一贯的调子。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0013"
+      }
+    },
+    "c01_n0013": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西，我有个结论。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0014"
+      },
+      "speaker": "luca"
+    },
+    "c01_n0014": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "什么。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0015"
+      },
+      "speaker": "tracy"
+    },
+    "c01_n0015": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她没回头，以为又是哪个装置的参数算出来了。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0016"
+      }
+    },
+    "c01_n0016": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我研究你很久了。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0017"
+      },
+      "speaker": "luca"
+    },
+    "c01_n0017": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西的手指在袋口上停了一下。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0018"
+      }
+    },
+    "c01_n0018": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡继续说，语速比平时快了一点点："
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0019"
+      }
+    },
+    "c01_n0019": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你走路的时候，会不自觉地往我这边靠三十公分。我买的咖啡，你每次都先闻一下才喝。我送你的那些小玩意，你一件没扔，全收着了。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0020"
+      },
+      "speaker": "luca"
+    },
+    "c01_n0020": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "他顿了顿。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0021"
+      }
+    },
+    "c01_n0021": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "这些我都记下来了。记了很久。然后我发现，所有数据都指向同一个结果。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0022"
+      },
+      "speaker": "tracy"
+    },
+    "c01_n0022": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "头顶的红灯亮着，行人一个接一个从他们身边绕过去。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0023"
+      }
+    },
+    "c01_n0023": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我喜欢你。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0024"
+      },
+      "speaker": "luca"
+    },
+    "c01_n0024": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡说，"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0025"
+      }
+    },
+    "c01_n0025": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "从很早以前就开始了。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0026"
+      },
+      "speaker": "luca"
+    },
+    "c01_n0026": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西没说话。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0027"
+      }
+    },
+    "c01_n0027": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她的耳尖先红了，从项圈上面露出来的那截脖颈开始，红晕一点一点往上爬，爬过下巴，停在脸颊。过了好一会儿，她才开口，声音很小，小到快被路口的车声盖过去："
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0028"
+      }
+    },
+    "c01_n0028": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "……我也是。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0029"
+      },
+      "speaker": "tracy"
+    },
+    "c01_n0029": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她顿了顿，又补了一句，更小声："
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0030"
+      }
+    },
+    "c01_n0030": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "很早就……是了。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0031"
+      },
+      "speaker": "luca"
+    },
+    "c01_n0031": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "绿灯亮了。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0032"
+      }
+    },
+    "c01_n0032": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "两个人还站在原地，谁都没动。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0033"
+      }
+    },
+    "c01_n0033": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "几秒后，特蕾西先回过神。她别开脸，把装零件的袋子换到左手，空出右手。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0034"
+      }
+    },
+    "c01_n0034": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0035"
+      },
+      "speaker": "tracy"
+    },
+    "c01_n0035": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "嗯。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0036"
+      },
+      "speaker": "luca"
+    },
+    "c01_n0036": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她的手伸过来，先勾住他的袖口，又慢慢滑下去，最后扣住了他的手指。没用什么力气，就是轻轻扣着，掌心贴着手背。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0037"
+      }
+    },
+    "c01_n0037": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "绿灯了。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0038"
+      },
+      "speaker": "tracy"
+    },
+    "c01_n0038": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她说，眼睛盯着前方的斑马线，"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0039"
+      }
+    },
+    "c01_n0039": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "走吧。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0040"
+      },
+      "speaker": "luca"
+    },
+    "c01_n0040": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "他们过了马路，手一直牵着，十指慢慢扣紧。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0041"
+      }
+    },
+    "c01_n0041": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0042"
+      },
+      "speaker": "tracy"
+    },
+    "c01_n0042": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西忽然说。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0043"
+      }
+    },
+    "c01_n0043": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "嗯？"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0044"
+      },
+      "speaker": "tracy"
+    },
+    "c01_n0044": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你手心在出汗。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0045"
+      },
+      "speaker": "luca"
+    },
+    "c01_n0045": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她没抬头，只把他的手又握紧了一点，让他的汗也蹭到她手心里。"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0046"
+      }
+    },
+    "c01_n0046": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "不过，"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0047"
+      },
+      "speaker": "tracy"
+    },
+    "c01_n0047": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她说，"
+      },
+      "next": {
+        "chapterId": "c01",
+        "nodeId": "c01_n0048"
+      }
+    },
+    "c01_n0048": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我也不想放开。"
+      },
+      "next": {
+        "chapterId": "c02",
+        "nodeId": "c02_n0001"
+      },
+      "speaker": "tracy"
+    }
+  }
+}

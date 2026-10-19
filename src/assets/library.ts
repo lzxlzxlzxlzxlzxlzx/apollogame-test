@@ -37,8 +37,8 @@ export interface LibraryRecord {
   /** 给人看的来源名："assets/"、"FreeArtLib"、"game-e" 等。 */
   readonly sourceLabel: string;
   readonly license?: string;
-  /** 画风（pixel / cartoon.ink…）；artlib 货架统一 pixel，项目资产按导入器所标。 */
-  readonly style?: ArtStyle;
+  /** 画风或严格 authoring profile id；artlib 货架统一 pixel，项目资产按导入器所标。 */
+  readonly style?: string;
   readonly status: LibraryStatus;
   /** 可直接 <img src> 的预览（相对站点根的路径或 dataURL）；无则渲染占位块。 */
   readonly thumb?: string;
@@ -164,7 +164,7 @@ export function projectRecords(index: AssetIndex, assetsBase = '/assets/', alias
       source: 'project' as const,
       sourceLabel: 'assets/',
       license: e.license,
-      style: e.style as ArtStyle | undefined,
+      style: e.style,
       status: e.status,
       thumb: e.status === 'filled' && e.path && e.type === 'texture' ? assetsBase + e.path : undefined,
       path: e.path,
@@ -366,7 +366,7 @@ export function queryLibrary(records: readonly LibraryRecord[], q: LibraryQuery)
     if (q.status && r.status !== q.status) return false;
     if (q.style && r.style !== q.style) return false;
     if (q.styleGroup) {
-      const g = r.style ? (r.style.startsWith('cartoon') ? 'cartoon' : 'pixel') : undefined;
+      const g = r.style?.startsWith('cartoon') ? 'cartoon' : r.style === 'pixel' ? 'pixel' : undefined;
       if (g !== q.styleGroup) return false;
     }
     if (q.tags && q.tags.length > 0) {

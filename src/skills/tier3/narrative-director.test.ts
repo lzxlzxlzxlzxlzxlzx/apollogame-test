@@ -109,12 +109,13 @@ describe('t3-narrative-director 02A', () => {
   });
   it('projects inherited scene and media keys across chapters, and runs enter/choice once', () => {
     const w = build(); input(w);
-    expect(projection(w)).toMatchObject({ chapterId: 'a', nodeId: 'start', backgroundAssetKey: 'art:room', cgAssetKey: 'art:reward', bgmAssetKey: 'audio:theme', sfxAssetKeys: ['audio:click'], voiceAssetKey: 'audio:hello' });
+    expect(projection(w)).toMatchObject({ chapterId: 'a', nodeId: 'start', backgroundAssetKey: 'art:room', cgAssetKey: 'art:reward', bgmAssetKey: 'audio:theme', sfxAssetKeys: ['audio:click'], voiceAssetKey: 'audio:hello', transition: 'fade' });
     expect(projection(w).cast).toMatchObject({ hero: { assetKey: 'art:hero-smile' }, friend: { assetKey: 'art:friend' } });
     expect(affection(w)).toBe(2);
     input(w); expect(affection(w)).toBe(2);
     input(w, NARRATIVE_ADVANCE);
     expect(projection(w)).toMatchObject({ chapterId: 'b', nodeId: 'pick', backgroundAssetKey: 'art:room', cgAssetKey: 'art:reward' });
+    expect(projection(w).transition).toBeUndefined();
     expect(projection(w).options).toMatchObject([{ id: 'go', available: true }, { id: 'locked', available: false }]);
     input(w, NARRATIVE_CHOOSE, 'go'); expect(affection(w)).toBe(3);
     expect(state(w).current).toEqual(ref('b','check'));

@@ -11,7 +11,7 @@
 | 引擎快照存档（WorldSnapshot） | `StoragePort` + `SaveSystem` | `createStoragePort()` 选实现；`SaveSystem` 读写 `SaveGame`（web=Local、原生壳=SteamCloud） |
 | Life 独立宿主进展存档 | `LifeHostSaveAdapter` + `LifeHostAutosave` | 由 `life-host.v1` namespace 派生隔离槽；严格进展投影合入 fresh compiled baseline，校验 descriptor/package/hash/order 后一次性恢复；活动对话只存 `LifeDialogueSession + State` 游标，建设项目只存 `LifeConstructionProject.completed` 并与 fresh 静态项目定义合并，故读档后 renderer 首帧直接选完成皮肤；`t2-life-talk` 从静态 `LifeDialogueCatalog` 重建 `DialogueScript/Text`，坏游标或 `proximity` 策略下已越界的会话 fail-closed 清理，不由 host 私自隐藏 |
 | 游戏自有数据 blob 存档（带 schema/迁移/校验） | `SavePort` + 信封 | `sealEnvelope(data,codec,savedAt)`→`port.write(slot,env)`；读 `port.read`→`openEnvelope(env,codec)`（自动校验+迁移） |
-| GAL 跨槽已读/画廊解锁/偏好 | `GalProfile`（`src/services/gal-profile/`）+ `SavePort` | 每个 `GalPackage.id` 独立档案槽与 codec gameId；V4 经 V1→V2→V3→V4 严格迁移，保留六项确认、主音量/失焦政策并给旧档语音自动 true，读取不原地改写。`setGalConfirmation`、`persistGalConfirmation`、`persistGalAudioVolume`、`persistGalFocusMute` 与 `persistGalVoiceAuto` 共用同包串行写入；`requiresGalConfirmation` 为单处纯政策。偏好不进 World 或启动器角色卡键 |
+| GAL 跨槽已读/画廊解锁/偏好 | `GalProfile`（`src/services/gal-profile/`）+ `SavePort` | 每个 `GalPackage.id` 独立档案槽与 codec gameId；当前 V6 经 V1→V2→V3→V4→V5→V6 严格迁移，旧档只读升级：V4 补语音自动 true，V5 补对话框透明度/滚轮/选择后自动续播默认，V6 补已读快进开启默认，保留六项确认及主音量/失焦政策。确认、音量、自动语音、播放与 GAL UI 偏好均经各自 `persistGal*` 入口共用同包串行写入；`requiresGalConfirmation` 为单处纯政策。偏好不进 World 或启动器角色卡键 |
 | GAL 既有三通道音量 | `persistGalAudioVolume` | 仅更新 `bgmVolume/voiceVolume/sfxVolume` 的有限 0–1 值；同包串行读改写，成功后才刷新 UI/音频，失败保留旧值。沿用 V2，不为既有字段造迁移；全设置重置的基础接口为 `persistGalPreferencesReset`，UI 全局重置仍须等所有纳管设置生效。 |
 | GAL 手动槽的剧情快照 | `GalManualSaveController`（`src/services/gal-save/`）+ `StoragePort`/`SaveSystem` | 正整数槽号按 package 隔离；保存先复制 World 且清空待处理输入；读档在隔离 World 校验指纹、实体序、当前发布包、StoryRef 与历史，成功后才一次性恢复活动 World；`GalProfile` 不随槽回退 |
 | GAL 非权威槽预览 | `GalSavePreviewController` + `GalSavePreviewPort`（可选 `IndexedDbGalSavePreviewPort`）+ `GalPreviewCapturePort`（浏览器可选 `BrowserGalPreviewCapturePort`） | 图片侧车独立于权威快照/hash；控制器先验权威档再读取预览、按当前 hash 复验，坏图/缺图/存储失败只降级。同一 JS 进程内按 package+slot 串行不同控制器的侧车写/删并重检权威 hash；排队的删除遇到新权威档时跳过。**GAL-ENG-06K Owner 选 B：产品不支持多窗口同时编辑同一槽，不保证跨标签页/进程 IndexedDB 原子定序、权威冲突解决或实时刷新；意外并发时预览按当前可见权威 hash 校验，不匹配只降级，不得冒充当前槽或阻断权威读档。**`GalSliceHost` 在权威保存成功后异步消费显式注入的采集端口，捕图不阻塞反馈。浏览器编码器只按已解析的 assetKey URL 离屏合成背景/立绘场景缩略图，**不是整屏截图**；无图不伪造占位，IndexedDB 也须应用宿主显式注入，静态宿主不暗开数据库。 |
@@ -25,6 +25,7 @@
 | 解锁成就/统计/排行 | `PlatformPort` | `unlockAchievement`/`setStat`/`uploadLeaderboard`（幂等·fire-and-forget） |
 | 富状态（好友列表显示） | `PlatformPort.setRichPresence` | sim 产纯数据 → 端口投递 |
 | 无原生壳降级 | `NullPlatformPort` | `isAvailable()=false`，游戏据此静默降级不报错 |
+| 宿主受控退出意图 | `HostExitPort` + `createHostExitController`（`src/services/platform/host-exit.ts`） | 仅显式注入；缺端口=unavailable，拒绝/异常=rejected，待决合并、接受后锁存；不进 World，桌面窗口适配另归 PS |
 | 成就数据同步 | `AchievementSync`/`ACHIEVEMENTS` | 从 sim Flag/Resource 派生成就解锁 |
 | 打包 / Steam 上架 | `game-publisher` agent | web/cartridge/electron + steam-publisher（AppID/Depot→VDF→上传→Set Live） |
 | 生成的库卡带打成单文件·双击即玩（离线自包含 HTML） | `scripts/package-web.mjs` + 引擎内联钩子 `cartridge-inline-run` | `node scripts/package-web.mjs <slug> [out]` → manifest 内联进 `window.__APOLLO_INLINE_CART__`·VITE_SINGLEFILE 单文件·零外链；apollo 发布屏 web 平台对库卡带自动走此路（工程游戏 e/f/g/i/x 仍走 VITE_TARGET_GAME 静态 import） |

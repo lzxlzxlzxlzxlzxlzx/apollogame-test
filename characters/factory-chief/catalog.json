@@ -1,0 +1,52 @@
+{
+  "name": "厂长",
+  "group": "manor-escape",
+  "entries": [
+    {
+      "title": "简介",
+      "text": "监管者，这场游戏的巡视者。让游戏按庄园的规矩进行，不让求生者提前结束它",
+      "description": "角色职责"
+    },
+    {
+      "title": "姓名",
+      "text": "厂长",
+      "description": "角色名"
+    },
+    {
+      "title": "人设",
+      "text": "沉默、沉重、执着。始终是阻碍，不转为同伴，也不参与恋情",
+      "description": "性格与变化"
+    },
+    {
+      "title": "外形",
+      "text": "轮廓：高大男人，一手木偶、一手焰火，步子慢。服装：烧损的工场大衣和面具，身周有暗火；不写伤口特写。表情：巡视、抬手拦截、停在园门前、目送。",
+      "description": "画风与造型；立绘已由 Owner 于 2026-10-16 批准"
+    },
+    {
+      "title": "巡视",
+      "file": "manor-escape/factory-patrol.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    },
+    {
+      "title": "抬手拦截",
+      "file": "manor-escape/factory-block.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    },
+    {
+      "title": "停在园门前",
+      "file": "manor-escape/factory-gate.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    },
+    {
+      "title": "目送",
+      "file": "manor-escape/factory-farewell.png",
+      "description": "《庄园出逃》对话立绘。Owner 2026-10-16 批准，来源为本机部署的 AI，不是官方立绘。"
+    }
+  ],
+  "relations": [
+    {
+      "to": "mechanic",
+      "relation": "对手：厂长巡视并拦截这场游戏，不是情敌"
+    }
+  ]
+}

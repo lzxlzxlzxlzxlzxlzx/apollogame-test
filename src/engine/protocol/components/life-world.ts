@@ -1,7 +1,7 @@
 // Protocol · LifeGamePackage static-world projection.  These are immutable
 // authoring data, not movement, transition, rendering, or simulation state.
 import type { Component } from '../../core/types.js';
-import type { LifeAccessRequirement, LifeAction, LifeCropDefinition, LifeDialogueSessionPolicy, LifeItemDefinition, LifeLayer, LifeNpcScheduleEntry, LifePlacementKind, LifeQuestChapter, LifeQuestNodeState, LifeRect, LifeRelationshipDefinition, LifeSpawnKind, LifeTileCatalogEntry, LifeZoneKind } from '../life-sim.js';
+import type { LifeAccessRequirement, LifeAction, LifeCropDefinition, LifeDialogueSessionPolicy, LifeItemDefinition, LifeLayer, LifeNpcScheduleEntry, LifePlacementKind, LifeProfileAttribute, LifeQuestChapter, LifeQuestNodeState, LifeRect, LifeRelationshipDefinition, LifeSpawnKind, LifeTileCatalogEntry, LifeZoneKind } from '../life-sim.js';
 import type { LifeMilestone } from '../life-sim.js';
 
 export interface LifeWorld extends Component { readonly type: 'LifeWorld'; startSceneId: string }
@@ -14,7 +14,8 @@ export interface LifeCalendarAdvanceResult extends Component { readonly type:'Li
 export interface LifeTimeAdvanceResult extends Component { readonly type:'LifeTimeAdvanceResult'; status:'advanced'|'rejected'; reason?:'not-player'|'navigation-conflict'|'action-conflict'|'missing-calendar-config'; slotId:string; wrappedDay:boolean }
 export interface LifeScene extends Component { readonly type: 'LifeScene'; sceneId: string; title?: string; width: number; height: number; layers: LifeLayer[] }
 export interface LifeZone extends Component { readonly type: 'LifeZone'; sceneId: string; zoneId: string; kind: LifeZoneKind; geometry: LifeRect; allowedActions: LifeAction[]; requires?: LifeAccessRequirement }
-export interface LifeWarp extends Component { readonly type: 'LifeWarp'; sceneId: string; warpId: string; label?: string; x: number; y: number; toSceneId: string; toSpawnId: string; conditionRef?: string; requires?: LifeAccessRequirement }
+/** x/y/width/height are the half-open explicit-interaction footprint compiled from authoring data. */
+export interface LifeWarp extends Component { readonly type: 'LifeWarp'; sceneId: string; warpId: string; label?: string; x: number; y: number; width: number; height: number; toSceneId: string; toSpawnId: string; conditionRef?: string; requires?: LifeAccessRequirement }
 export interface LifeWarpResult extends Component { readonly type: 'LifeWarpResult'; status: 'applied'|'rejected'; reason?: 'unknown'|'not-at-warp'|'invalid-target'|'locked'; warpId?: string }
 export interface LifeSpawn extends Component { readonly type: 'LifeSpawn'; sceneId: string; spawnId: string; kind: LifeSpawnKind; x: number; y: number }
 /** Render-only player skin metadata compiled from LifeGamePackage.playerVisual. */
@@ -44,5 +45,7 @@ export interface LifeRelationshipStateEntry { npcId:string; value:number; levelI
 export interface LifeRelationshipState extends Component { readonly type:'LifeRelationshipState'; entries:LifeRelationshipStateEntry[]; receipts:string[] }
 export interface LifeRelationshipProjectionEntry { npcId:string; value:number; min:number; max:number; levelId:string; levelTitleKey:string; nextLevelAt?:number; talkRemaining:number; giftRemaining:number; actionRemaining:number }
 export interface LifeRelationshipProjection extends Component { readonly type:'LifeRelationshipProjection'; entries:LifeRelationshipProjectionEntry[] }
+/** Static presentation catalog only. It intentionally contains no current values. */
+export interface LifeProfileCatalog extends Component { readonly type:'LifeProfileCatalog'; titleKey:string; attributes:LifeProfileAttribute[] }
 export const LIFE_GIFT_REASONS=['missing-selection','invalid-target','invalid-item','missing-item','daily-cap','value-bound','conflict'] as const;
 export interface LifeGiftActionResult extends Component { readonly type:'LifeGiftActionResult'; status:'applied'|'rejected'; reason?:typeof LIFE_GIFT_REASONS[number]; npcId?:string; itemId?:string; count?:number; requestedDelta?:number; appliedDelta?:number }

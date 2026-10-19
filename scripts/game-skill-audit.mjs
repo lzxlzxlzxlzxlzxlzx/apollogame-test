@@ -22,6 +22,7 @@
 
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { artRoot } from './art-paths.mjs';
 
 const GAMES_DIR = 'games';
 const wanted = process.argv.slice(2);
@@ -127,7 +128,7 @@ function yellowBits(r) {
   const bits = [];
   if (r.flags.zeroCap) bits.push('零能力接入');
   if (r.tests === 0) bits.push('零测试');
-  try { statSync(join(GAMES_DIR, '..', 'public', 'games', r.game, 'art', 'art-ledger.json')); }
+  try { statSync(join(artRoot(join(GAMES_DIR, '..'), r.game), 'art-ledger.json')); }
   catch { bits.push('无美术台账(art-pipeline.md 编译期三行接入)'); }
   return bits;
 }

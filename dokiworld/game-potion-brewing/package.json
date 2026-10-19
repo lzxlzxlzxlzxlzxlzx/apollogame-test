@@ -1,0 +1,1 @@
+{"name":"dokiworld-game-potion-brewing","version":"0.1.0","private":true,"type":"module","scripts":{"build":"node scripts/build.mjs","test":"vitest run --config vitest.config.ts"},"dependencies":{"dokiworlds-app-sdk":"file:../../vendor/dokiworlds-app-sdk"}}

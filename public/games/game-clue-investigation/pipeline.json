@@ -32,57 +32,81 @@
       "by": "owner",
       "note": "ok",
       "at": "2026-10-13T10:29:29.574Z"
+    },
+    "S7": {
+      "by": "owner",
+      "note": "ok",
+      "at": "2026-10-14T09:07:06.104Z"
     }
   },
   "evidence": {
     "S3": {
       "exit": 0,
       "summary": "parse+引擎装载（load+2tick）零 error · ✓ 渲染探针过（截图 public/games/<slug>/probe/S3-render.png） · ✓ Canvas 点击打穿（14 个候选 · 2 个具名 Signal 真入世界 · mask透明反例 2 个 · 零控制台 error）",
-      "at": "2026-10-13T13:09:36.322Z",
-      "gameHash": "12157d544b66554b"
+      "at": "2026-10-14T06:31:13.273Z",
+      "gameHash": "7683030b1df8ad2c"
     },
     "S4": {
       "exit": 0,
       "summary": "bench 五轴 score=95 · 验收剧本 5 场景绿 · ✓ UI 走查过·可驱动率 100%",
-      "at": "2026-10-13T10:09:04.749Z",
-      "gameHash": "ca2c25d386490316"
+      "at": "2026-10-14T06:38:26.353Z",
+      "gameHash": "7683030b1df8ad2c"
     },
     "S5": {
       "exit": 0,
       "summary": "纯数据卡带免审计 · ⚠ 无标准照基准·未比对（golden-shot bless 建基准）",
-      "at": "2026-10-13T10:19:29.645Z",
-      "gameHash": "ca2c25d386490316"
+      "at": "2026-10-14T06:48:45.368Z",
+      "gameHash": "7683030b1df8ad2c"
+    },
+    "S2": {
+      "exit": 0,
+      "summary": "capability-plan.md 在档 · ✓ 缺口 6 条全已裁决 · 全部了结",
+      "at": "2026-10-14T05:04:28.835Z",
+      "gameHash": "199096a210c5700f"
+    },
+    "S8": {
+      "exit": 0,
+      "summary": "cart 终检：MOCK 0 · manifest-check=0 · bench score=95 · ⚠ 无标准照基准·未比对（golden-shot bless 建基准）",
+      "at": "2026-10-14T09:23:53.092Z",
+      "gameHash": "7683030b1df8ad2c"
     }
   },
   "reviews": {
     "S2": {
       "verdict": "CONCERNS",
-      "note": "S6正式接图独立复查：12能力实名与纯数据解释器核实；本游戏20/20、正式live多视口42 alpha断言通过；Sprite/asset槽与同源mask成立，隔离唯一锚点rug contain撤成cover为1失败/10通过。保留既有j1-state计划与Resource实现偏差CONCERNS；非S6批准。导航 docs/design/game-clue-investigation/review/S6-formal-independent.md",
-      "by": "s6_asset_candidate_review",
-      "at": "2026-10-13T12:48:47.228Z",
-      "gameHash": "12157d544b66554b",
-      "gapsHash": "da9882a2f6910af5"
+      "note": "独立重查：8 files/125 tests、严格 manifest warnings[]、audit/docs PASS；计划仍列 j1-state 而 manifest 实用 f1-resource selected-object（无自由解释器/合同破坏），故 CONCERNS。",
+      "by": "/root/s2_refresh_review",
+      "at": "2026-10-14T06:26:36.997Z",
+      "gameHash": "7683030b1df8ad2c",
+      "gapsHash": "1792bd5d3fc6c369"
     },
     "S3": {
       "verdict": "PASS",
-      "note": "S5返修后异人重新核：当前manifest严格parse/load/2tick warnings[]；本游戏9/9、先前本轮UI+host/clickable560通过；独立真浏览器22图，键鼠触控入世界并闭环，输入纯Signal/LayoutNode无游戏逃生。S3新机器门hash ca2c25d386490316已核；S2计划文档既有CONCERNS保留，S6灰盒素材不冒称完成。详review/S5-independent-2026-10-13.md。",
-      "by": "/root/s5_independent_review",
-      "at": "2026-10-13T10:06:58.609Z",
-      "gameHash": "ca2c25d386490316"
+      "note": "异人独立刷新：manifest load+2tick warnings[]、3文件14/14、真渲染方差1263.87且0 error、双视口Canvas具名Signal与透明负例2/2；时钟mask唯一锚点内存撤修令真实门exit1。详见 review/S3-manifest-ui-correction-independent-2026-10-14.md。",
+      "by": "/root/s3click_independent_review",
+      "at": "2026-10-14T06:34:55.639Z",
+      "gameHash": "7683030b1df8ad2c"
     },
     "S4": {
       "verdict": "PASS",
-      "note": "S5 UI返修冻结版前置重核：独立GD5/5共67检查点、游戏9/9、真实浏览器22图含普通调查/首次收录/完成取消重开再玩，确定性与幂等断言通过。唯一effect-lock-count锚点1，内存value1→0使真实GD第2剧本step5/9/12期望1实际0转FAIL，原数据复跑PASS。当前S4机器门ca2c25d386490316新鲜；S5/S6观感另审。详review/S5-independent-2026-10-13.md。",
-      "by": "/root/s5_independent_review",
-      "at": "2026-10-13T10:13:19.888Z",
-      "gameHash": "ca2c25d386490316"
+      "note": "异人独立刷新：GD5/5共67检查点、bench95/100、3文件15/15、真浏览器42/42手势可驱动且0 error；effect-lock-count唯一锚点内存value1→0使GD第2剧本step5/9/12转红，恢复复绿；固定场景bench仅缺相机note。详见 review/S4-manifest-ui-correction-independent-2026-10-14.md。",
+      "by": "/root/s3click_independent_review",
+      "at": "2026-10-14T06:46:36.420Z",
+      "gameHash": "7683030b1df8ad2c"
     },
     "S5": {
       "verdict": "CONCERNS",
-      "note": "异人首轮FAIL已返修：恢复S4继续/收录/影像槽几何，真实稳定态包围盒复验；72文件560测试、GD5/5·67、独立14轮七态深亮审计均0、22图真浏览器闭环/键鼠触控/reduce0s。唯一标题锚点1内存撤色真实ui-audit exit1 ratio1，正常版复绿；另测240ms入场归位不重复。保留CONCERNS：无S5前完整manifest diff基线、S6实图/框皮/最终1:1尚未交付，不代审素材。详review/S5-independent-2026-10-13.md。",
-      "by": "/root/s5_independent_review",
-      "at": "2026-10-13T10:20:51.623Z",
-      "gameHash": "ca2c25d386490316"
+      "note": "异人按当前manifest复查：78文件591测试、严格装载warnings[]、深亮14态审计四阻断均0；真5173六图零错，HUD棕边无blur/5px铜条/透明清单标题和3圆点全实测，唯一锚点撤修验红。保留无blessed golden、历史S4布局字节基线不足及S6整页1:1 FAIL，详review/S5-S7-refresh-independent-2026-10-14.md。",
+      "by": "/root/s3cart_render_review",
+      "at": "2026-10-14T08:04:51.779Z",
+      "gameHash": "7683030b1df8ad2c"
+    },
+    "S8": {
+      "verdict": "FAIL",
+      "note": "独立复跑cart门exit0/MOCK0/manifest0/bench95，但无blessed golden；本游戏GD5/5+22/22与门并发绿，唯一mask锚点撤修使manifest子门exit1；终检清单HEAD净树无法满足：HEAD d994de3c且846条dirty，全仓Vitest 20/703文件败、33/6659测试败、6 snapshots败；cart轻量gameHash与S8复查HEAD要求冲突未回填，DokiWorld GCI-S7-HOST-SESSION-01仍in-progress。详见 review/S8-independent-2026-10-14.md。",
+      "by": "/root/s3click_independent_review",
+      "at": "2026-10-14T09:32:51.075Z",
+      "gameHash": "7683030b1df8ad2c"
     }
   },
   "history": [
@@ -294,6 +318,149 @@
       "stage": "S3",
       "exit": 0,
       "at": "2026-10-13T13:09:36.322Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S2",
+      "exit": 0,
+      "at": "2026-10-14T05:04:28.835Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "CONCERNS",
+      "at": "2026-10-14T05:15:37.772Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 1,
+      "at": "2026-10-14T05:15:52.213Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-14T05:16:21.896Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-10-14T05:28:25.375Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-10-14T05:28:55.291Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-10-14T05:30:07.501Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-10-14T05:38:52.800Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-10-14T05:38:52.956Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "CONCERNS",
+      "at": "2026-10-14T06:00:12.165Z"
+    },
+    {
+      "action": "scorecard",
+      "total": 15,
+      "premium": false,
+      "at": "2026-10-14T06:03:47.333Z"
+    },
+    {
+      "action": "review",
+      "stage": "S2",
+      "verdict": "CONCERNS",
+      "at": "2026-10-14T06:26:36.997Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S3",
+      "exit": 0,
+      "at": "2026-10-14T06:31:13.273Z"
+    },
+    {
+      "action": "review",
+      "stage": "S3",
+      "verdict": "PASS",
+      "at": "2026-10-14T06:34:55.639Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S4",
+      "exit": 0,
+      "at": "2026-10-14T06:38:26.353Z"
+    },
+    {
+      "action": "review",
+      "stage": "S4",
+      "verdict": "PASS",
+      "at": "2026-10-14T06:46:36.420Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S5",
+      "exit": 0,
+      "at": "2026-10-14T06:48:45.368Z"
+    },
+    {
+      "action": "review",
+      "stage": "S5",
+      "verdict": "CONCERNS",
+      "at": "2026-10-14T08:04:51.779Z"
+    },
+    {
+      "action": "scorecard",
+      "total": 16,
+      "premium": true,
+      "at": "2026-10-14T08:05:29.250Z"
+    },
+    {
+      "action": "signoff",
+      "stage": "S7",
+      "at": "2026-10-14T09:07:06.104Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S8",
+      "exit": 1,
+      "at": "2026-10-14T09:13:14.854Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S8",
+      "exit": 0,
+      "at": "2026-10-14T09:14:26.989Z"
+    },
+    {
+      "action": "gate",
+      "stage": "S8",
+      "exit": 0,
+      "at": "2026-10-14T09:23:53.092Z"
+    },
+    {
+      "action": "review",
+      "stage": "S8",
+      "verdict": "FAIL",
+      "at": "2026-10-14T09:32:51.075Z"
     }
   ],
   "outOfOrder": [
@@ -320,14 +487,32 @@
   ],
   "selfCheck": {
     "S4": {
-      "at": "2026-10-13T10:09:04.749Z",
-      "shots": 43,
-      "gameHash": "ca2c25d386490316"
+      "at": "2026-10-14T06:38:26.353Z",
+      "shots": 88,
+      "gameHash": "7683030b1df8ad2c"
     },
     "S5": {
-      "at": "2026-10-13T10:19:29.645Z",
-      "shots": 43,
-      "gameHash": "ca2c25d386490316"
+      "at": "2026-10-14T06:48:45.368Z",
+      "shots": 88,
+      "gameHash": "7683030b1df8ad2c"
     }
+  },
+  "scorecard": {
+    "scores": {
+      "艺术方向": 2,
+      "主角面": 2,
+      "世界密度": 2,
+      "材质": 2,
+      "渲染管线": 2,
+      "VFX": 2,
+      "UI美术": 2,
+      "性能证据": 2
+    },
+    "total": 16,
+    "premium": true,
+    "by": "/root/s3cart_render_review",
+    "note": "2D预览独立评分：真5173当轮idle/reveal/collected/completed六图、四HUD棕边无blur/标题5px铜条/清单透明标题与3圆点实测；8 approved设计交接PNG，bench95/100，78文件591测试，深亮14审计四阻断0，唯一锚点撤修红/恢复绿。各维2分实据详review/S5-S7-refresh-independent-2026-10-14.md；S6整页1:1 FAIL、无blessed golden及S2 CONCERNS保留；非Owner人门。",
+    "at": "2026-10-14T08:05:29.250Z",
+    "gameHash": "7683030b1df8ad2c"
   }
 }

@@ -8,7 +8,7 @@ Current DokiWorld `public/apps` package for the existing loot chest experience.
 - Output: `doki.game.chest-result/2`
 - Contract: `docs/sdk/loot-chest-contracts-v2.md`
 
-Version `1.1.0` adds a fixed three-seal timing QTE before reveal. The QTE is internal,
+Version `1.2.0` replaces the timing QTE with a short automatic opening presentation. The opening is internal,
 does not add host configuration, and never changes the deterministic reward result.
 
 The old `dokiworlds-apps` project remains a historical source reference. This directory is the authoritative source for new self-contained builds.

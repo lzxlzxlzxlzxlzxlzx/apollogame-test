@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "id": "game-card-reveal",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "entry": "index.html",
   "context": { "requiredScopes": [], "optionalScopes": [] },
   "locales": {
@@ -11,7 +11,7 @@
   "documentation": { "zh-cn": { "title": "星辉启封调用说明", "path": "docs/integration.zh-CN.md" } },
   "runtime": {
     "protocol": "dokiworld.app", "protocolVersion": 2,
-    "input": { "contract": "doki.game.card-reveal-input", "version": 1 },
+    "input": { "contract": "doki.game.card-reveal-input", "version": 2 },
     "outputs": [{ "contract": "doki.game.card-reveal-result", "version": 1 }],
     "modules": []
   }

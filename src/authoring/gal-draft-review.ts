@@ -100,6 +100,8 @@ function approvedChain(ledger: GalDraftLedger, direct: GalDraftRecord | undefine
     ...(chain.bible ? { bible: chain.bible.data as GalDraftDataByKind['bible'], bibleDraftId: chain.bible.draftId } : {}),
     ...(chain.routes ? { routes: chain.routes.data as GalDraftDataByKind['routes'], routesDraftId: chain.routes.draftId } : {}),
     ...(chain.graph ? { graph: chain.graph.data as GalDraftDataByKind['graph'], graphDraftId: chain.graph.draftId } : {}),
+    ...(chain.beats ? { beats: chain.beats.data as GalDraftDataByKind['beats'], beatsDraftId: chain.beats.draftId } : {}),
+    ...(chain.manuscript ? { manuscript: chain.manuscript.data as GalDraftDataByKind['manuscript'], manuscriptDraftId: chain.manuscript.draftId } : {}),
   };
 }
 
@@ -129,7 +131,7 @@ export function submitGalDraftData(ledger: GalDraftLedger, meta: GalTrustedSubmi
   if (!Number.isSafeInteger(meta.revision) || meta.revision < 1) issues.push(issue('$.revision', 'integer', 'must be a positive safe integer'));
   if (!nonempty(meta.summary)) issues.push(issue('$.summary', 'text', 'must be non-empty text'));
   if (!Array.isArray(meta.basedOn)) issues.push(issue('$.basedOn', 'array', 'must be an array'));
-  else if (meta.basedOn.length !== (meta.kind === 'brief' ? 0 : 1)) issues.push(issue('$.basedOn', 'arity', 'P0 has no upstream; P1–P4 have exactly one'));
+  else if (meta.basedOn.length !== (meta.kind === 'brief' ? 0 : 1)) issues.push(issue('$.basedOn', 'arity', 'brief has no upstream; every later kind has exactly one'));
   else meta.basedOn.forEach((entry, i) => { if (!id(entry)) issues.push(issue(`$.basedOn[${i}]`, 'id', 'must be a safe draft ID')); });
   if (ledger.drafts.some((draft) => draft.projectId === meta.projectId && draft.draftId === meta.draftId)) issues.push(issue('$.draftId', 'duplicate', 'draftId must be unique within project'));
   const previous = ledger.drafts.filter((draft) => draft.projectId === meta.projectId && draft.kind === meta.kind);
@@ -199,7 +201,7 @@ export function applyGalReviewDecision(ledger: GalDraftLedger, decision: GalRevi
   return { ok: true, ledger: ledgerOf(ledger.drafts, [...ledger.events, ...events]), issues: [], draft, events };
 }
 
-/** P0–P4 are authoring drafts, never a GalPackage candidate. P5/P6/P7 and P8 remain separate gates. */
+/** Manuscript and line records stay authoring drafts. Asset review and assembly remain separate gates. */
 export function galDraftAssemblyReadiness(): { readonly ready: false; readonly code: 'not_ready'; readonly missing: readonly ['P5', 'P6', 'P7', 'P8'] } {
   return { ready: false, code: 'not_ready', missing: ['P5', 'P6', 'P7', 'P8'] };
 }

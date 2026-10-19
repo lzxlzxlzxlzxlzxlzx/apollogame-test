@@ -34,6 +34,11 @@ describe('World Visual Semantics v1', () => {
     const far = clone(source); far.scenes[0]!.placements.find((placement) => placement.id === 'mine-entrance')!.x = 1;
     expect(validateLifeWorldVisualSemantics(far).issues).toContainEqual(expect.objectContaining({ path: '/scenes/0/warps/0/landmarkPlacementId', code: 'warp_landmark_relation' }));
 
+    const buildingWarp = clone(source); const entrance = buildingWarp.scenes[0]!.placements.find((placement) => placement.id === 'mine-entrance')!; entrance.kind = 'building';
+    expect(validateLifeWorldVisualSemantics(buildingWarp).issues).toContainEqual(expect.objectContaining({ path: '/scenes/0/warps/0/interactionPlacementId', code: 'warp_interaction_placement_required' }));
+    buildingWarp.scenes[0]!.warps[0]!.interactionPlacementId = 'mine-entrance';
+    expect(validateLifeWorldVisualSemantics(buildingWarp).issues).not.toContainEqual(expect.objectContaining({ code: 'warp_interaction_placement_required' }));
+
     const noSurface = clone(source); delete noSurface.tileCatalog.soil!.visual!.surface;
     expect(validateLifeWorldVisualSemantics(noSurface).issues).toContainEqual(expect.objectContaining({ path: '/tileCatalog/soil/visual/surface', code: 'surface_missing' }));
 

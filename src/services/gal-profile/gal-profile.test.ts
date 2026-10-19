@@ -10,6 +10,7 @@ import {
   GAL_PROFILE_SCHEMA, GAL_PROFILE_SLOT_PREFIX, createGalProfile, galProfileCodec, galProfileSlot,
   hasRead, isUnlocked, loadGalProfile, markRead, parseGalProfile, persistGalConfirmation,
   persistGalPreferencesReset, persistGalAudioVolume, persistGalFocusMute, persistGalVoiceAuto,
+  persistGalUiPreference, persistGalPlaybackPreferences,
   resetGalProfilePreferences, saveGalProfile, setGalConfirmation,
   setGalPreferences, unlock,
 } from './gal-profile.js';
@@ -38,19 +39,30 @@ function pkg(id: string): GalPackage {
 
 function legacyV1(profile: ReturnType<typeof createGalProfile>) {
   const { confirmations: _confirmations, masterVolume: _master, focusMute: _focus,
-    voiceAuto: _voiceAuto, ...preferences } = profile.preferences;
+    voiceAuto: _voiceAuto, dialogueOpacity: _opacity, wheelRollback: _rollback,
+    wheelAdvance: _advance, autoContinueAfterChoice: _continue,
+    readSkipEnabled: _readSkip, reducedMotion: _motion, storyTransitions: _transitions, ...preferences } = profile.preferences;
   return { ...profile, schemaVersion: 1, preferences };
 }
 function legacyV2(profile: ReturnType<typeof createGalProfile>) {
-  const { masterVolume: _master, focusMute: _focus, voiceAuto: _voiceAuto, ...preferences } = profile.preferences;
+  const { masterVolume: _master, focusMute: _focus, voiceAuto: _voiceAuto,
+    dialogueOpacity: _opacity, wheelRollback: _rollback, wheelAdvance: _advance,
+    autoContinueAfterChoice: _continue, readSkipEnabled: _readSkip, reducedMotion: _motion, storyTransitions: _transitions, ...preferences } = profile.preferences;
   return { ...profile, schemaVersion: 2, preferences };
 }
 function legacyV3(profile: ReturnType<typeof createGalProfile>) {
-  const { voiceAuto: _voiceAuto, ...preferences } = profile.preferences;
+  const { voiceAuto: _voiceAuto, dialogueOpacity: _opacity, wheelRollback: _rollback,
+    wheelAdvance: _advance, autoContinueAfterChoice: _continue,
+    readSkipEnabled: _readSkip, reducedMotion: _motion, storyTransitions: _transitions, ...preferences } = profile.preferences;
   return { ...profile, schemaVersion: 3, preferences };
 }
+function legacyV4(profile: ReturnType<typeof createGalProfile>) {
+  const { dialogueOpacity: _opacity, wheelRollback: _rollback, wheelAdvance: _advance,
+    autoContinueAfterChoice: _continue, readSkipEnabled: _readSkip, reducedMotion: _motion, storyTransitions: _transitions, ...preferences } = profile.preferences;
+  return { ...profile, schemaVersion: 4, preferences };
+}
 
-describe('GalProfile V4', () => {
+describe('GalProfile V7', () => {
   it('creates a clean separate profile and keeps read/unlock updates explicit, pure and idempotent', () => {
     const packageA = pkg('gal-a');
     const fresh = createGalProfile(packageA);
@@ -85,7 +97,7 @@ describe('GalProfile V4', () => {
     expect(await loadGalProfile(port, a)).toEqual(updated);
     expect(await loadGalProfile(port, b)).toEqual(createGalProfile(b));
     const envelope = await port.read(galProfileSlot(a));
-    expect(envelope).toMatchObject({ schema: 4, gameId: galProfileCodec(a).gameId, savedAt: 1234 });
+    expect(envelope).toMatchObject({ schema: 8, gameId: galProfileCodec(a).gameId, savedAt: 1234 });
     expect(() => openEnvelope(envelope!, galProfileCodec(b))).toThrow(CorruptSaveError);
     expect(() => parseGalProfile(updated, b)).toThrow(CorruptSaveError);
   });
@@ -138,13 +150,13 @@ describe('GalProfile V4', () => {
     const envelope = sealEnvelope(v1, oldCodec, 99);
     await port.write(galProfileSlot(p), envelope);
     const migrated = await loadGalProfile(port, p);
-    expect(migrated.schemaVersion).toBe(4);
+    expect(migrated.schemaVersion).toBe(8);
     expect(legacyV1(migrated)).toEqual(v1);
     expect(migrated.preferences.confirmations).toEqual(createGalProfile(p).preferences.confirmations);
     expect(migrated.preferences).toMatchObject({ masterVolume: 1, focusMute: false, voiceAuto: true });
     expect(await port.read(galProfileSlot(p))).toEqual(envelope); // Read-only migration.
     await saveGalProfile(port, p, migrated, 100);
-    expect(await port.read(galProfileSlot(p))).toMatchObject({ schema: 4, savedAt: 100 });
+    expect(await port.read(galProfileSlot(p))).toMatchObject({ schema: 8, savedAt: 100 });
     expect(await loadGalProfile(port, p)).toEqual(migrated);
   });
 
@@ -154,7 +166,7 @@ describe('GalProfile V4', () => {
     const v2 = legacyV2(current), envelope = sealEnvelope(v2, { gameId: galProfileCodec(p).gameId, schema: 2 }, 44);
     await port.write(galProfileSlot(p), envelope);
     const restored = await loadGalProfile(port, p);
-    expect(restored).toMatchObject({ schemaVersion: 4, readNodeIds: current.readNodeIds,
+    expect(restored).toMatchObject({ schemaVersion: 8, readNodeIds: current.readNodeIds,
       preferences: { confirmations: current.preferences.confirmations, masterVolume: 1, focusMute: false, voiceAuto: true } });
     expect(await port.read(galProfileSlot(p))).toEqual(envelope);
   });
@@ -167,6 +179,65 @@ describe('GalProfile V4', () => {
     expect((await loadGalProfile(port, p)).preferences).toMatchObject({ masterVolume: 0.3,
       focusMute: true, voiceAuto: true });
     expect(await port.read(galProfileSlot(p))).toEqual(envelope);
+  });
+
+  it('migrates V4 input/display defaults without writing on read, then serializes individual UI changes', async () => {
+    const p = pkg('gal-v4'), port = new MemorySavePort();
+    const current = setGalPreferences(createGalProfile(p), p, { voiceAuto: false, masterVolume: 0.4 });
+    const envelope = sealEnvelope(legacyV4(current), { gameId: galProfileCodec(p).gameId, schema: 4 }, 45);
+    await port.write(galProfileSlot(p), envelope);
+    expect((await loadGalProfile(port, p)).preferences).toMatchObject({ voiceAuto: false,
+      masterVolume: 0.4, dialogueOpacity: 0.9, wheelRollback: true,
+      wheelAdvance: true, autoContinueAfterChoice: false });
+    expect(await port.read(galProfileSlot(p))).toEqual(envelope);
+    await Promise.all([persistGalUiPreference(port, p, { wheelRollback: false }, 50),
+      persistGalUiPreference(port, p, { dialogueOpacity: 0.6 }, 51),
+      persistGalUiPreference(port, p, { autoContinueAfterChoice: true }, 52)]);
+    expect((await loadGalProfile(port, p)).preferences).toMatchObject({ voiceAuto: false,
+      masterVolume: 0.4, dialogueOpacity: 0.6, wheelRollback: false,
+      wheelAdvance: true, autoContinueAfterChoice: true });
+    await expect(persistGalUiPreference(port, p, { wheelRollback: 'no' as never }, 53)).rejects.toThrow(CorruptSaveError);
+  });
+
+  it('migrates a V5 profile read-only and keeps read-skip independent from unread-skip', async () => {
+    const p = pkg('gal-v5-skip'), port = new MemorySavePort();
+    const current = setGalPreferences(createGalProfile(p), p, { skipMode: 'all', wheelAdvance: false });
+    const { readSkipEnabled: _old, reducedMotion: _motion, storyTransitions: _transitions, ...legacy } = current.preferences;
+    const envelope = sealEnvelope({ ...current, schemaVersion: 5, preferences: legacy },
+      { gameId: galProfileCodec(p).gameId, schema: 5 }, 74);
+    await port.write(galProfileSlot(p), envelope);
+    expect((await loadGalProfile(port, p)).preferences).toMatchObject({ skipMode: 'all',
+      wheelAdvance: false, readSkipEnabled: true });
+    expect(await port.read(galProfileSlot(p))).toEqual(envelope);
+    await persistGalPlaybackPreferences(port, p, { readSkipEnabled: false }, 75);
+    expect((await loadGalProfile(port, p)).preferences).toMatchObject({ skipMode: 'all',
+      wheelAdvance: false, readSkipEnabled: false });
+    await expect(persistGalPlaybackPreferences(port, p, { readSkipEnabled: 'no' as never }, 76))
+      .rejects.toThrow(CorruptSaveError);
+  });
+
+  it('migrates a V6 profile read-only with reduced motion off by default', async () => {
+    const p = pkg('gal-v6-motion'), port = new MemorySavePort();
+    const current = setGalPreferences(createGalProfile(p), p, { readSkipEnabled: false });
+    const { reducedMotion: _motion, storyTransitions: _transitions, ...preferences } = current.preferences;
+    const envelope = sealEnvelope({ ...current, schemaVersion: 6, preferences },
+      { gameId: galProfileCodec(p).gameId, schema: 6 }, 75);
+    await port.write(galProfileSlot(p), envelope);
+    expect((await loadGalProfile(port, p)).preferences).toMatchObject({ readSkipEnabled: false, reducedMotion: false, storyTransitions: true });
+    expect(await port.read(galProfileSlot(p))).toEqual(envelope);
+  });
+
+  it('migrates a V7 profile read-only with story transitions on and keeps reduced motion', async () => {
+    const p = pkg('gal-v7-transition'), port = new MemorySavePort();
+    const current = setGalPreferences(createGalProfile(p), p, { reducedMotion: true, storyTransitions: false });
+    const { storyTransitions: _transitions, ...preferences } = current.preferences;
+    const envelope = sealEnvelope({ ...current, schemaVersion: 7, preferences: { ...preferences, reducedMotion: true } },
+      { gameId: galProfileCodec(p).gameId, schema: 7 }, 80);
+    await port.write(galProfileSlot(p), envelope);
+    expect((await loadGalProfile(port, p)).preferences).toMatchObject({ reducedMotion: true, storyTransitions: true });
+    expect(await port.read(galProfileSlot(p))).toEqual(envelope);
+    await persistGalUiPreference(port, p, { storyTransitions: false }, 81);
+    expect((await loadGalProfile(port, p)).preferences.storyTransitions).toBe(false);
   });
 
   it('persists master and focus policy serially without dropping other preferences', async () => {
@@ -226,7 +297,7 @@ describe('GalProfile V4', () => {
     const env = sealEnvelope(profile, codec, 10);
     await port.write(galProfileSlot(p), { ...env, checksum: 'bad' });
     await expect(loadGalProfile(port, p)).rejects.toThrow(CorruptSaveError);
-    await port.write(galProfileSlot(p), { ...env, schema: 5, checksum: computeChecksum(5, env.gameId, env.savedAt, env.data) });
+    await port.write(galProfileSlot(p), { ...env, schema: 9, checksum: computeChecksum(9, env.gameId, env.savedAt, env.data) });
     await expect(loadGalProfile(port, p)).rejects.toThrow(/高于当前/);
     const old = sealEnvelope(profile, { ...codec, schema: 0 }, 10);
     await port.write(galProfileSlot(p), old);
@@ -234,7 +305,7 @@ describe('GalProfile V4', () => {
     const malformed = { ...profile, unlockedMusicIds: ['not-in-catalog'] };
     await port.write(galProfileSlot(p), sealEnvelope(malformed, codec, 10));
     await expect(loadGalProfile(port, p)).rejects.toThrow(CorruptSaveError);
-    expect(() => parseGalProfile({ ...profile, schemaVersion: 5 }, p)).toThrow(CorruptSaveError);
+    expect(() => parseGalProfile({ ...profile, schemaVersion: 9 }, p)).toThrow(CorruptSaveError);
   });
 
   it('surfaces SavePort write failure and never fabricates a successful save', async () => {

@@ -14,7 +14,7 @@
 | 顾客点单/收集类多槽交付 + 集齐续单 | `t2-order-fulfill` | 挂 `Order{needItems,filled,reward,pool?,rotateMode?,cursor?}`；`DeliverDrop` 消费落格；`pool` 非空则集齐发奖后轮换下一单（`sequence` 按 cursor 环回 / `weighted` 用世界 `RandomSeed` 加权抽） |
 | 点世界实体发信号 | `t2-clickable` | 缺省 `Clickable{action}` 按旧 Shape AABB；透明贴图实形点击加 `hitMaskKey`，只消费 AssetIndex 预烘焙二值数据，缺/坏不回退 AABB |
 | 按键/具名动作发信号 | `t2-keybind` | 挂 `KeyBinding{key,signal}`；人/AI 共用动作总线 |
-| 拖动椭圆轨道判顺逆圈数 | `t2-angular-gesture` | `AngularGesture` 存唯一整数角、半轴和阈值；`PointerInputSource({move:true})` 先逆投影/量化，满圈发具名 Signal；Q/E 等价用 keybind |
+| 拖动椭圆轨道判顺逆圈数 | `t2-angular-gesture` | `AngularGesture` 存唯一整数角、半轴和阈值；`PointerInputSource({move:true})` 先逆投影/量化，满圈发具名 Signal。可选 `grabSegment:{startX,startY,endX,endY,radius}` 为相对当前 Transform 锚点的可见棒身胶囊命中区；命中后仍只按轨道角积分，未配置时保留旧环命中。需要键盘等价信号的游戏可另接 keybind，本作炼药已移除 Q/E。 |
 | 生活模拟连续方向状态 | `t2-life-continuous-motion` | 高频方向键不用单个 `KeyBinding` 的一拍单 `Signal` 承载多条 delta；宿主向 `InputQueue` 发完整 `life.move.state` 位掩码，系统按 source 取同 tick 最后一份快照原子投影。离散/AI 兼容输入仍可发 `life.move.start/stop` Signal |
 | 生活模拟实时可交互集 | `t2-life-activity` | `LifeActivityContext.allowedActions` 仍是静态 zone permission；`affordances` 在 Commit 按当前农田/作物/资源/NPC会话/warp gate 投影 available + 闭集 reason，UI/AI 只读这份数据而不重写规则 |
 | 生活模拟行动判定 | `t2-life-action` | `life.action` Signal（source=LifeActor、arg=闭集 LifeAction）在 `t2-life-activity` 后变为一拍 `LifeActionResult`；耕种/采集/对话等效果另由消费能力处理 |
@@ -28,6 +28,7 @@
 | 花费换取 / 一次改多值 | `t2-craft-recipe` | 挂 `CraftRecipe{onSignal,costs,gains}`（商店/合成） |
 | 整局流程状态机 | `t3-flow` | 挂 `GameFlow{id,current,states}`；when 复用 `ConditionExpr` |
 | GAL 剧情解释与里程碑 | `t3-narrative-director` | 先用 `parseGalPackage` 静态校验；同实体挂 `NarrativePackage{package}` + `createStoryRuntime(package)`。`InputQueue` 发 `narrative.advance`、`narrative.choose`（`arg=option.id`）、`narrative.back` 或 `narrative.read-complete`（`arg=storyRefKey(当前 StoryRef)`）。只读 `NarrativeProjection`；用 `readNarrativeEvents` 读取待投递 `NarrativeOutbox`，宿主**持久化成功后**才在输入流发 `narrative.ack`（`arg=连续前缀序号`），由 Director 在 tick 内确认。队列上限 256，满载拒绝剧情提交，不静默丢失；04A 不直接写 `GalProfile`，接桥留给 04B。 |
+| 已提交换场的表现投影 | `NarrativeTransitionPolicy` | 宿主传入已提交 ref、闭集 `cut/fade/wipe/dissolve` 与 `{enabled,reducedMotion}`，再自行 `advance`。关闭或减动都收成 `cut` 终态；回滚、读档、回想和失败先 `stop`。服务不持有包、Profile、计时器或 DOM，不写 World。样例 `src/services/presentation/narrative-transition-policy.test.ts`。 |
 | 实体各自读条件施自身效 | `t2-self-rule` | 挂 `SelfRule{when,do,once?}`（自走棋/弹幕群自治） |
 | 胜负/占据/到达判定 | `t2-zone-occupancy` | 挂 `Zone{outFlag,矩形,requiredTag,count}`；下游读 outFlag |
 | 组数量作为可读数值 | `t2-group-count` | 挂 `GroupCount{countResource,requiredTag}`；阈值配 event-when |
@@ -35,7 +36,7 @@
 | 持续风险 + 时机 QTE + 有序多目标 | `t3-progressive-risk-session` | 配周期/命中窗，只投递 `start/qte-press/continue/withdraw`；系统按固定 tick 判按压/timeout 并发 Signal/回执，调用方不传 hit |
 | 持续风险 + 精准 QTE + 隐藏槽位翻格 | `t3-risk-reveal-wheel` | 配槽位组、封锁数、目标目录与整数偏移惩罚；只投递 `start/qte-press/reveal(slot)/withdraw`，系统管理翻格权与终局回执 |
 | 离散密码盘 / 滑钮组合猜解 | `t3-discrete-combination-session` | 配 `slotCount/valueCount/initialValue`、可选 `initialStrategy:'random'` 与五个具名 Signal；`setSignal` 只收 `slot:value`，`giveUpSignal` 是唯一 failure 路径；系统用 `RandomSeed` 生成初始向量及不同的隐藏目标，只发整体反馈 |
-| 炼药/装配有序动作与圈数 | `t2-ordered-action-session` + `t2-drag-place` | `acceptedActions` 列完整具名动作，`steps[{expectedAction,requiredCount}]` 按序判定；DropZone 可设 `hitShape:'ellipse'` 用 Shape 宽高缩放半轴判锅口，缺省仍 AABB；拖放/KeyBinding 等发 Signal，非玩法 UI Signal 不误杀 |
+| 炼药/装配有序动作与圈数 | `t2-ordered-action-session` + `t2-drag-place` | `acceptedActions` 列完整具名动作，`steps[{expectedAction,requiredCount,completedSignal?}]` 按序判定；`completedSignal` 仅正确完成该步后发一次，可被同拍 Effect 扣资源，未配置旧行为不变；每步信号须唯一且不与输入/终局重名。DropZone 可设 `hitShape:'ellipse'` 用 Shape 宽高缩放半轴判锅口，缺省仍 AABB；拖放/KeyBinding 等发 Signal，非玩法 UI Signal 不误杀 |
 | 双方同时出招 → 查表定胜负收益 | `t2-matrix-duel` | 对局实体挂 `DuelMatrix{hpResource,throws,beats,payoff,tie,patches?}`，双方实体各挂 `Resource{id:hpResource}` + 本回合 `DuelIntent{throw}`；两侧齐备即结算（写 ResourceModify + 发具名 Signal + 清 intent）。遗物/变体 = `patches` 三闭集（改克制 / 改收益 / 增设一手），坏补丁装载期拒收（`validateDuelMatrix`）。AI 选招 / 手牌 / 押注不归它 |
 
 ## ② 样例指针
@@ -90,13 +91,9 @@ game108 一个游戏撞了五次，全是这条：
 带逻辑的判定/路由代码**同提交接 trace**（CLAUDE.md 日志基准守则）：`src/skills/debug-trace.ts` opt-in 零开销，「什么都没发生」的分支必记 `reject`；样板 `matrix-duel.test.ts`。
 
 ## ④ 正样例 / 反面教材
-
 - ✅ `src/skills/tier2/event-when.ts` + `effect-apply.ts`：条件→信号→效果全数据。
 - ✖ 在点击/按键回调里直接改 Resource/State（绕过信号入队 → 破确定性、AI 复用不了）。
 
 ## ⑤ 查不到怎么办
 
-现有条件算子/效果 kind 表达不了的规则 → `docs/workflow/requests.md` 提缺口（先看 event-when `when` + effect kind 能否重组）。**不在游戏层写规则 system。**
-# Life warp 交互边界
-
-`landmarkPlacementId` 只把 warp 与可见出口地标绑定；它不是触发器。warp 仍由既有 E/鼠标显式 action 进入信号队列，不允许 renderer、碰撞重叠或地标 placement 自动写世界/自动传送。
+现有条件算子/效果 kind 表达不了的规则 → `docs/workflow/requests.md` 提缺口（先看 event-when `when` + effect kind 能否重组）。**不在游戏层写规则 system。** Life 的 `landmarkPlacementId` 只把 warp 与可见出口地标绑定，不是触发器；warp 仍由既有 E/鼠标显式 action 进入信号队列，renderer、碰撞重叠或地标 placement 不得自动写世界/传送。

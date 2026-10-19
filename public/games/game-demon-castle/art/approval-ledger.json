@@ -354,7 +354,10 @@
         "mode": "nearest-cover-center",
         "alpha": "opaque",
         "sampling": "nearest",
-        "anchor": { "x": 0.5, "y": 0.5 },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
         "fit": "cover"
       },
       "slots": [
@@ -366,7 +369,10 @@
           "sourcePath": "docs/design/game-demon-castle/art/ai/pending/tile-moon-courtyard-candidate-v1.png",
           "sourceContentHash": "sha256:71a816f89214c3845be17c49f54f1949e0642fccca57ed5ad30417c4e0a1afbb",
           "contentHash": "sha256:300b45f687e9d17755bb3216adbd5abf28a5bed7ca6ddfe029820667ce4c7b96",
-          "outputPx": { "width": 32, "height": 32 },
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
           "approval": "approved"
         },
         {
@@ -377,7 +383,10 @@
           "sourcePath": "docs/design/game-demon-castle/art/ai/pending/tile-moonshadow-forest-candidate-v1.png",
           "sourceContentHash": "sha256:9225a9049f53c4ac5d1eb2ea1cafaa3ac5b165e7f834b48c96cf70be1d7f7888",
           "contentHash": "sha256:c8b9739f64ba09acf80e1f9abb8cea9d317afd1a3e9db843752c5fd44c3b6e80",
-          "outputPx": { "width": 32, "height": 32 },
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
           "approval": "approved"
         },
         {
@@ -388,9 +397,231 @@
           "sourcePath": "docs/design/game-demon-castle/art/ai/pending/tile-undercrypt-workshop-candidate-v1.png",
           "sourceContentHash": "sha256:6e233004d5cc40e12504edd394f9784896f3354cdb72a85fc7f9c4765c5691cb",
           "contentHash": "sha256:85297bdd6e61fc8d2687665b9b925531a33f0d169b57d26f59a4abdafaf13fed",
-          "outputPx": { "width": 32, "height": 32 },
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
           "approval": "approved"
         }
+      ]
+    },
+    {
+      "id": "codex-imagegen-illustrated-core-2026-10-13",
+      "source": "Codex built-in image generation candidate capture",
+      "provider": "codex-imagegen",
+      "model": "codex-imagegen",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "generatedAt": "2026-10-13",
+      "reviewedBy": "owner",
+      "ownerDecision": "approved",
+      "normalization": {
+        "mode": "asset-slot-exact-resample",
+        "sampling": "nearest",
+        "note": "Source candidates retain their original bytes under docs/design; approved runtime copies are normalized to the existing slot contract."
+      },
+      "slots": [
+        {
+          "slotId": "demon-castle.player.moon-demon",
+          "assetKey": "art:demon-castle:player:moon-demon",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:3041bdb1",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/player-moon-demon-three-head-v3.png",
+          "sourceContentHash": "sha256:a13734e31cc844e3e97f17b2ff9217c6688848a3b4f080df8f34d872ceeddbaa",
+          "contentHash": "sha256:2c7efda117652e482d258ba9750a947644ff5ffe5adfacb5db38c46a57dc7f97",
+          "outputPx": {
+            "width": 32,
+            "height": 48
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.tile.moon-courtyard",
+          "assetKey": "art:demon-castle:tile:moon-courtyard",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:fe3df546",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/tile-moon-courtyard-neutral-v2.png",
+          "sourceContentHash": "sha256:203b573358d11ea9c27a21f31ccf0ca7b488ec6a5498f8a88988b1bd623319ea",
+          "contentHash": "sha256:f54c9ae05c41f68ca69aaf9338680b6b42f75c5cdc329820ee7d0352b6eef64c",
+          "outputPx": {
+            "width": 32,
+            "height": 32
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.npc.gargoyle-artisan",
+          "assetKey": "art:demon-castle:npc:gargoyle-artisan",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:cb16960d",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/npc-gargoyle-artisan-three-head-v1.png",
+          "sourceContentHash": "sha256:adabe1e68a449d6be34eba3b78027e9d9f2ccd3e4ffb21d161d8fbb4109b7199",
+          "contentHash": "sha256:ddad2c322dc781eebc0c55fba06678c4234e60ec1e5edc7a4a9d3f914d6bcbd4",
+          "outputPx": {
+            "width": 32,
+            "height": 48
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.building.forest-arch",
+          "assetKey": "art:demon-castle:building:forest-arch",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:7fcec7c3",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/building-forest-arch-neutral-v1.png",
+          "sourceContentHash": "sha256:cb9941a3212aa19f1258378c528b650d0b52b817ddb249a6cf688ef2ec404fb4",
+          "contentHash": "sha256:08eee20aaf6e504ed30920065d1215b771912528ffed291fb4ca40944c295870",
+          "outputPx": {
+            "width": 64,
+            "height": 64
+          },
+          "approval": "approved"
+        }
+      ]
+    },
+    {
+      "id": "codex-imagegen-illustrated-core-highres-repair-2026-10-13",
+      "source": "Codex built-in image generation candidate capture",
+      "provider": "codex-imagegen",
+      "model": "codex-imagegen",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "generatedAt": "2026-10-13",
+      "reviewedBy": "owner",
+      "ownerDecision": "approved",
+      "supersedes": "codex-imagegen-illustrated-core-2026-10-13",
+      "normalization": {
+        "mode": "illustrated-asset-slot-contract",
+        "sampling": "linear",
+        "note": "Corrects the prior low-resolution nearest-neighbour normalization. Logical cells remain independent from high-resolution illustrated source textures."
+      },
+      "slots": [
+        {
+          "slotId": "demon-castle.player.moon-demon",
+          "assetKey": "art:demon-castle:player:moon-demon",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:5c18a301",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/player-moon-demon-three-head-v3.png",
+          "sourceContentHash": "sha256:a13734e31cc844e3e97f17b2ff9217c6688848a3b4f080df8f34d872ceeddbaa",
+          "contentHash": "sha256:10ed97937949a742cdc8dc678cd0e7d2af8c78613a8a3f3b9b181ed3200754ad",
+          "outputPx": {
+            "width": 384,
+            "height": 512
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.tile.moon-courtyard",
+          "assetKey": "art:demon-castle:tile:moon-courtyard",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:b43a7a2c",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/tile-moon-courtyard-neutral-v2.png",
+          "sourceContentHash": "sha256:203b573358d11ea9c27a21f31ccf0ca7b488ec6a5498f8a88988b1bd623319ea",
+          "contentHash": "sha256:21196c0ff0f6257918508d74dfb288edf1cb584edaf73a132cd1fecd2c759b15",
+          "outputPx": {
+            "width": 256,
+            "height": 256
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.npc.gargoyle-artisan",
+          "assetKey": "art:demon-castle:npc:gargoyle-artisan",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:688e07d8",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/npc-gargoyle-artisan-three-head-v1.png",
+          "sourceContentHash": "sha256:adabe1e68a449d6be34eba3b78027e9d9f2ccd3e4ffb21d161d8fbb4109b7199",
+          "contentHash": "sha256:820154a0ca658826920d73737962abe8f53f3719b869cd9d94ae6027aa6d9825",
+          "outputPx": {
+            "width": 384,
+            "height": 512
+          },
+          "approval": "approved"
+        },
+        {
+          "slotId": "demon-castle.building.forest-arch",
+          "assetKey": "art:demon-castle:building:forest-arch",
+          "prompt": "unavailable (candidate capture did not retain the original prompt)",
+          "briefFingerprint": "asset-slot-v1:8bdf0fbb",
+          "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-13-illustrated-core/building-forest-arch-neutral-v1.png",
+          "sourceContentHash": "sha256:cb9941a3212aa19f1258378c528b650d0b52b817ddb249a6cf688ef2ec404fb4",
+          "contentHash": "sha256:af0ffd435cb3c39e3366a96dce48ab8dbc9f1336cc75ffa1070d0a2338217c5a",
+          "outputPx": {
+            "width": 512,
+            "height": 512
+          },
+          "approval": "approved"
+        }
+      ]
+    },
+    {
+      "id": "ui-skin-moonshadow-2026-10-15",
+      "source": "Owner-approved prototype UI candidate",
+      "license": "owner-authorized use in game-demon-castle",
+      "generatedAt": "2026-10-13",
+      "reviewedBy": "owner",
+      "ownerDecision": "approved",
+      "approvedAt": "2026-10-15",
+      "slots": [
+        {
+          "assetKey": "art:game-demon-castle:ui:panel-frame",
+          "sourcePath": "docs/design/game-demon-castle/ui-refs/2026-10-13-ui-demo/ui-moonshadow-panel-frame-v1.png",
+          "sourceContentHash": "sha256:5fa3aef549574e3e8d8716f3e8ecbb71f99ae4adb9b7e3995fc91da11fab2471",
+          "contentHash": "sha256:5fa3aef549574e3e8d8716f3e8ecbb71f99ae4adb9b7e3995fc91da11fab2471",
+          "outputPx": {
+            "width": 1086,
+            "height": 1448
+          },
+          "approval": "approved"
+        },
+        {
+          "assetKey": "art:game-demon-castle:ui:world-status-ribbon",
+          "sourcePath": "docs/design/game-demon-castle/ui-refs/2026-10-13-ui-demo/ui-world-status-ribbon-v1.png",
+          "sourceContentHash": "sha256:74e0f53d824e32d38dae63a6f24cdb936a9c524e9091674a8f2d72a61812ff6b",
+          "contentHash": "sha256:01410bf45eec4959fdc38652b7b4951e2eb229215aee4e097ee239ca6aeec13d",
+          "outputPx": {
+            "width": 2136,
+            "height": 304
+          },
+          "approval": "approved"
+        },
+        {
+          "assetKey": "art:game-demon-castle:ui:tracked-quest-frame",
+          "sourcePath": "docs/design/game-demon-castle/ui-refs/2026-10-13-ui-demo/ui-reference-extracted-kit-v1.png",
+          "sourceContentHash": "sha256:d785917c7a5a6d93d6af4706f92c6eb3a9cc7bfee774d93dc8651ee3d4ac11e2",
+          "crop": {
+            "x": 27,
+            "y": 209,
+            "width": 562,
+            "height": 197
+          },
+          "contentHash": "sha256:b398b53ceacc922f23f46ee6db596a2ab4cafce69d33780b5567e204a565cdc1",
+          "outputPx": {
+            "width": 562,
+            "height": 197
+          },
+          "approval": "approved"
+        }
+      ]
+    },
+    {
+      "id": "codex-ui-icons-2026-10-15",
+      "source": "Codex built-in image generation candidate capture",
+      "provider": "Codex built-in image generation",
+      "model": "unknown/not retained in candidate artifact",
+      "license": "owner-authorized use in game-demon-castle under applicable OpenAI terms",
+      "generatedAt": "2026-10-15",
+      "reviewedBy": "owner",
+      "ownerDecision": "approved",
+      "approvedAt": "2026-10-15",
+      "sourcePath": "docs/design/game-demon-castle/assets-candidates/2026-10-15-ui-icons/moonshadow-ui-icons-sheet-candidate-v1.png",
+      "sourceContentHash": "sha256:684fc490657625445c0409e6f6ac448b697a6137a132bd4ac28b9f96ae9be920",
+      "normalization": { "mode": "fixed-grid-cell-crop", "alpha": "transparent", "sampling": "linear", "note": "Each 512x512 cell is copied independently; no text is present in the approved icon sheet." },
+      "slots": [
+        { "slotId": "demon-castle.ui-icon.resource-gold", "assetKey": "art:game-demon-castle:ui:resource-gold", "crop": { "x": 0, "y": 0, "width": 512, "height": 512 }, "contentHash": "sha256:43030b1756d6f557c5a0a7fb31035cf11685971ed2435c4f368caebcd999cb52", "outputPx": { "width": 512, "height": 512 }, "consumer": "planned Life Host important-resource HUD icon: gold", "approval": "approved" },
+        { "slotId": "demon-castle.ui-icon.resource-moon-crystal", "assetKey": "art:game-demon-castle:ui:resource-moon-crystal", "crop": { "x": 512, "y": 0, "width": 512, "height": 512 }, "contentHash": "sha256:7278a4df52b0d81b67fde96a104f0f5aedeee73a8a5b19aba476995173b77072", "outputPx": { "width": 512, "height": 512 }, "consumer": "planned Life Host important-resource HUD icon: moon-crystal", "approval": "approved" },
+        { "slotId": "demon-castle.ui-icon.resource-moonleaf", "assetKey": "art:game-demon-castle:ui:resource-moonleaf", "crop": { "x": 1024, "y": 0, "width": 512, "height": 512 }, "contentHash": "sha256:661ba2904aebbe14aaedfa1573e1054a8112d84ef453dd8edca6df27905b4762", "outputPx": { "width": 512, "height": 512 }, "consumer": "planned Life Host important-resource HUD icon: moonleaf", "approval": "approved" },
+        { "slotId": "demon-castle.ui-icon.entry-quest-scroll", "assetKey": "art:game-demon-castle:ui:entry-quest-scroll", "crop": { "x": 0, "y": 512, "width": 512, "height": 512 }, "contentHash": "sha256:ad98580a2fd1007e2cddd67978800695fb53a9efbefa63d4f15b85c8414d702f", "outputPx": { "width": 512, "height": 512 }, "consumer": "planned Life Host quest entry button: J", "approval": "approved" },
+        { "slotId": "demon-castle.ui-icon.entry-backpack", "assetKey": "art:game-demon-castle:ui:entry-backpack", "crop": { "x": 512, "y": 512, "width": 512, "height": 512 }, "contentHash": "sha256:70b1eb6e35cb9a373a937b2afeca6335b950630e5ad394ba8b56646c3b2652cd", "outputPx": { "width": 512, "height": 512 }, "consumer": "planned Life Host inventory entry button: I", "approval": "approved" },
+        { "slotId": "demon-castle.ui-icon.entry-profile", "assetKey": "art:game-demon-castle:ui:entry-profile", "crop": { "x": 1024, "y": 512, "width": 512, "height": 512 }, "contentHash": "sha256:08a650a0e587df1851470fc601dcacbcb9810d720b754cdac1a3bdfb89c12f5e", "outputPx": { "width": 512, "height": 512 }, "consumer": "planned Life Host profile entry button: C", "approval": "approved" }
       ]
     }
   ]

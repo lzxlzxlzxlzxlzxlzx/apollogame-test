@@ -62,12 +62,12 @@
         },
         {
           "kind": "artifact",
-          "ref": "src/engine/host/life-game-host.ts",
+          "ref": "src/assembly/life-host/life-game-host.ts",
           "label": "共享 Life Host"
         },
         {
           "kind": "test",
-          "ref": "src/engine/host/life-game-host.test.ts",
+          "ref": "src/launcher/life-game-host.integration.test.ts",
           "label": "共享宿主测试"
         },
         {
@@ -92,7 +92,7 @@
       "title": "Life 固定点建设能力验收",
       "track": "引擎",
       "description": "以严格 constructionProjects 数据、标准 build action、原子材料提交、完成皮肤投影和 Life save 完成位提供跨游戏复用的一次性固定点建设。",
-      "status": "review",
+      "status": "done",
       "dependsOn": [
         "life-runtime-contract"
       ],
@@ -503,11 +503,6 @@
         },
         {
           "kind": "artifact",
-          "ref": "public/games/game-demon-castle/art/index.json",
-          "label": "26 个已审批素材的游戏本地 AssetIndex"
-        },
-        {
-          "kind": "artifact",
           "ref": "public/games/game-demon-castle/art/approval-ledger.json",
           "label": "OpenAI 生成来源、授权与 owner 审批台账"
         },
@@ -613,7 +608,7 @@
         },
         {
           "kind": "test",
-          "ref": "src/authoring/demon-castle-playtest-contract.test.ts",
+          "ref": "src/launcher/demon-castle-playtest-contract.test.ts",
           "label": "production catalog/shared host、26 项素材闭包与完整首章语义路径回归"
         },
         {
@@ -670,6 +665,26 @@
           "kind": "review",
           "ref": "docs/design/game-simlife/review/SIMLIFE-POSE-ANCHOR-01.md",
           "label": "统一脚点独立复查 PASS（2026-10-12）"
+        },
+        {
+          "kind": "artifact",
+          "ref": "public/games/game-demon-castle/art/index.json",
+          "label": "已获批四项高清插画核心素材的本地运行时索引（2026-10-13）"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-demon-castle/review/SIMLIFE-DEMON-ILLUSTRATED-CORE-01.md",
+          "label": "核心插画替换独立复查 PASS（含 nearest 返修撤修验红，2026-10-13）"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/self-check/LIFE-DEPENDENCY-FENCE-A.md",
+          "label": "Life Host 上迁与 33 条依赖围栏自检 0/0；全库门禁另红"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/LIFE-DEPENDENCY-FENCE-A-independent.md",
+          "label": "Life Host 迁移非施工者局部 PASS；不代签 Playtest/Owner 人门"
         }
       ],
       "gates": {
@@ -731,6 +746,691 @@
         "selfCheck": "pending",
         "review": "pending",
         "owner": "not-required"
+      }
+    },
+    {
+      "id": "world-visual-semantics",
+      "title": "Life 世界视觉语义硬门",
+      "track": "引擎",
+      "description": "共享 Life JSON/authoring/renderer 已强制 warp 绑定可见地标，并让普通地表、可耕荒地、干土、湿土与作物阶段具备可审计素材语义；视觉元数据保持在 World/snapshot/hash/save 之外。Little Valley 已迁移，魔王城只更新候选并保持素材人审与正式四文件隔离。",
+      "status": "done",
+      "dependsOn": [
+        "life-runtime-contract",
+        "generation-bundle-validator",
+        "visual-slot-consumption"
+      ],
+      "acceptance": [
+        "新 Generation Bundle 缺失 warp landmark、surface visual 或非法 visual key 复用时路径级拒绝",
+        "共享 renderer 只在地标缺失或不可见时回退通用出口标记，并按 authored key 区分干湿土与作物",
+        "视觉语义不改变行动合法性、编译 blueprint、snapshot/hash/save，未审批素材不得进入正式四文件"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/self-check/SIMLIFE-WORLD-VISUAL-SEMANTICS-01.md",
+          "label": "施工自检、候选哈希与撤修验红"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-WORLD-VISUAL-SEMANTICS-01.md",
+          "label": "非施工人独立复查 PASS"
+        },
+        {
+          "kind": "test",
+          "ref": "src/assembly/life-world-visual-semantics.test.ts",
+          "label": "严格拒绝与 snapshot authority 隔离回归"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-simlife/world-visual-semantics-review.md",
+          "label": "warp/surface 审阅矩阵与零写入计划"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "life-art-direction-contract",
+      "title": "Life 非像素/高清美术方向合同",
+      "track": "素材",
+      "description": "共享 authoring/asset/render formal path 已支持 closed pixel-art/illustrated-2d 方向、逐 kind 高清规格与稳定 prompt，并对 formal visual catalog coverage 和 no-legacy fallback 设硬门；插画 player/npc 已校正为与 legacy 32×48 等价的 1×1.5 cell，非施工人独立复查通过。",
+      "status": "done",
+      "dependsOn": [
+        "visual-slot-consumption",
+        "generation-bundle-validator"
+      ],
+      "acceptance": [
+        "方向化 AssetSlot prompt 与规格由 closed profile 稳定派生，非法组合路径级拒绝且 legacy 可兼容",
+        "本地候选与正式索引精确匹配 style/spec，formal Host 每个实际 visual key 都有 catalog rule",
+        "高清 linear tile/actor/placement 不改变 32px 逻辑格或 World/snapshot/hash/save，缺 rule 不走 legacy fallback"
+      ],
+      "evidence": [
+        {
+          "kind": "artifact",
+          "ref": "src/assets/life-art-direction.ts",
+          "label": "Life Art Direction v1 合同与 engine fixtures"
+        },
+        {
+          "kind": "test",
+          "ref": "src/assets/life-art-direction.test.ts",
+          "label": "closed profile、prompt、冲突与 runtime 隔离回归"
+        },
+        {
+          "kind": "test",
+          "ref": "src/renderer/canvas-renderer.viewport.test.ts",
+          "label": "高清 catalog rule 与 no-legacy fallback 回归"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/self-check/SIMLIFE-ART-DIRECTION-01.md",
+          "label": "施工自检与撤修验红"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-ART-DIRECTION-01.md",
+          "label": "独立复查 PASS（2026-10-13）"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-ART-DIRECTION-02.md",
+          "label": "插画角色 1×1.5 cell 占格校正独立复查 PASS（2026-10-13）"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "warp-interaction-footprint",
+      "title": "多格建筑 Warp 交互占地合同",
+      "track": "Life runtime and generation",
+      "description": "共享 Life authoring/compiler/runtime 以 interactionPlacementId 固化多格 warp footprint；activity 与 navigation 共同消费，Demon Castle 已受控正式物化，施工自检与非施工人独立复查均通过。",
+      "status": "done",
+      "dependsOn": [
+        "life-runtime-contract",
+        "generation-bundle-validator",
+        "world-visual-semantics"
+      ],
+      "acceptance": [
+        "2×2 footprint 四格均提示并允许显式 E warp，外部格拒绝",
+        "legacy warp 保持 at 精确 1×1",
+        "未知、跨场景、at 越界与非法类型均精确拒绝且不回退",
+        "landmarkPlacementId 不获得模拟权威",
+        "Demon Castle 四个建筑绑定入口与正式 runtime footprint 一致"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/work-orders/SIMLIFE-WARP-FOOTPRINT-01.md",
+          "label": "施工单与验收范围"
+        },
+        {
+          "kind": "test",
+          "ref": "docs/design/game-simlife/self-check/SIMLIFE-WARP-FOOTPRINT-01.md",
+          "label": "施工自检、撤修验红与正式物化实证"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-WARP-FOOTPRINT-01.md",
+          "label": "独立复查入口"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "life-inventory-panel",
+      "title": "共享 Life 背包抽屉验收",
+      "track": "引擎",
+      "description": "SIMLIFE-INVENTORY-PANEL-01 已完成：opt-in descriptor、目录稳定只读投影、LayoutNode 右侧背包抽屉及 I/Escape/指针 render-local 开关已由独立复查验证；不改变 World、save、hash、held movement 或玩法 JSON。",
+      "status": "done",
+      "dependsOn": [
+        "life-runtime-contract",
+        "life-host-web-registration"
+      ],
+      "acceptance": [
+        "descriptor 缺省保持旧 Host 行为，启用配置严格闭集且列数有界",
+        "物品按编译目录稳定序投影并展示数量、skinKey visual 与容量",
+        "I/Escape/指针开关不写 World/save/hash 且不清 held movement",
+        "魔王城 opt-in，不修改玩法 JSON 或素材治理状态"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/work-orders/SIMLIFE-INVENTORY-PANEL-01.md",
+          "label": "施工单与架构边界"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/self-check/SIMLIFE-INVENTORY-PANEL-01.md",
+          "label": "施工自检、门禁与撤修验红"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-INVENTORY-PANEL-01.md",
+          "label": "独立复查导航"
+        },
+        {
+          "kind": "test",
+          "ref": "src/engine/host/life-host.test.ts",
+          "label": "descriptor 投影输入与 LayoutNode 回归"
+        },
+        {
+          "kind": "test",
+          "ref": "src/launcher/life-game-host.integration.test.ts",
+          "label": "Host 指针键盘与隔离集成回归"
+        },
+        {
+          "kind": "artifact",
+          "ref": "games/game-demon-castle/life-host.json",
+          "label": "魔王城正式 opt-in descriptor"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "generation-inventory-review",
+      "title": "生成流程背包内容审阅",
+      "track": "生成",
+      "description": "Generation Brief/Actors 现已强制背包设计与 inventory-review：容量、逐堆初始物、稳定目录、来源及精确图标槽从 Bundle 单向派生并经独立复查，非法/漂移输入 fail-closed。",
+      "status": "done",
+      "dependsOn": [
+        "generation-bundle-validator",
+        "serial-generation-review",
+        "life-inventory-panel"
+      ],
+      "acceptance": [
+        "合法 Bundle 生成容量、初始物、稳定目录、可追溯来源与精确图标槽状态",
+        "非法 Bundle、来源引用、consumer、伪造行或陈旧 input hash 均 fail-closed",
+        "Actors 缺 inventory-review 不得进入 owner review，Host panel 选择不进入 Life package"
+      ],
+      "evidence": [
+        {
+          "kind": "artifact",
+          "ref": "src/authoring/life-inventory-review.ts",
+          "label": "LifeInventoryReview v1 builder 与严格 validator"
+        },
+        {
+          "kind": "test",
+          "ref": "src/authoring/life-inventory-review.test.ts",
+          "label": "Little Valley、魔王城、拒绝路径与 round-trip 回归"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/self-check/SIMLIFE-GEN-INVENTORY-01.md",
+          "label": "施工自检与撤修验红"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-GEN-INVENTORY-01.md",
+          "label": "独立复查导航"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "life-quest-panel",
+      "title": "共享 Life 任务追踪与任务抽屉",
+      "track": "引擎",
+      "description": "SIMLIFE-QUEST-PANEL-01 已完成独立复查：权威任务目录/投影形成稳定 questItems，Host 本地追踪、J/Escape 抽屉与左侧追踪目标均不写 World/save/hash；LayoutNode UI 审计通过。",
+      "status": "done",
+      "dependsOn": [
+        "life-runtime-contract",
+        "life-host-web-registration"
+      ],
+      "acceptance": [
+        "descriptor questPanel 严格闭集且缺省兼容",
+        "任务清单按章节/优先级稳定投影 active/locked/completed/empty",
+        "J/Escape/点击与 held movement/E 兼容，跟踪不进入 World/save/hash",
+        "魔王城只 opt-in Host 并消费既有任务 JSON",
+        "LayoutNode 与 dark/light UI audit 零 issue"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/work-orders/SIMLIFE-QUEST-PANEL-01.md",
+          "label": "施工单与架构边界"
+        },
+        {
+          "kind": "test",
+          "ref": "docs/design/game-simlife/self-check/SIMLIFE-QUEST-PANEL-01.md",
+          "label": "施工自检、物化与撤修验红"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-QUEST-PANEL-01.md",
+          "label": "独立复查导航"
+        },
+        {
+          "kind": "test",
+          "ref": "src/launcher/life-game-host.integration.test.ts",
+          "label": "Host 输入、跟踪与持久化隔离集成回归"
+        },
+        {
+          "kind": "artifact",
+          "ref": "games/game-demon-castle/life-host.json",
+          "label": "魔王城正式 questPanel opt-in"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "life-profile-panel",
+      "title": "Life 通用人物档案与生成审阅",
+      "track": "Life runtime and generation",
+      "description": "LifeProfile v1、Host 人物档案、ui-icon 槽闭包与生成 profile review 已通过非施工人独立复查；Demon Castle 已受控更新，正式文件 hash 已复验。",
+      "status": "done",
+      "dependsOn": [
+        "life-runtime-contract",
+        "life-host-web-registration",
+        "generation-bundle-validator",
+        "life-inventory-panel"
+      ],
+      "acceptance": [
+        "严格 profile schema 只允许 resource/relationship 来源，禁止自由表达式或第二份状态",
+        "C/点击/Escape 的 Host 本地人物档案与 I/J 抽屉互斥且零 World/save/hash 污染",
+        "profile iconSkinKey 进入 UI icon AssetSlot 闭包与审批链",
+        "Generation Bundle profile review 能验证来源、图标和 canonical hash",
+        "Demon Castle 以真实 resource/relationship 数据完成 opt-in，既有规则无漂移"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/work-orders/SIMLIFE-PROFILE-01.md",
+          "label": "Owner A 后的施工边界与验收"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/self-check/SIMLIFE-PROFILE-01.md",
+          "label": "施工自检、物化 hash、门禁与撤修验红"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-PROFILE-01.md",
+          "label": "独立复查导航（待复查）"
+        },
+        {
+          "kind": "artifact",
+          "ref": "src/authoring/life-profile-review.ts",
+          "label": "LifeProfileReview v1 严格单向投影"
+        },
+        {
+          "kind": "test",
+          "ref": "src/launcher/life-game-host.integration.test.ts",
+          "label": "人物档案互斥与零快照/存档污染测试"
+        },
+        {
+          "kind": "test",
+          "ref": "src/launcher/demon-castle-playtest-contract.test.ts",
+          "label": "Demon Castle 正式四文件、Host 与 profile review 合同"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "life-hud-resource",
+      "title": "Life 顶栏状态与资源条",
+      "track": "Life host UI",
+      "description": "HUD Resource 施工与独立复查通过：Profile surfaces 严格控制 profile/hud 投影，顶栏只读现有 Scene/Calendar/Resource/Relationship；Demon Castle 正式四文件预检 hash 已复验，ui-icon 仍为 placeholder。",
+      "status": "done",
+      "dependsOn": [
+        "life-profile-panel",
+        "life-host-web-registration"
+      ],
+      "acceptance": [
+        "Profile surfaces 严格决定 profile/hud 显示，超过 4 个 HUD 属性拒绝",
+        "顶栏只读 Calendar、Scene、Resource、Relationship，零 World/save/hash 污染",
+        "I/J/C 与点击互斥且无输入回归",
+        "Demon Castle 数据驱动接入并通过生成/物化预检"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/work-orders/SIMLIFE-HUD-RESOURCE-01.md",
+          "label": "施工边界与验收"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/self-check/SIMLIFE-HUD-RESOURCE-01.md",
+          "label": "施工自检、UI 审计、物化 hash 与撤修验红"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-HUD-RESOURCE-01.md",
+          "label": "独立复查导航"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "life-ui-shell",
+      "title": "Life 全视口 UI 壳层",
+      "track": "Life host UI",
+      "description": "共享全视口 Life UI 壳层已通过独立复查：地图上叠层展示追踪任务、世界状态及资源/J-I-C 入口；HUD 空白区 pointer-transparent，正式交互控件可点击，且不引入第二状态。",
+      "status": "done",
+      "dependsOn": [
+        "life-hud-resource",
+        "life-quest-panel",
+        "life-inventory-panel",
+        "life-profile-panel"
+      ],
+      "acceptance": [
+        "地图逻辑画布不因 HUD 缩小",
+        "左上只读追踪任务，顶栏与右侧资源复用权威投影",
+        "I/J/C/Escape/指针与 held movement 不回归",
+        "深浅主题 LayoutNode audit 均无阻断项"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/work-orders/SIMLIFE-UI-SHELL-01.md",
+          "label": "施工边界与验收"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-demon-castle/demon-castle-ui-demo.html",
+          "label": "Owner 定稿全视口 UI 结构基准"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "life-ui-skin-pack",
+      "title": "Life UI 可复用皮肤包",
+      "track": "Life host UI",
+      "description": "严格可选 UI skin 四槽已由非施工者独立复查通过：artSlug 绑定、单一 AssetManager texture resolver、三 Drawer 内 Panel 框皮、缺图/legacy 回退与跨换皮旧存档兼容均有实证。119 项定向与 573 项 UI 基座测试、全库及定向 tsc、深浅审计和两种锚点撤修均已复跑；Onyx 次级文字 10 条非硬对比告警已记录，真实皮肤视觉审阅与 Owner Host Playtest 仍待完成。",
+      "status": "done",
+      "dependsOn": [
+        "life-ui-shell"
+      ],
+      "acceptance": [
+        "Host 描述符只接受闭集 uiSkin key 与切片数据，拒绝 URL、任意 CSS 与未知字段",
+        "默认 Life 游戏无 uiSkin 时行为保持兼容；缺图安全回退",
+        "月影城堡样例通过 AssetManager 和 LayoutNode 消费已批准素材，动态文案不入图",
+        "UI 审计、严格校验、独立复查均通过"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/work-orders/SIMLIFE-UI-SKIN-PACK-01.md",
+          "label": "UI 皮肤包施工边界与验收"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-demon-castle/demon-castle-ui-demo.html",
+          "label": "Owner 定稿月影庭院 UI 视觉基准"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/self-check/SIMLIFE-UI-SKIN-PACK-01.md",
+          "label": "施工自检、审计与撤修证据"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-simlife/review/SIMLIFE-UI-SKIN-PACK-01.md",
+          "label": "独立复查导航（待复查）"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-simlife/ui-skin-pack-v1.md",
+          "label": "严格四槽 UI skin 合同"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "not-required"
+      }
+    },
+    {
+      "id": "demon-castle-ui-revision-01",
+      "title": "魔王城 UI 修订原型与重新定稿",
+      "track": "Life UI prototype",
+      "dependsOn": [
+        "life-ui-skin-pack"
+      ],
+      "acceptance": [
+        "全视口羊皮纸任务卡含完整长文态",
+        "连续状态丝带可读高度至少56px",
+        "三枚图标数字资源与独立J/I/C图标入口",
+        "三类同骨架侧栏及空态滚动关闭完整",
+        "Owner目击重新定稿后才开启正式实现"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/work-orders/DEMON-CASTLE-UI-REVISION-01.md",
+          "label": "原型修订边界与验收"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-demon-castle/demon-castle-ui-revision-01.approved-2026-10-15.dc.html",
+          "label": "2026-10-15旧批准版完整快照，原279f063f hash未变"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/self-check/DEMON-CASTLE-UI-REVISION-01.md",
+          "label": "69项检查与19张截图自证"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-demon-castle/review/DEMON-CASTLE-UI-REVISION-01.md",
+          "label": "独立复核导航"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/ui-revision-01-owner-review.md",
+          "label": "Owner六步重新定稿复核说明"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/prototype-approval.md",
+          "label": "2026-10-15 Owner原型定稿原文与版本hash"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "required"
+      },
+      "status": "review",
+      "description": "原型完成69项浏览器检查与19张截图。2026-10-15 Owner在程序会话01a11128-96fa-7280-840f-e678d2d71a4c回复：挺好的，可以定稿；另在策划会话01a110f0-25bf-7c72-a227-0efc93b35358回复：原型通过、图标候选通过。两处直接用户消息分别核对并记入prototype-approval.md，不互换来源；图标授权仅限策划会话已展示候选。原型SHA-256未变；本记录不替代独立复查、其他素材批准、Playtest或控制台Owner人门。 原型现由非施工者review_ui_prototype独立复跑69项、补5图并完成三种临时副本撤修，review文件PASS；控制台Owner门未代签。 2026-10-16 Owner另改视觉目标；上述批准及PASS仅绑定现已保留的旧完整快照，同名入口现为02待审候选，不沿用旧绿灯。"
+    },
+    {
+      "id": "demon-castle-ui-runtime-01",
+      "title": "魔王城新版UI正式Host接入",
+      "track": "Life host UI",
+      "dependsOn": [
+        "life-ui-skin-pack",
+        "demon-castle-ui-revision-01",
+        "demon-castle-ui-revision-02"
+      ],
+      "status": "active",
+      "description": "2026-10-16修订02正式批：Owner已批准原型4c39e9f0并选日历A。三主要视觉目标用现有闭集接线，实际六视口395项/38图、89files817tests、定向TS/ESLint/六深浅审计通过；三HUD锚点4/1/4红恢复22绿。日历严格合同及公共adapter旧档兼容独立PASS（4files76tests，中央唯一锚点撤修3红恢复76绿），保留首轮漏验及中间direct-adapter Major/FAIL历史；仅排除新增calendarLabels，旧fingerprint/格式/坏档门不变。受控原子物化group751d4f3f，实际仅Host三中文名变化，canonical/compiler/discovery重验通过。HUD独立复查已完成：395项/38图、86files792tests、三锚点4/1/4红恢复22绿、定向TS/六审计均独立实跑；三核心局部PASS，整单CONCERNS。边界另获非施工者独立核证，所有浏览器/服务/session均退出；精确按钮反馈仍不同，Owner已直接选A补通用PUI配置，固定单REQ-SIMLIFE-PUI-ICON-FEEDBACK-01已由PUI领锁in-progress待交付，BDM只消费；两属性图仍缺，整单两实际红项不收束。主程序曾把人工64+64字schema上限压力提成Owner布局选择，Owner质疑后已澄清并撤回：魔王城只有月相季/黎明/夜晚，安全上限不是设计长度；保留测量技术备注但不扩大本单或改定稿布局，不伪称压力极限已解决。旧257项等只属历史。旧33条是迁移前门禁实证；当前引擎程序正在将六个Life Host编排文件迁至src/assembly/life-host，本程序已释放六源码/直接测试/import/probe锚点写锁，仅整理文档证据、不跑旧路径测试，迁移前PASS不得冒作迁移后PASS；Owner Playtest/控制台门不代签。",
+      "acceptance": [
+        "已批准严格key经AssetManager消费，逐图验证真实消费者与缺图回退",
+        "原型同画布1:1对照及全部未决差异解决",
+        "原生可访问J/I/C图标按钮与真实资源来源明确",
+        "三侧栏空态长文关闭互斥、World/save/hash与输入回归通过",
+        "深浅审计、严格物化与非施工者复查均有真实证据"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/work-orders/DEMON-CASTLE-UI-RUNTIME-01.md",
+          "label": "正式施工边界与未决A/B"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/self-check/DEMON-CASTLE-UI-RUNTIME-01-alignment.md",
+          "label": "局部自证与未完成差异，不是整单PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-demon-castle/review/DEMON-CASTLE-UI-RUNTIME-01.md",
+          "label": "后续独立复查导航，未签结论"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/work-orders/REQ-SIMLIFE-PUI-ICON-BUTTON-01.md",
+          "label": "Owner A后的PUI精确合同与专职边界"
+        },
+        {
+          "kind": "test",
+          "ref": "src/engine/host/life-input-routing.test.ts",
+          "label": "Owner输入A的首Tab与菜单优先回归"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-demon-castle/review/DEMON-CASTLE-UI-RUNTIME-01-icons-contract-independent.md",
+          "label": "三入口key与缺图合同独立局部PASS，非整单"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-demon-castle/review/DEMON-CASTLE-UI-RUNTIME-01-keyboard-independent.md",
+          "label": "输入接缝独立局部PASS，非PUI或整单"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-demon-castle/review/DEMON-CASTLE-UI-RUNTIME-01-ribbon-independent.md",
+          "label": "透明状态丝带局部独立PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-demon-castle/review/REQ-SIMLIFE-PUI-ICON-BUTTON-01-independent.md",
+          "label": "PUI能力本票独立PASS，非Host整单"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-demon-castle/review/DEMON-CASTLE-UI-RUNTIME-01-entry-integration-independent.md",
+          "label": "最终图标入口与部分断图重绘集成独立局部PASS，非整单"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/work-orders/DEMON-CASTLE-UI-RUNTIME-02-calendar-decision.md",
+          "label": "Owner A日历合同授权，已严格实现并受控物化"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/self-check/DEMON-CASTLE-UI-RUNTIME-02-alignment.md",
+          "label": "395正常自证/817回归、两实际红项与人工压力范围澄清"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-demon-castle/review/DEMON-CASTLE-UI-RUNTIME-02-calendar-independent.md",
+          "label": "日历及公共adapter旧档兼容独立局部PASS，保留中间Major/FAIL"
+        },
+        {
+          "kind": "issue",
+          "ref": "docs/design/game-demon-castle/work-orders/DEMON-CASTLE-UI-RUNTIME-02-feedback-decision.md",
+          "label": "按钮Owner已选A；撤回把人工压力上升为游戏挡板的提问"
+        },
+        {
+          "kind": "issue",
+          "ref": "docs/design/game-demon-castle/work-orders/REQ-SIMLIFE-PUI-ICON-FEEDBACK-01.md",
+          "label": "Owner A后PUI已领锁实施，BDM待合同只消费，不越界"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-demon-castle/review/DEMON-CASTLE-UI-RUNTIME-02-independent.md",
+          "label": "独立395/792及六审计，三核心局部PASS/整单CONCERNS，迁移前证据"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-demon-castle/review/DEMON-CASTLE-UI-RUNTIME-02-boundary-independent.md",
+          "label": "独立核证按钮反馈差异与非本游戏挡板的人工上限压力"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pending",
+        "review": "pending",
+        "owner": "required"
+      }
+    },
+    {
+      "id": "demon-castle-ui-revision-02",
+      "title": "魔王城UI修订02：无框入口与中文横排重新定稿",
+      "track": "Life UI prototype",
+      "status": "review",
+      "dependsOn": [
+        "life-ui-skin-pack"
+      ],
+      "description": "2026-10-16 Owner在程序会话直接对冻结4c39e9f04dab441945a277bea000ab3db71fd2870996442a1177a4a7d28ee415回复挺好的，可以定稿。原型自检152/24图；非施工者review_ui_prototype独立首轮/恢复均152绿、三唯一锚点实红、六视口及375横滚hover长态逐张目击，最终PASS。页面候选标签不改以保获批字节，旧279f快照不变。原型交付完成，状态仍review、Owner控制台门required不代签；不代表正式Host整单通过。",
+      "acceptance": [
+        "三已批准PNG入口无外圆框/圆盘，保留键徽/命中/原生键盘/反馈",
+        "丝带精确中文三段同字体字号单行，日期变化不夹英文或时分",
+        "两语义资源在左J/I/C在右同row，窄屏明确缩小/横滚不堆叠",
+        "六视口与空态长文/追踪/关闭互斥及独立复查有证据",
+        "Owner目击新版并明确重新定稿后才改正式Host"
+      ],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/work-orders/DEMON-CASTLE-UI-REVISION-02.md",
+          "label": "新目标/锁/正式Host边界"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-demon-castle/demon-castle-ui-revision-01.dc.html",
+          "label": "已获Owner重新定稿的修订02冻结原型4c39e9f0"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/self-check/DEMON-CASTLE-UI-REVISION-02.md",
+          "label": "152项/24图及三锚点撤修自证"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/ui-revision-02-owner-review.md",
+          "label": "Owner新原型目击/重新定稿入口"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-demon-castle/prototype-approval.md",
+          "label": "2026-10-16 Owner新版定稿原文、hash与边界"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-demon-castle/review/DEMON-CASTLE-UI-REVISION-02.md",
+          "label": "最终冻结版独立原型PASS，三撤修与恢复实证"
+        }
+      ],
+      "gates": {
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "required"
       }
     }
   ]

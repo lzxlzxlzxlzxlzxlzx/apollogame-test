@@ -12,8 +12,8 @@ import { buildLifeInteractionNode, buildLifeInteractionOptions, buildLifeInterac
 function view(overrides: Partial<LifeDemoViewModel> = {}): LifeDemoViewModel {
   return {
     scene: 'little-valley', x: 20, y: 8, poseX: 20, poseY: 8, date: 'spring 1日（第1天）', slot: '清晨', placeLabel: '小镇广场',
-    canInteract: true, interactionSummary: '', inventory: [], allowedActions: [], nearby: [], nearbyWarps: [], affordances: [],
-    results: {}, objective: '目标：收获一份成熟芜菁后去找镇长', relationships: [], ...overrides,
+    canInteract: true, interactionSummary: '', inventory: [], inventoryItems: [], inventoryCapacity: { usedSlots: 0, freeSlots: 0, totalSlots: 0 }, allowedActions: [], nearby: [], nearbyWarps: [], affordances: [],
+    results: {}, objective: '目标：收获一份成熟芜菁后去找镇长', questItems: [], relationships: [], ...overrides,
   };
 }
 

@@ -8,7 +8,7 @@ import { hashWithOrder } from '@net/determinism.js';
 import type { Flag, LifeActivityContext, LifeContinuousMotion, LifePlacement as RuntimeLifePlacement, LifePosition, Resource, Transform } from '@engine/protocol/components.js';
 import { isLifeWalkable } from '@engine/protocol/life-tilemap.js';
 import type { LifeAccessRequirement, LifeGamePackage } from '@engine/protocol/life-sim.js';
-import { LIFE_VIEWPORT_PROFILE_ID, lifePackageViewportProfileId } from '@engine/protocol/life-viewport-profile.js';
+import { LIFE_VIEWPORT_PROFILE, LIFE_VIEWPORT_PROFILE_ID, lifePackageViewportProfileId } from '@engine/protocol/life-viewport-profile.js';
 import type { Inventory } from '@skills/tier2/inventory.js';
 import {
   deriveAssetSlotBriefFingerprint,
@@ -17,6 +17,8 @@ import {
   type AssetSlotBrief,
   type AssetSlotManifest,
 } from '@assets/asset-slot-brief.js';
+import { collectLifeVisualReferences } from '@assets/life-visual-references.js';
+import { LIFE_ART_DIRECTION_SCHEMA } from '@assets/life-art-direction.js';
 
 export const LIFE_GENERATION_SCHEMA = 'zerocraft.life-generation-bundle.v1' as const;
 export const LIFE_GENERATION_PROMPT_VERSION = 'life-generation.prompt.v1' as const;
@@ -125,7 +127,7 @@ export function lifeGenerationPayload(bundle: Pick<LifeGenerationBundleV1, 'game
 
 function sourceForLifePath(path: string): LifeGenerationSource {
   if (/\/(?:world|tileCatalog|scenes|camera|movement|interaction|constructionProjects)(?:\/|$)/.test(path)) return 'world';
-  if (/\/(?:itemCatalog|playerInventory|cropCatalog|calendar|playerVisual|relationships)(?:\/|$)/.test(path)) return 'actors';
+  if (/\/(?:itemCatalog|playerInventory|cropCatalog|calendar|playerVisual|relationships|profile)(?:\/|$)/.test(path)) return 'actors';
   if (/\/(?:logic|milestones|dialogueCatalog|quests)(?:\/|$)/.test(path)) return 'plot';
   return 'world';
 }
@@ -137,34 +139,6 @@ function lifePathToPointer(path: string): string {
 
 function stableDiagnostics(values: readonly LifeGenerationDiagnostic[]): LifeGenerationDiagnostic[] {
   return [...values].sort((a, b) => a.path.localeCompare(b.path) || a.code.localeCompare(b.code) || a.source.localeCompare(b.source) || a.message.localeCompare(b.message));
-}
-
-function collectVisualReferences(raw: unknown): Array<{ key: string; pointer: string }> {
-  if (!record(raw)) return [];
-  const out: Array<{ key: string; pointer: string }> = [];
-  const add = (key: unknown, pointer: string): void => { if (typeof key === 'string' && key.length > 0) out.push({ key, pointer }); };
-  if (record(raw.playerVisual)) add(raw.playerVisual.skinKey, '/playerVisual/skinKey');
-  if (record(raw.tileCatalog)) for (const id of Object.keys(raw.tileCatalog).sort()) {
-    const entry = raw.tileCatalog[id];
-    if (record(entry) && record(entry.visual)) add(entry.visual.skinKey, `/tileCatalog/${pointerEscape(id)}/visual/skinKey`);
-  }
-  if (record(raw.visualSemantics) && record(raw.visualSemantics.farm)) {
-    add(raw.visualSemantics.farm.tilledDrySkinKey, '/visualSemantics/farm/tilledDrySkinKey');
-    add(raw.visualSemantics.farm.wateredSkinKey, '/visualSemantics/farm/wateredSkinKey');
-  }
-  if (Array.isArray(raw.itemCatalog)) raw.itemCatalog.forEach((entry, index) => { if (record(entry)) add(entry.skinKey, `/itemCatalog/${index}/skinKey`); });
-  if (Array.isArray(raw.cropCatalog)) raw.cropCatalog.forEach((entry, index) => {
-    if (!record(entry) || !record(entry.visual)) return;
-    add(entry.visual.seededSkinKey, `/cropCatalog/${index}/visual/seededSkinKey`);
-    add(entry.visual.growingSkinKey, `/cropCatalog/${index}/visual/growingSkinKey`);
-    add(entry.visual.matureSkinKey, `/cropCatalog/${index}/visual/matureSkinKey`);
-  });
-  if (Array.isArray(raw.constructionProjects)) raw.constructionProjects.forEach((entry, index) => { if (record(entry)) add(entry.completedSkinKey, `/constructionProjects/${index}/completedSkinKey`); });
-  if (Array.isArray(raw.scenes)) raw.scenes.forEach((scene, sceneIndex) => {
-    if (!record(scene) || !Array.isArray(scene.placements)) return;
-    scene.placements.forEach((placement, placementIndex) => { if (record(placement)) add(placement.skinKey, `/scenes/${sceneIndex}/placements/${placementIndex}/skinKey`); });
-  });
-  return out.sort((a, b) => a.pointer.localeCompare(b.pointer));
 }
 
 function validateEnvelope(raw: unknown): LifeGenerationDiagnostic[] {
@@ -231,7 +205,7 @@ function validateAssetDraft(bundle: LifeGenerationBundleV1): LifeGenerationDiagn
   if (!record(manifest)) return out;
   if (manifest.game !== bundle.game.slug) add('/assetSlots/draft/game', 'asset_game', 'must equal game.slug');
   const slots = Array.isArray(manifest.slots) ? manifest.slots as readonly AssetSlotBrief[] : [];
-  const refs = collectVisualReferences(bundle.game.lifePackage);
+  const refs = collectLifeVisualReferences(bundle.game.lifePackage);
   const expected = new Set(refs.map((ref) => ref.key));
   const covered = new Map<string, string[]>();
   for (let i = 0; i < slots.length; i++) {
@@ -250,6 +224,38 @@ function validateAssetDraft(bundle: LifeGenerationBundleV1): LifeGenerationDiagn
     }
   }
   for (const ref of refs) if (!(covered.get(ref.key) ?? []).includes(ref.pointer)) add(`/game/lifePackage${ref.pointer}`, 'missing_slot', `visual reference ${ref.key} is not covered by a matching slot consumer`);
+  const life = bundle.game.lifePackage;
+  const slotIndexByKey = new Map(slots.map((slot, index) => [slot.assetKey, index]));
+  const placementById = new Map<string, { width: number; height: number; skinKey: string; kind: unknown }>();
+  if (record(life) && Array.isArray(life.scenes)) for (const scene of life.scenes) {
+    if (!record(scene) || !Array.isArray(scene.placements)) continue;
+    for (const placement of scene.placements) if (record(placement) && typeof placement.id === 'string' && typeof placement.skinKey === 'string'
+      && typeof placement.width === 'number' && typeof placement.height === 'number') {
+      placementById.set(placement.id, { width: placement.width, height: placement.height, skinKey: placement.skinKey, kind: placement.kind });
+    }
+  }
+  const checked = new Set<string>();
+  const checkBuildingFootprint = (assetKey: string, placement: { width: number; height: number; kind: unknown }): void => {
+    const slotIndex = slotIndexByKey.get(assetKey);
+    if (slotIndex === undefined) return;
+    const slot = slots[slotIndex]!;
+    if (placement.kind !== 'building' && slot.kind !== 'building') return;
+    const key = `${slotIndex}:${placement.width}x${placement.height}`;
+    if (checked.has(key)) return;
+    checked.add(key);
+    const scale = slot.render.display.unit === 'pixel' ? LIFE_VIEWPORT_PROFILE.host.cellSize : 1;
+    const expectedWidth = placement.width * scale;
+    const expectedHeight = placement.height * scale;
+    if (slot.render.display.width !== expectedWidth || slot.render.display.height !== expectedHeight) {
+      add(`/assetSlots/draft/slots/${slotIndex}/render/display`, 'building_footprint', `building display must exactly match placement footprint ${placement.width}x${placement.height} cells (${expectedWidth}x${expectedHeight} ${slot.render.display.unit})`);
+    }
+  };
+  for (const placement of placementById.values()) checkBuildingFootprint(placement.skinKey, placement);
+  if (record(life) && Array.isArray(life.constructionProjects)) for (const project of life.constructionProjects) {
+    if (!record(project) || typeof project.placementId !== 'string' || typeof project.completedSkinKey !== 'string') continue;
+    const placement = placementById.get(project.placementId);
+    if (placement) checkBuildingFootprint(project.completedSkinKey, placement);
+  }
   return stableDiagnostics(out);
 }
 
@@ -521,7 +527,10 @@ export function buildLifePromptPackets(bundle: LifeGenerationBundleV1): readonly
     actorIds: ids(placements, 'id'),
     dialogueIds: ids(life.dialogueCatalog, 'id'),
     questIds: Array.isArray(life.quests) ? life.quests.flatMap((chapter) => record(chapter) ? ids(chapter.quests, 'id') : []).sort() : [],
-    assetKeys: [...new Set(collectVisualReferences(life).map((entry) => entry.key))].sort(),
+    assetKeys: [...new Set(collectLifeVisualReferences(life).map((entry) => entry.key))].sort(),
+    artDirectionIds: record(bundle.assetSlots.draft.artDirection) && typeof bundle.assetSlots.draft.artDirection.id === 'string'
+      ? [bundle.assetSlots.draft.artDirection.id]
+      : [],
   };
   const forbidden = ['prose outside the JSON artifact', 'unknown fields', 'secrets or provider keys', 'absolute/URL/traversal paths', 'binary/base64 bytes', 'approved asset claims', 'runtime provenance'];
   const output = { oneOf: [
@@ -531,10 +540,24 @@ export function buildLifePromptPackets(bundle: LifeGenerationBundleV1): readonly
   const make = (packet: LifePromptPacket['packet'], artifactKind: LifePromptPacket['artifactKind'], allowlist: string[], references: Record<string, readonly string[]>, schema: Record<string, unknown>): LifePromptPacket => ({ packet, artifactKind, schema, allowlist, references, forbidden, output });
   return [
     make(0, 'contract', ['/schemaVersion', '/session', '/game', '/assetSlots', '/provenance'], { sessionId: [bundle.session.id], gameSlug: [bundle.game.slug] }, { type: 'object', closed: true, schemaVersion: LIFE_GENERATION_SCHEMA, promptContractVersion: LIFE_GENERATION_PROMPT_VERSION, maxRound: LIFE_GENERATION_MAX_ROUND }),
-    make(1, 'world', ['/game/lifePackage/meta', '/game/lifePackage/world', '/game/lifePackage/visualSemantics', '/game/lifePackage/tileCatalog', '/game/lifePackage/scenes', '/game/lifePackage/camera', '/game/lifePackage/movement', '/game/lifePackage/interaction', '/game/lifePackage/constructionProjects'], { sceneIds: refs.sceneIds, assetKeys: refs.assetKeys }, { schemaRef: 'LifeGamePackage.v1', section: 'world', closed: true, requiresWorldVisualSemantics: true }),
-    make(2, 'actors', ['/game/lifePackage/itemCatalog', '/game/lifePackage/playerInventory', '/game/lifePackage/cropCatalog', '/game/lifePackage/calendar', '/game/lifePackage/playerVisual', '/game/lifePackage/relationships'], { actorIds: refs.actorIds, itemIds: refs.itemIds, cropIds: refs.cropIds, dialogueIds: refs.dialogueIds }, { schemaRef: 'LifeGamePackage.v1', section: 'actors', closed: true }),
+    make(1, 'world', ['/game/lifePackage/meta', '/game/lifePackage/world', '/game/lifePackage/visualSemantics', '/game/lifePackage/tileCatalog', '/game/lifePackage/scenes', '/game/lifePackage/camera', '/game/lifePackage/movement', '/game/lifePackage/interaction', '/game/lifePackage/constructionProjects'], { sceneIds: refs.sceneIds, assetKeys: refs.assetKeys }, { schemaRef: 'LifeGamePackage.v1', section: 'world', closed: true, requiresWorldVisualSemantics: true, placementsRequireExplicitWidthHeight: true, multiCellBuildingWarpsRequireInteractionPlacementId: true }),
+    make(2, 'actors', ['/game/lifePackage/itemCatalog', '/game/lifePackage/playerInventory', '/game/lifePackage/cropCatalog', '/game/lifePackage/calendar', '/game/lifePackage/playerVisual', '/game/lifePackage/relationships', '/game/lifePackage/profile'], { actorIds: refs.actorIds, itemIds: refs.itemIds, cropIds: refs.cropIds, dialogueIds: refs.dialogueIds }, {
+      schemaRef: 'LifeGamePackage.v1', section: 'actors', closed: true,
+      inventoryDesignFirst: true,
+      inventoryDesign: {
+        required: ['capacity', 'starterItems', 'loopProduces', 'loopConsumes'],
+        everyReferencedItemMustExistInCatalog: true,
+        everyItemRequiresArtSkinKeyAndExactAssetSlotConsumer: true,
+        iconCandidateApproval: 'placeholder',
+        hostInventoryPanelIsOptionalAndOutsideLifePackage: true,
+      },
+      profileDesign:{optional:true,sources:['logic.resources','relationships'],freeExpressionsForbidden:true,exactUiIconAssetSlotConsumer:true,requiresProfileReviewWhenPresent:true},
+    }),
     make(3, 'plot', ['/game/lifePackage/logic', '/game/lifePackage/milestones', '/game/lifePackage/dialogueCatalog', '/game/lifePackage/quests'], { actorIds: refs.actorIds, itemIds: refs.itemIds, dialogueIds: refs.dialogueIds, questIds: refs.questIds }, { schemaRef: 'LifeGamePackage.v1', section: 'plot', closed: true }),
-    make(4, 'asset-slots', ['/assetSlots/draft'], { assetKeys: refs.assetKeys, documents: ['life.json'] }, { schemaRef: 'AssetSlotManifest.v1', approval: 'placeholder', closed: true }),
+    make(4, 'asset-slots', ['/assetSlots/draft'], { assetKeys: refs.assetKeys, documents: ['life.json'], artDirectionIds: refs.artDirectionIds }, {
+      schemaRef: 'AssetSlotManifest.v1', artDirectionSchemaRef: LIFE_ART_DIRECTION_SCHEMA,
+      approval: 'placeholder', closed: true, profiledSlotsRequireExactDerivedPromptAndSpec: true, buildingDisplayMustMatchPlacementFootprint: true,
+    }),
   ];
 }
 

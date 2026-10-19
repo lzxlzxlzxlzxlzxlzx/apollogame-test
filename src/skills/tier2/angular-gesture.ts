@@ -74,28 +74,34 @@ export function validateAngularGesture(gesture: AngularGesture): string | undefi
   if (gesture.radiusX <= 0 || gesture.radiusY <= 0 || gesture.radiusX > 100_000 || gesture.radiusY > 100_000) return '椭圆半轴必须在 (0,100000]';
   if (!Number.isSafeInteger(gesture.angleMilliDegrees) || gesture.angleMilliDegrees < 0 || gesture.angleMilliDegrees >= FULL) return 'angleMilliDegrees 必须在 [0,360000)';
   if (gesture.grabTolerance < 0 || gesture.grabTolerance > 1 || gesture.centerDeadZone < 0 || gesture.centerDeadZone >= 1) return '握持容差/中心死区越界';
+  if (gesture.grabSegment) {
+    const segment = gesture.grabSegment;
+    if (Object.values(segment).some((value) => !Number.isFinite(value) || Math.abs(value) > 100_000)
+      || segment.radius <= 0 || segment.radius > 1_000) return '棒身握持线段必须为有限有界坐标和正半径';
+  }
   if (!Number.isSafeInteger(gesture.maxJumpMilliDegrees) || gesture.maxJumpMilliDegrees < 1 || gesture.maxJumpMilliDegrees >= HALF) return 'maxJumpMilliDegrees 越界';
   if (!Number.isSafeInteger(gesture.jitterMilliDegrees) || gesture.jitterMilliDegrees < 0 || gesture.jitterMilliDegrees >= gesture.maxJumpMilliDegrees) return 'jitterMilliDegrees 越界';
   if (!Number.isSafeInteger(gesture.fullTurnMilliDegrees) || gesture.fullTurnMilliDegrees < HALF || gesture.fullTurnMilliDegrees > FULL) return 'fullTurnMilliDegrees 越界';
   if (!gesture.clockwiseSignal?.trim() || !gesture.counterclockwiseSignal?.trim() || gesture.clockwiseSignal.length > 128 || gesture.counterclockwiseSignal.length > 128 || gesture.clockwiseSignal === gesture.counterclockwiseSignal) return '顺逆时针 Signal 必须在 1..128 字符且互异';
   if (gesture.sessionEntity !== undefined && (!gesture.sessionEntity.trim() || gesture.sessionEntity.length > 128)) return 'sessionEntity 非法';
   if (gesture.heldSource !== undefined && (!gesture.heldSource || gesture.lastPointerAngleMilliDegrees === undefined)) return '握持运行态不完整';
-  for (const key of ['heldPointerId', 'lastPointerAngleMilliDegrees', 'accumulatedMilliDegrees', 'heldStepIndex', 'lastEmitTick'] as const) {
+  for (const key of ['heldPointerId', 'lastPointerAngleMilliDegrees', 'accumulatedMilliDegrees', 'heldStepIndex', 'emittedTurns'] as const) {
     if (gesture[key] !== undefined && !Number.isSafeInteger(gesture[key])) return `${key} 必须为安全整数`;
   }
   if (gesture.lastPointerAngleMilliDegrees !== undefined && (gesture.lastPointerAngleMilliDegrees < 0 || gesture.lastPointerAngleMilliDegrees >= FULL)) return 'lastPointerAngleMilliDegrees 越界';
   if (gesture.accumulatedMilliDegrees !== undefined && Math.abs(gesture.accumulatedMilliDegrees) > FULL) return 'accumulatedMilliDegrees 越界';
   if (gesture.heldStepIndex !== undefined && gesture.heldStepIndex < 0) return 'heldStepIndex 越界';
-  if (gesture.lastEmitTick !== undefined && gesture.lastEmitTick < 0) return 'lastEmitTick 越界';
+  if (gesture.emittedTurns !== undefined && gesture.emittedTurns < 0) return 'emittedTurns 越界';
   return undefined;
 }
 
 const gestureDef = defineComponent('AngularGesture', {
   id: t.str(), centerX: t.num(), centerY: t.num(), radiusX: t.num(), radiusY: t.num(), angleMilliDegrees: t.num(),
-  grabTolerance: t.num(), centerDeadZone: t.num(), maxJumpMilliDegrees: t.num(), jitterMilliDegrees: t.num(), fullTurnMilliDegrees: t.num(),
+  grabTolerance: t.num(), grabSegment: t.opt(t.obj({ startX: t.num(), startY: t.num(), endX: t.num(), endY: t.num(), radius: t.num() })),
+  centerDeadZone: t.num(), maxJumpMilliDegrees: t.num(), jitterMilliDegrees: t.num(), fullTurnMilliDegrees: t.num(),
   clockwiseSignal: t.str(), counterclockwiseSignal: t.str(), sessionEntity: t.opt(t.str()),
   heldSource: t.opt(t.str()), heldPointerId: t.opt(t.num()), lastPointerAngleMilliDegrees: t.opt(t.num()),
-  accumulatedMilliDegrees: t.opt(t.num()), heldStepIndex: t.opt(t.num()), lastEmitTick: t.opt(t.num()),
+  accumulatedMilliDegrees: t.opt(t.num()), heldStepIndex: t.opt(t.num()), emittedTurns: t.opt(t.num()),
 }, {
   category: 'config', describe: '椭圆轨道单角度手势：位置只存整数毫度，Transform 按角度确定性派生。',
   refine: (value) => {
@@ -119,12 +125,24 @@ function sample(gesture: AngularGesture, input: RawInputData): { angle: number; 
   return { angle: angleOfEllipsePoint(nx, ny), radiusSquared: nx * nx + ny * ny };
 }
 
+/** 不读 Sprite 或像素；作者显式给出相对轨道锚点的胶囊，命中只改变起握边界。 */
+function onGrabSegment(gesture: AngularGesture, transform: Transform, input: RawInputData): boolean {
+  const segment = gesture.grabSegment;
+  if (!segment || !Number.isFinite(input.x) || !Number.isFinite(input.y)) return false;
+  const ax = transform.x + segment.startX, ay = transform.y + segment.startY;
+  const dx = segment.endX - segment.startX, dy = segment.endY - segment.startY;
+  const lengthSquared = dx * dx + dy * dy;
+  const t = lengthSquared === 0 ? 0 : Math.max(0, Math.min(1, ((input.x! - ax) * dx + (input.y! - ay) * dy) / lengthSquared));
+  const ex = input.x! - (ax + t * dx), ey = input.y! - (ay + t * dy);
+  return ex * ex + ey * ey <= segment.radius * segment.radius;
+}
+
 export const angularGestureCapability = defineCapability({
   id: 't2-angular-gesture', version: '1.0.0',
   describe: {
     name: 'angular-gesture', summary: 'tick 指针采样驱动椭圆单角度轨道，正反方向圈数产具名 Signal；位置只由角度派生。',
     semantic: ['tier2', 'input', 'gesture', 'ellipse', 'determinism'],
-    whenToUse: '搅拌棒/旋钮/磨盘：PointerInputSource 开 move:true，宿主先逆投影为世界坐标；配置椭圆轴、中心死区、跳变/抖动/满圈阈值。键盘 Q/E 另用 t2-keybind 发同名 Signal。可选 sessionEntity 防本次握持在步骤推进后误提交下一步。',
+    whenToUse: '搅拌棒/旋钮/磨盘：PointerInputSource 开 move:true，宿主先逆投影为世界坐标；配置椭圆轴、中心死区、跳变/抖动/满圈阈值。可选 grabSegment 用相对轨道锚点的胶囊接收棒身 down，后续移动仍只累计轨道角；缺省仍仅锅口环。可选 sessionEntity 防本次握持在步骤推进后误提交下一步。',
     examples: ["AngularGesture{id:'brew-rod',centerX:760,centerY:423,radiusX:105,radiusY:43,angleMilliDegrees:322758,grabTolerance:0.2,centerDeadZone:0.16,maxJumpMilliDegrees:129600,jitterMilliDegrees:500,fullTurnMilliDegrees:330000,clockwiseSignal:'brew.stir.clockwise',counterclockwiseSignal:'brew.stir.counterclockwise',sessionEntity:'cauldron'}"],
   },
   components: { provides: { AngularGesture: gestureDef }, reads: ['AngularGesture', 'InputQueue', 'Transform', 'OrderedActionSession'], writes: ['AngularGesture', 'Transform', 'Signal'], consumes: [] },
@@ -145,6 +163,7 @@ export const angularGestureCapability = defineCapability({
       for (const owner of sortedIds(world, 'AngularGesture', 'Transform')) {
         const gesture = world.getComponent<AngularGesture>(owner, 'AngularGesture')!;
         const transform = world.getComponent<Transform>(owner, 'Transform')!;
+        let emittedThisRun = false;
         const problem = validateAngularGesture(gesture);
         if (problem) { trace('reject', `${gesture.id}:配置拒收`, problem); continue; }
         if (gesture.sessionEntity && !world.getComponent<OrderedActionSession>(gesture.sessionEntity, 'OrderedActionSession')) {
@@ -163,14 +182,16 @@ export const angularGestureCapability = defineCapability({
             const first = sample(gesture, action);
             const maxRadius = 1 + gesture.grabTolerance;
             const minRadius = Math.max(gesture.centerDeadZone, 1 - gesture.grabTolerance);
-            if (!first || first.radiusSquared < minRadius * minRadius || first.radiusSquared > maxRadius * maxRadius) { trace('reject', `${gesture.id}:握持拒收`, '未命中椭圆锅口'); continue; }
+            const ringHit = !!first && first.radiusSquared >= minRadius * minRadius && first.radiusSquared <= maxRadius * maxRadius;
+            const shaftHit = onGrabSegment(gesture, transform, action);
+            if (!first || (!ringHit && !shaftHit)) { trace('reject', `${gesture.id}:握持拒收`, '未命中椭圆锅口或可选棒身'); continue; }
             gesture.heldSource = action.source;
             gesture.heldPointerId = action.pointerId;
             gesture.lastPointerAngleMilliDegrees = first.angle;
             gesture.accumulatedMilliDegrees = 0;
             const session = gesture.sessionEntity ? world.getComponent<OrderedActionSession>(gesture.sessionEntity, 'OrderedActionSession') : undefined;
             gesture.heldStepIndex = session?.stepIndex ?? 0;
-            gesture.angleMilliDegrees = first.angle;
+            if (ringHit && !shaftHit) gesture.angleMilliDegrees = first.angle;
             place(); trace('transition', `${gesture.id}:idle→held`);
             continue;
           }
@@ -185,7 +206,7 @@ export const angularGestureCapability = defineCapability({
           const motion = action.phase === 'drag' ? { ...action, x: action.values?.[0], y: action.values?.[1] } : action;
           try {
             const session = gesture.sessionEntity ? world.getComponent<OrderedActionSession>(gesture.sessionEntity, 'OrderedActionSession') : undefined;
-            if (session && gesture.lastEmitTick !== undefined && (session.status !== 'active' || session.stepIndex !== gesture.heldStepIndex)) {
+            if (session && (session.status !== 'active' || session.stepIndex !== gesture.heldStepIndex)) {
               trace('reject', `${gesture.id}:跨步采样拒收`, `step=${session.stepIndex}`); continue;
             }
             const next = sample(gesture, motion);
@@ -197,14 +218,16 @@ export const angularGestureCapability = defineCapability({
             place();
             if (Math.abs(delta) < gesture.jitterMilliDegrees) { trace('reject', `${gesture.id}:抖动拒收`, `delta=${delta}`); continue; }
             gesture.accumulatedMilliDegrees = (gesture.accumulatedMilliDegrees ?? 0) + delta;
-            if (Math.abs(gesture.accumulatedMilliDegrees) < gesture.fullTurnMilliDegrees || gesture.lastEmitTick === world.getVersion()) continue;
+            if (Math.abs(gesture.accumulatedMilliDegrees) < gesture.fullTurnMilliDegrees || emittedThisRun) continue;
             const clockwise = gesture.accumulatedMilliDegrees > 0;
             const name = clockwise ? gesture.clockwiseSignal : gesture.counterclockwiseSignal;
-            const id = `${OUTPUT_PREFIX}${owner}:${world.getVersion()}`;
+            const nextTurn = (gesture.emittedTurns ?? 0) + 1;
+            const id = `${OUTPUT_PREFIX}${owner}:${nextTurn}`;
             if (!world.getAllEntities().includes(id)) {
               world.createEntity(id);
               world.addComponent<Signal>(id, { type: 'Signal', name, source: owner });
-              gesture.lastEmitTick = world.getVersion();
+              gesture.emittedTurns = nextTurn;
+              emittedThisRun = true;
               gesture.accumulatedMilliDegrees = 0;
               trace('commit', `${gesture.id}:${name}`, '满圈提交');
             }

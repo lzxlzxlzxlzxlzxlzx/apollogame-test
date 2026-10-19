@@ -9,7 +9,7 @@ import { applyCommands } from '@zerocraft/engine/net/commands.js';
 import { hashWithOrder } from '@zerocraft/engine/net/index.js';
 import { collectLifeSceneRender } from '@zerocraft/engine/renderer/life-scene-render.js';
 import localIndex from '../../public/games/game-simlife/art/index.json';
-import { CanvasRenderer, planLifeVisualDraw } from '../../src/renderer/canvas-renderer.js';
+import { CanvasRenderer, planLifeVisualDraw } from '@zerocraft/engine/renderer/canvas-renderer.js';
 import {
   createLifeDemoSession,
   LITTLE_VALLEY_VISUAL_CATALOG,

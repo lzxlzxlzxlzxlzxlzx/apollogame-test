@@ -2,7 +2,7 @@ export {
   installLifeKeyboard as installLifeDemoKeyboard,
   reduceLifeInput,
   EMPTY_LIFE_INPUT_STATE,
-} from '../../src/engine/host/life-input.js';
+} from '@zerocraft/engine/engine/host/life-input.js';
 export type {
   LifeKeyboardBinding as LifeDemoKeyboardBinding,
   LifeKeyboardSink as LifeDemoKeyboardSink,
@@ -10,4 +10,4 @@ export type {
   LifeInputEvent,
   LifeInputReduction,
   LifeInputState,
-} from '../../src/engine/host/life-input.js';
+} from '@zerocraft/engine/engine/host/life-input.js';

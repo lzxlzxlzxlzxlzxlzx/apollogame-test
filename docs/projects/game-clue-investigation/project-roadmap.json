@@ -51,7 +51,7 @@
       "id": "s2-capability-and-contract",
       "title": "S2 能力计划与宿主合同冻结",
       "track": "架构与接入",
-      "description": "S1、S2 均已由 Owner 控制台终审通过。S2 技术自检与非施工者独立复查 PASS：静态/动态 PNG 实形命中能力闭环，严格 DokiWorld v1 设计合同已冻结。",
+      "description": "S1、S2 Owner 人门已批准。2026-10-14 UI-only manifest 更新后，非施工者按当前 hash 7683030b1df8ad2c 刷新复查为 CONCERNS：8 文件/125 测试通过、严格装载 warnings[]；唯一关注仍为计划 j1-state 与 manifest f1-resource:selected-object 偏差，不阻断玩法实现。",
       "status": "done",
       "dependsOn": [
         "s1-project-and-prototype"
@@ -106,6 +106,11 @@
           "kind": "review",
           "ref": "docs/design/game-clue-investigation/review/S2-independent.md",
           "label": "S2 能力计划与宿主合同非施工者独立复查 PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/S2-refresh-independent-2026-10-14.md",
+          "label": "当前 manifest hash 的 S2 刷新独立复查 CONCERNS"
         }
       ],
       "gates": {
@@ -118,8 +123,8 @@
       "id": "s3-s4-playable-slice",
       "title": "S3–S4 骨架与完整可玩调查链",
       "track": "玩法",
-      "description": "S3 灰盒骨架已完成：真实卡带渲染、Canvas 指针→InputQueue→Clickable 具名 Signal、正式机器门 exit 0，非施工者独立复查 PASS（含两轮撤修验红）。S4 完整调查玩法、UI/输入可及性及验收剧本仍待施工与复查；本合并里程碑未完成，Owner 人门不得代签。",
-      "status": "active",
+      "description": "Owner S3/S4已批准。2026-10-14 UI-only manifest hash 7683030b1df8ad2c 后，S3/S4机器门与异人复查均已刷新PASS；S3 14/14、S4 15/15，GD5/5共67检查点、bench95、UIwalk42/42，撤修锚点均验红。S2 j1-state/Resource偏差仍CONCERNS；完整视觉对齐仍属S5/S6。",
+      "status": "done",
       "dependsOn": [
         "s2-capability-and-contract"
       ],
@@ -146,6 +151,11 @@
         },
         {
           "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/S3-manifest-ui-correction-independent-2026-10-14.md",
+          "label": "当前 manifest hash 的 S3 刷新独立复查 PASS"
+        },
+        {
+          "kind": "review",
           "ref": "docs/design/game-clue-investigation/review/REQ-S3CART-RENDER-independent.md",
           "label": "S3 真实卡带渲染探针独立复查 PASS"
         },
@@ -163,20 +173,95 @@
           "kind": "artifact",
           "ref": "public/games/game-clue-investigation/probe/S3-render.json",
           "label": "S3 真卡带渲染 gameMounted=true"
+        },
+        {
+          "kind": "issue",
+          "ref": "docs/design/game-clue-investigation/requests.md",
+          "label": "GCI-S4-UI-01 Owner A 裁决与世界层偏差实证"
+        },
+        {
+          "kind": "test",
+          "ref": "docs/design/game-clue-investigation/acceptance/03-optional-and-completion.scenario.jsonc",
+          "label": "S4 五份 GD 验收剧本代表；runner 5/5、67 检查点 PASS"
+        },
+        {
+          "kind": "test",
+          "ref": "games/game-clue-investigation/s4-interaction.test.ts",
+          "label": "S4 指针、冻结、幂等、确定性与 LayoutNode 定向测试 5/5 PASS"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-clue-investigation/s4-ui-map.md",
+          "label": "S4 定稿原型到结构 UI/动作数据映射"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/REQ-GCI-CART-UI-BRIDGE.md",
+          "label": "GCI-S4-UI-01 当前共享桥重新独立复查 PASS；全库门禁另红"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-clue-investigation/self-check/S4-alignment.md",
+          "label": "S4 对齐 8 绿、3 有去向、0 红；21 张真浏览器图"
+        },
+        {
+          "kind": "test",
+          "ref": "docs/design/game-clue-investigation/self-check/s4-browser-probe.mjs",
+          "label": "S4 原型/真卡带短时浏览器旅程"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-clue-investigation/self-check/shots/S4-01-idle.png",
+          "label": "S4 真实卡带 1440×900 初始截图"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/design/game-clue-investigation/self-check/shots/S4-05-completed.png",
+          "label": "S4 完成态真浏览器截图"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/REQ-GCI-PIPELINE-WRITE.md",
+          "label": "共享流程 CLI Windows 写入修复独立复查 PASS；真实 S3 门待重跑"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/S4-manifest-ui-correction-independent-2026-10-14.md",
+          "label": "当前 manifest hash 的 S4 刷新独立复查 PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/S4-preliminary-independent-2026-10-13.md",
+          "label": "S4 非施工者独立复查更新 PASS；真手势 42/42、GD 5/5、锚点撤修验红"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/REQ-GCI-POINTER-PROJECTION.md",
+          "label": "POINTER-02 共享同源 alpha 指针能力独立复查 PASS，不代替游戏 S4"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/REQ-CART-UIWALK-ADAPTER.md",
+          "label": "通用卡带真界面走查适配器非施工者独立复查 PASS，不代签 S4"
+        },
+        {
+          "kind": "artifact",
+          "ref": "public/games/game-clue-investigation/probe/S4-uiwalk.json",
+          "label": "S4 UIwalk 真卡带 42/42，49 waitUntil 与 18 未核断言分列"
         }
       ],
       "gates": {
-        "selfCheck": "pending",
-        "review": "pending",
-        "owner": "required"
+        "selfCheck": "pass",
+        "review": "pass",
+        "owner": "approved"
       }
     },
     {
       "id": "s5-s6-visual-performance",
       "title": "S5–S6 美术、音频与演出 1:1",
       "track": "视觉与演出",
-      "description": "接入场景、证物、框皮和声音资产，按定稿原型收敛热点反馈、线索特写、收录与完成演出。",
-      "status": "planned",
+      "description": "Owner此前已通过该阶段。2026-10-14 修正四个HUD面板棕边/移除玻璃、标题黄铜条、清单标题去框与圆点；异人按当前 hash 7683030b1df8ad2c 复查：78文件/591测试、严格manifest warnings[]、14态UI审计零阻断、真浏览器六图/零错误、唯一锚点撤修exit1且恢复exit0。S5 review 为 CONCERNS：三项修复可见，但无 blessed golden shot、历史布局基线不足，且 S6 整页 1:1 仍 FAIL。S7 为本地2D预览口径 16/24 PREMIUM:YES；Owner人门待审。八张AI图仅预览素材，正式局全部图像由DokiWorlds传入。",
+      "status": "active",
       "dependsOn": [
         "s3-s4-playable-slice"
       ],
@@ -185,7 +270,133 @@
         "原型与真实游戏同画布截图及关键帧差异清零或有裁决",
         "reduced-motion、资源失败降级和音频静默降级可用"
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "kind": "test",
+          "ref": "docs/design/game-clue-investigation/self-check/S7-ui-scorecard-fixes-self-check-2026-10-14.md",
+          "label": "S7三项UI差异返修与定向自检"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/S5-S7-refresh-independent-2026-10-14.md",
+          "label": "当前 hash 的 S5 独立复查 CONCERNS 与 S7 16/24 本地预览评分；S6整页视觉差异保留"
+        },
+        {
+          "kind": "test",
+          "ref": "public/games/game-clue-investigation/pipeline.json",
+          "label": "当前hash的S5机器门exit0；无golden标准照告警保留"
+        },
+        {
+          "kind": "test",
+          "ref": "docs/design/game-clue-investigation/self-check/S5-alignment.md",
+          "label": "S5 UI 自检与剩余S6差异"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/S5-independent-2026-10-13.md",
+          "label": "S5异人复查CONCERNS：几何返修、14轮审计、独立撤修"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-clue-investigation/review/S6-cart-art-preflight.md",
+          "label": "S6 卡带资产接缝预检与 A/B 待裁决"
+        },
+        {
+          "kind": "test",
+          "ref": "docs/design/game-clue-investigation/review/S6-assets-import.md",
+          "label": "S6资产导入自检，非整关完成"
+        },
+        {
+          "kind": "test",
+          "ref": "games/game-clue-investigation/s6-alpha.test.ts",
+          "label": "S6候选真PNG映射9/9，尚非浏览器验收"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/S6-assets-candidate-independent.md",
+          "label": "S6资产与候选局部独立复查PASS；不含正式桥及浏览器"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/REQ-GCI-CART-ART-BRIDGE.md",
+          "label": "通用资产桥功能局部PASS；全库CONCERNS"
+        },
+        {
+          "kind": "test",
+          "ref": "docs/design/game-clue-investigation/self-check/S6-alignment.md",
+          "label": "正式PNG自证；共享点击门阻塞，非整关通过"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/S6-formal-independent.md",
+          "label": "正式PNG行为独立PASS；S3共享探针门FAIL，未越门"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-clue-investigation/self-check/S6-visual-gap-preflight.md",
+          "label": "S6视觉缺口实查与Owner A/遮罩0.9裁决"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/REQ-GCI-LEDGER-READPATH.md",
+          "label": "卡带台账三入口与显式缺账独立PASS；S6仍0复核"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/REQ-GCI-MASK-CLICK-PROBE.md",
+          "label": "S3 mask点击探针局部独立PASS；正式门被S2过期复查拦截"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-clue-investigation/self-check/S6-visual-remaining-capabilities.md",
+          "label": "UI-03九态补充实查与待Owner裁决"
+        },
+        {
+          "kind": "test",
+          "ref": "docs/design/game-clue-investigation/self-check/S6-ui02-candidate-status.md",
+          "label": "UI-02候选几何通过、原型对比冲突待裁；非正式完成"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/GCI-S6-UI-02.md",
+          "label": "UI-02共享闭集字段异人独立复查PASS；非游戏S6通过"
+        },
+        {
+          "kind": "document",
+          "ref": "docs/design/game-clue-investigation/self-check/S6-ui02-formal-freeze.md",
+          "label": "UI02正式批次冻结与实跑，待独立复查"
+        },
+        {
+          "kind": "issue",
+          "ref": "docs/design/game-clue-investigation/self-check/S6-final-visual-preflight.md",
+          "label": "UI04剩余视觉实查与批量A/B待裁"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/GCI-S6-UI-03-independent.md",
+          "label": "独立局部复查；非S6整关完成"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/S6-ui02-formal-independent.md",
+          "label": "独立局部复查；非S6整关完成"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/GCI-S6-UI-04-independent.md",
+          "label": "UI04共享字段独立局部PASS；非游戏接线完成"
+        },
+        {
+          "kind": "test",
+          "ref": "docs/design/game-clue-investigation/self-check/S6-ui034-formal-freeze.md",
+          "label": "UI03/04正式消费最终自检；等待独立游戏复查"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/S6-ui034-formal-independent.md",
+          "label": "UI03/04正式异人复查：局部PASS、整页1:1 FAIL"
+        }
+      ],
       "gates": {
         "selfCheck": "pending",
         "review": "pending",
@@ -196,8 +407,8 @@
       "id": "s7-s8-dokiworld-delivery",
       "title": "S7–S8 DokiWorld 联调与交付",
       "track": "SDK 与发行",
-      "description": "完成 schema 3 manifest、严格合同、十二章调用说明、资产闭包、真 dist、假宿主与 DokiWorld 子路径验收。",
-      "status": "planned",
+      "description": "正式 DokiWorld App 候选 v0.2.0 已实现：接收合同化现场输入、加载宿主背景/物件 PNG 与像素 mask，完成后单次回传搜证结果；调用文档与 ZIP 已生成。施工自检与非施工者对正式候选/假宿主协议/ZIP 闭包的窄范围复查 PASS；Owner 先前已验证 0.1.0 文档接收实验可读。正式 0.2.0 的真实 DokiWorld 平台导入/运行仍待 Owner 验证。全游戏 S8 终检独立复查仍 FAIL（见 S8-independent-2026-10-14.md），不开放 Owner S8 人门；本地包窄 PASS 不覆盖该 FAIL。",
+      "status": "active",
       "dependsOn": [
         "s5-s6-visual-performance"
       ],
@@ -206,10 +417,51 @@
         "dist 文档、资产闭包、SHA、新鲜度和子路径全部通过",
         "独立复查与 Owner 最终交付人门通过"
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "kind": "document",
+          "ref": "docs/design/game-clue-investigation/self-check/S7-doki-preflight.md",
+          "label": "宿主会话接缝实查与A/B，尚无交付包"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/GCI-S7-HOST-SESSION-01-independent.md",
+          "label": "GCI-S7 共享宿主会话桥非施工者独立复查 PASS"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/S8-independent-2026-10-14.md",
+          "label": "S8 终检独立复查 FAIL；不代签 Owner 人门"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/S8-doc-ingestion-package-independent-2026-10-14.md",
+          "label": "文档接收实验包局部独立复查 PASS；不代表 S8 或平台验证"
+        },
+        {
+          "kind": "document",
+          "ref": "dokiworld/game-clue-investigation/docs/integration.zh-CN.md",
+          "label": "DokiWorld 正式输入输出与接入调用说明 v0.2.0"
+        },
+        {
+          "kind": "artifact",
+          "ref": "release/game-clue-investigation/game-clue-investigation-dokiworld.zip",
+          "label": "正式 DokiWorld 0.2.0 上传候选 ZIP；待 Owner 平台实测"
+        },
+        {
+          "kind": "test",
+          "ref": "docs/design/game-clue-investigation/self-check/S8-dokiworld-formal-package-2026-10-14.md",
+          "label": "正式 0.2.0 候选自检；平台导入与全游戏 S8 未完成"
+        },
+        {
+          "kind": "review",
+          "ref": "docs/design/game-clue-investigation/review/S8-dokiworld-formal-package-independent-2026-10-14.md",
+          "label": "正式候选与 ZIP 窄范围独立 PASS；不覆盖全游戏 S8 FAIL"
+        }
+      ],
       "gates": {
         "selfCheck": "pending",
-        "review": "pending",
+        "review": "fail",
         "owner": "required"
       }
     }

@@ -11,13 +11,10 @@ function skinKeys(value: unknown): string[] {
 }
 
 describe('Little Valley AssetSlotBrief vertical slice', () => {
-  it('closes every Life visual key while keeping the two new surface candidates pending human asset review', () => {
+  it('closes every Life visual key after owner-approved surface assets enter the game-local index', () => {
     const keys = [...new Set(skinKeys(rawLife))].sort();
     expect(validateAssetSlotManifest(LITTLE_VALLEY_ASSET_SLOTS)).toEqual([]);
-    expect(validateAssetSlotClosure(LITTLE_VALLEY_ASSET_SLOTS, { 'little-valley.life.json': rawLife }, parseAssetIndex(localIndex), keys)).toEqual([
-      { path: 'slot:little-valley.tile.farmable-earth', code: 'missing_asset', message: 'art:little-valley:tile:farmable-earth must resolve to a filled texture' },
-      { path: 'slot:little-valley.tile.watered-soil', code: 'missing_asset', message: 'art:little-valley:tile:watered-soil must resolve to a filled texture' },
-    ]);
+    expect(validateAssetSlotClosure(LITTLE_VALLEY_ASSET_SLOTS, { 'little-valley.life.json': rawLife }, parseAssetIndex(localIndex), keys)).toEqual([]);
     expect(LITTLE_VALLEY_ASSET_SLOTS.slots).toHaveLength(23);
     expect(skinKeys(rawLife)).toHaveLength(26); // two dynamic surfaces plus the return landmark reuse are explicit consumers
   });

@@ -17,17 +17,17 @@
         "usage": "sprite",
         "colorSpace": "srgb",
         "outputPx": {
-          "width": 32,
-          "height": 48
+          "width": 384,
+          "height": 512
         },
         "alpha": "transparent",
-        "sampling": "nearest"
+        "sampling": "linear"
       },
       "render": {
         "display": {
-          "unit": "pixel",
-          "width": 29,
-          "height": 43
+          "unit": "cell",
+          "width": 1,
+          "height": 1.5
         },
         "anchor": {
           "x": 0.5,
@@ -42,21 +42,24 @@
       },
       "generation": {
         "briefVersion": 1,
-        "styleId": "pixel.moonshadow-castle",
-        "prompt": "月影城堡的少女魔王，32位像素角色，俯视三分之四角，全身，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "styleId": "life.illustrated-2d.v1",
+        "semanticPrompt": "少女魔王建设者，月银王冠、深靛斗篷与紫罗兰月光，俯视三分之四全身，双脚落点清晰，透明背景",
+        "prompt": "high-detail illustrated 2D, non-pixel-art, readable at gameplay scale; cohesive hand-painted gameplay asset, consistent lighting, material language and palette; transparent background, full-body character, bottom-center feet anchor; 少女魔王建设者，月银王冠、深靛斗篷与紫罗兰月光，俯视三分之四全身，双脚落点清晰，透明背景",
         "negativePrompt": [
+          "photorealistic camera noise",
+          "3D render",
+          "pixel art",
+          "sprite sheet",
+          "UI",
           "text",
-          "watermark",
-          "photorealistic",
-          "isometric grid",
-          "cropped subject"
+          "border"
         ]
       },
       "governance": {
         "approval": "placeholder",
         "humanApprovalRequired": true,
         "licenseRequired": true,
-        "briefFingerprint": "asset-slot-v1:3041bdb1"
+        "briefFingerprint": "asset-slot-v1:5c18a301"
       }
     },
     {
@@ -73,17 +76,17 @@
         "usage": "sprite",
         "colorSpace": "srgb",
         "outputPx": {
-          "width": 32,
-          "height": 48
+          "width": 384,
+          "height": 512
         },
         "alpha": "transparent",
-        "sampling": "nearest"
+        "sampling": "linear"
       },
       "render": {
         "display": {
-          "unit": "pixel",
-          "width": 29,
-          "height": 43
+          "unit": "cell",
+          "width": 1,
+          "height": 1.5
         },
         "anchor": {
           "x": 0.5,
@@ -98,21 +101,24 @@
       },
       "generation": {
         "briefVersion": 1,
-        "styleId": "pixel.moonshadow-castle",
-        "prompt": "石像鬼工匠，暗紫石翼与铁匠围裙，32位像素角色，俯视三分之四角，全身，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "styleId": "life.illustrated-2d.v1",
+        "semanticPrompt": "石像鬼工匠，暗紫石翼、铁匠围裙与冷银工具，俯视三分之四全身，双脚落点清晰，透明背景",
+        "prompt": "high-detail illustrated 2D, non-pixel-art, readable at gameplay scale; cohesive hand-painted gameplay asset, consistent lighting, material language and palette; transparent background, full-body character, bottom-center feet anchor; 石像鬼工匠，暗紫石翼、铁匠围裙与冷银工具，俯视三分之四全身，双脚落点清晰，透明背景",
         "negativePrompt": [
+          "photorealistic camera noise",
+          "3D render",
+          "pixel art",
+          "sprite sheet",
+          "UI",
           "text",
-          "watermark",
-          "photorealistic",
-          "isometric grid",
-          "cropped subject"
+          "border"
         ]
       },
       "governance": {
         "approval": "placeholder",
         "humanApprovalRequired": true,
         "licenseRequired": true,
-        "briefFingerprint": "asset-slot-v1:cb16960d"
+        "briefFingerprint": "asset-slot-v1:688e07d8"
       }
     },
     {
@@ -693,17 +699,17 @@
         "usage": "sprite",
         "colorSpace": "srgb",
         "outputPx": {
-          "width": 64,
-          "height": 64
+          "width": 512,
+          "height": 512
         },
         "alpha": "transparent",
-        "sampling": "nearest"
+        "sampling": "linear"
       },
       "render": {
         "display": {
-          "unit": "pixel",
-          "width": 64,
-          "height": 64
+          "unit": "cell",
+          "width": 2,
+          "height": 2
         },
         "anchor": {
           "x": 0.5,
@@ -718,21 +724,24 @@
       },
       "generation": {
         "briefVersion": 1,
-        "styleId": "pixel.moonshadow-castle",
-        "prompt": "通往月影森林的黑石拱门，月光藤蔓，顶视三分之四像素建筑，透明背景；风格统一为精致 32 位像素模拟经营游戏美术，深靛蓝、月银、紫罗兰色调，无文字，无水印",
+        "styleId": "life.illustrated-2d.v1",
+        "semanticPrompt": "通往月影森林的常春藤黑石拱门，蓝色森林开口与月光藤蔓，俯视三分之四建筑，透明背景",
+        "prompt": "high-detail illustrated 2D, non-pixel-art, readable at gameplay scale; cohesive hand-painted gameplay asset, consistent lighting, material language and palette; transparent background, readable building silhouette, bottom-center footprint anchor; 通往月影森林的常春藤黑石拱门，蓝色森林开口与月光藤蔓，俯视三分之四建筑，透明背景",
         "negativePrompt": [
+          "photorealistic camera noise",
+          "3D render",
+          "pixel art",
+          "sprite sheet",
+          "UI",
           "text",
-          "watermark",
-          "photorealistic",
-          "isometric grid",
-          "cropped subject"
+          "border"
         ]
       },
       "governance": {
         "approval": "placeholder",
         "humanApprovalRequired": true,
         "licenseRequired": true,
-        "briefFingerprint": "asset-slot-v1:7fcec7c3"
+        "briefFingerprint": "asset-slot-v1:8bdf0fbb"
       }
     },
     {
@@ -1300,14 +1309,34 @@
       }
     },
     {
+      "slotId": "demon-castle.ui-icon.dread",
+      "assetKey": "art:demon-castle:ui-icon:dread",
+      "kind": "ui-icon",
+      "consumers": [{ "document": "life.json", "jsonPointer": "/profile/attributes/0/iconSkinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 24, "height": 24 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "ui-icon" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.moonshadow-castle", "prompt": "透明背景的魔王威仪小图标，月银王冠与紫色火焰轮廓，清晰32位像素图标，无文字无边框", "negativePrompt": ["text", "watermark", "background", "border", "photorealistic"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:6949b0f2" }
+    },
+    {
+      "slotId": "demon-castle.ui-icon.artisan-bond",
+      "assetKey": "art:demon-castle:ui-icon:artisan-bond",
+      "kind": "ui-icon",
+      "consumers": [{ "document": "life.json", "jsonPointer": "/profile/attributes/1/iconSkinKey" }],
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "transparent", "sampling": "nearest" },
+      "render": { "display": { "unit": "pixel", "width": 24, "height": 24 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "contain", "offset": { "x": 0, "y": 0 }, "fallbackRole": "ui-icon" },
+      "generation": { "briefVersion": 1, "styleId": "pixel.moonshadow-castle", "prompt": "透明背景的工匠盟约小图标，交叠的石翼与月银锤，清晰32位像素图标，无文字无边框", "negativePrompt": ["text", "watermark", "background", "border", "photorealistic"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:aa1eee0e" }
+    },
+    {
       "slotId": "demon-castle.tile.moon-courtyard",
       "assetKey": "art:demon-castle:tile:moon-courtyard",
       "kind": "tile",
       "consumers": [{ "document": "life.json", "jsonPointer": "/tileCatalog/courtyard-ground/visual/skinKey" }],
-      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 32, "height": 32 }, "alpha": "opaque", "sampling": "nearest" },
+      "asset": { "usage": "sprite", "colorSpace": "srgb", "outputPx": { "width": 256, "height": 256 }, "alpha": "opaque", "sampling": "linear" },
       "render": { "display": { "unit": "cell", "width": 1, "height": 1 }, "anchor": { "x": 0.5, "y": 0.5 }, "fit": "cover", "offset": { "x": 0, "y": 0 }, "fallbackRole": "ground" },
-      "generation": { "briefVersion": 1, "styleId": "pixel.moonshadow-castle", "prompt": "无缝平铺的月影城堡庭院深靛蓝板岩地砖，俯视32位像素纹理，月银石缝与少量紫苔，无文字无边框", "negativePrompt": ["text", "watermark", "perspective", "isometric grid", "border"] },
-      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:fe3df546" }
+      "generation": { "briefVersion": 1, "styleId": "life.illustrated-2d.v1", "semanticPrompt": "中性冷灰月影庭院石材，月银石缝与少量紫苔，无缝可平铺俯视地表", "prompt": "high-detail illustrated 2D, non-pixel-art, readable at gameplay scale; cohesive hand-painted gameplay asset, consistent lighting, material language and palette; seamless repeatable opaque surface, orthographic top-down tile; 中性冷灰月影庭院石材，月银石缝与少量紫苔，无缝可平铺俯视地表", "negativePrompt": ["photorealistic camera noise", "3D render", "pixel art", "sprite sheet", "UI", "text", "border"] },
+      "governance": { "approval": "placeholder", "humanApprovalRequired": true, "licenseRequired": true, "briefFingerprint": "asset-slot-v1:b43a7a2c" }
     },
     {
       "slotId": "demon-castle.tile.moon-garden-earth",

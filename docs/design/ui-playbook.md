@@ -194,3 +194,17 @@ node tools/ui-audit.mjs tools/audits/<你的页面>.audit.ts    # 退出码 0=�
 - **审计当场抓 bug（工具的价值演示）**：当前 `ui-audit` 对 MMO HUD 报 **3 处硬失败**——聊天页签「综合/战斗/交易」黑字 ratio≈1.09。**这不是数据错，是 `renderTabs` 撞上 `style 引号截断` 引擎 bug**（color 排在 font-family 后被吞→回退黑色·已报 `requests.md`·波及所有 Tabs）。肉眼以为「页签偏暗」，工具量出「纯黑不可读」——**这正说明对比度要程序量、不能靠看**。主程修序列化后即转绿。
 
 > 一句话给 LLM：**做 UI 前读 catalog + 抄 game-i；做完跑 `validate` + `tools/ui-audit.mjs`；重叠和糊字是你自己的责任，靠工具量、不是等用户来挑。**
+
+---
+
+## 8. PUI 可访问性 policy（REQ-GAL-PUI-ACCESSIBILITY-POLICY-01）
+
+`mountUI` 的第七参以及 `MountHandle.update(root, theme?, motion?, accessibility?)` 接收 `UIAccessibilityPolicy`。它是宿主从作品 Profile 投影的 render-only 数据，绝不进入 `LayoutNode`、World、hash 或 `ActionSink`。
+
+- `highContrast:true` 在作品主题之后覆盖语义 token，并给 `:focus-visible` 固定高可见焦点环；它不是滤镜，也不改作者明确使用的 custom 色或贴图皮。
+- `scale` 闭集为 `'90'|'100'|'110'`；`'100'`/缺省不写宿主样式。非默认值使用布局 zoom，使实际命中区与键盘焦点坐标同视觉倍率变化；宿主仍负责自己的安全区与滚动容器。
+- 对冻结原型的游戏，只有在 Owner 重新确认原型的可见枚举、文案和布局之后，消费者才能启用非默认档；本 PUI 合同本身不授权改任何游戏设置页。
+
+施工自证：`npx vitest run src/ui/components/accessibility-policy.test.ts src/ui/components/motion-policy.test.ts`（默认零漂移、三档缩放、热更新、焦点/Modal、双 mount/teardown）与 `node tools/ui-audit.mjs src/ui/components/accessibility-policy.audit.ts --w 1060 --h 760 --min-contrast 4.5`（真浏览器的重叠/对比/边框审计）。撤修锚点是 `accessibility-policy.test.ts` 中 `scale:'110' → zoom:'1.1'` 和 `highContrast → text:'#ffffff'` 的点名断言：去除任一闭集映射或高对比语义覆盖必须转红。
+
+独立复查人不得采信施工者输出：先独立重跑上述命令，再在隔离 worktree 删除 `case '110'` 或高对比 `text` 覆盖，以同一条点名断言确认转红，恢复后复跑；同时确认未修改 `src/services/gal-*`、V2 原型或消费者。

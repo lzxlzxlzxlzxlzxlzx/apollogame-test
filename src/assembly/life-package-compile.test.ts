@@ -26,6 +26,24 @@ describe('LifeGamePackage static Manifest compiler', () => {
     expect(manifest.entities[lifeEntityId('placement', 'farm', 'berry-bush')]).toMatchObject({ LifeResourceNode: { action: 'forage', itemId: 'resource.berry', remaining: 3 } });
   });
 
+  it('compiles an explicit placement footprint while legacy and landmark-only warps remain exact 1x1', () => {
+    const raw = copy(threeSceneLifePackage()) as any;
+    raw.scenes[0].placements.push({ id: 'farm-gate', kind: 'building', x: 2, y: 0, width: 2, height: 2, prefabRef: 'building.farm-gate', skinKey: 'building:farm-gate' });
+    raw.scenes[0].warps[0].interactionPlacementId = 'farm-gate';
+    raw.scenes[0].warps[1].landmarkPlacementId = 'farm-gate';
+    const manifest = compileLifeGamePackage(raw);
+    expect(manifest.entities[lifeEntityId('warp', 'town', 'town-farm-door')]!.LifeWarp).toMatchObject({ x: 2, y: 0, width: 2, height: 2 });
+    expect(manifest.entities[lifeEntityId('warp', 'town', 'town-river-door')]!.LifeWarp).toMatchObject({ x: 3, y: 3, width: 1, height: 1 });
+  });
+
+  it('compiles profile metadata without copying current authoritative values',()=>{
+    const raw=copy(threeSceneLifePackage()) as any;
+    raw.logic={resources:[{id:'renown',initial:4,min:0,max:10}]};
+    raw.profile={titleKey:'Profile',attributes:[{id:'renown',titleKey:'Renown',display:'gauge',source:{kind:'resource',id:'renown'},iconSkinKey:'art:ui:renown'}]};
+    expect(compileLifeGamePackage(raw).entities['life:profile-catalog']).toEqual({LifeProfileCatalog:{titleKey:'Profile',attributes:raw.profile.attributes}});
+    expect(JSON.stringify(compileLifeGamePackage(raw).entities['life:profile-catalog'])).not.toContain('current');
+  });
+
   it('compiles the engine-owned Life viewport profile and start-scene Bounds without changing the legacy default', () => {
     const raw = threeSceneLifePackage() as any;
     raw.camera = { profile: 'life-standard-v1' };

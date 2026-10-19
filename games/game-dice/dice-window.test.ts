@@ -44,7 +44,7 @@ describe('game-dice 悬浮判定窗', () => {
   });
 
   it('正式宿主会话提示自动掷骰，本地预览仍保留手动提示', () => {
-    const input = { dice: [{ sides: 6 as const }], backdrop: 'arcane-vault' };
+    const input = { dice: [{ sides: 6 as const }], backdrop: 'arcane-vault' as const };
     expect(renderNode(buildDiceWindow(input, { autoRoll: true }), DICE_WINDOW_THEME)).toContain('骰子即将掷出');
     expect(renderNode(buildDiceWindow(input), DICE_WINDOW_THEME)).toContain('点击骰子');
   });

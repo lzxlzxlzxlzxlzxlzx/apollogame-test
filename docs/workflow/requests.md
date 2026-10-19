@@ -8,33 +8,20 @@
 
 ## 待处理 / 进行中
 
-### REQ-POTION-ORDERED-ACTION · 通用有序动作会话 · [2026-10-12] · Owner 选择 A · **施工主体 = Codex/root（Owner 本会话准许本地领工锁）** · status: in-progress · P1 · 类型: 引擎确定性规则能力
+### REQ-SIMLIFE-PUI-ICON-FEEDBACK-01 · 图标按钮精确反馈 · Owner A · 施工主体=PUI Codex/root（2026-10-16 本地领锁） · status: in-progress · P1
 
-**实查与裁决**：`t3-flow`/`t2-event-when` 不按运行时完整具名 Signal 顺序校验；`t2-craft-recipe` 只做资源交易，无法表达重复材料、方向圈数、错序立即失败。Owner 已选 A 下沉可复用能力，拒绝游戏层解释器。完整、已冻结的 G1 规格与 A/B 代价见 `docs/design/game-potion-brewing/requests.md`「GAP-POTION-01」，机读缺口为 `capability-gaps.json` 的 G1；本票不重抄以免漂移。
+- 已实查skinFeedback仅用于贴图皮，不能组合表达无皮iconOnly的hover -3px/1.2/5px轮廓光、pressed +3px/.85及disabled视觉；Owner直接选择通用PUI路线。[固定规格/实证/边界](../design/game-demon-castle/work-orders/REQ-SIMLIFE-PUI-ICON-FEEDBACK-01.md)。仅PUI闭集表现合同，旧行为兼容；BDM后续只消费。不是Label/极长名称改造单，不含资产或人门。
 
-**施工边界与验收**：新增严格闭集 `t2-ordered-action-session`：步骤按 `expectedAction`、有界 `requiredCount` 逐项消费；仅处理声明动作，其它 UI Signal 不误杀；同 tick 全序/去重、重复材料、尾步成功一次、错误立即失败、终局拒收。加 opt-in DebugTrace（每 system 每 tick ≤3）、确定性快照/hash、系统图无新环；两份原型配方、乱序/同拍/恢复的点名测试与锚点撤修验红，非施工者独立复查。不得写游戏专属规则。G1 复查通过后才从公共池释放并将缺口改 `delivered`；随后依序入池 G2，不并占四票。
+### REQ-SIMLIFE-PUI-ICON-BUTTON-01 · 原生可访问图标按钮 · Owner A · 施工主体 = PUI Codex/root（2026-10-16 本地领锁） · status: in-progress · P1
 
-**领工状态**：Owner 于本会话明确准许炼药 G1–G4 用工单本地施工主体替代先推送锁；本单本地领工有效，但未提交/推送，Git/GitHub 仍仅由 Owner 亲自执行。施工与独立复查未完成前不得释放。
+- 既有 Button.icon 仍带可见 label，Panel.action 不能替代原生键盘按钮；需闭集 icon-only、非空名称、图尺寸、缺图文字回退及旧行为不变。[固定规格/实查/验收](../design/game-demon-castle/work-orders/REQ-SIMLIFE-PUI-ICON-BUTTON-01.md)。只归 PUI 域；Life Host 消费由 BDM程序完成，独立复查不自签。
+- 2026-10-16 PUI 能力与 game-i 活例异人独立局部 **PASS**，见[自检](../design/game-demon-castle/self-check/REQ-SIMLIFE-PUI-ICON-BUTTON-01.md)与[复查](../design/game-demon-castle/review/REQ-SIMLIFE-PUI-ICON-BUTTON-01-independent.md)；全库门禁仍有域外红，Life Host/正式视觉消费尚未由本票签收，故不作 done。
 
-### REQ-POTION-ANGULAR-GESTURE · 通用椭圆单角度手势 · [2026-10-12] · Owner 选择 A · **施工主体 = Codex/root（本地领工锁）** · status: in-progress · P1 · 类型: 共享输入与确定性
+### REQ-GAL-HOST-EXIT-01 · 宿主退出 · Owner A/B · in-progress · P1 · H1=Codex/root局部PASS；H2/H3桌面后置
 
-**实查/边界**：`PointerInputSource` 可投递 down/move/up，但旧 drag 只留起终点；`t2-orbit-motion` 自治旋转，不能握持或认方向圈。Owner 已裁 A；完整规格见 `docs/design/game-potion-brewing/requests.md`「GAP-POTION-02」。本单仅补通用 `t2-angular-gesture` 与必要输入接缝，输入经世界坐标量化进入 tick；不复制原型自由 DOM/JS，不写游戏层解释器，不执行 Git/服务启动。
+[合同与验收](../design/galgame/gal-eng-host-exit-01.md)；H2 后置 web-desktop-release，不接旧壳。
 
-**验收/释放**：椭圆单角度投影、抓棒/锅口接棒、跨零点、正反累积抵消、短弧/死区/跳变/抖动拒收、330° 圈数信号、连续 2–3 圈、同拍终局锁、键盘等价、快照/hash/DebugTrace、鼠标触控与缩放，独立复查和锚点撤修验红。G1 因其它项目全库门禁红仍留池；Owner 已明确要求继续 G2–G4，本地票不视作 G1 已释放。
-
-### REQ-POTION-ELLIPSE-DROPZONE · DropZone 可选椭圆命中 · [2026-10-13] · Owner 选择 A · **施工主体 = Codex/root（本地领工锁）** · status: in-progress · P1 · 类型: 现有拖放能力扩写
-
-**实查/边界**：`t2-drag-place` 的 `hitDropZone` 目前只有 Shape AABB；用矩形锅口会误收四角。Owner 已选 A；完整规格见 `docs/design/game-potion-brewing/work-orders/GAP-POTION-03.md`。仅给 DropZone 加显式 ellipse 模式，默认矩形逐字节不变；共享只读判定供权威投放与后续 G4 预览复用，不另写游戏层公式或发额外 Signal。
-
-**验收/释放**：中心、两轴端点、四角、负缩放、坏半轴、重叠区稳定；锅外投放权威 Transform 不变、单击不提交、旧矩形回归、独立复查与锚点撤修验红。G1/G2 因独立复查/全库门禁未收束仍留池；本单不将二者误报为完成。
-
-### REQ-POTION-DRAG-PREVIEW · 通用 render-only 拖动预览 · [2026-10-13] · Owner 选择 A · **施工主体 = Codex/root（本地领工锁）** · status: in-progress · P1 · 类型: 2D 表现接缝
-
-**实查/边界**：现有 `t2-drag-place` 只在释放后改权威位置；`CanvasRenderer` 无拖动物件的 render-only 状态。Owner 已选 A，完整规格见 `docs/design/game-potion-brewing/work-orders/GAP-POTION-04.md`。新增默认关闭的通用预览接缝，消费既有 Sprite/Frame/Color key 与 G3 `findDropZoneAt`；绝不移动 World Transform、写快照/hash 或发玩法 Signal。
-
-**验收/释放**：鼠标/触控及不同 DPR 缩放、单指针、140ms 抬起/锅口消隐/锅外 280ms 回弹、取消/失焦/卸载/资源失败/reduced-motion、默认关闭回归；独立复查与锚点撤修验红。前票未释放不等于已交付，本票完成前仍占槽。
-
-**G1–G4 浏览器接缝复查（2026-10-13）**：隔离 DPR2 夹具真鼠标/触控、可见拖影、椭圆拒收/投放与有序成功链独立复跑 PASS（`docs/design/game-potion-brewing/review/G2-G4-browser-engine-integration.md`）；正式游戏与全库门禁仍未闭，四票维持 in-progress。
+<!-- REQ-GAL-NARRATIVE-TRANSITION-POLICY-01：2026-10-16 共享合同完结出池。独立复查 docs/design/galgame/review/REQ-GAL-NARRATIVE-TRANSITION-POLICY-01-independent-2026-10-15.md 局部 PASS。不关 ui-settings-confirmations，不代签 Owner 人门。全文查 git 历史。 -->
 
 ### REQ-LIFE-FORMAL-PROMOTION · Life 正式游戏四文件提升与安全更新入口 · [2026-10-12] · **owner 选择 A** · **施工主体 = Codex/root（2026-10-12 通用返修续锁；Owner 禁令下未作 Git 抢锁/推送）** · status: in-progress · P1 · 类型: 跨游戏 authoring 物化边界
 
@@ -63,33 +50,11 @@
 
 **Owner 正式更新闭环（2026-10-12）**：owner 亲自执行双 hash `--update`，真实结果为 `mode:"update"`、`writesPerformed:true`、`writtenFiles:4`、previous group `sha256:801242eb0e9c2445c24241f51172fa0161202d39ee0fcec2742e85080bf9bfa6`、new group `sha256:646a632dee40bd43726a4f81cc6069c8c0c5c21dcde19fe2fd8edc08f110518b`。更新后只读 plan-update 返回 `currentFilesHash` 等于新组、`conflicts:[]`；正式 `life.json` 与候选 canonical 内容相等，三个真实 Engine session 再次全部投影可用 build affordance。通用能力与魔王城返修链已闭环，后续可进入共享 Host 可视化 Playtest。
 
-### REQ-HOST-GAME-SESSION-SECOND-CONSUMER · 外部游戏会话第二消费者验证 · [2026-10-12] · owner 裁决：后续增强项 · status: open · P3 · 类型: 跨游戏兼容性验证
-
-**来源与边界**：`REQ-HOST-GAME-SESSION` 已由骰子游戏完成并释放；本票不再阻塞 `game-dice`，也不要求为了凑验收而新建游戏。待出现第二个真实的、独立小游戏需求时，接入既有 `external-game-session`，禁止复制消息、熵或结果去重协议。
-
-**验收**：第二消费者以 `{version, requestId, input, seed?, preset?}` / `{version, requestId, status, result}` 合同实际运行；同 seed 确定性、preset 不取熵、非法输入 fail-closed 与首次 settle 不可篡改均有点名测试；非施工者独立复查。若发现合同无法表达其通用需求，再按缺口裁决协议提出新增能力，而非回改骰子游戏。
+<!-- REQ-HOST-GAME-SESSION-SECOND-CONSUMER：Owner 2026-10-14 取消并移出共享池；非 done，历史见 docs/workflow/archive/REQ-HOST-GAME-SESSION-SECOND-CONSUMER-2026-10-14.md。 -->
 
 <!-- REQ-MOBILE-SHELL（手机客户端=WebView 壳·Capacitor 路线）owner 2026-08-22 令**暂停出池**——架构定性/四步分解/红线全文查 git 历史（git log -S REQ-MOBILE-SHELL）·重启时恢复原文 -->
 
-### REQ-P3TAIL · 架构路线图 P3 收尾（宿主拆分 / 持久化收编 / 输入与 Replay / 引擎成包）· [2026-09-12] · **owner 令「第三阶段后面请你都做完」**（承独立审查 2026-09-12 的引擎演进建议） · **施工主体 = 主程 = 本 session（抢锁·本行即锁）** · 复查 = 另派独立 agent（复查人≠施工人） · status: **in-progress（M1 施工中）** · P1 · 类型: 引擎结构收尾
-
-> **spec 不在池子里重抄**：四项的「做什么 / 为什么先 / 迁移 / 风险 / 验收」全文在
-> `docs/design/engine-architecture-review-2026-09-02.md` §5（P3a / P3b / P3c / P3e），照它做。
-> 前置 P0·P1a·P1b·P1c·P2a·P2c·P2d·P2e **均已落地**（实查 git 历史），本单只做 P3 这四项。
-
-**⛔ 不在本单（域红线·CLAUDE.md 专职域例外）**：`P2b` UI repeat 原语归 **PUI**；`P3d` 渲染提取层 FrameDesc 归 **P3D**。
-别的 session 勿擅改这两片——要做走各自的池子派工，本单不碰。
-
-**分期（按「风险 × 依赖」排，不按路线图字母序）**
-
-| 期 | 内容 | 为什么排这个位置 | 验收 |
-|---|---|---|---|
-| **M1** | **P3a 的机器围栏**：`core + skills + net` 单独 tsconfig（`lib: es2022`·**无 dom**） | 这正是 P3a 的验收判据本身，且**零语义改动**——它会把"sim 里到底还有多少 DOM 依赖"一次性暴露出来，没有这份真实清单，后面的拆分只能靠猜 | sim 面不带 dom lib 过 tsc（存量违规入基线棘轮·新增即红） |
-| M2 | P3e 引擎成包（API 面棘轮先行·再收 exports） | 纯治理面·零 sim 风险；`engine.api.md` 进仓当棘轮后，后面三项的公共面漂移才有东西咬 | 仓外 `npm i` 能构建 game101 |
-| M3 | P3b 持久化收编（三套端口 → 一套 Envelope + FileBridge） | 依赖 P1c（已落）；碰存档=数据风险，放在 API 棘轮之后做 | 改组件字段名后旧档读入 hash 与续跑同轨 |
-| M4 | P3c 输入单一真相 + NetSession + Replay | 最大一项·🔴 碰 lockstep/确定性；依赖 P1a/P2c（已落），且应在存档收编后做（keyframe 复用 Envelope） | 卡牌类双端 lockstep 跑通·导出的 replay 在 vitest 里复现到拍 |
-
-**红线**：四项都**不得改变既有 golden hash**（除非同提交给出逐条理由与新基线）；碰确定性面的改动按 🔴 主程口径走。
+<!-- REQ-P3TAIL 依 Owner 2026-10-14 决定暂停归档；非 done，原规格见 docs/workflow/archive/REQ-P3TAIL-2026-10-14.md。REQ-S3CLICK 原已出池，归档索引见 docs/workflow/archive/REQ-S3CLICK-2026-10-14.md。 -->
 
 <!-- REQ-S18PANEL-开发面板补 S1–S8 八关（P1·owner 2026-08-16 令「都要有按钮·不能采用老路子」）**2026-08-18 全件完结出池**：
      ① 存为项目（Lead 施工·50804eb1·终审 PASS）：POST /api/projects + gaps 七键归一 + 对话认领关浏览器不丢 + 工坊「💾 存为项目」钮。

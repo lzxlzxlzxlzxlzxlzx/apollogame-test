@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { StudioInspector } from './studio/StudioInspector.js';
 import { AssetLibrary } from './studio/AssetLibrary.js';
+import { CharacterLibrary } from './studio/CharacterLibrary.js';
 import { SHELL } from './ui/shell-theme.js';
 import { resolveArtRefs } from './assembly/resolve-art-refs.js';
 import { artlibRecords, type LibraryRecord } from '@assets/index.js';
@@ -21,6 +22,7 @@ import { ArtLedgerPanel, ArtGamePicker } from './studio/ArtLedgerPanel.js';
 import { GamePipelinePanel } from './studio/GamePipelinePanel.js';
 import { SettingsPanel } from './studio/SettingsPanel.js';
 import { ProjectRoadmapPanel } from './studio/ProjectRoadmapPanel.js';
+import { AuthoringStudio } from './studio/AuthoringStudio.js';
 
 // （2026-07-16 纯结构拆分·token 优化）轮播/DevTools/游戏运行时/API 助手拆至 ./launcher/*，行为不变。
 import { API, apiCall } from './launcher/api.js';
@@ -67,6 +69,7 @@ export const GAMES: GameEntry[] = [
     status: 'playable',
   },
   { id: 'game-lockpick', title: '《机关锁》', subtitle: '三档滑钮 · 光色与声音反馈', description: '调节机关滑钮，通过整体光色与声音反馈试探隐藏组合。没有次数、倒计时或错误惩罚；只有确认放弃才会失败。', color: '#17201f', accentColor: '#d8b76a', icon: '🔐', status: 'playable' },
+  { id: 'game-potion-brewing', title: '《坩埚炼药》', subtitle: '透明炼药台 · S3 骨架预览', description: '宿主指定唯一配方；现阶段仅供正式引擎骨架与输入接缝内部验收，完整可玩链与美术对齐待后续阶段。', color: '#3d293b', accentColor: '#d8aa66', icon: '⚗️', status: 'playable' },
   {
     id: 'game-loot-chest',
     title: '开启宝箱 Loot Chest',
@@ -256,6 +259,18 @@ export const GAMES: GameEntry[] = [
     icon: '⚔️',
     status: 'playable',
   },
+  /* AI START */
+  {
+    id: 'manor-escape',
+    title: '《庄园出逃》',
+    subtitle: '一条共通线 · 两个一起的结局',
+    description: '机械师与囚徒在一场庄园游戏里相识。走到外墙园门后，选择一起离开，或一起留下。画面使用已批准的本机 AI 图。配乐尚未入库。',
+    color: '#2a2118',
+    accentColor: '#c4a46a',
+    icon: '🚪',
+    status: 'playable',
+  },
+  /* AI END */
 ];
 
 // 客户端货架实际渲染表（下方 Launcher 组件 + CartridgeCarousel 消费这份，不消费 GAMES 本身）：
@@ -302,7 +317,10 @@ export function Launcher() {
   }, []);
   const [studio, setStudio] = useState(false);
   const [projectRoadmap, setProjectRoadmap] = useState(false);
+  const [authoringStudio, setAuthoringStudio] = useState(false);
   const [artlib, setArtlib] = useState(false);
+  const [characterFocus, setCharacterFocus] = useState<string | null>(() => new URLSearchParams(window.location.search).get('character'));
+  const [charlib, setCharlib] = useState(() => new URLSearchParams(window.location.search).has('character'));
 
   // 玩家模式（?mode=player）：面向 To-C 用户——隐藏内置 GAMES 与 DevTools，卡带架数据源=用户游戏库。
   const playerMode = React.useMemo(
@@ -477,9 +495,19 @@ export function Launcher() {
     return <StudioInspector onBack={() => setStudio(false)} />;
   }
   if (projectRoadmap) return <ProjectRoadmapPanel api={API} onBack={() => setProjectRoadmap(false)} />;
+  if (authoringStudio) return <AuthoringStudio api={API} onBack={() => setAuthoringStudio(false)} />;
 
   if (artlib) {
     return <AssetLibrary onBack={() => setArtlib(false)} />;
+  }
+  if (charlib) {
+    return <CharacterLibrary initialId={characterFocus} onBack={() => {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('character');
+      window.history.replaceState(null, '', url);
+      setCharacterFocus(null);
+      setCharlib(false);
+    }} />;
   }
 
   if (artLedger) {
@@ -670,6 +698,26 @@ export function Launcher() {
               🗃 资源库
             </button>
             <button
+              onClick={() => { setCharacterFocus(null); setCharlib(true); }}
+              title="角色仓库：按每个角色的目录文件展示百科页"
+              style={{
+                marginTop: 14,
+                marginLeft: 10,
+                padding: '7px 18px',
+                background: SHELL.violetWash,
+                color: SHELL.violet,
+                border: `1px solid ${SHELL.violetLine}`,
+                borderRadius: 8,
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: 1,
+                cursor: 'pointer',
+                outline: 'none',
+              }}
+            >
+              角色仓库
+            </button>
+            <button
               onClick={() => setEntryChoice(true)}
               title="新建游戏（设计先行 / 快速生成）——旧 GameCreator 已退役，两模式同流"
               style={{
@@ -698,6 +746,16 @@ export function Launcher() {
               }}
             >
               🧭 项目控制台
+            </button>
+            <button
+              onClick={() => setAuthoringStudio(true)}
+              style={{
+                marginTop: 14, marginLeft: 10, padding: '7px 18px', background: SHELL.jadeWash,
+                color: SHELL.jade, border: `1px solid ${SHELL.jadeLine}`, borderRadius: 8,
+                fontSize: 12, fontWeight: 600, letterSpacing: 1, cursor: 'pointer', outline: 'none',
+              }}
+            >
+              GAL 创作台
             </button>
             <button
               onClick={() => setStudio(true)}

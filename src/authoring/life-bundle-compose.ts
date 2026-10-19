@@ -92,7 +92,7 @@ const safeJsonBasename = /^[A-Za-z0-9][A-Za-z0-9._-]{0,126}\.json$/;
 const forbiddenPointerSegment = new Set(['__proto__', 'prototype', 'constructor']);
 const allowedSliceRoots = new Set([
   'playerVisual', 'itemCatalog', 'playerInventory', 'cropCatalog', 'calendar',
-  'relationships', 'dialogueCatalog', 'scenes', 'logic', 'constructionProjects',
+  'relationships', 'profile', 'dialogueCatalog', 'scenes', 'logic', 'constructionProjects',
   'quests', 'milestones',
 ]);
 

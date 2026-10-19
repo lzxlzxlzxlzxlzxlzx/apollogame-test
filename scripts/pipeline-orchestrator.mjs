@@ -42,7 +42,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, rmSync, openSync, w
 import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn, spawnSync } from 'node:child_process';
-import { STAGES, GATE_STAGES, REVIEW_STAGES, detectForm, gameHash, pipelineFile } from './game-pipeline.mjs';
+import { STAGES, GATE_STAGES, REVIEW_STAGES, detectForm, gameHashes, STAGE_HASH_DOMAIN, pipelineFile } from './game-pipeline.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 /** 仓库根。ZEROCRAFT_PIPELINE_ROOT 与 game-pipeline.mjs 同名同义（仅测试注入临时根用·生产不设）。 */
@@ -325,7 +325,7 @@ export function verifyStage(root, slug, stage, { cmd } = {}) {
 
 /**
  * **复查独立重验**（照 verifyStage「绿不靠嘴」·--review 专用）：复查会话退出后，编排器自查
- * pipeline.json 的 reviews[SN]——**存在 && gameHash 等于现算 && by 以 orch-review 起头** = 成功；
+ * pipeline.json 的 reviews[SN]——**存在 && 该阶段依赖域指纹等于现算 && by 以 orch-review 起头** = 成功；
  * 缺 / 过期 / by 不符 = 失败。**verdict 是什么不影响成功判定**——复查的交付物是「真查过并落了账」，
  * 不是「查出来是绿的」，FAIL 也是合格交付（为了绿而绿正是这门要治的病）。
  * 会话 stdout 声称什么，本函数一个字都不读。
@@ -335,10 +335,13 @@ export function verifyReview(root, slug, stage) {
   try { pf = JSON.parse(readFileSync(pipelineFile(root, slug), 'utf8')); } catch { pf = null; }
   const rv = pf?.reviews?.[stage];
   if (!rv) return { kind: 'review', exit: 1, verdict: null, summary: `复查没落账（pipeline.json 无 reviews.${stage}）` };
-  const fresh = gameHash(root, slug);
-  if (rv.gameHash !== fresh) {
+  const hashes = gameHashes(root, slug);
+  const domain = STAGE_HASH_DOMAIN[stage] || 'full';
+  const fresh = hashes[domain];
+  const recorded = rv.hashes?.[domain] || rv.gameHash;
+  if (recorded !== fresh) {
     return { kind: 'review', exit: 1, verdict: rv.verdict ?? null,
-      summary: `复查已过期（落账指纹 ${rv.gameHash || '缺'} ≠ 现算 ${fresh}——落账后游戏文件又动过·须重查）` };
+      summary: `复查已过期（${domain} 域指纹 ${recorded || '缺'} ≠ 现算 ${fresh}——受该关影响的内容已变·须重查）` };
   }
   if (!String(rv.by || '').startsWith(REVIEW_BY_PREFIX)) {
     return { kind: 'review', exit: 1, verdict: rv.verdict ?? null,

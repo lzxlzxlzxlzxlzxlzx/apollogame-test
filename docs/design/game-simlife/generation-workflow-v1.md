@@ -36,12 +36,14 @@ World 通过前还必须满足建设可达性 gate：每个固定 construction p
 
 用户用自然语言给出 Brief。Codex 将其收敛为：题材/情绪、核心循环、场景与规模、NPC 与第一季剧情、可用动作、视觉风格、tile/sprite 规格、明确不做的内容。
 
+`Generation Brief v1` 还必须先写清背包设计：容量（slots/maxStack）、初始物品、核心循环分别产出/消耗哪些物品。所有被循环产出或消耗的 item 都必须进入 `itemCatalog`，拥有 `art:` skinKey，并在 AssetSlot 中以精确 `life.json#/itemCatalog/<index>/skinKey` consumer 闭合。Brief 若要求玩家可打开背包面板，只能建议 Host descriptor 使用已完成的 `inventoryPanel` opt-in；该 UI 选择不得写入 Life package。图标候选在人审前始终保持 placeholder。
+
 ### 五份可审内容
 
 | 包 | 内容 | 可视化 |
 | --- | --- | --- |
-| World | RLE 地图、场景、区域、阻挡、warp、placements | 场景关系图与格子预览 |
-| Actors | 物品、作物、资源、日历、NPC 日程 | NPC/资源/交互范围图层 |
+| World | RLE 地图、场景、区域、阻挡、warp、显式尺寸 placements、多格建筑 `interactionPlacementId` | 场景关系图与格子预览 |
+| Actors | 先完成容量、初始物、循环产出/消耗设计，再生成物品、作物、资源、日历、NPC 日程；可选 profile 只能引用既有 resource/relationship，且每行明示 profile/hud surface（hud 最多四项） | `LifeInventoryReview v1` 背包表；有 profile 时追加 `LifeProfileReview v1`（含 surface placement）+ NPC/资源/交互范围图层 |
 | Plot | 对话、任务、里程碑、关系、解锁条件 | 可达剧情图 |
 | Assets | `AssetSlotBrief` 与候选来源（含每种运行时 ground tile） | 尺寸、锚点、用途、候选与地图落点 |
 | Host | host descriptor、launcher declaration、save namespace | HUD/视口/输入与存档身份卡 |
@@ -87,8 +89,8 @@ gate 只记录机器事实与 owner 决策 token，不记录 session、provenanc
 | 阶段 | JSON 自检 | owner 必看 |
 | --- | --- | --- |
 | Brief | 闭集字段、规模/风格/约束完整 | 游戏方向、明确不做的内容 |
-| World | RLE 面积、tile/warp/zone 引用、出生点到目标的可达性，以及每种可见地块的 `visual.skinKey` | 地图结构、区域分工、可走性与地块纹理 |
-| Actors | item/crop/NPC/schedule/reference 闭合 | NPC 分布、日程、核心循环是否合理 |
+| World | RLE 面积、tile/warp/zone 引用、出生点到目标的可达性、placement 显式 width/height、多格建筑 warp 交互占地，以及每种可见地块的 `visual.skinKey` | 地图结构、区域分工、可走性与地块纹理 |
+| Actors | item/crop/NPC/schedule/reference 闭合；`LifeInventoryReview v1` 重跑 Bundle gate；有 profile 时 `LifeProfileReview v1` 核对权威来源、初始/范围与精确 ui-icon 槽 | 背包与人物档案候选状态，以及 NPC 分布、日程、核心循环是否合理 |
 | Plot | dialogue/quest/relationship 图、条件与效果引用 | 剧情节奏、解锁条件、玩家目标 |
 | Assets | `AssetSlotBrief` schema、consumer 闭包、placeholder 限制；每种 `tileCatalog.*.visual.skinKey` 必有对应 tile slot | 尺寸、锚点、地图摆放、素材来源与地块纹理 |
 | Host | `life-host.v1` / launcher 严格解析、身份一致性 | HUD、输入、视口、存档身份 |
@@ -99,9 +101,10 @@ gate 只记录机器事实与 owner 决策 token，不记录 session、provenanc
 
 1. Brief 卡：确认做什么、不做什么。
 2. World 预览：确认玩家能从出生点走到每一个必要目标和出口。
-3. Story 图：确认每个解锁条件有来源，主线存在可达终点。
-4. Asset 工作表：确认每个可见对象都有槽位、规格和暂定来源。
-5. Playable Preview：确认第一条玩家路线可完成，并保留问题/差异单。
+3. Inventory 表：确认容量、初始物、每件物品的 starter/crop/resource/construction/catalog-only 来源与精确图标槽；该 `inventory-review` 必须在 Actors owner approval 前出现，未批准不得进入 Plot/Assets。
+4. Story 图：确认每个解锁条件有来源，主线存在可达终点。
+5. Asset 工作表：确认每个可见对象都有槽位、规格和暂定来源。
+6. Playable Preview：确认第一条玩家路线可完成，并保留问题/差异单。
 
 M0 的终产物是“可审的生成候选”，不是未经同意写入正式游戏目录的成品。
 
@@ -112,6 +115,10 @@ M0 的终产物是“可审的生成候选”，不是未经同意写入正式�
 候选文件只是已审切片的可复验组合结果。它不会创建正式游戏、批准素材、修改 AssetIndex、接 launcher 或调用模型；后续 M0 materializer 仍需把该 Bundle 与独立 Host/Launcher 候选共同复验并给出 confirmation hash。
 
 ## M1：素材审核与物化
+
+方向化生成可在 `AssetSlotManifest.artDirection` 选择 engine-owned `zerocraft.life-art-direction.v1` profile；当前闭集为 `pixel-art|illustrated-2d`。profile 集中给出基础/负向 prompt 与逐 `tile|crop|player|npc|building|resource|item` 的 outputPx、alpha、sampling、display、anchor、fit，槽位只补 `semanticPrompt`，最终 prompt/spec 由工具稳定派生。`illustrated-2d` 强制包含 `high-detail illustrated 2D, non-pixel-art, readable at gameplay scale`，负向至少包含 pixel art、sprite sheet、UI、text、border，并拒绝 nearest、低于 128×128、错误透明度或任意漂移；其 384×512 player/npc 在地图上按 `1×1.5 cell`、bottom-center、contain 显示，等价于 legacy 32×48 / 32px 格的占格比例。该 profile 只属于 authoring/asset 面，不进入 `LifeGamePackage`、World、snapshot/hash/save；`life-standard-v1` 的 32px 逻辑格不随源图分辨率改变。
+
+`ui-icon` 是同一方向化闭集中的透明小图标槽：center anchor、contain、像素显示尺寸；它只服务 UI 图标，不得伪装为世界 item/resource，也不得绕过候选审批。
 
 素材链固定为：
 
@@ -128,7 +135,9 @@ AssetSlotBrief
 
 `review-packet` 是只读、可 JSON 往返的审阅投影：条目按 slotId 稳定排序，包含尺寸、alpha、sampling、style、render/consumer 和 local/AI 分支数据；所有合法条目只能是 `pending-human-review`。它会重新严格校验 brief，并对账 candidate plan 的 schema、game、slot、assetKey 与 decision payload；任一不一致整包 `valid:false`，不留下部分可审批条目。包内不含路径、license、provider、bytes、contentHash 或真实 approval，也不会调用模型、写 pending、登记索引或物化文件。
 
-每个素材槽位先搜索本地库；未命中才准备 AI 候选请求。候选必须经过尺寸、透明度、色彩空间、锚点、风格和地图摆放的人审。只有人明确批准后，asset-manager 才能生成或 vendor 真实候选、核验许可与 provenance、登记索引并替换 placeholder；本流程的 candidate-plan 与 review-packet 都停在人审之前。**批准具体候选批次时，owner 同时确认其来源/许可声明后，系统应自动进入物化，不再要求第二次“接入”确认：逐行规范化→重验 bytes/provenance→原 key 注册。任一行失败只保留 pending 诊断，绝不部分越权。**
+每个素材槽位先搜索本地库；未命中才准备 AI 候选请求。profiled 本地候选必须逐项精确匹配 style、usage、colorSpace、sampling、outputPx 与 alpha；任何缺失或漂移继续保持 `ai-required`，不得因“看起来接近”降级匹配。候选还必须经过锚点和地图摆放的人审。只有人明确批准后，asset-manager 才能生成或 vendor 真实候选、核验许可与 provenance、登记索引并替换 placeholder；本流程的 candidate-plan 与 review-packet 都停在人审之前。**批准具体候选批次时，owner 同时确认其来源/许可声明后，系统应自动进入物化，不再要求第二次“接入”确认：逐行规范化→重验 bytes/provenance→原 key 注册。任一行失败只保留 pending 诊断，绝不部分越权。**
+
+建筑的 world placement 必须显式给出正整数 `width/height`。生成用 building 槽的 `render.display` 必须与它消费的 placement footprint 完全一致：`cell` 单位逐值相等，`pixel` 单位按 `life-standard-v1` 的 32px/格换算后相等；同一 key 被多个 placement 消费时每处都必须一致。多格建筑承载 warp 时，warp 必须显式写 `interactionPlacementId` 指向同场景该 placement，且 `at` 位于其 footprint 内；编译后的 `LifeWarp.x/y/width/height` 是提示与显式 E 请求共同消费的唯一交互占地。`landmarkPlacementId` 仍只负责可见地标审阅，不能取得模拟权威。
 
 `zerocraft.life-asset-generation-batch.v1` 是 Codex/未来前端共用的执行计划边界。它重新对账 brief、candidate-plan 与 review-packet，任一被改动就让整批 `valid:false`；合法条目按 slotId 排序，只允许 `local-review` 或受限 2D `ai-generate(qwen|gpt-image)`，默认 qwen，可由调用参数整批选择或按 slotId 闭集覆盖。计划不含磁盘路径、URL、密钥、bytes、许可或批准字段。本地安全引用含闭集来源、id 与元数据 fingerprint；显式 `--generate` 才把它写成 game-local `zerocraft.life-local-asset-review.v1`，并从可信共享索引/源文件补内容 SHA-256。AI 同样只有显式生成才进入 `art/ai/pending/`；真实 provider 还必须有 `--real-provider` 与对应环境 key。provider 返回图先确定性规范化为槽位 outputPx/alpha 合同，再由既有审批门复验实际 PNG bytes。
 
@@ -157,4 +166,4 @@ AI pending 必须携带 slotId、原始 assetKey、briefFingerprint、尺寸、a
 在 Codex 中给出一个新的 Brief 后，能得到一份通过 `LifeGenerationBundle v1` 检查的候选包、五类可视化审阅结果、待审批的素材槽位清单，以及零写入的物化计划。随后可用同一份数据进入现有共享 Life host；不复制 Little Valley 专属代码。
 # World Visual Semantics v1 gate
 
-World gate 在编译前执行路径级检查：warp 缺目的地文案/可见地标、地标跨场景/无 skin/距离非法、ground surface 缺失或与 tags 不符、动态农务 surface 缺 key，以及不同行动集合共用 key，均为 error。Bundle 检查结果同时输出 warp 与 surface 审阅矩阵；矩阵包含地图落点、footprint/显示尺寸、anchor、asset slot 与候选状态。
+World gate 在编译前执行路径级检查：warp 缺目的地文案/可见地标、多格建筑缺同场景 `interactionPlacementId`、`at` 不在交互 footprint、地标跨场景/无 skin/距离非法、ground surface 缺失或与 tags 不符、动态农务 surface 缺 key，以及不同行动集合共用 key，均为 error。Bundle 检查结果同时输出 warp 与 surface 审阅矩阵；矩阵包含地图落点、footprint/显示尺寸、anchor、asset slot 与候选状态。

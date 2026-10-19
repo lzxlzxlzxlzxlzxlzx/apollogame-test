@@ -93,12 +93,15 @@ describe('R12 组件数据 schema 校验（复用 provides.fields，不另造）
       { ...base, width: -1, height: 200, fit: 'cover' },
       { ...base, width: Infinity, height: 200, fit: 'cover' },
       { ...base, width: 100, height: NaN, fit: 'contain' },
+      { ...base, sampling: 'pixelated' },
     ];
     for (const Sprite of invalid) {
       const r = validateComponentData([spriteCapability], ent({ e: { Sprite } }));
       expect(r.errors, JSON.stringify(Sprite)).not.toHaveLength(0);
     }
     expect(validateComponentData([spriteCapability], ent({ e: { Sprite: { ...base, width: 100, height: 200, fit: 'cover' } } })).errors).toHaveLength(0);
+    expect(validateComponentData([spriteCapability], ent({ e: { Sprite: { ...base, sampling: 'smooth' } } })).errors).toHaveLength(0);
+    expect(validateComponentData([spriteCapability], ent({ e: { Sprite: { ...base, sampling: 'nearest' } } })).errors).toHaveLength(0);
     expect(() => parseManifest({ entities: { e: { Sprite: { ...base, width: 100 } } } })).toThrow(/width、height 与 fit/);
   });
 });

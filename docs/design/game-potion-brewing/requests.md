@@ -11,6 +11,7 @@
 ## 当前有效约束
 
 - [brief.md](brief.md) 与 [contract-v1.md](contract-v1.md) 冻结“一局一份宿主指定公开配方”，玩家直入炼药台；宿主权威持有材料和成品，游戏只返回 success/failure/cancelled。
+- `recipe.name` 是唯一药剂名称，不设独立生成产物字段；`ingredients[].imageUrl` 和 `recipe.resultImageUrl` 接收宿主给出的真实 HTTPS 展示图片，图片失败仅回退本地素材/占位，不影响步骤与结果。字段细则以 [合同 v1](contract-v1.md) 和 [DokiWorld 调用说明](../../../dokiworld/game-potion-brewing/docs/integration.zh-CN.md) 为准。
 - 材料 ID 形成具名 add 信号；顺/逆时针有效整圈形成 stir 信号；短弧、锅外释放不提交且不误判失败。步骤和失败由 G1 有序会话解释，游戏层不另写规则机。
 - [prototype.dc.html](prototype.dc.html)、[prototype-notes.md](prototype-notes.md) 的 S1-P-06 + Owner 确认的 S1-P-07 局部变更是 1440×900 透明三栏基准：锅身不发光、不移动，初始清水，投料/搅拌只改变汤色/汤中特效，失败为浑浊紫色；搅拌棒常驻、单角度沿椭圆轨道且棒端入水；材料无限取用且不显示份数。历史定稿证据见 [S1-P-06-review.md](S1-P-06-review.md)。
 - 禁止可见选方屏、木桌背景、方向按钮、底部拖料提示、右上角两按钮、棒头蓝点；不得复制原型自由 DOM/CSS/JS 进正式游戏，不得手写第二套投放命中或拖动预览。

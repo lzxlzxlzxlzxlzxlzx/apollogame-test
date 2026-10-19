@@ -40,6 +40,7 @@
 | **DokiWorld 出包** | `playbooks/dokiworld-pack.md` | 产物→DokiWorld App（manifest/SDK/自包含 dist） | 出包前必读 |
 | ~~外部引擎交付（DokiWorld 卡带）~~ | `playbooks/dokiworld-export.md` | **已退役 2026-08-13**——旧协议桥形态·对方不再收 | 用上一行的出包线 |
 | 平台角色卡桥（外部数据→席位） | `playbooks/character-card.md` | `services/character-card`（normalizeCharacterCard/toSeatCard/isCardUsable）· 媒体取优 · 成年硬闸 · passthrough 对账 | 各游戏 PE（a/b/c 接卡）；桥=引擎 services |
+| **角色仓库（作者档案→百科页）** | `playbooks/character-library.md` | `characters/<id>/catalog.json` · `inspectCharacter` · 条目顺序即排版 | 编辑角色档案的 AI / 工作台；先读手册 |
 | **测试与验收** | `playbooks/testing.md` | vitest·registry-guard·ZeroCraftBench·数值 sim·e2e·smoke·game-skill-audit | **全员（交付前必过）**；验收纪律=Lead |
 | **视觉验收/出货门** | `playbooks/visual-scorecard.md` | 8 维 0-3 分·premium=全维≥2·证据台账·反捷径工艺律 | 判官=Lead/P3D；PS 出货内门（TGS 吸收·owner 2026-07-06 批） |
 

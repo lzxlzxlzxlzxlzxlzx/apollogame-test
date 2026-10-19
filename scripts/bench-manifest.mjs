@@ -19,6 +19,9 @@
 
 import { parseManifest } from '../src/assembly/manifest.ts';
 import { benchBlueprint, BENCH_PASS_THRESHOLD } from '../src/bench/zerocraft-bench.ts';
+import { readFileSync } from 'node:fs';
+import { basename, dirname } from 'node:path';
+import { requireCartAssetIndex, assertCartMasksBound } from '../src/assets/cart-art.ts';
 
 function readStdin() {
   return new Promise((resolve, reject) => {
@@ -44,15 +47,21 @@ async function main() {
     process.stderr.write(`bench-manifest: JSON 解析失败 —— ${e && e.message ? e.message : e}\n`);
     process.exit(1);
   }
+  let opts = {};
   try {
-    parseManifest(JSON.parse(raw));
+    const arg = process.argv.indexOf('--art-index');
+    const indexPath = arg >= 0 ? process.argv[arg + 1] : undefined;
+    if (arg >= 0 && !indexPath) throw new Error('--art-index 需要文件路径');
+    const index = requireCartAssetIndex(JSON.parse(raw), indexPath ? basename(dirname(dirname(indexPath))) : 'stdin', indexPath ? JSON.parse(readFileSync(indexPath, 'utf8')) : null);
+    opts = index ? { assetIndex: index, assetKeys: new Set(index.assets.map((a) => a.id)) } : {};
+    assertCartMasksBound(parseManifest(JSON.parse(raw), opts));
   } catch (e) {
     process.stderr.write(`bench-manifest: manifest 无法解析成蓝图 —— ${e && e.message ? e.message : e}\n`);
     process.exit(1);
   }
 
   // build() 每次从原始文本重解析 → 全新蓝图（determinism 两跑独立）。
-  const build = () => parseManifest(JSON.parse(raw));
+  const build = () => { const blueprint = parseManifest(JSON.parse(raw), opts); assertCartMasksBound(blueprint); return blueprint; };
   const report = benchBlueprint('cartridge', build);
 
   process.stdout.write(

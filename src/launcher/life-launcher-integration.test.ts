@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import rawSlots from '../../games/game-simlife/little-valley.asset-slots.json';
 import { threeSceneLifePackage } from '../assembly/life-package.fixture.js';
 import { seasideMarketHostDescriptorFixture } from '../authoring/life-host-descriptor.fixture.js';
-import { deriveLifeHostSaveSlot } from '../engine/host/life-save.js';
+import { deriveLifeHostSaveSlot } from '../assembly/life-host/life-save.js';
 import { LIFE_VIEWPORT_PROFILE_ID } from '../engine/protocol/life-viewport-profile.js';
 import { MemoryStoragePort } from '../services/storage/index.js';
 import { mountLifeLauncherItem } from './life-game-runner.js';
@@ -30,6 +30,10 @@ function discoveredItem() {
   lifePackage.meta.id = directory; lifePackage.meta.title = 'Seaside Market';
   lifePackage.camera = { profile: LIFE_VIEWPORT_PROFILE_ID };
   const slots = structuredClone(rawSlots) as any; slots.game = directory;
+  const slotOf = (kind: string): { assetKey: string } => slots.slots.find((slot: { kind: string }) => slot.kind === kind);
+  lifePackage.itemCatalog[0].skinKey = slotOf('item').assetKey;
+  lifePackage.scenes[0].placements[0].skinKey = slotOf('npc').assetKey;
+  lifePackage.scenes[1].placements[0].skinKey = slotOf('resource').assetKey;
   const catalog = discoverLifeLauncherCatalog(
     { [`${root}/life-launcher.json`]: { schema: LIFE_LAUNCHER_SCHEMA, id: directory, title: '海风集市', subtitle: '潮汐经营', description: '独立 Life 内容', color: '#17364a', accentColor: '#62d6c5', icon: '🐚' } },
     { [`${root}/life-host.json`]: descriptor }, { [`${root}/life.json`]: lifePackage }, { [`${root}/asset-slots.json`]: slots },

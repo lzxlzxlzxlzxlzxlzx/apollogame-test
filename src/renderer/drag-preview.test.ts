@@ -62,4 +62,27 @@ describe('CanvasRenderer opt-in drag preview', () => {
     expect(world.getAllEntities()).toEqual(['material']);
     renderer.destroy();
   });
+
+  it('单张 Sprite smooth 只在自身 drawImage 内生效，后续默认精灵仍最近邻', () => {
+    const context = new Proxy({ globalAlpha: 1, imageSmoothingEnabled: true } as Record<string, unknown>, {
+      get: (target, key: string) => target[key] ?? (target[key] = vi.fn()),
+      set: (target, key: string, value) => { target[key] = value; return true; },
+    }) as unknown as CanvasRenderingContext2D;
+    (HTMLCanvasElement.prototype as unknown as { getContext: () => unknown }).getContext = () => context;
+    const samples: boolean[] = [];
+    (context.drawImage as ReturnType<typeof vi.fn>).mockImplementation(() => samples.push(context.imageSmoothingEnabled));
+    const world = new World({ strict: true });
+    for (const [id, sampling, zOrder] of [['smooth', 'smooth', 1], ['default', undefined, 2]] as const) {
+      world.createEntity(id);
+      world.addComponent<Transform>(id, { type: 'Transform', x: 10, y: 20, rotation: 0, scaleX: 1, scaleY: 1 });
+      world.addComponent<Shape>(id, { type: 'Shape', kind: 'box', width: 20, height: 12 });
+      world.addComponent<Sprite>(id, { type: 'Sprite', textureKey: id, anchorX: 0.5, anchorY: 0.5, zOrder, ...(sampling ? { sampling } : {}) });
+    }
+    const image = {} as CanvasImageSource;
+    const renderer = new CanvasRenderer({ width: 100, height: 100, background: 'transparent', assets: { resolve: () => ({ asset: { handle: { image } }, sx: 0, sy: 0, sw: 20, sh: 12 }) } as unknown as AssetManager });
+    renderer.init(document.createElement('div')); renderer.sync(world);
+    expect(samples).toEqual([true, false]);
+    expect(context.imageSmoothingEnabled).toBe(false);
+    renderer.destroy();
+  });
 });

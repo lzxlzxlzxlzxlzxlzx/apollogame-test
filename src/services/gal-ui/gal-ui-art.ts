@@ -1,4 +1,4 @@
-import type { ButtonProps, LayoutNode } from '@ui/components/types.js';
+import type { ButtonProps, ButtonStateColors, LabelProps, LayoutNode, ToggleProps, ToggleVisual } from '@ui/components/types.js';
 import type { AssetIndex } from '../../assets/asset-index.js';
 
 /** Stable local-AssetIndex identities. Only these five are reusable GAL chrome. */
@@ -91,6 +91,8 @@ const DIALOGUE_INK: Readonly<Record<string, string>> = {
   'gal-story-choice-hint': '#f5e7c6',
 };
 const FRAME_INK: Readonly<Record<string, string>> = {
+  'gal-slots-system-title': '#f5e0b1',
+  'gal-slots-heading-note': '#bfc5da',
   'gal-slots-title': '#f6e2b5',
   'gal-slots-hint': '#b9bfd3',
   'gal-page-counter': '#e4d5aa',
@@ -100,12 +102,16 @@ const FRAME_INK: Readonly<Record<string, string>> = {
   'gal-settings-disclaimer': '#c6c8dc',
   'gal-settings-restore-note': '#b9bfd3',
   'gal-gallery-title': '#f6e2b5',
+  'gal-gallery-topbar-title': '#f6e2b5',
+  'gal-gallery-heading-note': '#bfc5da',
   'gal-gallery-progress': '#bfc5da',
   'gal-gallery-hint': '#b9bfd3',
   'gal-gallery-page': '#e4d5aa',
   'gal-confirm-message': '#d0d3e4',
 };
 const SETTINGS_CARD_ID = /^gal-settings-(?:text-card|input-card|volume-card|audio-other-card|display-card|accessibility-card|confirm-save|confirm-flow)$/;
+const GALLERY_CARD_ID = /^gal-gallery-card-/;
+const GALLERY_ART_ID = /^gal-gallery-art-/;
 
 /** V2's `.art-button` is not the same as its compact `.ghost` navigation. */
 function usesV2ArtButton(id: string | undefined): boolean {
@@ -113,7 +119,8 @@ function usesV2ArtButton(id: string | undefined): boolean {
   return /^starter-act-\d+$/.test(id) || id.startsWith('gal-choice') ||
     id.startsWith('gal-home-') || id.startsWith('gal-memory-play-') ||
     id.startsWith('gal-settings-tab-') ||
-    ['gal-mode-save', 'gal-mode-load', 'gal-slots-commit', 'gal-settings-reset',
+    id === 'gal-gallery-memories-tab' || id === 'gal-gallery-cg-tab' ||
+    ['gal-mode-save', 'gal-mode-load', 'gal-slots-commit', 'gal-slots-return', 'gal-settings-reset',
       'gal-settings-back', 'gal-gallery-back', 'gal-confirm-no', 'gal-confirm-yes',
       'gal-history-back', 'gal-cg-expanded-back'].includes(id);
 }
@@ -121,54 +128,137 @@ function usesV2ArtButton(id: string | undefined): boolean {
 function usesV2GhostButton(id: string | undefined): boolean {
   return /^gal-story-(history|voice-replay|auto|skip|save|load|settings|home)$/.test(id ?? '') ||
     /^gal-settings-nav-/.test(id ?? '') ||
-    ['gal-replay-exit', 'gal-slots-settings', 'gal-slots-back', 'gal-page-prev', 'gal-page-next'].includes(id ?? '');
+    /^gal-setting-(key-help|ui-scale|audio-preview|fullscreen)-control$/.test(id ?? '') ||
+    ['gal-replay-exit', 'gal-slots-home', 'gal-slots-story', 'gal-slots-gallery',
+      'gal-slots-settings', 'gal-slots-back', 'gal-page-prev', 'gal-page-next',
+      'gal-gallery-prev', 'gal-gallery-next', 'gal-gallery-settings',
+      'gal-gallery-home', 'gal-gallery-story', 'gal-gallery-slots',
+      'gal-gallery-settings-top'].includes(id ?? '');
 }
+
+/** Approved V2 ghost palette, expressed only through the shared Button state contract. */
+const V2_GHOST_COLORS: ButtonStateColors = {
+  default: { background: { custom: '#101a36cf' }, border: { custom: '#e4d6aa88' }, text: { custom: '#e8e8f4' } },
+  hover: { background: { custom: '#535c91' }, border: { custom: '#e4d6aa88' }, text: { custom: '#ffffff' } },
+  pressed: { background: { custom: '#414b7c' }, border: { custom: '#e4d6aa88' }, text: { custom: '#ffffff' } },
+  disabled: { background: { custom: '#101a365c' }, border: { custom: '#e4d6aa52' }, text: { custom: '#abb0c2' } },
+};
+
+/** V2's measured switch, applied only when the approved V2 frame is present. */
+const V2_TOGGLE_VISUAL: ToggleVisual = {
+  width: 75, height: 31, knobSize: 22, knobOffLeft: 4, knobOnLeft: 46, knobTop: 3,
+  showLabel: false,
+  offBackground: { custom: '#1b2445' }, onBackground: { custom: '#5b679e' },
+  border: { custom: '#d8c389' }, offKnob: { custom: '#8b9ac3' }, onKnob: { custom: '#eff1ff' },
+};
 
 /** Keep visual data out of the game/read model and out of the deterministic World. */
 export function applyGalUiArt(node: LayoutNode, art: GalUiArt): LayoutNode {
   let props = node.props;
   let layout = node.layout;
   let children = node.children;
-  if (node.type === 'Label') {
+  if (node.type === 'Screen' && art.systemFrame?.slice === 115 && art.slot && art.slot.slice === undefined) {
+    const shell = node.children?.find(child => child.id === 'gal-slots-shell');
+    const header = shell?.children?.find(child => child.id === 'gal-slots-header');
+    const actions = header?.children?.find(child => child.id === 'gal-slots-header-actions');
+    if (shell && header && actions) {
+      // V2 keeps global navigation above the frame. Move the same closed-set
+      // action nodes, never duplicate them or alter the no-art fallback.
+      const movedHeader = { ...header, children: header.children?.filter(child => child !== actions) };
+      const movedShell = { ...shell, children: shell.children?.map(child => child === header ? movedHeader : child) };
+      children = [...(node.children ?? []).map(child => child === shell ? movedShell : child),
+        { ...actions, layout: { ...actions.layout, x: 1080, y: 16, width: 330, height: 40,
+          direction: 'row', justify: 'end', gap: 8 } }];
+    }
+  } else if (node.type === 'Label') {
+    /* AI START */
+    if (node.id === 'gal-story-speaker' && art.dialogue && art.dialogue.slice === undefined)
+      layout = { ...layout, y: 84 };
+    /* AI END */
+    const isV2EmptySlot = !!art.slot && art.slot.slice === undefined &&
+      /^gal-slot-\d+-preview-text$/.test(node.id ?? '') && (node.props as LabelProps).text === '空存档位';
     const ink = (art.dialogue && DIALOGUE_INK[node.id ?? '']) ||
       (art.systemFrame && FRAME_INK[node.id ?? '']) ||
+      (art.systemFrame?.slice === 115 && /^gal-gallery-(?:name|count|art-note|placeholder|locked)-/.test(node.id ?? '') &&
+        (node.id?.includes('-placeholder-') || node.id?.includes('-locked-') ||
+          (node.props as LabelProps).text === '？？？' ? '#aab4c7' :
+          node.id?.includes('-count-') ? '#bfc5da' : '#f5e7c6')) ||
+      (art.systemFrame?.slice === 115 && /^gal-settings-(?:text-card|input-card|volume-card|audio-other-card|display-card|accessibility-card|confirm-save|confirm-flow)-title$/.test(node.id ?? '') && '#f5dfad') ||
       (art.systemFrame?.slice === 115 && /^gal-settings-|^gal-setting-/.test(node.id ?? '') && '#f4f0e9') ||
       (art.slot && art.slot.slice === undefined && /^gal-slot-\d+-(number|meta|state|preview-text)$/.test(node.id ?? '') &&
         (node.id?.endsWith('-number') ? '#f4e2bc' : '#cbd0e3'));
-    if (ink) props = { ...node.props, color: { custom: ink } };
+    if (ink || isV2EmptySlot) props = { ...node.props,
+      ...(ink ? { color: { custom: ink } } : {}),
+      ...(art.systemFrame?.slice === 115 && SETTINGS_CARD_ID.test((node.id ?? '').replace(/-title$/, '')) &&
+        node.id?.endsWith('-title') ? { size: 18, bold: true } : {}),
+      ...(isV2EmptySlot ? { text: '◇', size: 24 } : {}) };
+  } else if (node.type === 'Button' && art.systemFrame?.slice === 115 &&
+    node.id?.startsWith('gal-memory-play-')) {
+    props = { ...node.props, skin: '', kind: 'quiet', labelColor: { custom: '#cbd0e3' } };
   } else if (node.type === 'Button' && art.button) {
     const isV2Button = art.button.slice === undefined;
     if (!isV2Button || usesV2ArtButton(node.id)) {
       props = { ...node.props, skin: art.button.url, skinSlice: art.button.slice,
         ...(isV2Button ? { skinSize: { x: 100, y: node.id?.startsWith('gal-choice') ? 180 : 220 },
-          skinPosition: 'center', skinOutset: { x: 8, y: 5 } } : {}) };
+          skinPosition: 'center', skinOutset: { x: 8, y: 5 },
+          ...(node.id?.startsWith('gal-home-') || /^starter-act-\d+$/.test(node.id ?? '') ?
+            { labelSize: 21, labelWeight: 700 } : {}),
+          skinFeedback: { hoverBrightness: 1.32, pressedBrightness: 1.32,
+            glowRadius: 8, glowColor: { custom: '#a7b2ff99' }, transitionMs: 160 } } : {}) };
+      if (isV2Button && (node.id === 'gal-confirm-no' || node.id === 'gal-confirm-yes'))
+        layout = { ...node.layout, width: 124, height: 44 };
+      if (isV2Button && (node.id?.startsWith('gal-home-') || /^starter-act-\d+$/.test(node.id ?? '')))
+        layout = { ...node.layout, height: 52 };
       if (isV2Button && (node.id?.startsWith('gal-settings-tab-') ||
+        node.id === 'gal-gallery-memories-tab' || node.id === 'gal-gallery-cg-tab' ||
         node.id === 'gal-mode-save' || node.id === 'gal-mode-load')) {
-        layout = { ...node.layout, width: node.id?.startsWith('gal-mode-') ? 124 : 132, height: 46 };
+        layout = { ...node.layout, width: node.id?.startsWith('gal-mode-') ||
+          node.id?.startsWith('gal-gallery-') ? 124 : 132, height: 46 };
       }
     } else if (usesV2GhostButton(node.id)) {
       // An omitted skin inherits apolloToon's candy buttonSkins. V2 ghost
       // navigation explicitly opts out, without changing the shared theme.
-      props = { ...(node.props as ButtonProps), skin: '', labelColor: { custom: '#e8e8f4' } };
+      props = { ...(node.props as ButtonProps), skin: '', shape: 'pill',
+        labelColor: { custom: '#e8e8f4' }, stateColors: V2_GHOST_COLORS };
     }
+  } else if (node.type === 'Toggle' && art.systemFrame?.slice === 115 &&
+    (/^gal-setting-.*-control$/.test(node.id ?? '') || /^gal-confirm-toggle-/.test(node.id ?? ''))) {
+    props = { ...(node.props as ToggleProps), visual: V2_TOGGLE_VISUAL };
   } else if (node.type === 'Slider' && art.sliderKnob) {
     props = { ...node.props, thumbSkin: art.sliderKnob.url, thumbSize: 34 };
   } else if (node.type === 'Panel' && art.slot && art.slot.slice === undefined &&
     /^gal-slot-\d+-preview$/.test(node.id ?? '')) {
-    props = { ...node.props, bg: 'ink-deep' };
+    // The approved V2 empty-preview well is flat RGB(23,33,64), not the
+    // near-black ink-deep preset. Keep this exact fill behind live preview data.
+    props = { ...node.props, bg: { custom: '#172140' } };
   } else if (node.type === 'Panel') {
+    if (art.systemFrame?.slice === 115 && GALLERY_CARD_ID.test(node.id ?? '')) {
+      props = { ...node.props, bg: { custom: '#111b36' }, edge: 'gold', dashed: false };
+    } else if (art.systemFrame?.slice === 115 && GALLERY_ART_ID.test(node.id ?? '')) {
+      props = { ...node.props, bg: { custom: '#172140' }, pattern: undefined };
+    }
     if (art.systemFrame?.slice === 115 &&
       (SETTINGS_CARD_ID.test(node.id ?? '') || node.id === 'gal-settings-preview')) {
-      props = { ...node.props, bg: 'ink-deep' };
+      props = { ...node.props,
+        bg: { custom: SETTINGS_CARD_ID.test(node.id ?? '') ? '#0b1430ba' : '#172140' }, edge: 'gold' };
+      if (SETTINGS_CARD_ID.test(node.id ?? '')) layout = { ...node.layout, radius: 12 };
     }
     if (art.systemFrame?.slice === 115 && art.sliderKnob &&
       /^gal-setting-.*-control-shell$/.test(node.id ?? '') &&
       node.children?.some(child => child.type === 'Slider')) {
-      children = [{ type: 'ProgressBar', id: `${node.id}-rail`,
-        props: { value: 1, max: 1, barHeight: 6, fillColor: '#9da8e4' },
-        layout: { x: 0, y: 14, width: 326, height: 6, allowOverlap: true } }, ...node.children];
+      const slider = node.children!.find(child => child.type === 'Slider')!;
+      const range = slider.props as { value: number; min: number; max: number };
+      const progress = range.max > range.min
+        ? Math.max(0, Math.min(1, (range.value - range.min) / (range.max - range.min))) : 0;
+      children = [{ type: 'Panel', id: `${node.id}-rail`,
+        props: { bg: { custom: '#2b3454' } },
+        layout: { x: 0, y: 14, width: 326, height: 6, radius: 3, padding: 0, allowOverlap: true },
+        children: progress === 0 ? [] : [{ type: 'Panel', id: `${node.id}-rail-fill`,
+          props: { bg: { custom: '#9da8e4' } },
+          layout: { width: Math.max(1, Math.round(324 * progress)), height: 4, radius: 2, padding: 0 } }] },
+      ...node.children];
     }
-    const part = node.id === 'gal-story-dialogue' ? art.dialogue :
+    const part = node.id === 'gal-story-dialogue-backdrop' ? art.dialogue :
       node.id === 'gal-slots-shell' || node.id === 'gal-gallery-shell' || node.id === 'gal-settings-shell'
         ? art.systemFrame : /^gal-slot-\d+$/.test(node.id ?? '') ? art.slot : undefined;
     if (part) {
@@ -176,7 +266,12 @@ export function applyGalUiArt(node: LayoutNode, art: GalUiArt): LayoutNode {
         // V2 slot art is a whole-card 100%×100% image, not a nine-slice or
         // cover image. Positioned elements paint above normal-flow siblings,
         // so put the live content in a later positioned bare group.
-        props = { ...node.props, bg: 'ink-deep' };
+        props = { ...node.props, bg: 'ink-deep', edge: undefined };
+        /* AI START */
+        // 1633×963 skin stretched to 309×164. Dark caption band is source rows
+        // 680–848 (display y 116–144); gold filigree starts at display y 145.
+        layout = { ...node.layout, padding: 0 };
+        /* AI END */
         const slotChildren = node.children ?? [];
         const place = (suffix: string, position: LayoutNode['layout']): LayoutNode | undefined => {
           const child = slotChildren.find(item => item.id === `${node.id}-${suffix}`);
@@ -184,9 +279,13 @@ export function applyGalUiArt(node: LayoutNode, art: GalUiArt): LayoutNode {
           return { ...child, layout: { ...child.layout, ...position },
             ...(suffix === 'number' ? { props: { ...child.props, size: 11 } } : {}) };
         };
-        const content = [place('preview', { x: 17, y: 18, width: 275, height: 100 }),
-          place('number', { x: 28, y: 20 }), place('meta', { x: 17, y: 131, width: 183 }),
-          place('state', { x: 211, y: 131, width: 80 })].filter((item): item is LayoutNode => !!item);
+        const number = place('number', {});
+        const content = [place('preview', { x: 20, y: 18, width: 269, height: 96 }),
+          ...(number ? [{ type: 'Panel', id: `${node.id}-number-pill`, props: { bg: 'ink-deep', edge: 'gold' },
+            layout: { x: 26, y: 24, width: 52, height: 18, radius: 9, padding: 0,
+              align: 'center', justify: 'center', allowOverlap: true }, children: [number] } as LayoutNode] : []),
+          place('meta', { x: 22, y: 120, width: 170 }),
+          place('state', { x: 200, y: 120, width: 88 })].filter((item): item is LayoutNode => !!item);
         children = [{ type: 'Image', id: `${node.id}-skin`,
           props: { src: part.url, alt: '', fit: 'fill' },
           layout: { x: 0, y: 0, width: 309, height: 164, allowOverlap: true } },
@@ -198,7 +297,8 @@ export function applyGalUiArt(node: LayoutNode, art: GalUiArt): LayoutNode {
         props = { ...node.props, skin: part.url, skinSlice: part.slice,
           ...(isV2Frame ? { skinBorderWidth: 58 } : {}),
           ...(part === art.dialogue && part.slice === undefined ?
-            { skinSize: { x: 100, y: 160 }, skinPosition: 'center' } : {}) };
+            // 2172×724 art in the 1400×345 slot. 135% height keeps that aspect; 160% stretched it.
+            { skinSize: { x: 100, y: 135 }, skinPosition: 'center' } : {}) };
         // The unskinned S4 panel has a 1px edge on each side; non-slice art
         // removes that edge. Preserve the approved 1400×345 outer anchor.
         if (part === art.dialogue && part.slice === undefined &&
@@ -208,8 +308,10 @@ export function applyGalUiArt(node: LayoutNode, art: GalUiArt): LayoutNode {
         // LayoutNode widths are content-box values. Exchange 57px of the
         // existing 65px inset for the 58px image border (+ old 1px edge).
         if (isV2Frame && node.layout?.padding === 65) {
-          layout = { ...node.layout, padding: 8 };
-          if (node.id === 'gal-settings-shell') {
+          layout = { ...node.layout, padding: 8,
+            ...(node.id === 'gal-gallery-shell' || node.id === 'gal-slots-shell' || node.id === 'gal-settings-shell'
+              ? { x: 18, y: 61, width: 1404, height: 824 } : {}) };
+          if (node.id === 'gal-settings-shell' || node.id === 'gal-gallery-shell') {
             // The source frame adds 58px of real display border. Its child
             // coordinates still included the former 65px inset. Subtract the
             // exchanged 57px only for this loaded V2 frame, not fallback UI.
@@ -230,9 +332,25 @@ export function applyGalUiArt(node: LayoutNode, art: GalUiArt): LayoutNode {
   } else if (node.type === 'Modal' && art.systemFrame) {
     props = { ...node.props, skin: art.systemFrame.url, skinSlice: art.systemFrame.slice,
       titleColor: { custom: '#f5dfad' },
-      ...(art.systemFrame.slice === 115 ? { skinBorderWidth: node.id === 'gal-confirm' ? 36 : 58 } : {}) };
+      ...(art.systemFrame.slice === 115 ? { skinBorderWidth: node.id === 'gal-confirm' ? 36 : 58,
+        ...(node.id === 'gal-confirm' ? { visual: { minHeight: 310, padding: 26,
+          titleSize: 30, titleAlign: 'center', contentAlign: 'center' } } : {}) } : {}) };
+    if (art.systemFrame.slice === 115 && node.id === 'gal-confirm')
+      children = [{ type: 'Panel', id: 'gal-confirm-content', props: { bare: true },
+        layout: { height: 130, direction: 'column', align: 'center', justify: 'center', gap: 20 },
+        children: node.children ?? [] }];
   }
-  if (props === node.props && !children?.length) return node;
+  if (art.systemFrame?.slice === 115 && node.id === 'gal-story-text') {
+    layout = { ...layout, anim: 'flyIn', animFrom: 'bottom', animDist: 7, animMs: 240 };
+  } else if (art.systemFrame?.slice === 115 && node.type === 'Button' && node.id?.startsWith('gal-choice#')) {
+    layout = { ...layout, anim: 'flyIn', animFrom: 'bottom', animDist: 7, animMs: 250 };
+  } else if (art.systemFrame?.slice === 115 && node.id === 'gal-story-advance') {
+    layout = { ...layout, fx: [{ kind: 'cue', ms: 1300 }] };
+  }
+  if (node.id === 'gal-story-dialogue' && art.dialogue && art.dialogue.slice === undefined &&
+      node.layout?.width === 1398 && node.layout?.height === 343)
+    layout = { ...layout, width: 1400, height: 345 };
+  if (props === node.props && layout === node.layout && !children?.length) return node;
   return { ...node, props, layout,
     ...(children ? { children: children.map(child => applyGalUiArt(child, art)) } : {}) } as LayoutNode;
 }

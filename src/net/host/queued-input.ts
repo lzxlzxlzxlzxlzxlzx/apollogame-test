@@ -65,6 +65,7 @@ export function synthesizeDrag(
 export class PointerInputSource extends QueuedInputSource {
   private downAt: { x: number; y: number } | null = null; // REQ-F-045：拖拽起点（down 记录、up 合成）
   private activePointerId: number | null = null; // 连续采样 opt-in：第二触点不得接管当前握持
+  private previousTouchAction: string | undefined;
 
   private emitPointer(action: RawInputData): void {
     this.enqueue(action);
@@ -133,6 +134,12 @@ export class PointerInputSource extends QueuedInputSource {
     private readonly opts: { move?: boolean; dragThreshold?: number; worldFromScreen?: (sx: number, sy: number) => { x: number; y: number }; onPointerSample?: (action: RawInputData) => void } = {},
   ) {
     super(pid);
+    // 连续触控是游戏手势而非页面滚动；否则真实浏览器移动一帧后会发 pointercancel。
+    // 仅 opt-in 路径接管，并在 dispose 恢复原值；旧点击-only 入口逐字节不变。
+    if (opts.move && canvas.style) {
+      this.previousTouchAction = canvas.style.touchAction;
+      canvas.style.touchAction = 'none';
+    }
     canvas.addEventListener('pointerdown', this.onPointer as EventListener);
     canvas.addEventListener('pointerup', this.onPointer as EventListener);
     if (opts.move) {
@@ -144,6 +151,9 @@ export class PointerInputSource extends QueuedInputSource {
   }
 
   dispose(): void {
+    if (this.opts.move && this.canvas.style && this.previousTouchAction !== undefined) {
+      this.canvas.style.touchAction = this.previousTouchAction;
+    }
     this.canvas.removeEventListener('pointerdown', this.onPointer as EventListener);
     this.canvas.removeEventListener('pointerup', this.onPointer as EventListener);
     this.canvas.removeEventListener('pointermove', this.onPointer as EventListener);

@@ -122,6 +122,7 @@ export interface LayoutConstraints {
 // **新特效 = 加一个 kind（评审过的确定性 CSS），绝不再加布尔旗标。** 这就是替代 sheen?/glow?/… 开关爆炸的抽象。
 export type EffectKind =
   | 'pulse'   // 呼吸（缩放/透明·低血量警示/选中强调/待办催促）
+  | 'cue'     // 提示节拍：两端不透明，半程淡至 .35 并下移 4px
   | 'float'   // 上下浮动（漂浮/待命）
   | 'shake'   // 抖动（受击/错误/拒绝·intensity=抖幅·once=单次）
   | 'pop'     // 弹一下（出现/数值跳/强调·一次性）
@@ -175,8 +176,20 @@ export interface SkinLayerProps {
 
 export interface ButtonProps extends SkinLayerProps {
   label: string;
+  /** Native label typography; omitted keeps each kind's old defaults. */
+  labelSize?: number;
+  labelWeight?: 400 | 600 | 700;
   /** 按钮内建文字色；复用 LabelColor 的 token / 受限 custom 合同。缺省保留各 kind / 贴图皮原有字色。 */
   labelColor?: LabelColor;
+  /** 四态面色闭集；只用于无贴图皮按钮。每态必须给底和边，文字色可选并回退 labelColor/kind。
+   * 缺省完全保留旧 Button 的 HTML/CSS；不接自由 CSS 或状态脚本。 */
+  stateColors?: ButtonStateColors;
+  /** Opt-in solid border width for non-skinned buttons; old kinds remain 1px. */
+  borderWidth?: number;
+  /** Keep keyboard focus visible while choosing a bounded color/width/offset. */
+  focusRingVisual?: { color: LabelColor; width: number; offset: number };
+  /** Opt-in visual feedback only for a resolved image skin; no free CSS or action changes. */
+  skinFeedback?: ButtonSkinFeedback;
   kind?: 'primary' | 'ghost' | 'quiet' | 'hero'; // hero=金色倒角 sheen 大 CTA（下沉自 game-g 出征键·owner 2026-06-25）
   disabled?: boolean;
   /** 键盘焦点环；缺省 true。仅视觉已明确标出焦点/命中区的透明热区可关闭，避免额外矩形描边污染画面。 */
@@ -185,6 +198,10 @@ export interface ButtonProps extends SkinLayerProps {
   actionArg?: string;
   sub?: string; // hero 键副标（小字第二行·如「挑战 曹操 · 难度 ★★」）
   icon?: string; // 键首内联图标（已解析 URL·1em 随字号·居 label 前）。批32「图标统一升级」：'⚔ 出征' 的 emoji 记号可换成套装美术图标。缺省无=纯文字零变。
+  /** 原生图标按钮；图成功加载后隐藏可见 label，失败时文字回退。 */
+  iconOnly?: { size: number }; // 24..64px；缺省旧图文按钮不变
+  /** Opt-in, image-layer-only icon feedback; requires iconOnly and leaves the button hit box still. */
+  iconFeedback?: ButtonIconFeedback;
   /** 异形轮廓（闭集 ShapeToken·如 hexagon/diamond/shield）。缺省=矩形。命中区：clip-path 多边形**按形裁**（透明角点击穿透·不误触）；
    *  pill 走 border-radius=矩形包围盒。（P3D 复核更正原「命中区=包围盒」旧注·2026-07-15。） */
   shape?: ShapeToken;
@@ -198,6 +215,21 @@ export interface ButtonProps extends SkinLayerProps {
   skinBorderWidth?: number;
 }
 
+export interface ButtonSkinFeedback {
+  hoverBrightness: number;
+  pressedBrightness: number;
+  glowRadius: number;
+  glowColor: LabelColor;
+  transitionMs: number;
+}
+
+export interface ButtonIconFeedback {
+  hover: { translateY: number; brightness: number; glowRadius: number; glowColor: LabelColor };
+  pressed: { translateY: number; brightness: number };
+  disabled: { opacity: number; grayscale: number };
+  transitionMs: number;
+}
+
 /** 文字色令牌（闭集·主题解析·换皮自适应）。`{custom:'#hex'}` 逃生仅"创作者特别指定"用——
  *  与 `Panel.bg` 三态同口径（令牌优先·custom 显式逃生·audit 标记建议迁令牌）。REQ-UI-Label色三态：
  *  收编 game-g 花色/蓝数字令牌挤（×4）+ game108 D6「11 令牌装不下稿子 14 用色」。红线不破：仍是**闭集令牌 + 显式 custom**，
@@ -205,11 +237,24 @@ export interface ButtonProps extends SkinLayerProps {
 export type ColorToken = 'text' | 'sub' | 'dim' | 'jade' | 'gold' | 'ok' | 'warn' | 'danger' | 'mine' | 'foe' | 'ink';
 export type LabelColor = ColorToken | { custom: string };
 
+/** 状态底色只用主题面令牌或受限实色（#hex / rgb / rgba）；不接渐变或自由 CSS。 */
+export type ButtonStateFill = SurfaceToken | { custom: string };
+export interface ButtonStateColor {
+  background: ButtonStateFill;
+  border: LabelColor;
+  text?: LabelColor;
+}
+export type ButtonStateColors = Readonly<Record<'default' | 'hover' | 'pressed' | 'disabled', ButtonStateColor>>;
+
 export interface LabelProps {
   text?: string; // 可选：spans / tween / bind 提供内容时可省（缺省空串）
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'xxxl' | number; // 具名档(xs10..xxxl34) 或裸 px 数字(复刻精确档·8→任意大·REQ-UI-Label字阶裸数字)
   color?: LabelColor;
   bold?: boolean;
+  /** 精确多行基线间距，px；缺省保留浏览器/主题原行高。 */
+  lineHeight?: number;
+  /** 受限字重；显式值覆盖 bold，缺省仍沿用 bold=700。 */
+  weight?: 400 | 600 | 700 | 900;
   mono?: boolean;
   /** 具名字体槽（闭集·换艺术字体）。基础槽：ui=主字体 / mono=等宽 / pixel=像素点阵 / display=数码管展示字 /
    *  serif=衬线槽(UITheme.fontSerif·标题/logo 衬线、正文仍 sans)。
@@ -240,6 +285,8 @@ export interface LabelProps {
   bind?: string;
   /** 打字机(收编 VN DialogBox 逐字显)：每字毫秒(>0 开)。mountUI 挂载时逐字揭示·teardown 清定时器。 */
   typewriter?: number;
+  /** 受限逐字完成信号：token 是宿主提供的当前剧情引用/世代不透明键；末字或首次点击显全只发一次 action(arg=token)，typewriter:0 即时完成。 */
+  typewriterSignal?: { token: string; action: string };
   /** 数字滚动补间(render-only·掷骰滚到命点/筹码倍率分数跳动)：from→to 在 ms(缺省 600) 内由 mountUI 定时器动画到位；
    *  decimals=小数位(倍率用·缺省 0)。纯表现·不进 sim hash(同 typewriter)。弱模型只填 {from,to,ms} 数字。
    *  scale=**tween 期间字号同步缩放**(REQ-UIFX ⑤·定稿「伤害跳数字号 .82→1」)：起始缩放倍率·随补间进度回到 1。 */
@@ -326,6 +373,8 @@ export interface PanelProps extends SkinLayerProps {
   /** 描边语义色（REQ-UI-容器描边形·闭集枚举·主题解析·非自由 hex）：阵营框(mine/foe)/金边界格(gold)/
    *  告警框(danger/warn/ok)/翠框(jade)。覆盖默认细线边·复用面：棋盘格/战棋位/卡牌位/堡垒框。 */
   edge?: EdgeColor;
+  /** 透明中心印章等精确描边；仅非 bare、无 skin 面板，缺省仍用 1px 主题边。 */
+  border?: { width: number; color: LabelColor };
   /** 虚线描边（空格落点圈/占位/拖放目标框）：true → border-style:dashed。配 edge 取色 + radius 取圆。 */
   dashed?: boolean;
   /** 异形容器轮廓（闭集 ShapeToken·复用 Button 同一套 render.ts SHAPE_CSS·**非自由 clip-path 坐标**·REQ-UI-异型容器①·
@@ -349,12 +398,30 @@ export interface CheckboxProps {
 }
 
 /** 药丸形开关（Toggle Switch）。handler 收到 'true' | 'false'。 */
+/** Optional measured switch skin. All geometry is px; colors are theme tokens or explicit safe colors. */
+export interface ToggleVisual {
+  /** Hide only the visible text; p.label remains the native checkbox's accessible name. */
+  showLabel?: boolean;
+  width: number;
+  height: number;
+  knobSize: number;
+  knobOffLeft: number;
+  knobOnLeft: number;
+  knobTop: number;
+  offBackground: ButtonStateFill;
+  onBackground: ButtonStateFill;
+  border: LabelColor;
+  offKnob: LabelColor;
+  onKnob: LabelColor;
+}
 export interface ToggleProps {
   label: string;
   checked?: boolean;
   action?: string;
   /** Keeps the selected visual state while removing keyboard, pointer, and signal input. */
   disabled?: boolean;
+  /** Opt-in measured visual only; absent means the legacy 36×20 Toggle, byte for byte. */
+  visual?: ToggleVisual;
 }
 
 /** 互斥单选组。name 用于分组；handler 收到所选 value。 */
@@ -373,6 +440,8 @@ export interface ImageProps {
   src: string;
   alt?: string;
   fit?: 'cover' | 'contain' | 'fill';
+  /** Closed object-position; top anchors a cover crop to the upper edge. */
+  position?: 'center' | 'top';
   radius?: number;
   /** Render-only Gaussian blur in px. */
   blur?: number;
@@ -584,6 +653,10 @@ export interface ModalProps {
   title?: string;
   /** 内建标题色；复用 LabelColor 的 token / 受限 custom 合同，缺省仍使用主题 text。 */
   titleColor?: LabelColor;
+  /** Opt-in constrained inner-frame typography/geometry; omitted keeps legacy HTML unchanged. */
+  visual?: ModalVisual;
+  /** Scrim opacity stays 0.9; only a bounded background blur is configurable. */
+  scrim?: { blur: number };
   /** 固定闭集尺寸：sm/md/lg 保持旧宽；xl=800 确认框，wide=1080×至少610 的历史/画廊框。 */
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'wide';
   closable?: boolean;
@@ -593,6 +666,23 @@ export interface ModalProps {
   skinSlice?: number;
   /** 9-slice 显示边宽 px；缺省沿用 skinSlice。 */
   skinBorderWidth?: number;
+}
+
+export interface ModalVisual {
+  width?: number;
+  minHeight?: number;
+  padding?: number | { top: number; right: number; bottom: number; left: number };
+  radius?: number;
+  /** Opaque solid or fixed 145-degree two-stop gradient; no arbitrary CSS. */
+  fill?: { color: string } | { gradient: { from: string; to: string } };
+  border?: { width: number; color: string };
+  /** Transparent outside-only ring, separate from the opaque content frame. */
+  outerRing?: { width: number; color: string };
+  /** Fixed dialog-only lift/fade presets; scrim stays still. */
+  enter?: 'lift-240' | 'lift-600';
+  titleSize?: number;
+  titleAlign?: 'left' | 'center';
+  contentAlign?: 'left' | 'center';
 }
 
 // ── Toast（飘字提示·非模态）：tone 着色的小药丸。──
@@ -749,6 +839,7 @@ export interface DialogProps {
   kind?: 'line' | 'choice' | 'check'; // 当前节点种类（投影填）：choice 节点隐推进提示（推进交给 choiceList）
   advanceAction?: string;    // 推进信号名（缺省 dialogue.advance）
   typewriter?: number;       // 打字机每字 ms（复用 Label 逐字揭示·render-only 不进 sim）
+  typewriterSignal?: { token: string; action: string }; // 当前剧情引用/世代键；完成或首次点击显全只通知一次
   skin?: string;             // 台词框画框皮（已解析图 URL·同 Panel.skin·art 即框·压过底/边框）
   skinSlice?: number;        // skin 9-slice 源边距 px（画框式无损缩放·不填=cover）
   skinBorderWidth?: number;  // 9-slice 显示边宽 px；缺省沿用 skinSlice
@@ -843,6 +934,37 @@ export type HandlerMap = Record<string, Handler>;
  */
 export interface ActionSink {
   enqueueAction(name: string, value?: { arg?: string }): void;
+}
+
+/**
+ * 每次 mount 的作品级表现偏好（render-only）。
+ *
+ * 这不是 LayoutNode 字段，也不进入 World/hash：宿主可从自己的 Profile
+ * 投影它，并在 `MountHandle.update()` 时热更新。`true` 与操作系统的
+ * `prefers-reduced-motion: reduce` 取并集；缺省/false 保持旧作品行为。
+ */
+export interface UIMotionPolicy {
+  reducedMotion?: boolean;
+}
+
+/** Closed work-level UI scale choices.  These are presentation tokens, not a
+ * free percentage field: hosts persist one token and project it at mount time. */
+export const UI_SCALE_OPTIONS = ['90', '100', '110'] as const;
+export type UIScale = typeof UI_SCALE_OPTIONS[number];
+
+/**
+ * Per-work accessibility projection.  It stays outside LayoutNode and World:
+ * a host may update it from its own preference storage without changing
+ * actions, snapshots, focus order, or deterministic state.
+ *
+ * `highContrast` replaces semantic UITheme tokens with the PUI contrast
+ * palette.  Explicit custom colors and image skins remain author-controlled;
+ * consumers that need them must provide their own readable art rather than
+ * treating this flag as a CSS-filter escape hatch.
+ */
+export interface UIAccessibilityPolicy {
+  highContrast?: boolean;
+  scale?: UIScale;
 }
 
 /**

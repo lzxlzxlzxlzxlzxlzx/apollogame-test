@@ -125,45 +125,94 @@ export function cartProbeFixture(root, slug) {
 
 // ── vite dev 起服（非 build+preview——冷启动快、天然读当前源码）─────────────
 const VITE_BASE_PORT = 5700;
+const ANSI_ESCAPE = /\u001B\[[0-?]*[ -/]*[@-~]/g;
 
-export function startDevServer(root, { port = VITE_BASE_PORT } = {}) {
+/** Parse Vite's actual selected local URL, tolerating terminal color codes. */
+export function parseViteReadyPort(output) {
+  const plain = String(output).replace(ANSI_ESCAPE, '');
+  const match = plain.match(/\bLocal:\s*https?:\/\/(?:\[[^\]]+\]|[^:/\s]+):(\d+)(?:\/[^\s]*)?/m);
+  if (!match) return null;
+  return Number(match[1]);
+}
+
+/** Resolve when either Vite output stream announces readiness; stop it on timeout. */
+export function waitForViteReady(proc, { timeoutMs = 20000, stop = stopDevServer } = {}) {
   return new Promise((resolve, reject) => {
-    const bin = join(root, 'node_modules', 'vite', 'bin', 'vite.js');
-    const proc = spawn(process.execPath, [bin, '--port', String(port)], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'], detached: true });
-    let buf = '';
+    let output = '';
     let settled = false;
-    const to = setTimeout(() => {
+    const cleanup = () => {
+      clearTimeout(timer);
+      proc.stdout?.off('data', onOutput);
+      proc.stderr?.off('data', onOutput);
+      proc.off('exit', onExit);
+      proc.off('error', onError);
+    };
+    const fail = (error) => {
       if (settled) return;
       settled = true;
       cleanup();
-      reject(new Error(`vite dev 20s 未就绪 · 输出尾：${buf.slice(-400)}`));
-    }, 20000);
-    const cleanup = () => clearTimeout(to);
-    proc.stdout.on('data', (d) => {
-      buf += d.toString();
-      const m = buf.match(/Local:\s+https?:\/\/[^:]+:(\d+)\//);
-      if (m && !settled) {
+      reject(error);
+    };
+    const onOutput = (chunk) => {
+      output = `${output}${chunk.toString()}`.slice(-8192);
+      const port = parseViteReadyPort(output);
+      if (port !== null && !settled) {
         settled = true;
         cleanup();
-        resolve({ proc, port: Number(m[1]) });
+        resolve(port);
       }
-    });
-    proc.stderr.on('data', (d) => { buf += d.toString(); });
-    proc.on('exit', (code) => {
-      if (!settled) {
-        settled = true;
-        cleanup();
-        reject(new Error(`vite dev 未起服就退出（code ${code}）· 输出尾：${buf.slice(-400)}`));
+    };
+    const onExit = (code, signal) => {
+      fail(new Error(`vite dev 未起服就退出（code ${code} · signal ${signal ?? 'none'}）· 输出尾：${output.slice(-400)}`));
+    };
+    const onError = (error) => {
+      if (proc.pid && proc.exitCode === null && proc.signalCode === null) {
+        try { stop(proc); } catch (cleanupError) {
+          error.message = `${error.message} · 清理失败：${cleanupError.message}`;
+        }
       }
-    });
-    proc.on('error', (e) => {
-      if (!settled) { settled = true; cleanup(); reject(e); }
-    });
+      fail(error);
+    };
+    proc.stdout?.on('data', onOutput);
+    proc.stderr?.on('data', onOutput);
+    proc.once('exit', onExit);
+    proc.once('error', onError);
+    const timer = setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      let cleanupFailure = '';
+      try { stop(proc); } catch (error) { cleanupFailure = ` · 清理失败：${error.message}`; }
+      reject(new Error(`vite dev ${timeoutMs / 1000}s 未就绪${cleanupFailure} · 输出尾：${output.slice(-400)}`));
+    }, timeoutMs);
+    timer.unref?.();
   });
 }
 
-export function stopDevServer(proc) {
+export async function startDevServer(root, { port = VITE_BASE_PORT } = {}) {
+  const bin = join(root, 'node_modules', 'vite', 'bin', 'vite.js');
+  const proc = spawn(process.execPath, [bin, '--port', String(port)], {
+    cwd: root, stdio: ['ignore', 'pipe', 'pipe'], detached: process.platform !== 'win32',
+  });
+  const actualPort = await waitForViteReady(proc);
+  return { proc, port: actualPort };
+}
+
+export function stopDevServer(proc, { platform = process.platform, runTaskkill = spawnSync, kill = process.kill } = {}) {
   if (!proc) return;
-  try { process.kill(-proc.pid, 'SIGTERM'); } catch { /* 已死或不归我们管 */ }
-  setTimeout(() => { try { process.kill(-proc.pid, 'SIGKILL'); } catch { /* 收尸 */ } }, 1500);
+  if (platform === 'win32') {
+    const result = runTaskkill('taskkill.exe', ['/PID', String(proc.pid), '/T', '/F'], {
+      encoding: 'utf8', stdio: 'ignore', windowsHide: true,
+    });
+    if (!result || result.error || result.status !== 0) {
+      try { proc.kill('SIGTERM'); } catch { /* 已死或进程句柄不可用 */ }
+    }
+    return;
+  }
+  try { kill(-proc.pid, 'SIGTERM'); } catch { try { proc.kill('SIGTERM'); } catch { /* 已死或不归我们管 */ } }
+  const forceTimer = setTimeout(() => {
+    try { kill(-proc.pid, 'SIGKILL'); } catch { /* 进程组已退出 */ }
+  }, 1500);
+  forceTimer.unref?.();
+  proc.once('exit', () => clearTimeout(forceTimer));
 }

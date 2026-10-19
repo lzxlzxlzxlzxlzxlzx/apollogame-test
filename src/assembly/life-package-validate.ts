@@ -77,7 +77,7 @@ function validateClosedPackageShape(raw: Record<string, unknown>, issue: IssueSi
       : value.kind === 'unlock' ? ['kind', 'flagId'] : ['kind']);
   };
 
-  closed(raw, '$', ['meta', 'world', 'visualSemantics', 'tileCatalog', 'itemCatalog', 'playerInventory', 'cropCatalog', 'calendar', 'movement', 'interaction', 'camera', 'playerVisual', 'logic', 'milestones', 'dialogueCatalog', 'quests', 'relationships', 'constructionProjects', 'scenes']);
+  closed(raw, '$', ['meta', 'world', 'visualSemantics', 'tileCatalog', 'itemCatalog', 'playerInventory', 'cropCatalog', 'calendar', 'movement', 'interaction', 'camera', 'playerVisual', 'logic', 'milestones', 'dialogueCatalog', 'quests', 'relationships', 'profile', 'constructionProjects', 'scenes']);
   closed(raw.meta, '$.meta', ['schema', 'id', 'title', 'tickRate']);
   closed(raw.world, '$.world', ['startSceneId']);
   closed(raw.visualSemantics, '$.visualSemantics', ['schema', 'farm']);
@@ -130,6 +130,11 @@ function validateClosedPackageShape(raw: Record<string, unknown>, issue: IssueSi
   records(raw.relationships,'$.relationships',(relationship,path)=>{
     closed(relationship,path,['npcId','min','max','initial','levels','dailyCaps','rules']);records(relationship.levels,`${path}.levels`,(level,levelPath)=>closed(level,levelPath,['id','min','titleKey']));closed(relationship.dailyCaps,`${path}.dailyCaps`,['talk','gift','action']);records(relationship.rules,`${path}.rules`,(rule,rulePath)=>{closed(rule,rulePath,['id','priority','exclusiveGroup','trigger','effect']);if(isRecord(rule.trigger))closed(rule.trigger,`${rulePath}.trigger`,rule.trigger.kind==='talk-opened'?['kind']:rule.trigger.kind==='talk-choice'?['kind','dialogueId','choiceId']:rule.trigger.kind==='life-action'?['kind','action','targetId']:rule.trigger.kind==='harvest'?['kind','cropId','itemId']:rule.trigger.kind==='gather'?['kind','action','placementId','itemId']:rule.trigger.kind==='gift'?['kind','itemId','count']:rule.trigger.kind==='quest-effect'?['kind','questId','nodeId']:['kind']);if(isRecord(rule.effect))closed(rule.effect,`${rulePath}.effect`,['kind','amount'])});
   });
+  closed(raw.profile, '$.profile', ['titleKey', 'attributes']);
+  if (isRecord(raw.profile)) records(raw.profile.attributes, '$.profile.attributes', (attribute, path) => {
+    closed(attribute, path, ['id', 'titleKey', 'display', 'source', 'iconSkinKey', 'surfaces']);
+    if (isRecord(attribute.source)) closed(attribute.source, `${path}.source`, attribute.source.kind === 'resource' ? ['kind', 'id'] : attribute.source.kind === 'relationship' ? ['kind', 'npcId'] : ['kind']);
+  });
   records(raw.constructionProjects, '$.constructionProjects', (project, path) => {
     closed(project, path, ['id', 'placementId', 'materials', 'requires', 'completedSkinKey']);
     records(project.materials, `${path}.materials`, (material, materialPath) => closed(material, materialPath, ['itemId', 'count']));
@@ -149,7 +154,7 @@ function validateClosedPackageShape(raw: Record<string, unknown>, issue: IssueSi
       access(zone.requires, `${path}.requires`);
     });
     records(scene.warps, `${scenePath}.warps`, (warp, path) => {
-      closed(warp, path, ['id', 'label', 'landmarkPlacementId', 'at', 'toSceneId', 'toSpawnId', 'conditionRef', 'requires']);
+      closed(warp, path, ['id', 'label', 'landmarkPlacementId', 'interactionPlacementId', 'at', 'toSceneId', 'toSpawnId', 'conditionRef', 'requires']);
       closed(warp.at, `${path}.at`, ['x', 'y']);
       access(warp.requires, `${path}.requires`);
     });
@@ -237,6 +242,7 @@ export function validateLifeGamePackage(raw: unknown): LifePackageValidationRepo
   validateResourceNodes(scenes, raw.itemCatalog, issue);
   validateDialogues(scenes, raw.dialogueCatalog, issue);
   validateRelationships(raw, issue);
+  validateProfile(raw, issue);
   validateQuests(raw, issue);
 
   const catalogTags = new Map<string, ReadonlySet<LifeTileTag>>();
@@ -315,6 +321,64 @@ function validateRelationships(raw:Record<string,unknown>,issue:IssueSink):void{
   const npcIds=new Set<string>(),ruleIds=new Set<string>();raw.relationships.forEach((relationship,index)=>{const path=`$.relationships[${index}]`;if(!isRecord(relationship)){issue(path,'type','must be an object');return}if(!text(relationship.npcId)||!npcs.has(relationship.npcId))issue(`${path}.npcId`,'reference','must reference an npc placement');else if(npcIds.has(relationship.npcId))issue(`${path}.npcId`,'duplicate','relationship npc must be unique');else npcIds.add(relationship.npcId);if(!integer(relationship.min)||!integer(relationship.max)||relationship.min>=relationship.max)issue(path,'range','min/max must be increasing integers');if(!integer(relationship.initial)||integer(relationship.min)&&relationship.initial<relationship.min||integer(relationship.max)&&relationship.initial>relationship.max)issue(`${path}.initial`,'range','must be an integer within min/max');if(!Array.isArray(relationship.levels)||relationship.levels.length===0)issue(`${path}.levels`,'required','must contain levels');else{let previous=-Infinity;const ids=new Set<string>();relationship.levels.forEach((level,i)=>{const levelPath=`${path}.levels[${i}]`;if(!isRecord(level)){issue(levelPath,'type','must be an object');return}if(!text(level.id)||ids.has(level.id))issue(`${levelPath}.id`,'duplicate','level id must be unique');else ids.add(level.id);if(!integer(level.min)||level.min<=previous)issue(`${levelPath}.min`,'order','levels must be strictly increasing');if(integer(level.min))previous=level.min;if(!text(level.titleKey))issue(`${levelPath}.titleKey`,'id','must be non-empty')});const first=relationship.levels[0];if(isRecord(first)&&first.min!==relationship.min)issue(`${path}.levels[0].min`,'range','first level must equal relationship min')}
     if(!isRecord(relationship.dailyCaps))issue(`${path}.dailyCaps`,'type','must be an object');else for(const key of ['talk','gift','action'] as const)if(!integer(relationship.dailyCaps[key])||relationship.dailyCaps[key]<0)issue(`${path}.dailyCaps.${key}`,'range','must be a non-negative integer');if(!Array.isArray(relationship.rules))issue(`${path}.rules`,'type','must be an array');else relationship.rules.forEach((rule,i)=>{const rulePath=`${path}.rules[${i}]`;if(!isRecord(rule)){issue(rulePath,'type','must be an object');return}if(!text(rule.id)||ruleIds.has(rule.id))issue(`${rulePath}.id`,'duplicate','rule id must be globally unique');else ruleIds.add(rule.id);if(!integer(rule.priority))issue(`${rulePath}.priority`,'type','must be an integer');if(rule.exclusiveGroup!==undefined&&!text(rule.exclusiveGroup))issue(`${rulePath}.exclusiveGroup`,'id','must be non-empty');if(!isRecord(rule.effect)||rule.effect.kind!=='relationship-delta'||!integer(rule.effect.amount)||rule.effect.amount===0)issue(`${rulePath}.effect`,'type','must be a non-zero integer relationship-delta');const trigger=rule.trigger;if(!isRecord(trigger)){issue(`${rulePath}.trigger`,'type','must be an object');return}switch(trigger.kind){case'talk-opened':break;case'talk-choice':if(!text(trigger.dialogueId)||!text(trigger.choiceId)||!dialogueChoices.has(`${trigger.dialogueId}\0${trigger.choiceId}`))issue(`${rulePath}.trigger`,'reference','unknown dialogue choice');break;case'life-action':if(typeof trigger.action!=='string'||!ACTIONS.has(trigger.action as LifeAction))issue(`${rulePath}.trigger.action`,'enum','unknown action');break;case'harvest':break;case'gather':if(trigger.action!==undefined&&trigger.action!=='forage'&&trigger.action!=='mine')issue(`${rulePath}.trigger.action`,'enum','must be forage or mine');break;case'gift':if(!text(trigger.itemId)||!items.has(trigger.itemId))issue(`${rulePath}.trigger.itemId`,'reference','unknown item');if(!integer(trigger.count)||trigger.count<=0)issue(`${rulePath}.trigger.count`,'range','must be positive');break;case'quest-effect':if(!text(trigger.questId)||!text(trigger.nodeId)||!questNodes.has(`${trigger.questId}\0${trigger.nodeId}`))issue(`${rulePath}.trigger`,'reference','unknown quest node');break;default:issue(`${rulePath}.trigger.kind`,'enum','unknown relationship trigger')}})
   });
+}
+
+function validateProfile(raw: Record<string, unknown>, issue: IssueSink): void {
+  if (raw.profile === undefined) return;
+  if (!isRecord(raw.profile)) { issue('$.profile', 'type', 'must be an object'); return; }
+  if (!text(raw.profile.titleKey)) issue('$.profile.titleKey', 'id', 'must be non-empty');
+  if (!Array.isArray(raw.profile.attributes) || raw.profile.attributes.length === 0) {
+    issue('$.profile.attributes', 'required', 'must contain at least one attribute');
+    return;
+  }
+  const resources = new Map<string, Record<string, unknown>>();
+  const logic = isRecord(raw.logic) ? raw.logic : undefined;
+  if (logic && Array.isArray(logic.resources)) for (const resource of logic.resources) if (isRecord(resource) && text(resource.id)) resources.set(resource.id, resource);
+  const relationships = new Set<string>();
+  if (Array.isArray(raw.relationships)) for (const relationship of raw.relationships) if (isRecord(relationship) && text(relationship.npcId)) relationships.add(relationship.npcId);
+  const ids = new Set<string>();
+  const sources = new Set<string>();
+  raw.profile.attributes.forEach((value, index) => {
+    const path = `$.profile.attributes[${index}]`;
+    if (!isRecord(value)) { issue(path, 'type', 'must be an object'); return; }
+    if (!text(value.id)) issue(`${path}.id`, 'id', 'must be non-empty');
+    else if (ids.has(value.id)) issue(`${path}.id`, 'duplicate', 'attribute id must be unique');
+    else ids.add(value.id);
+    if (!text(value.titleKey)) issue(`${path}.titleKey`, 'id', 'must be non-empty');
+    if (value.display !== 'value' && value.display !== 'gauge') issue(`${path}.display`, 'enum', 'must be value or gauge');
+    if (!opaqueSkinKey(value.iconSkinKey)) issue(`${path}.iconSkinKey`, 'skin_key', 'must be an opaque key, not a path or URL');
+    if (value.surfaces !== undefined) {
+      if (!Array.isArray(value.surfaces) || value.surfaces.length === 0) issue(`${path}.surfaces`, 'required', 'must be a non-empty array');
+      else {
+        const surfaces=new Set<string>();
+        value.surfaces.forEach((surface,surfaceIndex)=>{
+          const surfacePath=`${path}.surfaces[${surfaceIndex}]`;
+          if(surface!=='profile'&&surface!=='hud') issue(surfacePath,'enum','must be profile or hud');
+          else if(surfaces.has(surface)) issue(surfacePath,'duplicate','surface must not repeat');
+          else surfaces.add(surface);
+        });
+      }
+    }
+    if (!isRecord(value.source)) { issue(`${path}.source`, 'type', 'must be an object'); return; }
+    let sourceKey:string|undefined;
+    if (value.source.kind === 'resource') {
+      if (!text(value.source.id) || !resources.has(value.source.id)) issue(`${path}.source.id`, 'reference', 'must uniquely reference logic.resources');
+      else {
+        sourceKey = `resource:${value.source.id}`;
+        const resource = resources.get(value.source.id)!;
+        if (value.display === 'gauge' && (!(typeof resource.min === 'number' && Number.isFinite(resource.min)) || !(typeof resource.max === 'number' && Number.isFinite(resource.max)))) issue(`${path}.display`, 'range', 'gauge requires finite resource min and max');
+      }
+    } else if (value.source.kind === 'relationship') {
+      if (!text(value.source.npcId) || !relationships.has(value.source.npcId)) issue(`${path}.source.npcId`, 'reference', 'must uniquely reference relationships');
+      else sourceKey = `relationship:${value.source.npcId}`;
+    } else issue(`${path}.source.kind`, 'enum', 'must be resource or relationship');
+    if (sourceKey !== undefined) {
+      if (sources.has(sourceKey)) issue(`${path}.source`, 'duplicate', 'profile source must not repeat');
+      else sources.add(sourceKey);
+    }
+  });
+  const hudCount=raw.profile.attributes.filter((value)=>isRecord(value)&&Array.isArray(value.surfaces)&&value.surfaces.includes('hud')).length;
+  if(hudCount>4)issue('$.profile.attributes','range','at most four profile attributes may target the hud surface');
 }
 
 function validateQuests(raw: Record<string, unknown>, issue: IssueSink): void {
@@ -717,6 +781,23 @@ function validateSpatialScene(scene: Record<string, unknown>, base: string, widt
     const warp = scene.warps[i]; const p = `${base}.warps[${i}]`;
     if (!isRecord(warp) || !point(warp.at, `${p}.at`)) continue;
     if (warp.label !== undefined && !text(warp.label)) issue(`${p}.label`, 'text', 'must be a non-empty string when present');
+    if (warp.interactionPlacementId !== undefined) {
+      const refPath = `${p}.interactionPlacementId`;
+      if (!text(warp.interactionPlacementId)) issue(refPath, 'type', 'must be a non-empty placement id');
+      else {
+        const local = Array.isArray(scene.placements)
+          ? scene.placements.find((placement) => isRecord(placement) && placement.id === warp.interactionPlacementId)
+          : undefined;
+        if (!local) {
+          const inOtherScene = [...sceneById.values()].some((candidate) => candidate !== scene && Array.isArray(candidate.placements)
+            && candidate.placements.some((placement) => isRecord(placement) && placement.id === warp.interactionPlacementId));
+          issue(refPath, 'reference', inOtherScene ? 'must reference a placement in the same scene' : 'references an unknown placement');
+        } else if (integer(local.x) && integer(local.y) && integer(local.width) && integer(local.height)
+          && (warp.at.x < local.x || warp.at.x >= local.x + local.width || warp.at.y < local.y || warp.at.y >= local.y + local.height)) {
+          issue(`${p}.at`, 'interaction_footprint', 'must be inside the referenced interaction placement footprint');
+        }
+      }
+    }
     if (!tagsAt(warp.at.x, warp.at.y).has('walkable') || tagsAt(warp.at.x, warp.at.y).has('blocked')) issue(`${p}.at`, 'not_walkable', 'warp must land on a walkable, non-blocked cell');
     if (!text(warp.toSceneId) || !sceneById.has(warp.toSceneId)) { issue(`${p}.toSceneId`, 'reference', 'references an unknown scene'); continue; }
     graph.get(scene.id as string)?.push(warp.toSceneId);

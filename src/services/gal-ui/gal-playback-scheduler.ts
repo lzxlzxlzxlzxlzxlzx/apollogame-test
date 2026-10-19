@@ -5,7 +5,7 @@ export interface GalPlaybackClock {
 }
 
 export type GalPlaybackMode = 'off' | 'auto' | 'skip';
-export type GalPlaybackStopReason = 'boundary' | 'hidden' | 'unread' | 'stale' | 'busy' | 'clock';
+export type GalPlaybackStopReason = 'boundary' | 'hidden' | 'unread' | 'disabled' | 'stale' | 'busy' | 'clock';
 export interface GalPlaybackFrame {
   readonly packageId: string;
   readonly refKey: string;
@@ -13,6 +13,7 @@ export interface GalPlaybackFrame {
   readonly visible: boolean;
   readonly fullyPresented: boolean;
   readonly read: boolean;
+  readonly readSkipEnabled: boolean;
   readonly skipMode: 'read-only' | 'all';
   readonly autoDelayMs: number;
 }
@@ -55,8 +56,8 @@ export class GalPlaybackScheduler {
     if (!frame.visible) { this.stop('hidden'); return; }
     if (frame.kind !== 'line') { this.stop('boundary'); return; }
     if (this.modeValue === 'auto' && !frame.fullyPresented) { this.cancelPending(); return; }
-    if (this.modeValue === 'skip' && frame.skipMode === 'read-only' && !frame.read) {
-      this.stop('unread'); return;
+    if (this.modeValue === 'skip' && !(frame.read ? frame.readSkipEnabled : frame.skipMode === 'all')) {
+      this.stop(frame.read ? 'disabled' : 'unread'); return;
     }
     if (this.pending?.packageId === frame.packageId && this.pending.refKey === frame.refKey &&
         this.pending.epoch === this.epochValue) return;
@@ -80,7 +81,7 @@ export class GalPlaybackScheduler {
       if (this.epochValue !== epoch || latest.packageId !== packageId || latest.refKey !== refKey ||
           !latest.visible || latest.kind !== 'line' ||
           (this.modeValue === 'auto' && !latest.fullyPresented) ||
-          (this.modeValue === 'skip' && latest.skipMode === 'read-only' && !latest.read)) {
+          (this.modeValue === 'skip' && !(latest.read ? latest.readSkipEnabled : latest.skipMode === 'all'))) {
         this.stop('stale'); return;
       }
       void this.advance(packageId, refKey, epoch).then(applied => {

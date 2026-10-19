@@ -413,6 +413,11 @@ function enter(world: IWorld, entity: string, pkg: GalPackage, state: StoryRunti
     if (state.activeChapterId !== state.current.chapterId) {
       if (chapter.scene) applyScene(state.scene, pkg, chapter.scene);
     }
+    /* AI START */
+    // A transition is the entrance of the node that declares it. Later lines stay cut
+    // unless they declare their own, so an unchanged background does not fade again.
+    state.scene.transition = undefined;
+    /* AI END */
     applyPresentation(state.scene, pkg, node.presentation);
     state.activeNodeKey = key;
     state.activeChapterId = state.current.chapterId;

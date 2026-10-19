@@ -60,4 +60,19 @@ describe('game-potion-brewing S3 blueprint', () => {
     expect(world.engine.world.getAllEntities()).toContain('ingredient:red-berry');
   });
 
+  it('同 seed、同具名输入与 tick 序列产生完全相同的世界快照', () => {
+    // 本配方没有随机判定；seed 是验收适配器的统一接口参数，不应改变确定性结果。
+    const replay = (seed: number) => {
+      const world = createWorld(seed, { fixture: 'repeat' });
+      for (const action of ['brew.add.moon-herb', 'brew.add.moon-herb', 'brew.stir.clockwise']) {
+        applySignal(world, action);
+        world.tick();
+      }
+      return world.engine.world.snapshot();
+    };
+    const first = replay(20261015);
+    expect(replay(20261015)).toEqual(first);
+    expect(replay(7)).toEqual(first);
+  });
+
 });

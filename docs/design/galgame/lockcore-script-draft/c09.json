@@ -1,0 +1,1436 @@
+{
+  "id": "c09",
+  "title": {
+    "zh-CN": "探索·spanking"
+  },
+  "start": "c09_n0001",
+  "nodes": {
+    "c09_n0001": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "暑假第十一天的下午，特蕾西把自己关在工坊里。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0002"
+      }
+    },
+    "c09_n0002": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "工作台上摊着一块软皮革，旁边搁着一小段黄铜手柄，还有铆钉、胶水、砂纸。她戴着护目镜，正用砂纸一点点打磨皮革的边，磨得又圆又润。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0003"
+      }
+    },
+    "c09_n0003": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她要做的东西，说出来她自己都不信。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0004"
+      }
+    },
+    "c09_n0004": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "等皮革包上黄铜柄、铆钉钉牢，一个拍子成型了——皮革拍面软软地垂着，铜柄握在手里有点沉。她拎起来，对着空气虚虚挥了一下。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0005"
+      }
+    },
+    "c09_n0005": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "啪"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0006"
+      }
+    },
+    "c09_n0006": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "的一声，轻飘飘的。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0007"
+      }
+    },
+    "c09_n0007": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "机械师做了半辈子东西，头一回做这个。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0008"
+      }
+    },
+    "c09_n0008": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她盯着手里的拍子，脸慢慢烧起来，把它塞进工作台最下面的抽屉，又用块旧布盖住。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0009"
+      }
+    },
+    "c09_n0009": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "买跳蛋是手滑。买肛塞是想清楚了才买的。做这个……是昨天夜里睡前，忽然冒出来的念头，越想越停不下来。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0010"
+      }
+    },
+    "c09_n0010": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她摘了护目镜，甩了甩头，出了工坊。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0011"
+      }
+    },
+    "c09_n0011": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "晚上，特蕾西把卢卡叫到房间里。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0012"
+      }
+    },
+    "c09_n0012": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她背着手，站在床边，局促得不行。卢卡一眼就看出她有话要说。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0013"
+      }
+    },
+    "c09_n0013": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "怎么了。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0014"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0014": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我……又弄了个东西。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0015"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0015": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西说，声音很小。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0016"
+      }
+    },
+    "c09_n0016": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "又是什么。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0017"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0017": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她把手从背后拿出来。那个软皮拍子躺在她手心里，铜柄在灯下反着点光。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0018"
+      }
+    },
+    "c09_n0018": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡看了两秒，没认出来。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0019"
+      }
+    },
+    "c09_n0019": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "这什么。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0020"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0020": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "……打人的。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0021"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0021": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西别开脸，耳尖红得要滴血，"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0022"
+      }
+    },
+    "c09_n0022": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我自己做的。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0023"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0023": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "打谁。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0024"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0024": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "打我。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0025"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0025": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她说，"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0026"
+      }
+    },
+    "c09_n0026": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "打……屁股。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0027"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0027": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "房间里安静了一瞬。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0028"
+      }
+    },
+    "c09_n0028": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡张了张嘴，又闭上，耳根也红了。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0029"
+      }
+    },
+    "c09_n0029": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你……想试这个？"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0030"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0030": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "嗯。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0031"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0031": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西点点头，不敢看他，"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0032"
+      }
+    },
+    "c09_n0032": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我昨天睡前就在想，越想越……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0033"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0033": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她没说下去，咬了咬唇。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0034"
+      }
+    },
+    "c09_n0034": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你会不会觉得我奇怪。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0035"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0035": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她小声问。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0036"
+      }
+    },
+    "c09_n0036": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡看着她，喉结滚了一下。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0037"
+      }
+    },
+    "c09_n0037": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "不会。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0038"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0038": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "他说，"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0039"
+      }
+    },
+    "c09_n0039": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你提的，我都想。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0040"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0040": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西没再磨蹭。她趴到床上，脸埋进枕头里，两条腿跪着，慢慢把睡裙撩到腰上，内裤褪下去。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0041"
+      }
+    },
+    "c09_n0041": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她塌下腰，把屁股朝他撅了起来。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0042"
+      }
+    },
+    "c09_n0042": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0043"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0043": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她的声音从枕头里传出来，闷闷的，"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0044"
+      }
+    },
+    "c09_n0044": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "轻点。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0045"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0045": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡走过去，手里还攥着那个拍子。他站到她身后，看着眼前这一幕——她的两瓣屁股圆润地翘着，皮肤白得发亮，还带着昨天anal之后没褪的一点暧昧。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0046"
+      }
+    },
+    "c09_n0046": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "他抬起手，很轻地拍了下去。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0047"
+      }
+    },
+    "c09_n0047": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "啪。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0048"
+      }
+    },
+    "c09_n0048": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "一声脆响。特蕾西的臀肉轻轻一颤，她"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0049"
+      }
+    },
+    "c09_n0049": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "嗯"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0050"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0050": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "了一声，肩膀缩了缩。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0051"
+      }
+    },
+    "c09_n0051": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "疼吗？"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0052"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0052": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡立刻问。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0053"
+      }
+    },
+    "c09_n0053": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "不疼。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0054"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0054": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她说，"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0055"
+      }
+    },
+    "c09_n0055": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "太轻了，你再用点力。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0056"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0056": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡又拍了一下。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0057"
+      }
+    },
+    "c09_n0057": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "啪。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0058"
+      }
+    },
+    "c09_n0058": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "这一下重了点。特蕾西的屁股上浮起一层很淡的红，她的脚趾都蜷了起来。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0059"
+      }
+    },
+    "c09_n0059": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "哈……嗯……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0060"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0060": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "这样？"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0061"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0061": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡问。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0062"
+      }
+    },
+    "c09_n0062": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "再……再重点。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0063"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0063": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西喘着，屁股不自觉往后迎了迎，"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0064"
+      }
+    },
+    "c09_n0064": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我受得住。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0065"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0065": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "啪、啪。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0066"
+      }
+    },
+    "c09_n0066": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "连着两下，拍在她浑圆的臀肉上。红痕更深了，她的臀肉随着拍打一下下地颤，白里透红。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0067"
+      }
+    },
+    "c09_n0067": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "啊……卢卡……♡"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0068"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0068": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她仰起头，短金发凌乱地铺在背上，两条腿越分越开。明明是被打，她却越来越软，小穴里开始往外渗水，亮晶晶地顺着腿根往下淌。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0069"
+      }
+    },
+    "c09_n0069": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你……湿了。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0070"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0070": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡低声说。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0071"
+      }
+    },
+    "c09_n0071": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我知道。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0072"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0072": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西把脸埋得更深，声音发颤，"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0073"
+      }
+    },
+    "c09_n0073": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "就是……又羞又……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0074"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0074": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她没说完整，只把腰又塌低了些。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0075"
+      }
+    },
+    "c09_n0075": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "继续。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0076"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0076": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她说。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0077"
+      }
+    },
+    "c09_n0077": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "啪……啪……啪……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0078"
+      }
+    },
+    "c09_n0078": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "拍打声一下接一下。她的两瓣臀肉被拍得泛红，热辣辣地烫着，那股烫意顺着尾椎往上爬，钻得她浑身发麻。她嘴里的声音越来越碎。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0079"
+      }
+    },
+    "c09_n0079": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "哈啊……卢卡……好热……♡"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0080"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0080": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡停下来，伸手覆上她的臀。掌心下那两瓣肉滚烫，还带着拍打的余韵。他揉了一下，特蕾西整个人一抖。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0081"
+      }
+    },
+    "c09_n0081": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "疼吗？"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0082"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0082": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "他又问。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0083"
+      }
+    },
+    "c09_n0083": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "不疼。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0084"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0084": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她摇头，扭过头看他，眼睛湿漉漉的，"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0085"
+      }
+    },
+    "c09_n0085": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你……现在进来。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0086"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0086": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡脱了衣服，扶着自己，抵上她湿透的穴口。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0087"
+      }
+    },
+    "c09_n0087": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "从后面进去。特蕾西跪趴着，屁股高高翘起，臀肉上还印着红痕。他慢慢顶进去，小穴紧紧地裹上来，又热又湿。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0088"
+      }
+    },
+    "c09_n0088": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "好胀……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0089"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0089": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她仰起脖子，断断续续，"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0090"
+      }
+    },
+    "c09_n0090": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "跟平时一样胀。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0091"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0091": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你里面好湿。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0092"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0092": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡说，声音发沉。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0093"
+      }
+    },
+    "c09_n0093": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "他开始动。一下一下，从后面顶进去。特蕾西跪着，两瓣泛红的臀肉随着他的动作一下下地颤，红痕和抽插搅在一起。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0094"
+      }
+    },
+    "c09_n0094": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "啪……啪……咕啾……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0095"
+      }
+    },
+    "c09_n0095": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "哈啊……卢卡……好舒服……♡"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0096"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0096": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她的胸压进床单里，乳肉被挤得从身侧溢出来，乳尖磨着被单。她自己伸手，绕到前面，揉自己前面那颗小凸起，小穴里的水越来越多。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0097"
+      }
+    },
+    "c09_n0097": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "咕啾……咕啾……啪……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0098"
+      }
+    },
+    "c09_n0098": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0099"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0099": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她喘着，回头看他，"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0100"
+      }
+    },
+    "c09_n0100": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "你……拍我。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0101"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0101": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡空着的那只手，又扬起拍子，轻轻落在她还在颤的臀肉上。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0102"
+      }
+    },
+    "c09_n0102": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "啪。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0103"
+      }
+    },
+    "c09_n0103": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "咿……就是……这样……♡"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0104"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0104": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "拍打和抽插同时进行。她整个人又软又烫，前后都刺激得不行，嘴里的声音碎成一片。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0105"
+      }
+    },
+    "c09_n0105": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "啊……卢卡……要……要去了……♡"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0106"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0106": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我也是。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0107"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0107": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡喘着，动作越来越重。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0108"
+      }
+    },
+    "c09_n0108": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "唔……去了……卢卡……咿嗯……♡"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0109"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0109": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西整个人绷紧了，小穴一下下地收缩，绞得他发紧。过了几秒，才一点点软下去，趴伏在床单里，胸口剧烈起伏。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0110"
+      }
+    },
+    "c09_n0110": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡没停。他扔了拍子，掐着她的腰，从后面顶得更重。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0111"
+      }
+    },
+    "c09_n0111": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0112"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0112": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "他低低地喊，"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0113"
+      }
+    },
+    "c09_n0113": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我要……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0114"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0114": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "进来……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0115"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0115": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她回手，抓住他的手腕，"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0116"
+      }
+    },
+    "c09_n0116": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "都给我……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0117"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0117": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "唔……特蕾西……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0118"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0118": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡重重地顶到最深处，整个人绷紧了，趴下来贴在她背上，身体一下下地颤着，低低地喘出来。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0119"
+      }
+    },
+    "c09_n0119": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "哈啊……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0120"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0120": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西感觉到他在自己身体里一阵阵地释放，烫得她小腹都跟着收紧。她没说话，只反手勾着他的脖子，把他拉下来，让他压在自己背上。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0121"
+      }
+    },
+    "c09_n0121": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "过了好一会儿，卢卡的呼吸才慢慢平下来。他还埋在她身体里，两人的汗混在一起。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0122"
+      }
+    },
+    "c09_n0122": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "……你好重。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0123"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0123": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西小声说，脸还埋在枕头里。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0124"
+      }
+    },
+    "c09_n0124": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡笑了一下，撑起来，慢慢退出去。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0125"
+      }
+    },
+    "c09_n0125": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她翻过身，仰躺着看他。臀肉上还留着淡淡的红，这会儿已经不烫了，只剩点酥酥的余韵。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0126"
+      }
+    },
+    "c09_n0126": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "还挺……刺激的。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0127"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0127": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她小声说，眼睛看着天花板。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0128"
+      }
+    },
+    "c09_n0128": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "我还怕打疼你。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0129"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0129": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡说。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0130"
+      }
+    },
+    "c09_n0130": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "不疼。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0131"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0131": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西摇头，伸手把他拉进怀里，让他贴在自己胸口，"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0132"
+      }
+    },
+    "c09_n0132": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "就是……又羞又麻。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0133"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0133": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "她顿了顿，又补了一句："
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0134"
+      }
+    },
+    "c09_n0134": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "不过，下次可以再……"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0135"
+      },
+      "speaker": "tracy"
+    },
+    "c09_n0135": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "再重点？"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0136"
+      },
+      "speaker": "luca"
+    },
+    "c09_n0136": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "卢卡接话。"
+      },
+      "next": {
+        "chapterId": "c09",
+        "nodeId": "c09_n0137"
+      }
+    },
+    "c09_n0137": {
+      "kind": "line",
+      "text": {
+        "zh-CN": "特蕾西没答，只把脸埋进他颈窝，抱得更紧。那个软皮拍子还躺在床脚，铜柄上沾着她一点没干的水光。"
+      },
+      "next": {
+        "chapterId": "c10",
+        "nodeId": "c10_n0001"
+      }
+    }
+  }
+}

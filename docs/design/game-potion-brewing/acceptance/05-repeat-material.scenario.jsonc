@@ -1,4 +1,5 @@
-// original author: GD /root/potion_s4_gd; revised for Owner-confirmed 2026-10-14 unlimited materials
+// author: GD /root/potion_s4_gd
+// revised for Owner-confirmed 2026-10-14 unlimited materials
 // repeat 宿主 fixture 的预期配方（供 PE 在 fixtures.ts 接数据，不是玩家选方）：
 // 材料可无限取用；步骤 add moon-herb → add moon-herb →
 // stir clockwise 2 圈 → add silver-leaf → stir counterclockwise 1 圈。

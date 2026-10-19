@@ -57,7 +57,7 @@ function affordanceWorld(reversePlacements = false, withTrace = false): World {
   ] as const;
   for (const [id, placement] of reversePlacements ? [...placements].reverse() : placements) add(id, placement);
   world.addComponent('placement:node', { type: 'LifeResourceNode', action: 'forage', itemId: 'resource.wood', remaining: 2 } as LifeResourceNode);
-  add('warp:gate', { type: 'LifeWarp', sceneId: 's', warpId: 'gate', x: 0, y: 0, toSceneId: 's', toSpawnId: 'elsewhere', requires: { kind: 'flag', id: 'gate.open', equals: true } } as LifeWarp);
+  add('warp:gate', { type: 'LifeWarp', sceneId: 's', warpId: 'gate', x: 0, y: 0, width: 1, height: 1, toSceneId: 's', toSpawnId: 'elsewhere', requires: { kind: 'flag', id: 'gate.open', equals: true } } as LifeWarp);
   add('flag:gate', { type: 'Flag', id: 'gate.open', active: false } as Flag);
   add('actor', { type: 'LifeActor', actorId: 'actor', kind: 'player' } as LifeActor);
   world.addComponent('actor', { type: 'LifePosition', sceneId: 's', x: 0, y: 0 } as LifePosition);
@@ -100,6 +100,23 @@ describe('t2-life-activity', () => {
     expect(context(world, 'actor').nearbyPlacementIds).not.toContain('wide'); // distance 2 > authored range 1
     world.getComponent<LifePlacement>('placement:wide', 'LifePlacement')!.interactionRange = 2; world.tick();
     expect(context(world, 'actor').nearbyPlacementIds).toContain('wide'); // distance 2 == authored range 2
+  });
+
+  it('projects the same explicit warp affordance on all 2x2 footprint cells and nowhere adjacent', () => {
+    const world = affordanceWorld();
+    const warp = world.getComponent<LifeWarp>('warp:gate', 'LifeWarp')!;
+    warp.x = 1; warp.y = 1; warp.width = 2; warp.height = 2;
+    const position = world.getComponent<LifePosition>('actor', 'LifePosition')!;
+    for (const [x, y] of [[1, 1], [2, 1], [1, 2], [2, 2]]) {
+      position.x = x; position.y = y; world.tick();
+      expect(context(world, 'actor').nearbyWarpIds, `${x},${y}`).toEqual(['gate']);
+      expect(findAffordance(world, 'warp', 'gate')).toBeDefined();
+    }
+    for (const [x, y] of [[0, 1], [1, 0]]) {
+      position.x = x; position.y = y; world.tick();
+      expect(context(world, 'actor').nearbyWarpIds, `${x},${y}`).toEqual([]);
+      expect(findAffordance(world, 'warp', 'gate')).toBeUndefined();
+    }
   });
 
   it('keeps visibility and interaction eligibility as independent dynamic gates', () => {

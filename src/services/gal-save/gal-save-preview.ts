@@ -20,6 +20,8 @@ export interface GalPreviewCaptureFrame {
   readonly backgroundUrl?: string;
   readonly portraitAssetKey?: string;
   readonly portraitUrl?: string;
+  readonly cgAssetKey?: string;
+  readonly cgUrl?: string;
 }
 export interface GalPreviewCapturePort {
   capture(frame: GalPreviewCaptureFrame): Promise<GalPreviewImage | null>;

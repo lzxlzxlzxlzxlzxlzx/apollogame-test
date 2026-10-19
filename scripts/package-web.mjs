@@ -21,7 +21,7 @@
 //      art: 打包期解析 + FreeArtLib/资产 base64 内联=后续件（REQ-PKG 完工回执已登记）。
 // ═══════════════════════════════════════════════════════════════
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, realpathSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve, join } from 'node:path';
@@ -38,6 +38,77 @@ export function readCartManifest(root, slug) {
     if (existsSync(p)) return JSON.parse(readFileSync(p, 'utf8'));
   }
   throw new Error(`找不到卡带 manifest：library/${slug}/manifest.json（或 public/games/${slug}/manifest.json）`);
+}
+
+/** Only local, registered cartridge textures enter a single-file package. */
+export function readCartArtBundle(root, slug, cart) {
+  const candidates = [join(root, 'library', slug, 'art'), join(root, 'public', 'games', slug, 'art')];
+  const artRoot = candidates.find((dir) => existsSync(join(dir, 'index.json')));
+  const wanted = new Set();
+  let hasSkin = false;
+  const maskRefs = [];
+  const visitGame = (value) => {
+    if (!value || typeof value !== 'object') return;
+    if (Array.isArray(value)) return value.forEach(visitGame);
+    const key = value.Sprite?.textureKey;
+    if (typeof key === 'string' && !key.startsWith('art:')) wanted.add(key);
+    if (value.Clickable?.hitMaskKey) maskRefs.push({ key: value.Clickable.hitMaskKey, textureKey: key });
+    Object.values(value).forEach(visitGame);
+  };
+  visitGame(cart.entities);
+  visitGame(cart.templates);
+  const visit = (value) => {
+    if (!value || typeof value !== 'object') return;
+    if (Array.isArray(value)) return value.forEach(visit);
+    for (const [name, field] of Object.entries(value)) {
+      if (['src', 'image', 'skin', 'icon', 'poster', 'trackSkin', 'thumbSkin'].includes(name)
+        && typeof field === 'string' && field.startsWith('asset:')) { wanted.add(field.slice(6)); hasSkin = true; }
+      else visit(field);
+    }
+  };
+  visit(cart.presentation?.ui);
+  if (!artRoot) {
+    if (maskRefs.length || hasSkin) throw new Error(`卡带 ${slug} 引用本地资产，但缺少 art/index.json`);
+    return { index: null, assets: {} };
+  }
+  const index = JSON.parse(readFileSync(join(artRoot, 'index.json'), 'utf8'));
+  if (!Array.isArray(index.assets)) throw new Error(`卡带 ${slug} art/index.json 缺 assets 数组`);
+  const entries = new Map(index.assets.map((entry) => [entry.id, entry]));
+  for (const { key, textureKey } of maskRefs) {
+    const entry = entries.get(key);
+    if (entry?.type !== 'hit-mask' || entry.status !== 'filled' || !entry.spec
+      || entry.spec.sourceTextureKey !== textureKey) {
+      throw new Error(`卡带 ${slug} hit-mask ${String(key)} 未登记为同源 filled mask`);
+    }
+  }
+  const assets = {};
+  for (const key of wanted) {
+    const entry = entries.get(key);
+    if (entry?.type !== 'texture' || entry.status !== 'filled' || typeof entry.path !== 'string') throw new Error(`卡带 ${slug} 贴图 ${key} 未在本地索引登记`);
+    const prefix = `/games/${slug}/art/`;
+    if (!entry.path.startsWith(prefix) || entry.path.includes('..') || entry.path.includes('\\')) throw new Error(`卡带 ${slug} 贴图 ${key} 路径越界`);
+    const source = resolve(artRoot, entry.path.slice(prefix.length));
+    const safeRoot = realpathSync(artRoot);
+    let safeSource;
+    try { safeSource = realpathSync(source); }
+    catch { throw new Error(`卡带 ${slug} 贴图 ${key} 缺文件：${entry.path}`); }
+    if (!safeSource.startsWith(safeRoot + '\\') && !safeSource.startsWith(safeRoot + '/')) throw new Error(`卡带 ${slug} 贴图 ${key} 文件越界`);
+    const ext = source.slice(source.lastIndexOf('.')).toLowerCase();
+    const mime = { '.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml' }[ext];
+    if (!mime) throw new Error(`卡带 ${slug} 贴图 ${key} 格式未获离线支持`);
+    const bytes = readFileSync(safeSource);
+    if (ext === '.png') {
+      const valid = bytes.length >= 24 && bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+      if (!valid) throw new Error(`卡带 ${slug} 贴图 ${key} 不是有效 PNG`);
+      const width = bytes.readUInt32BE(16);
+      const height = bytes.readUInt32BE(20);
+      if (entry.spec?.width !== undefined && width !== entry.spec.width || entry.spec?.height !== undefined && height !== entry.spec.height) {
+        throw new Error(`卡带 ${slug} 贴图 ${key} PNG 尺寸 ${width}×${height} 与索引不符`);
+      }
+    }
+    assets[entry.path] = `data:${mime};base64,${bytes.toString('base64')}`;
+  }
+  return { index, assets };
 }
 
 /** 读该 slug 的展示 meta（title/subtitle）——library/<slug>/meta.json .name/.tagline，缺省回退 slug。 */
@@ -74,11 +145,12 @@ function escapeHtml(s) {
  * 把内联卡带 globals 注入 HTML 外壳的 <head>（bundle module 之前执行），并覆盖 <title>。
  * 纯字符串变换（不碰磁盘）——导出供单测。
  */
-export function injectInline(html, { cart, meta, assets, title }) {
+export function injectInline(html, { cart, meta, assets, artIndex, slug, title }) {
   if (!/<\/head>/i.test(html)) {
     throw new Error('外壳 HTML 缺少 </head>——无法注入内联卡带数据（cartridge.html 结构异常？）');
   }
   const parts = [`window.__APOLLO_INLINE_CART__=${scriptSafeJson(cart)};`];
+  if (artIndex) parts.push(`window.__APOLLO_INLINE_ART_INDEX__=${scriptSafeJson(artIndex)};window.__APOLLO_INLINE_SLUG__=${scriptSafeJson(slug)};`);
   if (meta) parts.push(`window.__APOLLO_INLINE_META__=${scriptSafeJson(meta)};`);
   if (assets && Object.keys(assets).length) {
     parts.push(`globalThis.__APOLLO_INLINE_ASSETS__=Object.assign(globalThis.__APOLLO_INLINE_ASSETS__||{},${scriptSafeJson(assets)});`);
@@ -113,10 +185,11 @@ export function scanSelfContainment(html) {
  * 该 manifest 真用到的能力 id：跑 manifest-check（引擎真 parseManifest·含推断 + 装载探针）读其机读回执。
  * 校验/装载不过 → 抛（错误文本 = manifest-check 的 stderr·可回喂 LLM 修）。
  */
-export function resolveCartCapabilities(root, cart) {
+export function resolveCartCapabilities(root, cart, slug) {
   let out;
   try {
-    out = execFileSync('npx', ['vite-node', 'scripts/manifest-check.mjs'], {
+    const artIndexPath = slug && [join(root, 'library', slug, 'art', 'index.json'), join(root, 'public', 'games', slug, 'art', 'index.json')].find(existsSync);
+    out = execFileSync(process.execPath, [join(root, 'node_modules', 'vite-node', 'vite-node.mjs'), 'scripts/manifest-check.mjs', ...(artIndexPath ? ['--art-index', artIndexPath] : [])], {
       cwd: root, input: JSON.stringify(cart), encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'],
     });
   } catch (e) {
@@ -134,7 +207,7 @@ function buildInlineShell(root, subset = null) {
   const env = { ...process.env, VITE_TARGET_GAME: '__inline__', VITE_SINGLEFILE: '1' };
   if (subset) env.VITE_CART_CAPABILITIES = subset.join(',');
   else delete env.VITE_CART_CAPABILITIES;
-  execFileSync('npx', ['vite', 'build', '--config', 'vite.config.cartridge.ts'], {
+  execFileSync(process.execPath, [join(root, 'node_modules', 'vite', 'bin', 'vite.js'), 'build', '--config', 'vite.config.cartridge.ts'], {
     cwd: root, env, stdio: 'inherit',
   });
   const shell = join(root, 'dist-cartridge', 'cartridge.html');
@@ -145,13 +218,15 @@ function buildInlineShell(root, subset = null) {
 export async function packageWeb(root, slug, outFile, { build = true, shellHtml, subset = true } = {}) {
   const cart = readCartManifest(root, slug);
   const meta = readCartMeta(root, slug);
+  // --no-build, --full-shell and injected shells must pass the same real parser gate.
+  // A syntactically packed mask can otherwise fail only when the offline HTML starts.
+  const ids = resolveCartCapabilities(root, cart, slug);
   let shell = shellHtml;
   if (shell == null) {
     if (build) {
       // subset=true（缺省）：按该卡带真用到的能力裁外壳；false：全量通用外壳（调试/对比用）。
-      const ids = subset ? resolveCartCapabilities(root, cart) : null;
-      if (ids) process.stdout.write(`[package-web] ${slug} 用到 ${ids.length} 个能力：${ids.join(', ')}\n`);
-      shell = buildInlineShell(root, ids);
+      if (subset) process.stdout.write(`[package-web] ${slug} 用到 ${ids.length} 个能力：${ids.join(', ')}\n`);
+      shell = buildInlineShell(root, subset ? ids : null);
     } else {
       // --no-build 复用上次外壳：若它是按别的卡带裁的子集，本卡带点名的能力可能不在 → 运行期「未知 capability id」。
       const p = join(root, 'dist-cartridge', 'cartridge.html');
@@ -160,7 +235,8 @@ export async function packageWeb(root, slug, outFile, { build = true, shellHtml,
     }
   }
 
-  const finalHtml = injectInline(shell, { cart, meta, title: meta.title });
+  const art = readCartArtBundle(root, slug, cart);
+  const finalHtml = injectInline(shell, { cart, meta, artIndex: art.index, assets: art.assets, slug, title: meta.title });
 
   const issues = scanSelfContainment(finalHtml);
   if (issues.length) {

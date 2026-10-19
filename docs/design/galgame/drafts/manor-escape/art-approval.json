@@ -1,0 +1,41 @@
+{
+  "projectId": "manor-escape",
+  "approvedBy": "owner",
+  "approvedOn": "2026-10-16",
+  "source": "Owner 本机部署的 AI 生成",
+  "license": "Owner 2026-10-16 批准用于《庄园出逃》。未声明外部分发权。",
+  "omittedAudio": ["bgm-manor", "bgm-outside"],
+  "portraits": [
+    { "characterId": "mechanic", "emotion": "戒备", "file": "portraits/mechanic-guard.png", "assetKey": "art:manor-escape/mechanic-guard" },
+    { "characterId": "mechanic", "emotion": "专注", "file": "portraits/mechanic-focus.png", "assetKey": "art:manor-escape/mechanic-focus", "neutral": true },
+    { "characterId": "mechanic", "emotion": "别过脸", "file": "portraits/mechanic-aside.png", "assetKey": "art:manor-escape/mechanic-aside" },
+    { "characterId": "mechanic", "emotion": "轻轻笑", "file": "portraits/mechanic-smile.png", "assetKey": "art:manor-escape/mechanic-smile" },
+    { "characterId": "prisoner", "emotion": "警惕", "file": "portraits/prisoner-alert.png", "assetKey": "art:manor-escape/prisoner-alert", "neutral": true },
+    { "characterId": "prisoner", "emotion": "讲道理", "file": "portraits/prisoner-reason.png", "assetKey": "art:manor-escape/prisoner-reason" },
+    { "characterId": "prisoner", "emotion": "受伤仍逞强", "file": "portraits/prisoner-stubborn.png", "assetKey": "art:manor-escape/prisoner-stubborn" },
+    { "characterId": "prisoner", "emotion": "看着她时放轻", "file": "portraits/prisoner-soft.png", "assetKey": "art:manor-escape/prisoner-soft" },
+    { "characterId": "doctor", "emotion": "诊视", "file": "portraits/doctor-exam.png", "assetKey": "art:manor-escape/doctor-exam", "neutral": true },
+    { "characterId": "doctor", "emotion": "皱眉", "file": "portraits/doctor-frown.png", "assetKey": "art:manor-escape/doctor-frown" },
+    { "characterId": "doctor", "emotion": "压低声音", "file": "portraits/doctor-low.png", "assetKey": "art:manor-escape/doctor-low" },
+    { "characterId": "doctor", "emotion": "松一口气", "file": "portraits/doctor-relief.png", "assetKey": "art:manor-escape/doctor-relief" },
+    { "characterId": "gardener", "emotion": "微笑", "file": "portraits/gardener-smile.png", "assetKey": "art:manor-escape/gardener-smile", "neutral": true },
+    { "characterId": "gardener", "emotion": "认真指路", "file": "portraits/gardener-guide.png", "assetKey": "art:manor-escape/gardener-guide" },
+    { "characterId": "gardener", "emotion": "担忧", "file": "portraits/gardener-worry.png", "assetKey": "art:manor-escape/gardener-worry" },
+    { "characterId": "gardener", "emotion": "点头", "file": "portraits/gardener-nod.png", "assetKey": "art:manor-escape/gardener-nod" },
+    { "characterId": "factory-chief", "emotion": "巡视", "file": "portraits/factory-patrol.png", "assetKey": "art:manor-escape/factory-patrol", "neutral": true },
+    { "characterId": "factory-chief", "emotion": "抬手拦截", "file": "portraits/factory-block.png", "assetKey": "art:manor-escape/factory-block" },
+    { "characterId": "factory-chief", "emotion": "停在园门前", "file": "portraits/factory-gate.png", "assetKey": "art:manor-escape/factory-gate" },
+    { "characterId": "factory-chief", "emotion": "目送", "file": "portraits/factory-farewell.png", "assetKey": "art:manor-escape/factory-farewell" }
+  ],
+  "backgrounds": [
+    { "id": "bg-hall", "file": "backgrounds/bg-hall.png", "assetKey": "art:manor-escape/bg-hall", "title": "门厅" },
+    { "id": "bg-cipher", "file": "backgrounds/bg-cipher.png", "assetKey": "art:manor-escape/bg-cipher", "title": "破译室" },
+    { "id": "bg-workshop", "file": "backgrounds/bg-workshop.png", "assetKey": "art:manor-escape/bg-workshop", "title": "地下工坊" },
+    { "id": "bg-gate", "file": "backgrounds/bg-gate.png", "assetKey": "art:manor-escape/bg-gate", "title": "外墙园门" },
+    { "id": "bg-outside", "file": "backgrounds/bg-outside.png", "assetKey": "art:manor-escape/bg-outside", "title": "庄园外" }
+  ],
+  "cg": [
+    { "id": "cg-outside", "file": "cg/cg-outside.png", "assetKey": "art:manor-escape/cg-outside", "title": "庄园外", "endingId": "end-leave" },
+    { "id": "cg-belong", "file": "cg/cg-belong.png", "assetKey": "art:manor-escape/cg-belong", "title": "成为庄园的一部分", "endingId": "end-stay" }
+  ]
+}

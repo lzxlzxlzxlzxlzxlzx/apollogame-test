@@ -12,7 +12,7 @@ import { mountHost } from '@zerocraft/engine/engine/host/mount-host.js';
 import { buildPotionBlueprint } from './blueprint.js';
 import { MOON_ROUND } from './fixtures.js';
 import { addSignal, type PotionRound } from './recipe.js';
-import { localResultBottleKey, POTION_ART } from './art.js';
+import { loadHostIngredientImages, localResultBottleKey, POTION_ART } from './art.js';
 import { createPotionAudio, cueForPotionTransition } from './potion-sfx.js';
 import {
   POTION_RECIPE_HOST, POTION_RACK_HOST, POTION_SCENE_HOST, POTION_THEME, POTION_LIQUID_HOST, POTION_STATUS_HOST, POTION_EXIT_HOST, POTION_TITLE_HOST,
@@ -226,14 +226,16 @@ export function mount(container: HTMLElement, options: PotionMountOptions = {}):
     },
   });
   const unsubscribe = engine.subscribe(updatePresentation);
-  void loadGameArtInto(artAssets, 'game-potion-brewing', { onlyKeys: [POTION_ART.cauldron, POTION_ART.rod, POTION_ART.moonBottle, ...Object.values(POTION_ART.ingredients)] }).then((loaded) => {
-    if (!loaded || disposed) return;
+  void loadGameArtInto(artAssets, 'game-potion-brewing', { onlyKeys: [POTION_ART.cauldron, POTION_ART.rod, POTION_ART.moonBottle, ...Object.values(POTION_ART.ingredients)] }).then(() => {
+    if (disposed) return;
     const bottle = artAssets.get(localResultBottleKey(round.recipe.recipeId) ?? '')?.descriptor;
     // 本地月相瓶只适配月露样例；赤焰及其它宿主配方不可错配成青蓝药剂。
     if (bottle?.kind === 'texture' && !round.recipe.resultImageUrl) {
       bottleSrc = bottle.src;
       if (view.status === 'active' || resultVisible) resultUi.update(buildResultScreen(round.recipe, view, bottleSrc), POTION_THEME);
     }
+    // 宿主材料图覆写表现资产；本地索引先就绪，才能以 adoptLoaded 无空帧地替换已知材料。
+    void loadHostIngredientImages(artAssets, round.recipe.ingredients, () => !disposed);
   });
   engine.start();
   const cleanupCurrent = (): void => {
@@ -251,7 +253,7 @@ export function mount(container: HTMLElement, options: PotionMountOptions = {}):
     canvas.removeEventListener('pointermove', onRackHover);
     canvas.removeEventListener('pointerleave', clearRackHover);
     keyboard?.dispose();
-    exitUi(); resultUi(); rackUi(); statusUi(); liquidUi(); titleUi(); recipeUi(); renderer.destroy(); shell(); frame.teardown();
+    exitUi(); resultUi(); rackUi(); statusUi(); liquidUi(); titleUi(); recipeUi(); renderer.destroy(); artAssets.clear(); shell(); frame.teardown();
   };
   return cleanupCurrent;
 }

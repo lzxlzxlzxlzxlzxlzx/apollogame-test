@@ -44,6 +44,19 @@ function slot(number: number, packageId = 'gal-a', label?: string): GalManualSlo
 }
 
 describe('GAL-UI-01B read-only view model', () => {
+  it('projects the package title scene independently of the current narrative scene', () => {
+    const base = pkg();
+    const p: GalPackage = { ...base, ui: { ...base.ui, titleBackground: 'title-scene' },
+      media: { ...base.media, backgrounds: { 'title-scene': { image: 'demo/title' } } } };
+    const view = buildGalUiReadModel({ pkg: p,
+      projection: { ...choiceProjection(), backgroundAssetKey: 'demo/current' },
+      profile: createGalProfile(p), locale: 'zh-CN', manualSlots: [], page: 1, hasActiveResume: false });
+    expect(view.home.backgroundAssetKey).toBe('demo/title');
+    expect(view.story.backgroundAssetKey).toBe('demo/current');
+    const noTitle = buildGalUiReadModel({ pkg: base, projection: choiceProjection(),
+      profile: createGalProfile(base), locale: 'zh-CN', manualSlots: [], page: 1, hasActiveResume: false });
+    expect(noTitle.home).not.toHaveProperty('backgroundAssetKey');
+  });
   it('projects only explicit narrative background and visible portrait asset keys', () => {
     const p = pkg();
     const projection: NarrativeProjection = { ...choiceProjection(), backgroundAssetKey: 'demo/bg',
@@ -53,6 +66,59 @@ describe('GAL-UI-01B read-only view model', () => {
       manualSlots: [], page: 1, hasActiveResume: false });
     expect(view.story).toMatchObject({ backgroundAssetKey: 'demo/bg', portraitAssetKey: 'demo/portrait' });
     expect(JSON.stringify(view)).not.toContain('private/hidden');
+  });
+  it('shows the speaking character ahead of other visible portraits', () => {
+    const p = pkg();
+    const projection: NarrativeProjection = { ...choiceProjection(), chapterId: 'a', nodeId: 'intro',
+      kind: 'line', speakerId: 'friend', text: L('欢迎', 'Welcome'), options: undefined,
+      cast: { doctor: { visible: true, assetKey: 'demo/doctor' },
+        friend: { visible: true, assetKey: 'demo/friend' },
+        hidden: { visible: false, assetKey: 'private/hidden' } } };
+    const view = buildGalUiReadModel({ pkg: p, projection, profile: createGalProfile(p), locale: 'zh-CN',
+      manualSlots: [], page: 1, hasActiveResume: false });
+    expect(view.story.portraitAssetKey).toBe('demo/friend');
+  });
+  it('uses the front-most visible portrait when the line has no speaker', () => {
+    const p = pkg();
+    const projection: NarrativeProjection = { ...choiceProjection(), chapterId: 'a', nodeId: 'intro',
+      kind: 'line', text: L('欢迎', 'Welcome'), options: undefined,
+      cast: { doctor: { visible: true, assetKey: 'demo/doctor', zOrder: 2 },
+        mechanic: { visible: true, assetKey: 'demo/mechanic', zOrder: 3 } } };
+    const view = buildGalUiReadModel({ pkg: p, projection, profile: createGalProfile(p), locale: 'zh-CN',
+      manualSlots: [], page: 1, hasActiveResume: false });
+    expect(view.story.portraitAssetKey).toBe('demo/mechanic');
+  });
+  it('projects the Director-selected CG key without changing gallery unlock authority', () => {
+    const p = pkg();
+    const projection: NarrativeProjection = { ...choiceProjection(), backgroundAssetKey: 'demo/bg',
+      cgId: 'shot-2', cgAssetKey: 'demo/shot-2',
+      cast: { mio: { visible: true, assetKey: 'demo/portrait' } } };
+    const view = buildGalUiReadModel({ pkg: p, projection, profile: createGalProfile(p), locale: 'zh-CN',
+      manualSlots: [], page: 1, hasActiveResume: false });
+    expect(view.story).toMatchObject({ backgroundAssetKey: 'demo/bg', portraitAssetKey: 'demo/portrait',
+      cgAssetKey: 'demo/shot-2' });
+    expect(view.gallery.cg).toEqual([]);
+    const hidden = buildGalUiReadModel({ pkg: p, projection: { ...projection, cgId: undefined, cgAssetKey: undefined },
+      profile: createGalProfile(p), locale: 'zh-CN', manualSlots: [], page: 1, hasActiveResume: false });
+    expect(hidden.story).not.toHaveProperty('cgAssetKey');
+  });
+  it('projects only a spoiler-free locked image before unlock, then only the memory preview', () => {
+    const base = pkg();
+    const p: GalPackage = { ...base, gallery: { ...base.gallery, memories: { intro: {
+      title: L('初见', 'First meeting'), entry: base.entry, unlock: { kind: 'explicit' },
+      previewImage: 'private/memory-preview', lockedImage: 'public/memory-silhouette',
+    } } } };
+    const input = { pkg: p, projection: choiceProjection(), locale: 'zh-CN', manualSlots: [],
+      page: 1, hasActiveResume: false };
+    const locked = buildGalUiReadModel({ ...input, profile: createGalProfile(p) });
+    expect(locked.gallery.memories[0]).toMatchObject({ unlocked: false, title: '未解锁',
+      lockedAssetKey: 'public/memory-silhouette' });
+    expect(JSON.stringify(locked.gallery.memories)).not.toContain('private/memory-preview');
+    const open = buildGalUiReadModel({ ...input,
+      profile: unlock(createGalProfile(p), p, 'memory', 'intro') });
+    expect(open.gallery.memories[0]).toMatchObject({ unlocked: true, title: '初见',
+      assetKey: 'private/memory-preview' });
+    expect(open.gallery.memories[0]).not.toHaveProperty('lockedAssetKey');
   });
   it('projects localized stable choices, read status and a 4×3 page without changing inputs', () => {
     const p = pkg(); const projection = choiceProjection();

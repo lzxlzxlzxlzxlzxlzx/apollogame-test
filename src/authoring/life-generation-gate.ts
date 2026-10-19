@@ -13,7 +13,7 @@ export type LifeGenerationGateDiagnosticSeverity = 'error' | 'warning';
 export const LIFE_GENERATION_ARTIFACT_KINDS_BY_STAGE = {
   brief: ['game-card'],
   world: ['scene-warp-graph', 'collision-zone-map'],
-  actors: ['npc-schedule', 'interaction-range-overlay'],
+  actors: ['inventory-review', 'npc-schedule', 'interaction-range-overlay', 'profile-review'],
   plot: ['quest-graph', 'condition-unlock-graph'],
   assets: ['asset-slot-sheet', 'asset-placement-preview'],
   host: ['host-identity-card', 'hud-viewport-preview'],
@@ -148,6 +148,15 @@ function safeJsonIssue(value: unknown): string | undefined {
   return visit(value, 0);
 }
 
+function stageInputDeclaresProfile(value:unknown,seen=new Set<object>()):boolean{
+  if(Array.isArray(value))return value.some((entry)=>stageInputDeclaresProfile(entry,seen));
+  if(!record(value)||seen.has(value))return false;
+  seen.add(value);
+  const profile=value.profile;
+  if(record(profile)&&typeof profile.titleKey==='string'&&Array.isArray(profile.attributes))return true;
+  return Object.keys(value).some((key)=>stageInputDeclaresProfile(value[key],seen));
+}
+
 function hashStageInput(value: unknown): { hash?: string; issue?: LifeGenerationGateDiagnostic } {
   const message = safeJsonIssue(value);
   if (message) return { issue: diagnostic('/input', 'input_json', message) };
@@ -250,6 +259,12 @@ function validateGateShape(raw: unknown, expected?: { readonly input: unknown })
     out.push(diagnostic('/selfCheck/diagnostics', 'diagnostics_order', 'diagnostics must be unique and in stable path/code/severity/message order'));
   }
   const artifacts = readArtifacts(raw.visualArtifacts, stage, '/visualArtifacts', out);
+  if (stage === 'actors' && !artifacts.some((artifact) => artifact.kind === 'inventory-review')) {
+    out.push(diagnostic('/visualArtifacts', 'inventory_review_required', 'actors stage requires an inventory-review artifact'));
+  }
+  if (stage === 'actors' && expected && stageInputDeclaresProfile(expected.input) && !artifacts.some((artifact) => artifact.kind === 'profile-review')) {
+    out.push(diagnostic('/visualArtifacts', 'profile_review_required', 'actors stage with a profile requires a profile-review artifact'));
+  }
   const normalizedArtifacts = orderedArtifacts(artifacts);
   if (artifacts.length > 0 && !sameArtifacts(artifacts, normalizedArtifacts)) {
     out.push(diagnostic('/visualArtifacts', 'artifact_order', 'visualArtifacts must be unique and in stable kind/ref order'));
@@ -297,6 +312,12 @@ export function createLifeGenerationGate(raw: unknown): LifeGenerationGateValida
   if (record(raw.selfCheck) && !status) out.push(diagnostic('/selfCheck/status', 'self_check_status', 'status must be pass|fail'));
   const values = record(raw.selfCheck) ? readSelfCheckDiagnostics(raw.selfCheck.diagnostics, '/selfCheck/diagnostics', out) : [];
   const artifacts = readArtifacts(raw.visualArtifacts, stage, '/visualArtifacts', out);
+  if (stage === 'actors' && !artifacts.some((artifact) => artifact.kind === 'inventory-review')) {
+    out.push(diagnostic('/visualArtifacts', 'inventory_review_required', 'actors stage requires an inventory-review artifact'));
+  }
+  if (stage === 'actors' && stageInputDeclaresProfile(raw.input) && !artifacts.some((artifact) => artifact.kind === 'profile-review')) {
+    out.push(diagnostic('/visualArtifacts', 'profile_review_required', 'actors stage with a profile requires a profile-review artifact'));
+  }
   const hasError = values.some((entry) => entry.severity === 'error');
   if (status === 'pass' && hasError) out.push(diagnostic('/selfCheck/status', 'self_check_error', 'pass is invalid when diagnostics contain an error'));
   const hashed = hashStageInput(raw.input);

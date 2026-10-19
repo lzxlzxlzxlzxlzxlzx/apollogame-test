@@ -81,6 +81,18 @@ describe('GAL-ENG-06F browser scene thumbnail encoder', () => {
     expect(draws).toHaveLength(0);
   });
 
+  it('captures only the active CG shot and never falls back to its hidden scene', async () => {
+    const { draws, closed } = environment();
+    const capture = new BrowserGalPreviewCapturePort();
+    const frameWithScene = frame({ cgAssetKey: 'cg/shot-2', cgUrl: '/shot-2.png',
+      backgroundUrl: '/night.png', portraitUrl: '/mio.png' });
+    expect(await capture.capture(frameWithScene)).toMatchObject({ width: 320, height: 180 });
+    expect(draws).toEqual([[0, -10, 320, 200]]);
+    expect(closed).toEqual([1]);
+    expect(await capture.capture(frame({ ...frameWithScene, cgUrl: undefined }))).toBeNull();
+    expect(draws).toHaveLength(1);
+  });
+
   it('falls back to PNG after oversized WebP attempts and degrades when all encoders fail', async () => {
     let calls = 0;
     const oversized = () => new Blob([new Uint8Array(257 * 1024)], { type: 'image/webp' });

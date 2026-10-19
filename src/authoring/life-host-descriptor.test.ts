@@ -6,6 +6,7 @@ import {
   validateLifeHostDescriptor,
 } from './life-host-descriptor.js';
 import { littleValleyHostDescriptorFixture, seasideMarketHostDescriptorFixture } from './life-host-descriptor.fixture.js';
+import { sha256Canonical } from './life-generation-bundle.js';
 
 const clone = <T>(value: T): T => structuredClone(value);
 const codes = (value: unknown): string[] => validateLifeHostDescriptor(value).diagnostics.map((entry) => `${entry.path}:${entry.code}`);
@@ -25,6 +26,55 @@ describe('LifeHostDescriptor v1', () => {
     expect(validateLifeHostDescriptor(other)).toEqual({ ok: true, diagnostics: [] });
     expect(JSON.stringify(other)).not.toContain('little-valley');
     expect(other).toMatchObject({ slug: 'game-seaside-market', artSlug: 'game-seaside-market', viewport: { profile: 'life-standard-v1' } });
+  });
+
+  it('keeps inventory chrome opt-in and accepts only the closed bounded descriptor', () => {
+    const legacy = littleValleyHostDescriptorFixture();
+    expect(legacy.inventoryPanel).toBeUndefined();
+    expect(validateLifeHostDescriptor(legacy)).toEqual({ ok: true, diagnostics: [] });
+    const enabled = { ...legacy, inventoryPanel: { enabled: true, columns: 4, titleLabelKey: 'inventory' } };
+    expect(parseLifeHostDescriptor(enabled).inventoryPanel).toEqual(enabled.inventoryPanel);
+  });
+
+  it('rejects malformed inventory chrome with path-level diagnostics', () => {
+    const raw = clone(littleValleyHostDescriptorFixture()) as unknown as Record<string, any>;
+    raw.inventoryPanel = { enabled: 'yes', columns: 0, titleLabelKey: 'free-title', css: 'fixed' };
+    expect(codes(raw)).toEqual([
+      '/inventoryPanel/columns:range',
+      '/inventoryPanel/css:unknown_field',
+      '/inventoryPanel/enabled:type',
+      '/inventoryPanel/titleLabelKey:label_key',
+    ]);
+    raw.inventoryPanel = Object.create({ enabled: true, columns: 3, titleLabelKey: 'inventory' });
+    expect(codes(raw)).toEqual(['/inventoryPanel:type']);
+  });
+
+  it('keeps quest chrome opt-in and accepts only the closed tracking contract', () => {
+    const legacy = littleValleyHostDescriptorFixture();
+    expect(legacy.questPanel).toBeUndefined();
+    const enabled = { ...legacy, questPanel: { enabled: true, titleLabelKey: 'quests', defaultTracking: 'first-active' } };
+    expect(parseLifeHostDescriptor(enabled).questPanel).toEqual(enabled.questPanel);
+  });
+
+  it('rejects malformed quest chrome and inherited objects with stable paths', () => {
+    const raw = clone(littleValleyHostDescriptorFixture()) as unknown as Record<string, any>;
+    raw.questPanel = { enabled: 'yes', titleLabelKey: 'free-title', defaultTracking: 'nearest', css: 'fixed' };
+    expect(codes(raw)).toEqual([
+      '/questPanel/css:unknown_field',
+      '/questPanel/defaultTracking:enum',
+      '/questPanel/enabled:type',
+      '/questPanel/titleLabelKey:label_key',
+    ]);
+    raw.questPanel = Object.create({ enabled: true, titleLabelKey: 'quests', defaultTracking: 'first-active' });
+    expect(codes(raw)).toEqual(['/questPanel:type']);
+  });
+
+  it('keeps the profile drawer optional and strict',()=>{
+    const legacy=littleValleyHostDescriptorFixture();expect(legacy.profilePanel).toBeUndefined();
+    const enabled={...legacy,profilePanel:{enabled:true,titleLabelKey:'profile' as const}};
+    expect(parseLifeHostDescriptor(enabled).profilePanel).toEqual(enabled.profilePanel);
+    const invalid={...legacy,profilePanel:{enabled:'yes',titleLabelKey:'free',css:'fixed'}};
+    expect(codes(invalid)).toEqual(['/profilePanel/css:unknown_field','/profilePanel/enabled:type','/profilePanel/titleLabelKey:label_key']);
   });
 
   it('rejects unknown root/nested fields and dangerous property names with stable paths', () => {
@@ -126,6 +176,36 @@ describe('LifeHostDescriptor v1', () => {
     expect(hashLifeHostDescriptor(changed)).not.toBe(hashLifeHostDescriptor(source));
   });
 
+  it('accepts a same-game ui skin and rejects foreign keys, urls, atlases, and slice drift', () => {
+    const raw = clone(littleValleyHostDescriptorFixture()) as unknown as Record<string, any>;
+    raw.uiSkin = {
+      id: 'moonshadow-courtyard',
+      slots: {
+        trackedQuestFrame: 'art:game-simlife:ui:tracked-quest',
+        worldStatusRibbon: 'art:game-simlife:ui:world-status',
+        panelFrame: 'art:game-simlife:ui:panel',
+        hudChrome: 'art:game-simlife:ui:hud-chrome',
+        questIcon: 'art:game-simlife:ui:entry-quest-scroll',
+        inventoryIcon: 'art:game-simlife:ui:entry-backpack',
+        profileIcon: 'art:game-simlife:ui:entry-profile',
+      },
+      slices: { trackedQuestFrame: { source: 32 }, panelFrame: { source: 48, display: 24 } },
+    };
+    expect(validateLifeHostDescriptor(raw).ok).toBe(true);
+    expect(hashLifeHostDescriptor(littleValleyHostDescriptorFixture())).toBe(hashLifeHostDescriptor(parseLifeHostDescriptor(littleValleyHostDescriptorFixture())));
+    raw.uiSkin.slots.panelFrame = 'art:game-other:ui:panel';
+    expect(codes(raw)).toContain('/uiSkin/slots/panelFrame:skin_key');
+    raw.uiSkin.slots.panelFrame = 'https://example.test/panel.png';
+    expect(codes(raw)).toContain('/uiSkin/slots/panelFrame:skin_key');
+    raw.uiSkin.slots.panelFrame = 'art:game-simlife:ui:panel';
+    raw.uiSkin.slots.resourceBadgeAtlas = 'art:game-simlife:ui:badges';
+    expect(codes(raw)).toContain('/uiSkin/slots/resourceBadgeAtlas:unknown_field');
+    delete raw.uiSkin.slots.resourceBadgeAtlas;
+    raw.uiSkin.slices.panelFrame = { source: 0, color: '#fff' };
+    expect(codes(raw)).toContain('/uiSkin/slices/panelFrame/source:range');
+    expect(codes(raw)).toContain('/uiSkin/slices/panelFrame/color:unknown_field');
+  });
+
   it('keeps diagnostics machine-readable, sorted, and exception-free', () => {
     const first = validateLifeHostDescriptor({});
     const second = validateLifeHostDescriptor({});
@@ -133,5 +213,53 @@ describe('LifeHostDescriptor v1', () => {
     expect(first.diagnostics.every((entry) => Object.keys(entry).sort().join(',') === 'code,message,path')).toBe(true);
     expect(first.diagnostics.map((entry) => entry.path)).toEqual([...first.diagnostics.map((entry) => entry.path)].sort());
     expect(() => parseLifeHostDescriptor({})).toThrow(/^Invalid LifeHostDescriptor:/);
+  });
+
+  it.each(['questIcon', 'inventoryIcon', 'profileIcon'])('keeps %s an optional strict same-game key, never a URL or slice', (slot) => {
+    const legacy = littleValleyHostDescriptorFixture();
+    const make = (value: unknown) => ({ ...legacy, uiSkin: { id: 'moon', slots: { [slot]: value } } });
+    const valid = make('art:game-simlife:ui:entry');
+    expect(parseLifeHostDescriptor(valid)).toEqual(valid);
+    for (const value of ['', null, 1, 'https://example.test/icon.png', 'data:image/png;base64,eA==', '../icon.png', 'art:game-other:ui:entry', 'art:game-simlife:ui:entry/path']) {
+      expect(codes(make(value))).toContain(`/uiSkin/slots/${slot}:skin_key`);
+    }
+    expect(codes({ ...valid, uiSkin: { ...valid.uiSkin, slices: { [slot]: { source: 16 } } } })).toContain(`/uiSkin/slices/${slot}:unknown_field`);
+    expect(Object.hasOwn(parseLifeHostDescriptor(legacy), 'uiSkin')).toBe(false);
+  });
+
+  it('preserves the exact legacy descriptor and canonical hash without adding skin defaults', () => {
+    const legacy = littleValleyHostDescriptorFixture();
+    const parsed = parseLifeHostDescriptor(legacy);
+    expect(parsed).toEqual(legacy);
+    expect(Object.hasOwn(parsed, 'uiSkin')).toBe(false);
+    expect(hashLifeHostDescriptor(legacy)).toBe(sha256Canonical(legacy));
+  });
+
+  it.each(['', 'art:game-other:ui:panel', 'art:game-simlife-other:ui:panel', 'https://example.test/x', 'data:image/png;base64,eA==', '../panel.png', 'art:game-simlife:ui:', 'art:game-simlife:ui:panel;display:none', 'art:game-simlife:ui:panel/name'])('rejects unsafe or foreign UI key %s', (value) => {
+    const legacy = littleValleyHostDescriptorFixture();
+    expect(codes({ ...legacy, uiSkin: { id: 'moon', slots: { panelFrame: value } } })).toContain('/uiSkin/slots/panelFrame:skin_key');
+  });
+
+  it('rejects extra skin fields, both atlas slots and unknown slice fields', () => {
+    const legacy = littleValleyHostDescriptorFixture();
+    const raw = { ...legacy, uiSkin: { id: 'moon', css: 'fixed', slots: { resourceBadgeAtlas: 'art:game-simlife:ui:atlas', profileAttributeAtlas: 'art:game-simlife:ui:atlas' }, slices: { worldStatusRibbon: { source: 4 } } } };
+    expect(codes(raw)).toEqual(expect.arrayContaining(['/uiSkin/css:unknown_field', '/uiSkin/slots/resourceBadgeAtlas:unknown_field', '/uiSkin/slots/profileAttributeAtlas:unknown_field', '/uiSkin/slices/worldStatusRibbon:unknown_field']));
+  });
+
+  it.each([0, -1, 257, 1.5, null, '16'])('rejects invalid skin source margin %s', (source) => {
+    const raw = { ...littleValleyHostDescriptorFixture(), uiSkin: { id: 'moon', slots: { panelFrame: 'art:game-simlife:ui:panel' }, slices: { panelFrame: { source } } } };
+    expect(codes(raw)).toContain('/uiSkin/slices/panelFrame/source:range');
+  });
+
+  it.each([0, -1, 129, 2.5, null, '8'])('rejects invalid skin display border %s', (display) => {
+    const raw = { ...littleValleyHostDescriptorFixture(), uiSkin: { id: 'moon', slots: { panelFrame: 'art:game-simlife:ui:panel' }, slices: { panelFrame: { source: 16, display } } } };
+    expect(codes(raw)).toContain('/uiSkin/slices/panelFrame/display:range');
+  });
+
+  it('rejects malformed skin objects and dangling slice configuration', () => {
+    const legacy = littleValleyHostDescriptorFixture();
+    for (const uiSkin of [null, [], Object.create({ id: 'moon', slots: {} })]) expect(codes({ ...legacy, uiSkin })).toContain('/uiSkin:type');
+    expect(codes({ ...legacy, uiSkin: { id: 'Moon Shade', slots: {} } })).toContain('/uiSkin/id:skin_id');
+    expect(codes({ ...legacy, uiSkin: { id: 'moon', slots: {}, slices: { panelFrame: { source: 1 } } } })).toContain('/uiSkin/slices/panelFrame:skin_slot');
   });
 });

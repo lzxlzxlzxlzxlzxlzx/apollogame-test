@@ -27,7 +27,7 @@ describe('life-bundle-compose CLI', () => {
       ok: true,
       mode: 'plan',
       writesPerformed: false,
-      bundleHash: 'sha256:ab2510b87787a77c74e3416fd00064bc396dbb7f18d6be980b803f91e8b37890',
+      bundleHash: 'sha256:e58f38ff0da5c706c5adac7013e82c809cffad5460cd882486136c625c78e6ba',
     });
     expect(existsSync(join(demonRoot, 'bundle.candidate.json'))
       ? readFileSync(join(demonRoot, 'bundle.candidate.json'), 'utf8')

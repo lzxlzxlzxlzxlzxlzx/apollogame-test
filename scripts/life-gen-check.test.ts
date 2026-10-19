@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { describe, expect, it } from 'vitest';
-import { littleValleyGenerationBundle } from '../src/authoring/life-generation-bundle.fixture.js';
+import { littleValleyGenerationBundle } from '../games/game-simlife/life-generation-bundle.fixture.js';
 
 describe('life-gen-check CLI', () => {
   it('prints JSON diagnostics and a no-write plan without materializing repository files', () => {

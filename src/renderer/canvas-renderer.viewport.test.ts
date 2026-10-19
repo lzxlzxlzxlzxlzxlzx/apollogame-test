@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CanvasRenderer, planLifeVisualDraw, responsiveCameraScale } from './canvas-renderer.js';
+import { CanvasRenderer, lifeVisualConsumptionMode, planLifeVisualDraw, responsiveCameraScale } from './canvas-renderer.js';
 import type { LifeVisualRule } from '@assets/index.js';
 
 function sized(width: number, height: number): HTMLElement {
@@ -78,5 +78,46 @@ describe('CanvasRenderer responsive viewport', () => {
       expect(plan.destination.x + plan.destination.width * rule.anchor.x).toBeCloseTo(123 + rule.offset.x * unit, 10);
       expect(plan.destination.y + plan.destination.height * rule.anchor.y).toBeCloseTo(234 + rule.offset.y * unit, 10);
     }
+  });
+
+  it('consumes high-resolution linear tile, actor and placement rules at the fixed 32px gameplay cell', () => {
+    const tile = {
+      slotId: 'tile', assetKey: 'tile', kind: 'tile', sourcePx: { width: 256, height: 256 },
+      display: { unit: 'cell', width: 1, height: 1 }, anchor: { x: 0.5, y: 0.5 }, fit: 'cover', offset: { x: 0, y: 0 },
+      fallbackRole: 'ground', sampling: 'linear',
+    } satisfies LifeVisualRule;
+    const player = {
+      ...tile, slotId: 'player', assetKey: 'player', kind: 'player', sourcePx: { width: 384, height: 512 },
+      display: { unit: 'cell', width: 1, height: 1.5 }, anchor: { x: 0.5, y: 1 }, fit: 'contain', fallbackRole: 'player',
+    } satisfies LifeVisualRule;
+    const npc = { ...player, slotId: 'npc', assetKey: 'npc', kind: 'npc', fallbackRole: 'npc' } satisfies LifeVisualRule;
+    const building = {
+      ...tile, slotId: 'building', assetKey: 'building', kind: 'building', sourcePx: { width: 512, height: 512 },
+      display: { unit: 'cell', width: 2, height: 2 }, anchor: { x: 0.5, y: 1 }, fit: 'contain', fallbackRole: 'building',
+    } satisfies LifeVisualRule;
+    expect(planLifeVisualDraw({ sx: 0, sy: 0, sw: 256, sh: 256 }, tile, 80, 80, 32)).toEqual({
+      source: { x: 0, y: 0, width: 256, height: 256 }, destination: { x: 64, y: 64, width: 32, height: 32 }, smoothing: true,
+    });
+    for (const actor of [player, npc]) {
+      const destination = planLifeVisualDraw({ sx: 0, sy: 0, sw: 384, sh: 512 }, actor, 100, 100, 32).destination;
+      expect(destination.x).toBe(84);
+      expect(destination.width).toBe(32);
+      expect(destination.height).toBeCloseTo(42.6666666667, 8);
+      expect(destination.y + destination.height).toBeCloseTo(100, 8);
+    }
+    expect(planLifeVisualDraw({ sx: 0, sy: 0, sw: 512, sh: 512 }, building, 100, 100, 32).destination).toEqual({ x: 68, y: 36, width: 64, height: 64 });
+  });
+
+  it('never sends a loaded formal texture through the legacy pixel-scale branch when its rule is absent', () => {
+    const catalog = new Map<string, LifeVisualRule>();
+    expect(lifeVisualConsumptionMode(catalog, 'art:missing-rule', true)).toBe('semantic-fallback');
+    expect(lifeVisualConsumptionMode(undefined, 'art:legacy', true)).toBe('legacy');
+    expect(lifeVisualConsumptionMode(catalog, 'art:missing-texture', false)).toBe('semantic-fallback');
+    catalog.set('art:formal', {
+      slotId: 'formal', assetKey: 'art:formal', kind: 'tile', sourcePx: { width: 256, height: 256 },
+      display: { unit: 'cell', width: 1, height: 1 }, anchor: { x: 0.5, y: 0.5 }, fit: 'cover', offset: { x: 0, y: 0 },
+      fallbackRole: 'ground', sampling: 'linear',
+    });
+    expect(lifeVisualConsumptionMode(catalog, 'art:formal', true)).toBe('rule');
   });
 });

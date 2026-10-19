@@ -50,11 +50,11 @@ async function mount(): Promise<void> {
   }
   const profilePort = new AuditedProfilePort(), manualPort = new MemoryStoragePort();
   const host = await GalSliceHost.create(pkg, world, 'story', { profile: profilePort, manual: manualPort,
-    savedAt: () => 1000, playbackClock: {
+    savedAt: () => 1000, previewExitFeedback: true, playbackClock: {
       now: () => performance.now(),
       schedule: (delayMs, fire) => { const id = window.setTimeout(fire, delayMs); return () => window.clearTimeout(id); },
     } });
-  host.attach(document.getElementById('root')!);
+  const detach = host.attach(document.getElementById('root')!);
   Object.assign(window, { __galAudit: {
     ref: () => storyRefKey(world.peek<StoryRuntime>('story', 'StoryRuntime')!.current),
     activeHash: () => hashWithOrder(world.snapshot(), world.snapshotOrder()),
@@ -63,6 +63,7 @@ async function mount(): Promise<void> {
     profileJson: async () => JSON.stringify(await loadGalProfile(profilePort, pkg)),
     slotsJson: async () => JSON.stringify(await manualPort.list()),
     page: () => host.uiState.page,
+    feedback: () => host.uiState.feedback,
     playbackMode: () => host.uiState.playbackMode,
     settingsTab: () => host.uiState.settingsTab,
     confirmation: (key: GalConfirmationKey) => host.view.preferences.confirmations[key],
@@ -81,6 +82,8 @@ async function mount(): Promise<void> {
       await host.refreshView();
     },
     readIntro: async () => (await loadGalProfile(profilePort, pkg)).readNodeIds.includes(storyRefKey(ref('intro'))),
+    reducedMotion: () => host.view.preferences.reducedMotion,
+    detach: () => detach(),
   } });
 }
 void mount();

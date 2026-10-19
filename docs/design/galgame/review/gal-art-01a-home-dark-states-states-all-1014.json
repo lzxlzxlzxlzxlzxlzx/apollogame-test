@@ -1,0 +1,180 @@
+[
+  {
+    "id": "starter-act-0",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "rgba(0, 0, 0, 0.35) 0px 6px 18px 0px, rgba(255, 255, 255, 0.45) 0px 1px 0px 0px inset",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32) drop-shadow(rgba(167, 178, 255, 0.6) 0px 0px 8px)",
+      "transform": "none",
+      "shadow": "rgba(0, 0, 0, 0.35) 0px 6px 18px 0px, rgba(255, 255, 255, 0.45) 0px 1px 0px 0px inset",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32) drop-shadow(rgba(167, 178, 255, 0) 0px 0px 2.90269e-05px)",
+      "transform": "matrix(1, 0, 0, 1, 0, 1.99999)",
+      "shadow": "rgba(0, 0, 0, 0.35) 0px 6px 18px 0px, rgba(255, 255, 255, 0.45) 0px 1px 0px 0px inset",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "starter-act-1",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32) drop-shadow(rgba(167, 178, 255, 0.6) 0px 0px 8px)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32) drop-shadow(rgba(167, 178, 255, 0) 0px 0px 0.000342684px)",
+      "transform": "matrix(1, 0, 0, 1, 0, 1.99991)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "starter-act-2",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32) drop-shadow(rgba(167, 178, 255, 0.6) 0px 0px 8px)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32)",
+      "transform": "matrix(1, 0, 0, 1, 0, 2)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-home-gallery",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32) drop-shadow(rgba(167, 178, 255, 0.6) 0px 0px 8px)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32)",
+      "transform": "matrix(1, 0, 0, 1, 0, 2)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-home-settings",
+    "disabled": false,
+    "hoverChanged": true,
+    "pressedChanged": true,
+    "base": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "hover": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32) drop-shadow(rgba(167, 178, 255, 0.6) 0px 0px 8px)",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "pressed": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "brightness(1.32) drop-shadow(rgba(167, 178, 255, 0) 0px 0px 2.16693e-06px)",
+      "transform": "matrix(1, 0, 0, 1, 0, 2)",
+      "shadow": "none",
+      "opacity": "1"
+    }
+  },
+  {
+    "id": "gal-home-exit",
+    "disabled": true,
+    "base": {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "filter": "none",
+      "transform": "none",
+      "shadow": "none",
+      "opacity": "0.4"
+    }
+  }
+]

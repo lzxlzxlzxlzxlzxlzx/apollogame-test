@@ -213,7 +213,7 @@ export const lifeActivityCapability = defineCapability({
         const zoneIds = new Set<string>(); const actions = new Set<LifeAction>(); const nearby = new Set<string>(); const nearbyWarps = new Set<string>();
         for (const zone of zones) if (zone.sceneId === position.sceneId && inRect(position.x, position.y, zone.geometry) && lifeAccessMet(world, zone.requires)) { zoneIds.add(zone.zoneId); for (const action of zone.allowedActions) actions.add(action); }
         for (const placement of placements) if (placement.visible !== false && placement.interactive !== false && placement.sceneId === position.sceneId && footprintDistance(position.x, position.y, placement) <= placement.interactionRange && lifeAccessMet(world, placement.requires)) nearby.add(placement.placementId);
-        for (const warp of warps) if (warp.sceneId === position.sceneId && warp.x === position.x && warp.y === position.y) nearbyWarps.add(warp.warpId);
+        for (const warp of warps) if (warp.sceneId === position.sceneId && position.x >= warp.x && position.x < warp.x + warp.width && position.y >= warp.y && position.y < warp.y + warp.height) nearbyWarps.add(warp.warpId);
         const current = world.getComponent<LifeActivityContext>(actorId, 'LifeActivityContext');
         const next = { sceneId: position.sceneId, x: position.x, y: position.y, zoneIds: [...zoneIds].sort(cmpStr), allowedActions: [...actions].sort(cmpStr), nearbyPlacementIds: [...nearby].sort(cmpStr), nearbyWarpIds: [...nearbyWarps].sort(cmpStr), affordances: current?.affordances ?? [] };
         if (sameContext(current, next)) continue;

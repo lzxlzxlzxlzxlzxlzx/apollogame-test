@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createAppClient, createAppHost, type AppContract } from 'dokiworlds-app-sdk';
 import { CardRevealSession } from '../../../games/game-card-reveal/session.js';
+import type { Shape } from '@zerocraft/engine/engine/protocol/components.js';
 import { stageTicks } from '../../../games/game-card-reveal/timing.js';
 import { ACTION } from '../../../games/game-card-reveal/tracks.js';
 import { CompletionGate } from '../src/completion.js';
@@ -17,7 +18,7 @@ function bus() {
   };
 }
 const cards = (n: number) => Array.from({ length: n }, (_, i) => ({ id: `card-${i}`, faceImageUrl: `https://cards.example/${i}.webp` }));
-function connectedHost(data: unknown, onComplete: (output: AppContract) => { status: 'accepted' | 'rejected' } | Promise<{ status: 'accepted' | 'rejected' }> = () => ({ status: 'accepted' })) {
+function connectedHost(data: unknown, onComplete: (output: AppContract) => { status: 'accepted' | 'rejected' } | Promise<{ status: 'accepted' | 'rejected' }> = () => ({ status: 'accepted' }), version = 1) {
   const trace: string[] = [];
   const hostScope = bus();
   const childScope = bus();
@@ -26,7 +27,7 @@ function connectedHost(data: unknown, onComplete: (output: AppContract) => { sta
   const appScope = { ...childScope, parent: parentTarget };
   let hostId = 0;
   let appId = 0;
-  const input = { contract: CARD_REVEAL_INPUT_CONTRACT, version: 1, data };
+  const input = { contract: CARD_REVEAL_INPUT_CONTRACT, version, data };
   const host = createAppHost({ appId: 'game-card-reveal', runId: 'run-1', target: childTarget as unknown as Window, input, scope: hostScope as unknown as Window, createId: () => `host-${++hostId}` });
   const disconnectHost = host.connect({ onComplete(output) { trace.push('complete'); return onComplete(output); }, onRequestExit() { trace.push('requestExit'); } });
   trace.push('host.connect');
@@ -37,6 +38,28 @@ function connectedHost(data: unknown, onComplete: (output: AppContract) => { sta
 }
 
 describe('S8 vendored SDK fake-host lifecycle', () => {
+  it('v2 settlement batch reaches the same P5/result contract with mixed face geometry', async () => {
+    const data = { presentationId: 'settlement-1', locale: 'zh-CN',
+      pack: { packId: 'preview', title: '哈利·波特', coverImageUrl: null, titleLogoUrl: null },
+      cards: [
+        { id: 'event-1', kind: 'event', name: '纪念', description: '完成主线', rarity: 'epic', imageUrl: null, worldTitle: '哈利·波特' },
+        { id: 'item-1', kind: 'item', name: '道具', description: '', rarity: 'rare', imageUrl: null, worldTitle: '哈利·波特' },
+      ] };
+    const fixture = connectedHost(data, () => ({ status: 'accepted' }), 2);
+    try {
+      const input = inputFromContract(await fixture.app.whenReady({ timeoutMs: 10_000 }));
+      const session = new CardRevealSession(input.cards);
+      expect(session.engine.world.getComponent<Shape>('card-0', 'Shape')).toMatchObject({ width: 260, height: 390 });
+      expect(session.engine.world.getComponent<Shape>('card-1', 'Shape')).toMatchObject({ width: 390, height: 260 });
+      session.tick(); session.action(ACTION.skip);
+      for (let i = 0; i < stageTicks('standard', 2).total + 2 && session.view().status !== 'terminal'; i++) session.tick();
+      expect(session.view()).toEqual({ status: 'terminal', phase: 'P5', completion: 'skipped' });
+      const gate = new CompletionGate(input, false);
+      gate.markP5Terminal('skipped');
+      expect(await gate.complete((output) => fixture.app.complete(output))).toBe(true);
+      expect(fixture.trace).toContain('complete');
+    } finally { fixture.close(); }
+  });
   for (const n of [1, 3, 5]) for (const completion of ['natural', 'skipped'] as const) {
     it(`N${n} ${completion}: connect → ready → real P5 → one accepted complete`, async () => {
       const fixture = connectedHost({ presentationId: `pack-${n}`, cards: cards(n) });
